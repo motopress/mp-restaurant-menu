@@ -1,0 +1,146 @@
+.mprm-main-wrapper.mp_menu_item {
+
+  .mprm-header {
+	position: relative;
+
+	.mprm-breadcrumbs {
+	  margin: 0;
+	  padding: 0;
+	  list-style: none;
+	  line-height: 1;
+	  li {
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 90%;
+		&.mprm-item-current {
+		}
+	  }
+	  .mprm-breadcrumbs-delimiter {
+	  }
+	}
+
+	.mprm-description {
+	  margin: 10% 5%;
+	  position: relative;
+	  top: 0;
+	  .mprm-icon {
+		color: #ffffff;
+		display: inline-block;
+		height: auto;
+		text-align: center;
+		vertical-align: middle;
+	  }
+	  .mprm-title {
+		color: #ffffff;
+		text-transform: uppercase;
+	  }
+	  .mprm-text {
+		color: #ffffff;
+		margin: 0;
+		width: 100%;
+	  }
+	}
+
+	&.with-image {
+	  background-position: center center;
+	  background-size: cover;
+
+	  .mprm-header-content {
+		padding: 6rem 2rem;
+		text-align: center;
+		position: relative;
+		* {
+		  color: @white;
+		}
+	  }
+	  &:before {
+		content: "";
+		position: absolute;
+		background: @overlay;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left: 0;
+	  }
+	}
+  }
+
+  .content-wrapper {
+	margin: 2rem 0;
+
+	.mprm-content {
+	  .mprm-item-gallery {
+		margin-bottom: 2rem;
+		> a {
+		  display: inline-block;
+		  margin: 0 0.25rem 0.25rem 0;
+		  padding: 0;
+		  text-decoration: none;
+		  float: left;
+		  &:hover {
+			text-decoration: none;
+		  }
+		}
+	  }
+
+	}
+
+	.mprm-sidebar {
+	  box-sizing: border-box;
+
+	  .mprm-price-box, .mprm-proportions, .mprm-ingredients, .mprm-nutrition, .mprm-related-items {
+		margin-bottom: 2rem;
+	  }
+
+	  .mprm-proportions .mprm-title,
+	  .mprm-ingredients .mprm-title,
+	  .mprm-nutrition .mprm-title,
+	  .mprm-related-items .mprm-title {
+		margin: 0 0 0.5rem;
+		padding: 0;
+	  }
+	  .mprm-list {
+		margin: 0.5rem 0 1rem 2.5rem;
+	  }
+
+	  .mprm-ingredients .mprm-ingredients-delimiter {
+		display: none;
+	  }
+
+	  .mprm-related-items {
+
+		.mprm-title {
+		  margin: 0 0 1rem;
+		}
+		.mprm-related-items-list {
+		  list-style: outside none none;
+		  margin: 0;
+		  padding: 0;
+
+		  .mprm-related-item {
+			margin: 0 0 2rem 0;
+			padding: 0;
+
+			> a {
+			  display: inline-block;
+			  outline: none;
+			  > img {
+				height: auto;
+				width: 100%;
+				margin: 0 0 1rem 0;
+			  }
+			}
+
+			&:last-child {
+			  margin: 0;
+			}
+			.mprm-related-title {
+			  margin:  0;
+			  padding: 0;
+			}
+		  }
+		}
+	  }
+	}
+  }
+}

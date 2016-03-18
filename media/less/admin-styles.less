@@ -1,0 +1,192 @@
+// -------------------------------------PLUGIN CORRECT STYLES------------------------------------- //
+
+#mp_menu_gallery {
+  .mprm-inside {
+	margin: 0;
+	padding: 0;
+	> p {
+	  padding: 0 12px 12px;
+	}
+  }
+  #mprm-menu-item-gallery {
+	.mp_menu_images {
+	  content: " ";
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: flex-start;
+	  flex-wrap: wrap;
+	  max-width: 100%;
+	  padding: 9px;
+	  margin: 0;
+	  .mp-metabox-sortable-placeholder {
+		border-color: #bbb;
+		background-color: #f5f5f5;
+		margin: 0;
+		border: 3px dashed #dddddd;
+		position: relative;
+		&:after {
+		  line-height: 72px;
+		  color: #ddd;
+		  height: 100%;
+		  position: absolute;
+		  width: 100%;
+		}
+		img {
+		  width: 100%;
+		  height: auto;
+		  display: block;
+		}
+	  }
+	  .mprm-image {
+		border: 1px solid #d5d5d5;
+		border-radius: 2px;
+		box-sizing: border-box;
+		cursor: move;
+		display: inline-block;
+		position: relative;
+		width: 80px;
+		margin: 3px;
+		img {
+		  width: 100%;
+		  height: auto;
+		  display: block;
+		}
+		.mprm-actions {
+		  display: none;
+		  padding: 2px;
+		  position: absolute;
+		  right: -8px;
+		  top: -8px;
+		  li {
+			float: right;
+			margin: 0 0 0 2px;
+			a:before {
+			  border-radius: 100%;
+			  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+			  content: "\f335";
+			  height: 100%;
+			  margin: 0;
+			  position: absolute;
+			  text-indent: 0;
+			  top: 0;
+			  width: 100%;
+			  background-color: #000;
+			  color: #fff;
+			  font-family: Dashicons;
+			  font-variant: normal;
+			  font-weight: 400;
+			  left: 0;
+			  line-height: 1;
+			  text-align: center;
+			  text-transform: none;
+			}
+			a.mprm-delete {
+			  display: block;
+			  font-size: 1.4rem;
+			  height: 1rem;
+			  position: relative;
+			  text-indent: -9999px;
+			  width: 1rem;
+			}
+		  }
+		}
+	  }
+	  .mprm-image:hover {
+		.mprm-actions {
+		  display: block;
+		}
+	  }
+	}
+  }
+}
+
+.jBox-closeButton-box {
+  &::before {
+	display: none;
+  }
+}
+
+.mprm-modal {
+  .jBox-container {
+	.jBox-content {
+	  padding: 12px 15px 0;
+	}
+	.jBox-closeButton {
+	  right: 5px;
+	  top: 5px;
+	  background: transparent;
+	  z-index: 1000;
+	  svg {
+		height: 17px;
+		width: 17px;
+	  }
+	}
+	.jBox-closeButton:hover {
+	  svg {
+		path {
+		  fill: #00a0d2;
+		}
+	  }
+	}
+	[data-selector=shortcode-form] {
+	  input[type="checkbox"], input[type="radio"] {
+		width: auto !important;
+	  }
+	  .mprm-line.stick {
+		right: 15px;
+		position: absolute;
+		left: 0;
+		text-align: right;
+		margin: 0;
+		width: auto;
+		[data-selector=insert_shortcode] {
+		  margin-bottom: 10px;
+		}
+	  }
+	  .mprm-line {
+		width: 100%;
+		margin: 0 0 10px 0;
+		.mprm-left-side {
+		  display: inline-block;
+		  box-sizing: border-box;
+		  padding: 0 5px 0 0;
+		  width: 40%;
+		}
+		.mprm-right-side {
+		  display: inline-block;
+		  box-sizing: border-box;
+		  padding: 0 0 0 5px;
+		  width: 59%;
+		  vertical-align: top;
+		}
+		.one-side {
+		  width: 100%;
+		  box-sizing: border-box;
+		}
+		.mprm-right-side, .one-side {
+		  input, select, textarea {
+			width: 100%;
+		  }
+		}
+	  }
+	}
+  }
+}
+
+// -------------------------------------PLUGIN CORRECT STYLES END------------------------------------- //
+
+.wp-list-table {
+  .column-mptt-thumb {
+	width: 52px;
+	text-align: center;
+	white-space: nowrap;
+	img {
+	  margin: 0;
+	  width: auto;
+	  height: auto;
+	  max-width: 40px;
+	  max-height: 40px;
+	  vertical-align: middle;
+	}
+  }
+}

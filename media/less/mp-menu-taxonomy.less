@@ -1,0 +1,175 @@
+.mprm-main-wrapper {
+
+  .mprm-header {
+	position: relative;
+	width: 100%;
+
+	.mprm-taxonomy-title {
+	  i {
+		margin-right: 1rem;
+	  }
+	}
+	&.with-image {
+	  color: @white;
+	  margin-bottom: 2rem;
+	  background-position: center center;
+	  background-size: cover;
+
+	  .mprm-header-content {
+		padding: 6rem 2rem;
+		position: relative;
+		text-align: center;
+		.mprm-title {
+		  .mprm-icon {
+			margin: 0 1rem 0 0;
+			font-size: 1.2em;
+		  }
+		}
+	  }
+
+	}
+	&.only-text {
+	  padding: 0 0 2rem;
+	}
+  }
+
+  .mprm-taxonomy-items-grid {
+
+	.mp-menu-item {
+	  .mprm-item-image {
+		margin-bottom: 1rem;
+		a {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		  > img {
+			max-width: 100%;
+			width: 100%;
+			height: auto;
+		  }
+		}
+	  }
+
+	  .mprm-item-title {
+		margin: 0;
+		padding: 0;
+		& > a {
+		  outline: none;
+		}
+	  }
+	  .mprm-item-title, .mprm-ingredients, .mprm-tags {
+		margin-bottom: 0.5rem;
+	  }
+
+	  .mprm-ingredients {
+		.mprm-list {
+		  list-style: outside none none;
+		  margin: 0;
+		  padding: 0;
+		  font-size: 0.8em;
+		  line-height: 1.1;
+		  .mprm-ingredient, .mprm-ingredients-delimiter {
+			float: left;
+			margin: 0;
+		  }
+		  .mprm-ingredients-delimiter {
+			margin: 0 0.25rem;
+			&:last-child {
+			  display: none;
+			}
+		  }
+		}
+	  }
+
+	  .mprm-tags {
+		.mprm-tag {
+		  font-size: 0.75em;
+		  line-height: 1;
+		  border: 1px solid #606060;
+		  padding: 0 0.5rem;
+		}
+	  }
+
+	  .mprm-price {
+		font-weight: bold;
+	  }
+	}
+  }
+
+  .mprm-taxonomy-items-list {
+
+	.mp-menu-item {
+	  .mprm-image {
+		margin: 0 2rem 2rem 0;
+		float: left;
+
+		a {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		  > img {
+			max-width: 100%;
+			width: 100%;
+			height: auto;
+		  }
+		}
+	  }
+
+	  .mprm-content {
+		overflow: hidden;
+		min-width: 1rem;
+
+		.mprm-item-title {
+		  margin: 0;
+		  padding: 0;
+		  & > a {
+			outline: none;
+		  }
+		}
+
+		.mprm-item-title, .mprm-ingredients, .mprm-tags {
+		  margin-bottom: 0.5rem;
+		}
+
+		.mprm-item-title > a {
+		  outline: none;
+		}
+
+		.mprm-ingredients {
+		  .mprm-list {
+			list-style: outside none none;
+			margin: 0;
+			padding: 0;
+			font-size: 80%;
+			line-height: 1.1;
+			.mprm-ingredient, .mprm-ingredients-delimiter {
+			  float: left;
+			  margin: 0;
+			}
+			.mprm-ingredients-delimiter {
+			  margin: 0 0.25rem;
+			  &:last-child {
+				display: none;
+			  }
+			}
+		  }
+		}
+
+		.mprm-tags {
+		  .mprm-tag {
+			font-size: 0.75em;
+			line-height: 1;
+			border: 1px solid #606060;
+			padding: 0 0.5rem;
+		  }
+		}
+
+		.mprm-price {
+		  font-weight: bold;
+		}
+	  }
+	}
+  }
+}
