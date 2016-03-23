@@ -18,5 +18,6 @@ This plugin gives you the power to effectively create, maintain and display onli
 
 1. Upload the plugin to the /wp-content/plugins/ directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
+3.
 
 
