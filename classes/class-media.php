@@ -88,8 +88,58 @@ class Media extends Core {
 	 * @param \WP_Screen $current_screen
 	 */
 	public function current_screen(\WP_Screen $current_screen) {
-		$this->add_admin_css($current_screen);
-		$this->add_admin_js($current_screen);
+		$this->enqueue_style('admin-styles', 'admin-styles.css');
+		if (!empty($current_screen)) {
+			switch ($current_screen->base) {
+				case"post":
+				case"page":
+					wp_enqueue_script('underscore');
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
+					break;
+				default:
+					break;
+			}
+
+			switch ($current_screen->id) {
+				case "restaurant-menu_page_admin?page=mprm-settings":
+
+					wp_enqueue_script('underscore');
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+					wp_enqueue_script('wp-util');
+
+					break;
+				case "edit-mp_menu_category":
+
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
+					$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
+					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+
+					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
+					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
+
+					break;
+				case "customize":
+					break;
+				default:
+					break;
+			}
+
+
+		}
+	}
+
+	/**
+	 * Admin script
+	 */
+	public function admin_enqueue_scripts() {
+		global $current_screen;
+		$this->current_screen($current_screen);
+
 	}
 
 	/**
@@ -97,74 +147,96 @@ class Media extends Core {
 	 */
 	public function wp_head() {
 		$this->add_theme_css();
+	}
+
+	/**
+	 * Wp footer
+	 */
+	public function wp_footer() {
 		$this->add_theme_js();
 	}
 
-	/**
-	 * Add admin js
-	 *
-	 * @param \WP_Screen $current_screen
-	 */
-	private function add_admin_js(\WP_Screen $current_screen) {
-		wp_enqueue_script('underscore');
-		$this->enqueue_script('registry-factory', 'registry-factory.js');
-		$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-		$this->enqueue_script('jBox', 'libs/jBox.min.js');
-		$this->enqueue_script('html-builder', 'html-builder.js');
-		$this->enqueue_script('admin-functions', 'admin-functions.js');
-		wp_localize_script("admin-functions", 'admin_lang', $this->get_config('language-admin-js'));
-		switch ($current_screen->id) {
-			case 'mp_menu_item':
-				$this->enqueue_script('menu-item', 'menu-item.js');
-				break;
-			case 'edit-mp_menu_category':
-				wp_enqueue_media();
-				$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
-				$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
-				$this->enqueue_script('menu-category', 'menu-category.js');
-				break;
-			case 'restaurant-menu_page_admin?page=mprm-settings':
-				wp_enqueue_media();
-				$this->enqueue_script('menu-settings', 'menu-settings.js');
-				break;
-		}
-	}
-
-	/**
-	 * Add admin css
-	 *
-	 * @param \WP_Screen $current_screen
-	 */
-	private function add_admin_css(\WP_Screen $current_screen) {
-		$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
-		$this->enqueue_style('notice-border', 'lib/jbox/themes/NoticeBorder.css');
-		$this->enqueue_style('admin-styles', 'admin-styles.css');
-		switch ($current_screen->id) {
-			case 'edit-mp_menu_category':
-				$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
-				$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
-				$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
-				break;
-		}
-	}
+//
+//	/**
+//	 * Add admin js
+//	 *
+//	 * @param \WP_Screen $current_screen
+//	 */
+//	private function add_admin_js(\WP_Screen $current_screen) {
+//		wp_enqueue_script('underscore');
+//		$this->enqueue_script('registry-factory', 'registry-factory.js');
+//		$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+//		$this->enqueue_script('jBox', 'libs/jBox.min.js');
+//		//$this->enqueue_script('html-builder', 'html-builder.js');
+//		$this->enqueue_script('admin-functions', 'admin-functions.js');
+//		wp_localize_script("admin-functions", 'admin_lang', $this->get_config('language-admin-js'));
+//		switch ($current_screen->id) {
+//			case 'mp_menu_item':
+//				//$this->enqueue_script('menu-item', 'menu-item.js');
+//				break;
+//			case 'edit-mp_menu_category':
+//				wp_enqueue_media();
+//				$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
+//				$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
+//				//$this->enqueue_script('menu-category', 'menu-category.js');
+//				break;
+//			case 'restaurant-menu_page_admin?page=mprm-settings':
+//				wp_enqueue_media();
+//				//$this->enqueue_script('menu-settings', 'menu-settings.js');
+//				break;
+//		}
+//	}
+//
+//	/**
+//	 * Add admin css
+//	 *
+//	 * @param \WP_Screen $current_screen
+//	 */
+//	private function add_admin_css(\WP_Screen $current_screen) {
+//		$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
+//		$this->enqueue_style('notice-border', 'lib/jbox/themes/NoticeBorder.css');
+//		$this->enqueue_style('admin-styles', 'admin-styles.css');
+//		switch ($current_screen->id) {
+//			case 'edit-mp_menu_category':
+//				$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+//				$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
+//				$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
+//				break;
+//		}
+//	}
 
 	/**
 	 * Add theme css
 	 */
 	private function add_theme_css() {
+		global $post_type;
 		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 		$this->enqueue_style('mprm-style', 'style.css');
-		$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
+		switch ($post_type) {
+			case"mp_menu_item":
+				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
+				break;
+			default:
+				break;
+		}
+
+
 	}
 
 	/**
 	 * Add theme js
 	 */
 	private function add_theme_js() {
-		wp_enqueue_script('underscore');
-		$this->enqueue_script('registry-factory', 'registry-factory.js');
-		$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
-		$this->enqueue_script('theme', 'theme.js');
+		global $post_type;
+		switch ($post_type) {
+			case"mp_menu_item":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu');
+				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**

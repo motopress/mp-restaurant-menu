@@ -30,6 +30,8 @@ class Hooks extends Core {
 		add_action('admin_menu', array(Media::get_instance(), 'admin_menu'));
 		// in load theme
 		add_action('wp_head', array(Media::get_instance(), 'wp_head'));
+
+		add_action('wp_footer', array(Media::get_instance(), 'wp_footer'));
 		// widgets init
 		add_action('widgets_init', array(Widget::get_instance(), 'register'));
 	}
@@ -68,6 +70,8 @@ class Hooks extends Core {
 		add_action("create_{$category_name}", array(Menu_category::get_instance(), 'save_menu_category'));
 		// load current admin screen
 		add_action('current_screen', array(Media::get_instance(), 'current_screen'));
+		//add media in admin WP
+		add_action('admin_enqueue_scripts', array(Media::get_instance(), "admin_enqueue_scripts"));
 	}
 
 	/**
