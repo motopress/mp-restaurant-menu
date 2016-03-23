@@ -30,8 +30,10 @@ class Hooks extends Core {
 		add_action('admin_menu', array(Media::get_instance(), 'admin_menu'));
 		// in load theme
 		add_action('wp_head', array(Media::get_instance(), 'wp_head'));
-
+		// Add script for footer theme
 		add_action('wp_footer', array(Media::get_instance(), 'wp_footer'));
+
+		add_action('export_wp',array(Export::get_instance(), 'export_wp'));
 		// widgets init
 		add_action('widgets_init', array(Widget::get_instance(), 'register'));
 	}

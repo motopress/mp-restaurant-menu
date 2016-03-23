@@ -99,13 +99,18 @@ class Menu_category extends Term {
 	 * @param type $term_id
 	 */
 	public function save_menu_category($term_id) {
-		if (!empty($_POST['term_meta'])) {
-			$term_meta = $_POST['term_meta'];
-			if (isset($term_meta) && is_array($term_meta)) {
-				update_option("mprm_taxonomy_$term_id", $term_meta);
+		global $wp_version;
+		if ($wp_version < 4.4) {
+			if (!empty($_POST['term_meta'])) {
+				$term_meta = $_POST['term_meta'];
+				if (isset($term_meta) && is_array($term_meta)) {
+					//add_term_meta($term_id, "mprm_taxonomy_$term_id", $term_meta, true);
+					//update_metadata();
+					//get_metadata($meta_type, $object_id, [$meta_key], [$single])
+					update_option("mprm_taxonomy_$term_id", $term_meta);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -139,5 +144,4 @@ class Menu_category extends Term {
 		}
 		return $options;
 	}
-
 }

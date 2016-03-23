@@ -140,6 +140,10 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include media
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-media.php';
+		/**
+		 * Include export
+		 */
+		require_once MP_RM_CLASSES_PATH . 'class-export.php';
 
 		/**
 		 * Include hooks
