@@ -17,7 +17,7 @@ class Settings extends Model {
 
 	/**
 	 * Get settings
-	 * 
+	 *
 	 * @return type
 	 */
 	public function get_settings($key = false) {
@@ -31,8 +31,9 @@ class Settings extends Model {
 
 	/**
 	 * Save settings
-	 * 
+	 *
 	 * @param type $params
+	 *
 	 * @return type
 	 */
 	public function save_settings(array $params) {
@@ -51,7 +52,9 @@ class Settings extends Model {
 
 	/**
 	 * Get Currency symbol.
+	 *
 	 * @param string $currency (default: '')
+	 *
 	 * @return string
 	 */
 	public function get_currency_symbol($currency = '') {

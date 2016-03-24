@@ -7,8 +7,8 @@ $icon = mprm_get_category_icon()
 	<?php endif; ?>
 
 	<div class="mprm-category-content">
-			<h2 class="mprm-title">
-				<a href="<?php echo get_term_link($mprm_term); ?>" class="mprm-link"><?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo $icon ?>"></i><?php endif;
+		<h2 class="mprm-title">
+			<a href="<?php echo get_term_link($mprm_term); ?>" class="mprm-link"><?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo $icon ?>"></i><?php endif;
 				if (!empty($mprm_view_args['categ_name'])) :
 					echo $mprm_term->name;
 				endif; ?></a></h2>

@@ -1,18 +1,18 @@
 <?php extract($data); ?>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('title') ?>"><?php _e('Title', 'mp-restaurant-menu'); ?></label>
-	<input id="<?php echo $widget_object->get_field_id('title') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('title') ?>"  placeholder="" value="<?php echo!empty($title) ? $title : '' ?>">
+	<input id="<?php echo $widget_object->get_field_id('title') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('title') ?>" placeholder="" value="<?php echo !empty($title) ? $title : '' ?>">
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('view') ?>"><?php _e('View mode', 'mp-restaurant-menu'); ?></label>
-	<select id="<?php echo $widget_object->get_field_id('view') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('view') ?>" >
-		<option value="grid" <?php echo!empty($view) && $view == 'grid' ? 'selected=""' : '' ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
-		<option value="list" <?php echo!empty($view) && $view == 'list' ? 'selected=""' : '' ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
+	<select id="<?php echo $widget_object->get_field_id('view') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('view') ?>">
+		<option value="grid" <?php echo !empty($view) && $view == 'grid' ? 'selected=""' : '' ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
+		<option value="list" <?php echo !empty($view) && $view == 'list' ? 'selected=""' : '' ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('categ[]') ?>"><?php _e('Categories', 'mp-restaurant-menu'); ?></label>
-	<select id="<?php echo $widget_object->get_field_id('categ[]') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('categ[]') ?>" multiple="multiple" >
+	<select id="<?php echo $widget_object->get_field_id('categ[]') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('categ[]') ?>" multiple="multiple">
 		<?php if ($categories): ?>
 			<?php foreach ($categories as $category): ?>
 				<option value="<?php echo $category->term_id ?>" <?php echo in_array($category->term_id, $categ) ? 'selected="selected"' : '' ?>>
@@ -24,7 +24,7 @@
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('title') ?>"><?php _e('Columns', 'mp-restaurant-menu'); ?></label>
-	<select id="<?php echo $widget_object->get_field_id('categ[]') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('col') ?>" >
+	<select id="<?php echo $widget_object->get_field_id('categ[]') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('col') ?>">
 		<option value="1" class="event-column-1">1 <?php _e('column', 'mp-restaurant-menu'); ?></option>
 		<option value="2" class="event-column-2">2 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
 		<option value="3" class="event-column-3">3 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
@@ -33,7 +33,7 @@
 	</select>
 </p>
 <p>
-	<input id="<?php echo $widget_object->get_field_id('categ_name') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('categ_name') ?>" <?php echo isset($categ_name) ? 'checked=""' : '' ?>  />
+	<input id="<?php echo $widget_object->get_field_id('categ_name') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('categ_name') ?>" <?php echo isset($categ_name) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('categ_name') ?>"><?php _e('Show category name', 'mp-restaurant-menu'); ?></label>
 </p>
 <p>
@@ -50,5 +50,5 @@
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('desc_length') ?>"><?php _e('Description length', 'mp-restaurant-menu'); ?></label>
-	<input id="<?php echo $widget_object->get_field_id('desc_length') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('desc_length') ?>"  placeholder="" value="<?php echo!empty($desc_length) ? $desc_length : '' ?>">
+	<input id="<?php echo $widget_object->get_field_id('desc_length') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('desc_length') ?>" placeholder="" value="<?php echo !empty($desc_length) ? $desc_length : '' ?>">
 </p>

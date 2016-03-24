@@ -22,11 +22,11 @@ class Controller_Settings extends Controller {
 	public function action_content() {
 		$data['settings'] = $this->get_config('settings');
 		$data['current_settings'] = $this->get('settings')->get_settings();
-		$data['currencies'] = $this->get('settings')->get_currencies(); 
+		$data['currencies'] = $this->get('settings')->get_currencies();
 		$data['instance'] = $this->get('settings');
 		View::get_instance()->render_html('settings', $data);
 	}
-	
+
 	/**
 	 * Action save
 	 */

@@ -57,13 +57,13 @@ do_action('mprm-single-category-before-wrapper');
 		<?php else:
 			foreach (mprm_get_menu_items_by_term() as $term => $data) {
 				foreach ($data['posts'] as $key => $post):?>
-					<?php setup_postdata($post);?>
+					<?php setup_postdata($post); ?>
 					<div <?php post_class('mprm-row') ?>>
 						<?php
 
-							do_action('mprm_before_taxonomy_list');
-							do_action('mprm_taxonomy_list');
-							do_action('mprm_after_taxonomy_list');
+						do_action('mprm_before_taxonomy_list');
+						do_action('mprm_taxonomy_list');
+						do_action('mprm_after_taxonomy_list');
 
 						?>
 						<?php

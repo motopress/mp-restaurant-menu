@@ -44,7 +44,8 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'edit_posts',
 		));
-		// Add new	
+
+		// Add new
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Add New', 'mp-restaurant-menu'),
@@ -80,6 +81,16 @@ class Media extends Core {
 			'function' => array($this->get_controller('settings'), 'action_content'),
 			'capability' => 'manage_options',
 		));
+		//Import/Export
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Import / Export', 'mp-restaurant-menu'),
+			'menu_slug' => "admin.php?page=mprm-import",
+			'function' => array($this->get_controller('import'), 'action_content'),
+			'capability' => 'import',
+		));
+
+
 	}
 
 	/**

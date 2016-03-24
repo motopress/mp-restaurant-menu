@@ -259,6 +259,6 @@
 			'mprm-icon-teapot-1',
 			'mprm-icon-teapot-2'
 		]
-		
+
 	};
 })(jQuery);

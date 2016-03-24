@@ -33,7 +33,7 @@ class Hooks extends Core {
 		// Add script for footer theme
 		add_action('wp_footer', array(Media::get_instance(), 'wp_footer'));
 
-		add_action('export_wp',array(Export::get_instance(), 'export_wp'));
+		add_action('export_wp', array(Export::get_instance(), 'export_wp'));
 		// widgets init
 		add_action('widgets_init', array(Widget::get_instance(), 'register'));
 	}

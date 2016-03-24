@@ -102,6 +102,11 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		require_once MP_RM_LIBS_PATH . 'gump.class.php';
 
 		/**
+		 * Include WP Parser
+		 */
+		require_once MP_RM_LIBS_PATH . 'parsers.php';
+
+		/**
 		 * Include state
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-state-factory.php';
@@ -140,10 +145,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include media
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-media.php';
-		/**
-		 * Include export
-		 */
-		require_once MP_RM_CLASSES_PATH . 'class-export.php';
 
 		/**
 		 * Include hooks

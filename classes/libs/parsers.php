@@ -39,8 +39,8 @@ class WXR_Parser {
 				echo $error[0] . ':' . $error[1] . ' ' . esc_html($error[2]);
 			}
 			echo '</pre>';
-			echo '<p><strong>' . __('There was an error when reading this WXR file', 'wordpress-importer') . '</strong><br />';
-			echo __('Details are shown above. The importer will now try again with a different parser...', 'wordpress-importer') . '</p>';
+			echo '<p><strong>' . __('There was an error when reading this WXR file', 'mp-restaurant-menu') . '</strong><br />';
+			echo __('Details are shown above. The importer will now try again with a different parser...', 'mp-restaurant-menu') . '</p>';
 		}
 
 		// use regular expressions if nothing else available or this is bad XML
@@ -58,7 +58,7 @@ class WXR_Parser_SimpleXML {
 
 		$internal_errors = libxml_use_internal_errors(true);
 
-		$dom = new DOMDocument;
+		$dom = new \DOMDocument;
 		$old_value = null;
 		if (function_exists('libxml_disable_entity_loader')) {
 			$old_value = libxml_disable_entity_loader(true);
@@ -69,7 +69,7 @@ class WXR_Parser_SimpleXML {
 		}
 
 		if (!$success || isset($dom->doctype)) {
-			return new WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'wordpress-importer'), libxml_get_errors());
+			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
 		}
 
 		$xml = simplexml_import_dom($dom);
@@ -77,16 +77,16 @@ class WXR_Parser_SimpleXML {
 
 		// halt if loading produces an error
 		if (!$xml)
-			return new WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'wordpress-importer'), libxml_get_errors());
+			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
 
 		$wxr_version = $xml->xpath('/rss/channel/wp:wxr_version');
 		if (!$wxr_version)
-			return new WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'wordpress-importer'));
+			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 
 		$wxr_version = (string)trim($wxr_version[0]);
 		// confirm that we are dealing with the correct file format
 		if (!preg_match('/^\d+\.\d+$/', $wxr_version))
-			return new WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'wordpress-importer'));
+			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 
 		$base_url = $xml->xpath('/rss/channel/wp:base_site_url');
 		$base_url = (string)trim($base_url[0]);
@@ -138,6 +138,7 @@ class WXR_Parser_SimpleXML {
 			$terms[] = array(
 				'term_id' => (int)$t->term_id,
 				'term_taxonomy' => (string)$t->term_taxonomy,
+				'term_meta' => (string)$t->term_meta,
 				'slug' => (string)$t->term_slug,
 				'term_parent' => (string)$t->term_parent,
 				'term_name' => (string)$t->term_name,
@@ -245,7 +246,7 @@ class WXR_Parser_XML {
 		'wp:post_id', 'wp:post_date', 'wp:post_date_gmt', 'wp:comment_status', 'wp:ping_status', 'wp:attachment_url',
 		'wp:status', 'wp:post_name', 'wp:post_parent', 'wp:menu_order', 'wp:post_type', 'wp:post_password',
 		'wp:is_sticky', 'wp:term_id', 'wp:category_nicename', 'wp:category_parent', 'wp:cat_name', 'wp:category_description',
-		'wp:tag_slug', 'wp:tag_name', 'wp:tag_description', 'wp:term_taxonomy', 'wp:term_parent',
+		'wp:tag_slug', 'wp:tag_name', 'wp:tag_description', 'wp:term_taxonomy', 'wp:term_meta', 'wp:term_parent',
 		'wp:term_name', 'wp:term_description', 'wp:author_id', 'wp:author_login', 'wp:author_email', 'wp:author_display_name',
 		'wp:author_first_name', 'wp:author_last_name',
 	);
@@ -271,12 +272,12 @@ class WXR_Parser_XML {
 			$current_column = xml_get_current_column_number($xml);
 			$error_code = xml_get_error_code($xml);
 			$error_string = xml_error_string($error_code);
-			return new WP_Error('XML_parse_error', 'There was an error when reading this WXR file', array($current_line, $current_column, $error_string));
+			return new \WP_Error('XML_parse_error', 'There was an error when reading this WXR file', array($current_line, $current_column, $error_string));
 		}
 		xml_parser_free($xml);
 
 		if (!preg_match('/^\d+\.\d+$/', $this->wxr_version))
-			return new WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'wordpress-importer'));
+			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 
 		return array(
 			'authors' => $this->authors,
@@ -482,7 +483,7 @@ class WXR_Parser_Regex {
 		}
 
 		if (!$wxr_version)
-			return new WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'wordpress-importer'));
+			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 
 		return array(
 			'authors' => $this->authors,
@@ -539,6 +540,7 @@ class WXR_Parser_Regex {
 		return array(
 			'term_id' => $this->get_tag($t, 'wp:term_id'),
 			'term_taxonomy' => $this->get_tag($t, 'wp:term_taxonomy'),
+			'term_meta' => $this->get_tag($t, 'wp:term_meta'),
 			'slug' => $this->get_tag($t, 'wp:term_slug'),
 			'term_parent' => $this->get_tag($t, 'wp:term_parent'),
 			'term_name' => $this->get_tag($t, 'wp:term_name'),

@@ -1,11 +1,10 @@
-
 /* Global */
 
 .jBox-wrapper {
 	text-align: left;
 	position: fixed;
-	transform: translate(0,0);
-	width: auto; 
+	transform: translate(0, 0);
+	width: auto;
 	height: auto;
 	bottom: 0;
 }
@@ -27,13 +26,13 @@
 
 .jBox-container {
 	background: #fff;
-	box-sizing: border-box; 
-	-moz-box-sizing: border-box; 
-	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	-o-box-sizing: border-box;
 	width: 100%;
-	height: auto;      
-	max-height: 100%;  
+	height: auto;
+	max-height: 100%;
 
 	overflow: auto;
 }
@@ -71,10 +70,21 @@
 	overflow: hidden;
 }
 
-.jBox-pointer-top { top: 0; }
-.jBox-pointer-bottom { bottom: 0; }
-.jBox-pointer-left { left: 0; }
-.jBox-pointer-right { right: 0; }
+.jBox-pointer-top {
+	top: 0;
+}
+
+.jBox-pointer-bottom {
+	bottom: 0;
+}
+
+.jBox-pointer-left {
+	left: 0;
+}
+
+.jBox-pointer-right {
+	right: 0;
+}
 
 .jBox-pointer-top,
 .jBox-pointer-bottom {
@@ -138,6 +148,7 @@
 	border-bottom: 1px solid #ddd;
 	text-shadow: 0 1px 0 #fff;
 }
+
 .jBox-Modal.jBox-closeButton-title .jBox-title,
 .jBox-Confirm.jBox-closeButton-title .jBox-title {
 	padding-right: 55px;
@@ -178,7 +189,7 @@
 	border-radius: 3px;
 	padding: 0 20px;
 	-webkit-transition: color .2s, background-color .2s;
-	transition: color .2s, background-color .2s;	
+	transition: color .2s, background-color .2s;
 }
 
 .jBox-Confirm-button-cancel {
@@ -340,8 +351,8 @@
 
 .jBox-image-pointer-next {
 	right: 8px;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
 }
 
 .jBox-image-pointer-prev {
@@ -504,11 +515,15 @@ body[class*=" jBox-blockScroll-"] {
 /* Spinner */
 
 @keyframes jBoxLoading {
-	to {transform: rotate(360deg);}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @-webkit-keyframes jBoxLoading {
-	to {-webkit-transform: rotate(360deg);}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
 }
 
 .jBox-loading .jBox-content {
@@ -518,32 +533,32 @@ body[class*=" jBox-blockScroll-"] {
 }
 
 .jBox-spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    margin-left: -10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 20px;
+	margin-top: -10px;
+	margin-left: -10px;
 }
 
 .jBox-spinner:before {
-    content: 'Loading…';
-    display: block;
-    width: 20px;
-    height: 20px;
+	content: 'Loading…';
+	display: block;
+	width: 20px;
+	height: 20px;
 	text-align: center;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
 .jBox-spinner:not(:required):before {
-    content: '';
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, .3);
-    border-top-color: rgba(0, 0, 0, .6);
-    animation: jBoxLoading .6s linear infinite;
-    -webkit-animation: jBoxLoading .6s linear infinite;
+	content: '';
+	border-radius: 50%;
+	border: 2px solid rgba(0, 0, 0, .3);
+	border-top-color: rgba(0, 0, 0, .6);
+	animation: jBoxLoading .6s linear infinite;
+	-webkit-animation: jBoxLoading .6s linear infinite;
 }
 
 /* IE8 fixes */
@@ -562,10 +577,21 @@ body[class*=" jBox-blockScroll-"] {
 	background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPJJREFUeNq01l0OwyAIAGAlvY+n8ZJ6Gk/EqqkNtf7ApCQ+LM34iuCmRUQzihjj6FH+kjWL8N4/Ph9GHpiTnC9SwDbhLGyvspSScc71KkOa/HpuuRhIK+psE2pjONouCQg7kBSEXUgC2tHo52mTTBpnaEATWlaYK6MrhIAaceWpOcsCrYp6FV4H/90zTWjUQ/gSevVQq0ecHqoOxWpYoO7p5O9ku2fnVtp7QAik2rsK3fnpWfjynJWpbw+1BkghurrYDjiCptg/4AxaYhJwBbEwDsiB2NgM5EIirAdKIDFGQSmU1+NaIPjJYt2I25vxT4ABAMhWvtle2YvmAAAAAElFTkSuQmCC);
 }
 
-.jBox-IE8 .jBox-pointer-top { background-position: center top; }
-.jBox-IE8 .jBox-pointer-bottom { background-position: center bottom; }
-.jBox-IE8 .jBox-pointer-left { background-position: left center; }
-.jBox-IE8 .jBox-pointer-right { background-position: right center; }
+.jBox-IE8 .jBox-pointer-top {
+	background-position: center top;
+}
+
+.jBox-IE8 .jBox-pointer-bottom {
+	background-position: center bottom;
+}
+
+.jBox-IE8 .jBox-pointer-left {
+	background-position: left center;
+}
+
+.jBox-IE8 .jBox-pointer-right {
+	background-position: right center;
+}
 
 .jBox-IE8.jBox-Modal .jBox-container {
 	border: 3px solid #aaa;
@@ -574,9 +600,9 @@ body[class*=" jBox-blockScroll-"] {
 /* No SVG support fixes */
 
 .jBox-nosvg .jBox-closeButton:before {
-    font-family: Verdana, sans-serif;
-    content: 'x';
-    text-align: center;
-    font-size: 18px;
-    color: #888;
+	font-family: Verdana, sans-serif;
+	content: 'x';
+	text-align: center;
+	font-size: 18px;
+	color: #888;
 }

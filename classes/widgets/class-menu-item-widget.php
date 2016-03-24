@@ -27,14 +27,15 @@ class Menu_item_widget extends \WP_Widget {
 		);
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
 	}
-	
+
 	/**
 	 * Get default data
-	 * 
+	 *
 	 * @param type $instance
+	 *
 	 * @return string
 	 */
-	function get_data($instance){
+	function get_data($instance) {
 		if (!empty($instance)) {
 			$data = $instance;
 		} else {
@@ -55,7 +56,7 @@ class Menu_item_widget extends \WP_Widget {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 *
 	 * @param array $instance

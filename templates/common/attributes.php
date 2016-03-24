@@ -11,7 +11,8 @@ if ($attributes) {
 		<ul class="mprm-list">
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info['val'])): ?>
-					<li class="mprm-proportion"><?php echo /*mprm_get_proportion_label(strtolower($info['title'])) . apply_filters('mprm-proportions-delimiter', ': ') . */ $info['val']; ?></li>
+					<li class="mprm-proportion"><?php echo /*mprm_get_proportion_label(strtolower($info['title'])) . apply_filters('mprm-proportions-delimiter', ': ') . */
+						$info['val']; ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

@@ -10,7 +10,8 @@ if ($ingredients) {
 		<?php endif; ?>
 		<ul class="mprm-list">
 			<?php foreach ($ingredients as $ingredient): ?>
-				<li class="mprm-ingredient"><?php echo $ingredient->name ?></li><li class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></li>
+				<li class="mprm-ingredient"><?php echo $ingredient->name ?></li>
+				<li class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></li>
 			<?php endforeach; ?>
 		</ul>
 		<div class="mprm-clear"></div>

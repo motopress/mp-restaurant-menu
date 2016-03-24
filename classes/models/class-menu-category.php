@@ -111,17 +111,18 @@ class Menu_category extends Term {
 	 * Save menu category
 	 *
 	 * @param int $term_id
+	 * @param array $term_meta
 	 */
-	public function save_menu_category($term_id) {
+	public function save_menu_category($term_id, $term_meta = array()) {
 		global $wp_version;
 		if (!empty($_POST['term_meta'])) {
 			$term_meta = $_POST['term_meta'];
-			if (isset($term_meta) && is_array($term_meta)) {
-				if ($wp_version < 4.4) {
-					update_option("mprm_taxonomy_$term_id", $term_meta);
-				} else {
-					update_term_meta($term_id, "mprm_taxonomy_$term_id", $term_meta);
-				}
+		}
+		if (!empty($term_meta) && is_array($term_meta)  ) {
+			if ($wp_version < 4.4) {
+				update_option("mprm_taxonomy_$term_id", $term_meta);
+			} else {
+				update_term_meta($term_id, "mprm_taxonomy_$term_id", $term_meta);
 			}
 		}
 	}

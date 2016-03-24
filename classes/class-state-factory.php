@@ -28,6 +28,7 @@ class State_Factory {
 	 * Get register instance object
 	 *
 	 * @param type $value
+	 *
 	 * @return type
 	 */
 	public function get_model($value = null) {
@@ -47,6 +48,7 @@ class State_Factory {
 	 * Get controller instance object
 	 *
 	 * @param type $value
+	 *
 	 * @return type
 	 */
 	public function get_controller($value = null) {
@@ -62,6 +64,7 @@ class State_Factory {
 	 *  Get Preprocessor instance object
 	 *
 	 * @param type $value
+	 *
 	 * @return type
 	 */
 	public function get_preprocessor($value = null) {

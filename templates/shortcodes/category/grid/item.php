@@ -8,9 +8,9 @@ $icon = mprm_get_category_icon();
 		<div class="mprm-effect-hover"></div>
 		<div class="mprm-category-content">
 			<h2 class="mprm-title"><?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="<?php echo $icon ?> mprm-icon"></i><?php endif;
-if (!empty($mprm_view_args['categ_name'])) :
-echo $mprm_term->name;
-endif; ?></h2>
+				if (!empty($mprm_view_args['categ_name'])) :
+					echo $mprm_term->name;
+				endif; ?></h2>
 
 			<?php
 			if (!empty($mprm_view_args['categ_descr'])) {

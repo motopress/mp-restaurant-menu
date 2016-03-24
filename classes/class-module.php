@@ -8,9 +8,10 @@ class Module extends Core {
 
 	/**
 	 * Get lables
-	 * 
+	 *
 	 * @param array $params
 	 * @param string $plugin_name
+	 *
 	 * @return type
 	 */
 	public function get_labels(array $params, $plugin_name = 'mp-restaurant-menu') {

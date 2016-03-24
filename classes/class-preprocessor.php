@@ -26,8 +26,9 @@ class Preprocessor extends GUMP {
 
 	/**
 	 * Check for fatal
-	 * 
+	 *
 	 * @param type $buffer
+	 *
 	 * @return type
 	 */
 	static function fatal_error_handler($buffer) {
@@ -58,8 +59,9 @@ class Preprocessor extends GUMP {
 
 	/**
 	 * Call controller
-	 * 
+	 *
 	 * @param type $page
+	 *
 	 * @return type
 	 */
 	public function call_controller($action = 'content', $page = false) {
@@ -101,7 +103,7 @@ class Preprocessor extends GUMP {
 			if (!method_exists($this, $name)) {
 				$name = 'get_errors_array';
 			}
-			return array('success' => $success, 'data' =>$this->$name());
+			return array('success' => $success, 'data' => $this->$name());
 		}
 	}
 

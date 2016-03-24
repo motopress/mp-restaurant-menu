@@ -68,6 +68,6 @@ class Taxonomy extends Module {
 	}
 
 	public function get_terms($name) {
- 		return get_terms($name);
+		return get_terms($name);
 	}
 }

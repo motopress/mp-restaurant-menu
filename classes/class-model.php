@@ -22,7 +22,7 @@ class Model extends Core {
 	 * Install models by type
 	 */
 	static function install() {
-		Core::include_all(MP_RM_MODELS_PATH.'/parents');
+		Core::include_all(MP_RM_MODELS_PATH . '/parents');
 		// include all core models
 		Core::include_all(MP_RM_MODELS_PATH);
 	}

@@ -33,7 +33,7 @@ class Export extends Core {
 	 *
 	 * @param $args
 	 */
-	public function export($args) {
+	public function export($args = array()) {
 		global $wpdb, $post;
 
 		if (!defined('ABSPATH')) exit;
@@ -41,10 +41,6 @@ class Export extends Core {
 		if (!function_exists('export_wp')) {
 			include_once(ABSPATH . 'wp-admin/includes/export.php');
 		}
-		$args = array('content' => $args['content'], 'author' => false, 'category' => false,
-			'start_date' => false, 'end_date' => false, 'status' => false);
-
-
 		$defaults = array('content' => $this->post_types, 'author' => false, 'category' => false,
 			'start_date' => false, 'end_date' => false, 'status' => false,
 		);
@@ -137,8 +133,14 @@ class Export extends Core {
 			foreach ($terms as $key => $term) {
 				$data = Menu_category::get_instance()->get_term_params($term->term_id);
 				if (!empty($data)) {
+					if (!empty($data['thumbnail_id'])) {
+						$term_thumbnail_ids[] = $data['thumbnail_id'];
+					}
 					$term_meta[$term->term_id] = $data;
 				}
+			}
+			if (!empty($term_thumbnail_ids)) {
+				$post_ids = array_unique(array_merge($post_ids, $term_thumbnail_ids));
 			}
 
 			unset($categories, $custom_taxonomies, $custom_terms);
@@ -167,18 +169,14 @@ class Export extends Core {
 
 				<?php $this->mptt_authors_list($post_ids); ?>
 				<?php foreach ($terms as $t) : ?>
-					<wp:term>
-						<?php if (!empty($term_meta[$t->term_id])) { ?>
-							<wp:term_meta><?php echo $this->mptt_cdata(serialize($term_meta[$t->term_id])); ?></wp:term_meta>
-						<?php } ?>
+					<wp:term><?php if (!empty($term_meta[$t->term_id])) { ?>
+							<wp:term_meta><?php echo $this->mptt_cdata(serialize($term_meta[$t->term_id])); ?></wp:term_meta><?php } ?>
 						<wp:term_id><?php echo $this->mptt_cdata($t->term_id); ?></wp:term_id>
 						<wp:term_taxonomy><?php echo $this->mptt_cdata($t->taxonomy); ?></wp:term_taxonomy>
 						<wp:term_slug><?php echo $this->mptt_cdata($t->slug); ?></wp:term_slug>
-						<wp:term_parent><?php echo $this->mptt_cdata($t->parent ? $terms[$t->parent]->slug : ''); ?></wp:term_parent><?php $this->mptt_term_name($t); ?><?php $this->mptt_term_description($t); ?>    </wp:term>
-				<?php endforeach; ?>
+						<wp:term_parent><?php echo $this->mptt_cdata($t->parent ? $terms[$t->parent]->slug : ''); ?></wp:term_parent><?php $this->mptt_term_name($t); ?><?php $this->mptt_term_description($t); ?> </wp:term>
 
-
-				<?php
+				<?php endforeach;
 				/** This action is documented in wp-includes/feed-rss2.php */
 				do_action('rss2_head');
 				?>

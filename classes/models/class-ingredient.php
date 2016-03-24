@@ -17,7 +17,7 @@ class Ingredient extends Model {
 
 	/**
 	 * Get post ingredients
-	 * 
+	 *
 	 * @param type $id
 	 */
 	public function get_ingredients($id) {

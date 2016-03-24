@@ -38,6 +38,7 @@ class Image extends Model {
 
 	/**
 	 * Get image size
+	 *
 	 * @param $size
 	 * @param bool $key
 	 *

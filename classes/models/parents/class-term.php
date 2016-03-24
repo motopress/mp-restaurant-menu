@@ -17,9 +17,10 @@ class Term extends Model {
 
 	/**
 	 * Get terms
-	 * 
+	 *
 	 * @param string $taxonomy
-	 * @param array/string $ids
+	 * @param array /string $ids
+	 *
 	 * @return array
 	 */
 	public function get_terms($taxonomy, $ids = array()) {
@@ -32,7 +33,7 @@ class Term extends Model {
 				$cat_ids = $ids;
 			}
 			foreach ($cat_ids as $id) {
-				$terms[$id] = get_term_by('id', (int) ($id), $taxonomy);
+				$terms[$id] = get_term_by('id', (int)($id), $taxonomy);
 			}
 		} else if (empty($mprm_view_args['categ']) && empty($mprm_view_args['tags_list'])) {
 			$terms = get_terms($taxonomy);
