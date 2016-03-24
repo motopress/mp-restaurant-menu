@@ -19,7 +19,6 @@ class Menu_category extends Term {
 	/**
 	 * Add form field hook
 	 *
-	 * @param type $params
 	 */
 	public function add_form_fields() {
 		$data = array();
@@ -31,7 +30,7 @@ class Menu_category extends Term {
 	/**
 	 * Edit form field
 	 *
-	 * @param type $term
+	 * @param object $term
 	 */
 	public function edit_form_fields($term) {
 		// get tern data
@@ -50,12 +49,24 @@ class Menu_category extends Term {
 	/**
 	 * Get term params
 	 *
-	 * @param type $term_id
+	 * @param $term_id
+	 * @param $field
 	 *
-	 * @return type
+	 * @return mixed|void
 	 */
-	public function get_term_params($term_id) {
-		$term_meta = get_option("mprm_taxonomy_{$term_id}");
+	public function get_term_params($term_id, $field = '') {
+		global $wp_version;
+
+		if ($wp_version < 4.4) {
+			$term_meta = get_option("mprm_taxonomy_{$term_id}");
+		} else {
+			$term_meta = get_term_meta($term_id, "mprm_taxonomy_$term_id", true);
+		}
+		// if update version wordpress  get old data
+		if ($wp_version >= 4.4 && empty($term_meta)) {
+			$term_meta = get_option("mprm_taxonomy_{$term_id}");
+		}
+
 		// thumbnail value
 		if (!empty($term_meta['thumbnail_id'])) {
 			$term_meta['thumb_url'] = wp_get_attachment_thumb_url($term_meta['thumbnail_id']);
@@ -63,11 +74,16 @@ class Menu_category extends Term {
 			$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], 'mprm-big');
 			$term_meta['image'] = $attachment_image_src[0];
 		}
-		return $term_meta;
+		if (!empty($field)) {
+			return empty($term_meta) ? false : $term_meta[$field];
+		} else {
+			return $term_meta;
+		}
+
 	}
 
 	public function get_term_image($term_id, $size = 'mprm-big') {
-		$term_meta = get_option("mprm_taxonomy_{$term_id}");
+		$term_meta = $this->get_term_params($term_id);
 		if (!empty($term_meta['thumbnail_id'])) {
 			$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
 			$image = $attachment_image_src[0];
@@ -78,14 +94,12 @@ class Menu_category extends Term {
 	}
 
 	public function get_term_icon($term_id) {
-		$term_meta = get_option("mprm_taxonomy_{$term_id}");
-		return $term_meta['iconname'];
-
+		return $this->get_term_params($term_id, 'iconname');
 	}
 
 	public function has_category_image($term_id) {
-		$term_meta = get_option("mprm_taxonomy_{$term_id}");
-		if (!empty($term_meta['thumbnail_id'])) {
+		$thumbnail_id = $this->get_term_params($term_id, 'thumbnail_id');
+		if (!empty($thumbnail_id)) {
 			return true;
 		} else {
 			return false;
@@ -96,18 +110,17 @@ class Menu_category extends Term {
 	/**
 	 * Save menu category
 	 *
-	 * @param type $term_id
+	 * @param int $term_id
 	 */
 	public function save_menu_category($term_id) {
 		global $wp_version;
-		if ($wp_version < 4.4) {
-			if (!empty($_POST['term_meta'])) {
-				$term_meta = $_POST['term_meta'];
-				if (isset($term_meta) && is_array($term_meta)) {
-					//add_term_meta($term_id, "mprm_taxonomy_$term_id", $term_meta, true);
-					//update_metadata();
-					//get_metadata($meta_type, $object_id, [$meta_key], [$single])
+		if (!empty($_POST['term_meta'])) {
+			$term_meta = $_POST['term_meta'];
+			if (isset($term_meta) && is_array($term_meta)) {
+				if ($wp_version < 4.4) {
 					update_option("mprm_taxonomy_$term_id", $term_meta);
+				} else {
+					update_term_meta($term_id, "mprm_taxonomy_$term_id", $term_meta);
 				}
 			}
 		}
@@ -116,11 +129,11 @@ class Menu_category extends Term {
 	/**
 	 * Get categories by ids
 	 *
-	 * @param type $ids
+	 * @param array $ids
 	 *
-	 * @return type
+	 * @return array
 	 */
-	public function get_categories_by_ids($ids = false) {
+	public function get_categories_by_ids($ids = array()) {
 		$taxonomy = $this->get_tax_name('menu_category');
 		$terms = $this->get_terms($taxonomy, $ids);
 		return $terms;

@@ -2,15 +2,16 @@
 
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\View;
-use mp_restaurant_menu\classes\Model;
+//use mp_restaurant_menu\classes\View;
+//use mp_restaurant_menu\classes\Model;
+//use mp_restaurant_menu\classes\Controller;
+//use mp_restaurant_menu\classes\Preprocessor;
+//use mp_restaurant_menu\classes\State_Factory;
+//use mp_restaurant_menu\classes\Module;
+//use mp_restaurant_menu\classes\Hooks;
 use mp_restaurant_menu\classes\Shortcodes;
-use mp_restaurant_menu\classes\Controller;
-use mp_restaurant_menu\classes\Preprocessor;
-use mp_restaurant_menu\classes\State_Factory;
-use mp_restaurant_menu\classes\Module;
 use mp_restaurant_menu\classes\modules\Widget;
-use mp_restaurant_menu\classes\Hooks;
+
 
 /**
  * Class main state
@@ -53,9 +54,9 @@ class Core {
 	/**
 	 * Get taxonomy name
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function get_tax_name($value) {
 		if (isset($this->taxonomy_names[$value])) {
@@ -195,6 +196,8 @@ class Core {
 	public function get_state() {
 		if ($this->state) {
 			return $this->state;
+		} else {
+			return false;
 		}
 	}
 
@@ -282,5 +285,4 @@ class Core {
 			}
 		}
 	}
-
 }

@@ -18,11 +18,11 @@ class Term extends Model {
 	/**
 	 * Get terms
 	 * 
-	 * @param type $taxonomy
-	 * @param type $ids
-	 * @return type
+	 * @param string $taxonomy
+	 * @param array/string $ids
+	 * @return array
 	 */
-	public function get_terms($taxonomy, $ids = false) {
+	public function get_terms($taxonomy, $ids = array()) {
 		global $mprm_view_args;
 		$terms = array();
 		if (!empty($ids)) {
