@@ -115,12 +115,10 @@ class Media extends Core {
 
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
-
 					wp_enqueue_script('underscore');
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
 					wp_enqueue_script('wp-util');
-
 					break;
 				case "edit-mp_menu_category":
 

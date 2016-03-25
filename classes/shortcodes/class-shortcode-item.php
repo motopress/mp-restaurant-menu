@@ -1,8 +1,10 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
 
+use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes\models\Menu_category;
 
 class Shortcode_Item extends Shortcodes {
 
@@ -31,114 +33,101 @@ class Shortcode_Item extends Shortcodes {
 
 	/**
 	 * Integration in motopress
+	 *
 	 * @param $motopressCELibrary
 	 */
 	public function integration_motopress($motopressCELibrary) {
-//		$columns = $this->create_list_motopress(Column::get_instance()->get_all_column());
-//		$events = $this->create_list_motopress(Events::get_instance()->get_all_events());
-//		$categories = get_terms('mp-event_category', 'orderby=count&hide_empty=0');
-//		$categories = $this->create_list_motopress($categories, 'term');
+		$categories = $this->create_list_motopress(Menu_category::get_instance()->get_categories_by_ids(), 'term');
+		$tags = $this->create_list_motopress(Menu_tag::get_instance()->get_tags_by_ids(), 'term');
 
 		$attributes = array(
-//			'col' => array(
-//				'type' => 'select-multiple',
-//				'label' => __('Column','mp-restaurant-menu'),
-//				'list' => $columns),
-//			'events' => array(
-//				'type' => 'select-multiple',
-//				'label' => __('Events','mp-restaurant-menu'),
-//				'list' => $events),
-//			'event_categ' => array(
-//				'type' => 'select-multiple',
-//				'label' => __('Event categories','mp-restaurant-menu'),
-//				'list' => $categories),
-//			'increment' => array(
-//				'type' => 'select',
-//				'label' => __('Hour measure','mp-restaurant-menu'),
-//				'list' => array('1' => __('Hour (1h)','mp-restaurant-menu'), '0.5' => __('Half hour (30min)','mp-restaurant-menu'), '0.25' => __('Quarter hour (15min)','mp-restaurant-menu'))),
-//			'view' => array(
-//				'type' => 'select',
-//				'label' => __('Filter style','mp-restaurant-menu'),
-//				'list' => array('dropdown_list' => __('Dropdown list','mp-restaurant-menu'), 'tabs' => __('Tabs','mp-restaurant-menu'))
-//			),
-//			'label' => array(
-//				'type' => 'text',
-//				'label' => __('Filter label','mp-restaurant-menu'),
-//				'default' => __('All Events','mp-restaurant-menu')
-//			),
-//			'hide_label' => array(
-//				'type' => 'select',
-//				'label' => __("Hide 'All Events' view",'mp-restaurant-menu'),
-//				'list' => array('0' => __('No','mp-restaurant-menu'), '1' => __('Yes','mp-restaurant-menu'))
-//			),
-//			'hide_hrs' => array(
-//				'type' => 'select',
-//				'label' => __('Hide first (hours) column','mp-restaurant-menu'),
-//				'list' => array('0' => __('No','mp-restaurant-menu'), '1' => __('Yes','mp-restaurant-menu'))
-//			),
-//			'hide_empty_rows' => array(
-//				'type' => 'select',
-//				'label' => __('Hide empty rows','mp-restaurant-menu'),
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//				'default' => 1
-//			),
-//			'title' => array(
-//				'type' => 'radio-buttons',
-//				'label' => __('Title','mp-restaurant-menu'),
-//				'default' => 1,
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//			),
-//			'time' => array(
-//				'type' => 'radio-buttons',
-//				'label' => __('Time','mp-restaurant-menu'),
-//				'default' => 1,
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//			),
-//			'sub-title' => array(
-//				'type' => 'radio-buttons',
-//				'label' => __('Subtitle','mp-restaurant-menu'),
-//				'default' => 1,
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//			),
-//			'description' => array(
-//				'type' => 'radio-buttons',
-//				'label' => __('Description','mp-restaurant-menu'),
-//				'default' => 0,
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//			),
-//			'user' => array(
-//				'type' => 'radio-buttons',
-//				'label' => __('User','mp-restaurant-menu'),
-//				'default' => 0,
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//			),
-//			'disable_event_url' => array(
-//				'type' => 'select',
-//				'label' => __('Disable event URL','mp-restaurant-menu'),
-//				'list' => array('0' => __('No','mp-restaurant-menu'), '1' => __('Yes','mp-restaurant-menu'))
-//			),
-//			'text_align' => array(
-//				'type' => 'select',
-//				'label' => __('Text align','mp-restaurant-menu'),
-//				'list' => array('center' => __('center','mp-restaurant-menu'), 'left' => __('left','mp-restaurant-menu'), 'right' => __('right','mp-restaurant-menu'))
-//			),
-//			'id' => array(
-//				'type' => 'text',
-//				'label' => __('Id','mp-restaurant-menu')
-//			),
-//			'row_height' => array(
-//				'type' => 'text',
-//				'label' => __('Row height (in px)','mp-restaurant-menu'),
-//				'default' => 31
-//			),
-//			'responsive' => array(
-//				'type' => 'select',
-//				'label' => __('Responsive','mp-restaurant-menu'),
-//				'list' => array('1' => __('Yes','mp-restaurant-menu'), '0' => __('No','mp-restaurant-menu')),
-//				'default' => 1,
-//			)
+			'view' => array(
+				'type' => 'select',
+				'label' => __('View mode', 'mp-restaurant-menu'),
+				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu')),
+				'default' => 'grid'
+			),
+			'categ' => array(
+				'type' => 'select-multiple',
+				'label' => __('Categories', 'mp-restaurant-menu'),
+				'list' => $categories),
+			'tags_list' => array(
+				'type' => 'select-multiple',
+				'label' => __('Tags', 'mp-restaurant-menu'),
+				'list' => $tags),
+			'item_ids' => array(
+				'type' => 'text',
+				'label' => __('Menu item IDs', 'mp-restaurant-menu'),
+			),
+			'col' => array(
+				'type' => 'select',
+				'label' => __('Columns', 'mp-restaurant-menu'),
+				'list' => array(
+					'1' => __('1 column', 'mp-restaurant-menu'),
+					'2' => __('2 columns', 'mp-restaurant-menu'),
+					'3' => __('3 columns', 'mp-restaurant-menu'),
+					'4' => __('4 columns', 'mp-restaurant-menu'),
+					'6' => __('6 columns', 'mp-restaurant-menu')),
+				'default' => 1
+			),
+			'categ_name' => array(
+				'type' => 'select',
+				'label' => __('Show category name', 'mp-restaurant-menu'),
+				'list' => array(
+					'only_text' => __('Only text', 'mp-restaurant-menu'),
+					'with_img' => __('Title with image', 'mp-restaurant-menu'),
+					'none' => __('Don`t show', 'mp-restaurant-menu'),
+				),
+				'default' => 'only_text'
+			),
+			'show_attributes' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show attributes', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'feat_img' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show featured image', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'excerpt' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show excerpt', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'price' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show price', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'tags' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show tags', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'ingredients' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show ingredients', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'link_item' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Link item', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
+			'desc_length' => array(
+				'type' => 'text',
+				'label' => __('Description length', 'mp-restaurant-menu'),
+			)
 		);
-		$mprm_item_shortcode = new \MPCEObject('mprm-item-shortcode', __('Restaurant Menu Items','mp-restaurant-menu'), '', $attributes);
-		$motopressCELibrary->addObject($mprm_item_shortcode, 'other');
+		$mprm_items = new \MPCEObject('mprm_items', __('Menu Items', 'mp-restaurant-menu'), '', $attributes);
+		$motopressCELibrary->addObject($mprm_items, 'other');
 	}
 }

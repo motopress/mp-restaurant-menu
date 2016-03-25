@@ -22,7 +22,7 @@ class Menu_tag extends Term {
 	 *
 	 * @return parents\type
 	 */
-	public function get_tags_by_ids(array $ids) {
+	public function get_tags_by_ids(array $ids = array()) {
 		$taxonomy = $this->get_tax_name('menu_tag');
 		$terms = $this->get_terms($taxonomy, $ids);
 		return $terms;
