@@ -102,6 +102,8 @@ class Hooks extends Core {
 		//shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
+		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
+		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
 	}
 
 	/**
