@@ -5,7 +5,7 @@ if (empty($ingredients)) {
 if ($ingredients) {
 	?>
 	<div class="mprm-ingredients">
-		<?php if (is_single()) : ?>
+		<?php if (is_single() && apply_filters('mprm-show-title-ingredients', (empty($mprm_title_ingredients) ? true : false))) : ?>
 			<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu') ?></h3>
 		<?php endif; ?>
 		<ul class="mprm-list">

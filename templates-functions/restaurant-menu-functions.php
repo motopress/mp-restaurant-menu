@@ -233,9 +233,8 @@ function mprm_get_menu_item_options(\WP_Post $post = NULL) {
 /**
  * Get category
  *
- * @global type $mp_menu_category
- * @global type $taxonomy
- * @return type
+ * @global string $taxonomy
+ * @return object WP_Term
  */
 function mprm_get_taxonomy() {
 	global $term, $taxonomy, $mprm_term;
@@ -378,7 +377,7 @@ function mprm_get_template($template, $data = null, $output = true) {
 /**
  * Before widget
  *
- * @global type $mprm_widget_args
+ * @global array $mprm_widget_args
  */
 function before_mprm_widget() {
 	global $mprm_widget_args;
@@ -390,8 +389,8 @@ function before_mprm_widget() {
 /**
  * The widget title
  *
- * @global type $mprm_widget_args
- * @global type $mprm_view_args
+ * @global array $mprm_widget_args
+ * @global array $mprm_view_args
  */
 function the_mprm_widget_title() {
 	global $mprm_widget_args, $mprm_view_args;
@@ -467,9 +466,9 @@ function get_mprm_tag_ID() {
 /**
  * Get tag
  *
- * @global type $mp_menu_tag
- * @global type $taxonomy
- * @return type
+ * @global string $mp_menu_tag
+ * @global string $taxonomy
+ * @return object WP_Term
  */
 function get_mprm_tag() {
 	global $mp_menu_tag, $taxonomy;
@@ -481,7 +480,7 @@ function get_mprm_tag() {
  *
  * @global array $mprm_tag
  *
- * @param type $id
+ * @param int $id
  */
 function set_mprm_tag($id) {
 	if (!empty($id)) {
@@ -709,7 +708,7 @@ function mprm_taxonomy_list_header_title() {
 }
 
 function mprm_taxonomy_list_ingredients() {
-	mprm_get_template('common/ingredients');
+	mprm_get_template('common/ingredients', array('mprm_title_ingredients' => false));
 }
 
 function mprm_taxonomy_list_tags() {
@@ -785,7 +784,7 @@ function mprm_single_category_grid_title() {
  * Category grid ingredients
  */
 function mprm_single_category_grid_ingredients() {
-	mprm_get_template('common/ingredients');
+	mprm_get_template('common/ingredients', array('mprm_title_ingredients' => false));
 }
 
 /**
@@ -965,7 +964,7 @@ function mprm_menu_item_list_header() {
 /**
  * Menu item Grid image
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_list_image() {
 	global $mprm_view_args;
@@ -978,7 +977,7 @@ function mprm_menu_item_list_image() {
 /**
  * Menu item list right header
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_list_right_header() {
 	global $mprm_view_args;
@@ -992,7 +991,7 @@ function mprm_menu_item_list_right_header() {
 /**
  * Menu item Grid tags
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_list_tags() {
 	global $mprm_view_args;
@@ -1005,8 +1004,8 @@ function mprm_menu_item_list_tags() {
 /**
  * Menu item Grid title
  *
- * @global type $mprm_view_args
- * @global type $mprm_menu_item
+ * @global array $mprm_view_args
+ * @global array $mprm_menu_item
  */
 function mprm_menu_item_list_title() {
 	global $mprm_view_args;
@@ -1025,7 +1024,7 @@ function mprm_menu_item_list_ingredients() {
 	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (!empty($post_options['ingredients']) && !empty($mprm_view_args['ingredients'])) {
-		mprm_get_template('common/ingredients', array('ingredients' => $post_options['ingredients']));
+		mprm_get_template('common/ingredients', array('ingredients' => $post_options['ingredients'], 'mprm_title_ingredients' => true));
 	}
 }
 
@@ -1038,7 +1037,7 @@ function mprm_menu_item_list_attributes() {
 	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (!empty($post_options['attributes']) && !empty($mprm_view_args['show_attributes'])) {
-		mprm_get_template('common/attributes', array('attributes' => $post_options['attributes']));
+		mprm_get_template('common/attributes', array('attributes' => $post_options['attributes'], 'mprm_title_attributes' => true));
 	}
 }
 
@@ -1142,7 +1141,7 @@ function mprm_menu_item_grid_header() {
 /**
  * Menu item Grid image
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_grid_image() {
 	global $mprm_view_args;
@@ -1155,7 +1154,7 @@ function mprm_menu_item_grid_image() {
 /**
  * Menu item Grid tags
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_grid_tags() {
 	global $mprm_view_args;
@@ -1168,8 +1167,8 @@ function mprm_menu_item_grid_tags() {
 /**
  * Menu item Grid title
  *
- * @global type $mprm_view_args
- * @global type $mprm_menu_item
+ * @global array $mprm_view_args
+ * @global array $mprm_menu_item
  */
 function mprm_menu_item_grid_title() {
 	global $mprm_view_args;
@@ -1181,26 +1180,25 @@ function mprm_menu_item_grid_title() {
 /**
  * Menu item Grid ingredients
  *
- *
  */
 function mprm_menu_item_grid_ingredients() {
 	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (!empty($post_options['ingredients']) && !empty($mprm_view_args['ingredients'])) {
-		mprm_get_template('common/ingredients', array('ingredients' => $post_options['ingredients']));
+		mprm_get_template('common/ingredients', array('ingredients' => $post_options['ingredients'], 'mprm_title_ingredients' => true));
 	}
 }
 
 /**
  * Mani item attributes
  *
- * @global type $mprm_view_args
+ * @global array $mprm_view_args
  */
 function mprm_menu_item_grid_attributes() {
 	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (!empty($post_options['attributes']) && !empty($mprm_view_args['show_attributes'])) {
-		mprm_get_template('common/attributes', array('attributes' => $post_options['attributes']));
+		mprm_get_template('common/attributes', array('attributes' => $post_options['attributes'], 'mprm_title_attributes' => true));
 	}
 }
 
@@ -1370,24 +1368,24 @@ function mprm_before_menu_item_sidebar() {
 }
 
 /**
- * Manu items proportions
+ * Menu items proportions
  */
 function mprm_menu_item_slidebar_attributes() {
 	mprm_get_template('common/attributes');
 }
 
 /**
- * Menu item slidebar ingredients
+ * Menu item sidebar ingredients
  */
 function mprm_menu_item_slidebar_ingredients() {
-	mprm_get_template('common/ingredients');
+	mprm_get_template('common/ingredients', array('mprm_title_ingredients' => false));
 }
 
 /**
  * Menu item slidebar nutritional
  */
 function mprm_menu_item_slidebar_nutritional() {
-	mprm_get_template('common/nutritional');
+	mprm_get_template('common/nutritional', array('mprm_title_nutritional' => false));
 }
 
 /**
@@ -1473,7 +1471,9 @@ function mprm_get_attachment_url($size) {
 	return models\Menu_item::get_instance()->get_featured_image($post, $size);
 }
 
+function show_ingredients_title() {
 
+}
 
 
 

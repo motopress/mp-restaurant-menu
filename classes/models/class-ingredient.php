@@ -18,7 +18,9 @@ class Ingredient extends Model {
 	/**
 	 * Get post ingredients
 	 *
-	 * @param type $id
+	 * @param $id
+	 *
+	 * @return array|\WP_Error
 	 */
 	public function get_ingredients($id) {
 		return wp_get_object_terms($id, $this->get_tax_name('ingredient'));
