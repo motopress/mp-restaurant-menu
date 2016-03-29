@@ -1,5 +1,7 @@
 <?php
-$nutritional = mprm_get_nutritional();
+if (empty($nutritional)) {
+	$nutritional = mprm_get_nutritional();
+}
 if ($nutritional) {
 	?>
 	<div class="mprm-nutrition">
