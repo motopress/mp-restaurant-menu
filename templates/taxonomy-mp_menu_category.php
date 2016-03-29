@@ -40,6 +40,7 @@ do_action('mprm-single-category-before-wrapper');
 						<div class="mprm-row">
 						<?php
 					}
+
 					setup_postdata($post);
 
 					do_action('mprm_before_taxonomy_grid');
@@ -50,6 +51,7 @@ do_action('mprm-single-category-before-wrapper');
 						?>
 						</div>
 					<?php }
+
 					$i++;
 				endforeach;
 			}

@@ -2,6 +2,7 @@
 	<?php $categories = mprm_get_categories();
 	$last_key = array_search(end($categories), $categories);
 	foreach (array_values($categories) as $key => $term):
+
 		if (($key % $col) === 0) {
 			$i = 1; ?>
 			<div class="mprm-row">
@@ -14,5 +15,6 @@
 			</div>
 		<?php }
 		$i++;
+
 	endforeach; ?>
 </div>

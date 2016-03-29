@@ -13,7 +13,9 @@ while (have_posts()) : the_post(); ?>
 		?>
 
 		<div class="<?php echo apply_filters('mprm-content-wrapper-class', 'mprm-container content-wrapper') ?>">
+
 			<div class="mprm-row">
+
 				<div class="<?php echo apply_filters('mprm-menu-content-class', 'mprm-content mprm-eight mprm-columns') ?>">
 					<?php
 					do_action('mprm_before_menu_item_gallery');

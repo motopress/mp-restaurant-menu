@@ -99,7 +99,7 @@ class Menu_item extends Model {
 	 *
 	 * @param \WP_Post $post
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function get_attributes(\WP_Post $post) {
 		$attributes = get_post_meta($post->ID, 'attributes', true);

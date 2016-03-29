@@ -74,7 +74,7 @@ class Hooks extends Core {
 		add_action('current_screen', array(Media::get_instance(), 'current_screen'));
 		//add media in admin WP
 		add_action('admin_enqueue_scripts', array(Media::get_instance(), "admin_enqueue_scripts"));
-		register_importer('mprm-importer', 'Restaurant menu', __('Import menu item with categories data'), array(Import::get_instance(), 'import'));
+		register_importer('mprm-importer', 'Restaurant menu', __('Import menu item with categories data', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
 	}
 
 	/**

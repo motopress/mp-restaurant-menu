@@ -210,7 +210,7 @@ class Breadcrumbs extends Module {
 			} else if (get_query_var('paged')) {
 
 				// Paginated archives
-				echo '<li class="mprm-item-current mprm-item-current-' . get_query_var('paged') . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">' . __('Page') . ' ' . get_query_var('paged') . '</strong></li>';
+				echo '<li class="mprm-item-current mprm-item-current-' . get_query_var('paged') . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">' . __('Page', 'mp-restaurant-menu') . ' ' . get_query_var('paged') . '</strong></li>';
 			} else if (is_search()) {
 
 				// Search results page

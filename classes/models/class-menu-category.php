@@ -82,25 +82,38 @@ class Menu_category extends Term {
 
 	}
 
-	public function get_term_image($term_id, $size = 'mprm-big') {
-		$term_meta = $this->get_term_params($term_id);
-		if (!empty($term_meta['thumbnail_id'])) {
-			$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
-			$image = $attachment_image_src[0];
-			return $image;
+	public function get_term_image($mprm_term, $size = 'mprm-big') {
+		if (!empty($mprm_term->term_id)) {
+			$term_meta = $this->get_term_params($mprm_term->term_id);
+			if (!empty($term_meta['thumbnail_id'])) {
+				$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
+				$image = $attachment_image_src[0];
+				return $image;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
 	}
 
-	public function get_term_icon($term_id) {
-		return $this->get_term_params($term_id, 'iconname');
+	public function get_term_icon($mprm_term) {
+		if (!empty($mprm_term)) {
+			$icon = $this->get_term_params($mprm_term->term_id, 'iconname');
+			return (empty($icon) ? '' : $icon);
+		} else {
+			return '';
+		}
 	}
 
-	public function has_category_image($term_id) {
-		$thumbnail_id = $this->get_term_params($term_id, 'thumbnail_id');
-		if (!empty($thumbnail_id)) {
-			return true;
+	public function has_category_image($mprm_term) {
+		if (!empty($mprm_term->term_id)) {
+			$thumbnail_id = $this->get_term_params($mprm_term->term_id, 'thumbnail_id');
+			if (!empty($thumbnail_id)) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
@@ -118,7 +131,7 @@ class Menu_category extends Term {
 		if (!empty($_POST['term_meta'])) {
 			$term_meta = $_POST['term_meta'];
 		}
-		if (!empty($term_meta) && is_array($term_meta)  ) {
+		if (!empty($term_meta) && is_array($term_meta)) {
 			if ($wp_version < 4.4) {
 				update_option("mprm_taxonomy_$term_id", $term_meta);
 			} else {
