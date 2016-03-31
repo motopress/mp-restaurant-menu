@@ -19,7 +19,10 @@ class Post extends Module {
 	/**
 	 * Register custom post
 	 *
-	 * @param  $params
+	 * @param array $params
+	 * @param string $plugin_name
+	 *
+	 * @return bool
 	 */
 	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
@@ -43,6 +46,65 @@ class Post extends Module {
 		if (!is_wp_error($status)) {
 			return true;
 		}
+	}
+
+	/**
+	 * Register our custom post statuses, used for order status.
+	 */
+	public static function register_post_status() {
+
+		register_post_status('mprm-pending', array(
+			'label' => _x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+		register_post_status('mprm-completed', array(
+			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+		register_post_status('mprm-refunded', array(
+			'label' => _x('Refunded', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-failed', array(
+			'label' => _x('Failed', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-processing', array(
+			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-cancelled', array(
+			'label' => _x('Cancelled', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
 	}
 
 	/**

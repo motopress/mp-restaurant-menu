@@ -35,7 +35,8 @@ class Core {
 			'ingredient' => 'mp_ingredient'
 		);
 		$this->post_types = array(
-			'menu_item' => 'mp_menu_item'
+			'menu_item' => 'mp_menu_item',
+			'order' => 'mprm_order'
 		);
 		$this->init_plugin_version();
 	}

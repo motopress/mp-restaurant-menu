@@ -2,8 +2,8 @@
 
 namespace mp_restaurant_menu\classes;
 
-//use mp_restaurant_menu\classes\Core;
-//use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\models\Cart;
+use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Widget;
 use mp_restaurant_menu\classes\models\Menu_category;
@@ -44,32 +44,38 @@ class Hooks extends Core {
 	public function admin_init() {
 		// load languages
 		$this->load_language();
+
 		// install metaboxes
 		$this->get('menu_item')->init_metaboxes();
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
 		// List posts
-		$menu_item = $this->get_post_type('menu_item');
-		//add_filter("manage_edit-{$menu_item}_columns", array(Post::get_instance(), "init_menu_columns"));
-		//add_action("manage_posts_custom_column", array(Post::get_instance(), "show_menu_columns"));
 
-		add_filter("manage_{$menu_item}_posts_columns", array(Post::get_instance(), "init_menu_columns"), 10);
-		add_action("manage_{$menu_item}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
+		add_filter("manage_{$this->get_post_type('menu_item')}_posts_columns", array(Post::get_instance(), "init_menu_columns"), 10);
+		add_action("manage_{$this->get_post_type('menu_item')}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
+		// Disable Auto Save
+		add_action('admin_print_scripts', array(Media::get_instance(), 'disable_autosave'));
+		// Manage and sortable order
+		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
+		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
+		add_action("manage_edit-{$this->get_post_type('order')}_sortable_columns", array(Order::get_instance(), "order_sortable_columns"), 10, 2);
 
 		// ajax redirect
 		add_action('wp_ajax_route_url', array(Core::get_instance(), "wp_ajax_route_url"));
 		//mce editor plugins
 		add_filter("mce_external_plugins", array(Media::get_instance(), "mce_external_plugins"));
 		add_filter('mce_buttons', array(Media::get_instance(), "mce_buttons"));
-		//add_filter('mce_css', array(Media::get_instance(), "mce_css"));
+
 		// add edit mp_menu_category colums
 		$category_name = $this->get_tax_name('menu_category');
 		add_action("{$category_name}_add_form_fields", array(Menu_category::get_instance(), 'add_form_fields'));
 		add_action("{$category_name}_edit_form_fields", array(Menu_category::get_instance(), 'edit_form_fields'));
+
 		// save mp_menu_category
 		add_action("edited_{$category_name}", array(Menu_category::get_instance(), 'save_menu_category'));
 		add_action("create_{$category_name}", array(Menu_category::get_instance(), 'save_menu_category'));
+
 		// load current admin screen
 		add_action('current_screen', array(Media::get_instance(), 'current_screen'));
 		//add media in admin WP
@@ -102,8 +108,13 @@ class Hooks extends Core {
 		//shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
+		//buy button
+		add_action('mprm_menu_item_content_buy', array(Cart::get_instance(), 'mprm_append_purchase_link'));
+
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+
+
 	}
 
 	/**

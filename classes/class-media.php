@@ -28,6 +28,7 @@ class Media extends Core {
 		$ingredient_name = $this->get_tax_name('ingredient');
 		// get post types
 		$menu_item = $this->get_post_type('menu_item');
+		$order = $this->get_post_type('order');
 		$menu_slug = "edit.php?post_type={$menu_item}";
 		// Restaurant menu
 		Menu::add_menu_page(array(
@@ -44,6 +45,13 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'edit_posts',
 		));
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Shop orders', 'mp-restaurant-menu'),
+			'menu_slug' => "edit.php?post_type=$order",
+			'capability' => 'edit_posts',
+		));
+		//add_submenu_page("edit.php?post_type=mp-event", __("Columns", 'mp-timetable'), __("Columns", 'mp-timetable'), "edit_posts", "\"edit.php?post_type=mp-column\"");
 
 		// Add new
 		Menu::add_submenu_page(array(
@@ -258,6 +266,47 @@ class Media extends Core {
 			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
 			'slug' => 'menu'
 		));
+//		Post::get_instance()->register_post_type(array(
+//			'post_type' => $this->get_post_type('order'),
+//			'titles' => array('many' => 'orders', 'single' => 'order'),
+//			'supports' => array('title', 'comments', 'custom-fields'),
+//			'slug' => 'menu'
+//		));
+
+		register_post_type($this->get_post_type('order'), array(
+			'labels' => array(
+				'name' => __('Orders', 'mp-restaurant-menu'),
+				'singular_name' => _x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
+				'add_new' => __('Add Order', 'mp-restaurant-menu'),
+				'add_new_item' => __('Add New Order', 'mp-restaurant-menu'),
+				'edit' => __('Edit', 'mp-restaurant-menu'),
+				'edit_item' => __('Edit Order', 'mp-restaurant-menu'),
+				'new_item' => __('New Order', 'mp-restaurant-menu'),
+				'view' => __('View Order', 'mp-restaurant-menu'),
+				'view_item' => __('View Order', 'mp-restaurant-menu'),
+				'search_items' => __('Search Orders', 'mp-restaurant-menu'),
+				'not_found' => __('No Orders found', 'mp-restaurant-menu'),
+				'not_found_in_trash' => __('No Orders found in trash', 'mp-restaurant-menu'),
+				'parent' => __('Parent Orders', 'mp-restaurant-menu'),
+				'menu_name' => _x('Orders', 'Admin menu name', 'mp-restaurant-menu')
+			),
+			'description' => __('This is where store orders are stored.', 'mp-restaurant-menu'),
+			'public' => false,
+			'show_ui' => true,
+			'capability_type' => 'post',
+			'map_meta_cap' => true,
+			'publicly_queryable' => false,
+			'exclude_from_search' => true,
+//			'show_in_menu' => current_user_can('manage_mp_restaurant_menu') ? 'mp-restaurant-menu' : true,
+			'show_in_menu' => false,
+			'hierarchical' => false,
+			'show_in_nav_menus' => false,
+			'rewrite' => false,
+			'query_var' => false,
+			'supports' => array('title', 'comments', 'custom-fields'),
+			'has_archive' => false,
+		));
+
 	}
 
 	/**
@@ -416,4 +465,11 @@ class Media extends Core {
 		return $args['text'];
 	}
 
+	public function disable_autosave() {
+		global $post;
+
+		if (!empty($post) && $post->post_type == 'mprm_order') {
+			wp_dequeue_script('autosave');
+		}
+	}
 }
