@@ -1,4 +1,4 @@
-=== Restaurant Menu ===
+=== Restaurant Menu by MotoPress ===
 Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
 Tags: restaurant, menu
@@ -8,16 +8,36 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create, maintain and display online menus
+Create and maintain modern online menus for almost any kind of restaurant.
 
 == Description ==
+MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for building online menus of restaurants, cafes and other typical food establishments on any WordPress website. Menus can be displayed in pages, posts, and sidebars using shortcodes which are a perfect tool for creating complex content with minimum efforts. Non-tech WordPress users will value the intuitive system of both shortcode settings and the entire menu instruments. Applying a simple set of operations you will be able to customize menu design, add and categorize unlimited menu items, create and feature/hide all needed tags and ingredients, choose whether to display particular items, switch on/off all needed settings for individual items and categories any time and much more.
 
-This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
+= Major Features =
+* Clean responsive design for proper mobile viewing
+* Handy shortcode settings
+* Several predefined layouts available: grid and list (from single up to 6 column layouts for both)
+* 2 shortcode types based on ‘category’ or ‘menu item’ viewing
+* Ability to create categories (i.e. categorically-organized lists of meals, food and drinks, etc.) and child categories with descriptions  
+* Variety of icons for labeling your categories plus an option for uploading your custom icons
+* Option to supply separate menu item with title and description, price, Nutrition information and Attributes (size, bulk, weight), tags and Ingredients list
+* Ability to set a featured image and add an image gallery of the particular menu item
+* Opportunity to display individual menu item under different categories
+* Order setting for menu items
+* Several alternatives for sorting menu items and categories
+* Setting subtitle for individual menu item
+* Options for setting currency
 
 == Installation ==
 
-1. Upload the plugin to the /wp-content/plugins/ directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3.
+1. Upload the plugin files to the /wp-content/plugins/ directory
+2. Activate the plugin through the 'Plugins' menu in WordPress. You’ll find ‘Restaurant Menu’ on your main WordPress dashboard.  
 
+== Screenshots ==
 
+1. The list of menu items. Backend. 
+2. Example of Menu Frontend. Two-column Grid view of Menu Categories
+3. Example of Menu Frontend. Two-column Grid view of Menu Items
+4. Example of Menu Frontend. Three-column List view of Menu Categories
+5. Example of Menu Frontend. Menu Item's page
+6. Lightbox of Menu item' Gallery Images
