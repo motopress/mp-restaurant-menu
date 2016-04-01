@@ -1,0 +1,888 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Restaurant Menu\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: MotoPress\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/import/export.php:1 admin/import/export.php:5
+msgid "Export"
+msgstr ""
+
+#: admin/import/greet.php:2
+msgid "Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgstr ""
+
+#: admin/import/greet.php:3
+msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
+msgstr ""
+
+#: admin/import/header.php:2
+msgid "Import Timetable "
+msgstr ""
+
+#: admin/import/import.php:1
+msgid "Import"
+msgstr ""
+
+#: admin/metaboxes/attributes.php:3
+#: templates-functions/restaurant-menu-functions.php:1356
+msgid "Weight"
+msgstr ""
+
+#: admin/metaboxes/attributes.php:8
+#: templates-functions/restaurant-menu-functions.php:1355
+msgid "Volume"
+msgstr ""
+
+#: admin/metaboxes/attributes.php:13
+#: templates-functions/restaurant-menu-functions.php:1354
+msgid "Size"
+msgstr ""
+
+#: admin/metaboxes/mp_menu_gallery.php:11
+msgid "Delete image"
+msgstr ""
+
+#: admin/metaboxes/mp_menu_gallery.php:11 configs/language-admin-js.php:5
+msgid "Delete"
+msgstr ""
+
+#: admin/metaboxes/mp_menu_gallery.php:22
+msgid "Use CTRL/Command key to select multiple images"
+msgstr ""
+
+#: admin/metaboxes/mp_menu_gallery.php:25
+msgid "Add images"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:3
+#: templates-functions/restaurant-menu-functions.php:1339
+msgid "Calories"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:9
+#: templates-functions/restaurant-menu-functions.php:1340
+msgid "Cholesterol"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:15
+#: templates-functions/restaurant-menu-functions.php:1341
+msgid "Fiber"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:21
+#: templates-functions/restaurant-menu-functions.php:1342
+msgid "Sodium"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:27
+#: templates-functions/restaurant-menu-functions.php:1343
+msgid "Carbohydrates"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:33
+#: templates-functions/restaurant-menu-functions.php:1344
+msgid "Fat"
+msgstr ""
+
+#: admin/metaboxes/nutritional.php:39
+#: templates-functions/restaurant-menu-functions.php:1345
+msgid "Protein"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:3
+msgid "Shortcode type"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:6
+msgid "Show categories"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:7
+msgid "Show menu items"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:12 admin/popups/add-shortcodes.php:21
+#: admin/widgets/category/form.php:7 admin/widgets/menu/form.php:6
+#: classes/shortcodes/class-shortcode-category.php:45
+#: classes/shortcodes/class-shortcode-item.php:46
+msgid "View mode"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:15 admin/popups/add-shortcodes.php:24
+#: admin/widgets/category/form.php:9 admin/widgets/menu/form.php:8
+#: classes/shortcodes/class-shortcode-category.php:46
+#: classes/shortcodes/class-shortcode-item.php:47 configs/settings.php:6
+msgid "Grid"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:16 admin/popups/add-shortcodes.php:25
+#: admin/widgets/category/form.php:10 admin/widgets/menu/form.php:9
+#: classes/shortcodes/class-shortcode-category.php:46
+#: classes/shortcodes/class-shortcode-item.php:47 configs/settings.php:10
+msgid "List"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:31 admin/widgets/category/form.php:14
+#: admin/widgets/menu/form.php:13 classes/class-media.php:58
+#: classes/modules/class-post.php:143
+#: classes/shortcodes/class-shortcode-category.php:51
+#: classes/shortcodes/class-shortcode-item.php:52
+msgid "Categories"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:43 admin/widgets/menu/form.php:25
+#: classes/class-media.php:65 classes/modules/class-post.php:142
+#: classes/shortcodes/class-shortcode-item.php:56
+msgid "Tags"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:55 admin/widgets/menu/form.php:35
+#: classes/shortcodes/class-shortcode-item.php:60
+msgid "Menu item IDs"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:61 admin/widgets/category/form.php:26
+#: admin/widgets/menu/form.php:39
+#: classes/shortcodes/class-shortcode-category.php:55
+#: classes/shortcodes/class-shortcode-item.php:64
+msgid "Columns"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:64 admin/widgets/category/form.php:28
+#: admin/widgets/menu/form.php:41
+msgid "column"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:65 admin/popups/add-shortcodes.php:66
+#: admin/popups/add-shortcodes.php:67 admin/popups/add-shortcodes.php:68
+#: admin/widgets/category/form.php:29 admin/widgets/category/form.php:30
+#: admin/widgets/category/form.php:31 admin/widgets/category/form.php:32
+#: admin/widgets/menu/form.php:42 admin/widgets/menu/form.php:43
+#: admin/widgets/menu/form.php:44 admin/widgets/menu/form.php:45
+msgid "columns"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:73 admin/popups/add-shortcodes.php:83
+#: admin/widgets/category/form.php:37 admin/widgets/menu/form.php:49
+#: classes/shortcodes/class-shortcode-category.php:66
+#: classes/shortcodes/class-shortcode-item.php:75
+msgid "Show category name"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:76 admin/widgets/menu/form.php:51
+#: classes/shortcodes/class-shortcode-item.php:77
+msgid "Only text"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:77 admin/widgets/menu/form.php:52
+#: classes/shortcodes/class-shortcode-item.php:78
+msgid "Title with image"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:78 admin/widgets/menu/form.php:53
+#: classes/shortcodes/class-shortcode-item.php:79
+msgid "Don`t show"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:89 admin/widgets/category/form.php:41
+#: classes/shortcodes/class-shortcode-category.php:72
+msgid "Show category featured image"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:95 admin/popups/add-shortcodes.php:119
+#: admin/widgets/menu/form.php:58
+#: classes/shortcodes/class-shortcode-item.php:85
+msgid "Show attributes"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:101 admin/widgets/menu/form.php:62
+#: classes/shortcodes/class-shortcode-item.php:91
+msgid "Show featured image"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:107 admin/widgets/menu/form.php:66
+#: classes/shortcodes/class-shortcode-item.php:97
+msgid "Show excerpt"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:113 admin/widgets/menu/form.php:70
+#: classes/shortcodes/class-shortcode-item.php:103
+msgid "Show price"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:125 admin/widgets/menu/form.php:74
+#: classes/shortcodes/class-shortcode-item.php:109
+msgid "Show tags"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:131 admin/widgets/menu/form.php:78
+#: classes/shortcodes/class-shortcode-item.php:115
+msgid "Show ingredients"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:137 admin/widgets/menu/form.php:82
+#: classes/shortcodes/class-shortcode-item.php:121
+msgid "Link item"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:143 admin/widgets/category/form.php:45
+#: classes/shortcodes/class-shortcode-category.php:78
+msgid "Show category icon"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:149 admin/widgets/category/form.php:49
+#: classes/shortcodes/class-shortcode-category.php:84
+msgid "Show category description"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:155
+msgid "Overlay color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:161
+msgid "Hover color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:167
+msgid "Text color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:173 admin/widgets/category/form.php:52
+#: admin/widgets/menu/form.php:85
+#: classes/shortcodes/class-shortcode-category.php:90
+#: classes/shortcodes/class-shortcode-item.php:127
+msgid "Description length"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:179
+msgid "Insert shortcode"
+msgstr ""
+
+#: admin/taxonomies/mp_menu_category/add_form_fields.php:2
+#: admin/taxonomies/mp_menu_category/edit_form_fields.php:2
+msgid "Icon"
+msgstr ""
+
+#: admin/taxonomies/mp_menu_category/add_form_fields.php:7
+#: admin/taxonomies/mp_menu_category/edit_form_fields.php:8
+msgid "Thumbnail"
+msgstr ""
+
+#: admin/taxonomies/mp_menu_category/add_form_fields.php:10
+#: admin/taxonomies/mp_menu_category/edit_form_fields.php:14
+msgid "Set Image"
+msgstr ""
+
+#: admin/taxonomies/mp_menu_category/add_form_fields.php:11
+#: admin/taxonomies/mp_menu_category/edit_form_fields.php:15
+msgid "Remove"
+msgstr ""
+
+#: admin/widgets/category/form.php:3 admin/widgets/menu/form.php:2
+msgid "Title"
+msgstr ""
+
+#: classes/class-hooks.php:77
+msgid "Import menu item with categories data"
+msgstr ""
+
+#: classes/class-media.php:34
+msgid "Restaurant Menu"
+msgstr ""
+
+#: classes/class-media.php:43 classes/shortcodes/class-shortcode-item.php:130
+msgid "Menu Items"
+msgstr ""
+
+#: classes/class-media.php:51 classes/class-module.php:25
+msgid "Add New"
+msgstr ""
+
+#: classes/class-media.php:72 templates/common/ingredients.php:9
+msgid "Ingredients"
+msgstr ""
+
+#: classes/class-media.php:79
+msgid "Settings"
+msgstr ""
+
+#: classes/class-media.php:87
+msgid "Import / Export"
+msgstr ""
+
+#: classes/class-media.php:387
+msgid "Read more"
+msgstr ""
+
+#: classes/class-module.php:26
+msgid "Add New "
+msgstr ""
+
+#: classes/class-module.php:27
+msgid "Edit "
+msgstr ""
+
+#: classes/class-module.php:28
+msgid "New "
+msgstr ""
+
+#: classes/class-module.php:29
+msgid "All "
+msgstr ""
+
+#: classes/class-module.php:30
+msgid "View "
+msgstr ""
+
+#: classes/class-module.php:31
+msgid "Search "
+msgstr ""
+
+#: classes/libs/parsers.php:42 classes/libs/parsers.php:72
+#: classes/libs/parsers.php:80
+msgid "There was an error when reading this WXR file"
+msgstr ""
+
+#: classes/libs/parsers.php:43
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr ""
+
+#: classes/libs/parsers.php:84 classes/libs/parsers.php:89
+#: classes/libs/parsers.php:280 classes/libs/parsers.php:486
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+
+#: classes/models/class-import.php:106
+msgid "Assign Authors"
+msgstr ""
+
+#: classes/models/class-import.php:107
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr ""
+
+#: classes/models/class-import.php:109
+#, php-format
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary."
+msgstr ""
+
+#: classes/models/class-import.php:119
+msgid "Import Attachments"
+msgstr ""
+
+#: classes/models/class-import.php:122
+msgid "Download and import file attachments"
+msgstr ""
+
+#: classes/models/class-import.php:139
+msgid "Import author:"
+msgstr ""
+
+#: classes/models/class-import.php:150
+msgid "or create new user with login name:"
+msgstr ""
+
+#: classes/models/class-import.php:153
+msgid "as a new user:"
+msgstr ""
+
+#: classes/models/class-import.php:161
+msgid "assign posts to an existing user:"
+msgstr ""
+
+#: classes/models/class-import.php:163
+msgid "or assign posts to an existing user:"
+msgstr ""
+
+#: classes/models/class-import.php:164
+msgid "- Select -"
+msgstr ""
+
+#: classes/models/class-import.php:246
+msgid "All done."
+msgstr ""
+
+#: classes/models/class-import.php:246
+msgid "Have fun!"
+msgstr ""
+
+#: classes/models/class-import.php:247
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+
+#: classes/models/class-import.php:263
+msgid "Fetching attachments is not enabled"
+msgstr ""
+
+#: classes/models/class-import.php:276
+msgid "Invalid file type"
+msgstr ""
+
+#: classes/models/class-import.php:356
+msgid "Remote server did not respond"
+msgstr ""
+
+#: classes/models/class-import.php:362
+#, php-format
+msgid "Remote server returned error response %1$d %2$s"
+msgstr ""
+
+#: classes/models/class-import.php:371
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: classes/models/class-import.php:376
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: classes/models/class-import.php:382
+#, php-format
+msgid "Remote file is too large, limit is %s"
+msgstr ""
+
+#: classes/models/class-import.php:399 classes/models/class-import.php:403
+#: classes/models/class-import.php:413
+msgid "Sorry, there has been an error."
+msgstr ""
+
+#: classes/models/class-import.php:404
+#, php-format
+msgid "The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem."
+msgstr ""
+
+#: classes/models/class-import.php:421
+#, php-format
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr ""
+
+#: classes/models/class-import.php:480
+#, php-format
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr ""
+
+#: classes/models/class-import.php:548 classes/models/class-import.php:684
+#, php-format
+msgid "Failed to import %s %s"
+msgstr ""
+
+#: classes/models/class-import.php:574
+#, php-format
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr ""
+
+#: classes/models/class-import.php:591
+#, php-format
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr ""
+
+#: classes/models/class-import.php:650
+#, php-format
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr ""
+
+#: classes/models/class-settings.php:202
+msgid "United Arab Emirates Dirham"
+msgstr ""
+
+#: classes/models/class-settings.php:203
+msgid "Argentine Peso"
+msgstr ""
+
+#: classes/models/class-settings.php:204
+msgid "Australian Dollars"
+msgstr ""
+
+#: classes/models/class-settings.php:205
+msgid "Bangladeshi Taka"
+msgstr ""
+
+#: classes/models/class-settings.php:206
+msgid "Brazilian Real"
+msgstr ""
+
+#: classes/models/class-settings.php:207
+msgid "Bulgarian Lev"
+msgstr ""
+
+#: classes/models/class-settings.php:208
+msgid "Canadian Dollars"
+msgstr ""
+
+#: classes/models/class-settings.php:209
+msgid "Chilean Peso"
+msgstr ""
+
+#: classes/models/class-settings.php:210
+msgid "Chinese Yuan"
+msgstr ""
+
+#: classes/models/class-settings.php:211
+msgid "Colombian Peso"
+msgstr ""
+
+#: classes/models/class-settings.php:212
+msgid "Czech Koruna"
+msgstr ""
+
+#: classes/models/class-settings.php:213
+msgid "Danish Krone"
+msgstr ""
+
+#: classes/models/class-settings.php:214
+msgid "Dominican Peso"
+msgstr ""
+
+#: classes/models/class-settings.php:215
+msgid "Euros"
+msgstr ""
+
+#: classes/models/class-settings.php:216
+msgid "Hong Kong Dollar"
+msgstr ""
+
+#: classes/models/class-settings.php:217
+msgid "Croatia kuna"
+msgstr ""
+
+#: classes/models/class-settings.php:218
+msgid "Hungarian Forint"
+msgstr ""
+
+#: classes/models/class-settings.php:219
+msgid "Icelandic krona"
+msgstr ""
+
+#: classes/models/class-settings.php:220
+msgid "Indonesia Rupiah"
+msgstr ""
+
+#: classes/models/class-settings.php:221
+msgid "Indian Rupee"
+msgstr ""
+
+#: classes/models/class-settings.php:222
+msgid "Nepali Rupee"
+msgstr ""
+
+#: classes/models/class-settings.php:223
+msgid "Israeli Shekel"
+msgstr ""
+
+#: classes/models/class-settings.php:224
+msgid "Japanese Yen"
+msgstr ""
+
+#: classes/models/class-settings.php:225
+msgid "Lao Kip"
+msgstr ""
+
+#: classes/models/class-settings.php:226
+msgid "South Korean Won"
+msgstr ""
+
+#: classes/models/class-settings.php:227
+msgid "Malaysian Ringgits"
+msgstr ""
+
+#: classes/models/class-settings.php:228
+msgid "Mexican Peso"
+msgstr ""
+
+#: classes/models/class-settings.php:229
+msgid "Nigerian Naira"
+msgstr ""
+
+#: classes/models/class-settings.php:230
+msgid "Norwegian Krone"
+msgstr ""
+
+#: classes/models/class-settings.php:231
+msgid "New Zealand Dollar"
+msgstr ""
+
+#: classes/models/class-settings.php:232
+msgid "Paraguayan Guaraní"
+msgstr ""
+
+#: classes/models/class-settings.php:233
+msgid "Philippine Pesos"
+msgstr ""
+
+#: classes/models/class-settings.php:234
+msgid "Polish Zloty"
+msgstr ""
+
+#: classes/models/class-settings.php:235
+msgid "Pounds Sterling"
+msgstr ""
+
+#: classes/models/class-settings.php:236
+msgid "Romanian Leu"
+msgstr ""
+
+#: classes/models/class-settings.php:237
+msgid "Russian Ruble"
+msgstr ""
+
+#: classes/models/class-settings.php:238
+msgid "Singapore Dollar"
+msgstr ""
+
+#: classes/models/class-settings.php:239
+msgid "South African rand"
+msgstr ""
+
+#: classes/models/class-settings.php:240
+msgid "Swedish Krona"
+msgstr ""
+
+#: classes/models/class-settings.php:241
+msgid "Swiss Franc"
+msgstr ""
+
+#: classes/models/class-settings.php:242
+msgid "Taiwan New Dollars"
+msgstr ""
+
+#: classes/models/class-settings.php:243
+msgid "Thai Baht"
+msgstr ""
+
+#: classes/models/class-settings.php:244
+msgid "Turkish Lira"
+msgstr ""
+
+#: classes/models/class-settings.php:245
+msgid "Ukrainian Hryvnia"
+msgstr ""
+
+#: classes/models/class-settings.php:246
+msgid "US Dollars"
+msgstr ""
+
+#: classes/models/class-settings.php:247
+msgid "Vietnamese Dong"
+msgstr ""
+
+#: classes/models/class-settings.php:248
+msgid "Egyptian Pound"
+msgstr ""
+
+#: classes/modules/class-breadcrumbs.php:213
+msgid "Page"
+msgstr ""
+
+#: classes/modules/class-post.php:141
+msgid "Image"
+msgstr ""
+
+#: classes/modules/class-post.php:144 configs/metaboxes.php:15
+#: configs/metaboxes.php:18
+msgid "Price"
+msgstr ""
+
+#: classes/modules/class-taxonomy.php:28 classes/modules/class-taxonomy.php:29
+msgid "Parent "
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:57
+#: classes/shortcodes/class-shortcode-item.php:66
+msgid "1 column"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:58
+#: classes/shortcodes/class-shortcode-item.php:67
+msgid "2 columns"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:59
+#: classes/shortcodes/class-shortcode-item.php:68
+msgid "3 columns"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:60
+#: classes/shortcodes/class-shortcode-item.php:69
+msgid "4 columns"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:61
+#: classes/shortcodes/class-shortcode-item.php:70
+msgid "6 columns"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:68
+#: classes/shortcodes/class-shortcode-category.php:74
+#: classes/shortcodes/class-shortcode-category.php:80
+#: classes/shortcodes/class-shortcode-category.php:86
+#: classes/shortcodes/class-shortcode-item.php:87
+#: classes/shortcodes/class-shortcode-item.php:93
+#: classes/shortcodes/class-shortcode-item.php:99
+#: classes/shortcodes/class-shortcode-item.php:105
+#: classes/shortcodes/class-shortcode-item.php:111
+#: classes/shortcodes/class-shortcode-item.php:117
+#: classes/shortcodes/class-shortcode-item.php:123
+msgid "Yes"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:68
+#: classes/shortcodes/class-shortcode-category.php:74
+#: classes/shortcodes/class-shortcode-category.php:80
+#: classes/shortcodes/class-shortcode-category.php:86
+#: classes/shortcodes/class-shortcode-item.php:87
+#: classes/shortcodes/class-shortcode-item.php:93
+#: classes/shortcodes/class-shortcode-item.php:99
+#: classes/shortcodes/class-shortcode-item.php:105
+#: classes/shortcodes/class-shortcode-item.php:111
+#: classes/shortcodes/class-shortcode-item.php:117
+#: classes/shortcodes/class-shortcode-item.php:123
+msgid "No"
+msgstr ""
+
+#: classes/shortcodes/class-shortcode-category.php:93
+msgid "Menu Categories"
+msgstr ""
+
+#: classes/widgets/class-category-widget.php:21
+msgid "Display categories."
+msgstr ""
+
+#: classes/widgets/class-category-widget.php:23
+msgid "Restaurant Menu Categories"
+msgstr ""
+
+#: classes/widgets/class-menu-item-widget.php:21
+msgid "Display menu items."
+msgstr ""
+
+#: classes/widgets/class-menu-item-widget.php:23
+msgid "Restaurant Menu Items"
+msgstr ""
+
+#: configs/language-admin-js.php:4
+msgid "Delete Image"
+msgstr ""
+
+#: configs/language-admin-js.php:6
+msgid "Insert a media"
+msgstr ""
+
+#: configs/language-admin-js.php:7
+msgid "Insert"
+msgstr ""
+
+#: configs/language-admin-js.php:8
+msgid "Choose an image"
+msgstr ""
+
+#: configs/language-admin-js.php:9
+msgid "Select"
+msgstr ""
+
+#: configs/language-admin-js.php:10
+msgid "Insert Restaurant Menu Shortcode"
+msgstr ""
+
+#: configs/language-admin-js.php:11
+msgid "Cancel"
+msgstr ""
+
+#: configs/language-admin-js.php:12
+msgid "Choose"
+msgstr ""
+
+#: configs/metaboxes.php:24 templates/common/nutritional.php:9
+msgid "Nutrition Facts"
+msgstr ""
+
+#: configs/metaboxes.php:32 configs/metaboxes.php:35
+#: templates/common/attributes.php:8
+msgid "Portion Size"
+msgstr ""
+
+#: configs/metaboxes.php:41 configs/metaboxes.php:44
+msgid "SKU"
+msgstr ""
+
+#: configs/metaboxes.php:50
+msgid "Image Gallery"
+msgstr ""
+
+#: configs/settings.php:15
+msgid "Left"
+msgstr ""
+
+#: configs/settings.php:16
+msgid "Right"
+msgstr ""
+
+#: configs/settings.php:17
+msgid "Left with space"
+msgstr ""
+
+#: configs/settings.php:18
+msgid "Right with space"
+msgstr ""
+
+#: templates-functions/restaurant-menu-functions.php:1216
+msgid "Home"
+msgstr ""
+
+#: templates/common/price-box.php:8
+#, php-format
+msgid "Price: %s"
+msgstr ""
+
+#: templates/common/related-items.php:6
+msgid "You might also like"
+msgstr ""
+
+#: templates/settings.php:2
+msgid "General Settings"
+msgstr ""
+
+#: templates/settings.php:6
+msgid "View Options"
+msgstr ""
+
+#: templates/settings.php:12
+msgid "Menu category view"
+msgstr ""
+
+#: templates/settings.php:26
+msgid "Choose the way to display your menu items within category."
+msgstr ""
+
+#: templates/settings.php:32
+msgid "Currency Options"
+msgstr ""
+
+#: templates/settings.php:37
+msgid "Currency"
+msgstr ""
+
+#: templates/settings.php:41
+msgid "Choose a currency"
+msgstr ""
+
+#: templates/settings.php:55
+msgid "Currency Position"
+msgstr ""
+
+#: templates/settings.php:76
+msgid "Settings saved."
+msgstr ""
+
+#: templates/settings.php:79
+msgid "Dismiss this notice."
+msgstr ""
