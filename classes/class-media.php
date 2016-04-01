@@ -2,7 +2,6 @@
 
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 use mp_restaurant_menu\classes\modules\Menu;
@@ -156,7 +155,6 @@ class Media extends Core {
 	public function admin_enqueue_scripts() {
 		global $current_screen;
 		$this->current_screen($current_screen);
-
 	}
 
 	/**
@@ -236,8 +234,6 @@ class Media extends Core {
 			default:
 				break;
 		}
-
-
 	}
 
 	/**
@@ -248,7 +244,7 @@ class Media extends Core {
 		switch ($post_type) {
 			case"mp_menu_item":
 				wp_enqueue_script('underscore');
-				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu');
+				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
 				break;
 			default:
@@ -392,32 +388,34 @@ class Media extends Core {
 	/**
 	 * Enqueue script
 	 *
-	 * @param type $name
-	 * @param type $path
-	 * @param type $parent
-	 * @param type $version
+	 * @param string $name
+	 * @param string $path
+	 * @param array $parent
+	 * @param bool /string $version
 	 *
-	 * @return type
+	 * @return void
 	 */
 	public function enqueue_script($name, $path, $parent = array("jquery"), $version = false) {
 		if (empty($version)) {
 			$version = $this->get_version();
 		}
-		return wp_enqueue_script($name, MP_RM_JS_URL . $path, $parent, $version);
+		wp_enqueue_script($name, MP_RM_JS_URL . $path, $parent, $version);
 	}
 
 	/**
 	 * Enqueue style
 	 *
-	 * @param type $name
-	 * @param type $path
-	 * @param type $parent
+	 * @param string $name
+	 * @param string $path
+	 * @param array $parent
+	 * @param bool /string $version
+	 * * @return void
 	 */
 	public function enqueue_style($name, $path, $parent = array(), $version = false) {
 		if (empty($version)) {
 			$version = $this->get_version();
 		}
-		return wp_enqueue_style($name, MP_RM_CSS_URL . $path, $parent, $version);
+		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $parent, $version);
 	}
 
 	/**
@@ -467,7 +465,6 @@ class Media extends Core {
 
 	public function disable_autosave() {
 		global $post;
-
 		if (!empty($post) && $post->post_type == 'mprm_order') {
 			wp_dequeue_script('autosave');
 		}

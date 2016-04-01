@@ -5,9 +5,11 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\modules\Post;
-use mp_restaurant_menu\classes\modules\Widget;
+use mp_restaurant_menu\classes\modules\MPRM_Widget;
 use mp_restaurant_menu\classes\models\Menu_category;
+use mp_restaurant_menu\classes\shortcodes\Shortcode_Cart;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Category;
+use mp_restaurant_menu\classes\shortcodes\Shortcode_Checkout;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
 
 class Hooks extends Core {
@@ -32,10 +34,9 @@ class Hooks extends Core {
 		add_action('wp_head', array(Media::get_instance(), 'wp_head'));
 		// Add script for footer theme
 		add_action('wp_footer', array(Media::get_instance(), 'wp_footer'));
-
 		add_action('export_wp', array(Export::get_instance(), 'export_wp'));
 		// widgets init
-		add_action('widgets_init', array(Widget::get_instance(), 'register'));
+		add_action('widgets_init', array(MPRM_Widget::get_instance(), 'register'));
 	}
 
 	/**
@@ -50,12 +51,14 @@ class Hooks extends Core {
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
-		// List posts
 
+		// List posts
 		add_filter("manage_{$this->get_post_type('menu_item')}_posts_columns", array(Post::get_instance(), "init_menu_columns"), 10);
 		add_action("manage_{$this->get_post_type('menu_item')}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
+
 		// Disable Auto Save
 		add_action('admin_print_scripts', array(Media::get_instance(), 'disable_autosave'));
+
 		// Manage and sortable order
 		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
 		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
@@ -87,34 +90,32 @@ class Hooks extends Core {
 	 * Init hook
 	 */
 	public function init() {
-
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');
 		}
-		// register attachmet sizes
+		// Register attachment sizes
 		$this->get('image')->add_image_sizes();
-		// image downsize
+		// Image downsize
 		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
-		// register custom post type and taxonomyes
+		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-		// include template
+		// Include template
 		add_filter('template_include', array(Media::get_instance(), 'template_include'));
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
-		// route url
+		// Route url
 		Core::get_instance()->wp_ajax_route_url();
-		//shortcodes
+		// Shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
-		//buy button
-		add_action('mprm_menu_item_content_buy', array(Cart::get_instance(), 'mprm_append_purchase_link'));
+		add_shortcode('mprm_cart', array(Shortcode_Cart::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 
+		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
-
-
 	}
 
 	/**
@@ -195,7 +196,6 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_price', 45);
 
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 50);
-
 
 		/**
 		 * After Menu_item list
@@ -337,8 +337,9 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_slidebar_related_items()
 		 */
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_price', 10);
-		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_attributes', 15);
-		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_ingredients', 20);
+		add_action('mprm_menu_item_slidebar', 'mprm_purchase_link', 15);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_attributes', 20);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_ingredients', 25);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_nutritional', 30);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_related_items', 40);
 
@@ -679,5 +680,4 @@ class Hooks extends Core {
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_header', 10);
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
 	}
-
 }

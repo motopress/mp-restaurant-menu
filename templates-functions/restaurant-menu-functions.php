@@ -1253,6 +1253,15 @@ function mprm_menu_item_gallery() {
 	}
 }
 
+function mprm_purchase_link($post, $type = 'default') {
+	global $post;
+	if (!empty($post) && $post->post_type == 'mp_menu_item') {
+
+		mprm_get_template("common/buy/$type");
+
+	}
+}
+
 /**
  * Menu item gallery
  */

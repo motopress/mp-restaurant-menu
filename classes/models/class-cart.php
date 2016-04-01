@@ -57,5 +57,9 @@ class Cart extends Model {
 		return apply_filters('mprm_generate_cart_token', md5(mt_rand() . time()));
 	}
 
+	public function append_purchase_link($post, $type = 'menu_item') {
+
+	}
+
 
 }

@@ -1,6 +1,6 @@
 <?php
-namespace mp_restaurant_menu\classes;
 
+namespace mp_restaurant_menu\classes;
 
 class Shortcodes extends Core {
 	protected static $instance;
@@ -13,7 +13,7 @@ class Shortcodes extends Core {
 	}
 
 	/**
-	 * install shortcodes
+	 * Install shortcodes
 	 */
 	public static function install() {
 		// include all core controllers
@@ -21,6 +21,7 @@ class Shortcodes extends Core {
 	}
 
 	/**
+	 * Create list for Motopress
 	 * @param array $data_array
 	 * @param string $type
 	 *

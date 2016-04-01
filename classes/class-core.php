@@ -2,15 +2,8 @@
 
 namespace mp_restaurant_menu\classes;
 
-//use mp_restaurant_menu\classes\View;
-//use mp_restaurant_menu\classes\Model;
-//use mp_restaurant_menu\classes\Controller;
-//use mp_restaurant_menu\classes\Preprocessor;
-//use mp_restaurant_menu\classes\State_Factory;
-//use mp_restaurant_menu\classes\Module;
-//use mp_restaurant_menu\classes\Hooks;
 use mp_restaurant_menu\classes\Shortcodes;
-use mp_restaurant_menu\classes\modules\Widget;
+use mp_restaurant_menu\classes\modules\MPRM_Widget;
 
 
 /**
@@ -57,7 +50,7 @@ class Core {
 	 *
 	 * @param string $value
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function get_tax_name($value) {
 		if (isset($this->taxonomy_names[$value])) {
@@ -68,9 +61,9 @@ class Core {
 	/**
 	 * Get post type
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return string
 	 */
 	public function get_post_type($value) {
 		if (isset($this->post_types[$value])) {
@@ -87,23 +80,23 @@ class Core {
 		if (!session_id()) {
 			session_start();
 		}
-		// include plugin models files
+		// Include plugin models files
 		Model::install();
-		// include plugin controllers files
+		// Include plugin controllers files
 		Controller::get_instance()->install();
-		// include plugin Preprocessors files
+		// Include plugin Preprocessors files
 		Preprocessor::install();
-		// include plugin Modules files 
+		// Include plugin Modules files 
 		Module::install();
-		//include shortcodes
+		// Include shortcodes
 		Shortcodes::install();
 		// inclide all widgets
-		Widget::install();
+		MPRM_Widget::install();
 		// install state
 		$this->install_state($name);
-		// include templates functions
+		// Include templates functions
 		$this->include_all(MP_RM_TEMPLATES_FUNCTIONS);
-		// include templates actions
+		// Include templates actions
 		$this->include_all(MP_RM_TEMPLATES_ACTIONS);
 		// init all hooks
 		Hooks::install_hooks();
@@ -155,10 +148,10 @@ class Core {
 	}
 
 	/**
-	 * install current state
+	 * Install current state
 	 */
 	public function install_state($name) {
-		// include plugin state
+		// Include plugin state
 		Core::get_instance()->set_state(new State_Factory($name));
 	}
 
@@ -179,7 +172,7 @@ class Core {
 	/**
 	 * Check for ajax post
 	 *
-	 * @return type
+	 * @return bool
 	 */
 	static function is_ajax() {
 		if (defined('DOING_AJAX') && DOING_AJAX) {
@@ -205,7 +198,7 @@ class Core {
 	/**
 	 * Get controller
 	 *
-	 * @param type $type
+	 * @param string $type
 	 *
 	 * @return boolean
 	 */
@@ -216,7 +209,7 @@ class Core {
 	/**
 	 * Get view
 	 *
-	 * @return type
+	 * @return object
 	 */
 	public function get_view() {
 		return View::get_instance();

@@ -3,7 +3,7 @@ namespace mp_restaurant_menu\classes\modules;
 
 use mp_restaurant_menu\classes\Module;
 
-class Widget extends Module {
+class MPRM_Widget extends Module {
 
 	protected static $instance;
 
@@ -13,7 +13,7 @@ class Widget extends Module {
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Include all widgets
 	 */
@@ -21,7 +21,7 @@ class Widget extends Module {
 		self::include_all(MP_RM_WIDGETS_PATH);
 	}
 
-	public function register(){
+	public function register() {
 		register_widget('mp_restaurant_menu\classes\widgets\Menu_item_widget');
 		register_widget('mp_restaurant_menu\classes\widgets\Category_widget');
 	}
