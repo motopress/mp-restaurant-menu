@@ -1253,12 +1253,13 @@ function mprm_menu_item_gallery() {
 	}
 }
 
-function mprm_purchase_link($post, $type = 'default') {
+function mprm_purchase_link() {
 	global $post;
 	if (!empty($post) && $post->post_type == 'mp_menu_item') {
-
-		mprm_get_template("common/buy/$type");
-
+		$data = models\Cart::get_instance()->get_append_purchase_link();
+		if (!empty($data)) {
+			mprm_get_template("common/buy/{$data['template']}");
+		}
 	}
 }
 

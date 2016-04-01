@@ -48,9 +48,9 @@ class Menu_item extends Model {
 	/**
 	 * Get gallery
 	 *
-	 * @param type $id
+	 * @param integer $id
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function get_gallery($id) {
 		// get Image gallery
@@ -99,12 +99,14 @@ class Menu_item extends Model {
 	 *
 	 * @param \WP_Post $post
 	 *
-	 * @return array
+	 * @return array/void
 	 */
 	public function get_attributes(\WP_Post $post) {
 		$attributes = get_post_meta($post->ID, 'attributes', true);
 		if (!$this->is_arr_values_empty($attributes)) {
 			return $attributes;
+		} else {
+			return array();
 		}
 	}
 
@@ -159,12 +161,12 @@ class Menu_item extends Model {
 	/**
 	 * Get category menu items
 	 *
-	 * @param type $args
+	 * @param array $args
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function get_menu_items(array $args) {
-		$items = array();
+		$items = $category_ids = $tags_ids = array();
 		$params = array(
 			'post_type' => $this->get_post_type('menu_item'),
 			'post_status' => 'publish',

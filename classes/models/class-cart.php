@@ -57,9 +57,44 @@ class Cart extends Model {
 		return apply_filters('mprm_generate_cart_token', md5(mt_rand() . time()));
 	}
 
-	public function append_purchase_link($post, $type = 'menu_item') {
+	public function get_error($type) {
+		switch ($type) {
+			case 'purchase_page':
 
+				break;
+			default:
+				break;
+		}
 	}
 
+	public function get_append_purchase_link() {
+		global $post;
+		$data = array(
+			'ID' => $post->ID,
+			'template' => 'default',
+			'error' => false,
+			'price' => Menu_item::get_instance()->get_price($post->id),
+			'direct' => false,
+			'text' => __('Purchase', 'mp-restaurant-menu'),
+			'style' => get_option('mprm_button_style', 'button'),
+			'color' => get_option('mprm_checkout_color', 'blue'),
+			'class' => 'mprm-submit'
+		);
+		$purchase_page = get_option('mprm_purchase_page', false);
 
+		if (!$purchase_page || $purchase_page == 0) {
+			$data['error'] = true;
+			$data['error_message'] = $this->get_error('purchase_page');
+			return false;
+		}
+
+		if (empty($post->ID)) {
+			return false;
+		}
+		if ('publish' !== $post->post_status && !current_user_can('edit_product', $post->ID)) {
+			return false;
+		}
+		return $data;
+
+	}
 }
