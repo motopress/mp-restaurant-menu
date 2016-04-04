@@ -17,7 +17,7 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 * Clean responsive design for proper mobile viewing
 * Handy shortcode settings
 * Several predefined layouts available: grid and list (from single up to 6 column layouts for both)
-* 2 shortcode types based on ‘category’ or ‘menu item’ viewing
+* 2 shortcode types based on 'category' or 'menu item' viewing
 * Ability to create categories (i.e. categorically-organized lists of meals, food and drinks, etc.) and child categories with descriptions  
 * Variety of icons for labeling your categories plus an option for uploading your custom icons
 * Option to supply separate menu item with title and description, price, Nutrition information and Attributes (size, bulk, weight), tags and Ingredients list
@@ -31,7 +31,7 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 == Installation ==
 
 1. Upload the plugin files to the /wp-content/plugins/ directory
-2. Activate the plugin through the 'Plugins' menu in WordPress. You’ll find ‘Restaurant Menu’ on your main WordPress dashboard.  
+2. Activate the plugin through the 'Plugins' menu in WordPress. You'll find 'Restaurant Menu' on your main WordPress dashboard.  
 
 == Screenshots ==
 
