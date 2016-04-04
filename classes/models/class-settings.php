@@ -18,7 +18,9 @@ class Settings extends Model {
 	/**
 	 * Get settings
 	 *
-	 * @return type
+	 * @param bool $key
+	 *
+	 * @return mixed|void
 	 */
 	public function get_settings($key = false) {
 		$settings = get_option('mprm_settings');
@@ -29,12 +31,22 @@ class Settings extends Model {
 		}
 	}
 
+	public function get_config_settings() {
+		$settings = array('tabs' => array());
+		$config_settings = $this->get_config('settings');
+		$save_settings = $this->get_settings();
+		foreach ($config_settings['tabs'] as $tabs => $setting) {
+			$settings['tabs'][$tabs] = $setting;
+		}
+		return $settings;
+	}
+
 	/**
 	 * Save settings
 	 *
-	 * @param type $params
+	 * @param array $params
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function save_settings(array $params) {
 		unset($params['controller']);
@@ -248,5 +260,4 @@ class Settings extends Model {
 			'EGP' => __('Egyptian Pound', 'mp-restaurant-menu')
 		);
 	}
-
 }

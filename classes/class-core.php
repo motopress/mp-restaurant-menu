@@ -240,7 +240,7 @@ class Core {
 	/**
 	 * Set state
 	 *
-	 * @param State $state
+	 * @param object $state
 	 */
 	public function set_state($state) {
 		$this->state = $state;

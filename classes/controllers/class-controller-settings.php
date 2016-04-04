@@ -19,11 +19,17 @@ class Controller_Settings extends Controller {
 	/**
 	 * Action content
 	 */
+
 	public function action_content() {
-		$data['settings'] = $this->get_config('settings');
-		$data['current_settings'] = $this->get('settings')->get_settings();
-		$data['currencies'] = $this->get('settings')->get_currencies();
-		$data['instance'] = $this->get('settings');
+		$data = $this->get('settings')->get_config_settings();
+		$data['current_tab'] = empty($_GET['tab']) ? 'general' : sanitize_title($_GET['tab']);
+		$data['current_section'] = empty($_REQUEST['section']) ? '' : sanitize_title($_REQUEST['section']);
+
+		//$data['settings_template'] = ();
+		$tabs =
+//		$data['current_settings'] = $this->get('settings')->get_settings();
+//		$data['currencies'] = $this->get('settings')->get_currencies();
+//		$data['instance'] = $this->get('settings');
 		View::get_instance()->render_html('settings', $data);
 	}
 

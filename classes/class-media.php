@@ -44,13 +44,13 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'edit_posts',
 		));
+
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Shop orders', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'edit_posts',
 		));
-		//add_submenu_page("edit.php?post_type=mp-event", __("Columns", 'mp-timetable'), __("Columns", 'mp-timetable'), "edit_posts", "\"edit.php?post_type=mp-column\"");
 
 		// Add new
 		Menu::add_submenu_page(array(
@@ -113,6 +113,7 @@ class Media extends Core {
 				case"page":
 					wp_enqueue_script('underscore');
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('jBox', 'libs/jBox.min.js');
 					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
 					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
 					break;
