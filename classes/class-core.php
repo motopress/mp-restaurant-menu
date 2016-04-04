@@ -135,23 +135,6 @@ class Core {
 	}
 
 	/**
-	 * Load language file
-	 *
-	 * @param bool $domain
-	 *
-	 * @return bool
-	 */
-	public function load_language($domain = false) {
-		if (empty($domain)) {
-			return false;
-		}
-		$locale = get_option("locate", true);
-		$moFile = MP_RM_LANG_PATH . "{$domain}-{$locale}.mo";
-		$result = load_textdomain($domain, $moFile);
-		return $result;
-	}
-
-	/**
 	 * install current state
 	 */
 	public function install_state($name) {
