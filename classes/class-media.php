@@ -106,6 +106,7 @@ class Media extends Core {
 				case"page":
 					wp_enqueue_script('underscore');
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('jBox', 'libs/jBox.min.js');
 					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
 					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
 					break;
