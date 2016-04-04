@@ -240,7 +240,7 @@ class Media extends Core {
 		switch ($post_type) {
 			case"mp_menu_item":
 				wp_enqueue_script('underscore');
-				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu');
+				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
 				break;
 			default:
