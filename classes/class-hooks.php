@@ -42,8 +42,7 @@ class Hooks extends Core {
 	 * Hooks for admin panel
 	 */
 	public function admin_init() {
-		// load languages
-		$this->load_language();
+
 		// install metaboxes
 		$this->get('menu_item')->init_metaboxes();
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));

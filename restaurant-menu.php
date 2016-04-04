@@ -20,7 +20,7 @@ define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
 define('MP_RM_CSS_URL', MP_RM_MEDIA_URL . 'css/');
 define('MP_RM_PLUGIN_NAME', str_replace('-', '_', dirname(plugin_basename(__FILE__))));
-define('MP_RM_LANG_PATH', MP_RM_PLUGIN_PATH . 'languages');
+define('MP_RM_LANG_PATH', MP_RM_PLUGIN_PATH . 'languages/');
 define('MP_RM_TEMPLATES_PATH', MP_RM_PLUGIN_PATH . 'templates/');
 define('MP_RM_CLASSES_PATH', MP_RM_PLUGIN_PATH . 'classes/');
 define('MP_RM_PREPROCESSORS_PATH', MP_RM_CLASSES_PATH . 'preprocessors/');

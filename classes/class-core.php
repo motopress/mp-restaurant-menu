@@ -81,11 +81,9 @@ class Core {
 	 * Init current plugin
 	 */
 	public function init_plugin($name) {
-		ob_start('mp_restaurant_menu\classes\Preprocessor::fatal_error_handler');
-		// run session
-		if (!session_id()) {
-			session_start();
-		}
+		
+		load_plugin_textdomain( 'mp-restaurant-menu', FALSE, MP_RM_LANG_PATH );
+		
 		// include plugin models files
 		Model::install();
 		// include plugin controllers files
