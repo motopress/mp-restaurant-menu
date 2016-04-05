@@ -1270,7 +1270,11 @@ function mprm_menu_item_price() {
  * Menu item content
  */
 function mprm_menu_item_content() {
-	the_content();
+	?>
+	<div class="mprm-post-content">
+		<?php the_content(); ?>
+	</div>
+	<?php
 }
 
 /**
