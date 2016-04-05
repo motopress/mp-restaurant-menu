@@ -131,7 +131,7 @@ class Media extends Core {
 					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
 					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
-
+					wp_enqueue_media();
 					break;
 				case "customize":
 					break;
