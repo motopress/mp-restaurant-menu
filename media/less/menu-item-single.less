@@ -1,5 +1,17 @@
 .mprm-main-wrapper.mp_menu_item {
 
+  .mprm-post-content {
+	*zoom: 1;
+	&:before,
+	&:after {
+	  display: table;
+	  content: "";
+	  line-height: 0;
+	}
+	&:after {
+	  clear: both;
+	}
+  }
   .mprm-header {
 	position: relative;
 

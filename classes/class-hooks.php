@@ -171,18 +171,19 @@ class Hooks extends Core {
 		 * @see mprm_single_category_list_ingredients()
 		 * @see mprm_single_category_list_footer()
 		 */
+		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_before_content', 5);
+
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_left', 10);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_image', 15);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_left', 20);
-
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_right', 25);
-
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_header_title', 30);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_ingredients', 35);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_tags', 40);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_price', 45);
-
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 50);
+
+		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_after_content', 60);
 
 
 		/**
@@ -207,6 +208,8 @@ class Hooks extends Core {
 		 * @see mprm_single_category_grid_footer()
 		 */
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_header', 20);
+
+
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_image', 25);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_start', 35);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_title', 40);
@@ -214,6 +217,8 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_tags', 50);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_price', 55);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_end', 60);
+
+
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 65);
 
 		/**

@@ -1093,6 +1093,17 @@ if (!empty($mprm_view_args['link_item'])) { ?>
 <?php }
 }
 
+function mprm_category_menu_item_before_content(){
+	?>
+	<a class="mprm-link" href="<?php the_permalink() ?>">
+<?php }
+
+function mprm_category_menu_item_after_content(){
+	?>
+	</a>
+<?php }
+
+
 /**
  * Menu item Grid image
  *

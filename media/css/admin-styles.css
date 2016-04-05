@@ -1,208 +1,181 @@
 #mp_menu_gallery .mprm-inside {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
-
 #mp_menu_gallery .mprm-inside > p {
-	padding: 0 12px 12px;
+  padding: 0 12px 12px;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images {
-	content: " ";
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-webkit-box-pack: start;
-	-webkit-justify-content: flex-start;
-	-ms-flex-pack: start;
-	justify-content: flex-start;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	max-width: 100%;
-	padding: 9px;
-	margin: 0;
+  content: " ";
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  max-width: 100%;
+  padding: 9px;
+  margin: 0;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mp-metabox-sortable-placeholder {
-	border-color: #bbb;
-	background-color: #f5f5f5;
-	margin: 0;
-	border: 3px dashed #dddddd;
-	position: relative;
+  border-color: #bbb;
+  background-color: #f5f5f5;
+  margin: 0;
+  border: 3px dashed #dddddd;
+  position: relative;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mp-metabox-sortable-placeholder:after {
-	line-height: 72px;
-	color: #ddd;
-	height: 100%;
-	position: absolute;
-	width: 100%;
+  line-height: 72px;
+  color: #ddd;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mp-metabox-sortable-placeholder img {
-	width: 100%;
-	height: auto;
-	display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image {
-	border: 1px solid #d5d5d5;
-	border-radius: 2px;
-	box-sizing: border-box;
-	cursor: move;
-	display: inline-block;
-	position: relative;
-	width: 80px;
-	margin: 3px;
+  border: 1px solid #d5d5d5;
+  border-radius: 2px;
+  box-sizing: border-box;
+  cursor: move;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  margin: 3px;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image img {
-	width: 100%;
-	height: auto;
-	display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image .mprm-actions {
-	display: none;
-	padding: 2px;
-	position: absolute;
-	right: -8px;
-	top: -8px;
+  display: none;
+  padding: 2px;
+  position: absolute;
+  right: -8px;
+  top: -8px;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image .mprm-actions li {
-	float: right;
-	margin: 0 0 0 2px;
+  float: right;
+  margin: 0 0 0 2px;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image .mprm-actions li a:before {
-	border-radius: 100%;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-	content: "\f335";
-	height: 100%;
-	margin: 0;
-	position: absolute;
-	text-indent: 0;
-	top: 0;
-	width: 100%;
-	background-color: #000;
-	color: #fff;
-	font-family: Dashicons;
-	font-variant: normal;
-	font-weight: 400;
-	left: 0;
-	line-height: 1;
-	text-align: center;
-	text-transform: none;
+  border-radius: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  content: "\f335";
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  text-indent: 0;
+  top: 0;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  font-family: Dashicons;
+  font-variant: normal;
+  font-weight: 400;
+  left: 0;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image .mprm-actions li a.mprm-delete {
-	display: block;
-	font-size: 1rem;
-	height: 1rem;
-	position: relative;
-	text-indent: -9999px;
-	width: 1rem;
+  display: block;
+  font-size: 1rem;
+  height: 1rem;
+  position: relative;
+  text-indent: -9999px;
+  width: 1rem;
 }
-
 #mp_menu_gallery #mprm-menu-item-gallery .mp_menu_images .mprm-image:hover .mprm-actions {
-	display: block;
+  display: block;
 }
-
 .jBox-closeButton-box::before {
-	display: none;
+  display: none;
 }
-
 .mprm-modal .jBox-container .jBox-content {
-	padding: 12px 15px 0;
+  padding: 12px 15px 0;
 }
-
 .mprm-modal .jBox-container .jBox-closeButton {
-	right: 5px;
-	top: 5px;
-	background: transparent;
-	z-index: 1000;
+  right: 5px;
+  top: 5px;
+  background: transparent;
+  z-index: 1000;
 }
-
 .mprm-modal .jBox-container .jBox-closeButton svg {
-	height: 17px;
-	width: 17px;
+  height: 17px;
+  width: 17px;
 }
-
 .mprm-modal .jBox-container .jBox-closeButton:hover svg path {
-	fill: #00a0d2;
+  fill: #00a0d2;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] input[type="checkbox"],
 .mprm-modal .jBox-container [data-selector=shortcode-form] input[type="radio"] {
-	width: auto !important;
+  width: auto !important;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line.stick {
-	right: 15px;
-	position: absolute;
-	left: 0;
-	text-align: right;
-	margin: 0;
-	width: auto;
+  right: 15px;
+  position: absolute;
+  left: 0;
+  text-align: right;
+  margin: 0;
+  width: auto;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line.stick [data-selector=insert_shortcode] {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line {
-	width: 100%;
-	margin: 0 0 10px 0;
+  width: 100%;
+  margin: 0 0 10px 0;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-left-side {
-	display: inline-block;
-	box-sizing: border-box;
-	padding: 0 5px 0 0;
-	width: 40%;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 5px 0 0;
+  width: 40%;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side {
-	display: inline-block;
-	box-sizing: border-box;
-	padding: 0 0 0 5px;
-	width: 59%;
-	vertical-align: top;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 0 0 5px;
+  width: 59%;
+  vertical-align: top;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side {
-	width: 100%;
-	box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
 }
-
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side input,
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side input,
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side select,
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side select,
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side textarea,
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side textarea {
-	width: 100%;
+  width: 100%;
 }
-
 .wp-list-table .column-mptt-thumb {
-	width: 52px;
-	text-align: center;
-	white-space: nowrap;
+  width: 52px;
+  text-align: center;
+  white-space: nowrap;
 }
-
 .wp-list-table .column-mptt-thumb img {
-	margin: 0;
-	width: auto;
-	height: auto;
-	max-width: 40px;
-	max-height: 40px;
-	vertical-align: middle;
+  margin: 0;
+  width: auto;
+  height: auto;
+  max-width: 40px;
+  max-height: 40px;
+  vertical-align: middle;
 }

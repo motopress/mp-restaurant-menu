@@ -897,6 +897,18 @@ there.
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-excerpt {
   margin-bottom: 1rem;
 }
+.mprm-main-wrapper.mp_menu_item .mprm-post-content {
+  *zoom: 1;
+}
+.mprm-main-wrapper.mp_menu_item .mprm-post-content:before,
+.mprm-main-wrapper.mp_menu_item .mprm-post-content:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.mprm-main-wrapper.mp_menu_item .mprm-post-content:after {
+  clear: both;
+}
 .mprm-main-wrapper.mp_menu_item .mprm-header {
   position: relative;
 }

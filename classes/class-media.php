@@ -220,8 +220,8 @@ class Media extends Core {
 	 */
 	private function add_theme_css() {
 		global $post_type;
-		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 		$this->enqueue_style('mprm-style', 'style.css');
+		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 		switch ($post_type) {
 			case"mp_menu_item":
 				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
