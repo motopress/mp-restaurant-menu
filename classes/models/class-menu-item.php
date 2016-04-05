@@ -77,16 +77,23 @@ class Menu_item extends Model {
 		// get Menu category
 		$menu_category = wp_get_object_terms($id, $this->get_tax_name('menu_category'));
 		$posts = array();
+		$terms = array();
+
 		if (!empty($menu_category)) {
+			foreach ($menu_category as $category) {
+				$terms[] = $category->term_id;
+			}
 			$posts = get_posts(array(
 				'post_type' => $this->get_post_type('menu_item'),
 				'post_status' => 'publish',
 				'posts_per_page' => 3,
 				'post__not_in' => array($id),
 				'tax_query' => array(
-					'taxonomy' => $this->get_tax_name('menu_category'),
-					'field' => 'id',
-					'terms' => $menu_category[0]->term_id
+					array(
+						'taxonomy' => $this->get_tax_name('menu_category'),
+						'field' => 'term_id',
+						'terms' => $terms
+					)
 				),
 				'orderby' => 'rand',
 			));
