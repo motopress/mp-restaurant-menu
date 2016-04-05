@@ -1174,92 +1174,49 @@ there.
 .mprm-clear:after {
   clear: both;
 }
-.mprm-main-wrapper a {
+.mprm-main-wrapper a,
+.mprm-main-wrapper a.mprm-link {
   text-decoration: none;
   outline: none;
   box-shadow: none;
   border: none;
+}
+.mprm-main-wrapper a:focus,
+.mprm-main-wrapper a.mprm-link:focus,
+.mprm-main-wrapper a:visited,
+.mprm-main-wrapper a.mprm-link:visited,
+.mprm-main-wrapper a:hover,
+.mprm-main-wrapper a.mprm-link:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: initial;
 }
 .mprm-container {
   margin: 0;
   padding: 0;
   position: relative;
 }
-.mprm-container a {
+.mprm-container a,
+.mprm-container a.mprm-link {
   text-decoration: none;
   outline: none;
   box-shadow: none;
   border: none;
 }
+.mprm-container a:focus,
+.mprm-container a.mprm-link:focus,
+.mprm-container a:visited,
+.mprm-container a.mprm-link:visited,
+.mprm-container a:hover,
+.mprm-container a.mprm-link:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: initial;
+}
 .mprm-container .mprm-row {
   padding-bottom: 4%;
 }
-/*
-.mprm-main-wrapper {
-  padding: 2rem 0;
-
-  // Single Menu Item
-  
-  .mprm-container.content-wrapper {
-	&.mprm-shortcode-category {
-	  margin: 0;
-	  padding: 0;
-	  position: relative;
-	  .mprm-grid {
-		&::before {
-		  content: "";
-		  position: absolute;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-color: #484f54;
-		  background-image: inherit;
-		  background-position: center;
-		  background-repeat: no-repeat;
-		  background-size: cover;
-		  transition: 0.6s;
-		}
-		display: inline-block;
-		position: relative;
-		transition: 0.6s;
-		padding: 0;
-		overflow: hidden;
-		background-size: 0 0;
-		&:hover {
-		  &::before {
-			transform: scale(1.2, 1.2);
-		  }
-		}
-		a:hover, a:active, a:focus {
-		  text-decoration: none;
-		  border: 0;
-		  box-shadow: 0 0 0;
-		}
-		.mprm-icon {
-		  display: inline-block;
-		  font-size: 50px;
-		  height: auto;
-		  padding-left: 0px;
-		  padding-top: 0px;
-		  text-align: center;
-		  vertical-align: baseline;
-		}
-	  }
-	}
-	&.mprm-shortcode-items {
-	  .mprm-image {
-		float: left;
-		padding-right: @padding-default;
-	  }
-	  .mprm-right-side {
-		overflow: hidden;
-		min-width: 50px;
-		.mprm-title {
-		  margin: 0 0 1rem 0;
-		}
-	  }
-	}
-  }
-}
-*/
