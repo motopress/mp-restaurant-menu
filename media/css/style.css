@@ -975,6 +975,9 @@ there.
   position: relative;
   text-align: center;
 }
+.mprm-main-wrapper .mprm-header.with-image .mprm-header-content .mprm-title {
+  color: inherit;
+}
 .mprm-main-wrapper .mprm-header.with-image .mprm-header-content .mprm-title .mprm-icon {
   margin: 0 1rem 0 0;
   font-size: 1.2em;
