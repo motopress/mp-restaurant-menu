@@ -260,4 +260,5 @@ class Settings extends Model {
 			'EGP' => __('Egyptian Pound', 'mp-restaurant-menu')
 		);
 	}
+
 }

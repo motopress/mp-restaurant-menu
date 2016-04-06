@@ -1,26 +1,25 @@
 <div class="wrap mprm-settings">
-
-	<form method="<?php echo esc_attr(apply_filters('mprm_settings_form_method_tab_' . urlencode($current_tab), 'post')); ?>" id="mainform" action="" enctype="multipart/form-data">
+	<form method="<?php echo esc_attr(apply_filters('mprm_settings_form_method_tab_' . urlencode($active_tab), 'post')); ?>" id="mainform" action="" enctype="multipart/form-data">
 		<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br/></div>
 		<h2 class="nav-tab-wrapper mprm-nav-tab-wrapper">
 			<?php
 			if (!empty($tabs)) {
 				foreach ($tabs as $name => $setting) {
-					echo '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab=' . urlencode($name)) . '" class="nav-tab ' . ($current_tab == $name ? 'nav-tab-active' : '') . '">' . $setting['label'] . '</a>';
+					echo '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab=' . urlencode($name)) . '" class="nav-tab ' . ($active_tab == $name ? 'nav-tab-active' : '') . '">' . $setting['label'] . '</a>';
 				}
 			}
 			?>
 		</h2>
-		<?php if (!empty($tabs[$current_tab]['section'])): ?>
+		<?php if (!empty($tabs[$active_tab]['section'])): ?>
 			<div>
 				<ul class="subsubsub">
 					<?php
 					$links = array();
-					reset($tabs[$current_tab]['section']);
-					$section_first_key = key($tabs[$current_tab]['section']);
+					reset($tabs[$active_tab]['section']);
+					$section_first_key = key($tabs[$active_tab]['section']);
 					$current_section = empty($current_section) ? $section_first_key : $current_section;
-					foreach ($tabs[$current_tab]['section'] as $section_name => $section) {
-						$link = '<a href="edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab==' . urlencode($current_tab) . '&amp;section=' . urlencode($section_name) . '" class="';
+					foreach ($tabs[$active_tab]['section'] as $section_name => $section) {
+						$link = '<a href="edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab==' . urlencode($active_tab) . '&amp;section=' . urlencode($section_name) . '" class="';
 						if ($section_name == $current_section) $link .= 'current';
 						$link .= '">' . $section['label'] . '</a>';
 						$links[] = $link;
@@ -31,10 +30,28 @@
 			</div>
 			<br class="mprm-clear">
 		<?php endif; ?>
-
 		<?php
-		do_action('mprm_sections_' . $current_tab);
-		do_action('mprm_settings_' . $current_tab);
+		// Let's verify we have a 'main' section to show
+		ob_start();
+		do_settings_sections( 'mprm_settings_' . $active_tab . '_main' );
+		$has_main_settings = strlen( ob_get_contents() ) > 0;
+		ob_end_clean();
+
+//		if ( false === $has_main_settings ) {
+//			unset( $sections['main'] );
+//
+//			if ( 'main' === $section ) {
+//				foreach ( $sections as $section_key => $section_title ) {
+//					if ( ! empty( $all_settings[ $active_tab ][ $section_key ] ) ) {
+//						$section = $section_key;
+//						break;
+//					}
+//				}
+//			}
+//		}
+
+
+		do_settings_sections( 'mprm_settings_' . $active_tab . '_' . 'main' );
 		?>
 		<p class="submit">
 			<input type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes', 'mp-restaurant-menu') ?>"/>

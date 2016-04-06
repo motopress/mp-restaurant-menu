@@ -3,6 +3,7 @@
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\View;
 
 class Controller_Settings extends Controller {
@@ -22,11 +23,13 @@ class Controller_Settings extends Controller {
 
 	public function action_content() {
 		$data = $this->get('settings')->get_config_settings();
-		$data['current_tab'] = empty($_GET['tab']) ? 'general' : sanitize_title($_GET['tab']);
-		$data['current_section'] = empty($_REQUEST['section']) ? '' : sanitize_title($_REQUEST['section']);
+		//$data
+		$settings_tabs = Media::get_instance()->get_settings_tabs();
+		$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
 
-		//$data['settings_template'] = ();
-		$tabs =
+		$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
+		$data['section'] = empty($_REQUEST['section']) ? '' : sanitize_title($_REQUEST['section']);
+
 //		$data['current_settings'] = $this->get('settings')->get_settings();
 //		$data['currencies'] = $this->get('settings')->get_currencies();
 //		$data['instance'] = $this->get('settings');
