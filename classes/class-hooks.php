@@ -207,8 +207,8 @@ class Hooks extends Core {
 		 * @see mprm_single_category_grid_description()
 		 * @see mprm_single_category_grid_footer()
 		 */
-		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_header', 20);
-
+		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_header', 10);
+		add_action('mprm_taxonomy_grid', 'mprm_category_menu_item_before_content', 15);
 
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_image', 25);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_start', 35);
@@ -218,8 +218,8 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_price', 55);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_end', 60);
 
-
-		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 65);
+		add_action('mprm_taxonomy_grid', 'mprm_category_menu_item_after_content', 65);
+		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 70);
 
 		/**
 		 * After Menu_item grid

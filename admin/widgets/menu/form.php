@@ -1,3 +1,4 @@
+
 <p>
 	<label for="<?php echo $widget_object->get_field_id('title') ?>"><?php _e('Title', 'mp-restaurant-menu'); ?></label>
 	<input type="text" id="<?php echo $widget_object->get_field_id('title') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('title') ?>" placeholder="" value="<?php echo !empty($title) ? $title : '' ?>">
@@ -38,11 +39,11 @@
 <p>
 	<label for="<?php echo $widget_object->get_field_id('col') ?>"><?php _e('Columns', 'mp-restaurant-menu'); ?></label>
 	<select id="<?php echo $widget_object->get_field_id('col') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('col') ?>">
-		<option value="1" class="event-column-1">1 <?php _e('column', 'mp-restaurant-menu'); ?></option>
-		<option value="2" class="event-column-2">2 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
-		<option value="3" class="event-column-3">3 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
-		<option value="4" class="event-column-4">4 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
-		<option value="6" class="event-column-6">6 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
+		<option value="1" <?php echo $col === '1' ? 'selected="selected"' : '' ?> class="event-column-1">1 <?php _e('column', 'mp-restaurant-menu'); ?></option>
+		<option value="2" <?php echo $col === '2' ? 'selected="selected"' : '' ?> class="event-column-2">2 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
+		<option value="3" <?php echo $col === '3' ? 'selected="selected"' : '' ?> class="event-column-3">3 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
+		<option value="4" <?php echo $col === '4' ? 'selected="selected"' : '' ?> class="event-column-4">4 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
+		<option value="6" <?php echo $col === '6' ? 'selected="selected"' : '' ?> class="event-column-6">6 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
 <p>

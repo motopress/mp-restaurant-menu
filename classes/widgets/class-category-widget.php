@@ -31,7 +31,7 @@ class Category_widget extends \WP_Widget {
 	/**
 	 * Get default data
 	 *
-	 * @param type $instance
+	 * @param array $instance
 	 *
 	 * @return string
 	 */

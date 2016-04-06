@@ -722,6 +722,7 @@ there.
   padding: 4rem;
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category .mprm-link .mprm-category-content .mprm-title {
+  color: inherit;
   margin: 0;
   padding: 0;
 }
