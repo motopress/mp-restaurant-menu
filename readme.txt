@@ -43,3 +43,8 @@ Please find the step-by-step instructions of working with the plugin [here](http
 4. Example of Menu Frontend. Three-column List view of Menu Categories
 5. Example of Menu Frontend. Menu Item's page
 6. Lightbox of Menu item' Gallery Images
+
+== Changelog ==
+
+= 1.0.3 =
+* Minor bugfixes and improvements
