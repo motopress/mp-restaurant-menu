@@ -1,57 +1,76 @@
 <div class="wrap mprm-settings">
 	<form method="<?php echo esc_attr(apply_filters('mprm_settings_form_method_tab_' . urlencode($active_tab), 'post')); ?>" id="mainform" action="" enctype="multipart/form-data">
-		<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br/></div>
 		<h2 class="nav-tab-wrapper mprm-nav-tab-wrapper">
 			<?php
-			if (!empty($tabs)) {
-				foreach ($tabs as $name => $setting) {
-					echo '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab=' . urlencode($name)) . '" class="nav-tab ' . ($active_tab == $name ? 'nav-tab-active' : '') . '">' . $setting['label'] . '</a>';
-				}
+			foreach ($settings_tabs as $tab_id => $tab_name) {
+
+				$tab_url = add_query_arg(array(
+					'settings-updated' => false,
+					'tab' => $tab_id,
+				));
+
+				// Remove the section from the tabs so we always end up at the main section
+				$tab_url = remove_query_arg('section', $tab_url);
+
+				$active = $active_tab == $tab_id ? ' nav-tab-active' : '';
+
+				echo '<a href="' . esc_url($tab_url) . '" title="' . esc_attr($tab_name) . '" class="nav-tab' . $active . '">';
+				echo esc_html($tab_name);
+				echo '</a>';
 			}
 			?>
 		</h2>
 		<?php if (!empty($tabs[$active_tab]['section'])): ?>
 			<div>
-				<ul class="subsubsub">
-					<?php
-					$links = array();
-					reset($tabs[$active_tab]['section']);
-					$section_first_key = key($tabs[$active_tab]['section']);
-					$current_section = empty($current_section) ? $section_first_key : $current_section;
-					foreach ($tabs[$active_tab]['section'] as $section_name => $section) {
-						$link = '<a href="edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings&tab==' . urlencode($active_tab) . '&amp;section=' . urlencode($section_name) . '" class="';
-						if ($section_name == $current_section) $link .= 'current';
-						$link .= '">' . $section['label'] . '</a>';
-						$links[] = $link;
+				<?php
+				$number_of_sections = count($sections);
+				$number = 0;
+				if ($number_of_sections > 1) {
+					echo '<div><ul class="subsubsub">';
+					foreach ($sections as $section_id => $section_name) {
+						echo '<li>';
+						$number++;
+						$tab_url = add_query_arg(array(
+							'settings-updated' => false,
+							'tab' => $active_tab,
+							'section' => $section_id
+						));
+						$class = '';
+						if ($section == $section_id) {
+							$class = 'current';
+						}
+						echo '<a class="' . $class . '" href="' . esc_url($tab_url) . '">' . $section_name . '</a>';
+
+						if ($number != $number_of_sections) {
+							echo ' | ';
+						}
+						echo '</li>';
 					}
-					echo implode(' | </li><li>', $links);
-					?>
-				</ul>
+					echo '</ul></div>';
+				} ?>
 			</div>
 			<br class="mprm-clear">
 		<?php endif; ?>
 		<?php
 		// Let's verify we have a 'main' section to show
 		ob_start();
-		do_settings_sections( 'mprm_settings_' . $active_tab . '_main' );
-		$has_main_settings = strlen( ob_get_contents() ) > 0;
+		do_settings_sections('mprm_settings_' . $active_tab . '_main');
+		$has_main_settings = strlen(ob_get_contents()) > 0;
 		ob_end_clean();
 
-//		if ( false === $has_main_settings ) {
-//			unset( $sections['main'] );
-//
-//			if ( 'main' === $section ) {
-//				foreach ( $sections as $section_key => $section_title ) {
-//					if ( ! empty( $all_settings[ $active_tab ][ $section_key ] ) ) {
-//						$section = $section_key;
-//						break;
-//					}
-//				}
-//			}
-//		}
+		if (false === $has_main_settings) {
+			unset($sections['main']);
 
-
-		do_settings_sections( 'mprm_settings_' . $active_tab . '_' . 'main' );
+			if ('main' === $section) {
+				foreach ($sections as $section_key => $section_title) {
+					if (!empty($all_settings[$active_tab][$section_key])) {
+						$section = $section_key;
+						break;
+					}
+				}
+			}
+		}
+		do_settings_sections('mprm_settings_' . $active_tab . '_' . $section);
 		?>
 		<p class="submit">
 			<input type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes', 'mp-restaurant-menu') ?>"/>

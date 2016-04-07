@@ -83,7 +83,7 @@ window.MP_RM_Registry = (function() {
 })();
 
 /**
- * Global funtion
+ * Global function
  */
 MP_RM_Registry.register("MP_RM_Functions", (function($) {
 	"use strict";
@@ -340,7 +340,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 })(jQuery));
 
 /**
- * Html build fucntion
+ * Html build function
  */
 MP_RM_Registry.register("HtmlBuilder", (function($) {
 	"use strict";

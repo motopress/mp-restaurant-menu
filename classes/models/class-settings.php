@@ -34,7 +34,7 @@ class Settings extends Model {
 	public function get_config_settings() {
 		$settings = array('tabs' => array());
 		$config_settings = $this->get_config('settings');
-		$save_settings = $this->get_settings();
+		//$save_settings = $this->get_settings();
 		foreach ($config_settings['tabs'] as $tabs => $setting) {
 			$settings['tabs'][$tabs] = $setting;
 		}
@@ -209,56 +209,1065 @@ class Settings extends Model {
 	 * Get full list of currency codes.
 	 * @return array
 	 */
-	function get_currencies() {
-		return array(
-			'AED' => __('United Arab Emirates Dirham', 'mp-restaurant-menu'),
-			'ARS' => __('Argentine Peso', 'mp-restaurant-menu'),
-			'AUD' => __('Australian Dollars', 'mp-restaurant-menu'),
-			'BDT' => __('Bangladeshi Taka', 'mp-restaurant-menu'),
-			'BRL' => __('Brazilian Real', 'mp-restaurant-menu'),
-			'BGN' => __('Bulgarian Lev', 'mp-restaurant-menu'),
-			'CAD' => __('Canadian Dollars', 'mp-restaurant-menu'),
-			'CLP' => __('Chilean Peso', 'mp-restaurant-menu'),
-			'CNY' => __('Chinese Yuan', 'mp-restaurant-menu'),
-			'COP' => __('Colombian Peso', 'mp-restaurant-menu'),
-			'CZK' => __('Czech Koruna', 'mp-restaurant-menu'),
-			'DKK' => __('Danish Krone', 'mp-restaurant-menu'),
-			'DOP' => __('Dominican Peso', 'mp-restaurant-menu'),
-			'EUR' => __('Euros', 'mp-restaurant-menu'),
-			'HKD' => __('Hong Kong Dollar', 'mp-restaurant-menu'),
-			'HRK' => __('Croatia kuna', 'mp-restaurant-menu'),
-			'HUF' => __('Hungarian Forint', 'mp-restaurant-menu'),
-			'ISK' => __('Icelandic krona', 'mp-restaurant-menu'),
-			'IDR' => __('Indonesia Rupiah', 'mp-restaurant-menu'),
-			'INR' => __('Indian Rupee', 'mp-restaurant-menu'),
-			'NPR' => __('Nepali Rupee', 'mp-restaurant-menu'),
-			'ILS' => __('Israeli Shekel', 'mp-restaurant-menu'),
-			'JPY' => __('Japanese Yen', 'mp-restaurant-menu'),
-			'KIP' => __('Lao Kip', 'mp-restaurant-menu'),
-			'KRW' => __('South Korean Won', 'mp-restaurant-menu'),
-			'MYR' => __('Malaysian Ringgits', 'mp-restaurant-menu'),
-			'MXN' => __('Mexican Peso', 'mp-restaurant-menu'),
-			'NGN' => __('Nigerian Naira', 'mp-restaurant-menu'),
-			'NOK' => __('Norwegian Krone', 'mp-restaurant-menu'),
-			'NZD' => __('New Zealand Dollar', 'mp-restaurant-menu'),
-			'PYG' => __('Paraguayan Guaraní', 'mp-restaurant-menu'),
-			'PHP' => __('Philippine Pesos', 'mp-restaurant-menu'),
-			'PLN' => __('Polish Zloty', 'mp-restaurant-menu'),
-			'GBP' => __('Pounds Sterling', 'mp-restaurant-menu'),
-			'RON' => __('Romanian Leu', 'mp-restaurant-menu'),
-			'RUB' => __('Russian Ruble', 'mp-restaurant-menu'),
-			'SGD' => __('Singapore Dollar', 'mp-restaurant-menu'),
-			'ZAR' => __('South African rand', 'mp-restaurant-menu'),
-			'SEK' => __('Swedish Krona', 'mp-restaurant-menu'),
-			'CHF' => __('Swiss Franc', 'mp-restaurant-menu'),
-			'TWD' => __('Taiwan New Dollars', 'mp-restaurant-menu'),
-			'THB' => __('Thai Baht', 'mp-restaurant-menu'),
-			'TRY' => __('Turkish Lira', 'mp-restaurant-menu'),
-			'UAH' => __('Ukrainian Hryvnia', 'mp-restaurant-menu'),
-			'USD' => __('US Dollars', 'mp-restaurant-menu'),
-			'VND' => __('Vietnamese Dong', 'mp-restaurant-menu'),
-			'EGP' => __('Egyptian Pound', 'mp-restaurant-menu')
+	public function get_currencies() {
+		$currencies = array(
+			'USD' => __('US Dollars (&#36;)', 'easy-digital-downloads'),
+			'EUR' => __('Euros (&euro;)', 'easy-digital-downloads'),
+			'GBP' => __('Pounds Sterling (&pound;)', 'easy-digital-downloads'),
+			'AUD' => __('Australian Dollars (&#36;)', 'easy-digital-downloads'),
+			'BRL' => __('Brazilian Real (R&#36;)', 'easy-digital-downloads'),
+			'CAD' => __('Canadian Dollars (&#36;)', 'easy-digital-downloads'),
+			'CZK' => __('Czech Koruna', 'easy-digital-downloads'),
+			'DKK' => __('Danish Krone', 'easy-digital-downloads'),
+			'HKD' => __('Hong Kong Dollar (&#36;)', 'easy-digital-downloads'),
+			'HUF' => __('Hungarian Forint', 'easy-digital-downloads'),
+			'ILS' => __('Israeli Shekel (&#8362;)', 'easy-digital-downloads'),
+			'JPY' => __('Japanese Yen (&yen;)', 'easy-digital-downloads'),
+			'MYR' => __('Malaysian Ringgits', 'easy-digital-downloads'),
+			'MXN' => __('Mexican Peso (&#36;)', 'easy-digital-downloads'),
+			'NZD' => __('New Zealand Dollar (&#36;)', 'easy-digital-downloads'),
+			'NOK' => __('Norwegian Krone', 'easy-digital-downloads'),
+			'PHP' => __('Philippine Pesos', 'easy-digital-downloads'),
+			'PLN' => __('Polish Zloty', 'easy-digital-downloads'),
+			'SGD' => __('Singapore Dollar (&#36;)', 'easy-digital-downloads'),
+			'SEK' => __('Swedish Krona', 'easy-digital-downloads'),
+			'CHF' => __('Swiss Franc', 'easy-digital-downloads'),
+			'TWD' => __('Taiwan New Dollars', 'easy-digital-downloads'),
+			'THB' => __('Thai Baht (&#3647;)', 'easy-digital-downloads'),
+			'INR' => __('Indian Rupee (&#8377;)', 'easy-digital-downloads'),
+			'TRY' => __('Turkish Lira (&#8378;)', 'easy-digital-downloads'),
+			'RIAL' => __('Iranian Rial (&#65020;)', 'easy-digital-downloads'),
+			'RUB' => __('Russian Rubles', 'easy-digital-downloads')
 		);
+
+		return apply_filters('mprm_currencies', $currencies);
+	}
+
+	public function get_country_list() {
+		$countries = array(
+			'' => '',
+			'US' => 'United States',
+			'CA' => 'Canada',
+			'GB' => 'United Kingdom',
+			'AF' => 'Afghanistan',
+			'AX' => '&#197;land Islands',
+			'AL' => 'Albania',
+			'DZ' => 'Algeria',
+			'AS' => 'American Samoa',
+			'AD' => 'Andorra',
+			'AO' => 'Angola',
+			'AI' => 'Anguilla',
+			'AQ' => 'Antarctica',
+			'AG' => 'Antigua and Barbuda',
+			'AR' => 'Argentina',
+			'AM' => 'Armenia',
+			'AW' => 'Aruba',
+			'AU' => 'Australia',
+			'AT' => 'Austria',
+			'AZ' => 'Azerbaijan',
+			'BS' => 'Bahamas',
+			'BH' => 'Bahrain',
+			'BD' => 'Bangladesh',
+			'BB' => 'Barbados',
+			'BY' => 'Belarus',
+			'BE' => 'Belgium',
+			'BZ' => 'Belize',
+			'BJ' => 'Benin',
+			'BM' => 'Bermuda',
+			'BT' => 'Bhutan',
+			'BO' => 'Bolivia',
+			'BQ' => 'Bonaire, Saint Eustatius and Saba',
+			'BA' => 'Bosnia and Herzegovina',
+			'BW' => 'Botswana',
+			'BV' => 'Bouvet Island',
+			'BR' => 'Brazil',
+			'IO' => 'British Indian Ocean Territory',
+			'BN' => 'Brunei Darrussalam',
+			'BG' => 'Bulgaria',
+			'BF' => 'Burkina Faso',
+			'BI' => 'Burundi',
+			'KH' => 'Cambodia',
+			'CM' => 'Cameroon',
+			'CV' => 'Cape Verde',
+			'KY' => 'Cayman Islands',
+			'CF' => 'Central African Republic',
+			'TD' => 'Chad',
+			'CL' => 'Chile',
+			'CN' => 'China',
+			'CX' => 'Christmas Island',
+			'CC' => 'Cocos Islands',
+			'CO' => 'Colombia',
+			'KM' => 'Comoros',
+			'CD' => 'Congo, Democratic People\'s Republic',
+			'CG' => 'Congo, Republic of',
+			'CK' => 'Cook Islands',
+			'CR' => 'Costa Rica',
+			'CI' => 'Cote d\'Ivoire',
+			'HR' => 'Croatia/Hrvatska',
+			'CU' => 'Cuba',
+			'CW' => 'Cura&Ccedil;ao',
+			'CY' => 'Cyprus',
+			'CZ' => 'Czech Republic',
+			'DK' => 'Denmark',
+			'DJ' => 'Djibouti',
+			'DM' => 'Dominica',
+			'DO' => 'Dominican Republic',
+			'TP' => 'East Timor',
+			'EC' => 'Ecuador',
+			'EG' => 'Egypt',
+			'GQ' => 'Equatorial Guinea',
+			'SV' => 'El Salvador',
+			'ER' => 'Eritrea',
+			'EE' => 'Estonia',
+			'ET' => 'Ethiopia',
+			'FK' => 'Falkland Islands',
+			'FO' => 'Faroe Islands',
+			'FJ' => 'Fiji',
+			'FI' => 'Finland',
+			'FR' => 'France',
+			'GF' => 'French Guiana',
+			'PF' => 'French Polynesia',
+			'TF' => 'French Southern Territories',
+			'GA' => 'Gabon',
+			'GM' => 'Gambia',
+			'GE' => 'Georgia',
+			'DE' => 'Germany',
+			'GR' => 'Greece',
+			'GH' => 'Ghana',
+			'GI' => 'Gibraltar',
+			'GL' => 'Greenland',
+			'GD' => 'Grenada',
+			'GP' => 'Guadeloupe',
+			'GU' => 'Guam',
+			'GT' => 'Guatemala',
+			'GG' => 'Guernsey',
+			'GN' => 'Guinea',
+			'GW' => 'Guinea-Bissau',
+			'GY' => 'Guyana',
+			'HT' => 'Haiti',
+			'HM' => 'Heard and McDonald Islands',
+			'VA' => 'Holy See (City Vatican State)',
+			'HN' => 'Honduras',
+			'HK' => 'Hong Kong',
+			'HU' => 'Hungary',
+			'IS' => 'Iceland',
+			'IN' => 'India',
+			'ID' => 'Indonesia',
+			'IR' => 'Iran',
+			'IQ' => 'Iraq',
+			'IE' => 'Ireland',
+			'IM' => 'Isle of Man',
+			'IL' => 'Israel',
+			'IT' => 'Italy',
+			'JM' => 'Jamaica',
+			'JP' => 'Japan',
+			'JE' => 'Jersey',
+			'JO' => 'Jordan',
+			'KZ' => 'Kazakhstan',
+			'KE' => 'Kenya',
+			'KI' => 'Kiribati',
+			'KW' => 'Kuwait',
+			'KG' => 'Kyrgyzstan',
+			'LA' => 'Lao People\'s Democratic Republic',
+			'LV' => 'Latvia',
+			'LB' => 'Lebanon',
+			'LS' => 'Lesotho',
+			'LR' => 'Liberia',
+			'LY' => 'Libyan Arab Jamahiriya',
+			'LI' => 'Liechtenstein',
+			'LT' => 'Lithuania',
+			'LU' => 'Luxembourg',
+			'MO' => 'Macau',
+			'MK' => 'Macedonia',
+			'MG' => 'Madagascar',
+			'MW' => 'Malawi',
+			'MY' => 'Malaysia',
+			'MV' => 'Maldives',
+			'ML' => 'Mali',
+			'MT' => 'Malta',
+			'MH' => 'Marshall Islands',
+			'MQ' => 'Martinique',
+			'MR' => 'Mauritania',
+			'MU' => 'Mauritius',
+			'YT' => 'Mayotte',
+			'MX' => 'Mexico',
+			'FM' => 'Micronesia',
+			'MD' => 'Moldova, Republic of',
+			'MC' => 'Monaco',
+			'MN' => 'Mongolia',
+			'ME' => 'Montenegro',
+			'MS' => 'Montserrat',
+			'MA' => 'Morocco',
+			'MZ' => 'Mozambique',
+			'MM' => 'Myanmar',
+			'NA' => 'Namibia',
+			'NR' => 'Nauru',
+			'NP' => 'Nepal',
+			'NL' => 'Netherlands',
+			'AN' => 'Netherlands Antilles',
+			'NC' => 'New Caledonia',
+			'NZ' => 'New Zealand',
+			'NI' => 'Nicaragua',
+			'NE' => 'Niger',
+			'NG' => 'Nigeria',
+			'NU' => 'Niue',
+			'NF' => 'Norfolk Island',
+			'KP' => 'North Korea',
+			'MP' => 'Northern Mariana Islands',
+			'NO' => 'Norway',
+			'OM' => 'Oman',
+			'PK' => 'Pakistan',
+			'PW' => 'Palau',
+			'PS' => 'Palestinian Territories',
+			'PA' => 'Panama',
+			'PG' => 'Papua New Guinea',
+			'PY' => 'Paraguay',
+			'PE' => 'Peru',
+			'PH' => 'Phillipines',
+			'PN' => 'Pitcairn Island',
+			'PL' => 'Poland',
+			'PT' => 'Portugal',
+			'PR' => 'Puerto Rico',
+			'QA' => 'Qatar',
+			'XK' => 'Republic of Kosovo',
+			'RE' => 'Reunion Island',
+			'RO' => 'Romania',
+			'RU' => 'Russian Federation',
+			'RW' => 'Rwanda',
+			'BL' => 'Saint Barth&eacute;lemy',
+			'SH' => 'Saint Helena',
+			'KN' => 'Saint Kitts and Nevis',
+			'LC' => 'Saint Lucia',
+			'MF' => 'Saint Martin (French)',
+			'SX' => 'Saint Martin (Dutch)',
+			'PM' => 'Saint Pierre and Miquelon',
+			'VC' => 'Saint Vincent and the Grenadines',
+			'SM' => 'San Marino',
+			'ST' => 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe',
+			'SA' => 'Saudi Arabia',
+			'SN' => 'Senegal',
+			'RS' => 'Serbia',
+			'SC' => 'Seychelles',
+			'SL' => 'Sierra Leone',
+			'SG' => 'Singapore',
+			'SK' => 'Slovak Republic',
+			'SI' => 'Slovenia',
+			'SB' => 'Solomon Islands',
+			'SO' => 'Somalia',
+			'ZA' => 'South Africa',
+			'GS' => 'South Georgia',
+			'KR' => 'South Korea',
+			'SS' => 'South Sudan',
+			'ES' => 'Spain',
+			'LK' => 'Sri Lanka',
+			'SD' => 'Sudan',
+			'SR' => 'Suriname',
+			'SJ' => 'Svalbard and Jan Mayen Islands',
+			'SZ' => 'Swaziland',
+			'SE' => 'Sweden',
+			'CH' => 'Switzerland',
+			'SY' => 'Syrian Arab Republic',
+			'TW' => 'Taiwan',
+			'TJ' => 'Tajikistan',
+			'TZ' => 'Tanzania',
+			'TH' => 'Thailand',
+			'TL' => 'Timor-Leste',
+			'TG' => 'Togo',
+			'TK' => 'Tokelau',
+			'TO' => 'Tonga',
+			'TT' => 'Trinidad and Tobago',
+			'TN' => 'Tunisia',
+			'TR' => 'Turkey',
+			'TM' => 'Turkmenistan',
+			'TC' => 'Turks and Caicos Islands',
+			'TV' => 'Tuvalu',
+			'UG' => 'Uganda',
+			'UA' => 'Ukraine',
+			'AE' => 'United Arab Emirates',
+			'UY' => 'Uruguay',
+			'UM' => 'US Minor Outlying Islands',
+			'UZ' => 'Uzbekistan',
+			'VU' => 'Vanuatu',
+			'VE' => 'Venezuela',
+			'VN' => 'Vietnam',
+			'VG' => 'Virgin Islands (British)',
+			'VI' => 'Virgin Islands (USA)',
+			'WF' => 'Wallis and Futuna Islands',
+			'EH' => 'Western Sahara',
+			'WS' => 'Western Samoa',
+			'YE' => 'Yemen',
+			'ZM' => 'Zambia',
+			'ZW' => 'Zimbabwe'
+		);
+
+		return apply_filters('mprm_countries', $countries);
+	}
+
+	public function header_callback($args = array()) {
+		echo '';
+	}
+
+
+	public function checkbox_callback($args) {
+		global $options;
+
+		if (isset($args['faux']) && true === $args['faux']) {
+			$name = '';
+		} else {
+			$name = 'name="settings[' . sanitize_key($args['id']) . ']"';
+		}
+
+		$checked = isset($options[$args['id']]) ? checked(1, $options[$args['id']], false) : '';
+		$html = '<input type="checkbox" id="settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+	public function multicheck_callback($args) {
+		global $options;
+
+		if (!empty($args['options'])) {
+			foreach ($args['options'] as $key => $option):
+				if (isset($options[$args['id']][$key])) {
+					$enabled = $option;
+				} else {
+					$enabled = NULL;
+				}
+				echo '<input name="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+				echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . wp_kses_post($option) . '</label><br/>';
+			endforeach;
+			echo '<p class="description">' . $args['desc'] . '</p>';
+		}
+	}
+
+	public function payment_icons_callback($args) {
+		global $options;
+
+		if (!empty($args['options'])) {
+			foreach ($args['options'] as $key => $option) {
+
+				if (isset($options[$args['id']][$key])) {
+					$enabled = $option;
+				} else {
+					$enabled = NULL;
+				}
+
+				echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
+
+				echo '<input name="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+
+				if ($this->string_is_image_url($key)) {
+
+					echo '<img class="payment-icon" src="' . esc_url($key) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
+
+				} else {
+
+					$card = strtolower(str_replace(' ', '', $option));
+
+					if (has_filter('accepted_payment_' . $card . '_image')) {
+
+						$image = apply_filters('accepted_payment_' . $card . '_image', '');
+
+					} else {
+
+						$image = locate_template('images' . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . $card . '.gif', false);
+						$content_dir = WP_CONTENT_DIR;
+
+						if (function_exists('wp_normalize_path')) {
+
+							// Replaces backslashes with forward slashes for Windows systems
+							$image = wp_normalize_path($image);
+							$content_dir = wp_normalize_path($content_dir);
+
+						}
+
+						$image = str_replace($content_dir, content_url(), $image);
+
+					}
+
+					echo '<img class="payment-icon" src="' . esc_url($image) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
+				}
+
+
+				echo $option . '</label>';
+
+			}
+			echo '<p class="description" style="margin-top:16px;">' . wp_kses_post($args['desc']) . '</p>';
+		}
+	}
+
+	public function radio_callback($args) {
+		global $options;
+
+		foreach ($args['options'] as $key => $option) :
+			$checked = false;
+
+			if (isset($options[$args['id']]) && $options[$args['id']] == $key)
+				$checked = true;
+			elseif (isset($args['std']) && $args['std'] == $key && !isset($options[$args['id']]))
+				$checked = true;
+
+			echo '<input name="settings[' . sanitize_key($args['id']) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
+			echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
+		endforeach;
+
+		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
+	}
+
+
+	public function gateways_callback($args) {
+		global $options;
+
+		foreach ($args['options'] as $key => $option) :
+			if (isset($options['gateways'][$key]))
+				$enabled = '1';
+			else
+				$enabled = null;
+
+			echo '<input name="settings[' . esc_attr($args['id']) . '][' . sanitize_key($key) . ']"" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
+			echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option['admin_label']) . '</label><br/>';
+		endforeach;
+	}
+
+
+	public function gateway_select_callback($args) {
+		global $options;
+
+		echo '<select name="settings[' . sanitize_key($args['id']) . ']"" id="settings[' . sanitize_key($args['id']) . ']">';
+
+		foreach ($args['options'] as $key => $option) :
+			$selected = isset($options[$args['id']]) ? selected($key, $options[$args['id']], false) : '';
+			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option['admin_label']) . '</option>';
+		endforeach;
+
+		echo '</select>';
+		echo '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+	}
+
+
+	public function text_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		if (isset($args['faux']) && true === $args['faux']) {
+			$args['readonly'] = true;
+			$value = isset($args['std']) ? $args['std'] : '';
+			$name = '';
+		} else {
+			$name = 'name="settings[' . esc_attr($args['id']) . ']"';
+		}
+
+		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+	public function number_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		if (isset($args['faux']) && true === $args['faux']) {
+			$args['readonly'] = true;
+			$value = isset($args['std']) ? $args['std'] : '';
+			$name = '';
+		} else {
+			$name = 'name="settings[' . esc_attr($args['id']) . ']"';
+		}
+
+		$max = isset($args['max']) ? $args['max'] : 999999;
+		$min = isset($args['min']) ? $args['min'] : 0;
+		$step = isset($args['step']) ? $args['step'] : 1;
+
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="number" step="' . esc_attr($step) . '" max="' . esc_attr($max) . '" min="' . esc_attr($min) . '" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function textarea_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$html = '<textarea class="large-text" cols="50" rows="5" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function password_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="password" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '"/>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+	/**
+	 * Missing Callback
+	 *
+	 * If a function is missing for settings callbacks alert the user.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param array $args Arguments passed by the setting
+	 *
+	 * @return void
+	 */
+	public function missing_callback($args) {
+		printf(
+			__('The callback function used for the %s setting is missing.', 'easy-digital-downloads'),
+			'<strong>' . $args['id'] . '</strong>'
+		);
+	}
+
+
+	public function select_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		if (isset($args['placeholder'])) {
+			$placeholder = $args['placeholder'];
+		} else {
+			$placeholder = '';
+		}
+
+		if (isset($args['chosen'])) {
+			$chosen = 'class="mprm-chosen"';
+		} else {
+			$chosen = '';
+		}
+
+		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
+
+		foreach ($args['options'] as $option => $name) {
+			$selected = selected($option, $value, false);
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
+		}
+
+		$html .= '</select>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function color_select_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']"/>';
+
+		foreach ($args['options'] as $option => $color) {
+			$selected = selected($option, $value, false);
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($color['label']) . '</option>';
+		}
+
+		$html .= '</select>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function rich_editor_callback($args) {
+		global $options, $wp_version;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+
+			if (empty($args['allow_blank']) && empty($value)) {
+				$value = isset($args['std']) ? $args['std'] : '';
+			}
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$rows = isset($args['size']) ? $args['size'] : 20;
+
+		if ($wp_version >= 3.3 && function_exists('wp_editor')) {
+			ob_start();
+			wp_editor(stripslashes($value), 'settings_' . esc_attr($args['id']), array('textarea_name' => 'settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => absint($rows)));
+			$html = ob_get_clean();
+		} else {
+			$html = '<textarea class="large-text" rows="10" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+		}
+
+		$html .= '<br/><label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function upload_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html .= '<span>&nbsp;<input type="button" class="settings_upload_button button-secondary" value="' . __('Upload File', 'easy-digital-downloads') . '"/></span>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+	public function color_callback($args) {
+		global $options;
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		$default = isset($args['std']) ? $args['std'] : '';
+
+		$html = '<input type="text" class="mprm-color-picker" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" data-default-color="' . esc_attr($default) . '" />';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+
+	public function shop_states_callback($args) {
+		global $options;
+
+		if (isset($args['placeholder'])) {
+			$placeholder = $args['placeholder'];
+		} else {
+			$placeholder = '';
+		}
+
+		$states = $this->get_shop_states();
+
+		$chosen = ($args['chosen'] ? ' mprm-chosen' : '');
+		$class = empty($states) ? ' class="mprm-no-states' . $chosen . '"' : 'class="' . $chosen . '"';
+		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
+
+		foreach ($states as $option => $name) {
+			$selected = isset($options[$args['id']]) ? selected($option, $options[$args['id']], false) : '';
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
+		}
+
+		$html .= '</select>';
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		echo $html;
+	}
+
+	public function tax_rates_callback($args) {
+		global $options;
+		$rates = $this->get_tax_rates();
+		ob_start(); ?>
+		<p><?php echo $args['desc']; ?></p>
+		<table id="tax_rates" class="wp-list-table widefat fixed posts">
+			<thead>
+			<tr>
+				<th scope="col" class="tax_country"><?php _e('Country', 'easy-digital-downloads'); ?></th>
+				<th scope="col" class="tax_state"><?php _e('State / Province', 'easy-digital-downloads'); ?></th>
+				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'easy-digital-downloads'); ?>"><?php _e('Country Wide', 'easy-digital-downloads'); ?></th>
+				<th scope="col" class="tax_rate"><?php _e('Rate', 'easy-digital-downloads'); ?></th>
+				<th scope="col"><?php _e('Remove', 'easy-digital-downloads'); ?></th>
+			</tr>
+			</thead>
+			<?php if (!empty($rates)) : ?>
+				<?php foreach ($rates as $key => $rate) : ?>
+					<tr>
+						<td class="tax_country">
+							<?php
+							echo EDD()->html->select(array(
+								'options' => get_country_list(),
+								'name' => 'tax_rates[' . sanitize_key($key) . '][country]',
+								'selected' => $rate['country'],
+								'show_option_all' => false,
+								'show_option_none' => false,
+								'class' => 'mprm-tax-country',
+								'chosen' => false,
+								'placeholder' => __('Choose a country', 'easy-digital-downloads')
+							));
+							?>
+						</td>
+						<td class="tax_state">
+							<?php
+							$states = $this->get_shop_states($rate['country']);
+							if (!empty($states)) {
+								echo EDD()->html->select(array(
+									'options' => $states,
+									'name' => 'tax_rates[' . sanitize_key($key) . '][state]',
+									'selected' => $rate['state'],
+									'show_option_all' => false,
+									'show_option_none' => false,
+									'chosen' => false,
+									'placeholder' => __('Choose a state', 'easy-digital-downloads')
+								));
+							} else {
+								echo EDD()->html->text(array(
+									'name' => 'tax_rates[' . sanitize_key($key) . '][state]', $rate['state'],
+									'value' => !empty($rate['state']) ? $rate['state'] : '',
+								));
+							}
+							?>
+						</td>
+						<td class="tax_global">
+							<input type="checkbox" name="tax_rates[<?php echo sanitize_key($key); ?>][global]" id="tax_rates[<?php echo sanitize_key($key); ?>][global]" value="1"<?php checked(true, !empty($rate['global'])); ?>/>
+							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'easy-digital-downloads'); ?></label>
+						</td>
+						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo sanitize_key($key); ?>][rate]" value="<?php echo esc_html($rate['rate']); ?>"/></td>
+						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'easy-digital-downloads'); ?></span></td>
+					</tr>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<tr>
+					<td class="tax_country">
+						<?php
+						echo EDD()->html->select(array(
+							'options' => get_country_list(),
+							'name' => 'tax_rates[0][country]',
+							'show_option_all' => false,
+							'show_option_none' => false,
+							'class' => 'mprm-tax-country',
+							'chosen' => false,
+							'placeholder' => __('Choose a country', 'easy-digital-downloads')
+						)); ?>
+					</td>
+					<td class="tax_state">
+						<?php echo EDD()->html->text(array(
+							'name' => 'tax_rates[0][state]'
+						)); ?>
+					</td>
+					<td class="tax_global">
+						<input type="checkbox" name="tax_rates[0][global]" value="1"/>
+						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'easy-digital-downloads'); ?></label>
+					</td>
+					<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="tax_rates[0][rate]" value=""/></td>
+					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'easy-digital-downloads'); ?></span></td>
+				</tr>
+			<?php endif; ?>
+		</table>
+		<p>
+			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'easy-digital-downloads'); ?></span>
+		</p>
+		<?php
+		echo ob_get_clean();
+	}
+
+	public function descriptive_text_callback($args) {
+		echo wp_kses_post($args['desc']);
+	}
+
+	public function license_key_callback($args) {
+		global $options;
+
+		$messages = array();
+		$license = get_option($args['options']['is_valid_license_option']);
+
+		if (isset($options[$args['id']])) {
+			$value = $options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+
+		if (!empty($license) && is_object($license)) {
+
+			// activate_license 'invalid' on anything other than valid, so if there was an error capture it
+			if (false === $license->success) {
+
+				switch ($license->error) {
+
+					case 'expired' :
+
+						$class = 'error';
+						$messages[] = sprintf(
+							__('Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'easy-digital-downloads'),
+							date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
+							'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
+						);
+
+						$license_status = 'license-' . $class . '-notice';
+
+						break;
+
+					case 'missing' :
+
+						$class = 'error';
+						$messages[] = sprintf(
+							__('Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'easy-digital-downloads'),
+							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
+						);
+
+						$license_status = 'license-' . $class . '-notice';
+
+						break;
+
+					case 'invalid' :
+					case 'site_inactive' :
+
+						$class = 'error';
+						$messages[] = sprintf(
+							__('Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'easy-digital-downloads'),
+							$args['name'],
+							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
+						);
+
+						$license_status = 'license-' . $class . '-notice';
+
+						break;
+
+					case 'item_name_mismatch' :
+
+						$class = 'error';
+						$messages[] = sprintf(__('This is not a %s.', 'easy-digital-downloads'), $args['name']);
+
+						$license_status = 'license-' . $class . '-notice';
+
+						break;
+
+					case 'no_activations_left':
+
+						$class = 'error';
+						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'easy-digital-downloads'), 'https://easydigitaldownloads.com/your-account/');
+
+						$license_status = 'license-' . $class . '-notice';
+						break;
+				}
+
+			} else {
+				switch ($license->license) {
+					case 'valid' :
+					default:
+						$class = 'valid';
+
+						$now = current_time('timestamp');
+						$expiration = strtotime($license->expires, current_time('timestamp'));
+
+						if ('lifetime' === $license->expires) {
+
+							$messages[] = __('License key never expires.', 'easy-digital-downloads');
+
+							$license_status = 'license-lifetime-notice';
+
+						} elseif ($expiration > $now && $expiration - $now < (DAY_IN_SECONDS * 30)) {
+
+							$messages[] = sprintf(
+								__('Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'easy-digital-downloads'),
+								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
+								'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew'
+							);
+
+							$license_status = 'license-expires-soon-notice';
+
+						} else {
+
+							$messages[] = sprintf(
+								__('Your license key expires on %s.', 'easy-digital-downloads'),
+								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp')))
+							);
+
+							$license_status = 'license-expiration-date-notice';
+
+						}
+						break;
+				}
+			}
+
+		} else {
+			$license_status = null;
+		}
+
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . sanitize_key($args['id']) . ']" value="' . esc_attr($value) . '"/>';
+
+		if ((is_object($license) && 'valid' == $license->license) || 'valid' == $license) {
+			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __('Deactivate License', 'easy-digital-downloads') . '"/>';
+		}
+
+		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+
+		if (!empty($messages)) {
+			foreach ($messages as $message) {
+
+				$html .= '<div class="mprm-license-data mprm-license-' . $class . '">';
+				$html .= '<p>' . $message . '</p>';
+				$html .= '</div>';
+
+			}
+		}
+
+		wp_nonce_field(sanitize_key($args['id']) . '-nonce', sanitize_key($args['id']) . '-nonce');
+
+		if (isset($license_status)) {
+			echo '<div class="' . $license_status . '">' . $html . '</div>';
+		} else {
+			echo '<div class="license-null">' . $html . '</div>';
+		}
+	}
+
+	public function string_is_image_url($str) {
+		$ext = $this->get_file_extension($str);
+
+		switch (strtolower($ext)) {
+			case 'jpg';
+				$return = true;
+				break;
+			case 'png';
+				$return = true;
+				break;
+			case 'gif';
+				$return = true;
+				break;
+			default:
+				$return = false;
+				break;
+		}
+
+		return (bool)apply_filters('mprm_string_is_image', $return, $str);
+	}
+
+	public function get_file_extension($str) {
+		$parts = explode('.', $str);
+		return end($parts);
+	}
+
+	/**
+	 * Get Shop States
+	 *
+	 * @since 1.6
+	 *
+	 * @param string $country
+	 *
+	 * @return array A list of states for the selected country
+	 */
+	function get_shop_states($country = null) {
+		if (empty($country))
+			$country = edd_get_shop_country();
+
+		switch ($country) :
+
+			case 'US' :
+				$states = edd_get_states_list();
+				break;
+			case 'CA' :
+				$states = edd_get_provinces_list();
+				break;
+			case 'AU' :
+				$states = edd_get_australian_states_list();
+				break;
+			case 'BD' :
+				$states = edd_get_bangladeshi_states_list();
+				break;
+			case 'BG' :
+				$states = edd_get_bulgarian_states_list();
+				break;
+			case 'BR' :
+				$states = edd_get_brazil_states_list();
+				break;
+			case 'CN' :
+				$states = edd_get_chinese_states_list();
+				break;
+			case 'HK' :
+				$states = edd_get_hong_kong_states_list();
+				break;
+			case 'HU' :
+				$states = edd_get_hungary_states_list();
+				break;
+			case 'ID' :
+				$states = edd_get_indonesian_states_list();
+				break;
+			case 'IN' :
+				$states = edd_get_indian_states_list();
+				break;
+			case 'IR' :
+				$states = edd_get_iranian_states_list();
+				break;
+			case 'IT' :
+				$states = edd_get_italian_states_list();
+				break;
+			case 'JP' :
+				$states = edd_get_japanese_states_list();
+				break;
+			case 'MX' :
+				$states = edd_get_mexican_states_list();
+				break;
+			case 'MY' :
+				$states = edd_get_malaysian_states_list();
+				break;
+			case 'NP' :
+				$states = edd_get_nepalese_states_list();
+				break;
+			case 'NZ' :
+				$states = edd_get_new_zealand_states_list();
+				break;
+			case 'PE' :
+				$states = edd_get_peruvian_states_list();
+				break;
+			case 'TH' :
+				$states = edd_get_thailand_states_list();
+				break;
+			case 'TR' :
+				$states = edd_get_turkey_states_list();
+				break;
+			case 'ZA' :
+				$states = edd_get_south_african_states_list();
+				break;
+			case 'ES' :
+				$states = edd_get_spain_states_list();
+				break;
+			default :
+				$states = array();
+				break;
+
+		endswitch;
+
+		return apply_filters('mprm_shop_states', $states, $country);
+	}
+
+	public function get_tax_rates() {
+		$rates = get_option('mprm_tax_rates', array());
+		return apply_filters('mprm_get_tax_rates', $rates);
 	}
 
 }

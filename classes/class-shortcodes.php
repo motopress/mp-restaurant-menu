@@ -22,6 +22,7 @@ class Shortcodes extends Core {
 
 	/**
 	 * Create list for Motopress
+	 *
 	 * @param array $data_array
 	 * @param string $type
 	 *

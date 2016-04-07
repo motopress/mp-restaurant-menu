@@ -494,13 +494,11 @@ class Media extends Core {
 					if (empty($option['id'])) {
 						continue;
 					}
-
 					$name = isset($option['name']) ? $option['name'] : '';
-
 					add_settings_field(
 						'mprm_settings[' . $option['id'] . ']',
 						$name,
-						function_exists('mprm_' . $option['type'] . '_callback') ? 'mprm_' . $option['type'] . '_callback' : 'mprm_missing_callback',
+						method_exists(Settings::get_instance(), $option['type'] . '_callback') ? array(Settings::get_instance(), $option['type'] . '_callback') : array(Settings::get_instance(), 'mprm_missing_callback'),
 						'mprm_settings_' . $tab . '_' . $section,
 						'mprm_settings_' . $tab . '_' . $section,
 						array(
@@ -588,7 +586,7 @@ class Media extends Core {
 							'name' => __('Base Country', 'easy-digital-downloads'),
 							'desc' => __('Where does your store operate from?', 'easy-digital-downloads'),
 							'type' => 'select',
-							'options' => Settings::get_instance()->get_currencies(),
+							'options' => Settings::get_instance()->get_country_list(),
 							'chosen' => true,
 							'placeholder' => __('Select a country', 'easy-digital-downloads'),
 						),
@@ -620,7 +618,7 @@ class Media extends Core {
 							'name' => __('Currency', 'easy-digital-downloads'),
 							'desc' => __('Choose your currency. Note that some payment gateways have currency restrictions.', 'easy-digital-downloads'),
 							'type' => 'select',
-							'options' => Settings::get_instance()->get_currency_symbol(),
+							'options' => Settings::get_instance()->get_currencies(),
 							'chosen' => true,
 						),
 						'currency_position' => array(
@@ -1241,7 +1239,7 @@ class Media extends Core {
 
 		$pages_options = array('' => ''); // Blank option
 
-		if ((!isset($_GET['page']) || 'mprm-settings' != $_GET['page']) && !$force) {
+		if ((!isset($_GET['page']) || 'admin.php?page=mprm-settings' != $_GET['page']) && !$force) {
 			return $pages_options;
 		}
 

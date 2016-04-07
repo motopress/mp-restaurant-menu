@@ -1,6 +1,7 @@
 <?php
 
 namespace mp_restaurant_menu\classes;
+
 use mp_restaurant_menu\classes\libs\WP_Session;
 
 /**
