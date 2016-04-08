@@ -31,7 +31,7 @@ class Controller extends Core {
 	/**
 	 * Send json data
 	 *
-	 * @param type $data
+	 * @param array /mixed $data
 	 */
 	public function send_json($data) {
 		if (is_array($data) && isset($data['success']) && !$data['success']) {

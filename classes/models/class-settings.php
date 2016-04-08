@@ -24,6 +24,23 @@ class Settings extends Model {
 	 */
 	public function get_settings($key = false) {
 		$settings = get_option('mprm_settings');
+		if (empty($settings)) {
+
+			// Update old settings with new single option
+			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
+			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
+			$email_settings = is_array(get_option('mprm_settings_emails')) ? get_option('mprm_settings_emails') : array();
+			$style_settings = is_array(get_option('mprm_settings_styles')) ? get_option('mprm_settings_styles') : array();
+			$tax_settings = is_array(get_option('mprm_settings_taxes')) ? get_option('mprm_settings_taxes') : array();
+			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
+			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
+			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
+
+			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings);
+
+			update_option('mprm_settings', $settings);
+
+		}
 		if (!empty($settings[$key])) {
 			return $settings[$key];
 		} else {
@@ -41,13 +58,6 @@ class Settings extends Model {
 		return $settings;
 	}
 
-	/**
-	 * Save settings
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
 	public function save_settings(array $params) {
 		unset($params['controller']);
 		unset($params['mprm_action']);
@@ -62,13 +72,6 @@ class Settings extends Model {
 		return $this->get_arr($params, $success);
 	}
 
-	/**
-	 * Get Currency symbol.
-	 *
-	 * @param string $currency (default: '')
-	 *
-	 * @return string
-	 */
 	public function get_currency_symbol($currency = '') {
 		if (!$currency) {
 			$currency = $this->get_settings('currency_code');
@@ -205,10 +208,6 @@ class Settings extends Model {
 		return $currency_symbol;
 	}
 
-	/**
-	 * Get full list of currency codes.
-	 * @return array
-	 */
 	public function get_currencies() {
 		$currencies = array(
 			'USD' => __('US Dollars (&#36;)', 'easy-digital-downloads'),
@@ -499,7 +498,6 @@ class Settings extends Model {
 			'ZM' => 'Zambia',
 			'ZW' => 'Zimbabwe'
 		);
-
 		return apply_filters('mprm_countries', $countries);
 	}
 
@@ -507,19 +505,18 @@ class Settings extends Model {
 		echo '';
 	}
 
-
 	public function checkbox_callback($args) {
 		global $options;
 
 		if (isset($args['faux']) && true === $args['faux']) {
 			$name = '';
 		} else {
-			$name = 'name="settings[' . sanitize_key($args['id']) . ']"';
+			$name = 'name="mprm_settings[' . sanitize_key($args['id']) . ']"';
 		}
 
 		$checked = isset($options[$args['id']]) ? checked(1, $options[$args['id']], false) : '';
-		$html = '<input type="checkbox" id="settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<input type="checkbox" id="mprm_settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
@@ -534,8 +531,8 @@ class Settings extends Model {
 				} else {
 					$enabled = NULL;
 				}
-				echo '<input name="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
-				echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . wp_kses_post($option) . '</label><br/>';
+				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . wp_kses_post($option) . '</label><br/>';
 			endforeach;
 			echo '<p class="description">' . $args['desc'] . '</p>';
 		}
@@ -553,9 +550,9 @@ class Settings extends Model {
 					$enabled = NULL;
 				}
 
-				echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
+				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
 
-				echo '<input name="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
 
 				if ($this->string_is_image_url($key)) {
 
@@ -608,13 +605,12 @@ class Settings extends Model {
 			elseif (isset($args['std']) && $args['std'] == $key && !isset($options[$args['id']]))
 				$checked = true;
 
-			echo '<input name="settings[' . sanitize_key($args['id']) . ']" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
-			echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
+			echo '<input name="mprm_settings[' . sanitize_key($args['id']) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
+			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
 		endforeach;
 
 		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
 	}
-
 
 	public function gateways_callback($args) {
 		global $options;
@@ -625,16 +621,15 @@ class Settings extends Model {
 			else
 				$enabled = null;
 
-			echo '<input name="settings[' . esc_attr($args['id']) . '][' . sanitize_key($key) . ']"" id="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
-			echo '<label for="settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option['admin_label']) . '</label><br/>';
+			echo '<input name="mprm_settings[' . esc_attr($args['id']) . '][' . sanitize_key($key) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
+			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option['admin_label']) . '</label><br/>';
 		endforeach;
 	}
-
 
 	public function gateway_select_callback($args) {
 		global $options;
 
-		echo '<select name="settings[' . sanitize_key($args['id']) . ']"" id="settings[' . sanitize_key($args['id']) . ']">';
+		echo '<select name="mprm_settings[' . sanitize_key($args['id']) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . ']">';
 
 		foreach ($args['options'] as $key => $option) :
 			$selected = isset($options[$args['id']]) ? selected($key, $options[$args['id']], false) : '';
@@ -642,9 +637,8 @@ class Settings extends Model {
 		endforeach;
 
 		echo '</select>';
-		echo '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 	}
-
 
 	public function text_callback($args) {
 		global $options;
@@ -660,13 +654,13 @@ class Settings extends Model {
 			$value = isset($args['std']) ? $args['std'] : '';
 			$name = '';
 		} else {
-			$name = 'name="settings[' . esc_attr($args['id']) . ']"';
+			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
 		}
 
 		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
@@ -685,7 +679,7 @@ class Settings extends Model {
 			$value = isset($args['std']) ? $args['std'] : '';
 			$name = '';
 		} else {
-			$name = 'name="settings[' . esc_attr($args['id']) . ']"';
+			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
 		}
 
 		$max = isset($args['max']) ? $args['max'] : 999999;
@@ -693,12 +687,11 @@ class Settings extends Model {
 		$step = isset($args['step']) ? $args['step'] : 1;
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="number" step="' . esc_attr($step) . '" max="' . esc_attr($max) . '" min="' . esc_attr($min) . '" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<input type="number" step="' . esc_attr($step) . '" max="' . esc_attr($max) . '" min="' . esc_attr($min) . '" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function textarea_callback($args) {
 		global $options;
@@ -709,12 +702,11 @@ class Settings extends Model {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
 
-		$html = '<textarea class="large-text" cols="50" rows="5" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<textarea class="large-text" cols="50" rows="5" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function password_callback($args) {
 		global $options;
@@ -726,30 +718,18 @@ class Settings extends Model {
 		}
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="password" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '"/>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<input type="password" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '"/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
 
-	/**
-	 * Missing Callback
-	 *
-	 * If a function is missing for settings callbacks alert the user.
-	 *
-	 * @since 1.3.1
-	 *
-	 * @param array $args Arguments passed by the setting
-	 *
-	 * @return void
-	 */
 	public function missing_callback($args) {
 		printf(
 			__('The callback function used for the %s setting is missing.', 'easy-digital-downloads'),
 			'<strong>' . $args['id'] . '</strong>'
 		);
 	}
-
 
 	public function select_callback($args) {
 		global $options;
@@ -772,7 +752,7 @@ class Settings extends Model {
 			$chosen = '';
 		}
 
-		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
 
 		foreach ($args['options'] as $option => $name) {
 			$selected = selected($option, $value, false);
@@ -780,11 +760,10 @@ class Settings extends Model {
 		}
 
 		$html .= '</select>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function color_select_callback($args) {
 		global $options;
@@ -795,7 +774,7 @@ class Settings extends Model {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
 
-		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']"/>';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"/>';
 
 		foreach ($args['options'] as $option => $color) {
 			$selected = selected($option, $value, false);
@@ -803,11 +782,10 @@ class Settings extends Model {
 		}
 
 		$html .= '</select>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function rich_editor_callback($args) {
 		global $options, $wp_version;
@@ -826,17 +804,16 @@ class Settings extends Model {
 
 		if ($wp_version >= 3.3 && function_exists('wp_editor')) {
 			ob_start();
-			wp_editor(stripslashes($value), 'settings_' . esc_attr($args['id']), array('textarea_name' => 'settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => absint($rows)));
+			wp_editor(stripslashes($value), 'settings_' . esc_attr($args['id']), array('textarea_name' => 'mprm_settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => absint($rows)));
 			$html = ob_get_clean();
 		} else {
-			$html = '<textarea class="large-text" rows="10" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+			$html = '<textarea class="large-text" rows="10" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
 		}
 
-		$html .= '<br/><label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<br/><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function upload_callback($args) {
 		global $options;
@@ -848,9 +825,9 @@ class Settings extends Model {
 		}
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
 		$html .= '<span>&nbsp;<input type="button" class="settings_upload_button button-secondary" value="' . __('Upload File', 'easy-digital-downloads') . '"/></span>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
@@ -866,12 +843,11 @@ class Settings extends Model {
 
 		$default = isset($args['std']) ? $args['std'] : '';
 
-		$html = '<input type="text" class="mprm-color-picker" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" data-default-color="' . esc_attr($default) . '" />';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html = '<input type="text" class="mprm-color-picker" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" data-default-color="' . esc_attr($default) . '" />';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
-
 
 	public function shop_states_callback($args) {
 		global $options;
@@ -886,7 +862,7 @@ class Settings extends Model {
 
 		$chosen = ($args['chosen'] ? ' mprm-chosen' : '');
 		$class = empty($states) ? ' class="mprm-no-states' . $chosen . '"' : 'class="' . $chosen . '"';
-		$html = '<select id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
 
 		foreach ($states as $option => $name) {
 			$selected = isset($options[$args['id']]) ? selected($option, $options[$args['id']], false) : '';
@@ -894,7 +870,7 @@ class Settings extends Model {
 		}
 
 		$html .= '</select>';
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}
@@ -1119,13 +1095,13 @@ class Settings extends Model {
 		}
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="settings[' . sanitize_key($args['id']) . ']" name="settings[' . sanitize_key($args['id']) . ']" value="' . esc_attr($value) . '"/>';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . sanitize_key($args['id']) . ']" value="' . esc_attr($value) . '"/>';
 
 		if ((is_object($license) && 'valid' == $license->license) || 'valid' == $license) {
 			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __('Deactivate License', 'easy-digital-downloads') . '"/>';
 		}
 
-		$html .= '<label for="settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		if (!empty($messages)) {
 			foreach ($messages as $message) {
@@ -1172,89 +1148,80 @@ class Settings extends Model {
 		return end($parts);
 	}
 
-	/**
-	 * Get Shop States
-	 *
-	 * @since 1.6
-	 *
-	 * @param string $country
-	 *
-	 * @return array A list of states for the selected country
-	 */
-	function get_shop_states($country = null) {
-		if (empty($country))
-			$country = edd_get_shop_country();
-
+	public function get_shop_states($country = null) {
+		if (empty($country)) {
+			$country = $this->get_option('base_country', 'US');
+			$country = apply_filters('mprm_shop_country', $country);
+		}
 		switch ($country) :
-
 			case 'US' :
-				$states = edd_get_states_list();
+				$states = Settings_countries::get_instance()->get_states_list();
 				break;
 			case 'CA' :
-				$states = edd_get_provinces_list();
+				$states = Settings_countries::get_instance()->get_provinces_list();
 				break;
 			case 'AU' :
-				$states = edd_get_australian_states_list();
+				$states = Settings_countries::get_instance()->get_australian_states_list();
 				break;
 			case 'BD' :
-				$states = edd_get_bangladeshi_states_list();
+				$states = Settings_countries::get_instance()->get_bangladeshi_states_list();
 				break;
 			case 'BG' :
-				$states = edd_get_bulgarian_states_list();
+				$states = Settings_countries::get_instance()->get_bulgarian_states_list();
 				break;
 			case 'BR' :
-				$states = edd_get_brazil_states_list();
+				$states = Settings_countries::get_instance()->get_brazil_states_list();
 				break;
 			case 'CN' :
-				$states = edd_get_chinese_states_list();
+				$states = Settings_countries::get_instance()->get_chinese_states_list();
 				break;
 			case 'HK' :
-				$states = edd_get_hong_kong_states_list();
+				$states = Settings_countries::get_instance()->get_hong_kong_states_list();
 				break;
 			case 'HU' :
-				$states = edd_get_hungary_states_list();
+				$states = Settings_countries::get_instance()->get_hungary_states_list();
 				break;
 			case 'ID' :
-				$states = edd_get_indonesian_states_list();
+				$states = Settings_countries::get_instance()->get_indonesian_states_list();
 				break;
 			case 'IN' :
-				$states = edd_get_indian_states_list();
+				$states = Settings_countries::get_instance()->get_indian_states_list();
 				break;
 			case 'IR' :
-				$states = edd_get_iranian_states_list();
+				$states = Settings_countries::get_instance()->get_iranian_states_list();
 				break;
 			case 'IT' :
-				$states = edd_get_italian_states_list();
+				$states = Settings_countries::get_instance()->get_italian_states_list();
 				break;
 			case 'JP' :
-				$states = edd_get_japanese_states_list();
+				$states = Settings_countries::get_instance()->get_japanese_states_list();
 				break;
 			case 'MX' :
-				$states = edd_get_mexican_states_list();
+				$states = Settings_countries::get_instance()->get_mexican_states_list();
 				break;
 			case 'MY' :
-				$states = edd_get_malaysian_states_list();
+				$states = Settings_countries::get_instance()->get_malaysian_states_list();
 				break;
 			case 'NP' :
-				$states = edd_get_nepalese_states_list();
+				$states = Settings_countries::get_instance()->get_nepalese_states_list();
 				break;
 			case 'NZ' :
-				$states = edd_get_new_zealand_states_list();
+				$states = Settings_countries::get_instance()->get_new_zealand_states_list();
 				break;
 			case 'PE' :
-				$states = edd_get_peruvian_states_list();
+				$states = Settings_countries::get_instance()->get_peruvian_states_list();
 				break;
 			case 'TH' :
-				$states = edd_get_thailand_states_list();
+				$states = Settings_countries::get_instance()->get_thailand_states_list();
 				break;
 			case 'TR' :
-				$states = edd_get_turkey_states_list();
+				$states = Settings_countries::get_instance()->get_turkey_states_list();
 				break;
 			case 'ZA' :
-				$states = edd_get_south_african_states_list();
+				$states = Settings_countries::get_instance()->get_south_african_states_list();
 				break;
 			case 'ES' :
-				$states = edd_get_spain_states_list();
+				$states = Settings_countries::get_instance()->get_spain_states_list();
 				break;
 			default :
 				$states = array();
@@ -1270,4 +1237,10 @@ class Settings extends Model {
 		return apply_filters('mprm_get_tax_rates', $rates);
 	}
 
+	public function get_option($key = '', $default = false) {
+		global $mprm_options;
+		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
+		$value = apply_filters('mprm_get_option', $value, $key, $default);
+		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
+	}
 }

@@ -4,6 +4,8 @@ namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\models\Settings;
+use mp_restaurant_menu\classes\models\Settings_countries;
 use mp_restaurant_menu\classes\View;
 
 class Controller_Settings extends Controller {
@@ -30,11 +32,6 @@ class Controller_Settings extends Controller {
 		$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
 		$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
 		$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
-
-
-//		$data['current_settings'] = $this->get('settings')->get_settings();
-//		$data['currencies'] = $this->get('settings')->get_currencies();
-//		$data['instance'] = $this->get('settings');
 		View::get_instance()->render_html('settings', $data);
 	}
 
@@ -47,7 +44,10 @@ class Controller_Settings extends Controller {
 	}
 
 	public function action_get_state_list() {
-
+		$data = array();
+		$country = $_REQUEST['country'];
+		$data['data'] = Settings::get_instance()->get_shop_states($country);
+		$data['success'] = true;
+		$this->send_json($data);
 	}
-
 }

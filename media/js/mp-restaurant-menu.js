@@ -338,7 +338,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Html build function
  */
@@ -476,11 +475,9 @@ MP_RM_Registry.register("HtmlBuilder", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Menu settings module
  */
-
 MP_RM_Registry.register("Menu-Settings", (function($) {
 	"use strict";
 	var state;
@@ -501,6 +498,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					});
 					return false;
 				});
+				state.changeBaseCountry();
 			},
 			/**
 			 * add_atribute
@@ -520,6 +518,36 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						console.warn(data);
 					}
 				);
+			},
+			changeBaseCountry: function() {
+				$("[name='settings[base_country]']").on('change', function() {
+					var $params = {
+						action: 'get_state_list',
+						controller: 'settings',
+						country: $(this).val()
+					};
+					var $parentTr = $(this).closest('tr');
+					var stateSelect = $parentTr.next().find('select');
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							console.log(data);
+							console.log(typeof data);
+							if ($.isEmptyObject(data)) {
+								$parentTr.next().hide();
+							} else {
+								$parentTr.next().show();
+								stateSelect.remove('option');
+								$.each(data, function(i, value) {
+									stateSelect.append($('<option>').text(value).attr('value', i))
+								})
+							}
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				})
 			}
 		};
 	}
@@ -533,11 +561,9 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Menu item module
  */
-
 MP_RM_Registry.register("Menu-Item", (function($) {
 	"use strict";
 	var state;
@@ -729,7 +755,6 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 /**
  * Category module
  */
-
 MP_RM_Registry.register("Menu-Category", (function($) {
 	"use strict";
 	var state;
@@ -801,11 +826,9 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Theme module
  */
-
 MP_RM_Registry.register("Theme", (function($) {
 	"use strict";
 	var state;
@@ -849,6 +872,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 	};
 })(jQuery));
+
 
 (function($) {
 	"use strict";

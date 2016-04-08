@@ -2,6 +2,7 @@
 
 namespace mp_restaurant_menu\classes;
 
+use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
 
@@ -102,6 +103,7 @@ class Core {
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
+		Settings::get_instance()->get_settings();
 	}
 
 	/**
