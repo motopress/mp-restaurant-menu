@@ -266,23 +266,32 @@ class Media extends Core {
 	 */
 	public function register_all_taxonomies() {
 		$menu_item = $this->get_post_type('menu_item');
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('menu_category'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => 'menu categories', 'single' => 'menu category'),
-			'slug' => 'menu-category'
-		));
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('menu_tag'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => 'menu tags', 'single' => 'menu tag'),
-			'slug' => 'menu-tag'
-		));
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('ingredient'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => 'ingredients', 'single' => 'ingredient'),
-		));
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('menu_category'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'menu categories', 'single' => 'menu category'),
+				'slug' => 'menu-category',
+				'show_in_nav_menus' => true,
+			)
+		);
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('menu_tag'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'menu tags', 'single' => 'menu tag'),
+				'slug' => 'menu-tag',
+				'show_in_nav_menus' => true,
+			)
+		);
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('ingredient'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'ingredients', 'single' => 'ingredient'),
+				'show_in_nav_menus' => false,
+			)
+		);
 	}
 
 	/**

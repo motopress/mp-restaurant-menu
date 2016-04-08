@@ -25,19 +25,20 @@ class Post extends Module {
 		$args = array(
 			'label' => $params['post_type'],
 			'labels' => $this->get_labels($params, $plugin_name),
-			"public" => true,
-			"show_ui" => true,
+			'public' => true,
+			'show_ui' => true,
 			'show_in_menu' => false,
-			"capability_type" => "post",
-			"menu_position" => 21,
-			"hierarchical" => false,
-			"rewrite" => (!empty($params['slug'])) ? array(
+			'show_in_nav_menus' => true,
+			'capability_type' => 'post',
+			'menu_position' => 21,
+			'hierarchical' => false,
+			'rewrite' => (!empty($params['slug'])) ? array(
 				'slug' => $params['slug'],
 				'with_front' => true,
 				'hierarchical' => true
 			) : false,
-			"supports" => $params['supports'],
-			"show_in_admin_bar" => true
+			'supports' => $params['supports'],
+			'show_in_admin_bar' => true
 		);
 		$status = register_post_type($params['post_type'], $args);
 		if (!is_wp_error($status)) {
