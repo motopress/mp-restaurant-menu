@@ -13,8 +13,8 @@ Create and maintain modern online menus for almost any kind of restaurant.
 == Description ==
 MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for building online menus of restaurants, cafes and other typical food establishments on any WordPress website. Menus can be displayed in pages, posts, and sidebars using shortcodes which are a perfect tool for creating complex content with minimum efforts. Non-tech WordPress users will value the intuitive system of both shortcode settings and the entire menu instruments. Applying a simple set of operations you will be able to customize menu design, add and categorize unlimited menu items, create and feature/hide all needed tags and ingredients, choose whether to display particular items, switch on/off all needed settings for individual items and categories any time and much more.
 
-Check [Restaurant Menu plugin demo](http://mprmdemo.getmotopress.com)
-Please find the step-by-step instructions of working with the plugin [here](http://www.getmotopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
+* Check [Restaurant Menu Plugin Demo](http://mprmdemo.getmotopress.com)
+* Please find the step-by-step instructions of working with the plugin [here](http://www.getmotopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
 
 = Major Features =
 * Clean responsive design for proper mobile viewing
