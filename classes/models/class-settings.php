@@ -2,7 +2,9 @@
 
 namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\View;
 
 class Settings extends Model {
 
@@ -506,7 +508,7 @@ class Settings extends Model {
 	}
 
 	public function checkbox_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		if (isset($args['faux']) && true === $args['faux']) {
 			$name = '';
@@ -514,7 +516,7 @@ class Settings extends Model {
 			$name = 'name="mprm_settings[' . sanitize_key($args['id']) . ']"';
 		}
 
-		$checked = isset($options[$args['id']]) ? checked(1, $options[$args['id']], false) : '';
+		$checked = isset($mprm_options[$args['id']]) ? checked(1, $mprm_options[$args['id']], false) : '';
 		$html = '<input type="checkbox" id="mprm_settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
 		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
@@ -522,11 +524,11 @@ class Settings extends Model {
 	}
 
 	public function multicheck_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		if (!empty($args['options'])) {
 			foreach ($args['options'] as $key => $option):
-				if (isset($options[$args['id']][$key])) {
+				if (isset($mprm_options[$args['id']][$key])) {
 					$enabled = $option;
 				} else {
 					$enabled = NULL;
@@ -539,12 +541,12 @@ class Settings extends Model {
 	}
 
 	public function payment_icons_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		if (!empty($args['options'])) {
 			foreach ($args['options'] as $key => $option) {
 
-				if (isset($options[$args['id']][$key])) {
+				if (isset($mprm_options[$args['id']][$key])) {
 					$enabled = $option;
 				} else {
 					$enabled = NULL;
@@ -595,14 +597,14 @@ class Settings extends Model {
 	}
 
 	public function radio_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		foreach ($args['options'] as $key => $option) :
 			$checked = false;
 
-			if (isset($options[$args['id']]) && $options[$args['id']] == $key)
+			if (isset($mprm_options[$args['id']]) && $mprm_options[$args['id']] == $key)
 				$checked = true;
-			elseif (isset($args['std']) && $args['std'] == $key && !isset($options[$args['id']]))
+			elseif (isset($args['std']) && $args['std'] == $key && !isset($mprm_options[$args['id']]))
 				$checked = true;
 
 			echo '<input name="mprm_settings[' . sanitize_key($args['id']) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
@@ -613,10 +615,10 @@ class Settings extends Model {
 	}
 
 	public function gateways_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		foreach ($args['options'] as $key => $option) :
-			if (isset($options['gateways'][$key]))
+			if (isset($mprm_options['gateways'][$key]))
 				$enabled = '1';
 			else
 				$enabled = null;
@@ -627,12 +629,12 @@ class Settings extends Model {
 	}
 
 	public function gateway_select_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		echo '<select name="mprm_settings[' . sanitize_key($args['id']) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . ']">';
 
 		foreach ($args['options'] as $key => $option) :
-			$selected = isset($options[$args['id']]) ? selected($key, $options[$args['id']], false) : '';
+			$selected = isset($mprm_options[$args['id']]) ? selected($key, $mprm_options[$args['id']], false) : '';
 			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option['admin_label']) . '</option>';
 		endforeach;
 
@@ -641,10 +643,10 @@ class Settings extends Model {
 	}
 
 	public function text_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -666,10 +668,10 @@ class Settings extends Model {
 	}
 
 	public function number_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -694,10 +696,10 @@ class Settings extends Model {
 	}
 
 	public function textarea_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -709,10 +711,10 @@ class Settings extends Model {
 	}
 
 	public function password_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -732,10 +734,10 @@ class Settings extends Model {
 	}
 
 	public function select_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -766,10 +768,10 @@ class Settings extends Model {
 	}
 
 	public function color_select_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -788,10 +790,10 @@ class Settings extends Model {
 	}
 
 	public function rich_editor_callback($args) {
-		global $options, $wp_version;
+		global $mprm_options, $wp_version;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 
 			if (empty($args['allow_blank']) && empty($value)) {
 				$value = isset($args['std']) ? $args['std'] : '';
@@ -816,10 +818,10 @@ class Settings extends Model {
 	}
 
 	public function upload_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -833,10 +835,10 @@ class Settings extends Model {
 	}
 
 	public function color_callback($args) {
-		global $options;
+		global $mprm_options;
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -850,7 +852,7 @@ class Settings extends Model {
 	}
 
 	public function shop_states_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		if (isset($args['placeholder'])) {
 			$placeholder = $args['placeholder'];
@@ -865,7 +867,7 @@ class Settings extends Model {
 		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
 
 		foreach ($states as $option => $name) {
-			$selected = isset($options[$args['id']]) ? selected($option, $options[$args['id']], false) : '';
+			$selected = isset($mprm_options[$args['id']]) ? selected($option, $mprm_options[$args['id']], false) : '';
 			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
 		}
 
@@ -876,7 +878,7 @@ class Settings extends Model {
 	}
 
 	public function tax_rates_callback($args) {
-		global $options;
+		global $mprm_options;
 		$rates = $this->get_tax_rates();
 		ob_start(); ?>
 		<p><?php echo $args['desc']; ?></p>
@@ -895,31 +897,35 @@ class Settings extends Model {
 					<tr>
 						<td class="tax_country">
 							<?php
-							echo EDD()->html->select(array(
-								'options' => get_country_list(),
-								'name' => 'tax_rates[' . sanitize_key($key) . '][country]',
-								'selected' => $rate['country'],
-								'show_option_all' => false,
-								'show_option_none' => false,
-								'class' => 'mprm-tax-country',
-								'chosen' => false,
-								'placeholder' => __('Choose a country', 'easy-digital-downloads')
-							));
+							View::get_instance()->render_html('../admin/settings/select',
+								array(
+									'options' => $this->get_country_list(),
+									'name' => 'tax_rates[' . sanitize_key($key) . '][country]',
+									'selected' => $rate['country'],
+									'show_option_all' => false,
+									'show_option_none' => false,
+									'class' => 'mprm-tax-country',
+									'chosen' => false,
+									'placeholder' => __('Choose a country', 'easy-digital-downloads')
+								)
+							);
 							?>
 						</td>
 						<td class="tax_state">
 							<?php
 							$states = $this->get_shop_states($rate['country']);
 							if (!empty($states)) {
-								echo EDD()->html->select(array(
-									'options' => $states,
-									'name' => 'tax_rates[' . sanitize_key($key) . '][state]',
-									'selected' => $rate['state'],
-									'show_option_all' => false,
-									'show_option_none' => false,
-									'chosen' => false,
-									'placeholder' => __('Choose a state', 'easy-digital-downloads')
-								));
+								View::get_instance()->render_html('../admin/settings/select',
+									array(
+										'options' => $states,
+										'name' => 'tax_rates[' . sanitize_key($key) . '][state]',
+										'selected' => $rate['state'],
+										'show_option_all' => false,
+										'show_option_none' => false,
+										'chosen' => false,
+										'placeholder' => __('Choose a state', 'easy-digital-downloads')
+									)
+								);
 							} else {
 								echo EDD()->html->text(array(
 									'name' => 'tax_rates[' . sanitize_key($key) . '][state]', $rate['state'],
@@ -940,15 +946,18 @@ class Settings extends Model {
 				<tr>
 					<td class="tax_country">
 						<?php
-						echo EDD()->html->select(array(
-							'options' => get_country_list(),
-							'name' => 'tax_rates[0][country]',
-							'show_option_all' => false,
-							'show_option_none' => false,
-							'class' => 'mprm-tax-country',
-							'chosen' => false,
-							'placeholder' => __('Choose a country', 'easy-digital-downloads')
-						)); ?>
+						View::get_instance()->render_html('../admin/settings/select',
+							array(
+								'options' => $this->get_country_list(),
+								'name' => 'tax_rates[0][country]',
+								'show_option_all' => false,
+								'show_option_none' => false,
+								'class' => 'mprm-tax-country',
+								'chosen' => false,
+								'placeholder' => __('Choose a country', 'easy-digital-downloads')
+							)
+						);
+						?>
 					</td>
 					<td class="tax_state">
 						<?php echo EDD()->html->text(array(
@@ -976,13 +985,13 @@ class Settings extends Model {
 	}
 
 	public function license_key_callback($args) {
-		global $options;
+		global $mprm_options;
 
 		$messages = array();
 		$license = get_option($args['options']['is_valid_license_option']);
 
-		if (isset($options[$args['id']])) {
-			$value = $options[$args['id']];
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
 		} else {
 			$value = isset($args['std']) ? $args['std'] : '';
 		}
@@ -1242,5 +1251,70 @@ class Settings extends Model {
 		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
 		$value = apply_filters('mprm_get_option', $value, $key, $default);
 		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
+	}
+
+	public function mprm_settings_sanitize($input = array()) {
+		global $mprm_options;
+
+		if (empty($_POST['_wp_http_referer'])) {
+			return $input;
+		}
+
+		parse_str($_POST['_wp_http_referer'], $referrer);
+
+		$settings = Media::get_instance()->get_registered_settings();
+		$tab = isset($referrer['tab']) ? $referrer['tab'] : 'general';
+		$section = isset($referrer['section']) ? $referrer['section'] : 'main';
+
+		$input = $input ? $input : array();
+
+		$input = apply_filters('mprm_settings_' . $tab . '-' . $section . '_sanitize', $input);
+		if ('main' === $section) {
+			// Check for extensions that aren't using new sections
+			$input = apply_filters('mprm_settings_' . $tab . '_sanitize', $input);
+		}
+
+		// Loop through each setting being saved and pass it through a sanitization filter
+		foreach ($input as $key => $value) {
+
+			// Get the setting type (checkbox, select, etc)
+			$type = isset($settings[$tab][$key]['type']) ? $settings[$tab][$key]['type'] : false;
+
+			if ($type) {
+				// Field type specific filter
+				$input[$key] = apply_filters('mprm_settings_sanitize_' . $type, $value, $key);
+			}
+
+			// General filter
+			$input[$key] = apply_filters('mprm_settings_sanitize', $input[$key], $key);
+		}
+
+		// Loop through the whitelist and unset any that are empty for the tab being saved
+		$main_settings = $section == 'main' ? $settings[$tab] : array(); // Check for extensions that aren't using new sections
+		$section_settings = !empty($settings[$tab][$section]) ? $settings[$tab][$section] : array();
+
+		$found_settings = array_merge($main_settings, $section_settings);
+
+		if (!empty($found_settings)) {
+			foreach ($found_settings as $key => $value) {
+
+				// settings used to have numeric keys, now they have keys that match the option ID. This ensures both methods work
+				if (is_numeric($key)) {
+					$key = $value['id'];
+				}
+
+				if (empty($input[$key])) {
+					unset($mprm_options[$key]);
+				}
+
+			}
+		}
+
+		// Merge our new settings with the existing
+		$output = array_merge($mprm_options, $input);
+
+		add_settings_error('mprm-notices', '', __('Settings updated.', 'easy-digital-downloads'), 'updated');
+
+		return $output;
 	}
 }

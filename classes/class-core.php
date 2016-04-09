@@ -76,6 +76,7 @@ class Core {
 	 * Init current plugin
 	 */
 	public function init_plugin($name) {
+		global $mprm_options;
 		ob_start('mp_restaurant_menu\classes\Preprocessor::fatal_error_handler');
 		// run session
 		if (!session_id()) {
@@ -103,7 +104,7 @@ class Core {
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
-		Settings::get_instance()->get_settings();
+		$mprm_options = Settings::get_instance()->get_settings();
 	}
 
 	/**

@@ -521,10 +521,9 @@ class Media extends Core {
 					);
 				}
 			}
-
 		}
 		// Creates our settings in the options table
-		register_setting('mprm_settings', 'mprm_settings', 'mprm_settings_sanitize');
+		register_setting('mprm_settings', 'mprm_settings', array(Settings::get_instance(), 'mprm_settings_sanitize'));
 	}
 
 	public function get_registered_settings() {
@@ -752,7 +751,7 @@ class Media extends Core {
 							'name' => __('Email Template', 'easy-digital-downloads'),
 							'desc' => __('Choose a template. Click "Save Changes" then "Preview Purchase Receipt" to see the new template.', 'easy-digital-downloads'),
 							'type' => 'select',
-							//'options' => mprm_get_email_templates(),
+							'options' => mprm_get_email_templates(),
 						),
 						'email_logo' => array(
 							'id' => 'email_logo',
