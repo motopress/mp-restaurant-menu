@@ -3,6 +3,7 @@
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Settings;
+use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 use mp_restaurant_menu\classes\modules\Menu;
@@ -498,7 +499,7 @@ class Media extends Core {
 					add_settings_field(
 						'mprm_settings[' . $option['id'] . ']',
 						$name,
-						method_exists(Settings::get_instance(), $option['type'] . '_callback') ? array(Settings::get_instance(), $option['type'] . '_callback') : array(Settings::get_instance(), 'mprm_missing_callback'),
+						method_exists(Settings::get_instance(), $option['type'] . '_callback') ? array(Settings::get_instance(), $option['type'] . '_callback') : array(Settings::get_instance(), 'missing_callback'),
 						'mprm_settings_' . $tab . '_' . $section,
 						'mprm_settings_' . $tab . '_' . $section,
 						array(
@@ -751,7 +752,7 @@ class Media extends Core {
 							'name' => __('Email Template', 'easy-digital-downloads'),
 							'desc' => __('Choose a template. Click "Save Changes" then "Preview Purchase Receipt" to see the new template.', 'easy-digital-downloads'),
 							'type' => 'select',
-							'options' => mprm_get_email_templates(),
+							'options' => Settings_emails::get_instance()->get_email_templates()
 						),
 						'email_logo' => array(
 							'id' => 'email_logo',

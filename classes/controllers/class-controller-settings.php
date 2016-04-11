@@ -50,4 +50,9 @@ class Controller_Settings extends Controller {
 		$data['success'] = true;
 		$this->send_json($data);
 	}
+
+	public function action_preview_email() {
+
+		echo "<H2> TEST</H2>";
+	}
 }

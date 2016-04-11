@@ -14,6 +14,7 @@
 
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\User_Capabilities;
 
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
@@ -60,7 +61,12 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
+
 		flush_rewrite_rules();
+		// User capability
+		User_Capabilities::get_instance()->add_roles();
+		User_Capabilities::get_instance()->add_caps();
+
 		if (!empty($plugin)) {
 			check_admin_referer("activate-plugin_{$plugin}");
 		}
@@ -115,6 +121,10 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include Core class
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-core.php';
+		/**
+		 * Include Core class
+		 */
+		require_once MP_RM_CLASSES_PATH . 'class-capability.php';
 
 		/**
 		 * Include Model
@@ -165,5 +175,4 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		$this->include_all();
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);
 	}
-
 }

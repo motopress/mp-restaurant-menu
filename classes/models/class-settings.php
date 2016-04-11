@@ -877,6 +877,10 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	public function hook_callback($args) {
+		do_action('mprm_' . $args['id'], $args);
+	}
+
 	public function tax_rates_callback($args) {
 		global $mprm_options;
 		$rates = $this->get_tax_rates();

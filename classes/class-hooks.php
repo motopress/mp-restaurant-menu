@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Order;
+use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
 use mp_restaurant_menu\classes\models\Menu_category;
@@ -85,6 +86,8 @@ class Hooks extends Core {
 		//add media in admin WP
 		add_action('admin_enqueue_scripts', array(Media::get_instance(), "admin_enqueue_scripts"));
 		register_importer('mprm-importer', 'Restaurant menu', __('Import menu item with categories data', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
+		//Emails
+		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
 	}
 
 	/**
@@ -117,6 +120,8 @@ class Hooks extends Core {
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+
+
 	}
 
 	/**
