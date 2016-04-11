@@ -263,7 +263,9 @@ class Media extends Core {
 			'post_type' => $this->get_post_type('menu_item'),
 			'titles' => array('many' => 'menu items', 'single' => 'menu item'),
 			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
-			'slug' => 'menu'
+			'slug' => 'menu',
+			'capability_type' => 'product',
+			'map_meta_cap' => true
 		));
 //		Post::get_instance()->register_post_type(array(
 //			'post_type' => $this->get_post_type('order'),
@@ -292,11 +294,10 @@ class Media extends Core {
 			'description' => __('This is where store orders are stored.', 'mp-restaurant-menu'),
 			'public' => false,
 			'show_ui' => true,
-			'capability_type' => 'post',
+			'capability_type' => 'shop_payment',
 			'map_meta_cap' => true,
 			'publicly_queryable' => false,
 			'exclude_from_search' => true,
-//			'show_in_menu' => current_user_can('manage_mp_restaurant_menu') ? 'mp-restaurant-menu' : true,
 			'show_in_menu' => false,
 			'hierarchical' => false,
 			'show_in_nav_menus' => false,

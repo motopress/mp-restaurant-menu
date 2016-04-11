@@ -149,7 +149,7 @@ class  User_Capabilities extends Core {
 	public function get_core_caps() {
 		$capabilities = array();
 
-		$capability_types = array('product', 'shop_payment', 'shop_discount');
+		$capability_types = array('product', 'shop_payment');
 
 		foreach ($capability_types as $capability_type) {
 			$capabilities[$capability_type] = array(

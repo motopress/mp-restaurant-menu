@@ -31,9 +31,10 @@ class Post extends Module {
 			"public" => true,
 			"show_ui" => true,
 			'show_in_menu' => false,
-			"capability_type" => "post",
+			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
 			"menu_position" => 21,
 			"hierarchical" => false,
+			"map_meta_cap" => empty($params['map_meta_cap']) ? false : $params['map_meta_cap'],
 			"rewrite" => (!empty($params['slug'])) ? array(
 				'slug' => $params['slug'],
 				'with_front' => true,
