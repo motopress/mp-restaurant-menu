@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Restaurant Menu by MotoPress
+ * Plugin Name: Restaurant Menu
  * Plugin URI: http://www.getmotopress.com
  * Description: Create and maintain modern online menus for almost any kind of restaurant.
  * Version: 1.0.4
