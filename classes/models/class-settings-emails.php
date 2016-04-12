@@ -105,11 +105,10 @@ class Settings_emails extends Model {
 		if (!current_user_can('manage_shop_settings')) {
 			return;
 		}
-
 		ob_start();
 		?>
 		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php _e('Purchase Receipt Preview', 'easy-digital-downloads'); ?> "><?php _e('Preview Purchase Receipt', 'easy-digital-downloads'); ?></a>
-		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'easy-digital-downloads'); ?>" class="button-secondary"><?php _e('Send Test Email', 'easy-digital-downloads'); ?></a>
+		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email', 'controller' => 'settings')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'easy-digital-downloads'); ?>" class="button-secondary"><?php _e('Send Test Email', 'easy-digital-downloads'); ?></a>
 		<?php
 		echo ob_get_clean();
 	}

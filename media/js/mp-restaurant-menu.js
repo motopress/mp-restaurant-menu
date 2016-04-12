@@ -541,7 +541,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						window.edd_send_to_editor = window.send_to_editor;
 						window.send_to_editor = function(html) {
 							if (window.formfield) {
-								imgurl = $('a', '<div>' + html + '</div>').attr('href');
+								var imgurl = $('a', '<div>' + html + '</div>').attr('href');
 								window.formfield.val(imgurl);
 								window.clearInterval(window.tbframe_interval);
 								tb_remove();

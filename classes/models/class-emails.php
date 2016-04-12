@@ -78,4 +78,35 @@ class Emails extends Model {
 
 		return apply_filters('mprm_email_template_wpautop', true) ? wpautop($message) : $message;
 	}
+
+	function email_test_purchase_receipt() {
+
+		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
+		$from_name = apply_filters('mprm_purchase_from_name', $from_name, 0, array());
+
+		$from_email = $this->get('settings')->get_option('from_name', get_bloginfo('admin_email'));
+		$from_email = apply_filters('mprm_test_purchase_from_address', $from_email, 0, array());
+
+		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt', 'easy-digital-downloads'));
+		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
+		$subject = edd_do_email_tags($subject, 0);
+
+		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt', 'easy-digital-downloads'));
+		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
+
+		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
+		$message = edd_do_email_tags($this->get_email_body_content(0, array()), 0);
+
+		$emails = $this->get('settings_emails');
+		$emails->__set('from_name', $from_name);
+		$emails->__set('from_email', $from_email);
+		$emails->__set('heading', $heading);
+
+		$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), 0, array());
+		$emails->__set('headers', $headers);
+
+		$emails->send(edd_get_admin_notice_emails(), $subject, $message, $attachments);
+
+	}
+
 }
