@@ -128,6 +128,9 @@ class Media extends Core {
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
 					wp_enqueue_script('wp-util');
+					wp_enqueue_media();
+					wp_enqueue_script('thickbox');
+					wp_enqueue_style('thickbox');
 					break;
 				case "edit-mp_menu_category":
 
@@ -145,6 +148,7 @@ class Media extends Core {
 				case "customize":
 					break;
 				default:
+
 					break;
 			}
 

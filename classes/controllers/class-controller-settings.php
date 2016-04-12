@@ -6,6 +6,7 @@ use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_countries;
+use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\View;
 
 class Controller_Settings extends Controller {
@@ -52,7 +53,7 @@ class Controller_Settings extends Controller {
 	}
 
 	public function action_preview_email() {
-
+		Settings_emails::get_instance()->display_email_template_preview();
 		echo "<H2> TEST</H2>";
 	}
 }

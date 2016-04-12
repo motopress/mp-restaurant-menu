@@ -3,6 +3,8 @@
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\View;
+
 
 class Settings_emails extends Model {
 
@@ -128,7 +130,7 @@ class Settings_emails extends Model {
 
 		$this->heading = __('Purchase Receipt', 'easy-digital-downloads');
 
-		//$this->build_email(mprm_email_preview_template_tags(mprm_get_email_body_content(0, array())));
+		echo $this->build_email($this->get('emails')->email_preview_template_tags($this->get('emails')->get_email_body_content(0, array())));
 
 		exit;
 	}
@@ -140,7 +142,7 @@ class Settings_emails extends Model {
 	 */
 	public function get_from_name() {
 		if (!$this->from_name) {
-			//$this->from_name = mprm_get_option('from_name', get_bloginfo('name'));
+			$this->from_name = $this->get('settings')->get_option('from_name', get_bloginfo('name'));
 		}
 
 		return apply_filters('mprm_email_from_name', wp_specialchars_decode($this->from_name), $this);
@@ -153,7 +155,7 @@ class Settings_emails extends Model {
 	 */
 	public function get_from_address() {
 		if (!$this->from_address) {
-			//$this->from_address = mprm_get_option('from_email', get_option('admin_email'));
+			$this->from_address = $this->get('settings')->get_option('from_email', get_option('admin_email'));
 		}
 
 		return apply_filters('mprm_email_from_address', $this->from_address, $this);
@@ -212,9 +214,8 @@ class Settings_emails extends Model {
 	 */
 	public function get_template() {
 		if (!$this->template) {
-//			$this->template = mprm_get_option('email_template', 'default');
+			$this->template = $this->get('settings')->get_option('email_template', 'default');
 		}
-
 		return apply_filters('mprm_email_template', $this->template);
 	}
 
@@ -246,7 +247,9 @@ class Settings_emails extends Model {
 	 * @return string
 	 */
 	public function build_email($message) {
-
+		$template = $this->get_template();
+		$header_img = $this->get('settings')->get_option('email_logo', '');
+		$heading = $this->get_heading();
 		if (false === $this->html) {
 			return apply_filters('mprm_email_message', wp_strip_all_tags($message), $this);
 		}
@@ -254,9 +257,7 @@ class Settings_emails extends Model {
 		$message = $this->text_to_html($message);
 
 		ob_start();
-
-		//mprm_get_template_part('emails/header', $this->get_template(), true);
-
+		View::get_instance()->render_html('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
 		/**
 		 * Hooks into the email header
 		 *
@@ -264,7 +265,7 @@ class Settings_emails extends Model {
 		 */
 		do_action('mprm_email_header', $this);
 
-		if (has_action('mprm_email_template_' . $this->get_template())) {
+		if (has_action('mprm_email_template_' . $template)) {
 			/**
 			 * Hooks into the template of the email
 			 *
@@ -272,9 +273,9 @@ class Settings_emails extends Model {
 			 *
 			 * @since 2.1
 			 */
-			do_action('mprm_email_template_' . $this->get_template());
+			do_action('mprm_email_template_' . $template);
 		} else {
-			//mprm_get_template_part('emails/body', $this->get_template(), true);
+			View::get_instance()->render_html('emails/body');
 		}
 
 		/**
@@ -283,9 +284,7 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_body', $this);
-
-		//mprm_get_template_part('emails/footer', $this->get_template(), true);
-
+		View::get_instance()->render_html('emails/footer-' . $template);
 		/**
 		 * Hooks into the footer of the email
 		 *
@@ -295,7 +294,6 @@ class Settings_emails extends Model {
 
 		$body = ob_get_clean();
 		$message = str_replace('{email}', $message, $body);
-
 		return apply_filters('mprm_email_message', $message, $this);
 	}
 
@@ -396,7 +394,6 @@ class Settings_emails extends Model {
 		if ('text/html' == $this->content_type || true === $this->html) {
 			$message = wpautop($message);
 		}
-
 		return $message;
 	}
 }

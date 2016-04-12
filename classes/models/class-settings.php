@@ -37,11 +37,8 @@ class Settings extends Model {
 			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
 			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
 			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
-
 			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings);
-
 			update_option('mprm_settings', $settings);
-
 		}
 		if (!empty($settings[$key])) {
 			return $settings[$key];
@@ -208,6 +205,11 @@ class Settings extends Model {
 		}
 
 		return $currency_symbol;
+	}
+
+	function get_currency() {
+		$currency = $this->get_option('currency', 'USD');
+		return apply_filters('mprm_currency', $currency);
 	}
 
 	public function get_currencies() {
@@ -828,8 +830,8 @@ class Settings extends Model {
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
 		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<span>&nbsp;<input type="button" class="settings_upload_button button-secondary" value="' . __('Upload File', 'easy-digital-downloads') . '"/></span>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . __('Upload File', 'easy-digital-downloads') . '"/></span>';
+		$html .= '<br><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
 	}

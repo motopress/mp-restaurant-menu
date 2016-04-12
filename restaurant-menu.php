@@ -80,6 +80,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			return;
 		}
 		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+		User_Capabilities::get_instance()->remove_caps();
 		flush_rewrite_rules();
 		if (!empty($plugin)) {
 			check_admin_referer("deactivate-plugin_{$plugin}");

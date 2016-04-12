@@ -20,7 +20,7 @@
 			}
 			?>
 		</h2>
-		<?php if (!empty($tabs[$active_tab]['section'])): ?>
+		<?php if (!empty($sections)): ?>
 			<div>
 				<?php
 				$number_of_sections = count($sections);

@@ -88,6 +88,8 @@ class Hooks extends Core {
 		register_importer('mprm-importer', 'Restaurant menu', __('Import menu item with categories data', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
 		//Emails
 		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
+
+		add_action('admin_notices', array($this, 'admin_notices_action'));
 	}
 
 	/**
@@ -685,5 +687,9 @@ class Hooks extends Core {
 		 */
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_header', 10);
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
+	}
+
+	public function admin_notices_action() {
+		settings_errors('mprm-notices');
 	}
 }

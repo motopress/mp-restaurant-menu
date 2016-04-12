@@ -136,26 +136,104 @@ class Menu_item extends Model {
 	 * @return string
 	 */
 	public function get_price($id, $format = false) {
-		$currency = $this->get('settings')->get_currency_symbol();
-		$pos = $this->get('settings')->get_settings('currency_pos');
 		$price = get_post_meta($id, 'price', true);
-		if (!empty($currency) && $format && !empty($price)) {
-			switch ($pos) {
-				case 'left':
-					$price = "{$currency}{$price}";
-					break;
-				case 'right':
-					$price = "{$price}{$currency}";
-					break;
-				case 'left_space':
-					$price = "{$currency} {$price}";
-					break;
-				case 'right_space':
-					$price = "{$price} {$currency}";
-					break;
-			}
+		if ($format) {
+			$price = $this->get_formatting_price($price);
 		}
 		return $price;
+	}
+
+	public function get_formatting_price($amount, $decimals = true) {
+		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
+		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
+		// Format the amount
+		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
+			$whole = substr($amount, 0, $sep_found);
+			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
+			$amount = $whole . '.' . $part;
+		}
+
+		// Strip , from the amount (if set as the thousands separator)
+		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(',', '', $amount);
+		}
+
+		// Strip ' ' from the amount (if set as the thousands separator)
+		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(' ', '', $amount);
+		}
+
+		if (empty($amount)) {
+			$amount = 0;
+		}
+
+		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
+		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
+
+		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
+	}
+
+	function currency_filter($price = '', $currency = '') {
+		if (empty($currency)) {
+			$currency = $this->get('settings')->get_currency();
+		}
+		$position = $this->get('settings')->get_option('currency_position', 'before');
+
+		$negative = $price < 0;
+
+		if ($negative) {
+			$price = substr($price, 1); // Remove proceeding "-" -
+		}
+
+		$symbol = $this->get('settings')->get_currency_symbol($currency);
+
+		if ($position == 'before'):
+			switch ($currency):
+				case "GBP" :
+				case "BRL" :
+				case "EUR" :
+				case "USD" :
+				case "AUD" :
+				case "CAD" :
+				case "HKD" :
+				case "MXN" :
+				case "NZD" :
+				case "SGD" :
+				case "JPY" :
+					$formatted = $symbol . $price;
+					break;
+				default :
+					$formatted = $currency . ' ' . $price;
+					break;
+			endswitch;
+			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_before', $formatted, $currency, $price);
+		else :
+			switch ($currency) :
+				case "GBP" :
+				case "BRL" :
+				case "EUR" :
+				case "USD" :
+				case "AUD" :
+				case "CAD" :
+				case "HKD" :
+				case "MXN" :
+				case "SGD" :
+				case "JPY" :
+					$formatted = $price . $symbol;
+					break;
+				default :
+					$formatted = $price . ' ' . $currency;
+					break;
+			endswitch;
+			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_after', $formatted, $currency, $price);
+		endif;
+
+		if ($negative) {
+			// Prepend the mins sign before the currency sign
+			$formatted = '-' . $formatted;
+		}
+		return $formatted;
 	}
 
 	/**
