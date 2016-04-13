@@ -47,6 +47,9 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 == Changelog ==
 
+= 1.0.5 =
+* Actions names updated
+
 = 1.0.4 =
 * Added the ability to select categories in Menu
 
