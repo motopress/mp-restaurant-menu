@@ -9,7 +9,7 @@ use mp_restaurant_menu\classes\libs\WP_Session;
  *
  * @since 1.5
  */
-class MPRM_Session extends Core {
+class Session extends Core {
 
 	protected static $instance;
 

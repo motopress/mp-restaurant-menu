@@ -60,10 +60,8 @@ class Controller_Settings extends Controller {
 		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'mprm-test-email')) {
 			return;
 		}
-
 		// Send a test email
 		$this->get('emails')->email_test_purchase_receipt();
-
 		// Remove the test email query arg
 		wp_redirect(remove_query_arg('mprm_action'));
 		exit;

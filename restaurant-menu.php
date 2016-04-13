@@ -166,10 +166,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include hooks
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
-		/**
-		 * Session
-		 */
-		require_once MP_RM_CLASSES_PATH . 'class-session.php';
 	}
 
 	public function __construct() {

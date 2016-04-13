@@ -60,9 +60,10 @@ class Preprocessor extends GUMP {
 	/**
 	 * Call controller
 	 *
-	 * @param type $page
+	 * @param string $action
+	 * @param bool $page
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function call_controller($action = 'content', $page = false) {
 		if (empty($page)) {
@@ -89,10 +90,10 @@ class Preprocessor extends GUMP {
 	/**
 	 * Progress
 	 *
-	 * @param type $params
-	 * @param type $name
+	 * @param array $params
+	 * @param string $name
 	 *
-	 * @return type
+	 * @return array
 	 */
 	protected function progress($params, $name, $type) {
 		$success = $this->run($params);

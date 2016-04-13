@@ -3,6 +3,7 @@
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
+use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
@@ -122,6 +123,9 @@ class Hooks extends Core {
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+
+		add_action('mprm_purchase_form_before_submit', array(Errors::get_instance(), 'print_errors'));
+		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'edd_print_errors'));
 
 
 	}
@@ -344,7 +348,8 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_slidebar_nutritional()
 		 * @see mprm_menu_item_slidebar_related_items()
 		 */
-		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_price', 10);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_price', 5);
+		add_action('mprm_menu_item_slidebar', 'mprm_get_purchase_template', 10);
 		add_action('mprm_menu_item_slidebar', 'mprm_purchase_link', 15);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_attributes', 20);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_ingredients', 25);

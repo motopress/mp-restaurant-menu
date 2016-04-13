@@ -554,6 +554,13 @@ function get_column_class($type) {
 	return $class;
 }
 
+function mprm_get_purchase_link($params) {
+	return models\Menu_item::get_instance()->get_purchase_link($params);
+}
+
+function mprm_get_purchase_template() {
+	mprm_get_template('common/buy/default');
+}
 
 /**
  * Before Category list header
