@@ -15,7 +15,7 @@ class Emails extends Model {
 		return self::$instance;
 	}
 
-	function get_email_body_content($payment_id = 0, $payment_data = array()) {
+	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
 		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
 		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to download your files.", "mp-restaurant-menu") . "\n\n";
 		$default_email_body .= "{download_list}\n\n";
@@ -31,7 +31,7 @@ class Emails extends Model {
 		return apply_filters('mprm_purchase_receipt', $email_body, $payment_id, $payment_data);
 	}
 
-	function email_preview_template_tags($message) {
+	public function email_preview_template_tags($message) {
 		$download_list = '<ul>';
 		$download_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
 		$download_list .= '<div>';
@@ -79,7 +79,7 @@ class Emails extends Model {
 		return apply_filters('mprm_email_template_wpautop', true) ? wpautop($message) : $message;
 	}
 
-	function email_test_purchase_receipt() {
+	public function email_test_purchase_receipt() {
 
 		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
 		$from_name = apply_filters('mprm_purchase_from_name', $from_name, 0, array());
@@ -95,7 +95,7 @@ class Emails extends Model {
 		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
 
 		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
-	//	$message = mprm_do_email_tags($this->get_email_body_content(0, array()), 0);
+		//	$message = mprm_do_email_tags($this->get_email_body_content(0, array()), 0);
 
 		$emails = $this->get('settings_emails');
 		$emails->__set('from_name', $from_name);
@@ -106,6 +106,5 @@ class Emails extends Model {
 		$emails->__set('headers', $headers);
 
 		//$emails->send(mprm_get_admin_notice_emails(), $subject, $message, $attachments);
-
 	}
 }
