@@ -30,7 +30,7 @@ class  User_Capabilities extends Core {
 	 * @return void
 	 */
 	public function add_roles() {
-		add_role('mprm_shop_manager', __('Shop Manager restaurant menu', 'easy-digital-downloads'), array(
+		add_role('mprm_shop_manager', __('Shop Manager restaurant menu', 'mp-restaurant-menu'), array(
 			'read' => true,
 			'edit_posts' => true,
 			'delete_posts' => true,
@@ -61,20 +61,20 @@ class  User_Capabilities extends Core {
 			'read_private_posts' => true
 		));
 
-		add_role('mprm_shop_accountant', __('Shop Accountant restaurant menu', 'easy-digital-downloads'), array(
+		add_role('mprm_shop_accountant', __('Shop Accountant restaurant menu', 'mp-restaurant-menu'), array(
 			'read' => true,
 			'edit_posts' => false,
 			'delete_posts' => false
 		));
 
-		add_role('mprm_shop_worker', __('Shop Worker restaurant menu', 'easy-digital-downloads'), array(
+		add_role('mprm_shop_worker', __('Shop Worker restaurant menu', 'mp-restaurant-menu'), array(
 			'read' => true,
 			'edit_posts' => false,
 			'upload_files' => true,
 			'delete_posts' => false
 		));
 
-		add_role('mprm_shop_vendor', __('Shop Vendor restaurant menu', 'easy-digital-downloads'), array(
+		add_role('mprm_shop_vendor', __('Shop Vendor restaurant menu', 'mp-restaurant-menu'), array(
 			'read' => true,
 			'edit_posts' => false,
 			'upload_files' => true,

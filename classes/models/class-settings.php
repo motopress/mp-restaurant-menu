@@ -214,33 +214,33 @@ class Settings extends Model {
 
 	public function get_currencies() {
 		$currencies = array(
-			'USD' => __('US Dollars (&#36;)', 'easy-digital-downloads'),
-			'EUR' => __('Euros (&euro;)', 'easy-digital-downloads'),
-			'GBP' => __('Pounds Sterling (&pound;)', 'easy-digital-downloads'),
-			'AUD' => __('Australian Dollars (&#36;)', 'easy-digital-downloads'),
-			'BRL' => __('Brazilian Real (R&#36;)', 'easy-digital-downloads'),
-			'CAD' => __('Canadian Dollars (&#36;)', 'easy-digital-downloads'),
-			'CZK' => __('Czech Koruna', 'easy-digital-downloads'),
-			'DKK' => __('Danish Krone', 'easy-digital-downloads'),
-			'HKD' => __('Hong Kong Dollar (&#36;)', 'easy-digital-downloads'),
-			'HUF' => __('Hungarian Forint', 'easy-digital-downloads'),
-			'ILS' => __('Israeli Shekel (&#8362;)', 'easy-digital-downloads'),
-			'JPY' => __('Japanese Yen (&yen;)', 'easy-digital-downloads'),
-			'MYR' => __('Malaysian Ringgits', 'easy-digital-downloads'),
-			'MXN' => __('Mexican Peso (&#36;)', 'easy-digital-downloads'),
-			'NZD' => __('New Zealand Dollar (&#36;)', 'easy-digital-downloads'),
-			'NOK' => __('Norwegian Krone', 'easy-digital-downloads'),
-			'PHP' => __('Philippine Pesos', 'easy-digital-downloads'),
-			'PLN' => __('Polish Zloty', 'easy-digital-downloads'),
-			'SGD' => __('Singapore Dollar (&#36;)', 'easy-digital-downloads'),
-			'SEK' => __('Swedish Krona', 'easy-digital-downloads'),
-			'CHF' => __('Swiss Franc', 'easy-digital-downloads'),
-			'TWD' => __('Taiwan New Dollars', 'easy-digital-downloads'),
-			'THB' => __('Thai Baht (&#3647;)', 'easy-digital-downloads'),
-			'INR' => __('Indian Rupee (&#8377;)', 'easy-digital-downloads'),
-			'TRY' => __('Turkish Lira (&#8378;)', 'easy-digital-downloads'),
-			'RIAL' => __('Iranian Rial (&#65020;)', 'easy-digital-downloads'),
-			'RUB' => __('Russian Rubles', 'easy-digital-downloads')
+			'USD' => __('US Dollars (&#36;)', 'mp-restaurant-menu'),
+			'EUR' => __('Euros (&euro;)', 'mp-restaurant-menu'),
+			'GBP' => __('Pounds Sterling (&pound;)', 'mp-restaurant-menu'),
+			'AUD' => __('Australian Dollars (&#36;)', 'mp-restaurant-menu'),
+			'BRL' => __('Brazilian Real (R&#36;)', 'mp-restaurant-menu'),
+			'CAD' => __('Canadian Dollars (&#36;)', 'mp-restaurant-menu'),
+			'CZK' => __('Czech Koruna', 'mp-restaurant-menu'),
+			'DKK' => __('Danish Krone', 'mp-restaurant-menu'),
+			'HKD' => __('Hong Kong Dollar (&#36;)', 'mp-restaurant-menu'),
+			'HUF' => __('Hungarian Forint', 'mp-restaurant-menu'),
+			'ILS' => __('Israeli Shekel (&#8362;)', 'mp-restaurant-menu'),
+			'JPY' => __('Japanese Yen (&yen;)', 'mp-restaurant-menu'),
+			'MYR' => __('Malaysian Ringgits', 'mp-restaurant-menu'),
+			'MXN' => __('Mexican Peso (&#36;)', 'mp-restaurant-menu'),
+			'NZD' => __('New Zealand Dollar (&#36;)', 'mp-restaurant-menu'),
+			'NOK' => __('Norwegian Krone', 'mp-restaurant-menu'),
+			'PHP' => __('Philippine Pesos', 'mp-restaurant-menu'),
+			'PLN' => __('Polish Zloty', 'mp-restaurant-menu'),
+			'SGD' => __('Singapore Dollar (&#36;)', 'mp-restaurant-menu'),
+			'SEK' => __('Swedish Krona', 'mp-restaurant-menu'),
+			'CHF' => __('Swiss Franc', 'mp-restaurant-menu'),
+			'TWD' => __('Taiwan New Dollars', 'mp-restaurant-menu'),
+			'THB' => __('Thai Baht (&#3647;)', 'mp-restaurant-menu'),
+			'INR' => __('Indian Rupee (&#8377;)', 'mp-restaurant-menu'),
+			'TRY' => __('Turkish Lira (&#8378;)', 'mp-restaurant-menu'),
+			'RIAL' => __('Iranian Rial (&#65020;)', 'mp-restaurant-menu'),
+			'RUB' => __('Russian Rubles', 'mp-restaurant-menu')
 		);
 
 		return apply_filters('mprm_currencies', $currencies);
@@ -730,7 +730,7 @@ class Settings extends Model {
 
 	public function missing_callback($args) {
 		printf(
-			__('The callback function used for the %s setting is missing.', 'easy-digital-downloads'),
+			__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
 			'<strong>' . $args['id'] . '</strong>'
 		);
 	}
@@ -830,7 +830,7 @@ class Settings extends Model {
 
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
 		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . __('Upload File', 'easy-digital-downloads') . '"/></span>';
+		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . __('Upload File', 'mp-restaurant-menu') . '"/></span>';
 		$html .= '<br><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
 		echo $html;
@@ -891,11 +891,11 @@ class Settings extends Model {
 		<table id="tax_rates" class="wp-list-table widefat fixed posts">
 			<thead>
 			<tr>
-				<th scope="col" class="tax_country"><?php _e('Country', 'easy-digital-downloads'); ?></th>
-				<th scope="col" class="tax_state"><?php _e('State / Province', 'easy-digital-downloads'); ?></th>
-				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'easy-digital-downloads'); ?>"><?php _e('Country Wide', 'easy-digital-downloads'); ?></th>
-				<th scope="col" class="tax_rate"><?php _e('Rate', 'easy-digital-downloads'); ?></th>
-				<th scope="col"><?php _e('Remove', 'easy-digital-downloads'); ?></th>
+				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_state"><?php _e('State / Province', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'mp-restaurant-menu'); ?>"><?php _e('Country Wide', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_rate"><?php _e('Rate', 'mp-restaurant-menu'); ?></th>
+				<th scope="col"><?php _e('Remove', 'mp-restaurant-menu'); ?></th>
 			</tr>
 			</thead>
 			<?php if (!empty($rates)) : ?>
@@ -912,7 +912,7 @@ class Settings extends Model {
 									'show_option_none' => false,
 									'class' => 'mprm-tax-country',
 									'chosen' => false,
-									'placeholder' => __('Choose a country', 'easy-digital-downloads')
+									'placeholder' => __('Choose a country', 'mp-restaurant-menu')
 								)
 							);
 							?>
@@ -929,7 +929,7 @@ class Settings extends Model {
 										'show_option_all' => false,
 										'show_option_none' => false,
 										'chosen' => false,
-										'placeholder' => __('Choose a state', 'easy-digital-downloads')
+										'placeholder' => __('Choose a state', 'mp-restaurant-menu')
 									)
 								);
 							} else {
@@ -942,10 +942,10 @@ class Settings extends Model {
 						</td>
 						<td class="tax_global">
 							<input type="checkbox" name="tax_rates[<?php echo sanitize_key($key); ?>][global]" id="tax_rates[<?php echo sanitize_key($key); ?>][global]" value="1"<?php checked(true, !empty($rate['global'])); ?>/>
-							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'easy-digital-downloads'); ?></label>
+							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
 						</td>
 						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo sanitize_key($key); ?>][rate]" value="<?php echo esc_html($rate['rate']); ?>"/></td>
-						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'easy-digital-downloads'); ?></span></td>
+						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php else : ?>
@@ -960,7 +960,7 @@ class Settings extends Model {
 								'show_option_none' => false,
 								'class' => 'mprm-tax-country',
 								'chosen' => false,
-								'placeholder' => __('Choose a country', 'easy-digital-downloads')
+								'placeholder' => __('Choose a country', 'mp-restaurant-menu')
 							)
 						);
 						?>
@@ -972,15 +972,15 @@ class Settings extends Model {
 					</td>
 					<td class="tax_global">
 						<input type="checkbox" name="tax_rates[0][global]" value="1"/>
-						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'easy-digital-downloads'); ?></label>
+						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
 					</td>
 					<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="tax_rates[0][rate]" value=""/></td>
-					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'easy-digital-downloads'); ?></span></td>
+					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
 				</tr>
 			<?php endif; ?>
 		</table>
 		<p>
-			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'easy-digital-downloads'); ?></span>
+			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
 		</p>
 		<?php
 		echo ob_get_clean();
@@ -1013,7 +1013,7 @@ class Settings extends Model {
 
 						$class = 'error';
 						$messages[] = sprintf(
-							__('Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'easy-digital-downloads'),
+							__('Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'mp-restaurant-menu'),
 							date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
 							'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
 						);
@@ -1026,7 +1026,7 @@ class Settings extends Model {
 
 						$class = 'error';
 						$messages[] = sprintf(
-							__('Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'easy-digital-downloads'),
+							__('Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'mp-restaurant-menu'),
 							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
 						);
 
@@ -1039,7 +1039,7 @@ class Settings extends Model {
 
 						$class = 'error';
 						$messages[] = sprintf(
-							__('Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'easy-digital-downloads'),
+							__('Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'mp-restaurant-menu'),
 							$args['name'],
 							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
 						);
@@ -1051,7 +1051,7 @@ class Settings extends Model {
 					case 'item_name_mismatch' :
 
 						$class = 'error';
-						$messages[] = sprintf(__('This is not a %s.', 'easy-digital-downloads'), $args['name']);
+						$messages[] = sprintf(__('This is not a %s.', 'mp-restaurant-menu'), $args['name']);
 
 						$license_status = 'license-' . $class . '-notice';
 
@@ -1060,7 +1060,7 @@ class Settings extends Model {
 					case 'no_activations_left':
 
 						$class = 'error';
-						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'easy-digital-downloads'), 'https://easydigitaldownloads.com/your-account/');
+						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'mp-restaurant-menu'), 'https://easydigitaldownloads.com/your-account/');
 
 						$license_status = 'license-' . $class . '-notice';
 						break;
@@ -1077,14 +1077,14 @@ class Settings extends Model {
 
 						if ('lifetime' === $license->expires) {
 
-							$messages[] = __('License key never expires.', 'easy-digital-downloads');
+							$messages[] = __('License key never expires.', 'mp-restaurant-menu');
 
 							$license_status = 'license-lifetime-notice';
 
 						} elseif ($expiration > $now && $expiration - $now < (DAY_IN_SECONDS * 30)) {
 
 							$messages[] = sprintf(
-								__('Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'easy-digital-downloads'),
+								__('Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'mp-restaurant-menu'),
 								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
 								'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew'
 							);
@@ -1094,7 +1094,7 @@ class Settings extends Model {
 						} else {
 
 							$messages[] = sprintf(
-								__('Your license key expires on %s.', 'easy-digital-downloads'),
+								__('Your license key expires on %s.', 'mp-restaurant-menu'),
 								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp')))
 							);
 
@@ -1113,7 +1113,7 @@ class Settings extends Model {
 		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . sanitize_key($args['id']) . ']" value="' . esc_attr($value) . '"/>';
 
 		if ((is_object($license) && 'valid' == $license->license) || 'valid' == $license) {
-			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __('Deactivate License', 'easy-digital-downloads') . '"/>';
+			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __('Deactivate License', 'mp-restaurant-menu') . '"/>';
 		}
 
 		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
@@ -1319,7 +1319,7 @@ class Settings extends Model {
 		// Merge our new settings with the existing
 		$output = array_merge($mprm_options, $input);
 
-		add_settings_error('mprm-notices', '', __('Settings updated.', 'easy-digital-downloads'), 'updated');
+		add_settings_error('mprm-notices', '', __('Settings updated.', 'mp-restaurant-menu'), 'updated');
 
 		return $output;
 	}

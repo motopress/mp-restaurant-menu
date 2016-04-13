@@ -540,114 +540,113 @@ class Media extends Core {
 					'main' => array(
 						'page_settings' => array(
 							'id' => 'page_settings',
-							'name' => '<h3>' . __('Page Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Page Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						),
 						'purchase_page' => array(
 							'id' => 'purchase_page',
-							'name' => __('Checkout Page', 'easy-digital-downloads'),
-							'desc' => __('This is the checkout page where buyers will complete their purchases. The [download_checkout] short code must be on this page.', 'easy-digital-downloads'),
+							'name' => __('Checkout Page', 'mp-restaurant-menu'),
+							'desc' => __('This is the checkout page where buyers will complete their purchases. The [download_checkout] short code must be on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'easy-digital-downloads'),
+							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
 						'success_page' => array(
 							'id' => 'success_page',
-							'name' => __('Success Page', 'easy-digital-downloads'),
-							'desc' => __('This is the page buyers are sent to after completing their purchases. The [mprm_receipt] short code should be on this page.', 'easy-digital-downloads'),
+							'name' => __('Success Page', 'mp-restaurant-menu'),
+							'desc' => __('This is the page buyers are sent to after completing their purchases. The [mprm_receipt] short code should be on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'easy-digital-downloads'),
+							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
 						'failure_page' => array(
 							'id' => 'failure_page',
-							'name' => __('Failed Transaction Page', 'easy-digital-downloads'),
-							'desc' => __('This is the page buyers are sent to if their transaction is cancelled or fails', 'easy-digital-downloads'),
+							'name' => __('Failed Transaction Page', 'mp-restaurant-menu'),
+							'desc' => __('This is the page buyers are sent to if their transaction is cancelled or fails', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'easy-digital-downloads'),
+							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
 						'purchase_history_page' => array(
 							'id' => 'purchase_history_page',
-							'name' => __('Purchase History Page', 'easy-digital-downloads'),
-							'desc' => __('This page shows a complete purchase history for the current user, including download links', 'easy-digital-downloads'),
+							'name' => __('Purchase History Page', 'mp-restaurant-menu'),
+							'desc' => __('This page shows a complete purchase history for the current user, including download links', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'easy-digital-downloads'),
+							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
 						'locale_settings' => array(
 							'id' => 'locale_settings',
-							'name' => '<h3>' . __('Store Location', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Store Location', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						),
 						'base_country' => array(
 							'id' => 'base_country',
-							'name' => __('Base Country', 'easy-digital-downloads'),
-							'desc' => __('Where does your store operate from?', 'easy-digital-downloads'),
+							'name' => __('Base Country', 'mp-restaurant-menu'),
+							'desc' => __('Where does your store operate from?', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings::get_instance()->get_country_list(),
 							'chosen' => true,
-							'placeholder' => __('Select a country', 'easy-digital-downloads'),
+							'placeholder' => __('Select a country', 'mp-restaurant-menu'),
 						),
 						'base_state' => array(
 							'id' => 'base_state',
-							'name' => __('Base State / Province', 'easy-digital-downloads'),
-							'desc' => __('What state / province does your store operate from?', 'easy-digital-downloads'),
+							'name' => __('Base State / Province', 'mp-restaurant-menu'),
+							'desc' => __('What state / province does your store operate from?', 'mp-restaurant-menu'),
 							'type' => 'shop_states',
 							'chosen' => true,
-							'placeholder' => __('Select a state', 'easy-digital-downloads'),
+							'placeholder' => __('Select a state', 'mp-restaurant-menu'),
 						),
 						'tracking_settings' => array(
 							'id' => 'tracking_settings',
-							'name' => '<h3>' . __('Tracking Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Tracking Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						)
-
 					),
 					'currency' => array(
 						'currency_settings' => array(
 							'id' => 'currency_settings',
-							'name' => '<h3>' . __('Currency Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Currency Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						),
 						'currency' => array(
 							'id' => 'currency',
-							'name' => __('Currency', 'easy-digital-downloads'),
-							'desc' => __('Choose your currency. Note that some payment gateways have currency restrictions.', 'easy-digital-downloads'),
+							'name' => __('Currency', 'mp-restaurant-menu'),
+							'desc' => __('Choose your currency. Note that some payment gateways have currency restrictions.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings::get_instance()->get_currencies(),
 							'chosen' => true,
 						),
 						'currency_position' => array(
 							'id' => 'currency_position',
-							'name' => __('Currency Position', 'easy-digital-downloads'),
-							'desc' => __('Choose the location of the currency sign.', 'easy-digital-downloads'),
+							'name' => __('Currency Position', 'mp-restaurant-menu'),
+							'desc' => __('Choose the location of the currency sign.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
-								'before' => __('Before - $10', 'easy-digital-downloads'),
-								'after' => __('After - 10$', 'easy-digital-downloads'),
+								'before' => __('Before - $10', 'mp-restaurant-menu'),
+								'after' => __('After - 10$', 'mp-restaurant-menu'),
 							),
 						),
 						'thousands_separator' => array(
 							'id' => 'thousands_separator',
-							'name' => __('Thousands Separator', 'easy-digital-downloads'),
-							'desc' => __('The symbol (usually , or .) to separate thousands', 'easy-digital-downloads'),
+							'name' => __('Thousands Separator', 'mp-restaurant-menu'),
+							'desc' => __('The symbol (usually , or .) to separate thousands', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => ',',
 						),
 						'decimal_separator' => array(
 							'id' => 'decimal_separator',
-							'name' => __('Decimal Separator', 'easy-digital-downloads'),
-							'desc' => __('The symbol (usually , or .) to separate decimal points', 'easy-digital-downloads'),
+							'name' => __('Decimal Separator', 'mp-restaurant-menu'),
+							'desc' => __('The symbol (usually , or .) to separate decimal points', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => '.',
@@ -656,14 +655,14 @@ class Media extends Core {
 					'api' => array(
 						'api_settings' => array(
 							'id' => 'api_settings',
-							'name' => '<h3>' . __('API Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('API Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						),
 						'api_allow_user_keys' => array(
 							'id' => 'api_allow_user_keys',
-							'name' => __('Allow User Keys', 'easy-digital-downloads'),
-							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'easy-digital-downloads'),
+							'name' => __('Allow User Keys', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -675,34 +674,34 @@ class Media extends Core {
 					'main' => array(
 						'gateway_settings' => array(
 							'id' => 'api_header',
-							'name' => '<h3>' . __('Gateway Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Gateway Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
 						),
 						'test_mode' => array(
 							'id' => 'test_mode',
-							'name' => __('Test Mode', 'easy-digital-downloads'),
-							'desc' => __('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'easy-digital-downloads'),
+							'name' => __('Test Mode', 'mp-restaurant-menu'),
+							'desc' => __('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'gateways' => array(
 							'id' => 'gateways',
-							'name' => __('Payment Gateways', 'easy-digital-downloads'),
-							'desc' => __('Choose the payment gateways you want to enable.', 'easy-digital-downloads'),
+							'name' => __('Payment Gateways', 'mp-restaurant-menu'),
+							'desc' => __('Choose the payment gateways you want to enable.', 'mp-restaurant-menu'),
 							'type' => 'gateways',
 							'options' => $this->get_payment_gateways(),
 						),
 						'default_gateway' => array(
 							'id' => 'default_gateway',
-							'name' => __('Default Gateway', 'easy-digital-downloads'),
-							'desc' => __('This gateway will be loaded automatically with the checkout page.', 'easy-digital-downloads'),
+							'name' => __('Default Gateway', 'mp-restaurant-menu'),
+							'desc' => __('This gateway will be loaded automatically with the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'gateway_select',
 							'options' => $this->get_payment_gateways(),
 						),
 						'accepted_cards' => array(
 							'id' => 'accepted_cards',
-							'name' => __('Accepted Payment Method Icons', 'easy-digital-downloads'),
-							'desc' => __('Display icons for the selected payment methods', 'easy-digital-downloads') . '<br/>' . __('You will also need to configure your gateway settings if you are accepting credit cards', 'easy-digital-downloads'),
+							'name' => __('Accepted Payment Method Icons', 'mp-restaurant-menu'),
+							'desc' => __('Display icons for the selected payment methods', 'mp-restaurant-menu') . '<br/>' . __('You will also need to configure your gateway settings if you are accepting credit cards', 'mp-restaurant-menu'),
 							'type' => 'payment_icons',
 							'options' => apply_filters('mprm_accepted_payment_icons', array(
 									'mastercard' => 'Mastercard',
@@ -717,27 +716,27 @@ class Media extends Core {
 					'paypal' => array(
 						'paypal_settings' => array(
 							'id' => 'paypal_settings',
-							'name' => '<h3>' . __('PayPal Standard Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('PayPal Standard Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'paypal_email' => array(
 							'id' => 'paypal_email',
-							'name' => __('PayPal Email', 'easy-digital-downloads'),
-							'desc' => __('Enter your PayPal account\'s email', 'easy-digital-downloads'),
+							'name' => __('PayPal Email', 'mp-restaurant-menu'),
+							'desc' => __('Enter your PayPal account\'s email', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'paypal_page_style' => array(
 							'id' => 'paypal_page_style',
-							'name' => __('PayPal Page Style', 'easy-digital-downloads'),
-							'desc' => __('Enter the name of the page style to use, or leave blank for default', 'easy-digital-downloads'),
+							'name' => __('PayPal Page Style', 'mp-restaurant-menu'),
+							'desc' => __('Enter the name of the page style to use, or leave blank for default', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'disable_paypal_verification' => array(
 							'id' => 'disable_paypal_verification',
-							'name' => __('Disable PayPal IPN Verification', 'easy-digital-downloads'),
-							'desc' => __('If payments are not getting marked as complete, then check this box. This forces the site to use a slightly less secure method of verifying purchases.', 'easy-digital-downloads'),
+							'name' => __('Disable PayPal IPN Verification', 'mp-restaurant-menu'),
+							'desc' => __('If payments are not getting marked as complete, then check this box. This forces the site to use a slightly less secure method of verifying purchases.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -749,20 +748,20 @@ class Media extends Core {
 					'main' => array(
 						'email_settings_header' => array(
 							'id' => 'email_settings_header',
-							'name' => '<h3>' . __('Email Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Email Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'email_template' => array(
 							'id' => 'email_template',
-							'name' => __('Email Template', 'easy-digital-downloads'),
-							'desc' => __('Choose a template. Click "Save Changes" then "Preview Purchase Receipt" to see the new template.', 'easy-digital-downloads'),
+							'name' => __('Email Template', 'mp-restaurant-menu'),
+							'desc' => __('Choose a template. Click "Save Changes" then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings_emails::get_instance()->get_email_templates()
 						),
 						'email_logo' => array(
 							'id' => 'email_logo',
-							'name' => __('Logo', 'easy-digital-downloads'),
-							'desc' => __('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed on HTML emails only.', 'easy-digital-downloads'),
+							'name' => __('Logo', 'mp-restaurant-menu'),
+							'desc' => __('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed on HTML emails only.', 'mp-restaurant-menu'),
 							'type' => 'upload',
 						),
 						'email_settings' => array(
@@ -775,76 +774,76 @@ class Media extends Core {
 					'purchase_receipts' => array(
 						'purchase_receipt_settings' => array(
 							'id' => 'purchase_receipt_settings',
-							'name' => '<h3>' . __('Purchase Receipts', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Purchase Receipts', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'from_name' => array(
 							'id' => 'from_name',
-							'name' => __('From Name', 'easy-digital-downloads'),
-							'desc' => __('The name purchase receipts are said to come from. This should probably be your site or shop name.', 'easy-digital-downloads'),
+							'name' => __('From Name', 'mp-restaurant-menu'),
+							'desc' => __('The name purchase receipts are said to come from. This should probably be your site or shop name.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => get_bloginfo('name'),
 						),
 						'from_email' => array(
 							'id' => 'from_email',
-							'name' => __('From Email', 'easy-digital-downloads'),
-							'desc' => __('Email to send purchase receipts from. This will act as the "from" and "reply-to" address.', 'easy-digital-downloads'),
+							'name' => __('From Email', 'mp-restaurant-menu'),
+							'desc' => __('Email to send purchase receipts from. This will act as the "from" and "reply-to" address.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => get_bloginfo('admin_email'),
 						),
 						'purchase_subject' => array(
 							'id' => 'purchase_subject',
-							'name' => __('Purchase Email Subject', 'easy-digital-downloads'),
-							'desc' => __('Enter the subject line for the purchase receipt email', 'easy-digital-downloads'),
+							'name' => __('Purchase Email Subject', 'mp-restaurant-menu'),
+							'desc' => __('Enter the subject line for the purchase receipt email', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase Receipt', 'easy-digital-downloads'),
+							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
 						),
 						'purchase_heading' => array(
 							'id' => 'purchase_heading',
-							'name' => __('Purchase Email Heading', 'easy-digital-downloads'),
-							'desc' => __('Enter the heading for the purchase receipt email', 'easy-digital-downloads'),
+							'name' => __('Purchase Email Heading', 'mp-restaurant-menu'),
+							'desc' => __('Enter the heading for the purchase receipt email', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase Receipt', 'easy-digital-downloads'),
+							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
 						),
 						'purchase_receipt' => array(
 							'id' => 'purchase_receipt',
-							'name' => __('Purchase Receipt', 'easy-digital-downloads'),
-							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'easy-digital-downloads') . '<br/>' /*. mprm_get_emails_tags_list()*/,
+							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
+							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' /*. mprm_get_emails_tags_list()*/,
 							'type' => 'rich_editor',
-							'std' => __("Dear", "easy-digital-downloads") . " {name},\n\n" . __("Thank you for your purchase. Please click on the link(s) below to download your files.", "easy-digital-downloads") . "\n\n{download_list}\n\n{sitename}",
+							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n\n" . __("Thank you for your purchase. Please click on the link(s) below to download your files.", "mp-restaurant-menu") . "\n\n{download_list}\n\n{sitename}",
 						),
 					),
 					'sale_notifications' => array(
 						'sale_notification_settings' => array(
 							'id' => 'sale_notification_settings',
-							'name' => '<h3>' . __('Sale Notifications', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Sale Notifications', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'sale_notification_subject' => array(
 							'id' => 'sale_notification_subject',
-							'name' => __('Sale Notification Subject', 'easy-digital-downloads'),
-							'desc' => __('Enter the subject line for the sale notification email', 'easy-digital-downloads'),
+							'name' => __('Sale Notification Subject', 'mp-restaurant-menu'),
+							'desc' => __('Enter the subject line for the sale notification email', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => 'New download purchase - Order #{payment_id}',
 						),
 						'sale_notification' => array(
 							'id' => 'sale_notification',
-							'name' => __('Sale Notification', 'easy-digital-downloads'),
-							'desc' => __('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'easy-digital-downloads') . '<br/>'  /* . mprm_get_emails_tags_list()*/,
+							'name' => __('Sale Notification', 'mp-restaurant-menu'),
+							'desc' => __('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>'  /* . mprm_get_emails_tags_list()*/,
 							'type' => 'rich_editor',
 							//'std' => mprm_get_default_sale_notification_email(),
 						),
 						'admin_notice_emails' => array(
 							'id' => 'admin_notice_emails',
-							'name' => __('Sale Notification Emails', 'easy-digital-downloads'),
-							'desc' => __('Enter the email address(es) that should receive a notification anytime a sale is made, one per line', 'easy-digital-downloads'),
+							'name' => __('Sale Notification Emails', 'mp-restaurant-menu'),
+							'desc' => __('Enter the email address(es) that should receive a notification anytime a sale is made, one per line', 'mp-restaurant-menu'),
 							'type' => 'textarea',
 							'std' => get_bloginfo('admin_email'),
 						),
 						'disable_admin_notices' => array(
 							'id' => 'disable_admin_notices',
-							'name' => __('Disable Admin Notifications', 'easy-digital-downloads'),
-							'desc' => __('Check this box if you do not want to receive sales notification emails.', 'easy-digital-downloads'),
+							'name' => __('Disable Admin Notifications', 'mp-restaurant-menu'),
+							'desc' => __('Check this box if you do not want to receive sales notification emails.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -856,32 +855,32 @@ class Media extends Core {
 					'main' => array(
 						'style_settings' => array(
 							'id' => 'style_settings',
-							'name' => '<h3>' . __('Style Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Style Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'disable_styles' => array(
 							'id' => 'disable_styles',
-							'name' => __('Disable Styles', 'easy-digital-downloads'),
-							'desc' => __('Check this to disable all included styling of buttons, checkout fields, and all other elements.', 'easy-digital-downloads'),
+							'name' => __('Disable Styles', 'mp-restaurant-menu'),
+							'desc' => __('Check this to disable all included styling of buttons, checkout fields, and all other elements.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'button_header' => array(
 							'id' => 'button_header',
-							'name' => '<strong>' . __('Buttons', 'easy-digital-downloads') . '</strong>',
-							'desc' => __('Options for add to cart and purchase buttons', 'easy-digital-downloads'),
+							'name' => '<strong>' . __('Buttons', 'mp-restaurant-menu') . '</strong>',
+							'desc' => __('Options for add to cart and purchase buttons', 'mp-restaurant-menu'),
 							'type' => 'header',
 						),
 						'button_style' => array(
 							'id' => 'button_style',
-							'name' => __('Default Button Style', 'easy-digital-downloads'),
-							'desc' => __('Choose the style you want to use for the buttons.', 'easy-digital-downloads'),
+							'name' => __('Default Button Style', 'mp-restaurant-menu'),
+							'desc' => __('Choose the style you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_button_styles(),
 						),
 						'checkout_color' => array(
 							'id' => 'checkout_color',
-							'name' => __('Default Button Color', 'easy-digital-downloads'),
-							'desc' => __('Choose the color you want to use for the buttons.', 'easy-digital-downloads'),
+							'name' => __('Default Button Color', 'mp-restaurant-menu'),
+							'desc' => __('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'color_select',
 							'options' => $this->get_button_colors(),
 						),
@@ -894,54 +893,54 @@ class Media extends Core {
 					'main' => array(
 						'tax_settings' => array(
 							'id' => 'tax_settings',
-							'name' => '<h3>' . __('Tax Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'enable_taxes' => array(
 							'id' => 'enable_taxes',
-							'name' => __('Enable Taxes', 'easy-digital-downloads'),
-							'desc' => __('Check this to enable taxes on purchases.', 'easy-digital-downloads'),
+							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'tax_rates' => array(
 							'id' => 'tax_rates',
-							'name' => '<strong>' . __('Tax Rates', 'easy-digital-downloads') . '</strong>',
-							'desc' => __('Enter tax rates for specific regions.', 'easy-digital-downloads'),
+							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
+							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
 							'type' => 'tax_rates',
 						),
 						'tax_rate' => array(
 							'id' => 'tax_rate',
-							'name' => __('Fallback Tax Rate', 'easy-digital-downloads'),
-							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'easy-digital-downloads'),
+							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
+							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 						),
 						'prices_include_tax' => array(
 							'id' => 'prices_include_tax',
-							'name' => __('Prices entered with tax', 'easy-digital-downloads'),
-							'desc' => __('This option affects how you enter prices.', 'easy-digital-downloads'),
+							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
+							'desc' => __('This option affects how you enter prices.', 'mp-restaurant-menu'),
 							'type' => 'radio',
 							'std' => 'no',
 							'options' => array(
-								'yes' => __('Yes, I will enter prices inclusive of tax', 'easy-digital-downloads'),
-								'no' => __('No, I will enter prices exclusive of tax', 'easy-digital-downloads'),
+								'yes' => __('Yes, I will enter prices inclusive of tax', 'mp-restaurant-menu'),
+								'no' => __('No, I will enter prices exclusive of tax', 'mp-restaurant-menu'),
 							),
 						),
 						'display_tax_rate' => array(
 							'id' => 'display_tax_rate',
-							'name' => __('Display Tax Rate on Prices', 'easy-digital-downloads'),
-							'desc' => __('Some countries require a notice when product prices include tax.', 'easy-digital-downloads'),
+							'name' => __('Display Tax Rate on Prices', 'mp-restaurant-menu'),
+							'desc' => __('Some countries require a notice when product prices include tax.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'checkout_include_tax' => array(
 							'id' => 'checkout_include_tax',
-							'name' => __('Display during checkout', 'easy-digital-downloads'),
-							'desc' => __('Should prices on the checkout page be shown with or without tax?', 'easy-digital-downloads'),
+							'name' => __('Display during checkout', 'mp-restaurant-menu'),
+							'desc' => __('Should prices on the checkout page be shown with or without tax?', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'std' => 'no',
 							'options' => array(
-								'yes' => __('Including tax', 'easy-digital-downloads'),
-								'no' => __('Excluding tax', 'easy-digital-downloads'),
+								'yes' => __('Including tax', 'mp-restaurant-menu'),
+								'no' => __('Excluding tax', 'mp-restaurant-menu'),
 							),
 						),
 					),
@@ -960,140 +959,140 @@ class Media extends Core {
 					'main' => array(
 						'misc_settings' => array(
 							'id' => 'misc_settings',
-							'name' => '<h3>' . __('Misc Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Misc Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'enable_ajax_cart' => array(
 							'id' => 'enable_ajax_cart',
-							'name' => __('Enable Ajax', 'easy-digital-downloads'),
-							'desc' => __('Check this to enable AJAX for the shopping cart.', 'easy-digital-downloads'),
+							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 							'std' => '1',
 						),
 						'redirect_on_add' => array(
 							'id' => 'redirect_on_add',
-							'name' => __('Redirect to Checkout', 'easy-digital-downloads'),
-							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'easy-digital-downloads'),
+							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'item_quantities' => array(
 							'id' => 'item_quantities',
-							'name' => __('Item Quantities', 'easy-digital-downloads'),
-							'desc' => __('Allow item quantities to be changed.', 'easy-digital-downloads'),
+							'name' => __('Item Quantities', 'mp-restaurant-menu'),
+							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'uninstall_on_delete' => array(
 							'id' => 'uninstall_on_delete',
-							'name' => __('Remove Data on Uninstall?', 'easy-digital-downloads'),
-							'desc' => __('Check this box if you would like EDD to completely remove all of its data when the plugin is deleted.', 'easy-digital-downloads'),
+							'name' => __('Remove Data on Uninstall?', 'mp-restaurant-menu'),
+							'desc' => __('Check this box if you would like EDD to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
 					'checkout' => array(
 						'checkout_settings' => array(
 							'id' => 'checkout_settings',
-							'name' => '<h3>' . __('Checkout Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'enforce_ssl' => array(
 							'id' => 'enforce_ssl',
-							'name' => __('Enforce SSL on Checkout', 'easy-digital-downloads'),
-							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'easy-digital-downloads'),
+							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
-							'name' => __('Disable Guest Checkout', 'easy-digital-downloads'),
-							'desc' => __('Require that users be logged-in to purchase files.', 'easy-digital-downloads'),
+							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Require that users be logged-in to purchase files.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'show_register_form' => array(
 							'id' => 'show_register_form',
-							'name' => __('Show Register / Login Form?', 'easy-digital-downloads'),
-							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'easy-digital-downloads'),
+							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
+							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'std' => 'none',
 							'options' => array(
-								'both' => __('Registration and Login Forms', 'easy-digital-downloads'),
-								'registration' => __('Registration Form Only', 'easy-digital-downloads'),
-								'login' => __('Login Form Only', 'easy-digital-downloads'),
-								'none' => __('None', 'easy-digital-downloads'),
+								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
+								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
+								'login' => __('Login Form Only', 'mp-restaurant-menu'),
+								'none' => __('None', 'mp-restaurant-menu'),
 							),
 						),
 						'allow_multiple_discounts' => array(
 							'id' => 'allow_multiple_discounts',
-							'name' => __('Multiple Discounts', 'easy-digital-downloads'),
-							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'easy-digital-downloads'),
+							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
+							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'enable_cart_saving' => array(
 							'id' => 'enable_cart_saving',
-							'name' => __('Enable Cart Saving', 'easy-digital-downloads'),
-							'desc' => __('Check this to enable cart saving on the checkout.', 'easy-digital-downloads'),
+							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
 					'button_text' => array(
 						'button_settings' => array(
 							'id' => 'button_settings',
-							'name' => '<h3>' . __('Button Text', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Button Text', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'checkout_label' => array(
 							'id' => 'checkout_label',
-							'name' => __('Complete Purchase Text', 'easy-digital-downloads'),
-							'desc' => __('The button label for completing a purchase.', 'easy-digital-downloads'),
+							'name' => __('Complete Purchase Text', 'mp-restaurant-menu'),
+							'desc' => __('The button label for completing a purchase.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase', 'easy-digital-downloads'),
+							'std' => __('Purchase', 'mp-restaurant-menu'),
 						),
 						'add_to_cart_text' => array(
 							'id' => 'add_to_cart_text',
-							'name' => __('Add to Cart Text', 'easy-digital-downloads'),
-							'desc' => __('Text shown on the Add to Cart Buttons.', 'easy-digital-downloads'),
+							'name' => __('Add to Cart Text', 'mp-restaurant-menu'),
+							'desc' => __('Text shown on the Add to Cart Buttons.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Add to Cart', 'easy-digital-downloads'),
+							'std' => __('Add to Cart', 'mp-restaurant-menu'),
 						),
 						'buy_now_text' => array(
 							'id' => 'buy_now_text',
-							'name' => __('Buy Now Text', 'easy-digital-downloads'),
-							'desc' => __('Text shown on the Buy Now Buttons.', 'easy-digital-downloads'),
+							'name' => __('Buy Now Text', 'mp-restaurant-menu'),
+							'desc' => __('Text shown on the Buy Now Buttons.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Buy Now', 'easy-digital-downloads'),
+							'std' => __('Buy Now', 'mp-restaurant-menu'),
 						),
 					),
 					'file_downloads' => array(
 						'file_settings' => array(
 							'id' => 'file_settings',
-							'name' => '<h3>' . __('File Download Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('File Download Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'download_method' => array(
 							'id' => 'download_method',
-							'name' => __('Download Method', 'easy-digital-downloads'),
-							'desc' => sprintf(__('Select the file download method. Note, not all methods work on all servers.', 'easy-digital-downloads'), $this->get_label_singular()),
+							'name' => __('Download Method', 'mp-restaurant-menu'),
+							'desc' => sprintf(__('Select the file download method. Note, not all methods work on all servers.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'select',
 							'options' => array(
-								'direct' => __('Forced', 'easy-digital-downloads'),
-								'redirect' => __('Redirect', 'easy-digital-downloads'),
+								'direct' => __('Forced', 'mp-restaurant-menu'),
+								'redirect' => __('Redirect', 'mp-restaurant-menu'),
 							),
 						),
 						'symlink_file_downloads' => array(
 							'id' => 'symlink_file_downloads',
-							'name' => __('Symlink File Downloads?', 'easy-digital-downloads'),
-							'desc' => __('Check this if you are delivering really large files or having problems with file downloads completing.', 'easy-digital-downloads'),
+							'name' => __('Symlink File Downloads?', 'mp-restaurant-menu'),
+							'desc' => __('Check this if you are delivering really large files or having problems with file downloads completing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'file_download_limit' => array(
 							'id' => 'file_download_limit',
-							'name' => __('File Download Limit', 'easy-digital-downloads'),
-							'desc' => sprintf(__('The maximum number of times files can be downloaded for purchases. Can be overwritten for each %s.', 'easy-digital-downloads'), $this->get_label_singular()),
+							'name' => __('File Download Limit', 'mp-restaurant-menu'),
+							'desc' => sprintf(__('The maximum number of times files can be downloaded for purchases. Can be overwritten for each %s.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'number',
 							'size' => 'small',
 						),
 						'download_link_expiration' => array(
 							'id' => 'download_link_expiration',
-							'name' => __('Download Link Expiration', 'easy-digital-downloads'),
-							'desc' => __('How long should download links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'easy-digital-downloads'),
+							'name' => __('Download Link Expiration', 'mp-restaurant-menu'),
+							'desc' => __('How long should download links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'mp-restaurant-menu'),
 							'type' => 'number',
 							'size' => 'small',
 							'std' => '24',
@@ -1101,73 +1100,73 @@ class Media extends Core {
 						),
 						'disable_redownload' => array(
 							'id' => 'disable_redownload',
-							'name' => __('Disable Redownload?', 'easy-digital-downloads'),
-							'desc' => __('Check this if you do not want to allow users to redownload items from their purchase history.', 'easy-digital-downloads'),
+							'name' => __('Disable Redownload?', 'mp-restaurant-menu'),
+							'desc' => __('Check this if you do not want to allow users to redownload items from their purchase history.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
 					'accounting' => array(
 						'accounting_settings' => array(
 							'id' => 'accounting_settings',
-							'name' => '<h3>' . __('Accounting Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Accounting Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'enable_skus' => array(
 							'id' => 'enable_skus',
-							'name' => __('Enable SKU Entry', 'easy-digital-downloads'),
-							'desc' => __('Check this box to allow entry of product SKUs. SKUs will be shown on purchase receipt and exported purchase histories.', 'easy-digital-downloads'),
+							'name' => __('Enable SKU Entry', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to allow entry of product SKUs. SKUs will be shown on purchase receipt and exported purchase histories.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'enable_sequential' => array(
 							'id' => 'enable_sequential',
-							'name' => __('Sequential Order Numbers', 'easy-digital-downloads'),
-							'desc' => __('Check this box to enable sequential order numbers.', 'easy-digital-downloads'),
+							'name' => __('Sequential Order Numbers', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to enable sequential order numbers.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'sequential_start' => array(
 							'id' => 'sequential_start',
-							'name' => __('Sequential Starting Number', 'easy-digital-downloads'),
-							'desc' => __('The number at which the sequence should begin.', 'easy-digital-downloads'),
+							'name' => __('Sequential Starting Number', 'mp-restaurant-menu'),
+							'desc' => __('The number at which the sequence should begin.', 'mp-restaurant-menu'),
 							'type' => 'number',
 							'size' => 'small',
 							'std' => '1',
 						),
 						'sequential_prefix' => array(
 							'id' => 'sequential_prefix',
-							'name' => __('Sequential Number Prefix', 'easy-digital-downloads'),
-							'desc' => __('A prefix to prepend to all sequential order numbers.', 'easy-digital-downloads'),
+							'name' => __('Sequential Number Prefix', 'mp-restaurant-menu'),
+							'desc' => __('A prefix to prepend to all sequential order numbers.', 'mp-restaurant-menu'),
 							'type' => 'text',
 						),
 						'sequential_postfix' => array(
 							'id' => 'sequential_postfix',
-							'name' => __('Sequential Number Postfix', 'easy-digital-downloads'),
-							'desc' => __('A postfix to append to all sequential order numbers.', 'easy-digital-downloads'),
+							'name' => __('Sequential Number Postfix', 'mp-restaurant-menu'),
+							'desc' => __('A postfix to append to all sequential order numbers.', 'mp-restaurant-menu'),
 							'type' => 'text',
 						),
 					),
 					'site_terms' => array(
 						'terms_settings' => array(
 							'id' => 'terms_settings',
-							'name' => '<h3>' . __('Agreement Settings', 'easy-digital-downloads') . '</h3>',
+							'name' => '<h3>' . __('Agreement Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'show_agree_to_terms' => array(
 							'id' => 'show_agree_to_terms',
-							'name' => __('Agree to Terms', 'easy-digital-downloads'),
-							'desc' => __('Check this to show an agree to terms on the checkout that users must agree to before purchasing.', 'easy-digital-downloads'),
+							'name' => __('Agree to Terms', 'mp-restaurant-menu'),
+							'desc' => __('Check this to show an agree to terms on the checkout that users must agree to before purchasing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'agree_label' => array(
 							'id' => 'agree_label',
-							'name' => __('Agree to Terms Label', 'easy-digital-downloads'),
-							'desc' => __('Label shown next to the agree to terms check box.', 'easy-digital-downloads'),
+							'name' => __('Agree to Terms Label', 'mp-restaurant-menu'),
+							'desc' => __('Label shown next to the agree to terms check box.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'agree_text' => array(
 							'id' => 'agree_text',
-							'name' => __('Agreement Text', 'easy-digital-downloads'),
-							'desc' => __('If Agree to Terms is checked, enter the agreement terms here.', 'easy-digital-downloads'),
+							'name' => __('Agreement Text', 'mp-restaurant-menu'),
+							'desc' => __('If Agree to Terms is checked, enter the agreement terms here.', 'mp-restaurant-menu'),
 							'type' => 'rich_editor',
 						),
 					),
@@ -1202,36 +1201,36 @@ class Media extends Core {
 
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
-				'main' => __('General Settings', 'easy-digital-downloads'),
-				'currency' => __('Currency Settings', 'easy-digital-downloads'),
-				'api' => __('API Settings', 'easy-digital-downloads'),
+				'main' => __('General Settings', 'mp-restaurant-menu'),
+				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
+				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
-				'main' => __('Gateway Settings', 'easy-digital-downloads'),
-				'paypal' => __('PayPal Standard', 'easy-digital-downloads'),
+				'main' => __('Gateway Settings', 'mp-restaurant-menu'),
+				'paypal' => __('PayPal Standard', 'mp-restaurant-menu'),
 			)),
 			'emails' => apply_filters('mprm_settings_sections_emails', array(
-				'main' => __('Email Settings', 'easy-digital-downloads'),
-				'purchase_receipts' => __('Purchase Receipts', 'easy-digital-downloads'),
-				'sale_notifications' => __('New Sale Notifications', 'easy-digital-downloads'),
+				'main' => __('Email Settings', 'mp-restaurant-menu'),
+				'purchase_receipts' => __('Purchase Receipts', 'mp-restaurant-menu'),
+				'sale_notifications' => __('New Sale Notifications', 'mp-restaurant-menu'),
 			)),
 			'styles' => apply_filters('mprm_settings_sections_styles', array(
-				'main' => __('Style Settings', 'easy-digital-downloads'),
+				'main' => __('Style Settings', 'mp-restaurant-menu'),
 			)),
 			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
-				'main' => __('Tax Settings', 'easy-digital-downloads'),
+				'main' => __('Tax Settings', 'mp-restaurant-menu'),
 			)),
 			'extensions' => apply_filters('mprm_settings_sections_extensions', array(
-				'main' => __('Main', 'easy-digital-downloads')
+				'main' => __('Main', 'mp-restaurant-menu')
 			)),
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
-				'main' => __('Misc Settings', 'easy-digital-downloads'),
-				'checkout' => __('Checkout Settings', 'easy-digital-downloads'),
-				'button_text' => __('Button Text', 'easy-digital-downloads'),
-				'file_downloads' => __('File Downloads', 'easy-digital-downloads'),
-				'accounting' => __('Accounting Settings', 'easy-digital-downloads'),
-				'site_terms' => __('Terms of Agreement', 'easy-digital-downloads'),
+				'main' => __('Misc Settings', 'mp-restaurant-menu'),
+				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
+				'button_text' => __('Button Text', 'mp-restaurant-menu'),
+				'file_downloads' => __('File Downloads', 'mp-restaurant-menu'),
+				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
+				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
 		);
 
@@ -1262,69 +1261,69 @@ class Media extends Core {
 		// Default, built-in gateways
 		$gateways = array(
 			'paypal' => array(
-				'admin_label' => __('PayPal Standard', 'easy-digital-downloads'),
-				'checkout_label' => __('PayPal', 'easy-digital-downloads'),
+				'admin_label' => __('PayPal Standard', 'mp-restaurant-menu'),
+				'checkout_label' => __('PayPal', 'mp-restaurant-menu'),
 				'supports' => array('buy_now')
 			),
 			'manual' => array(
-				'admin_label' => __('Test Payment', 'easy-digital-downloads'),
-				'checkout_label' => __('Test Payment', 'easy-digital-downloads')
+				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
+				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 		);
 
-		return apply_filters('edd_payment_gateways', $gateways);
+		return apply_filters('mprm_payment_gateways', $gateways);
 	}
 
 	public function get_button_styles() {
 		$styles = array(
-			'button' => __('Button', 'easy-digital-downloads'),
-			'plain' => __('Plain Text', 'easy-digital-downloads')
+			'button' => __('Button', 'mp-restaurant-menu'),
+			'plain' => __('Plain Text', 'mp-restaurant-menu')
 		);
 
-		return apply_filters('edd_button_styles', $styles);
+		return apply_filters('mprm_button_styles', $styles);
 	}
 
 	public function get_button_colors() {
 		$colors = array(
 			'white' => array(
-				'label' => __('White', 'easy-digital-downloads'),
+				'label' => __('White', 'mp-restaurant-menu'),
 				'hex' => '#ffffff'
 			),
 			'gray' => array(
-				'label' => __('Gray', 'easy-digital-downloads'),
+				'label' => __('Gray', 'mp-restaurant-menu'),
 				'hex' => '#f0f0f0'
 			),
 			'blue' => array(
-				'label' => __('Blue', 'easy-digital-downloads'),
+				'label' => __('Blue', 'mp-restaurant-menu'),
 				'hex' => '#428bca'
 			),
 			'red' => array(
-				'label' => __('Red', 'easy-digital-downloads'),
+				'label' => __('Red', 'mp-restaurant-menu'),
 				'hex' => '#d9534f'
 			),
 			'green' => array(
-				'label' => __('Green', 'easy-digital-downloads'),
+				'label' => __('Green', 'mp-restaurant-menu'),
 				'hex' => '#5cb85c'
 			),
 			'yellow' => array(
-				'label' => __('Yellow', 'easy-digital-downloads'),
+				'label' => __('Yellow', 'mp-restaurant-menu'),
 				'hex' => '#f0ad4e'
 			),
 			'orange' => array(
-				'label' => __('Orange', 'easy-digital-downloads'),
+				'label' => __('Orange', 'mp-restaurant-menu'),
 				'hex' => '#ed9c28'
 			),
 			'dark-gray' => array(
-				'label' => __('Dark Gray', 'easy-digital-downloads'),
+				'label' => __('Dark Gray', 'mp-restaurant-menu'),
 				'hex' => '#363636'
 			),
 			'inherit' => array(
-				'label' => __('Inherit', 'easy-digital-downloads'),
+				'label' => __('Inherit', 'mp-restaurant-menu'),
 				'hex' => ''
 			)
 		);
 
-		return apply_filters('edd_button_colors', $colors);
+		return apply_filters('mprm_button_colors', $colors);
 	}
 
 	public function get_label_singular($lowercase = false) {
@@ -1334,10 +1333,10 @@ class Media extends Core {
 
 	public function get_default_labels() {
 		$defaults = array(
-			'singular' => __('Download', 'easy-digital-downloads'),
-			'plural' => __('Downloads', 'easy-digital-downloads')
+			'singular' => __('Download', 'mp-restaurant-menu'),
+			'plural' => __('Downloads', 'mp-restaurant-menu')
 		);
-		return apply_filters('edd_default_downloads_name', $defaults);
+		return apply_filters('mprm_default_downloads_name', $defaults);
 	}
 
 	public function get_settings_tabs() {
@@ -1345,20 +1344,20 @@ class Media extends Core {
 		$settings = $this->get_registered_settings();
 
 		$tabs = array();
-		$tabs['general'] = __('General', 'easy-digital-downloads');
-		$tabs['gateways'] = __('Payment Gateways', 'easy-digital-downloads');
-		$tabs['emails'] = __('Emails', 'easy-digital-downloads');
-		$tabs['styles'] = __('Styles', 'easy-digital-downloads');
-		$tabs['taxes'] = __('Taxes', 'easy-digital-downloads');
+		$tabs['general'] = __('General', 'mp-restaurant-menu');
+		$tabs['gateways'] = __('Payment Gateways', 'mp-restaurant-menu');
+		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
+		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
+		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
 
 		if (!empty($settings['extensions'])) {
-			$tabs['extensions'] = __('Extensions', 'easy-digital-downloads');
+			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}
 		if (!empty($settings['licenses'])) {
-			$tabs['licenses'] = __('Licenses', 'easy-digital-downloads');
+			$tabs['licenses'] = __('Licenses', 'mp-restaurant-menu');
 		}
 
-		$tabs['misc'] = __('Misc', 'easy-digital-downloads');
+		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
 
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}

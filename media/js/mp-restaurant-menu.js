@@ -618,6 +618,11 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 
 			},
 			changeBaseCountry: function() {
+
+				if ($("[name='mprm_settings[base_state]'] option").length < 1) {
+					$("[name='mprm_settings[base_state]']").parents('tr').hide();
+				}
+
 				$("[name='mprm_settings[base_country]']").on('change', function() {
 					var $params = {
 						action: 'get_state_list',
@@ -628,8 +633,6 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					var stateSelect = $parentTr.next().find('select');
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							console.log(data);
-							console.log(typeof data);
 							if ($.isEmptyObject(data)) {
 								$parentTr.next().hide();
 							} else {

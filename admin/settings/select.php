@@ -8,8 +8,8 @@ $defaults = array(
 	'chosen' => false,
 	'placeholder' => null,
 	'multiple' => false,
-	'show_option_all' => _x('All', 'all dropdown items', 'easy-digital-downloads'),
-	'show_option_none' => _x('None', 'no dropdown items', 'easy-digital-downloads'),
+	'show_option_all' => _x('All', 'all dropdown items', 'mp-restaurant-menu'),
+	'show_option_none' => _x('None', 'no dropdown items', 'mp-restaurant-menu'),
 	'data' => array(),
 );
 
@@ -37,7 +37,7 @@ if ($args['placeholder']) {
 }
 
 $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class']))); ?>
-<select name="<?php echo esc_attr($args['name']) ?>" id="<?php esc_attr(edd_sanitize_key(str_replace('-', '_', $args['id']))) ?>" class="mprm-select <?php echo $class . $multiple ?> data-placeholder="<?php echo $placeholder . $data_elements ?>>
+<select name="<?php echo esc_attr($args['name']) ?>" id="<?php esc_attr(mprm_sanitize_key(str_replace('-', '_', $args['id']))) ?>" class="mprm-select <?php echo $class . $multiple ?> data-placeholder="<?php echo $placeholder . $data_elements ?>>
 
 	<?php
 	if ($args['show_option_all']) {

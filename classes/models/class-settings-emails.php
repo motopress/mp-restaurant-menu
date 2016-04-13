@@ -95,8 +95,8 @@ class Settings_emails extends Model {
 
 	public function get_email_templates() {
 		$templates = array(
-			'default' => __('Default Template', 'easy-digital-downloads'),
-			'none' => __('No template, plain text only', 'easy-digital-downloads')
+			'default' => __('Default Template', 'mp-restaurant-menu'),
+			'none' => __('No template, plain text only', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_email_templates', $templates);
 	}
@@ -107,8 +107,8 @@ class Settings_emails extends Model {
 		}
 		ob_start();
 		?>
-		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php _e('Purchase Receipt Preview', 'easy-digital-downloads'); ?> "><?php _e('Preview Purchase Receipt', 'easy-digital-downloads'); ?></a>
-		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email', 'controller' => 'settings')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'easy-digital-downloads'); ?>" class="button-secondary"><?php _e('Send Test Email', 'easy-digital-downloads'); ?></a>
+		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php _e('Purchase Receipt Preview', 'mp-restaurant-menu'); ?> "><?php _e('Preview Purchase Receipt', 'mp-restaurant-menu'); ?></a>
+		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email', 'controller' => 'settings')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'mp-restaurant-menu'); ?>" class="button-secondary"><?php _e('Send Test Email', 'mp-restaurant-menu'); ?></a>
 		<?php
 		echo ob_get_clean();
 	}
@@ -127,7 +127,7 @@ class Settings_emails extends Model {
 		}
 
 
-		$this->heading = __('Purchase Receipt', 'easy-digital-downloads');
+		$this->heading = __('Purchase Receipt', 'mp-restaurant-menu');
 
 		echo $this->build_email($this->get('emails')->email_preview_template_tags($this->get('emails')->get_email_body_content(0, array())));
 
@@ -197,8 +197,8 @@ class Settings_emails extends Model {
 	 */
 	public function get_templates() {
 		$templates = array(
-			'default' => __('Default Template', 'easy-digital-downloads'),
-			'none' => __('No template, plain text only', 'easy-digital-downloads')
+			'default' => __('Default Template', 'mp-restaurant-menu'),
+			'none' => __('No template, plain text only', 'mp-restaurant-menu')
 		);
 
 		return apply_filters('mprm_email_templates', $templates);
@@ -309,7 +309,7 @@ class Settings_emails extends Model {
 	public function send($to, $subject, $message, $attachments = '') {
 
 		if (!did_action('init') && !did_action('admin_init')) {
-			_doing_it_wrong(__FUNCTION__, __('You cannot send email with EDD_Emails until init/admin_init has been reached', 'easy-digital-downloads'), null);
+			_doing_it_wrong(__FUNCTION__, __('You cannot send email with EDD_Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
 			return false;
 		}
 
@@ -336,7 +336,7 @@ class Settings_emails extends Model {
 			}
 
 			$log_message = sprintf(
-				__("Email from Easy Digital Downloads failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n\n", 'easy-digital-downloads'),
+				__("Email from Easy Digital Downloads failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n\n", 'mp-restaurant-menu'),
 				date_i18n('F j Y H:i:s', current_time('timestamp')),
 				$to,
 				$subject
