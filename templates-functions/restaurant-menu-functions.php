@@ -35,6 +35,36 @@ function mprm_theme_wrapper_before() {
 	}
 }
 
+function mprm_theme_wrapper_after() {
+	$template = get_option('template');
+
+	switch ($template) {
+		case 'twentyeleven' :
+			echo '</div></div>';
+			break;
+		case 'twentytwelve' :
+			echo '</div></div>';
+			break;
+		case 'twentythirteen' :
+			echo '</div></div>';
+			break;
+		case 'twentyfourteen' :
+			echo '</div></div></div>';
+			get_sidebar('content');
+			break;
+		case 'twentyfifteen' :
+			echo '</div></div>';
+			break;
+		case 'twentysixteen' :
+			echo '</div></main>';
+			break;
+		default :
+			echo '</div></div>';
+			break;
+	}
+}
+
+
 /**
  * Add class shortocode/widget wrapper class
  * @return string
@@ -106,36 +136,6 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	return $classes;
 
 }
-
-function mprm_theme_wrapper_after() {
-	$template = get_option('template');
-
-	switch ($template) {
-		case 'twentyeleven' :
-			echo '</div></div>';
-			break;
-		case 'twentytwelve' :
-			echo '</div></div>';
-			break;
-		case 'twentythirteen' :
-			echo '</div></div>';
-			break;
-		case 'twentyfourteen' :
-			echo '</div></div></div>';
-			get_sidebar('content');
-			break;
-		case 'twentyfifteen' :
-			echo '</div></div>';
-			break;
-		case 'twentysixteen' :
-			echo '</div></main>';
-			break;
-		default :
-			echo '</div></div>';
-			break;
-	}
-}
-
 
 function mprm_get_attributes() {
 	global $post;

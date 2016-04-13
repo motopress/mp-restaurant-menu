@@ -2,7 +2,7 @@
 
 get_header();
 mprm_get_taxonomy();
-do_action('mprm-single-category-before-wrapper');
+do_action('mprm_category_before_wrapper');
 
 ?>
 
@@ -84,7 +84,7 @@ do_action('mprm-single-category-before-wrapper');
 </div>
 <?php
 
-do_action('mprm-single-category-after-wrapper');
+do_action('mprm_category_after_wrapper');
 get_footer();
 
 ?>

@@ -123,6 +123,10 @@ class Hooks extends Core {
 	 * Install tag actions
 	 */
 	public static function install_tag_actions() {
+		
+		add_action('mprm_tag_before_wrapper', 'mprm_theme_wrapper_before');
+		add_action('mprm_tag_after_wrapper', 'mprm_theme_wrapper_after');
+		
 		/**
 		 * Before Menu_item list
 		 *
@@ -147,6 +151,10 @@ class Hooks extends Core {
 		 * @see mprm_after_tag_list
 		 */
 		add_action('mprm_after_tag_list', 'mprm_after_tag_list', 10);
+		
+		add_action('mprm_before_tag_header', 'mprm_before_category_header', 10);
+		add_action('mprm_tag_header', 'mprm_category_header', 5);
+		add_action('mprm_after_tag_header', 'mprm_after_category_header', 10);
 	}
 
 	/**
@@ -154,8 +162,8 @@ class Hooks extends Core {
 	 */
 	public static function install_category_actions() {
 
-		add_action('mprm-single-category-before-wrapper', 'mprm_theme_wrapper_before');
-		add_action('mprm-single-category-after-wrapper', 'mprm_theme_wrapper_after');
+		add_action('mprm_category_before_wrapper', 'mprm_theme_wrapper_before');
+		add_action('mprm_category_after_wrapper', 'mprm_theme_wrapper_after');
 
 		/**
 		 * Before Menu_item list
@@ -256,8 +264,8 @@ class Hooks extends Core {
 		/**
 		 * output Wordpress standard them  wrapper
 		 */
-		add_action('mprm-before-main-wrapper', 'mprm_theme_wrapper_before');
-		add_action('mprm-after-main-wrapper', 'mprm_theme_wrapper_after');
+		add_action('mprm_single_before_wrapper', 'mprm_theme_wrapper_before');
+		add_action('mprm_single_after_wrapper', 'mprm_theme_wrapper_after');
 
 		/**
 		 * Before Menu_item header
