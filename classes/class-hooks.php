@@ -125,7 +125,7 @@ class Hooks extends Core {
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
 
 		add_action('mprm_purchase_form_before_submit', array(Errors::get_instance(), 'print_errors'));
-		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'edd_print_errors'));
+		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'print_errors'));
 
 
 	}

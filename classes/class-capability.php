@@ -1,7 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-class  User_Capabilities extends Core {
+class User_Capabilities extends Core {
 
 
 	protected static $instance;

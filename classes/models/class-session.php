@@ -1,8 +1,10 @@
 <?php
 
-namespace mp_restaurant_menu\classes;
+namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\WP_Session;
+
 
 /**
  * MPRM_Session Class
@@ -130,7 +132,6 @@ class Session extends Core {
 		return $this->session;
 	}
 
-
 	/**
 	 * Retrieve session ID
 	 *
@@ -142,6 +143,38 @@ class Session extends Core {
 		return $this->session->session_id;
 	}
 
+	public function get($key) {
+		$key = sanitize_key($key);
+		return isset($this->session[$key]) ? maybe_unserialize($this->session[$key]) : false;
+	}
+
+	/**
+	 * Set a session variable
+	 *
+	 * @since 1.5
+	 *
+	 * @param string $key Session key
+	 * @param integer $value Session variable
+	 *
+	 * @return string Session variable
+	 */
+	public function set($key, $value) {
+
+		$key = sanitize_key($key);
+
+		if (is_array($value)) {
+			$this->session[$key] = serialize($value);
+		} else {
+			$this->session[$key] = $value;
+		}
+
+		if ($this->use_php_sessions) {
+
+			$_SESSION['mprm' . $this->prefix] = $this->session;
+		}
+
+		return $this->session[$key];
+	}
 
 	/**
 	 * Retrieve a session variable
@@ -194,7 +227,7 @@ class Session extends Core {
 	 * @access public
 	 * @since 1.8
 	 *
-	 * @param string $set Whether to set or destroy
+	 * @param bool/string $set Whether to set or destroy
 	 *
 	 * @return void
 	 */

@@ -415,15 +415,22 @@ class Menu_item extends Model {
 		global $post;
 		//, $edd_displayed_form_ids;
 
+		if (!$this->is_menu_item($post)) {
+			return false;
+		}
+
+		if ('publish' !== $post->post_status && !current_user_can('edit_product', $post->ID)) {
+			return false; // Product not published or user doesn't have permission to view drafts
+		}
 		$purchase_page = $this->get('settings')->get_option('purchase_page', false);
 		if (!$purchase_page || $purchase_page == 0) {
-			$this->get('session')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'easy-digital-downloads'), admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings')));
-			$this->get('session')->print_errors();
+			$this->get('errors')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'easy-digital-downloads'), admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings')));
+			$this->get('errors')->print_errors();
 			return false;
 		}
 
 		$post_id = is_object($post) ? $post->ID : 0;
-		$button_behavior = edd_get_download_button_behavior($post_id);
+		$button_behavior = $this->get_button_behavior($post_id);
 
 		$defaults = apply_filters('mprm_purchase_link_defaults', array(
 			'download_id' => $post_id,
@@ -438,28 +445,18 @@ class Menu_item extends Model {
 
 		$args = wp_parse_args($args, $defaults);
 
-		// Override the stright_to_gateway if the shop doesn't support it
-		if (!edd_shop_supports_buy_now()) {
+		// Override the straight_to_gateway if the shop doesn't support it
+		//	if (edd_shop_supports_buy_now()) {
+		if ($this->get('gateways')->shop_supports_buy_now()) {
 			$args['direct'] = false;
 		}
-
-		$download = new \EDD_Download($args['download_id']);
-
-		if (empty($download->ID)) {
-			return false;
-		}
-
-		if ('publish' !== $download->post_status && !current_user_can('edit_product', $download->ID)) {
-			return false; // Product not published or user doesn't have permission to view drafts
-		}
-
 		// Override color if color == inherit
 		$args['color'] = ($args['color'] == 'inherit') ? '' : $args['color'];
 
 		$options = array();
-		$variable_pricing = $download->has_variable_prices();
+		$variable_pricing = $this->has_variable_prices($post->ID);
 		$data_variable = $variable_pricing ? ' data-variable-price="yes"' : 'data-variable-price="no"';
-		$type = $download->is_single_price_mode() ? 'data-price-mode=multi' : 'data-price-mode=single';
+		$type = $this->is_single_price_mode($post->ID) ? 'data-price-mode=multi' : 'data-price-mode=single';
 
 		$show_price = $args['price'] && $args['price'] !== 'no';
 		$data_price_value = 0;
@@ -468,7 +465,7 @@ class Menu_item extends Model {
 		if ($variable_pricing && false !== $args['price_id']) {
 
 			$price_id = $args['price_id'];
-			$prices = $download->prices;
+			$prices = $post->prices;
 			$options['price_id'] = $args['price_id'];
 			$found_price = isset($prices[$price_id]) ? $prices[$price_id]['amount'] : false;
 
@@ -480,10 +477,10 @@ class Menu_item extends Model {
 
 		} elseif (!$variable_pricing) {
 
-			$data_price_value = $download->price;
+			$data_price_value = $post->price;
 
 			if ($show_price) {
-				$price = $download->price;
+				$price = $post->price;
 			}
 
 		}
@@ -504,7 +501,7 @@ class Menu_item extends Model {
 
 		}
 
-		if (edd_item_in_cart($download->ID, $options) && (!$variable_pricing || !$download->is_single_price_mode())) {
+		if (edd_item_in_cart($post->ID, $options) && (!$variable_pricing || !$this->is_single_price_mode($post->ID))) {
 			$button_display = 'style="display:none;"';
 			$checkout_display = '';
 		} else {
@@ -513,26 +510,26 @@ class Menu_item extends Model {
 		}
 
 		// Collect any form IDs we've displayed already so we can avoid duplicate IDs
-		if (isset($edd_displayed_form_ids[$download->ID])) {
-			$edd_displayed_form_ids[$download->ID]++;
+		if (isset($edd_displayed_form_ids[$post->ID])) {
+			$edd_displayed_form_ids[$post->ID]++;
 		} else {
-			$edd_displayed_form_ids[$download->ID] = 1;
+			$edd_displayed_form_ids[$post->ID] = 1;
 		}
 
-		$form_id = !empty($args['form_id']) ? $args['form_id'] : 'mprm_purchase_' . $download->ID;
+		$form_id = !empty($args['form_id']) ? $args['form_id'] : 'mprm_purchase_' . $post->ID;
 
 		// If we've already generated a form ID for this download ID, apped -#
-		if ($edd_displayed_form_ids[$download->ID] > 1) {
-			$form_id .= '-' . $edd_displayed_form_ids[$download->ID];
+		if ($edd_displayed_form_ids[$post->ID] > 1) {
+			$form_id .= '-' . $edd_displayed_form_ids[$post->ID];
 		}
 
 		$args = apply_filters('edd_purchase_link_args', $args);
 
 		ob_start();
 		?>
-		<form id="<?php echo $form_id; ?>" class="edd_download_purchase_form edd_purchase_<?php echo absint($download->ID); ?>" method="post">
+		<form id="<?php echo $form_id; ?>" class="edd_download_purchase_form edd_purchase_<?php echo absint($post->ID); ?>" method="post">
 
-			<?php do_action('edd_purchase_link_top', $download->ID, $args); ?>
+			<?php do_action('edd_purchase_link_top', $post->ID, $args); ?>
 
 			<div class="edd_purchase_submit_wrapper">
 				<?php
@@ -540,11 +537,11 @@ class Menu_item extends Model {
 
 				if (!edd_is_ajax_disabled()) {
 
-					echo '<a href="#" class="edd-add-to-cart ' . esc_attr($class) . '" data-action="edd_add_to_cart" data-download-id="' . esc_attr($download->ID) . '" ' . $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display . '><span class="edd-add-to-cart-label">' . $args['text'] . '</span> <span class="edd-loading"><i class="edd-icon-spinner edd-icon-spin"></i></span></a>';
+					echo '<a href="#" class="edd-add-to-cart ' . esc_attr($class) . '" data-action="edd_add_to_cart" data-download-id="' . esc_attr($post->ID) . '" ' . $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display . '><span class="edd-add-to-cart-label">' . $args['text'] . '</span> <span class="edd-loading"><i class="edd-icon-spinner edd-icon-spin"></i></span></a>';
 
 				}
 
-				echo '<input type="submit" class="edd-add-to-cart edd-no-js ' . esc_attr($class) . '" name="edd_purchase_download" value="' . esc_attr($args['text']) . '" data-action="edd_add_to_cart" data-download-id="' . esc_attr($download->ID) . '" ' . $data_variable . ' ' . $type . ' ' . $button_display . '/>';
+				echo '<input type="submit" class="edd-add-to-cart edd-no-js ' . esc_attr($class) . '" name="edd_purchase_download" value="' . esc_attr($args['text']) . '" data-action="edd_add_to_cart" data-download-id="' . esc_attr($post->ID) . '" ' . $data_variable . ' ' . $type . ' ' . $button_display . '/>';
 				echo '<a href="' . esc_url(edd_get_checkout_uri()) . '" class="edd_go_to_checkout ' . esc_attr($class) . '" ' . $checkout_display . '>' . __('Checkout', 'easy-digital-downloads') . '</a>';
 				?>
 
@@ -555,7 +552,7 @@ class Menu_item extends Model {
 					</span>
 				</span>
 				<?php endif; ?>
-				<?php if (!$download->is_free($args['price_id'])): ?>
+				<?php if (!$this->is_free($args['price_id'], $post->ID)): ?>
 					<?php if (edd_display_tax_rate() && edd_prices_include_tax()) {
 						echo '<span class="edd_purchase_tax_rate">' . sprintf(__('Includes %1$s&#37; tax', 'easy-digital-downloads'), edd_get_tax_rate() * 100) . '</span>';
 					} elseif (edd_display_tax_rate() && !edd_prices_include_tax()) {
@@ -564,21 +561,21 @@ class Menu_item extends Model {
 				<?php endif; ?>
 			</div><!--end .edd_purchase_submit_wrapper-->
 
-			<input type="hidden" name="download_id" value="<?php echo esc_attr($download->ID); ?>">
+			<input type="hidden" name="download_id" value="<?php echo esc_attr($post->ID); ?>">
 			<?php if ($variable_pricing && isset($price_id) && isset($prices[$price_id])): ?>
-				<input type="hidden" name="edd_options[price_id][]" id="edd_price_option_<?php echo $download->ID; ?>_1" class="edd_price_option_<?php echo $download->ID; ?>" value="<?php echo $price_id; ?>">
+				<input type="hidden" name="edd_options[price_id][]" id="edd_price_option_<?php echo $post->ID; ?>_1" class="edd_price_option_<?php echo $post->ID; ?>" value="<?php echo $price_id; ?>">
 			<?php endif; ?>
-			<?php if (!empty($args['direct']) && !$download->is_free($args['price_id'])) { ?>
+			<?php if (!empty($args['direct']) && !$this->is_free($args['price_id'], $post->ID)) { ?>
 				<input type="hidden" name="edd_action" class="edd_action_input" value="straight_to_gateway">
 			<?php } else { ?>
 				<input type="hidden" name="edd_action" class="edd_action_input" value="add_to_cart">
 			<?php } ?>
 
-			<?php if (apply_filters('edd_download_redirect_to_checkout', edd_straight_to_checkout(), $download->ID, $args)) : ?>
+			<?php if (apply_filters('edd_download_redirect_to_checkout', edd_straight_to_checkout(), $post->ID, $args)) : ?>
 				<input type="hidden" name="edd_redirect_to_checkout" id="edd_redirect_to_checkout" value="1">
 			<?php endif; ?>
 
-			<?php do_action('edd_purchase_link_end', $download->ID, $args); ?>
+			<?php do_action('edd_purchase_link_end', $post->ID, $args); ?>
 
 		</form><!--end #<?php echo esc_attr($form_id); ?>-->
 		<?php
@@ -587,4 +584,100 @@ class Menu_item extends Model {
 
 		return apply_filters('edd_purchase_download_form', $purchase_form, $args);
 	}
+
+	public function get_button_behavior($post_id) {
+
+		$button_behavior = get_post_meta($post_id, '_button_behavior', true);
+
+		if (empty($button_behavior) || !edd_shop_supports_buy_now()) {
+			$button_behavior = 'add_to_cart';
+		}
+		return apply_filters('mprm_get_button_behavior', $button_behavior, $post_id);
+	}
+
+	/**
+	 *  Is menu item object
+	 *
+	 * @param $post
+	 *
+	 * @return bool
+	 */
+	public function is_menu_item($post) {
+		if (!is_a($post, 'WP_Post')) {
+			return false;
+		}
+
+		if ('mp_menu_item' !== $post->post_type) {
+			return false;
+		}
+		return true;
+	}
+
+	public function has_variable_prices($post_id) {
+
+		$ret = get_post_meta($post_id, '_variable_pricing', true);
+
+		/**
+		 * Override whether the download has variables prices.
+		 *
+		 * @since 2.3
+		 *
+		 * @param bool $ret Does download have variable prices?
+		 * @param int|string The ID of the download.
+		 */
+		return (bool)apply_filters('mprm_has_variable_prices', $ret, $post_id);
+
+	}
+
+	public function is_single_price_mode($post_id) {
+
+		$ret = get_post_meta($post_id, '_edd_price_options_mode', true);
+
+		/**
+		 * Override the price mode for a download when checking if is in single price mode.
+		 *
+		 * @since 2.3
+		 *
+		 * @param bool $ret Is download in single price mode?
+		 * @param int|string The ID of the download.
+		 */
+		return (bool)apply_filters('edd_single_price_option_mode', $ret, $post_id);
+
+	}
+
+	public function is_free($price_id = false, $post_id) {
+		global $post;
+		if (empty($post)) {
+			$post = get_post($post_id);
+		}
+		$is_free = false;
+		$variable_pricing = $this->has_variable_prices($post->ID);
+
+		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
+
+			$price = edd_get_price_option_amount($post->ID, $price_id);
+
+		} elseif ($variable_pricing && $price_id === false) {
+
+			$lowest_price = (float)edd_get_lowest_price_option($post->ID);
+			$highest_price = (float)edd_get_highest_price_option($post->ID);
+
+			if ($lowest_price === 0.00 && $highest_price === 0.00) {
+				$price = 0;
+			}
+
+		} elseif (!$variable_pricing) {
+
+			$price = get_post_meta($post->ID, 'mprm_price', true);
+
+		}
+
+		if (isset($price) && (float)$price == 0) {
+			$is_free = true;
+		}
+
+		return (bool)apply_filters('mprm_is_free_download', $is_free, $post->ID, $price_id);
+
+	}
+
 }

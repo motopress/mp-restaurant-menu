@@ -1356,7 +1356,6 @@ class Media extends Core {
 		if (!empty($settings['licenses'])) {
 			$tabs['licenses'] = __('Licenses', 'mp-restaurant-menu');
 		}
-
 		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
 
 		return apply_filters('mprm_settings_tabs', $tabs);
