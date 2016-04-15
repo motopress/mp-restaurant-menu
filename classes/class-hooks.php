@@ -129,7 +129,6 @@ class Hooks extends Core {
 		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'print_errors'));
 
 
-
 	}
 
 	/**

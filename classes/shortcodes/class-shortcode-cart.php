@@ -28,6 +28,6 @@ class Shortcode_Cart extends Shortcodes {
 //		$mprm_view_args = $args;
 //		$mprm_view_args['categories_terms'] = array();
 //		$mprm_view_args['action_path'] = "shortcodes/category/{$args['view']}/item";
-//		return View::get_instance()->render_html("shortcodes/category/index", $args, false);
+		return View::get_instance()->render_html("shop/cart", $args, false);
 	}
 }
