@@ -16,6 +16,10 @@ class Controller_cart extends Controller {
 	}
 
 	public function action_add_to_cart() {
+		$request = $_REQUEST;
+		$this->get('cart')->add_to_cart($request['menu_item_id']);
+
+		wp_safe_redirect($request['_wp_http_referer']);
 	}
 
 	public function action_remove_from_cart() {

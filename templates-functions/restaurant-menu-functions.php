@@ -204,7 +204,7 @@ function mprm_get_item_image() {
  *
  * @global array $mprm_category
  *
- * @param int $id
+ * @param bool/int $id
  *
  * @return array
  */
@@ -338,6 +338,7 @@ function mprm_get_term_menu_items() {
 
 function mprm_get_menu_items_by_term() {
 	global $taxonomy;
+	$params = array();
 	if ($taxonomy === 'mp_menu_category') {
 		$params['categ'] = mprm_get_taxonomy()->term_id;
 	}
@@ -373,7 +374,7 @@ function mprm_get_template_part($slug, $name = '') {
 }
 
 function mprm_get_template($template, $data = null, $output = true) {
-	classes\View::get_instance()->render_html($template, $data, $output = true);
+	classes\View::get_instance()->render_html($template, $data, $output);
 }
 
 

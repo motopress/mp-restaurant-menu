@@ -476,6 +476,36 @@ MP_RM_Registry.register("HtmlBuilder", (function($) {
 	};
 })(jQuery));
 /**
+ * Html build function
+ */
+MP_RM_Registry.register("MPRM_Shop", (function($) {
+	"use strict";
+	var state;
+
+	function createInstance() {
+		return {
+			init: function() {
+
+			},
+			addToCart: function() {
+
+			},
+			removeFromCart: function() {
+			}
+
+		}
+	}
+
+	return {
+		getInstance: function() {
+			if (!state) {
+				state = createInstance();
+			}
+			return state;
+		}
+	};
+})(jQuery));
+/**
  * Menu settings module
  */
 MP_RM_Registry.register("Menu-Settings", (function($) {

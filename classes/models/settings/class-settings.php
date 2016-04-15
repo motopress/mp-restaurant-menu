@@ -1165,8 +1165,7 @@ class Settings extends Model {
 
 	public function get_shop_states($country = null) {
 		if (empty($country)) {
-			$country = $this->get_option('base_country', 'US');
-			$country = apply_filters('mprm_shop_country', $country);
+			$country = $this->get_shop_country($country);
 		}
 		switch ($country) :
 			case 'US' :
@@ -1248,7 +1247,7 @@ class Settings extends Model {
 	}
 
 	public function get_tax_rates() {
-		$rates = get_option('mprm_tax_rates', array());
+		$rates = $this->get_option('mprm_tax_rates', array());
 		return apply_filters('mprm_get_tax_rates', $rates);
 	}
 
@@ -1322,5 +1321,32 @@ class Settings extends Model {
 		add_settings_error('mprm-notices', '', __('Settings updated.', 'mp-restaurant-menu'), 'updated');
 
 		return $output;
+	}
+
+	public function is_ajax_disabled() {
+		$retval = !$this->get_option('enable_ajax_cart');
+		return apply_filters('mprm_is_ajax_disabled', $retval);
+	}
+
+	public function is_ssl_enforced() {
+		$ssl_enforced = $this->get_option('enforce_ssl', false);
+		return (bool)apply_filters('mprm_is_ssl_enforced', $ssl_enforced);
+	}
+
+	public function add_cache_busting($url = '') {
+
+		$no_cache_checkout = $this->get_option('no_cache_checkout', false);
+
+		if (edd_is_caching_plugin_active() || (edd_is_checkout() && $no_cache_checkout)) {
+			$url = add_query_arg('nocache', 'true', $url);
+		}
+
+		return $url;
+	}
+
+	public function get_shop_country() {
+		$country = $this->get_option('base_country', 'US');
+		$country = apply_filters('mprm_shop_country', $country);
+		return $country;
 	}
 }

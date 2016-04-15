@@ -22,7 +22,142 @@ class Cart extends Model {
 	public function get_cart_quantity() {
 	}
 
-	public function add_to_cart($download_id, $options = array()) {
+
+	public function add_to_cart($item_id, $options = array()) {
+		$menu_item = get_post($item_id);
+		if (!$this->get('menu_item')->is_menu_item($menu_item)) {
+			return;
+		}
+		if (!current_user_can('edit_post', $menu_item->ID) && $menu_item->post_status != 'publish') {
+			return; // Do not allow draft/pending to be purchased if can't edit. Fixes #1056
+		}
+
+		do_action('mprm_pre_add_to_cart', $item_id, $options);
+
+		$cart = apply_filters('edd_pre_add_to_cart_contents', $this->get_cart_contents());
+
+		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
+			// Forces to the first price ID if none is specified and download has variable prices
+			$options['price_id'] = '0';
+		}
+
+		if (isset($options['quantity'])) {
+			if (is_array($options['quantity'])) {
+
+				$quantity = array();
+				foreach ($options['quantity'] as $q) {
+					$quantity[] = absint(preg_replace('/[^0-9\.]/', '', $q));
+				}
+
+			} else {
+
+				$quantity = absint(preg_replace('/[^0-9\.]/', '', $options['quantity']));
+
+			}
+
+			unset($options['quantity']);
+		} else {
+			$quantity = 1;
+		}
+
+		// If the price IDs are a string and is a coma separted list, make it an array (allows custom add to cart URLs)
+		if (isset($options['price_id']) && !is_array($options['price_id']) && false !== strpos($options['price_id'], ',')) {
+			$options['price_id'] = explode(',', $options['price_id']);
+		}
+
+		if (isset($options['price_id']) && is_array($options['price_id'])) {
+
+			// Process multiple price options at once
+			foreach ($options['price_id'] as $key => $price) {
+
+				$items[] = array(
+					'id' => $item_id,
+					'options' => array(
+						'price_id' => preg_replace('/[^0-9\.-]/', '', $price)
+					),
+					'quantity' => $quantity[$key],
+				);
+
+			}
+
+		} else {
+
+			// Sanitize price IDs
+			foreach ($options as $key => $option) {
+
+				if ('price_id' == $key) {
+					$options[$key] = preg_replace('/[^0-9\.-]/', '', $option);
+				}
+
+			}
+
+			// Add a single item
+			$items[] = array(
+				'id' => $item_id,
+				'options' => $options,
+				'quantity' => $quantity
+			);
+		}
+
+		foreach ($items as $item) {
+			$to_add = apply_filters('mprm_add_to_cart_item', $item);
+			if (!is_array($to_add))
+				return;
+
+			if (!isset($to_add['id']) || empty($to_add['id']))
+				return;
+
+			if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled()) {
+
+				$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
+
+				if (is_array($quantity)) {
+					$cart[$key]['quantity'] += $quantity[$key];
+				} else {
+					$cart[$key]['quantity'] += $quantity;
+				}
+
+
+			} else {
+
+				$cart[] = $to_add;
+
+			}
+		}
+
+		$this->get('session')->set('mprm_cart', $cart);
+
+		do_action('mprm_post_add_to_cart', $item_id, $options);
+
+		// Clear all the checkout errors, if any
+		$this->get('errors')->clear_errors();
+
+		return count($cart) - 1;
+	}
+
+	public function item_quantities_enabled() {
+		$ret = $this->get('settings')->get_option('item_quantities', false);
+		return (bool)apply_filters('mprm_item_quantities_enabled', $ret);
+	}
+
+	public function get_item_position_in_cart($menu_item_id = 0, $options = array()) {
+		$cart_items = $this->get_cart_contents();
+		if (!is_array($cart_items)) {
+			return false; // Empty cart
+		} else {
+			foreach ($cart_items as $position => $item) {
+				if ($item['id'] == $menu_item_id) {
+					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
+						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
+							return $position;
+						}
+					} else {
+						return $position;
+					}
+				}
+			}
+		}
+		return false; // Not found
 	}
 
 	public function remove_from_cart($cart_key) {
@@ -30,6 +165,37 @@ class Cart extends Model {
 
 	public function check_item_in_cart() {
 
+	}
+
+	public function item_in_cart($post_id, $options) {
+		$cart_items = $this->get_cart_contents();
+
+		$ret = false;
+
+		if (is_array($cart_items)) {
+			foreach ($cart_items as $item) {
+				if ($item['id'] == $post_id) {
+					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
+						if ($options['price_id'] == $item['options']['price_id']) {
+							$ret = true;
+							break;
+						}
+					} else {
+						$ret = true;
+						break;
+					}
+				}
+			}
+		}
+
+		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
+	}
+
+	public function get_cart_contents() {
+		$cart = $this->get('session')->get_session_by_key('mprm_cart');
+		$cart = !empty($cart) ? array_values($cart) : array();
+
+		return apply_filters('mprm_cart_contents', $cart);
 	}
 
 	public function save_cart() {

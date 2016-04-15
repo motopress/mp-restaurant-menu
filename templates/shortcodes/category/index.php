@@ -1,7 +1,8 @@
 <div class="<?php echo apply_filters('mprm-shortcode-category-wrapper-class', 'mprm-container mprm-shortcode-categories mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 	<?php $categories = mprm_get_categories();
+	$categories = array_values($categories);
 	$last_key = array_search(end($categories), $categories);
-	foreach (array_values($categories) as $key => $term):
+	foreach ($categories as $key => $term):
 
 		if (($key % $col) === 0) {
 			$i = 1; ?>

@@ -31,6 +31,32 @@ class Checkout extends Model {
 	}
 
 	public function get_checkout_uri() {
+		$uri = $this->get('settings')->get_option('purchase_page', false);
+		$uri = isset($uri) ? get_permalink($uri) : NULL;
+
+		if (!empty($args)) {
+			// Check for backward compatibility
+			if (is_string($args))
+				$args = str_replace('?', '', $args);
+
+			$args = wp_parse_args($args);
+
+			$uri = add_query_arg($args, $uri);
+		}
+
+		$scheme = defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN ? 'https' : 'admin';
+
+		$ajax_url = admin_url('admin-ajax.php', $scheme);
+
+		if ((!preg_match('/^https/', $uri) && preg_match('/^https/', $ajax_url) && $this->get('settings')->is_ajax_enabled()) || $this->get('settings')->is_ssl_enforced()) {
+			$uri = preg_replace('/^http:/', 'https:', $uri);
+		}
+
+		if ($this->get('settings')->get_option('no_cache_checkout', false)) {
+			$uri = $this->get('settings')->add_cache_busting($uri);
+		}
+
+		return apply_filters('mprm_get_checkout_uri', $uri);
 	}
 
 	public function send_back_to_checkout() {
@@ -224,6 +250,10 @@ class Checkout extends Model {
 		$expiration = strtotime(date('t', strtotime($month_name . ' ' . $exp_year)) . ' ' . $month_name . ' ' . $exp_year . ' 11:59:59PM');
 
 		return $expiration >= time();
+	}
 
+	function straight_to_checkout() {
+		$ret = $this->get('settings')->get_option('redirect_on_add', false);
+		return (bool)apply_filters('mprm_straight_to_checkout', $ret);
 	}
 }

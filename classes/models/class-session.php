@@ -70,7 +70,7 @@ class Session extends Core {
 			}
 
 			// Use PHP SESSION (must be enabled via the MPRM_USE_PHP_SESSIONS constant)
-			add_action('init', array($this, 'maybe_start_session'), -2);
+			//	add_action('init', array($this, 'maybe_start_session'), -2);
 
 		} else {
 
@@ -94,11 +94,11 @@ class Session extends Core {
 
 		}
 
-		if (empty($this->session) && !$this->use_php_sessions) {
-			add_action('plugins_loaded', array($this, 'init'), -1);
-		} else {
-			add_action('init', array($this, 'init'), -1);
-		}
+//		if (empty($this->session) && !$this->use_php_sessions) {
+//			add_action('plugins_loaded', array($this, 'init'), -1);
+//		} else {
+//			add_action('init', array($this, 'init'), -1);
+//		}
 
 	}
 
@@ -143,7 +143,7 @@ class Session extends Core {
 		return $this->session->session_id;
 	}
 
-	public function get($key) {
+	public function get_session_by_key($key) {
 		$key = sanitize_key($key);
 		return isset($this->session[$key]) ? maybe_unserialize($this->session[$key]) : false;
 	}
@@ -227,7 +227,7 @@ class Session extends Core {
 	 * @access public
 	 * @since 1.8
 	 *
-	 * @param bool/string $set Whether to set or destroy
+	 * @param bool /string $set Whether to set or destroy
 	 *
 	 * @return void
 	 */

@@ -39,7 +39,7 @@ class View {
 	 * @param array $data
 	 * @param bool $output : true - echo , false - return
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function render_html($template, $data = null, $output = true) {
 		$includeFile = MP_RM_TEMPLATES_PATH . $template . '.php';

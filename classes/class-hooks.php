@@ -5,6 +5,7 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Order;
+use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
@@ -126,6 +127,7 @@ class Hooks extends Core {
 
 		add_action('mprm_purchase_form_before_submit', array(Errors::get_instance(), 'print_errors'));
 		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'print_errors'));
+
 
 
 	}

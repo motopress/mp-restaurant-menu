@@ -43,7 +43,7 @@ class Errors extends Model {
 	 * @return mixed array if errors are present, false if none found
 	 */
 	function get_errors() {
-		return $this->get('session')->get('mprm_errors');
+		return $this->get('session')->get_session_by_key('mprm_errors');
 	}
 
 	/**
