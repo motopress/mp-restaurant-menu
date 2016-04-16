@@ -6,6 +6,7 @@ use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\models\Session;
+use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
@@ -143,6 +144,23 @@ class Hooks extends Core {
 		self::install_menu_item_actions();
 		self::install_category_actions();
 		self::install_tag_actions();
+		self::install_cart_actions();
+		self::install_checkout_actions();
+	}
+
+	public static function install_cart_actions() {
+		if (Cart::get_instance()->item_quantities_enabled()) {
+			add_action('mprm_cart_footer_buttons', 'mprm_update_cart_button');
+		}
+
+		// Check if the Save Cart button should be shown
+		if (!Cart::get_instance()->is_cart_saving_disabled()) {
+			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
+		}
+
+	}
+
+	public static function install_checkout_actions() {
 	}
 
 	/**

@@ -24,10 +24,7 @@ class Shortcode_Cart extends Shortcodes {
 	 * @return \mp_restaurant_menu\classes\type|string
 	 */
 	public function render_shortcode($args) {
-//		global $mprm_view_args;
-//		$mprm_view_args = $args;
-//		$mprm_view_args['categories_terms'] = array();
-//		$mprm_view_args['action_path'] = "shortcodes/category/{$args['view']}/item";
+
 		return View::get_instance()->render_html("shop/cart", $args, false);
 	}
 }

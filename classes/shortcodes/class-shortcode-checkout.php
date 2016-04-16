@@ -17,17 +17,19 @@ class Shortcode_Checkout extends Shortcodes {
 	}
 
 	/**
-	 * Main functiob for short code category
+	 * Render shortcode
 	 *
 	 * @param $args
 	 *
-	 * @return \mp_restaurant_menu\classes\type|string
+	 * @return mixed
 	 */
 	public function render_shortcode($args) {
-//		global $mprm_view_args;
-//		$mprm_view_args = $args;
-//		$mprm_view_args['categories_terms'] = array();
-//		$mprm_view_args['action_path'] = "shortcodes/category/{$args['view']}/item";
-//		return View::get_instance()->render_html("shortcodes/category/index", $args, false);
+		$args = array();
+		$args['payment_mode'] = $this->get('gateways')->get_chosen_gateway();
+		$args['form_action'] = esc_url($this->get('checkout')->get_checkout_uri('payment-mode=' . $args['payment_mode']));
+		$args['cart_contents'] = $this->get('cart')->get_cart_contents();
+		$args['cart_has_fees'] = $this->get('cart')->cart_has_fees();
+
+		return View::get_instance()->render_html("shop/checkout", $args, false);
 	}
 }

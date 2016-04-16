@@ -15,7 +15,7 @@ class Formatting extends Model {
 		return self::$instance;
 	}
 
-	function currency_decimal_filter($decimals = 2) {
+	public function currency_decimal_filter($decimals = 2) {
 
 		$currency = edd_get_currency();
 
@@ -44,7 +44,7 @@ class Formatting extends Model {
 	 *
 	 * @return string Sanitized key
 	 */
-	function sanitize_key($key) {
+	public function sanitize_key($key) {
 		$raw_key = $key;
 		$key = preg_replace('/[^a-zA-Z0-9_\-\.\:\/]/', '', $key);
 
@@ -57,6 +57,55 @@ class Formatting extends Model {
 		 * @param string $raw_key The key prior to sanitization.
 		 */
 		return apply_filters('mprm_sanitize_key', $key, $raw_key);
+	}
+
+	public function sanitize_amount($amount) {
+		$is_negative = false;
+		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
+		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
+		// Sanitize the amount
+		if ($decimal_sep == ',' && false !== ($found = strpos($amount, $decimal_sep))) {
+			if (($thousands_sep == '.' || $thousands_sep == ' ') && false !== ($found = strpos($amount, $thousands_sep))) {
+				$amount = str_replace($thousands_sep, '', $amount);
+			} elseif (empty($thousands_sep) && false !== ($found = strpos($amount, '.'))) {
+				$amount = str_replace('.', '', $amount);
+			}
+
+			$amount = str_replace($decimal_sep, '.', $amount);
+		} elseif ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace($thousands_sep, '', $amount);
+		}
+
+		if ($amount < 0) {
+			$is_negative = true;
+		}
+
+		$amount = preg_replace('/[^0-9\.]/', '', $amount);
+
+		/**
+		 * Filter number of decimals to use for prices
+		 *
+		 * @since unknown
+		 *
+		 * @param int $number Number of decimals
+		 * @param int|string $amount Price
+		 */
+		$decimals = apply_filters('mprm_sanitize_amount_decimals', 2, $amount);
+		$amount = number_format((double)$amount, $decimals, '.', '');
+
+		if ($is_negative) {
+			$amount *= -1;
+		}
+
+		/**
+		 * Filter the sanitized price before returning
+		 *
+		 * @since unknown
+		 *
+		 * @param string $amount Price
+		 */
+		return apply_filters('mprm_sanitize_amount', $amount);
 	}
 
 }

@@ -17,6 +17,66 @@ class Cart extends Model {
 
 
 	public function get_cart_content_details() {
+		global $edd_is_last_cart_item, $edd_flat_discount_total;
+
+		$cart_items = $this->get_cart_contents();
+
+		if (empty($cart_items)) {
+			return false;
+		}
+
+		$details = array();
+		$length = count($cart_items) - 1;
+
+		foreach ($cart_items as $key => $item) {
+
+			if ($key >= $length) {
+				$edd_is_last_cart_item = true;
+			}
+
+			$item['quantity'] = $this->item_quantities_enabled() ? absint($item['quantity']) : 1;
+
+			$item_price = edd_get_cart_item_price($item['id'], $item['options']);
+			$discount = edd_get_cart_item_discount_amount($item);
+			$discount = apply_filters('edd_get_cart_content_details_item_discount_amount', $discount, $item);
+			$quantity = edd_get_cart_item_quantity($item['id'], $item['options']);
+			$fees = edd_get_cart_fees('fee', $item['id']);
+			$subtotal = $item_price * $quantity;
+			$tax = edd_get_cart_item_tax($item['id'], $item['options'], $subtotal - $discount);
+
+			if (edd_prices_include_tax()) {
+				$subtotal -= round($tax, edd_currency_decimal_filter());
+			}
+
+			$total = $subtotal - $discount + $tax;
+
+			// Do not allow totals to go negatve
+			if ($total < 0) {
+				$total = 0;
+			}
+
+			$details[$key] = array(
+				'name' => get_the_title($item['id']),
+				'id' => $item['id'],
+				'item_number' => $item,
+				'item_price' => round($item_price, edd_currency_decimal_filter()),
+				'quantity' => $quantity,
+				'discount' => round($discount, edd_currency_decimal_filter()),
+				'subtotal' => round($subtotal, edd_currency_decimal_filter()),
+				'tax' => round($tax, edd_currency_decimal_filter()),
+				'fees' => $fees,
+				'price' => round($total, edd_currency_decimal_filter())
+			);
+
+			if ($edd_is_last_cart_item) {
+
+				$edd_is_last_cart_item = false;
+				$edd_flat_discount_total = 0.00;
+			}
+
+		}
+
+		return $details;
 	}
 
 	public function get_cart_quantity() {
@@ -215,6 +275,36 @@ class Cart extends Model {
 
 	}
 
+	public function get_cart_items_subtotal($items) {
+		$subtotal = 0.00;
+
+		if (is_array($items) && !empty($items)) {
+
+			$prices = wp_list_pluck($items, 'subtotal');
+
+			if (is_array($prices)) {
+				$subtotal = array_sum($prices);
+			} else {
+				$subtotal = 0.00;
+			}
+
+			if ($subtotal < 0) {
+				$subtotal = 0.00;
+			}
+
+		}
+
+		return apply_filters('mprm_get_cart_items_subtotal', $subtotal);
+	}
+
+
+	public function get_cart_subtotal() {
+		$items = $this->get_cart_content_details();
+		$subtotal = $this->get_cart_items_subtotal($items);
+
+		return apply_filters('mprm_get_cart_subtotal', $subtotal);
+	}
+
 	public function delete_saved_carts() {
 
 	}
@@ -263,4 +353,66 @@ class Cart extends Model {
 		return $data;
 
 	}
+
+	public function cart_has_fees($type = 'all') {
+		return $this->get('fees')->has_fees($type);
+	}
+
+	public function get_cart_total($discounts = false) {
+		$subtotal = (float)$this->get_cart_subtotal();
+		$discounts = (float)$this->get_cart_discounted_amount();
+		$cart_tax = (float)$this->get_cart_tax();
+		$fees = (float)$this->get('fees')->total();
+		$total = $subtotal - $discounts + $cart_tax + $fees;
+
+		if ($total < 0)
+			$total = 0.00;
+
+		return (float)apply_filters('mprm_get_cart_total', $total);
+	}
+
+	function get_cart_discounted_amount($discounts = false) {
+
+		$amount = 0.00;
+		$items = $this->get_cart_content_details();
+
+		if ($items) {
+
+			$discounts = wp_list_pluck($items, 'discount');
+
+			if (is_array($discounts)) {
+				$discounts = array_map('floatval', $discounts);
+				$amount = array_sum($discounts);
+			}
+
+		}
+
+		return apply_filters('mprm_get_cart_discounted_amount', $amount);
+	}
+
+	function get_cart_tax() {
+
+		$cart_tax = 0;
+		$items = $this->get_cart_content_details();
+
+		if ($items) {
+
+			$taxes = wp_list_pluck($items, 'tax');
+
+			if (is_array($taxes)) {
+				$cart_tax = array_sum($taxes);
+			}
+
+		}
+
+		$cart_tax += edd_get_cart_fee_tax();
+
+		return apply_filters('edd_get_cart_tax', edd_sanitize_amount($cart_tax));
+	}
+
+	function is_cart_saving_disabled() {
+		$ret = $this->get('settings')->get_option('enable_cart_saving', false);
+		return apply_filters('mprm_cart_saving_disabled', !$ret);
+	}
+
 }

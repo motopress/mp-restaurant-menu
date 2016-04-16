@@ -204,7 +204,7 @@ function mprm_get_item_image() {
  *
  * @global array $mprm_category
  *
- * @param bool/int $id
+ * @param bool /int $id
  *
  * @return array
  */
@@ -562,6 +562,11 @@ function mprm_get_purchase_link($params) {
 function mprm_get_purchase_template() {
 	mprm_get_template('common/buy/default');
 }
+
+function mprm_get_checkout_cart_template() {
+	mprm_get_template('shop/checkout-cart');
+}
+
 
 /**
  * Before Category list header
