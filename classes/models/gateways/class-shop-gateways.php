@@ -47,13 +47,13 @@ class Gateways extends Model {
 		// Default, built-in gateways
 		$gateways = array(
 			'paypal' => array(
-				'admin_label' => __('PayPal Standard', 'easy-digital-downloads'),
-				'checkout_label' => __('PayPal', 'easy-digital-downloads'),
+				'admin_label' => __('PayPal Standard', 'mp-restaurant-menu'),
+				'checkout_label' => __('PayPal', 'mp-restaurant-menu'),
 				'supports' => array('buy_now')
 			),
 			'manual' => array(
-				'admin_label' => __('Test Payment', 'easy-digital-downloads'),
-				'checkout_label' => __('Test Payment', 'easy-digital-downloads')
+				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
+				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 		);
 

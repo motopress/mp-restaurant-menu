@@ -423,7 +423,7 @@ class Menu_item extends Model {
 		}
 		$purchase_page = $this->get('settings')->get_option('purchase_page', false);
 		if (!$purchase_page || $purchase_page == 0) {
-			$this->get('errors')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'easy-digital-downloads'), admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings')));
+			$this->get('errors')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'mp-restaurant-menu'), admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings')));
 			$this->get('errors')->print_errors();
 			return false;
 		}
@@ -436,7 +436,7 @@ class Menu_item extends Model {
 			'price' => (bool)true,
 			'price_id' => isset($args['price_id']) ? $args['price_id'] : false,
 			'direct' => $button_behavior == 'direct' ? true : false,
-			'text' => $button_behavior == 'direct' ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'easy-digital-downloads')) : $this->get('settings')->get_option('add_to_cart_text', __('Purchase', 'easy-digital-downloads')),
+			'text' => $button_behavior == 'direct' ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', __('Purchase', 'mp-restaurant-menu')),
 			'style' => $this->get('settings')->get_option('button_style', 'button'),
 			'color' => $this->get('settings')->get_option('checkout_color', 'blue'),
 			'class' => 'mprm-submit'
@@ -493,7 +493,7 @@ class Menu_item extends Model {
 		if (false !== $price) {
 
 			if (0 == $price) {
-				$args['text'] = __('Free', 'easy-digital-downloads') . $button_text;
+				$args['text'] = __('Free', 'mp-restaurant-menu') . $button_text;
 			} else {
 				$args['text'] = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price($price)) . $button_text;
 			}
@@ -638,6 +638,14 @@ class Menu_item extends Model {
 		}
 
 		return (bool)apply_filters('mprm_is_free_download', $is_free, $post->ID, $price_id);
+
+	}
+
+	public function get_prices($post_id) {
+
+		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
+
+		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
 
 	}
 

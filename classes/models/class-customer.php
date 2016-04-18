@@ -19,7 +19,7 @@ class Customer extends Model {
 			$user_id = get_current_user_id();
 		}
 
-		$address = get_user_meta($user_id, '_edd_user_address', true);
+		$address = get_user_meta($user_id, '_mprm_user_address', true);
 
 		if (!isset($address['line1']))
 			$address['line1'] = '';

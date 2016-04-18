@@ -14,7 +14,7 @@
 
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
-use mp_restaurant_menu\classes\User_Capabilities;
+use mp_restaurant_menu\classes\Capabilities;
 
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
@@ -64,8 +64,8 @@ class MP_Restaurant_Menu_Setup_Plugin {
 
 		flush_rewrite_rules();
 		// User capability
-		User_Capabilities::get_instance()->add_roles();
-		User_Capabilities::get_instance()->add_caps();
+		Capabilities::get_instance()->add_roles();
+		Capabilities::get_instance()->add_caps();
 
 		if (!empty($plugin)) {
 			check_admin_referer("activate-plugin_{$plugin}");
@@ -80,7 +80,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			return;
 		}
 		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
-		User_Capabilities::get_instance()->remove_caps();
+		Capabilities::get_instance()->remove_caps();
 		flush_rewrite_rules();
 		if (!empty($plugin)) {
 			check_admin_referer("deactivate-plugin_{$plugin}");

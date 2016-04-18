@@ -1,7 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-class User_Capabilities extends Core {
+class Capabilities extends Core {
 
 
 	protected static $instance;
@@ -276,5 +276,10 @@ class User_Capabilities extends Core {
 			$wp_roles->remove_cap('mprm_shop_vendor', 'edit_published_products');
 			$wp_roles->remove_cap('mprm_shop_vendor', 'upload_files');
 		}
+	}
+
+	function is_caching_plugin_active() {
+		$caching = (function_exists('wpsupercache_site_admin') || defined('W3TC') || function_exists('rocket_init'));
+		return apply_filters('mprm_is_caching_plugin_active', $caching);
 	}
 }

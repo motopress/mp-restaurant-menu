@@ -17,14 +17,13 @@ class Formatting extends Model {
 
 	public function currency_decimal_filter($decimals = 2) {
 
-		$currency = edd_get_currency();
+		$currency = $this->get('settings')->get_currency();
 
 		switch ($currency) {
 			case 'RIAL' :
 			case 'JPY' :
 			case 'TWD' :
 			case 'HUF' :
-
 				$decimals = 0;
 				break;
 		}
@@ -107,5 +106,37 @@ class Formatting extends Model {
 		 */
 		return apply_filters('mprm_sanitize_amount', $amount);
 	}
+
+	function format_amount($amount, $decimals = true) {
+		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
+		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
+		// Format the amount
+		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
+			$whole = substr($amount, 0, $sep_found);
+			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
+			$amount = $whole . '.' . $part;
+		}
+
+		// Strip , from the amount (if set as the thousands separator)
+		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(',', '', $amount);
+		}
+
+		// Strip ' ' from the amount (if set as the thousands separator)
+		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(' ', '', $amount);
+		}
+
+		if (empty($amount)) {
+			$amount = 0;
+		}
+
+		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
+		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
+
+		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
+	}
+
 
 }

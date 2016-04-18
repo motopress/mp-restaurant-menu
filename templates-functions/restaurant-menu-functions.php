@@ -564,7 +564,11 @@ function mprm_get_purchase_template() {
 }
 
 function mprm_get_checkout_cart_template() {
-	mprm_get_template('shop/checkout-cart');
+	$data = array();
+	$data['is_ajax_disabled'] = models\Settings::get_instance()->is_ajax_disabled();
+	$data['cart_items'] = models\Cart::get_instance()->get_cart_contents();
+
+	mprm_get_template('shop/checkout-cart', $data);
 }
 
 

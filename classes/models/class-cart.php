@@ -17,7 +17,7 @@ class Cart extends Model {
 
 
 	public function get_cart_content_details() {
-		global $edd_is_last_cart_item, $edd_flat_discount_total;
+		global $mprm_is_last_cart_item, $mprm_flat_discount_total;
 
 		$cart_items = $this->get_cart_contents();
 
@@ -31,21 +31,21 @@ class Cart extends Model {
 		foreach ($cart_items as $key => $item) {
 
 			if ($key >= $length) {
-				$edd_is_last_cart_item = true;
+				$mprm_is_last_cart_item = true;
 			}
 
 			$item['quantity'] = $this->item_quantities_enabled() ? absint($item['quantity']) : 1;
 
-			$item_price = edd_get_cart_item_price($item['id'], $item['options']);
-			$discount = edd_get_cart_item_discount_amount($item);
-			$discount = apply_filters('edd_get_cart_content_details_item_discount_amount', $discount, $item);
-			$quantity = edd_get_cart_item_quantity($item['id'], $item['options']);
-			$fees = edd_get_cart_fees('fee', $item['id']);
+			$item_price = $this->get_cart_item_price($item['id'], $item['options']);
+			$discount = $this->get('discount')->get_cart_item_discount_amount($item);
+			$discount = apply_filters('mprm_get_cart_content_details_item_discount_amount', $discount, $item);
+			$quantity = $this->get_cart_item_quantity($item['id'], $item['options']);
+			$fees = $this->get_cart_fees('fee', $item['id']);
 			$subtotal = $item_price * $quantity;
-			$tax = edd_get_cart_item_tax($item['id'], $item['options'], $subtotal - $discount);
+			$tax = $this->get_cart_item_tax($item['id'], $item['options'], $subtotal - $discount);
 
-			if (edd_prices_include_tax()) {
-				$subtotal -= round($tax, edd_currency_decimal_filter());
+			if ($this->get('taxes')->prices_include_tax()) {
+				$subtotal -= round($tax, $this->get('formatting')->currency_decimal_filter());
 			}
 
 			$total = $subtotal - $discount + $tax;
@@ -59,19 +59,19 @@ class Cart extends Model {
 				'name' => get_the_title($item['id']),
 				'id' => $item['id'],
 				'item_number' => $item,
-				'item_price' => round($item_price, edd_currency_decimal_filter()),
+				'item_price' => round($item_price, $this->get('formatting')->currency_decimal_filter()),
 				'quantity' => $quantity,
-				'discount' => round($discount, edd_currency_decimal_filter()),
-				'subtotal' => round($subtotal, edd_currency_decimal_filter()),
-				'tax' => round($tax, edd_currency_decimal_filter()),
+				'discount' => round($discount, $this->get('formatting')->currency_decimal_filter()),
+				'subtotal' => round($subtotal, $this->get('formatting')->currency_decimal_filter()),
+				'tax' => round($tax, $this->get('formatting')->currency_decimal_filter()),
 				'fees' => $fees,
-				'price' => round($total, edd_currency_decimal_filter())
+				'price' => round($total, $this->get('formatting')->currency_decimal_filter())
 			);
 
-			if ($edd_is_last_cart_item) {
+			if ($mprm_is_last_cart_item) {
 
-				$edd_is_last_cart_item = false;
-				$edd_flat_discount_total = 0.00;
+				$mprm_is_last_cart_item = false;
+				$mprm_flat_discount_total = 0.00;
 			}
 
 		}
@@ -94,7 +94,7 @@ class Cart extends Model {
 
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
 
-		$cart = apply_filters('edd_pre_add_to_cart_contents', $this->get_cart_contents());
+		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
 
 		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
 			// Forces to the first price ID if none is specified and download has variable prices
@@ -332,11 +332,11 @@ class Cart extends Model {
 			'price' => Menu_item::get_instance()->get_price($post->id),
 			'direct' => false,
 			'text' => __('Purchase', 'mp-restaurant-menu'),
-			'style' => get_option('mprm_button_style', 'button'),
-			'color' => get_option('mprm_checkout_color', 'blue'),
+			'style' => $this->get('settings')->get_option('mprm_button_style', 'button'),
+			'color' => $this->get('settings')->get_option('mprm_checkout_color', 'blue'),
 			'class' => 'mprm-submit'
 		);
-		$purchase_page = get_option('mprm_purchase_page', false);
+		$purchase_page = $this->get('settings')->get_option('mprm_purchase_page', false);
 
 		if (!$purchase_page || $purchase_page == 0) {
 			$data['error'] = true;
@@ -405,14 +405,244 @@ class Cart extends Model {
 
 		}
 
-		$cart_tax += edd_get_cart_fee_tax();
+		$cart_tax += $this->get_cart_fee_tax();
 
-		return apply_filters('edd_get_cart_tax', edd_sanitize_amount($cart_tax));
+		return apply_filters('mprm_get_cart_tax', $this->get('formatting')->sanitize_amount($cart_tax));
 	}
 
 	function is_cart_saving_disabled() {
 		$ret = $this->get('settings')->get_option('enable_cart_saving', false);
 		return apply_filters('mprm_cart_saving_disabled', !$ret);
+	}
+
+	function get_cart_item_name($item = array()) {
+
+		$item_title = get_the_title($item['id']);
+
+		if (empty($item_title)) {
+			$item_title = $item['id'];
+		}
+
+		if ($this->get('menu_item')->has_variable_prices($item['id']) && false !== $this->get_cart_item_price_id($item)) {
+
+			$item_title .= ' - ' . $this->get_cart_item_price_name($item);
+		}
+
+		return apply_filters('mprm_get_cart_item_name', $item_title, $item['id'], $item);
+	}
+
+	function cart_item_price($item_id = 0, $options = array()) {
+		$price = $this->get_cart_item_price($item_id, $options);
+		$label = '';
+
+		$price_id = isset($options['price_id']) ? $options['price_id'] : false;
+
+		if (!$this->get('menu_item')->is_free($item_id, $price_id) && !$this->get('taxes')->menu_item_is_tax_exclusive($item_id)) {
+
+			if ($this->get('taxes')->prices_show_tax_on_checkout() && !$this->get('taxes')->prices_include_tax()) {
+
+				$price += $this->get_cart_item_tax($item_id, $options, $price);
+
+			}
+			if (!$this->get('taxes')->prices_show_tax_on_checkout() && $this->get('taxes')->prices_include_tax()) {
+
+				$price -= $this->get_cart_item_tax($item_id, $options, $price);
+
+			}
+
+			if ($this->get('taxes')->display_tax_rate()) {
+
+				$label = '&nbsp;&ndash;&nbsp;';
+
+				if ($this->get('taxes')->prices_show_tax_on_checkout()) {
+					$label .= sprintf(__('includes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				} else {
+					$label .= sprintf(__('excludes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				}
+
+				$label = apply_filters('mprm_cart_item_tax_description', $label, $item_id, $options);
+
+			}
+		}
+		$price = $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($price));
+
+		return apply_filters('mprm_cart_item_price_label', $price . $label, $item_id, $options);
+	}
+
+	function get_cart_item_quantity($menu_item_id = 0, $options = array()) {
+		$cart = $this->get_cart_contents();
+		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+
+		$quantity = isset($cart[$key]['quantity']) && $this->item_quantities_enabled() ? $cart[$key]['quantity'] : 1;
+		if ($quantity < 1)
+			$quantity = 1;
+		return apply_filters('mprm_get_cart_item_quantity', $quantity, $menu_item_id, $options);
+	}
+
+	function remove_item_url($cart_key) {
+		global $wp_query;
+
+		if (defined('DOING_AJAX')) {
+			$current_page = $this->get('checkout')->get_checkout_uri();
+		} else {
+			$current_page = $this->get('misc')->get_current_page_url();
+		}
+
+		$remove_url = $this->get('misc')->add_cache_busting(add_query_arg(array('cart_item' => $cart_key, 'mprm_action' => 'remove'), $current_page));
+
+		return apply_filters('mprm_remove_item_url', $remove_url);
+	}
+
+	function get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
+
+		$price = 0;
+		$variable_prices = $this->get('menu_item')->has_variable_prices($menu_item_id);
+
+		if ($variable_prices) {
+
+			$prices = $this->get('menu_item')->get_prices($menu_item_id);
+
+			if ($prices) {
+
+				if (!empty($options)) {
+
+					$price = isset($prices[$options['price_id']]) ? $prices[$options['price_id']]['amount'] : false;
+
+				} else {
+
+					$price = false;
+
+				}
+
+			}
+
+		}
+
+		if (!$variable_prices || false === $price) {
+			// Get the standard Download price if not using variable prices
+			$price = $this->get('menu_item')->get_price($menu_item_id);
+		}
+
+		if ($remove_tax_from_inclusive && $this->get('taxes')->prices_include_tax()) {
+
+			$price -= $this->get_cart_item_tax($menu_item_id, $options, $price);
+		}
+
+		return apply_filters('mprm_cart_item_price', $price, $menu_item_id, $options);
+	}
+
+	function get_cart_fees($type = 'all', $menu_item_id = 0) {
+		return $this->get('fees')->get_fees($type, $menu_item_id);
+	}
+
+	function remove_cart_fee_url($fee_id = '') {
+		global $post;
+
+		if (defined('DOING_AJAX')) {
+			$current_page = $this->get('checkout')->get_checkout_uri();
+		} else {
+			$current_page = $this->get('misc')->get_current_page_url();
+		}
+
+		$remove_url = add_query_arg(array('fee' => $fee_id, 'mprm_action' => 'remove_fee', 'nocache' => 'true'), $current_page);
+
+		return apply_filters('mprm_remove_fee_url', $remove_url);
+	}
+
+	function checkout_cart_columns() {
+		$head_first = did_action('mprm_checkout_table_header_first');
+		$head_last = did_action('mprm_checkout_table_header_last');
+		$default = 3;
+
+		return apply_filters('mprm_checkout_cart_columns', $head_first + $head_last + $default);
+	}
+
+	function cart_subtotal() {
+		$price = $this->get('menu_item')->currency_filter(Formatting::get_instance()->format_amount($this->get_cart_subtotal()));
+		return $price;
+	}
+
+	function cart_has_discounts() {
+		$ret = false;
+
+		if ($this->get_cart_discounts()) {
+			$ret = true;
+		}
+
+		return apply_filters('mprm_cart_has_discounts', $ret);
+	}
+
+	function get_cart_discounts() {
+		$discounts = $this->get('session')->get_session_by_key('cart_discounts');
+		$discounts = !empty($discounts) ? explode('|', $discounts) : false;
+		return $discounts;
+	}
+
+	function get_cart_item_price_id($item = array()) {
+		if (isset($item['item_number'])) {
+			$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
+		} else {
+			$price_id = isset($item['options']['price_id']) ? $item['options']['price_id'] : null;
+		}
+		return $price_id;
+	}
+
+	function get_cart_item_price_name($item = array()) {
+		$price_id = (int)$this->get_cart_item_price_id($item);
+		$prices = $this->get('menu_item')->get_prices($item['id']);
+		$name = !empty($prices[$price_id]) ? $prices[$price_id]['name'] : '';
+		return apply_filters('mprm_get_cart_item_price_name', $name, $item['id'], $price_id, $item);
+	}
+
+	function get_cart_fee_tax() {
+
+		$tax = 0;
+		$fees = $this->get_cart_fees();
+
+		if ($fees) {
+
+			foreach ($fees as $fee_id => $fee) {
+
+				if (!empty($fee['no_tax'])) {
+					continue;
+				}
+
+				// Fees must (at this time) be exclusive of tax
+				add_filter('mprm_prices_include_tax', '__return_false');
+
+				$tax += $this->get('taxes')->calculate_tax($fee['amount']);
+
+				remove_filter('mprm_prices_include_tax', '__return_false');
+
+			}
+		}
+
+		return apply_filters('mprm_get_cart_fee_tax', $tax);
+	}
+
+	function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
+
+		$tax = 0;
+		if (!$this->get('taxes')->menu_item_is_tax_exclusive($menu_item_id)) {
+
+			$country = !empty($_POST['billing_country']) ? $_POST['billing_country'] : false;
+			$state = !empty($_POST['card_state']) ? $_POST['card_state'] : false;
+
+			$tax = $this->get('taxes')->calculate_tax($subtotal, $country, $state);
+
+		}
+
+		return apply_filters('mprm_get_cart_item_tax', $tax, $menu_item_id, $options, $subtotal);
+	}
+
+	function cart_total($echo = true) {
+		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter(Formatting::get_instance()->format_amount($this->get_cart_total())));
+
+		if (!$echo) {
+			return $total;
+		}
+
+		echo $total;
 	}
 
 }

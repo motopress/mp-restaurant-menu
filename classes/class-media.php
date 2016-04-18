@@ -1176,6 +1176,12 @@ class Media extends Core {
 		return apply_filters('mprm_registered_settings', $mprm_settings);
 	}
 
+	/**
+	 * Settings tab
+	 * @param $tab
+	 *
+	 * @return array/bool
+	 */
 	public function get_settings_tab_sections($tab) {
 
 		$tabs = false;

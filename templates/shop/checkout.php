@@ -1,3 +1,4 @@
+<?php use \mp_restaurant_menu\classes\models\Gateways as Gateways; ?>
 <div id="mprm_checkout_wrap">
 	<?php if ($cart_contents || $cart_has_fees) :
 
@@ -13,12 +14,12 @@
 				 *
 				 * @since 1.0
 				 */
-				do_action('edd_checkout_form_top');
+				do_action('mprm_checkout_form_top');
 
-				if (\mp_restaurant_menu\classes\models\Gateways::get_instance()->show_gateways()) {
-					do_action('edd_payment_mode_select');
+				if (Gateways::get_instance()->show_gateways()) {
+					do_action('mprm_payment_mode_select');
 				} else {
-					do_action('edd_purchase_form');
+					do_action('mprm_purchase_form');
 				}
 
 				/**
@@ -30,7 +31,7 @@
 				?>
 			</form>
 			<?php do_action('mprm_after_purchase_form'); ?>
-		</div><!--end #edd_checkout_form_wrap-->
+		</div>
 		<?php
 	else:
 		/**
@@ -38,6 +39,6 @@
 		 *
 		 * @since 1.0
 		 */
-		do_action('edd_cart_empty');
+		do_action('mprm_cart_empty');
 	endif; ?>
 </div>

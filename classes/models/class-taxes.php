@@ -91,7 +91,44 @@ class Taxes extends Model {
 			// Convert to a number we can use
 			$rate = $rate / 100;
 		}
-		return apply_filters('edd_tax_rate', $rate, $country, $state);
+		return apply_filters('mprm_tax_rate', $rate, $country, $state);
 	}
+
+	function calculate_tax($amount = 0, $country = false, $state = false) {
+		$rate = $this->get_tax_rate($country, $state);
+		$tax = 0.00;
+
+		if ($this->use_taxes()) {
+
+			if ($this->prices_include_tax()) {
+				$pre_tax = ($amount / (1 + $rate));
+				$tax = $amount - $pre_tax;
+			} else {
+				$tax = $amount * $rate;
+			}
+
+		}
+
+		return apply_filters('mprm_taxed_amount', $tax, $rate, $country, $state);
+	}
+
+	function menu_item_is_tax_exclusive($menu_item_id = 0) {
+		$ret = (bool)get_post_meta($menu_item_id, '_mprm_menu_item_tax_exclusive', true);
+		return apply_filters('menu_item_is_tax_exclusive', $ret, $menu_item_id);
+	}
+
+	function prices_show_tax_on_checkout() {
+		$ret = ($this->get('settings')->get_option('checkout_include_tax', false) == 'yes' && $this->use_taxes());
+
+		return apply_filters('mprm_taxes_on_prices_on_checkout', $ret);
+	}
+
+	function get_formatted_tax_rate($country = false, $state = false) {
+		$rate = $this->get_tax_rate($country, $state);
+		$rate = round($rate * 100, 4);
+		$formatted = $rate .= '%';
+		return apply_filters('mprm_formatted_tax_rate', $formatted, $rate, $country, $state);
+	}
+
 
 }

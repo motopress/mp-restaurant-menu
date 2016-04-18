@@ -25,6 +25,7 @@ class Controller_Settings extends Controller {
 	 */
 
 	public function action_content() {
+		$data = array();
 		$data = $this->get('settings')->get_config_settings();
 		//$data
 		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();

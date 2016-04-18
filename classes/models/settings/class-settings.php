@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\View;
 
 class Settings extends Model {
@@ -1336,8 +1337,7 @@ class Settings extends Model {
 	public function add_cache_busting($url = '') {
 
 		$no_cache_checkout = $this->get_option('no_cache_checkout', false);
-
-		if (edd_is_caching_plugin_active() || (edd_is_checkout() && $no_cache_checkout)) {
+		if (Capabilities::get_instance()->is_caching_plugin_active() || ($this->get('checkout')->is_checkout() && $no_cache_checkout)) {
 			$url = add_query_arg('nocache', 'true', $url);
 		}
 
