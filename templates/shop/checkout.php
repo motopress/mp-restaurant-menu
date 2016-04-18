@@ -5,9 +5,10 @@
 		//edd_checkout_cart();
 		mprm_get_checkout_cart_template();
 		?>
-		<div id="mprm_checkout_form_wrap" class="mprm_clearfix">
+		<div id="mprm_checkout_form_wrap" class="mprm-clear">
 			<?php do_action('mprm_before_purchase_form'); ?>
-			<form id="mprm_purchase_form" class="mprm_form" action="<?php echo $form_action; ?>" method="POST">
+
+			<form id="mprm_purchase_form" class="mprm-clear" action="<?php echo $form_action; ?>" method="POST">
 				<?php
 				/**
 				 * Hooks in at the top of the checkout form
@@ -30,6 +31,7 @@
 				do_action('mprm_checkout_form_bottom')
 				?>
 			</form>
+
 			<?php do_action('mprm_after_purchase_form'); ?>
 		</div>
 		<?php

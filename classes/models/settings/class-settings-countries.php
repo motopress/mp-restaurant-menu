@@ -1232,4 +1232,5 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_spain_states', $states);
 	}
+
 }

@@ -256,4 +256,46 @@ class Checkout extends Model {
 		$ret = $this->get('settings')->get_option('redirect_on_add', false);
 		return (bool)apply_filters('mprm_straight_to_checkout', $ret);
 	}
+
+	function enforced_ssl_asset_filter($content) {
+
+		if (is_array($content)) {
+
+			$content = array_map('edd_enforced_ssl_asset_filter', $content);
+
+		} else {
+
+			// Detect if URL ends in a common domain suffix. We want to only affect assets
+			$extension = untrailingslashit($this->get('settings')->get_file_extension($content));
+			$suffixes = array(
+				'br',
+				'ca',
+				'cn',
+				'com',
+				'de',
+				'dev',
+				'edu',
+				'fr',
+				'in',
+				'info',
+				'jp',
+				'local',
+				'mobi',
+				'name',
+				'net',
+				'nz',
+				'org',
+				'ru',
+			);
+
+			if (!in_array($extension, $suffixes)) {
+
+				$content = str_replace('http:', 'https:', $content);
+
+			}
+
+		}
+
+		return $content;
+	}
 }

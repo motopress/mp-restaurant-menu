@@ -144,6 +144,7 @@ class Hooks extends Core {
 		self::install_menu_item_actions();
 		self::install_category_actions();
 		self::install_tag_actions();
+
 		self::install_cart_actions();
 		self::install_checkout_actions();
 	}
@@ -158,9 +159,43 @@ class Hooks extends Core {
 			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
 		}
 
+		add_action('mprm_before_purchase_form', 'mprm_before_purchase_form');
+		add_action('mprm_after_purchase_form', 'mprm_after_purchase_form');
+		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
+		add_action('mprm_checkout_form_bottom', 'mprm_checkout_form_bottom');
+		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
+		add_action('mprm_purchase_form', 'mprm_purchase_form');
+		add_action('mprm_cart_empty', 'mprm_cart_empty');
+
+
 	}
 
 	public static function install_checkout_actions() {
+
+		add_action('mprm_checkout_table_header_first', 'mprm_checkout_table_header_first');
+		add_action('mprm_checkout_table_header_last', 'mprm_checkout_table_header_last');
+		add_action('mprm_cart_items_before', 'mprm_cart_items_before');
+		add_action('mprm_checkout_table_body_first', 'mprm_checkout_table_body_first');
+		add_action('mprm_checkout_table_body_last', 'mprm_checkout_table_body_last');
+		add_action('mprm_checkout_cart_item_title_after', 'mprm_checkout_cart_item_title_after');
+		add_action('mprm_checkout_cart_item_price_after', 'mprm_checkout_cart_item_price_after');
+		add_action('mprm_cart_actions', 'mprm_cart_actions');
+		add_action('mprm_cart_items_middle', 'mprm_cart_items_middle');
+		add_action('mprm_cart_fee_rows_before', 'mprm_cart_fee_rows_before');
+		add_action('mprm_cart_fee_rows_after', 'mprm_cart_fee_rows_after');
+		add_action('mprm_cart_items_after', 'mprm_cart_items_after');
+		add_action('mprm_cart_footer_buttons', 'mprm_cart_footer_buttons');
+		add_action('mprm_checkout_table_subtotal_first', 'mprm_checkout_table_subtotal_first');
+		add_action('mprm_checkout_table_subtotal_last', 'mprm_checkout_table_subtotal_last');
+		add_action('mprm_checkout_table_discount_first', 'mprm_checkout_table_discount_first');
+		add_action('mprm_checkout_table_discount_last', 'mprm_checkout_table_discount_last');
+		add_action('mprm_checkout_table_tax_first', 'mprm_checkout_table_tax_first');
+		add_action('mprm_checkout_table_tax_last', 'mprm_checkout_table_tax_last');
+		add_action('mprm_checkout_table_footer_first', 'mprm_checkout_table_footer_first');
+		add_action('mprm_checkout_table_footer_last', 'mprm_checkout_table_footer_last');
+		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');
+		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
+
 	}
 
 	/**

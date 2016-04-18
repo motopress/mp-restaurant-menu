@@ -1,7 +1,4 @@
 <?php
-/**
- *  This template is used to display the Checkout page when items are in the cart
- */
 global $post;
 use mp_restaurant_menu\classes\models\Cart as Cart;
 use mp_restaurant_menu\classes\models\Menu_item as Menu_item;
@@ -28,6 +25,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php foreach ($cart_items as $key => $item) : ?>
 			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($key) . '_' . esc_attr($item['id']); ?>" data-download-id="<?php echo esc_attr($item['id']); ?>">
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
+
 				<td class="mprm_cart_item_name">
 					<?php
 					if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) {
@@ -54,6 +52,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 					<?php do_action('mprm_cart_actions', $item, $key); ?>
 					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($key)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 				</td>
+
 				<?php do_action('mprm_checkout_table_body_last', $item); ?>
 			</tr>
 		<?php endforeach; ?>

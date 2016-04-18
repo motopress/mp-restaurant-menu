@@ -1349,4 +1349,9 @@ class Settings extends Model {
 		$country = apply_filters('mprm_shop_country', $country);
 		return $country;
 	}
+
+	function get_shop_state() {
+		$state = $this->get_option('base_state', false);
+		return apply_filters('mprm_shop_state', $state);
+	}
 }
