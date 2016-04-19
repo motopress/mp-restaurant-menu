@@ -68,4 +68,9 @@ class Misc extends Model {
 
 		return $url;
 	}
+
+	function is_test_mode() {
+		$ret = $this->get('settings')->get_option('test_mode', false);
+		return (bool)apply_filters('mprm_is_test_mode', $ret);
+	}
 }

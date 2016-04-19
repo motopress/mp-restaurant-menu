@@ -193,7 +193,7 @@ class Core {
 	/**
 	 * Get State
 	 *
-	 * @return State
+	 * @return object/bool State
 	 */
 	public function get_state() {
 		if ($this->state) {

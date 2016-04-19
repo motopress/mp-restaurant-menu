@@ -121,6 +121,11 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					data: params
 				});
 			},
+			//$.ajax({
+			//url: 'ajax/test.html',
+			//success: function(){
+			//	alert('Load was performed.');
+			//}
 			/**
 			 * Call Tool tip
 			 *
@@ -478,7 +483,7 @@ MP_RM_Registry.register("HtmlBuilder", (function($) {
 /**
  * Html build function
  */
-MP_RM_Registry.register("MPRM_Shop", (function($) {
+MP_RM_Registry.register("Menu-Shop", (function($) {
 	"use strict";
 	var state;
 
@@ -488,9 +493,69 @@ MP_RM_Registry.register("MPRM_Shop", (function($) {
 
 			},
 			addToCart: function() {
+				$('.mprm-add-to-cart').on('click', function(e) {
+					e.preventDefault();
+					var $this = $(this), form = $this.closest('form');
+					var $params = form.serializeArray();
+					$params.push({
+						name: "is_ajax",
+						value: true
+					});
 
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							form.find('.mprm_go_to_checkout').show();
+							form.find('.mprm-add-to-cart').hide();
+
+							$('.mprm-cart-added-alert', form).fadeIn();
+							setTimeout(function() {
+								$('.mprm-cart-added-alert', form).fadeOut();
+							}, 3000);
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				});
 			},
 			removeFromCart: function() {
+				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {
+				//	e.preventDefault();
+				//
+				//	var $this = $(this), $params = [], tr = $this.closest('tr');
+				//	$params.push(
+				//		{
+				//			name: "is_ajax",
+				//			value: true
+				//		},
+				//		{
+				//			name: "cart_item",
+				//			value: tr.attr('data-cart-key')
+				//		},
+				//		{
+				//			name: "mprm_action",
+				//			value: "remove"
+				//		},
+				//		{
+				//			name: "controller",
+				//			value: "cart"
+				//		}
+				//	);
+				//
+				//	MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+				//		function(data) {
+				//			$('.mprm_cart_amount').html(data.total).text();//.text().html();
+				//			$('.mprm_cart_amount').attr('data-subtotal', data.subtotal);
+				//			$('.mprm_cart_amount').attr('data-total', data.subtotal);
+				//			tr.remove();
+				//		},
+				//		function(data) {
+				//			console.warn('Some error!!!');
+				//			console.warn(data);
+				//		}
+				//	);
+				//});
 			}
 
 		}
@@ -989,6 +1054,7 @@ MP_RM_Registry.register("Theme", (function($) {
 						duration: 300 // don't foget to change the duration also in CSS
 					}
 				});
+
 			}
 
 		};
@@ -1003,7 +1069,6 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 	};
 })(jQuery));
-
 
 (function($) {
 	"use strict";
@@ -1020,6 +1085,9 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ('edit-mp_menu_category' === window.pagenow) {
 			MP_RM_Registry._get("Menu-Category").init();
 		}
+
+		MP_RM_Registry._get('Menu-Shop').addToCart();
+		MP_RM_Registry._get('Menu-Shop').removeFromCart();
 
 		if ($('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();

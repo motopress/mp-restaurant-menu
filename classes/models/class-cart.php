@@ -221,6 +221,25 @@ class Cart extends Model {
 	}
 
 	public function remove_from_cart($cart_key) {
+		$cart = $this->get_cart_contents();
+
+		do_action('mprm_pre_remove_from_cart', $cart_key);
+
+		if (!is_array($cart)) {
+			return true; // Empty cart
+		} else {
+			$item_id = isset($cart[$cart_key]['id']) ? $cart[$cart_key]['id'] : null;
+			unset($cart[$cart_key]);
+		}
+
+		$this->get('session')->set('mprm_cart', $cart);
+
+		do_action('mprm_post_remove_from_cart', $cart_key, $item_id);
+
+		// Clear all the checkout errors, if any
+		$this->get('errors')->clear_errors();
+
+		return $cart; // The updated cart items
 	}
 
 	public function check_item_in_cart() {
@@ -488,7 +507,7 @@ class Cart extends Model {
 			$current_page = $this->get('misc')->get_current_page_url();
 		}
 
-		$remove_url = $this->get('misc')->add_cache_busting(add_query_arg(array('cart_item' => $cart_key, 'mprm_action' => 'remove'), $current_page));
+		$remove_url = $this->get('misc')->add_cache_busting(add_query_arg(array('cart_item' => $cart_key, 'mprm_action' => 'remove', 'controller' => 'cart'), $current_page));
 
 		return apply_filters('mprm_remove_item_url', $remove_url);
 	}
@@ -636,7 +655,7 @@ class Cart extends Model {
 	}
 
 	function cart_total($echo = true) {
-		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter(Formatting::get_instance()->format_amount($this->get_cart_total())));
+		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total())));
 
 		if (!$echo) {
 			return $total;

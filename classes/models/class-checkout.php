@@ -298,4 +298,10 @@ class Checkout extends Model {
 
 		return $content;
 	}
+
+	function is_purchase_history_page() {
+		$ret = $this->get('settings')->get_option('purchase_history_page', false);
+		$ret = $ret ? is_page($ret) : false;
+		return apply_filters('mprm_is_purchase_history_page', $ret);
+	}
 }

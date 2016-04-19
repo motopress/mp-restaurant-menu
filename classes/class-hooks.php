@@ -129,6 +129,9 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_submit', array(Errors::get_instance(), 'print_errors'));
 		add_action('mprm_ajax_checkout_errors', array(Errors::get_instance(), 'print_errors'));
 
+		//Adding shop class body
+		add_filter('body_class', 'mprm_add_body_classes');
+
 
 	}
 

@@ -23,7 +23,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<?php do_action('mprm_cart_items_before'); ?>
 	<?php if ($cart_items && !empty($cart_items)) : ?>
 		<?php foreach ($cart_items as $key => $item) : ?>
-			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($key) . '_' . esc_attr($item['id']); ?>" data-download-id="<?php echo esc_attr($item['id']); ?>">
+			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($key) . '_' . esc_attr($item['id']); ?>" data-cart-key="<?php echo esc_attr($key) ?>" data-menu-item-id="<?php echo esc_attr($item['id']); ?>">
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
 
 				<td class="mprm_cart_item_name">
@@ -126,7 +126,11 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 	<tr class="mprm_cart_footer_row">
 		<?php do_action('mprm_checkout_table_footer_first'); ?>
-		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>: <span class="mprm_cart_amount" data-subtotal="<?php echo Cart::get_instance()->get_cart_total(); ?>" data-total="<?php echo Cart::get_instance()->get_cart_total(); ?>"><?php Cart::get_instance()->cart_total(); ?></span></th>
+		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>:
+			<span class="mprm_cart_amount" data-subtotal="<?php echo Cart::get_instance()->get_cart_total(); ?>" data-total="<?php echo Cart::get_instance()->get_cart_total(); ?>">
+				<?php Cart::get_instance()->cart_total(); ?>
+			</span>
+		</th>
 		<?php do_action('mprm_checkout_table_footer_last'); ?>
 	</tr>
 	</tfoot>

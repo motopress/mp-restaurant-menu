@@ -25,7 +25,7 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><?php _e('Select Payment Method', 'easy-digital-downloads'); ?></span><br/>
+			<span class="mprm-payment-mode-label"><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></span><br/>
 			<?php
 
 			do_action('mprm_payment_mode_before_gateways');
@@ -71,7 +71,7 @@ function mprm_checkout_button_next() {
 	?>
 	<input type="hidden" name="mprm_action" value="gateway_select"/>
 	<input type="hidden" name="page_id" value="<?php echo absint($purchase_page); ?>"/>
-	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" value="<?php _e('Next', 'easy-digital-downloads'); ?>"/>
+	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_next', ob_get_clean());
 }
@@ -80,6 +80,7 @@ function mprm_purchase_form() {
 }
 
 function mprm_cart_empty() {
+	echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
 }
 
 function mprm_checkout_table_header_first() {
@@ -128,7 +129,7 @@ function mprm_checkout_table_footer_last() {
 }
 
 function mprm_payment_mode_top() {
-	if (models\Gateways::get_instance()->show_gateways() && did_action('mprm_payment_mode_top')) {
+	if (models\Gateways::get_instance()->show_gateways() && did_action('mprm_payment_mode_top') > 1) {
 		return;
 	}
 
@@ -156,16 +157,8 @@ function mprm_payment_mode_top() {
 
 			} else {
 
-				$image = mprm_locate_template('images' . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . $card . '.gif', false);
+				$image = MP_RM_MEDIA_URL . 'img/' . 'icons/' . $card . '.gif';
 				$content_dir = WP_CONTENT_DIR;
-
-				if (function_exists('wp_normalize_path')) {
-
-					// Replaces backslashes with forward slashes for Windows systems
-					$image = wp_normalize_path($image);
-					$content_dir = wp_normalize_path($content_dir);
-
-				}
 
 				$image = str_replace($content_dir, content_url(), $image);
 
@@ -183,6 +176,37 @@ function mprm_payment_mode_top() {
 	}
 
 	echo '</div>';
+}
+
+function mprm_add_body_classes($class) {
+	$classes = (array)$class;
+
+	if (models\Checkout::get_instance()->is_checkout()) {
+		$classes[] = 'mprm-checkout';
+		$classes[] = 'mprm-page';
+	}
+
+	if (models\Checkout::get_instance()->is_success_page()) {
+		$classes[] = 'mprm-success';
+		$classes[] = 'mprm-page';
+	}
+
+	if (models\Checkout::get_instance()->is_failed_transaction_page()) {
+		$classes[] = 'mprm-failed-transaction';
+		$classes[] = 'mprm-page';
+	}
+
+	if (models\Checkout::get_instance()->is_purchase_history_page()) {
+		$classes[] = 'mprm-purchase-history';
+		$classes[] = 'mprm-page';
+	}
+
+	if (models\Misc::get_instance()->is_test_mode()) {
+		$classes[] = 'mprm-test-mode';
+		$classes[] = 'mprm-page';
+	}
+
+	return array_unique($classes);
 }
 
 

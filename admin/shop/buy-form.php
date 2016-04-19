@@ -9,11 +9,17 @@
 		if (!$is_ajax_disabled) { ?>
 			<a href="#" class="mprm-add-to-cart <?php echo esc_attr($class) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?>>
 				<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
-				<span class="mprm-loading"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>
+				<span class="mprm-loading">
+					<i class="mprm-icon-spinner mprm-icon-spin"></i>
+				</span>
 			</a>
+		<?php } else { ?>
+
+			<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
+
+
 		<?php } ?>
 
-		<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 		<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>" <?php echo $checkout_display ?>><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
 
 		<?php if (!$is_ajax_disabled) : ?>

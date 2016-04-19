@@ -121,7 +121,6 @@ class Media extends Core {
 				default:
 					break;
 			}
-
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
@@ -234,6 +233,7 @@ class Media extends Core {
 		global $post_type;
 		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 		$this->enqueue_style('mprm-style', 'style.css');
+		wp_enqueue_script('wp-util');
 		switch ($post_type) {
 			case"mp_menu_item":
 				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
@@ -255,6 +255,16 @@ class Media extends Core {
 				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
 				break;
 			default:
+				break;
+		}
+	}
+
+	public function add_plugin_js($type = false) {
+		switch ($type) {
+			case"shortcode":
+			case"widget":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 				break;
 		}
 	}
@@ -1178,6 +1188,7 @@ class Media extends Core {
 
 	/**
 	 * Settings tab
+	 *
 	 * @param $tab
 	 *
 	 * @return array/bool
