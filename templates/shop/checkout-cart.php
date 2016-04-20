@@ -58,7 +58,8 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php endforeach; ?>
 	<?php endif; ?>
 	<?php do_action('mprm_cart_items_middle'); ?>
-	<!-- Show any cart fees, both positive and negative fees -->
+
+
 	<?php if (Cart::get_instance()->cart_has_fees()) : ?>
 		<?php foreach (Cart::get_instance()->get_cart_fees() as $fee_id => $fee) : ?>
 			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">
@@ -117,7 +118,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<tr class="mprm_cart_footer_row mprm_cart_tax_row"<?php if (!Taxes::get_instance()->is_cart_taxed()) echo ' style="display:none;"'; ?>>
 			<?php do_action('mprm_checkout_table_tax_first'); ?>
 			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_tax">
-				<?php _e('Tax', 'mp-restaurant-menu'); ?>:&nbsp;<span class="mprm_cart_tax_amount" data-tax="<?php echo Cart::get_instance()->get_cart_tax(false); ?>"><?php echo esc_html(Taxes::get_instance()->cart_tax()); ?></span>
+				<?php _e('Tax', 'mp-restaurant-menu'); ?>:&nbsp;<span class="mprm_cart_tax_amount" data-tax="<?php echo Cart::get_instance()->get_cart_tax(); ?>"><?php echo esc_html(Cart::get_instance()->cart_tax()); ?></span>
 			</th>
 			<?php do_action('mprm_checkout_table_tax_last'); ?>
 		</tr>

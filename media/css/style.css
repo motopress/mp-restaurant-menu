@@ -1264,6 +1264,50 @@ there.
   border-color: #adadad;
   background-image: none;
 }
+#mprm_checkout_cart th {
+  padding: 1.387em;
+  font-weight: 700;
+  border: 1px solid #eee;
+  color: #666;
+}
+#mprm_checkout_cart thead th {
+  background: #fafafa;
+  text-align: left;
+}
+#mprm_checkout_cart tfoot th {
+  text-align: right;
+}
+#mprm_checkout_cart td {
+  text-align: left;
+  border: 1px solid #eee;
+  color: #666;
+  padding: .5em 1.387em;
+}
+#mprm_checkout_form_wrap fieldset {
+  border: 1px solid #eee;
+  padding: 1.387em;
+  margin: 0 0 21px;
+}
+#mprm-payment-mode-wrap .mprm-payment-mode-label {
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+}
+#mprm-payment-mode-wrap .mprm-gateway-option {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  font-weight: 700;
+  position: relative;
+  line-height: 100%;
+  font-size: 95%;
+}
+.mprm-payment-icons {
+  margin: 0 0 21px;
+}
+.mprm-payment-icons .payment-icon {
+  max-height: 30px;
+}
 .mprm-clear {
   *zoom: 1;
 }

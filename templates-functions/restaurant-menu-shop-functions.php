@@ -54,8 +54,8 @@ function mprm_payment_mode_select() {
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		</form>
 	<?php } ?>
-	<div id="mprm_purchase_form_wrap"></div><!-- the checkout fields are loaded into this-->
 
+	<div id="mprm_purchase_form_wrap"></div>
 
 	<?php do_action('mprm_payment_mode_bottom');
 }
@@ -74,6 +74,25 @@ function mprm_checkout_button_next() {
 	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_next', ob_get_clean());
+}
+
+function mprm_checkout_button_purchase() {
+	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$color = ($color == 'inherit') ? '' : $color;
+	$style = models\Settings::get_instance()->get_option('button_style', 'button');
+	$label = models\Settings::get_instance()->get_option('checkout_label', '');
+
+	if (models\Cart::get_instance()->get_cart_total()) {
+		$complete_purchase = !empty($label) ? $label : __('Purchase', 'easy-digital-downloads');
+	} else {
+		$complete_purchase = !empty($label) ? $label : __('Free Download', 'easy-digital-downloads');
+	}
+
+	ob_start();
+	?>
+	<input type="submit" class="edd-submit <?php echo $color; ?> <?php echo $style; ?>" id="edd-purchase-button" name="edd-purchase" value="<?php echo $complete_purchase; ?>"/>
+	<?php
+	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
 }
 
 function mprm_purchase_form() {
@@ -209,5 +228,30 @@ function mprm_add_body_classes($class) {
 	return array_unique($classes);
 }
 
+function mprm_update_cart_button() {
+	if (!models\Cart::get_instance()->item_quantities_enabled())
+		return;
+
+	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$color = ($color == 'inherit') ? '' : $color;
+	?>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color; ?>" value="<?php _e('Update Cart', 'easy-digital-downloads'); ?>"/>
+	<input type="hidden" name="mprm_action" value="update_cart"/>
+	<?php
+}
+
+function mprm_save_cart_button() {
+	if (models\Settings::get_instance()->is_cart_saving_disabled())
+		return;
+
+	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$color = ($color == 'inherit') ? '' : $color;
+
+	if (models\Cart::get_instance()->is_cart_saved()) : ?>
+		<a class="edd-cart-saving-button edd-submit button<?php echo ' ' . $color; ?>" id="edd-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => edd_get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'easy-digital-downloads'); ?></a>
+	<?php endif; ?>
+	<a class="edd-cart-saving-button edd-submit button<?php echo ' ' . $color; ?>" id="edd-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'easy-digital-downloads'); ?></a>
+	<?php
+}
 
 ?>

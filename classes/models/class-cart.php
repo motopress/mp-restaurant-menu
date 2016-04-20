@@ -291,7 +291,14 @@ class Cart extends Model {
 	}
 
 	public function get_cart_token() {
+		$user_id = get_current_user_id();
 
+		if (is_user_logged_in()) {
+			$token = get_user_meta($user_id, 'mprm_cart_token', true);
+		} else {
+			$token = isset($_COOKIE['mprm_cart_token']) ? $_COOKIE['mprm_cart_token'] : false;
+		}
+		return apply_filters('mprm_get_cart_token', $token, $user_id);
 	}
 
 	public function get_cart_items_subtotal($items) {
@@ -664,4 +671,53 @@ class Cart extends Model {
 		echo $total;
 	}
 
+	function cart_tax($echo = false) {
+		$cart_tax = 0;
+
+		if ($this->get('taxes')->is_cart_taxed()) {
+			$cart_tax = $this->get_cart_tax();
+			$cart_tax = $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($cart_tax));
+		}
+
+		$tax = apply_filters('mprm_cart_tax', $cart_tax);
+
+		if (!$echo) {
+			return $tax;
+		}
+
+		echo $tax;
+	}
+
+	function is_cart_saved() {
+		if ($this->get('settings')->is_cart_saving_disabled())
+			return false;
+
+		if (is_user_logged_in()) {
+
+			$saved_cart = get_user_meta(get_current_user_id(), 'mprm_saved_cart', true);
+
+			// Check that a cart exists
+			if (!$saved_cart)
+				return false;
+
+			// Check that the saved cart is not the same as the current cart
+			if ($saved_cart === $this->get('session')->get_session_by_key('mprm_cart'))
+				return false;
+
+			return true;
+
+		} else {
+
+			// Check that a saved cart exists
+			if (!isset($_COOKIE['mprm_saved_cart']))
+				return false;
+
+			// Check that the saved cart is not the same as the current cart
+			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart'))
+				return false;
+
+			return true;
+
+		}
+	}
 }

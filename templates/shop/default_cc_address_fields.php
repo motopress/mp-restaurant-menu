@@ -1,7 +1,10 @@
-<?php function edd_default_cc_address_fields() {
+<?php
+use \mp_restaurant_menu\classes\models;
+
+function edd_default_cc_address_fields() {
 
 	$logged_in = is_user_logged_in();
-	$customer = EDD()->session->get('customer');
+	$customer = models\Session::get_instance()->get_session_by_key('customer');
 	$customer = wp_parse_args($customer, array('address' => array(
 		'line1' => '',
 		'line2' => '',
@@ -104,13 +107,13 @@
 			} ?>>
 				<?php
 
-				$selected_country = edd_get_shop_country();
+				$selected_country = models\Settings::get_instance()->get_shop_country();
 
 				if (!empty($customer['address']['country']) && '*' !== $customer['address']['country']) {
 					$selected_country = $customer['address']['country'];
 				}
 
-				$countries = edd_get_country_list();
+				$countries = models\Settings::get_instance()->get_country_list();
 				foreach ($countries as $country_code => $country) {
 					echo '<option value="' . esc_attr($country_code) . '"' . selected($country_code, $selected_country, false) . '>' . $country . '</option>';
 				}
@@ -126,8 +129,8 @@
 			</label>
 			<span class="edd-description"><?php _e('The state or province for your billing address.', 'easy-digital-downloads'); ?></span>
 			<?php
-			$selected_state = edd_get_shop_state();
-			$states = edd_get_shop_states($selected_country);
+			$selected_state = models\Settings::get_instance()->get_shop_state();
+			$states = models\Settings::get_instance()->get_shop_states($selected_country);
 
 			if (!empty($customer['address']['state'])) {
 				$selected_state = $customer['address']['state'];
@@ -154,4 +157,4 @@
 	echo ob_get_clean();
 }
 
-add_action('edd_after_cc_fields', 'edd_default_cc_address_fields');
+///add_action('edd_after_cc_fields', 'edd_default_cc_address_fields');

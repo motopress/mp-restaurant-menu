@@ -1354,4 +1354,9 @@ class Settings extends Model {
 		$state = $this->get_option('base_state', false);
 		return apply_filters('mprm_shop_state', $state);
 	}
+
+	function is_cart_saving_disabled() {
+		$ret = $this->get_option('enable_cart_saving', false);
+		return apply_filters('mprm_cart_saving_disabled', !$ret);
+	}
 }

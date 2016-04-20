@@ -304,4 +304,9 @@ class Checkout extends Model {
 		$ret = $ret ? is_page($ret) : false;
 		return apply_filters('mprm_is_purchase_history_page', $ret);
 	}
+	function field_is_required( $field = '' ) {
+		$required_fields = edd_purchase_form_required_fields();
+		return array_key_exists( $field, $required_fields );
+	}
+
 }

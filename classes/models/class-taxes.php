@@ -130,5 +130,9 @@ class Taxes extends Model {
 		return apply_filters('mprm_formatted_tax_rate', $formatted, $rate, $country, $state);
 	}
 
+	function is_cart_taxed() {
+		return $this->use_taxes();
+	}
+
 
 }

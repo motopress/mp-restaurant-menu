@@ -41,4 +41,24 @@ class Customer extends Model {
 
 		return $address;
 	}
+
+	public function get_session_customer() {
+		$customer = $this->get('session')->get_session_by_key('customer');
+		$customer = wp_parse_args($customer, array('first_name' => '', 'last_name' => '', 'email' => ''));
+
+		if (is_user_logged_in()) {
+			$user_data = get_userdata(get_current_user_id());
+			foreach ($customer as $key => $field) {
+
+				if ('email' == $key && empty($field)) {
+					$customer[$key] = $user_data->user_email;
+				} elseif (empty($field)) {
+					$customer[$key] = $user_data->$key;
+				}
+
+			}
+		}
+
+		return $customer = array_map('sanitize_text_field', $customer);
+	}
 }
