@@ -19,6 +19,9 @@ class Checkout extends Model {
 	}
 
 	public function can_checkout() {
+		$can_checkout = true;
+
+		return (bool)apply_filters('mprm_can_checkout', $can_checkout);
 	}
 
 	public function get_success_page_uri() {
@@ -230,7 +233,6 @@ class Checkout extends Model {
 			}
 
 		}
-
 		return apply_filters('mprm_cc_found_card_type', $return, $number, $card_types);
 	}
 
@@ -261,41 +263,18 @@ class Checkout extends Model {
 
 		if (is_array($content)) {
 
-			$content = array_map('edd_enforced_ssl_asset_filter', $content);
+			$content = array_map(array($this, 'enforced_ssl_asset_filter'), $content);
 
 		} else {
 
 			// Detect if URL ends in a common domain suffix. We want to only affect assets
 			$extension = untrailingslashit($this->get('settings')->get_file_extension($content));
-			$suffixes = array(
-				'br',
-				'ca',
-				'cn',
-				'com',
-				'de',
-				'dev',
-				'edu',
-				'fr',
-				'in',
-				'info',
-				'jp',
-				'local',
-				'mobi',
-				'name',
-				'net',
-				'nz',
-				'org',
-				'ru',
-			);
+			$suffixes = array('br', 'ca', 'cn', 'com', 'de', 'dev', 'edu', 'fr', 'in', 'info', 'jp', 'local', 'mobi', 'name', 'net', 'nz', 'org', 'ru');
 
 			if (!in_array($extension, $suffixes)) {
-
 				$content = str_replace('http:', 'https:', $content);
-
 			}
-
 		}
-
 		return $content;
 	}
 
@@ -304,9 +283,45 @@ class Checkout extends Model {
 		$ret = $ret ? is_page($ret) : false;
 		return apply_filters('mprm_is_purchase_history_page', $ret);
 	}
-	function field_is_required( $field = '' ) {
-		$required_fields = edd_purchase_form_required_fields();
-		return array_key_exists( $field, $required_fields );
+
+	function field_is_required($field = '') {
+		$required_fields = $this->purchase_form_required_fields();
+		return array_key_exists($field, $required_fields);
 	}
 
+	function purchase_form_required_fields() {
+		$required_fields = array(
+			'mprm_email' => array(
+				'error_id' => 'invalid_email',
+				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
+			),
+			'mprm_first' => array(
+				'error_id' => 'invalid_first_name',
+				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
+			)
+		);
+
+		// Let payment gateways and other extensions determine if address fields should be required
+		$require_address = apply_filters('mprm_require_billing_address', $this->get('taxes')->use_taxes() && $this->get('cart')->get_cart_total());
+
+		if ($require_address) {
+			$required_fields['card_zip'] = array(
+				'error_id' => 'invalid_zip_code',
+				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
+			);
+			$required_fields['card_city'] = array(
+				'error_id' => 'invalid_city',
+				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
+			);
+			$required_fields['billing_country'] = array(
+				'error_id' => 'invalid_country',
+				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
+			);
+			$required_fields['card_state'] = array(
+				'error_id' => 'invalid_state',
+				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
+			);
+		}
+		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
+	}
 }

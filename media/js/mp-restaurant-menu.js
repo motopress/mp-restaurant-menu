@@ -519,6 +519,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					);
 				});
 			},
+			/**
+			 * Load gateway
+			 */
 			load_gateway: function() {
 				var gateway = $('input[name=payment-mode]:checked', '#mprm_purchase_form').val();
 				var $params = [
@@ -529,40 +532,29 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						name: 'mprm_action',
 						value: 'load_gateway'
 					},
+					//{
+					//	name: 'gateway',
+					//	value: gateway
+					//},
 					{
-						name: 'gateway',
+						name: 'payment-mode',
 						value: gateway
 					}
 				];
 
 				$('.mprm-cart-ajax').show();
-				//$('#edd_purchase_form_wrap').html('<img src="' + edd_scripts.ajax_loader + '"/>');
 
-				//var url = edd_scripts.ajaxurl;
-
-				//if ( url.indexOf( '?' ) > 0 ) {
-				//	url = url + '&';
-				//} else {
-				//	url = url + '?';
-				//}
-				//
-				//url = url + 'payment-mode=' + payment_mode;
 				MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 					function(data) {
+						console.log(data);
 						$('.mprm-no-js').hide();
-						$('#mprm_purchase_form_wrap').html(data);
+						$('#mprm_purchase_form_wrap').html(data.html);
 					},
 					function(data) {
 						console.warn('Some error!!!');
 						console.warn(data);
 					}
 				);
-				//jQuery.post(url, { action: 'edd_load_gateway', edd_payment_mode: payment_mode },
-				//	function(response){
-				//		jQuery('#edd_purchase_form_wrap').html(response);
-				//		jQuery('.edd-no-js').hide();
-				//	}
-				//);
 			},
 			removeFromCart: function() {
 				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {

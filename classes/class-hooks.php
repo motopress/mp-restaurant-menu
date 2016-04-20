@@ -132,6 +132,9 @@ class Hooks extends Core {
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
 
+		add_action('mprm_purchase_form_after_user_info', 'mprm_user_info_fields');
+		add_action('mprm_register_fields_before', 'mprm_user_info_fields');
+
 
 	}
 
@@ -198,6 +201,11 @@ class Hooks extends Core {
 		add_action('mprm_checkout_table_footer_last', 'mprm_checkout_table_footer_last');
 		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');
 		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
+
+		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
+		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
+		add_action('mprm_purchase_form_user_info', 'mprm_purchase_form_user_info');
+		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
 
 	}
 

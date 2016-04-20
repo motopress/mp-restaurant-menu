@@ -705,19 +705,16 @@ class Cart extends Model {
 				return false;
 
 			return true;
-
 		} else {
 
 			// Check that a saved cart exists
 			if (!isset($_COOKIE['mprm_saved_cart']))
 				return false;
-
 			// Check that the saved cart is not the same as the current cart
 			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart'))
 				return false;
 
 			return true;
-
 		}
 	}
 }

@@ -58,7 +58,6 @@ class Customer extends Model {
 
 			}
 		}
-
 		return $customer = array_map('sanitize_text_field', $customer);
 	}
 }

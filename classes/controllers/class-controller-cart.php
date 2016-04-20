@@ -3,7 +3,8 @@
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
-use mp_timetable\plugin_core\classes\View;
+use mp_restaurant_menu\classes\View;
+
 
 class Controller_cart extends Controller {
 	protected static $instance;
@@ -40,8 +41,11 @@ class Controller_cart extends Controller {
 	}
 
 	public function action_load_gateway() {
-		$request = $_REQUEST;
-		$this->date['customer'] = $this->get('customer')->get_session_customer();
-		$this->date['html'] = View::get_instance()->render_html('/shop/user-info-fields', $this->date, false);
+		//$request = $_REQUEST;
+		$this->date['data']['customer'] = $this->get('customer')->get_session_customer();
+		$this->date['data']['html'] = View::get_instance()->render_html('/shop/user-info-fields', $this->date['data'], false);
+		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
+
+		$this->send_json($this->date);
 	}
 }
