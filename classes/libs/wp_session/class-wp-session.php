@@ -10,7 +10,6 @@
  * @since   3.7.0
  */
 namespace mp_restaurant_menu\classes\libs;
-
 /**
  * WordPress Session class for managing user session data.
  *
@@ -24,21 +23,18 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 * @var string
 	 */
 	public $session_id;
-
 	/**
 	 * Unix timestamp when session expires.
 	 *
 	 * @var int
 	 */
 	protected $expires;
-
 	/**
 	 * Unix timestamp indicating when the expiration time needs to be reset.
 	 *
 	 * @var int
 	 */
 	protected $exp_variant;
-
 	/**
 	 * Singleton instance.
 	 *
@@ -57,7 +53,6 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		if (!self::$instance) {
 			self::$instance = new self();
 		}
-
 		return self::$instance;
 	}
 
@@ -74,20 +69,13 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		if (isset($_COOKIE[WP_SESSION_COOKIE])) {
 			$cookie = stripslashes($_COOKIE[WP_SESSION_COOKIE]);
 			$cookie_crumbs = explode('||', $cookie);
-
 			if ($this->is_valid_md5($cookie_crumbs[0])) {
-
 				$this->session_id = $cookie_crumbs[0];
-
 			} else {
-
 				$this->regenerate_id(true);
-
 			}
-
 			$this->expires = $cookie_crumbs[1];
 			$this->exp_variant = $cookie_crumbs[2];
-
 			// Update the session expiration if we're past the variant time
 			if (time() > $this->exp_variant) {
 				$this->set_expiration();
@@ -98,11 +86,8 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 			$this->session_id = $this->generate_id();
 			$this->set_expiration();
 		}
-
 		$this->read_data();
-
 		$this->set_cookie();
-
 	}
 
 	/**
@@ -143,7 +128,6 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	protected function generate_id() {
 		require_once(ABSPATH . 'wp-includes/class-phpass.php');
 		$hasher = new \PasswordHash(8, false);
-
 		return md5($hasher->get_random_bytes(32));
 	}
 
@@ -167,7 +151,6 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 */
 	protected function read_data() {
 		$this->container = get_option("_wp_session_{$this->session_id}", array());
-
 		return $this->container;
 	}
 
@@ -176,7 +159,6 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 */
 	public function write_data() {
 		$option_key = "_wp_session_{$this->session_id}";
-
 		// Only write the collection to the DB if it's changed.
 		if ($this->dirty) {
 			if (false === get_option($option_key)) {
@@ -207,12 +189,10 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 */
 	public function json_in($data) {
 		$array = json_decode($data);
-
 		if (is_array($array)) {
 			$this->container = $array;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -225,9 +205,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		if ($delete_old) {
 			delete_option("_wp_session_{$this->session_id}");
 		}
-
 		$this->session_id = $this->generate_id();
-
 		$this->set_cookie();
 	}
 
@@ -255,11 +233,9 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function reset() {
 		$this->container = array();
 	}
-
 	/*****************************************************************/
 	/*                     Iterator Implementation                   */
 	/*****************************************************************/
-
 	/**
 	 * Current position of the array.
 	 *
@@ -314,11 +290,9 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function valid() {
 		return $this->offsetExists($this->key());
 	}
-
 	/*****************************************************************/
 	/*                    Countable Implementation                   */
 	/*****************************************************************/
-
 	/**
 	 * Get the count of elements in the container array.
 	 *

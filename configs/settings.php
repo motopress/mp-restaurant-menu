@@ -1,5 +1,4 @@
 <?php
-
 return array(
 	'tabs' => array(
 		'general' => array(

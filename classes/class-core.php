@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
-
 
 /**
  * Class main state
@@ -105,9 +103,7 @@ class Core {
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
-
 		$mprm_options = Settings::get_instance()->get_settings();
-
 		Session::get_instance()->maybe_start_session();
 		Session::get_instance()->init();
 	}

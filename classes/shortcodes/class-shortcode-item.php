@@ -7,7 +7,6 @@ use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\models\Menu_category;
 
 class Shortcode_Item extends Shortcodes {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -39,7 +38,6 @@ class Shortcode_Item extends Shortcodes {
 	public function integration_motopress($motopressCELibrary) {
 		$categories = $this->create_list_motopress(Menu_category::get_instance()->get_categories_by_ids(), 'term');
 		$tags = $this->create_list_motopress(Menu_tag::get_instance()->get_tags_by_ids(), 'term');
-
 		$attributes = array(
 			'view' => array(
 				'type' => 'select',

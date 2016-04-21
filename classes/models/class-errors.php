@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
 class Errors extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -30,7 +28,6 @@ class Errors extends Model {
 			$this->clear_errors();
 		}
 	}
-
 
 	/**
 	 * Get Errors
@@ -96,5 +93,4 @@ class Errors extends Model {
 			$this->get('session')->set('mprm_errors', $errors);
 		}
 	}
-
 }

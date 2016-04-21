@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\widgets;
 
 use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 
 class Category_widget extends \WP_Widget {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -76,11 +74,9 @@ class Category_widget extends \WP_Widget {
 		$data = $this->get_data($instance);
 		global $mprm_view_args, $mprm_widget_args;
 		$mprm_view_args = $data;
-
 		$mprm_view_args['action_path'] = "widgets/category/{$data['view']}/item";
 		$mprm_widget_args = $args;
 		View::get_instance()->render_html("widgets/category/index", $data, true);
 	}
-
 
 }

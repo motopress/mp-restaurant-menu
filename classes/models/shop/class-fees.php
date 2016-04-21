@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
 class Fees extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -16,22 +14,17 @@ class Fees extends Model {
 	}
 
 	public function has_fees($type = 'fee') {
-
 		if ('all' == $type || 'fee' == $type) {
 			if (!$this->get('cart')->get_cart_contents()) {
 				$type = 'item';
 			}
-
 		}
-
 		$fees = $this->get_fees($type);
 		return !empty($fees) && is_array($fees);
 	}
 
 	public function get_fees($type = 'fee', $menu_item_id = 0) {
-
 		$fees = $this->get('session')->get('mprm_cart_fees');
-
 		if (!$this->get('cart')->get_cart_contents()) {
 			// We can only get item type fees when the cart is empty
 			$type = 'item';
@@ -58,25 +51,21 @@ class Fees extends Model {
 					continue;
 				}
 				if (!$this->get('cart')->item_in_cart($fee['menu_item_id'])) {
-
 					unset($fees[$key]);
 				}
 			}
 		}
-
 		return !empty($fees) ? $fees : array();
 	}
 
 	public function total($download_id = 0) {
 		$fees = $this->get_fees('all', $download_id);
 		$total = (float)0.00;
-
 		if ($this->has_fees('all')) {
 			foreach ($fees as $fee) {
 				$total += $this->get('formatting')->sanitize_amount($fee['amount']);
 			}
 		}
-
 		return $this->get('formatting')->sanitize_amount($total);
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\Core;
@@ -8,7 +7,6 @@ use mp_restaurant_menu\classes\Core;
  * Model class
  */
 class Model extends Core {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -38,5 +36,4 @@ class Model extends Core {
 	public function get_arr($data = array(), $success = false) {
 		return array('success' => $success, 'data' => $data);
 	}
-
 }

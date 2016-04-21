@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\modules;
 
 use mp_restaurant_menu\classes\Module;
 use mp_restaurant_menu\classes\View;
 
 class Taxonomy extends Module {
-
 	protected static $instance;
 
 	public static function get_instance() {

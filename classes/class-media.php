@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Settings;
@@ -9,7 +8,6 @@ use mp_restaurant_menu\classes\modules\Taxonomy;
 use mp_restaurant_menu\classes\modules\Menu;
 
 class Media extends Core {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -46,14 +44,12 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'edit_posts',
 		));
-
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Shop orders', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'edit_posts',
 		));
-
 		// Add new
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
@@ -132,25 +128,20 @@ class Media extends Core {
 					wp_enqueue_style('thickbox');
 					break;
 				case "edit-mp_menu_category":
-
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
 					$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
 					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
-
 					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
 					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
 					wp_enqueue_media();
-
 					break;
 				case "customize":
 					break;
 				default:
-
 					break;
 			}
-
 
 		}
 	}
@@ -176,7 +167,6 @@ class Media extends Core {
 	public function wp_footer() {
 		$this->add_theme_js();
 	}
-
 //
 //	/**
 //	 * Add admin js
@@ -225,7 +215,6 @@ class Media extends Core {
 //				break;
 //		}
 //	}
-
 	/**
 	 * Add theme css
 	 */
@@ -287,7 +276,6 @@ class Media extends Core {
 //			'supports' => array('title', 'comments', 'custom-fields'),
 //			'slug' => 'menu'
 //		));
-
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),
@@ -320,7 +308,6 @@ class Media extends Core {
 			'supports' => array('title', 'comments', 'custom-fields'),
 			'has_archive' => false,
 		));
-
 	}
 
 	/**
@@ -444,7 +431,6 @@ class Media extends Core {
 	 * @return int|mixed|string
 	 */
 	public static function cut_str($args = '') {
-
 		$default = array(
 			'maxchar' => 350,
 			'text' => '',
@@ -452,29 +438,24 @@ class Media extends Core {
 			'more_text' => __('Read more', 'mp-restaurant-menu') . '...',
 			'echo' => false,
 		);
-
 		if (is_array($args)) {
 			$rgs = $args;
 		} else {
 			parse_str($args, $rgs);
 		}
-
 		$args = array_merge($default, $rgs);
 		$args['maxchar'] += 0;
-
 		// cutting
 		if (mb_strlen($args['text']) > $args['maxchar'] && $args['maxchar'] != 0) {
 			$args['text'] = mb_substr($args['text'], 0, $args['maxchar']);
 			$args['text'] = $args['text'] . '...';
 		}
-
 		// save br ad paragraph
 		if ($args['save_format']) {
 			$args['text'] = str_replace("\r", '', $args['text']);
 			$args['text'] = preg_replace("~\n\n+~", "</p><p>", $args['text']);
 			$args['text'] = "<p>" . str_replace("\n", "<br />", trim($args['text'])) . "</p>";
 		}
-
 		if ($args['echo']) {
 			return print $args['text'];
 		}
@@ -492,19 +473,15 @@ class Media extends Core {
 		if (false == get_option('mprm_settings')) {
 			add_option('mprm_settings');
 		}
-
 		foreach ($this->get_registered_settings() as $tab => $sections) {
 			foreach ($sections as $section => $settings) {
-
 				// Check for backwards compatibility
 				$section_tabs = $this->get_settings_tab_sections($tab);
 				if (!is_array($section_tabs) || !array_key_exists($section, $section_tabs)) {
 					$section = 'main';
 					$settings = $sections;
 				}
-
 				add_settings_section('mprm_settings_' . $tab . '_' . $section, __return_null(), '__return_false', 'mprm_settings_' . $tab . '_' . $section);
-
 				foreach ($settings as $option) {
 					// For backwards compatibility
 					if (empty($option['id'])) {
@@ -1194,28 +1171,21 @@ class Media extends Core {
 	 * @return array/bool
 	 */
 	public function get_settings_tab_sections($tab) {
-
 		$tabs = false;
 		$sections = $this->get_registered_settings_sections();
-
 		if ($tab && !empty($sections[$tab])) {
 			$tabs = $sections[$tab];
 		} else if ($tab) {
 			$tabs = false;
 		}
-
 		return $tabs;
-
 	}
 
 	public function get_registered_settings_sections() {
-
 		static $sections = false;
-
 		if (false !== $sections) {
 			return $sections;
 		}
-
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
 				'main' => __('General Settings', 'mp-restaurant-menu'),
@@ -1250,27 +1220,21 @@ class Media extends Core {
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
 		);
-
 		$sections = apply_filters('mprm_settings_sections', $sections);
-
 		return $sections;
 	}
 
 	public function get_pages($force = false) {
-
 		$pages_options = array('' => ''); // Blank option
-
 		if ((!isset($_GET['page']) || 'admin.php?page=mprm-settings' != $_GET['page']) && !$force) {
 			return $pages_options;
 		}
-
 		$pages = get_pages();
 		if ($pages) {
 			foreach ($pages as $page) {
 				$pages_options[$page->ID] = $page->post_title;
 			}
 		}
-
 		return $pages_options;
 	}
 
@@ -1287,7 +1251,6 @@ class Media extends Core {
 				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 		);
-
 		return apply_filters('mprm_payment_gateways', $gateways);
 	}
 
@@ -1296,7 +1259,6 @@ class Media extends Core {
 			'button' => __('Button', 'mp-restaurant-menu'),
 			'plain' => __('Plain Text', 'mp-restaurant-menu')
 		);
-
 		return apply_filters('mprm_button_styles', $styles);
 	}
 
@@ -1339,7 +1301,6 @@ class Media extends Core {
 				'hex' => ''
 			)
 		);
-
 		return apply_filters('mprm_button_colors', $colors);
 	}
 
@@ -1357,16 +1318,13 @@ class Media extends Core {
 	}
 
 	public function get_settings_tabs() {
-
 		$settings = $this->get_registered_settings();
-
 		$tabs = array();
 		$tabs['general'] = __('General', 'mp-restaurant-menu');
 		$tabs['gateways'] = __('Payment Gateways', 'mp-restaurant-menu');
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
 		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
-
 		if (!empty($settings['extensions'])) {
 			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}
@@ -1374,7 +1332,6 @@ class Media extends Core {
 			$tabs['licenses'] = __('Licenses', 'mp-restaurant-menu');
 		}
 		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
-
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}
 }

@@ -1,13 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View;
 
-
 class Settings_emails extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -23,14 +20,11 @@ class Settings_emails extends Model {
 	 * @since 2.1
 	 */
 	public function __construct() {
-
 		if ('none' === $this->get_template()) {
 			$this->html = false;
 		}
-
 		add_action('mprm_email_send_before', array($this, 'send_before'));
 		add_action('mprm_email_send_after', array($this, 'send_after'));
-
 	}
 
 	/**
@@ -39,42 +33,36 @@ class Settings_emails extends Model {
 	 * @since 2.1
 	 */
 	private $from_address;
-
 	/**
 	 * Holds the from name
 	 *
 	 * @since 2.1
 	 */
 	private $from_name;
-
 	/**
 	 * Holds the email content type
 	 *
 	 * @since 2.1
 	 */
 	private $content_type;
-
 	/**
 	 * Holds the email headers
 	 *
 	 * @since 2.1
 	 */
 	private $headers;
-
 	/**
 	 * Whether to send email in HTML
 	 *
 	 * @since 2.1
 	 */
 	private $html = true;
-
 	/**
 	 * The email template to use
 	 *
 	 * @since 2.1
 	 */
 	private $template;
-
 	/**
 	 * The header text for the email
 	 *
@@ -91,7 +79,6 @@ class Settings_emails extends Model {
 	public function __set($key, $value) {
 		$this->$key = $value;
 	}
-
 
 	public function get_email_templates() {
 		$templates = array(
@@ -117,20 +104,15 @@ class Settings_emails extends Model {
 		if (empty($_GET['mprm_action'])) {
 			return;
 		}
-
 		if ('preview_email' !== $_GET['mprm_action']) {
 			return;
 		}
-
 		if (!current_user_can('manage_shop_settings')) {
 			return;
 		}
 
-
 		$this->heading = __('Purchase Receipt', 'mp-restaurant-menu');
-
 		echo $this->build_email($this->get('emails')->email_preview_template_tags($this->get('emails')->get_email_body_content(0, array())));
-
 		exit;
 	}
 
@@ -143,7 +125,6 @@ class Settings_emails extends Model {
 		if (!$this->from_name) {
 			$this->from_name = $this->get('settings')->get_option('from_name', get_bloginfo('name'));
 		}
-
 		return apply_filters('mprm_email_from_name', wp_specialchars_decode($this->from_name), $this);
 	}
 
@@ -156,7 +137,6 @@ class Settings_emails extends Model {
 		if (!$this->from_address) {
 			$this->from_address = $this->get('settings')->get_option('from_email', get_option('admin_email'));
 		}
-
 		return apply_filters('mprm_email_from_address', $this->from_address, $this);
 	}
 
@@ -171,7 +151,6 @@ class Settings_emails extends Model {
 		} else if (!$this->html) {
 			$this->content_type = 'text/plain';
 		}
-
 		return apply_filters('mprm_email_content_type', $this->content_type, $this);
 	}
 
@@ -186,7 +165,6 @@ class Settings_emails extends Model {
 			$this->headers .= "Reply-To: {$this->get_from_address()}\r\n";
 			$this->headers .= "Content-Type: {$this->get_content_type()}; charset=utf-8\r\n";
 		}
-
 		return apply_filters('mprm_email_headers', $this->headers, $this);
 	}
 
@@ -200,7 +178,6 @@ class Settings_emails extends Model {
 			'default' => __('Default Template', 'mp-restaurant-menu'),
 			'none' => __('No template, plain text only', 'mp-restaurant-menu')
 		);
-
 		return apply_filters('mprm_email_templates', $templates);
 	}
 
@@ -252,9 +229,7 @@ class Settings_emails extends Model {
 		if (false === $this->html) {
 			return apply_filters('mprm_email_message', wp_strip_all_tags($message), $this);
 		}
-
 		$message = $this->text_to_html($message);
-
 		ob_start();
 		View::get_instance()->render_html('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
 		/**
@@ -263,7 +238,6 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_header', $this);
-
 		if (has_action('mprm_email_template_' . $template)) {
 			/**
 			 * Hooks into the template of the email
@@ -276,7 +250,6 @@ class Settings_emails extends Model {
 		} else {
 			View::get_instance()->render_html('emails/body');
 		}
-
 		/**
 		 * Hooks into the body of the email
 		 *
@@ -290,7 +263,6 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_footer', $this);
-
 		$body = ob_get_clean();
 		$message = str_replace('{email}', $message, $body);
 		return apply_filters('mprm_email_message', $message, $this);
@@ -307,53 +279,41 @@ class Settings_emails extends Model {
 	 * @return bool
 	 */
 	public function send($to, $subject, $message, $attachments = '') {
-
 		if (!did_action('init') && !did_action('admin_init')) {
 			_doing_it_wrong(__FUNCTION__, __('You cannot send email with EDD_Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
 			return false;
 		}
-
 		/**
 		 * Hooks before the email is sent
 		 *
 		 * @since 2.1
 		 */
 		do_action('mprm_email_send_before', $this);
-
 		$subject = $this->parse_tags($subject);
 		$message = $this->parse_tags($message);
-
 		$message = $this->build_email($message);
-
 		$attachments = apply_filters('mprm_email_attachments', $attachments, $this);
-
 		$sent = wp_mail($to, $subject, $message, $this->get_headers(), $attachments);
 		$log_errors = apply_filters('mprm_log_email_errors', true, $to, $subject, $message);
-
 		if (!$sent && true === $log_errors) {
 			if (is_array($to)) {
 				$to = implode(',', $to);
 			}
-
 			$log_message = sprintf(
 				__("Email from Easy Digital Downloads failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n\n", 'mp-restaurant-menu'),
 				date_i18n('F j Y H:i:s', current_time('timestamp')),
 				$to,
 				$subject
 			);
-
 			error_log($log_message);
 		}
-
 		/**
 		 * Hooks after the email is sent
 		 *
 		 * @since 2.1
 		 */
 		do_action('mprm_email_send_after', $this);
-
 		return $sent;
-
 	}
 
 	/**
@@ -376,7 +336,6 @@ class Settings_emails extends Model {
 		remove_filter('wp_mail_from', array($this, 'get_from_address'));
 		remove_filter('wp_mail_from_name', array($this, 'get_from_name'));
 		remove_filter('wp_mail_content_type', array($this, 'get_content_type'));
-
 		// Reset heading to an empty string
 		$this->heading = '';
 	}
@@ -389,7 +348,6 @@ class Settings_emails extends Model {
 	 * @return string
 	 */
 	public function text_to_html($message) {
-
 		if ('text/html' == $this->content_type || true === $this->html) {
 			$message = wpautop($message);
 		}

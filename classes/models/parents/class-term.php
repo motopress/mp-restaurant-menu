@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models\parents;
 
 use mp_restaurant_menu\classes\Model;
 
 class Term extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -40,5 +38,4 @@ class Term extends Model {
 		}
 		return $terms;
 	}
-
 }

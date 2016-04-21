@@ -1,10 +1,8 @@
 <?php
-
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\View;
-
 
 class Controller_cart extends Controller {
 	protected static $instance;
@@ -18,7 +16,6 @@ class Controller_cart extends Controller {
 	}
 
 	function __construct() {
-
 		$this->date = array();
 	}
 
@@ -31,7 +28,6 @@ class Controller_cart extends Controller {
 		} else {
 			wp_safe_redirect($request['_wp_http_referer']);
 		}
-
 	}
 
 	public function action_remove() {
@@ -41,11 +37,8 @@ class Controller_cart extends Controller {
 	}
 
 	public function action_load_gateway() {
-		//$request = $_REQUEST;
-		$this->date['data']['customer'] = $this->get('customer')->get_session_customer();
-		$this->date['data']['html'] = View::get_instance()->render_html('/shop/user-info-fields', $this->date['data'], false);
+		$this->date['data']['html'] = View::get_instance()->render_html('/shop/purchase-form', $this->date['data'], false);
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
-
 		$this->send_json($this->date);
 	}
 }

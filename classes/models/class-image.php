@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
 class Image extends Model {
-
 	protected static $instance;
 	private $sizes;
 
@@ -78,7 +76,6 @@ class Image extends Model {
 	public function get_thumbnail_path($id, $size = 'medium') {
 		$metadata = wp_get_attachment_metadata($id);
 		$file = get_attached_file($id);
-
 		if (!is_array($size) && !empty($metadata) && !empty($metadata['sizes']) && !empty($metadata['sizes'][$size]) && !empty($metadata['sizes'][$size]['file'])) {
 			$file_name = $metadata['sizes'][$size]['file'];
 		} else {
@@ -175,5 +172,4 @@ class Image extends Model {
 		}
 		return wp_update_attachment_metadata($id, $metadata);
 	}
-
 }

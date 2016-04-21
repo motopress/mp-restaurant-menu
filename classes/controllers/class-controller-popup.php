@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
@@ -7,7 +6,6 @@ use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 
 class Controller_Popup extends Controller {
-
 	protected static $instance;
 	private $date;
 

@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\widgets;
 
 use mp_restaurant_menu\classes\View;
 
 class Cart_widget extends \WP_Widget {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -59,7 +57,6 @@ class Cart_widget extends \WP_Widget {
 	 */
 	public function form($instance) {
 		$data = $this->get_data($instance);
-
 		$data['widget_object'] = $this;
 		View::get_instance()->render_html('../admin/widgets/category/form', $data, true);
 	}
@@ -74,7 +71,6 @@ class Cart_widget extends \WP_Widget {
 		$data = $this->get_data($instance);
 		global $mprm_view_args, $mprm_widget_args;
 		$mprm_view_args = $data;
-
 		$mprm_view_args['action_path'] = "widgets/cart/{$data['view']}/item";
 		$mprm_widget_args = $args;
 		View::get_instance()->render_html("widgets/cart/index", $data, true);

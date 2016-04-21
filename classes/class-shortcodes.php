@@ -1,7 +1,5 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
-
 class Shortcodes extends Core {
 	protected static $instance;
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Export;
@@ -10,7 +9,6 @@ use mp_restaurant_menu\classes\View;
  * Class Controller_Import
  */
 class Controller_Import extends Controller {
-
 	protected static $instance;
 
 	public static function get_instance() {

@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\Core;
@@ -7,7 +6,6 @@ use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\libs\FB;
 
 class Preprocessor extends GUMP {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -119,18 +117,14 @@ class Preprocessor extends GUMP {
 		if (empty($this->errors)) {
 			return ($convert_to_string) ? null : array();
 		}
-
 		$resp = array();
-
 		foreach ($this->errors as $e) {
 			$field = ucwords(str_replace(array('_', '-'), chr(32), $e['field']));
 			$param = $e['param'];
-
 			// Let's fetch explicit field names if they exist
 			if (array_key_exists($e['field'], self::$fields)) {
 				$field = self::$fields[$e['field']];
 			}
-
 			switch ($e['rule']) {
 				case 'mismatch' :
 					$resp[$e['field']] = "There is no validation rule for $field";
@@ -208,8 +202,6 @@ class Preprocessor extends GUMP {
 					$resp[$e['field']] = "The $field field is invalid";
 			}
 		}
-
 		return $resp;
 	}
-
 }

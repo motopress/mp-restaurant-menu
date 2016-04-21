@@ -1,5 +1,4 @@
 <?php
-
 /**
  * mprm_before_menu_item_grid hook
  *

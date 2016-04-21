@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
@@ -8,7 +7,6 @@ use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\View;
 
 class Menu_item extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -146,31 +144,25 @@ class Menu_item extends Model {
 	public function get_formatting_price($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-
 		// Format the amount
 		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
 			$whole = substr($amount, 0, $sep_found);
 			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
 			$amount = $whole . '.' . $part;
 		}
-
 		// Strip , from the amount (if set as the thousands separator)
 		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(',', '', $amount);
 		}
-
 		// Strip ' ' from the amount (if set as the thousands separator)
 		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(' ', '', $amount);
 		}
-
 		if (empty($amount)) {
 			$amount = 0;
 		}
-
 		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
 		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
-
 		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 	}
 
@@ -179,15 +171,11 @@ class Menu_item extends Model {
 			$currency = $this->get('settings')->get_currency();
 		}
 		$position = $this->get('settings')->get_option('currency_position', 'before');
-
 		$negative = $price < 0;
-
 		if ($negative) {
 			$price = substr($price, 1); // Remove proceeding "-" -
 		}
-
 		$symbol = $this->get('settings')->get_currency_symbol($currency);
-
 		if ($position == 'before'):
 			switch ($currency):
 				case "GBP" :
@@ -228,7 +216,6 @@ class Menu_item extends Model {
 			endswitch;
 			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_after', $formatted, $currency, $price);
 		endif;
-
 		if ($negative) {
 			// Prepend the mins sign before the currency sign
 			$formatted = '-' . $formatted;
@@ -266,7 +253,6 @@ class Menu_item extends Model {
 				$tags_ids = explode(',', $args['tags_list']);
 			}
 		}
-
 		if (!empty($args['item_ids'])) {
 			$params['post__in'] = explode(',', $args['item_ids']);
 		}
@@ -361,7 +347,6 @@ class Menu_item extends Model {
 		$options = array();
 		$image_id = get_post_thumbnail_id($post->ID);
 		if ("list" != $mprm_view_args['view']) {
-
 			$mprm_view_args['col'] += 0;
 			if ($mprm_view_args['col'] <= 2) {
 				$thumbnail_type = 'mprm-big';
@@ -392,7 +377,6 @@ class Menu_item extends Model {
 	public function is_arr_values_empty($data) {
 		if ($data === false || $data == NULL)
 			return true;
-
 		if (is_array($data) && !empty($data)) {
 			$empty_count = 0;
 			foreach ($data as $item) {
@@ -413,11 +397,9 @@ class Menu_item extends Model {
 
 	public function get_purchase_link($args) {
 		global $post, $mprm_displayed_form_ids;
-
 		if (!$this->is_menu_item($post)) {
 			return false;
 		}
-
 		if ('publish' !== $post->post_status && !current_user_can('edit_product', $post->ID)) {
 			return false; // Product not published or user doesn't have permission to view drafts
 		}
@@ -427,10 +409,8 @@ class Menu_item extends Model {
 			$this->get('errors')->print_errors();
 			return false;
 		}
-
 		$post_id = is_object($post) ? $post->ID : 0;
 		$button_behavior = $this->get_button_behavior($post_id);
-
 		$defaults = apply_filters('mprm_purchase_link_defaults', array(
 			'download_id' => $post_id,
 			'price' => (bool)true,
@@ -441,9 +421,7 @@ class Menu_item extends Model {
 			'color' => $this->get('settings')->get_option('checkout_color', 'blue'),
 			'class' => 'mprm-submit'
 		));
-
 		$args = wp_parse_args($args, $defaults);
-
 		// Override the straight_to_gateway if the shop doesn't support it
 		//	if (mprm_shop_supports_buy_now()) {
 		if ($this->get('gateways')->shop_supports_buy_now()) {
@@ -451,55 +429,38 @@ class Menu_item extends Model {
 		}
 		// Override color if color == inherit
 		$args['color'] = ($args['color'] == 'inherit') ? '' : $args['color'];
-
 		$options = array();
 		$variable_pricing = $this->has_variable_prices($post->ID);
 		$data_variable = $variable_pricing ? ' data-variable-price="yes"' : 'data-variable-price="no"';
 		$type = $this->is_single_price_mode($post->ID) ? 'data-price-mode=multi' : 'data-price-mode=single';
-
 		$show_price = $args['price'] && $args['price'] !== 'no';
 		$data_price_value = 0;
 		$price = false;
-
 		if ($variable_pricing && false !== $args['price_id']) {
-
 			$price_id = $args['price_id'];
 			$prices = $post->prices;
 			$options['price_id'] = $args['price_id'];
 			$found_price = isset($prices[$price_id]) ? $prices[$price_id]['amount'] : false;
-
 			$data_price_value = $found_price;
-
 			if ($show_price) {
 				$price = $found_price;
 			}
-
 		} elseif (!$variable_pricing) {
-
 			$data_price_value = $post->price;
-
 			if ($show_price) {
 				$price = $post->price;
 			}
-
 		}
-
 		$args['display_price'] = $data_price_value;
-
 		$data_price = 'data-price="' . $data_price_value . '"';
-
 		$button_text = !empty($args['text']) ? '&nbsp;&ndash;&nbsp;' . $args['text'] : '';
-
 		if (false !== $price) {
-
 			if (0 == $price) {
 				$args['text'] = __('Free', 'mp-restaurant-menu') . $button_text;
 			} else {
 				$args['text'] = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price($price)) . $button_text;
 			}
-
 		}
-
 		if ($this->get('cart')->item_in_cart($post->ID, $options) && (!$variable_pricing || !$this->is_single_price_mode($post->ID))) {
 			$button_display = 'style="display:none;"';
 			$checkout_display = '';
@@ -507,21 +468,17 @@ class Menu_item extends Model {
 			$button_display = '';
 			$checkout_display = 'style="display:none;"';
 		}
-
 		// Collect any form IDs we've displayed already so we can avoid duplicate IDs
 		if (isset($mprm_displayed_form_ids[$post->ID])) {
 			$mprm_displayed_form_ids[$post->ID]++;
 		} else {
 			$mprm_displayed_form_ids[$post->ID] = 1;
 		}
-
 		$form_id = !empty($args['form_id']) ? $args['form_id'] : 'mprm_purchase_' . $post->ID;
-
 		// If we've already generated a form ID for this download ID, apped -#
 		if ($mprm_displayed_form_ids[$post->ID] > 1) {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
-
 		$args = apply_filters('mprm_purchase_link_args', $args);
 		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-form',
 			array(
@@ -542,14 +499,11 @@ class Menu_item extends Model {
 				'is_free' => $this->is_free($args['price_id'], $post->ID),
 				'type' => $type,
 			), false);
-
 		return apply_filters('mprm_purchase_download_form', $purchase_form, $args);
 	}
 
 	public function get_button_behavior($post_id) {
-
 		$button_behavior = get_post_meta($post_id, '_button_behavior', true);
-
 		if (empty($button_behavior) || !$this->get('gateways')->shop_supports_buy_now()) {
 			$button_behavior = 'add_to_cart';
 		}
@@ -567,7 +521,6 @@ class Menu_item extends Model {
 		if (!is_a($post, 'WP_Post')) {
 			return false;
 		}
-
 		if ('mp_menu_item' !== $post->post_type) {
 			return false;
 		}
@@ -575,9 +528,7 @@ class Menu_item extends Model {
 	}
 
 	public function has_variable_prices($post_id) {
-
 		$ret = get_post_meta($post_id, '_variable_pricing', true);
-
 		/**
 		 * Override whether the download has variables prices.
 		 *
@@ -587,13 +538,10 @@ class Menu_item extends Model {
 		 * @param int|string The ID of the download.
 		 */
 		return (bool)apply_filters('mprm_has_variable_prices', $ret, $post_id);
-
 	}
 
 	public function is_single_price_mode($post_id) {
-
 		$ret = get_post_meta($post_id, '_mprm_price_options_mode', true);
-
 		/**
 		 * Override the price mode for a download when checking if is in single price mode.
 		 *
@@ -603,7 +551,6 @@ class Menu_item extends Model {
 		 * @param int|string The ID of the download.
 		 */
 		return (bool)apply_filters('mprm_single_price_option_mode', $ret, $post_id);
-
 	}
 
 	public function is_free($price_id = false, $post_id) {
@@ -613,40 +560,25 @@ class Menu_item extends Model {
 		}
 		$is_free = false;
 		$variable_pricing = $this->has_variable_prices($post->ID);
-
 		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
-
 			$price = mprm_get_price_option_amount($post->ID, $price_id);
-
 		} elseif ($variable_pricing && $price_id === false) {
-
 			$lowest_price = (float)mprm_get_lowest_price_option($post->ID);
 			$highest_price = (float)mprm_get_highest_price_option($post->ID);
-
 			if ($lowest_price === 0.00 && $highest_price === 0.00) {
 				$price = 0;
 			}
-
 		} elseif (!$variable_pricing) {
-
 			$price = get_post_meta($post->ID, 'mprm_price', true);
-
 		}
-
 		if (isset($price) && (float)$price == 0) {
 			$is_free = true;
 		}
-
 		return (bool)apply_filters('mprm_is_free_download', $is_free, $post->ID, $price_id);
-
 	}
 
 	public function get_prices($post_id) {
-
 		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
-
 		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
-
 	}
-
 }

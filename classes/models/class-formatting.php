@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
 class Formatting extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -16,9 +14,7 @@ class Formatting extends Model {
 	}
 
 	public function currency_decimal_filter($decimals = 2) {
-
 		$currency = $this->get('settings')->get_currency();
-
 		switch ($currency) {
 			case 'RIAL' :
 			case 'JPY' :
@@ -27,10 +23,8 @@ class Formatting extends Model {
 				$decimals = 0;
 				break;
 		}
-
 		return apply_filters('mprm_currency_decimal_count', $decimals, $currency);
 	}
-
 
 	/**
 	 * Sanitizes a string key for EDD Settings
@@ -46,7 +40,6 @@ class Formatting extends Model {
 	public function sanitize_key($key) {
 		$raw_key = $key;
 		$key = preg_replace('/[^a-zA-Z0-9_\-\.\:\/]/', '', $key);
-
 		/**
 		 * Filter a sanitized key string.
 		 *
@@ -62,7 +55,6 @@ class Formatting extends Model {
 		$is_negative = false;
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-
 		// Sanitize the amount
 		if ($decimal_sep == ',' && false !== ($found = strpos($amount, $decimal_sep))) {
 			if (($thousands_sep == '.' || $thousands_sep == ' ') && false !== ($found = strpos($amount, $thousands_sep))) {
@@ -70,18 +62,14 @@ class Formatting extends Model {
 			} elseif (empty($thousands_sep) && false !== ($found = strpos($amount, '.'))) {
 				$amount = str_replace('.', '', $amount);
 			}
-
 			$amount = str_replace($decimal_sep, '.', $amount);
 		} elseif ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace($thousands_sep, '', $amount);
 		}
-
 		if ($amount < 0) {
 			$is_negative = true;
 		}
-
 		$amount = preg_replace('/[^0-9\.]/', '', $amount);
-
 		/**
 		 * Filter number of decimals to use for prices
 		 *
@@ -92,11 +80,9 @@ class Formatting extends Model {
 		 */
 		$decimals = apply_filters('mprm_sanitize_amount_decimals', 2, $amount);
 		$amount = number_format((double)$amount, $decimals, '.', '');
-
 		if ($is_negative) {
 			$amount *= -1;
 		}
-
 		/**
 		 * Filter the sanitized price before returning
 		 *
@@ -110,33 +96,26 @@ class Formatting extends Model {
 	function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-
 		// Format the amount
 		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
 			$whole = substr($amount, 0, $sep_found);
 			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
 			$amount = $whole . '.' . $part;
 		}
-
 		// Strip , from the amount (if set as the thousands separator)
 		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(',', '', $amount);
 		}
-
 		// Strip ' ' from the amount (if set as the thousands separator)
 		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(' ', '', $amount);
 		}
-
 		if (empty($amount)) {
 			$amount = 0;
 		}
-
 		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
 		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
-
 		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 	}
-
 
 }

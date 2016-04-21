@@ -1,5 +1,4 @@
 <?php
-
 return $language = array(
 	"delete_img" => __('Delete Image', 'mp-restaurant-menu'),
 	"delete" => __('Delete', 'mp-restaurant-menu'),
@@ -41,5 +40,4 @@ return $language = array(
 	'batch_export_no_class' => __('You must choose a method.', 'mp-restaurant-menu'),
 	'batch_export_no_reqs' => __('Required fields not completed.', 'mp-restaurant-menu'),
 	'reset_stats_warn' => __('Are you sure you want to reset your store? This process is <strong><em>not reversible</em></strong>. Please be sure you have a recent backup.', 'mp-restaurant-menu'),
-
 );

@@ -41,11 +41,9 @@ namespace mp_restaurant_menu\classes\libs;
  * @license     http://www.opensource.org/licenses/bsd-license.php
  * @package     FirePHPCore
  */
-
 if (!class_exists('FirePHP')) {
 	require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'FirePHP.class.php';
 }
-
 /**
  * Sends the given data to the FirePHP Firefox Extension.
  * The data can be displayed in the Firebug Console or in the
@@ -60,11 +58,9 @@ if (!class_exists('FirePHP')) {
  */
 function fb() {
 	$instance = FirePHP::getInstance(true);
-
 	$args = func_get_args();
 	return call_user_func_array(array($instance, 'fb'), $args);
 }
-
 
 class FB {
 	/**
@@ -280,5 +276,4 @@ class FB {
 	public static function table($Label, $Table) {
 		return self::send($Table, $Label, FirePHP::TABLE);
 	}
-
 }

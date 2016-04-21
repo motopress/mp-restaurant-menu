@@ -67,7 +67,6 @@ function mprm_popular_theme_class() {
 	return $class;
 }
 
-
 /**
  * Filter post class
  *
@@ -82,14 +81,12 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 		return $classes;
 	}
 	//$menu_item = get_post($post_id);
-
 //	$categories = get_the_terms( $menu_item->ID, 'mp_menu_category' );
 //	if ( ! empty( $categories ) ) {
 //		foreach ( $categories as $key => $value ) {
 //			$classes[] = 'mp_menu_item-cat-' . $value->slug;
 //		}
 //	}
-
 	// add tag slugs
 //	$tags = get_the_terms( $menu_item->ID, 'mp_menu_tag' );
 //	if ( ! empty( $tags ) ) {
@@ -100,16 +97,12 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (false !== ($key = array_search('hentry', $classes))) {
 		unset($classes[$key]);
 	}
-
 	$classes[] = 'mp-menu-item';
-
 	return $classes;
-
 }
 
 function mprm_theme_wrapper_after() {
 	$template = get_option('template');
-
 	switch ($template) {
 		case 'twentyeleven' :
 			echo '</div></div>';
@@ -135,7 +128,6 @@ function mprm_theme_wrapper_after() {
 			break;
 	}
 }
-
 
 function mprm_get_attributes() {
 	global $post;
@@ -351,23 +343,18 @@ function mprm_get_menu_items_by_term() {
 
 function mprm_get_template_part($slug, $name = '') {
 	$template = '';
-
 	if ($name) {
 		$template = locate_template(array("{$slug}-{$name}.php", MP_RM_TEMPLATES_PATH . "{$slug}-{$name}.php"));
 	}
-
 	// Get default slug-name.php
 	if (!$template && $name && file_exists(MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php")) {
 		$template = MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php";
 	}
-
 	if (!$template) {
 		$template = locate_template(array("{$slug}.php", MP_RM_TEMPLATES_PATH . "{$slug}.php"));
 	}
-
 	// Allow 3rd party plugins to filter template file from their plugin.
 	$template = apply_filters('mprm_get_template_part', $template, $slug, $name);
-
 	if ($template) {
 		load_template($template, false);
 	}
@@ -376,7 +363,6 @@ function mprm_get_template_part($slug, $name = '') {
 function mprm_get_template($template, $data = null, $output = true) {
 	classes\View::get_instance()->render_html($template, $data, $output);
 }
-
 
 /**
  * Before widget
@@ -491,7 +477,6 @@ function set_mprm_tag($id) {
 	}
 }
 
-
 /**
  * Get current ID category
  *
@@ -530,7 +515,6 @@ function get_mprm_menu_item_ID() {
  *
  * @return string
  */
-
 function get_column_class($type) {
 	switch ($type) {
 		case '1':
@@ -567,10 +551,8 @@ function mprm_get_checkout_cart_template() {
 	$data = array();
 	$data['is_ajax_disabled'] = models\Settings::get_instance()->is_ajax_disabled();
 	$data['cart_items'] = models\Cart::get_instance()->get_cart_contents();
-
 	mprm_get_template('shop/checkout-cart', $data);
 }
-
 
 /**
  * Before Category list header
@@ -594,7 +576,6 @@ function mprm_category_list_item() {
 	mprm_get_template('shortcodes/category/list/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
 
-
 /**
  * After Category list header
  */
@@ -607,13 +588,11 @@ function mprm_after_category_list_header() {
 function mprm_after_category_list_footer() {
 }
 
-
 /*  =============GRID ===============*/
 /**
  * Before Category grid header
  */
 function mprm_before_taxonomy_grid_header() {
-
 }
 
 /**
@@ -634,7 +613,6 @@ function mprm_shortcode_grid_item() {
 	mprm_get_template('shortcodes/category/grid/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
 
-
 /**
  * After Category grid header
  */
@@ -647,9 +625,7 @@ function mprm_after_taxonomy_grid_header() {
 function mprm_after_taxonomy_grid_footer() {
 }
 
-
 /*  ========= Taxonomy list  start ===========  */
-
 /**
  * Before category list
  */
@@ -670,12 +646,10 @@ function mprm_taxonomy_list_before_right() {
 	?>
 	<div class="mprm-content">
 <?php }
-
 function mprm_taxonomy_list_after_right() { ?>
 	</div>
 	<?php
 }
-
 function mprm_taxonomy_list_image() {
 	mprm_get_template('common/item-image');
 }
@@ -714,7 +688,6 @@ function mprm_single_category_list_footer() {
  * Before category grid
  */
 function mprm_before_taxonomy_grid() { ?>
-
 <?php }
 
 /**
@@ -746,7 +719,6 @@ function mprm_single_category_grid_wrapper_end() {
 	</div>
 	<?php
 }
-
 /**
  * Category grid title
  */
@@ -861,7 +833,6 @@ function mprm_single_tag_list_footer() {
 function mprm_after_tag_list() {
 }
 
-
 /**
  * Before menu_items header
  */
@@ -898,7 +869,6 @@ function mprm_menu_items_header() {
  */
 function mprm_after_menu_items_header() {
 }
-
 
 /**
  * Before Menu item Grid header
@@ -951,7 +921,6 @@ function mprm_menu_item_list_right_header() {
 	<div class="mprm-side <?php echo $feat_img ? ' mprm-right-side' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : ""; ?>">
 	<?php
 }
-
 /**
  * Menu item Grid tags
  *
@@ -1039,7 +1008,6 @@ function mprm_menu_item_list_right_footer() {
 	</div>
 	<?php
 }
-
 /**
  * Menu item list footer
  *
@@ -1068,7 +1036,6 @@ function mprm_after_menu_item_list_footer() {
 }
 
 /*   ======= GRID   ======== */
-
 
 /**
  * Before Menu item Grid header
@@ -1317,7 +1284,6 @@ function mprm_menu_item_content_comments() {
 	}
 }
 
-
 /**
  * Before menu item slidebar
  */
@@ -1400,7 +1366,6 @@ function mprm_get_category_image($size) {
 function mprm_get_category_icon() {
 	global $mprm_term;
 	return models\Menu_category::get_instance()->get_term_icon($mprm_term);
-
 }
 
 function mprm_cut_str($length, $text) {

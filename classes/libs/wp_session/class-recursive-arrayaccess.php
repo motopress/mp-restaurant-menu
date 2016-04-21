@@ -10,7 +10,6 @@
  * @since 3.6.0
  */
 namespace mp_restaurant_menu\classes\libs;
-
 /**
  * Recursive array class to allow multidimensional array access.
  *
@@ -24,7 +23,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 	 * @var array
 	 */
 	protected $container = array();
-
 	/**
 	 * Flag whether or not the internal collection has been changed.
 	 *
@@ -68,11 +66,9 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 		}
 		return $data;
 	}
-
 	/**
 	 * ArrayAccess Implementation
 	 **/
-
 	/**
 	 * Whether a offset exists
 	 *
@@ -118,7 +114,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 		} else {
 			$this->container[$offset] = $data;
 		}
-
 		$this->dirty = true;
 	}
 

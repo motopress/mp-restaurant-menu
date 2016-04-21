@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
 class Settings_countries extends Model {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -112,7 +110,6 @@ class Settings_countries extends Model {
 			'SK' => 'Saskatchewan',
 			'YT' => 'Yukon'
 		);
-
 		return apply_filters('mprm_canada_provinces', $provinces);
 	}
 
@@ -134,7 +131,6 @@ class Settings_countries extends Model {
 			'VIC' => 'Victoria',
 			'WA' => 'Western Australia'
 		);
-
 		return apply_filters('mprm_australian_states', $states);
 	}
 
@@ -212,7 +208,6 @@ class Settings_countries extends Model {
 			'TAN' => 'Tangail',
 			'THA' => 'Thakurgaon'
 		);
-
 		return apply_filters('mprm_bangladeshi_states', $states);
 	}
 
@@ -253,7 +248,6 @@ class Settings_countries extends Model {
 			'SE' => 'Sergipe',
 			'TO' => 'Tocantins'
 		);
-
 		return apply_filters('mprm_brazil_states', $states);
 	}
 
@@ -295,7 +289,6 @@ class Settings_countries extends Model {
 			'BG-06' => 'Vratsa',
 			'BG-28' => 'Yambol'
 		);
-
 		return apply_filters('mprm_bulgarian_states', $states);
 	}
 
@@ -312,7 +305,6 @@ class Settings_countries extends Model {
 			'KOWLOON' => 'Kowloon',
 			'NEW TERRITORIES' => 'New Territories'
 		);
-
 		return apply_filters('mprm_hong_kong_states', $states);
 	}
 
@@ -346,7 +338,6 @@ class Settings_countries extends Model {
 			'VE' => 'Veszprém',
 			'ZA' => 'Zala'
 		);
-
 		return apply_filters('mprm_hungary_states', $states);
 	}
 
@@ -407,7 +398,6 @@ class Settings_countries extends Model {
 			'JP46' => 'Kagoshima',
 			'JP47' => 'Okinawa'
 		);
-
 		return apply_filters('mprm_japanese_states', $states);
 	}
 
@@ -453,7 +443,6 @@ class Settings_countries extends Model {
 			'CN31' => 'Tibet / &#35199;&#34255;',
 			'CN32' => 'Xinjiang / &#26032;&#30086;'
 		);
-
 		return apply_filters('mprm_chinese_states', $states);
 	}
 
@@ -483,7 +472,6 @@ class Settings_countries extends Model {
 			'WE' => 'Wellington',
 			'WC' => 'West Coast'
 		);
-
 		return apply_filters('mprm_new_zealand_states', $states);
 	}
 
@@ -523,7 +511,6 @@ class Settings_countries extends Model {
 			'TUM' => 'Tumbes',
 			'UCA' => 'Ucayali'
 		);
-
 		return apply_filters('mprm_peruvian_states', $states);
 	}
 
@@ -571,7 +558,6 @@ class Settings_countries extends Model {
 			'PA' => 'Papua',
 			'PB' => 'Papua Barat'
 		);
-
 		return apply_filters('mprm_indonesia_states', $states);
 	}
 
@@ -621,7 +607,6 @@ class Settings_countries extends Model {
 			'LD' => 'Lakshadweep',
 			'PY' => 'Pondicherry (Puducherry)'
 		);
-
 		return apply_filters('mprm_indian_states', $states);
 	}
 
@@ -666,7 +651,6 @@ class Settings_countries extends Model {
 			'HRZ' => 'Hormozgan',
 			'SBN' => 'Sistan and Baluchestan'
 		);
-
 		return apply_filters('mprm_iranian_states', $states);
 	}
 
@@ -790,7 +774,6 @@ class Settings_countries extends Model {
 			'VI' => 'Vicenza',
 			'VT' => 'Viterbo'
 		);
-
 		return apply_filters('mprm_italian_states', $states);
 	}
 
@@ -820,7 +803,6 @@ class Settings_countries extends Model {
 			'LBN' => 'W.P. Labuan',
 			'PJY' => 'W.P. Putrajaya'
 		);
-
 		return apply_filters('mprm_malaysian_states', $states);
 	}
 
@@ -866,7 +848,6 @@ class Settings_countries extends Model {
 			'YUC' => 'Yucat&aacute;n',
 			'ZAC' => 'Zacatecas'
 		);
-
 		return apply_filters('mprm_mexican_states', $states);
 	}
 
@@ -955,7 +936,6 @@ class Settings_countries extends Model {
 			'DAR' => 'Darchula',
 			'KAN' => 'Kanchanpur'
 		);
-
 		return apply_filters('mprm_nepalese_states', $states);
 	}
 
@@ -978,7 +958,6 @@ class Settings_countries extends Model {
 			'NW' => 'North West',
 			'WC' => 'Western Cape'
 		);
-
 		return apply_filters('mprm_south_african_states', $states);
 	}
 
@@ -1069,7 +1048,6 @@ class Settings_countries extends Model {
 			'TH-95' => 'Yala (&#3618;&#3632;&#3621;&#3634;)',
 			'TH-35' => 'Yasothon (&#3618;&#3650;&#3626;&#3608;&#3619;)'
 		);
-
 		return apply_filters('mprm_thailand_states', $states);
 	}
 
@@ -1164,7 +1142,6 @@ class Settings_countries extends Model {
 			'TR80' => 'Osmaniye',
 			'TR81' => 'D&#252;zce'
 		);
-
 		return apply_filters('mprm_turkey_states', $states);
 	}
 
@@ -1232,5 +1209,4 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_spain_states', $states);
 	}
-
 }

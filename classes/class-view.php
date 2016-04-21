@@ -1,12 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
-
 /**
  * View class
  */
 class View {
-
 	private $data;
 	protected static $instance;
 

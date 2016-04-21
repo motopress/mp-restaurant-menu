@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 //model
@@ -9,7 +8,6 @@ use mp_restaurant_menu\classes\Model;
  * Singleton factory
  */
 class State_Factory {
-
 	protected static $instance;
 	protected $namespace;
 
@@ -75,5 +73,4 @@ class State_Factory {
 		}
 		return $preprocessor;
 	}
-
 }

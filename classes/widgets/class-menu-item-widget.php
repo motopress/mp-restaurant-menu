@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\widgets;
 
 use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 
 class Menu_item_widget extends \WP_Widget {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -85,5 +83,4 @@ class Menu_item_widget extends \WP_Widget {
 		$mprm_widget_args = $args;
 		View::get_instance()->render_html("widgets/menu/index", $data, true);
 	}
-
 }

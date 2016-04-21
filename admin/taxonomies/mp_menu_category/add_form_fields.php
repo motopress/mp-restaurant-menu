@@ -11,4 +11,3 @@
 	<button type="button" class="remove_image_button button"><?php _e('Remove', 'mp-restaurant-menu'); ?></button>
 	<div class="clear"></div>
 </div>
-

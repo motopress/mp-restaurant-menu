@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes\shortcodes;
 
 use mp_restaurant_menu\classes\models\Menu_category;
@@ -7,7 +6,6 @@ use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 
 class Shortcode_Category extends Shortcodes {
-
 	protected static $instance;
 
 	public static function get_instance() {

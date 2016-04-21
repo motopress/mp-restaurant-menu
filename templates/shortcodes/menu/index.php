@@ -1,5 +1,4 @@
 <?php global $post; ?>
-
 <div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 	<?php foreach (mprm_get_term_menu_items() as $term => $data) {
 		$last_key = array_search(end($data['posts']), $data['posts']);
@@ -14,10 +13,8 @@
 				?>
 				<div class="mprm-row">
 			<?php }
-
 			mprm_set_menu_item($post->ID);
 			render_current_html();
-
 			if (($i % $col) === 0 || $last_key === $key) {
 				?>
 				</div>

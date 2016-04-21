@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
@@ -10,7 +9,6 @@ use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\View;
 
 class Controller_Settings extends Controller {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -23,7 +21,6 @@ class Controller_Settings extends Controller {
 	/**
 	 * Action content
 	 */
-
 	public function action_content() {
 		$data = array();
 		$data = $this->get('settings')->get_config_settings();

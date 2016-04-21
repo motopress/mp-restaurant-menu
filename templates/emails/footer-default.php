@@ -4,7 +4,6 @@ $template_footer = "
 	border-top:0;
 	-webkit-border-radius:3px;
 ";
-
 $credit = "
 	border:0;
 	color: #000000;

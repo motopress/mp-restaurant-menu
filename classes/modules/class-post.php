@@ -1,11 +1,9 @@
 <?php
-
 namespace mp_restaurant_menu\classes\modules;
 
 use mp_restaurant_menu\classes\Module;
 
 class Post extends Module {
-
 	protected static $instance;
 	private $metaboxes;
 
@@ -53,7 +51,6 @@ class Post extends Module {
 	 * Register our custom post statuses, used for order status.
 	 */
 	public static function register_post_status() {
-
 		register_post_status('mprm-pending', array(
 			'label' => _x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
 			'public' => false,
@@ -78,7 +75,6 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
-
 		register_post_status('mprm-failed', array(
 			'label' => _x('Failed', 'Order status', 'mp-restaurant-menu'),
 			'public' => false,
@@ -87,7 +83,6 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
-
 		register_post_status('mprm-processing', array(
 			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
 			'public' => false,
@@ -96,7 +91,6 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
-
 		register_post_status('mprm-cancelled', array(
 			'label' => _x('Cancelled', 'Order status', 'mp-restaurant-menu'),
 			'public' => false,
@@ -105,7 +99,6 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
-
 	}
 
 	/**
@@ -149,17 +142,14 @@ class Post extends Module {
 			return $post_id;
 		}
 		$nonce = $_POST['mp-restaurant-menu' . '_nonce_box'];
-
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
 			return $post_id;
 		}
-
 		// Check autosave
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post_id;
 		}
-
 		// Cher user rules
 		if ('page' == $_POST['post_type']) {
 			if (!current_user_can('edit_page', $post_id)) {
@@ -170,7 +160,6 @@ class Post extends Module {
 				return $post_id;
 			}
 		}
-
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
@@ -214,7 +203,6 @@ class Post extends Module {
 	 * @param $column
 	 */
 	public function show_menu_columns($column, $post_ID) {
-
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
 		global $post;
@@ -226,7 +214,6 @@ class Post extends Module {
 				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
 				break;
 			case 'mptt-thumb':
-
 				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>';
 				break;
 			case 'mptt-price':
@@ -238,5 +225,4 @@ class Post extends Module {
 				break;
 		}
 	}
-
 }

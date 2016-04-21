@@ -8,12 +8,10 @@ use mp_restaurant_menu\classes\models\Menu_category;
  * Model Events
  */
 class Import extends Core {
-
 	protected static $instance;
 	var $max_wxr_version = 1.2; // max. supported WXR version
 	var $id; // WXR attachment ID
 	var $file;
-
 	var $import_data;
 	// information to import from WXR file
 	var $version;
@@ -23,7 +21,6 @@ class Import extends Core {
 	var $categories = array();
 	var $tags = array();
 	var $base_url = '';
-
 	var $processed_authors = array();
 	var $author_mapping = array();
 	var $processed_terms = array();
@@ -32,7 +29,6 @@ class Import extends Core {
 	var $processed_menu_items = array();
 	var $menu_item_orphans = array();
 	var $missing_menu_items = array();
-
 	var $fetch_attachments = false;
 	var $url_remap = array();
 	var $featured_images = array();
@@ -60,7 +56,6 @@ class Import extends Core {
 			$return_me = true;
 		return $return_me;
 	}
-
 
 	public function header() {
 		View::get_instance()->render_html('../admin/import/header');
@@ -101,7 +96,6 @@ class Import extends Core {
 		<form action="<?php echo admin_url('admin.php?import=mprm-importer&amp;step=2'); ?>" method="post">
 			<?php wp_nonce_field('mprm-importer'); ?>
 			<input type="hidden" name="import_id" value="<?php echo $this->id; ?>"/>
-
 			<?php if (!empty($this->authors)) : ?>
 				<h3><?php _e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
 				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
@@ -114,7 +108,6 @@ class Import extends Core {
 					<?php endforeach; ?>
 				</ol>
 			<?php endif; ?>
-
 			<?php if ($this->allow_fetch_attachments()) : ?>
 				<h3><?php _e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
 				<p>
@@ -122,7 +115,6 @@ class Import extends Core {
 					<label for="import-attachments"><?php _e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
 				</p>
 			<?php endif; ?>
-
 			<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e('Submit', 'mp-restaurant-menu'); ?>"/></p>
 		</form>
 		<?php
@@ -140,10 +132,8 @@ class Import extends Core {
 		echo ' <strong>' . esc_html($author['author_display_name']);
 		if ($this->version != '1.0') echo ' (' . esc_html($author['author_login']) . ')';
 		echo '</strong><br />';
-
 		if ($this->version != '1.0')
 			echo '<div style="margin-left:18px">';
-
 		$create_users = $this->allow_create_users();
 		if ($create_users) {
 			if ($this->version != '1.0') {
@@ -153,17 +143,14 @@ class Import extends Core {
 				_e('as a new user:', 'mp-restaurant-menu');
 				$value = esc_attr(sanitize_user($author['author_login'], true));
 			}
-
 			echo ' <input type="text" name="user_new[' . $n . ']" value="' . $value . '" /><br />';
 		}
-
 		if (!$create_users && $this->version == '1.0')
 			_e('assign posts to an existing user:', 'mp-restaurant-menu');
 		else
 			_e('or assign posts to an existing user:', 'mp-restaurant-menu');
 		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __('- Select -', 'mp-restaurant-menu')));
 		echo '<input type="hidden" name="imported_authors[' . $n . ']" value="' . esc_attr($author['author_login']) . '" />';
-
 		if ($this->version != '1.0')
 			echo '</div>';
 	}
@@ -199,7 +186,6 @@ class Import extends Core {
 				set_time_limit(0);
 				add_filter('import_post_meta_key', array($this, 'is_valid_meta_key'));
 				add_filter('http_request_timeout', array(&$this, 'bump_request_timeout'));
-
 				$this->process_start($file);
 				$this->process_end();
 				break;
@@ -218,7 +204,6 @@ class Import extends Core {
 		$this->version = $this->import_data['version'];
 		$this->posts = $this->import_data['posts'];
 		$this->terms = $this->import_data['terms'];
-
 		wp_suspend_cache_invalidation(true);
 		$this->process_terms();
 		$this->process_posts();
@@ -228,13 +213,11 @@ class Import extends Core {
 		$this->remap_featured_images();
 		wp_defer_term_counting(true);
 		wp_defer_comment_counting(true);
-
 		do_action('import_start');
 	}
 
 	public function process_end() {
 		wp_import_cleanup($this->id);
-
 		wp_cache_flush();
 		foreach (get_taxonomies() as $tax) {
 			delete_option("{$tax}_children");
@@ -242,10 +225,8 @@ class Import extends Core {
 		}
 		wp_defer_term_counting(false);
 		wp_defer_comment_counting(false);
-
 		echo '<p>' . __('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . __('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
 		echo '<p>' . __('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
-
 		do_action('import_end');
 	}
 
@@ -261,37 +242,28 @@ class Import extends Core {
 		if (!$this->fetch_attachments)
 			return new \WP_Error('attachment_processing_error',
 				__('Fetching attachments is not enabled', 'mp-restaurant-menu'));
-
 		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 		if (preg_match('|^/[\w\W]+$|', $url))
 			$url = rtrim($this->base_url, '/') . $url;
-
 		$upload = $this->fetch_remote_file($url, $post);
 		if (is_wp_error($upload))
 			return $upload;
-
 		if ($info = wp_check_filetype($upload['file']))
 			$post['post_mime_type'] = $info['type'];
 		else
 			return new \WP_Error('attachment_processing_error', __('Invalid file type', 'mp-restaurant-menu'));
-
 		$post['guid'] = $upload['url'];
-
 		// as per wp-admin/includes/upload.php
 		$post_id = wp_insert_attachment($post, $upload['file']);
 		wp_update_attachment_metadata($post_id, wp_generate_attachment_metadata($post_id, $upload['file']));
-
 		// remap resized image URLs, works by stripping the extension and remapping the URL stub.
 		if (preg_match('!^image/!', $info['type'])) {
 			$parts = pathinfo($url);
 			$name = basename($parts['basename'], ".{$parts['extension']}"); // PATHINFO_FILENAME in PHP 5.2
-
 			$parts_new = pathinfo($upload['url']);
 			$name_new = basename($parts_new['basename'], ".{$parts_new['extension']}");
-
 			$this->url_remap[$parts['dirname'] . '/' . $name] = $parts_new['dirname'] . '/' . $name_new;
 		}
-
 		return $post_id;
 	}
 
@@ -307,14 +279,11 @@ class Import extends Core {
 	private function write_file($url, $upload, $redirection = 5) {
 		$options = array();
 		$options['redirection'] = $redirection;
-
 		if (false == $upload['file'])
 			$options['method'] = 'HEAD';
 		else
 			$options['method'] = 'GET';
-
 		$response = wp_safe_remote_request($url, $options);
-
 		if (false == $upload['file']) {
 			return false;
 		}
@@ -323,7 +292,6 @@ class Import extends Core {
 		if (!$out_fp) {
 			return false;
 		}
-
 		fwrite($out_fp, wp_remote_retrieve_body($response));
 		fclose($out_fp);
 		clearstatcache();
@@ -341,12 +309,10 @@ class Import extends Core {
 	public function fetch_remote_file($url, $post) {
 		// extract the file name and extension from the url
 		$file_name = basename($url);
-
 		// get placeholder file in the upload dir with a unique, sanitized filename
 		$upload = wp_upload_bits($file_name, 0, '', $post['upload_date']);
 		if ($upload['error'])
 			return new \WP_Error('upload_dir_error', $upload['error']);
-
 		// fetch the remote url and write it to the placeholder file
 		$response_data = wp_safe_remote_head($url);
 		$headers = wp_remote_retrieve_headers($response_data);
@@ -355,46 +321,37 @@ class Import extends Core {
 			@unlink($upload['file']);
 			return new \WP_Error('import_file_error', __('Remote server did not respond', 'mp-restaurant-menu'));
 		}
-
 		// make sure the fetch was successful
 		if ($headers['response'] != '200') {
 			@unlink($upload['file']);
 			return new \WP_Error('import_file_error', sprintf(__('Remote server returned error response %1$d %2$s', 'mp-restaurant-menu'), esc_html($headers['response']), get_status_header_desc($headers['response'])));
 		}
-
 		$this->write_file($url, $upload);
-
 		$filesize = filesize($upload['file']);
-
 		if (isset($headers['content-length']) && $filesize != $headers['content-length']) {
 			@unlink($upload['file']);
 			return new \WP_Error('import_file_error', __('Remote file is incorrect size', 'mp-restaurant-menu'));
 		}
-
 		if (0 == $filesize) {
 			@unlink($upload['file']);
 			return new \WP_Error('import_file_error', __('Zero size file downloaded', 'mp-restaurant-menu'));
 		}
-
 		$max_size = (int)$this->max_attachment_size();
 		if (!empty($max_size) && $filesize > $max_size) {
 			@unlink($upload['file']);
 			return new \WP_Error('import_file_error', sprintf(__('Remote file is too large, limit is %s', 'mp-restaurant-menu'), size_format($max_size)));
 		}
-
 		// keep track of the old and new urls so we can substitute them later
 		$this->url_remap[$url] = $upload['url'];
 		$this->url_remap[$post['guid']] = $upload['url']; // r13735, really needed?
 		// keep track of the destination if the remote url is redirected somewhere else
 		if (isset($headers['x-final-location']) && $headers['x-final-location'] != $url)
 			$this->url_remap[$headers['x-final-location']] = $upload['url'];
-
 		return $upload;
 	}
 
 	public function handle_upload() {
 		$file = wp_import_handle_upload();
-
 		if (isset($file['error'])) {
 			echo '<p><strong>' . __('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
 			echo esc_html($file['error']) . '</p>';
@@ -408,13 +365,11 @@ class Import extends Core {
 		$this->file = $file['file'];
 		$this->id = (int)$file['id'];
 		$this->import_data = $this->parse($file['file']);
-
 		if (is_wp_error($this->import_data)) {
 			echo '<p><strong>' . __('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
 			echo esc_html($this->import_data->get_error_message()) . '</p>';
 			return false;
 		}
-
 		$this->version = $this->import_data['version'];
 		if ($this->version > $this->max_wxr_version) {
 			echo '<div class="error"><p><strong>';
@@ -436,7 +391,6 @@ class Import extends Core {
 		$parser = new libs\WXR_Parser();
 		return $parser->parse($file);
 	}
-
 
 	/**
 	 * Decide if the given meta key maps to information we will want to import
@@ -481,7 +435,6 @@ class Import extends Core {
 					echo '<br />';
 					continue;
 				}
-
 				if (!isset($this->authors[$login]))
 					$this->authors[$login] = array(
 						'author_login' => $login,
@@ -508,7 +461,6 @@ class Import extends Core {
 		}
 		if (empty($this->terms))
 			return;
-
 		foreach ($this->terms as $term) {
 			// if the term already exists in the correct taxonomy leave it alone
 			$term_id = term_exists($term['slug'], $term['term_taxonomy']);
@@ -516,13 +468,11 @@ class Import extends Core {
 				if (is_array($term_id)) $term_id = $term_id['term_id'];
 				if (isset($term['term_id']))
 					$this->processed_terms[intval($term['term_id'])] = (int)$term_id;
-
 				if (!empty($term['term_meta'])) {
 					Menu_category::get_instance()->save_menu_category($term_id, $term['term_meta']);
 				}
 				continue;
 			}
-
 			if (empty($term['term_parent'])) {
 				$parent = 0;
 			} else {
@@ -532,18 +482,14 @@ class Import extends Core {
 			$description = isset($term['term_description']) ? $term['term_description'] : '';
 			$termarr = array('slug' => $term['slug'], 'description' => $description, 'parent' => intval($parent));
 
-
 			$id = wp_insert_term($term['term_name'], $term['term_taxonomy'], $termarr);
-
 			if (!is_wp_error($id)) {
 				if (isset($term['term_id'])) {
 					$this->processed_terms[intval($term['term_id'])] = $id['term_id'];
 				}
-
 				if (!empty($term['term_meta'])) {
 					Menu_category::get_instance()->save_menu_category($id['term_id'], $term['term_meta']);
 				}
-
 			} else {
 				printf(__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($term['term_taxonomy']), esc_html($term['term_name']));
 				if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
@@ -555,7 +501,6 @@ class Import extends Core {
 		unset($this->terms);
 	}
 
-
 	/**
 	 * Create new posts based on import information
 	 *
@@ -566,10 +511,8 @@ class Import extends Core {
 	 */
 	public function process_posts() {
 		$this->posts = apply_filters('wp_import_posts', $this->posts);
-
 		foreach ($this->posts as $post) {
 			$post = apply_filters('wp_import_post_data_raw', $post);
-
 			if (!post_type_exists($post['post_type'])) {
 				printf(__('Failed to import &#8220;%s&#8221;: Invalid post type %s', 'mp-restaurant-menu'),
 					esc_html($post['post_title']), esc_html($post['post_type']));
@@ -577,15 +520,11 @@ class Import extends Core {
 				do_action('wp_import_post_exists', $post);
 				continue;
 			}
-
 			if (isset($this->processed_posts[$post['post_id']]) && !empty($post['post_id']))
 				continue;
-
 			if ($post['status'] == 'auto-draft')
 				continue;
-
 			$post_type_object = get_post_type_object($post['post_type']);
-
 			$post_exists = post_exists($post['post_title'], '', $post['post_date']);
 			if ($post_exists && get_post_type($post_exists) == $post['post_type']) {
 				printf(__('%s &#8220;%s&#8221; already exists.', 'mp-restaurant-menu'), $post_type_object->labels->singular_name, esc_html($post['post_title']));
@@ -603,14 +542,12 @@ class Import extends Core {
 						$post_parent = 0;
 					}
 				}
-
 				// map the post author
 				$author = sanitize_user($post['post_author'], true);
 				if (isset($this->author_mapping[$author]))
 					$author = $this->author_mapping[$author];
 				else
 					$author = (int)get_current_user_id();
-
 				$postdata = array(
 					'import_id' => $post['post_id'], 'post_author' => $author, 'post_date' => $post['post_date'],
 					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content'],
@@ -620,13 +557,10 @@ class Import extends Core {
 					'guid' => $post['guid'], 'post_parent' => $post_parent, 'menu_order' => $post['menu_order'],
 					'post_type' => $post['post_type'], 'post_password' => $post['post_password']
 				);
-
 				$original_post_ID = $post['post_id'];
 				$postdata = apply_filters('wp_import_post_data_processed', $postdata, $post);
-
 				if ('attachment' == $postdata['post_type']) {
 					$remote_url = !empty($post['attachment_url']) ? $post['attachment_url'] : $post['guid'];
-
 					// try to use _wp_attached file for upload folder placement to ensure the same location as the export site
 					// e.g. location is 2003/05/image.jpg but the attachment post_date is 2010/09, see media_handle_upload()
 					$postdata['upload_date'] = $post['post_date'];
@@ -639,13 +573,11 @@ class Import extends Core {
 							}
 						}
 					}
-
 					$comment_post_ID = $post_id = $this->process_attachment($postdata, $remote_url);
 				} else {
 					$comment_post_ID = $post_id = wp_insert_post($postdata, true);
 					do_action('wp_import_insert_post', $post_id, $original_post_ID, $postdata, $post);
 				}
-
 				if (is_wp_error($post_id)) {
 					printf(__('Failed to import %s &#8220;%s&#8221;', 'mp-restaurant-menu'),
 						$post_type_object->labels->singular_name, esc_html($post['post_title']));
@@ -654,19 +586,14 @@ class Import extends Core {
 					echo '<br />';
 					continue;
 				}
-
 				if ($post['is_sticky'] == 1)
 					stick_post($post_id);
 			}
-
 			// map pre-import ID to local ID
 			$this->processed_posts[intval($post['post_id'])] = (int)$post_id;
-
 			if (!isset($post['terms']))
 				$post['terms'] = array();
-
 			$post['terms'] = apply_filters('wp_import_post_terms', $post['terms'], $post_id, $post);
-
 			// add categories, tags and other terms
 			if (!empty($post['terms'])) {
 				$terms_to_set = array();
@@ -691,19 +618,15 @@ class Import extends Core {
 					}
 					$terms_to_set[$taxonomy][] = intval($term_id);
 				}
-
 				foreach ($terms_to_set as $tax => $ids) {
 					$tt_ids = wp_set_post_terms($post_id, $ids, $tax);
 					do_action('wp_import_set_post_terms', $tt_ids, $ids, $tax, $post_id, $post);
 				}
 				unset($post['terms'], $terms_to_set);
 			}
-
 			if (!isset($post['comments']))
 				$post['comments'] = array();
-
 			$post['comments'] = apply_filters('wp_import_post_comments', $post['comments'], $post_id, $post);
-
 			// add/update comments
 			if (!empty($post['comments'])) {
 				$num_comments = 0;
@@ -726,7 +649,6 @@ class Import extends Core {
 						$newcomments[$comment_id]['user_id'] = $this->processed_authors[$comment['comment_user_id']];
 				}
 				ksort($newcomments);
-
 				foreach ($newcomments as $key => $comment) {
 					// if this is a new post we can skip the comment_exists() check
 					if (!$post_exists || !comment_exists($comment['comment_author'], $comment['comment_date'])) {
@@ -735,18 +657,15 @@ class Import extends Core {
 						$comment = wp_filter_comment($comment);
 						$inserted_comments[$key] = wp_insert_comment($comment);
 						do_action('wp_import_insert_comment', $inserted_comments[$key], $comment, $comment_post_ID, $post);
-
 						foreach ($comment['commentmeta'] as $meta) {
 							$value = maybe_unserialize($meta['value']);
 							add_comment_meta($inserted_comments[$key], $meta['key'], $value);
 						}
-
 						$num_comments++;
 					}
 				}
 				unset($newcomments, $inserted_comments, $post['comments']);
 			}
-
 			// change time_slot data if post ID change
 			if (!empty($original_post_ID)) {
 				if ($post['post_type'] == 'attachment') {
@@ -768,7 +687,6 @@ class Import extends Core {
 				}
 			}
 
-
 			if (!isset($post['postmeta'])) {
 				$post['postmeta'] = array();
 			}
@@ -778,22 +696,18 @@ class Import extends Core {
 				foreach ($post['postmeta'] as $meta) {
 					$key = apply_filters('import_post_meta_key', $meta['key'], $post_id, $post);
 					$value = false;
-
 					if ('_edit_last' == $key) {
 						if (isset($this->processed_authors[intval($meta['value'])]))
 							$value = $this->processed_authors[intval($meta['value'])];
 						else
 							$key = false;
 					}
-
 					if ($key) {
 						// export gets meta straight from the DB so could have a serialized string
 						if (!$value)
 							$value = maybe_unserialize($meta['value']);
-
 						add_post_meta($post_id, $key, $value);
 						do_action('import_post_meta', $post_id, $key, $value);
-
 						// if the post has a featured image, take note of this in case of remap
 						if ('_thumbnail_id' == $key)
 							$this->featured_images[$post_id] = (int)$value;
@@ -801,7 +715,6 @@ class Import extends Core {
 				}
 			}
 		}
-
 		unset($this->posts);
 	}
 
@@ -814,7 +727,6 @@ class Import extends Core {
 	 */
 	function backfill_parents() {
 		global $wpdb;
-
 		// find parents for post orphans
 		foreach ($this->post_orphans as $child_id => $parent_id) {
 			$local_child_id = $local_parent_id = false;
@@ -822,16 +734,13 @@ class Import extends Core {
 				$local_child_id = $this->processed_posts[$child_id];
 			if (isset($this->processed_posts[$parent_id]))
 				$local_parent_id = $this->processed_posts[$parent_id];
-
 			if ($local_child_id && $local_parent_id)
 				$wpdb->update($wpdb->posts, array('post_parent' => $local_parent_id), array('ID' => $local_child_id), '%d', '%d');
 		}
-
 		// all other posts/terms are imported, retry menu items with missing associated object
 		$missing_menu_items = $this->missing_menu_items;
 		foreach ($missing_menu_items as $item)
 			$this->process_menu_item($item);
-
 		// find parents for menu item orphans
 		foreach ($this->menu_item_orphans as $child_id => $parent_id) {
 			$local_child_id = $local_parent_id = 0;
@@ -839,7 +748,6 @@ class Import extends Core {
 				$local_child_id = $this->processed_menu_items[$child_id];
 			if (isset($this->processed_menu_items[$parent_id]))
 				$local_parent_id = $this->processed_menu_items[$parent_id];
-
 			if ($local_child_id && $local_parent_id)
 				update_post_meta($local_child_id, '_menu_item_menu_item_parent', (int)$local_parent_id);
 		}
@@ -852,7 +760,6 @@ class Import extends Core {
 		global $wpdb;
 		// make sure we do the longest urls first, in case one is a substring of another
 		uksort($this->url_remap, array(&$this, 'cmpr_strlen'));
-
 		foreach ($this->url_remap as $from_url => $to_url) {
 			// remap urls in post_content
 			$wpdb->query($wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s)", $from_url, $to_url));

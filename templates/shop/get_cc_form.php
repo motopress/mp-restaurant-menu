@@ -1,8 +1,6 @@
 <?php
 ob_start(); ?>
-
 <?php do_action('edd_before_cc_fields'); ?>
-
 	<fieldset id="edd_cc_fields" class="edd-do-validate">
 		<span><legend><?php _e('Credit Card Info', 'easy-digital-downloads'); ?></legend></span>
 		<?php if (is_ssl()) : ?>
@@ -56,9 +54,7 @@ ob_start(); ?>
 			</select>
 		</p>
 		<?php do_action('edd_after_cc_expiration'); ?>
-
 	</fieldset>
 <?php
 do_action('edd_after_cc_fields');
-
 echo ob_get_clean();

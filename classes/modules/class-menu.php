@@ -1,9 +1,6 @@
 <?php
-
 namespace mp_restaurant_menu\classes\modules;
-
 class Menu {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -35,5 +32,4 @@ class Menu {
 		$params['function'] = !empty($params['function']) ? $params['function'] : '';
 		add_submenu_page($params['parent_slug'], $params['title'], $params['title'], $params['capability'], $params['menu_slug'], $params['function']);
 	}
-
 }

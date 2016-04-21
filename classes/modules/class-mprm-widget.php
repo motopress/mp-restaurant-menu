@@ -4,7 +4,6 @@ namespace mp_restaurant_menu\classes\modules;
 use mp_restaurant_menu\classes\Module;
 
 class MPRM_Widget extends Module {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -26,4 +25,3 @@ class MPRM_Widget extends Module {
 		register_widget('mp_restaurant_menu\classes\widgets\Category_widget');
 	}
 }
-

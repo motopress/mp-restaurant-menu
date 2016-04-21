@@ -1,5 +1,4 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Menu_category;
@@ -8,7 +7,6 @@ use mp_restaurant_menu\classes\models\Menu_category;
  * Export class
  */
 class Export extends Core {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -35,9 +33,7 @@ class Export extends Core {
 	 */
 	public function export($args = array()) {
 		global $wpdb, $post;
-
 		if (!defined('ABSPATH')) exit;
-
 		if (!function_exists('export_wp')) {
 			include_once(ABSPATH . 'wp-admin/includes/export.php');
 		}
@@ -45,7 +41,6 @@ class Export extends Core {
 			'start_date' => false, 'end_date' => false, 'status' => false,
 		);
 		$args = wp_parse_args($args, $defaults);
-
 		/**
 		 * Fires at the beginning of an export, before any headers are sent.
 		 *
@@ -54,18 +49,14 @@ class Export extends Core {
 		 * @param array $args An array of export arguments.
 		 */
 		//do_action('export_wp', $args);
-
 		$filename = $this->file_name();
-
 		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename=' . $filename);
 		header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
-
 		if ('all' != $args['content'] && post_type_exists($args['content'])) {
 			$ptype = get_post_type_object($args['content']);
 			if (!$ptype->can_export)
 				$args['content'] = 'post';
-
 			$where = $wpdb->prepare("{$wpdb->posts}.post_type = %s", $args['content']);
 		} else {
 			$post_types = get_post_types(array('can_export' => true));
@@ -73,12 +64,10 @@ class Export extends Core {
 			$esses = array_fill(0, count($post_types), '%s');
 			$where = $wpdb->prepare("{$wpdb->posts}.post_type IN (" . implode(',', $esses) . ')', $post_types);
 		}
-
 		if ($args['status'] && ('post' == $args['content'] || 'page' == $args['content']))
 			$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_status = %s", $args['status']);
 		else
 			$where .= " AND {$wpdb->posts}.post_status != 'auto-draft'";
-
 		$join = '';
 		if ($args['category'] && 'post' == $args['content']) {
 			if ($term = term_exists($args['category'], 'category')) {
@@ -86,21 +75,16 @@ class Export extends Core {
 				$where .= $wpdb->prepare(" AND {$wpdb->term_relationships}.term_taxonomy_id = %d", $term['term_taxonomy_id']);
 			}
 		}
-
 		if ('post' == $args['content'] || 'page' == $args['content'] || 'attachment' == $args['content']) {
 			if ($args['author'])
 				$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_author = %d", $args['author']);
-
 			if ($args['start_date'])
 				$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_date >= %s", date('Y-m-d', strtotime($args['start_date'])));
-
 			if ($args['end_date'])
 				$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_date < %s", date('Y-m-d', strtotime('+1 month', strtotime($args['end_date']))));
 		}
-
 		// Grab a snapshot of post IDs, just in case it changes during the export.
 		$post_ids = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} $join WHERE $where");
-
 		/*
 		 * Get the requested terms ready, empty unless posts filtered by category
 		 * or all content.
@@ -117,11 +101,9 @@ class Export extends Core {
 			$post_ids = array_merge($post_ids, $thumbnail_ids);
 		}
 		$term_meta = $tags = $terms = array();
-
 		if (!empty($this->taxonomy_names)) {
 			$custom_taxonomies = get_taxonomies(array('_builtin' => false));
 			$custom_terms = (array)get_terms($this->taxonomy_names, array('get' => 'all'));
-
 			// Put terms in order with no child going before its parent.
 			while ($t = array_shift($custom_terms)) {
 				if ($t->parent == 0 || isset($terms[$t->parent]))
@@ -142,15 +124,11 @@ class Export extends Core {
 			if (!empty($term_thumbnail_ids)) {
 				$post_ids = array_unique(array_merge($post_ids, $term_thumbnail_ids));
 			}
-
 			unset($categories, $custom_taxonomies, $custom_terms);
 		}
-
 		add_filter('mptt_export_skip_postmeta', array($this, 'mptt_filter_postmeta'), 10, 2);
-
 		echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . "\" ?>\n"; ?>
 		<?php the_generator('export'); ?>
-
 		<rss version="2.0"
 		     xmlns:excerpt="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/excerpt/"
 		     xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -166,7 +144,6 @@ class Export extends Core {
 				<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
 				<wp:base_site_url><?php echo $this->mptt_site_url(); ?></wp:base_site_url>
 				<wp:base_blog_url><?php bloginfo_rss('url'); ?></wp:base_blog_url>
-
 				<?php $this->mptt_authors_list($post_ids); ?>
 				<?php foreach ($terms as $t) : ?>
 					<wp:term><?php if (!empty($term_meta[$t->term_id])) { ?>
@@ -175,26 +152,21 @@ class Export extends Core {
 						<wp:term_taxonomy><?php echo $this->mptt_cdata($t->taxonomy); ?></wp:term_taxonomy>
 						<wp:term_slug><?php echo $this->mptt_cdata($t->slug); ?></wp:term_slug>
 						<wp:term_parent><?php echo $this->mptt_cdata($t->parent ? $terms[$t->parent]->slug : ''); ?></wp:term_parent><?php $this->mptt_term_name($t); ?><?php $this->mptt_term_description($t); ?> </wp:term>
-
 				<?php endforeach;
 				/** This action is documented in wp-includes/feed-rss2.php */
 				do_action('rss2_head');
 				?>
-
 				<?php if ($post_ids) {
 					/**
 					 * @global WP_Query $wp_query
 					 */
 					global $wp_query;
-
 					// Fake being in the loop.
 					$wp_query->in_the_loop = true;
-
 					// Fetch 20 posts at a time rather than loading the entire table into memory.
 					while ($next_posts = array_splice($post_ids, 0, 20)) {
 						$where = 'WHERE ID IN (' . join(',', $next_posts) . ')';
 						$posts = $wpdb->get_results("SELECT * FROM {$wpdb->posts} $where");
-
 						// Begin Loop.
 						foreach ($posts as $post) {
 							setup_postdata($post);
@@ -244,7 +216,6 @@ class Export extends Core {
 									<wp:attachment_url><?php echo $this->mptt_cdata(wp_get_attachment_url($post->ID)); ?></wp:attachment_url>
 								<?php endif; ?>
 								<?php $this->mptt_post_taxonomy(); ?>
-
 								<?php $postmeta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID));
 								foreach ($postmeta as $meta) :
 									/**
@@ -268,7 +239,6 @@ class Export extends Core {
 									</wp:postmeta>
 								<?php endforeach; ?>
 								<?php
-
 								$_comments = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved <> 'spam'", $post->ID));
 								$comments = array_map('get_comment', $_comments);
 								foreach ($comments as $c) : ?>
@@ -314,7 +284,6 @@ class Export extends Core {
 							<?php
 						}
 					}
-
 				}
 				?>
 			</channel>
@@ -357,21 +326,17 @@ class Export extends Core {
 	 */
 	public function mptt_authors_list(array $post_ids = null) {
 		global $wpdb;
-
 		if (!empty($post_ids)) {
 			$post_ids = array_map('absint', $post_ids);
 			$and = 'AND ID IN ( ' . implode(', ', $post_ids) . ')';
 		} else {
 			$and = '';
 		}
-
 		$authors = array();
 		$results = $wpdb->get_results("SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and");
 		foreach ((array)$results as $result)
 			$authors[] = get_userdata($result->post_author);
-
 		$authors = array_filter($authors);
-
 		foreach ($authors as $author) {
 			echo "\t<wp:author>";
 			echo '<wp:author_id>' . intval($author->ID) . '</wp:author_id>';
@@ -410,7 +375,6 @@ class Export extends Core {
 	public function mptt_term_description($term) {
 		if (empty($term->description))
 			return;
-
 		echo '<wp:term_description>' . $this->mptt_cdata($term->description) . '</wp:term_description>';
 	}
 
@@ -424,7 +388,6 @@ class Export extends Core {
 	public function mptt_term_name($term) {
 		if (empty($term->name))
 			return;
-
 		echo '<wp:term_name>' . $this->mptt_cdata($term->name) . '</wp:term_name>';
 	}
 
@@ -443,7 +406,6 @@ class Export extends Core {
 		}
 		// $str = ent2ncr(esc_html($str));
 		$str = '<![CDATA[' . str_replace(']]>', ']]]]><![CDATA[>', $str) . ']]>';
-
 		return $str;
 	}
 
@@ -467,12 +429,10 @@ class Export extends Core {
 	 */
 	public function mptt_post_taxonomy() {
 		$post = get_post();
-
 		$taxonomies = get_object_taxonomies($post->post_type);
 		if (empty($taxonomies))
 			return;
 		$terms = wp_get_object_terms($post->ID, $taxonomies);
-
 		foreach ((array)$terms as $term) {
 			echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . $this->mptt_cdata($term->name) . "</category>\n";
 		}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Restaurant Menu
  * Plugin URI: http://www.getmotopress.com
@@ -11,7 +10,6 @@
  * Text Domain: mp-restaurant-menu
  * Domain Path: /languages
  */
-
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Capabilities;
@@ -36,11 +34,9 @@ define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
-
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
 
 class MP_Restaurant_Menu_Setup_Plugin {
-
 	protected static $instance;
 
 	public static function init() {
@@ -61,12 +57,10 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-
 		flush_rewrite_rules();
 		// User capability
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
-
 		if (!empty($plugin)) {
 			check_admin_referer("activate-plugin_{$plugin}");
 		}
@@ -102,22 +96,18 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Install Fire bug
 		 */
 		require_once MP_RM_LIBS_PATH . 'FirePHPCore/fb.php';
-
 		/**
 		 * Include Gump Validator
 		 */
 		require_once MP_RM_LIBS_PATH . 'gump.class.php';
-
 		/**
 		 * Include WP Parser
 		 */
 		require_once MP_RM_LIBS_PATH . 'parsers.php';
-
 		/**
 		 * Include state
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-state-factory.php';
-
 		/**
 		 * Include Core class
 		 */
@@ -126,42 +116,34 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include Core class
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-capability.php';
-
 		/**
 		 * Include Model
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-model.php';
-
 		/**
 		 * Include Controller
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-controller.php';
-
 		/**
 		 * Include Preprocessor
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-preprocessor.php';
-
 		/**
 		 * Include Module
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-module.php';
-
 		/**
 		 * Include view
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-view.php';
-
 		/**
 		 * Include media
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-media.php';
-
 		/**
 		 * Include hooks
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-hooks.php';
-
 		/**
 		 * Include hooks
 		 */

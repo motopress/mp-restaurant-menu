@@ -1,6 +1,5 @@
 <?php
 global $mprm_term;
-
 if (mprm_has_category_image()) {
 	?>
 	<div class="mprm-header with-image" style="background-image: url('<?php echo mprm_get_category_image('large') ?>')">

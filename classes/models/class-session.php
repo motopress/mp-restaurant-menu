@@ -1,10 +1,8 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\WP_Session;
-
 
 /**
  * MPRM_Session Class
@@ -12,7 +10,6 @@ use mp_restaurant_menu\classes\libs\WP_Session;
  * @since 1.5
  */
 class Session extends Core {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -30,7 +27,6 @@ class Session extends Core {
 	 * @since 1.5
 	 */
 	private $session;
-
 	/**
 	 * Whether to use PHP $_SESSION or WP_Session
 	 *
@@ -39,7 +35,6 @@ class Session extends Core {
 	 * @since 1.5,1
 	 */
 	private $use_php_sessions = false;
-
 	/**
 	 * Session index prefix
 	 *
@@ -60,46 +55,32 @@ class Session extends Core {
 	public function __construct() {
 		parent::__construct();
 		$this->use_php_sessions = $this->use_php_sessions();
-
 		if ($this->use_php_sessions) {
-
 			if (is_multisite()) {
-
 				$this->prefix = '_' . get_current_blog_id();
-
 			}
-
 			// Use PHP SESSION (must be enabled via the MPRM_USE_PHP_SESSIONS constant)
 			//	add_action('init', array($this, 'maybe_start_session'), -2);
-
 		} else {
-
 			// Use WP_Session (default)
-
 			if (!defined('WP_SESSION_COOKIE')) {
 				define('WP_SESSION_COOKIE', 'mprm_wp_session');
 			}
-
 			if (!class_exists('Recursive_ArrayAccess')) {
 				require_once MP_RM_LIBS_PATH . '/wp_session/class-recursive-arrayaccess.php';
 			}
-
 			if (!class_exists('WP_Session')) {
 				require_once MP_RM_LIBS_PATH . 'wp_session/class-wp-session.php';
 				require_once MP_RM_LIBS_PATH . 'wp_session/wp-session.php';
 			}
-
 			add_filter('wp_session_expiration_variant', array($this, 'set_expiration_variant_time'), 99999);
 			add_filter('wp_session_expiration', array($this, 'set_expiration_time'), 99999);
-
 		}
-
 //		if (empty($this->session) && !$this->use_php_sessions) {
 //			add_action('plugins_loaded', array($this, 'init'), -1);
 //		} else {
 //			add_action('init', array($this, 'init'), -1);
 //		}
-
 	}
 
 	/**
@@ -110,17 +91,14 @@ class Session extends Core {
 	 * @return void
 	 */
 	public function init() {
-
 		if ($this->use_php_sessions) {
 			$this->session = isset($_SESSION['mprm' . $this->prefix]) && is_array($_SESSION['mprm' . $this->prefix]) ? $_SESSION['mprm' . $this->prefix] : array();
 		} else {
 			$this->session = WP_Session::get_instance();
 		}
-
 		$use_cookie = $this->use_cart_cookie();
 		$cart = $this->get_variable('mprm_cart');
 		$purchase = $this->get_variable('mprm_purchase');
-
 		if ($use_cookie) {
 			if (!empty($cart) || !empty($purchase)) {
 				$this->set_cart_cookie();
@@ -128,7 +106,6 @@ class Session extends Core {
 				$this->set_cart_cookie(false);
 			}
 		}
-
 		return $this->session;
 	}
 
@@ -159,20 +136,15 @@ class Session extends Core {
 	 * @return string Session variable
 	 */
 	public function set($key, $value) {
-
 		$key = sanitize_key($key);
-
 		if (is_array($value)) {
 			$this->session[$key] = serialize($value);
 		} else {
 			$this->session[$key] = $value;
 		}
-
 		if ($this->use_php_sessions) {
-
 			$_SESSION['mprm' . $this->prefix] = $this->session;
 		}
-
 		return $this->session[$key];
 	}
 
@@ -202,20 +174,15 @@ class Session extends Core {
 	 * @return string Session variable
 	 */
 	public function set_variable($key, $value) {
-
 		$key = sanitize_key($key);
-
 		if (is_array($value)) {
 			$this->session[$key] = serialize($value);
 		} else {
 			$this->session[$key] = $value;
 		}
-
 		if ($this->use_php_sessions) {
-
 			$_SESSION['mprm' . $this->prefix] = $this->session;
 		}
-
 		return $this->session[$key];
 	}
 
@@ -284,41 +251,28 @@ class Session extends Core {
 	 * @return boolean $ret True if we are using PHP sessions, false otherwise
 	 */
 	public function use_php_sessions() {
-
 		$ret = false;
-
 		// If the database variable is already set, no need to run autodetection
 		$mprm_use_php_sessions = (bool)get_option('mprm_use_php_sessions');
-
 		if (!$mprm_use_php_sessions) {
-
 			// Attempt to detect if the server supports PHP sessions
 			if (function_exists('session_start') && !ini_get('safe_mode')) {
-
 				$this->set_variable('mprm_use_php_sessions', 1);
-
 				if ($this->get_variable('mprm_use_php_sessions')) {
-
 					$ret = true;
-
 					// Set the database option
 					update_option('mprm_use_php_sessions', true);
-
 				}
-
 			}
-
 		} else {
 			$ret = $mprm_use_php_sessions;
 		}
-
 		// Enable or disable PHP Sessions based on the MPRM_USE_PHP_SESSIONS constant
 		if (defined('MPRM_USE_PHP_SESSIONS') && MPRM_USE_PHP_SESSIONS) {
 			$ret = true;
 		} else if (defined('MPRM_USE_PHP_SESSIONS') && !MPRM_USE_PHP_SESSIONS) {
 			$ret = false;
 		}
-
 		return (bool)apply_filters('mprm_use_php_sessions', $ret);
 	}
 
@@ -330,11 +284,9 @@ class Session extends Core {
 	 */
 	public function use_cart_cookie() {
 		$ret = true;
-
 		if (defined('MPRM_USE_CART_COOKIE') && !MPRM_USE_CART_COOKIE) {
 			$ret = false;
 		}
-
 		return (bool)apply_filters('mprm_use_cart_cookie', $ret);
 	}
 
@@ -346,5 +298,4 @@ class Session extends Core {
 			session_start();
 		}
 	}
-
 }

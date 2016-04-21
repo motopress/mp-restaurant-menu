@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\shortcodes;
 
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 
 class Shortcode_Cart extends Shortcodes {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -24,7 +22,6 @@ class Shortcode_Cart extends Shortcodes {
 	 * @return \mp_restaurant_menu\classes\type|string
 	 */
 	public function render_shortcode($args) {
-
 		return View::get_instance()->render_html("shop/cart", $args, false);
 	}
 }

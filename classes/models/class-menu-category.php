@@ -1,12 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\models\parents\Term;
 use mp_restaurant_menu\classes\View;
 
 class Menu_category extends Term {
-
 	protected static $instance;
 
 	public static function get_instance() {
@@ -56,7 +54,6 @@ class Menu_category extends Term {
 	 */
 	public function get_term_params($term_id, $field = '') {
 		global $wp_version;
-
 		if ($wp_version < 4.4) {
 			$term_meta = get_option("mprm_taxonomy_{$term_id}");
 		} else {
@@ -66,7 +63,6 @@ class Menu_category extends Term {
 		if ($wp_version >= 4.4 && empty($term_meta)) {
 			$term_meta = get_option("mprm_taxonomy_{$term_id}");
 		}
-
 		// thumbnail value
 		if (!empty($term_meta['thumbnail_id'])) {
 			$term_meta['thumb_url'] = wp_get_attachment_thumb_url($term_meta['thumbnail_id']);
@@ -79,7 +75,6 @@ class Menu_category extends Term {
 		} else {
 			return $term_meta;
 		}
-
 	}
 
 	public function get_term_image($mprm_term, $size = 'mprm-big') {
@@ -118,7 +113,6 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
-
 
 	/**
 	 * Save menu category

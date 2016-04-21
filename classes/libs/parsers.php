@@ -15,19 +15,16 @@ class WXR_Parser {
 		if (extension_loaded('simplexml')) {
 			$parser = new WXR_Parser_SimpleXML;
 			$result = $parser->parse($file);
-
 			// If SimpleXML succeeds or this is an invalid WXR file then return the results
 			if (!is_wp_error($result) || 'SimpleXML_parse_error' != $result->get_error_code())
 				return $result;
 		} else if (extension_loaded('xml')) {
 			$parser = new WXR_Parser_XML;
 			$result = $parser->parse($file);
-
 			// If XMLParser succeeds or this is an invalid WXR file then return the results
 			if (!is_wp_error($result) || 'XML_parse_error' != $result->get_error_code())
 				return $result;
 		}
-
 		// We have a malformed XML file, so display the error and fallthrough to regex
 		if (isset($result) && defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
 			echo '<pre>';
@@ -42,7 +39,6 @@ class WXR_Parser {
 			echo '<p><strong>' . __('There was an error when reading this WXR file', 'mp-restaurant-menu') . '</strong><br />';
 			echo __('Details are shown above. The importer will now try again with a different parser...', 'mp-restaurant-menu') . '</p>';
 		}
-
 		// use regular expressions if nothing else available or this is bad XML
 		$parser = new WXR_Parser_Regex;
 		return $parser->parse($file);
@@ -55,9 +51,7 @@ class WXR_Parser {
 class WXR_Parser_SimpleXML {
 	function parse($file) {
 		$authors = $posts = $categories = $tags = $terms = array();
-
 		$internal_errors = libxml_use_internal_errors(true);
-
 		$dom = new \DOMDocument;
 		$old_value = null;
 		if (function_exists('libxml_disable_entity_loader')) {
@@ -67,36 +61,28 @@ class WXR_Parser_SimpleXML {
 		if (!is_null($old_value)) {
 			libxml_disable_entity_loader($old_value);
 		}
-
 		if (!$success || isset($dom->doctype)) {
 			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
 		}
-
 		$xml = simplexml_import_dom($dom);
 		unset($dom);
-
 		// halt if loading produces an error
 		if (!$xml)
 			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
-
 		$wxr_version = $xml->xpath('/rss/channel/wp:wxr_version');
 		if (!$wxr_version)
 			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
-
 		$wxr_version = (string)trim($wxr_version[0]);
 		// confirm that we are dealing with the correct file format
 		if (!preg_match('/^\d+\.\d+$/', $wxr_version))
 			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
-
 		$base_url = $xml->xpath('/rss/channel/wp:base_site_url');
 		$base_url = (string)trim($base_url[0]);
-
 		$namespaces = $xml->getDocNamespaces();
 		if (!isset($namespaces['wp']))
 			$namespaces['wp'] = 'http://wordpress.org/export/1.1/';
 		if (!isset($namespaces['excerpt']))
 			$namespaces['excerpt'] = 'http://wordpress.org/export/1.1/excerpt/';
-
 		// grab authors
 		foreach ($xml->xpath('/rss/channel/wp:author') as $author_arr) {
 			$a = $author_arr->children($namespaces['wp']);
@@ -110,7 +96,6 @@ class WXR_Parser_SimpleXML {
 				'author_last_name' => (string)$a->author_last_name
 			);
 		}
-
 		// grab cats, tags and terms
 		foreach ($xml->xpath('/rss/channel/wp:category') as $term_arr) {
 			$t = $term_arr->children($namespaces['wp']);
@@ -122,7 +107,6 @@ class WXR_Parser_SimpleXML {
 				'category_description' => (string)$t->category_description
 			);
 		}
-
 		foreach ($xml->xpath('/rss/channel/wp:tag') as $term_arr) {
 			$t = $term_arr->children($namespaces['wp']);
 			$tags[] = array(
@@ -132,7 +116,6 @@ class WXR_Parser_SimpleXML {
 				'tag_description' => (string)$t->tag_description
 			);
 		}
-
 		foreach ($xml->xpath('/rss/channel/wp:term') as $term_arr) {
 			$t = $term_arr->children($namespaces['wp']);
 			$terms[] = array(
@@ -145,22 +128,18 @@ class WXR_Parser_SimpleXML {
 				'term_description' => (string)$t->term_description
 			);
 		}
-
 		// grab posts
 		foreach ($xml->channel->item as $item) {
 			$post = array(
 				'post_title' => (string)$item->title,
 				'guid' => (string)$item->guid,
 			);
-
 			$dc = $item->children('http://purl.org/dc/elements/1.1/');
 			$post['post_author'] = (string)$dc->creator;
-
 			$content = $item->children('http://purl.org/rss/1.0/modules/content/');
 			$excerpt = $item->children($namespaces['excerpt']);
 			$post['post_content'] = (string)$content->encoded;
 			$post['post_excerpt'] = (string)$excerpt->encoded;
-
 			$wp = $item->children($namespaces['wp']);
 			$post['post_id'] = (int)$wp->post_id;
 			$post['post_date'] = (string)$wp->post_date;
@@ -174,10 +153,8 @@ class WXR_Parser_SimpleXML {
 			$post['post_type'] = (string)$wp->post_type;
 			$post['post_password'] = (string)$wp->post_password;
 			$post['is_sticky'] = (int)$wp->is_sticky;
-
 			if (isset($wp->attachment_url))
 				$post['attachment_url'] = (string)$wp->attachment_url;
-
 			foreach ($item->category as $c) {
 				$att = $c->attributes();
 				if (isset($att['nicename']))
@@ -187,14 +164,12 @@ class WXR_Parser_SimpleXML {
 						'domain' => (string)$att['domain']
 					);
 			}
-
 			foreach ($wp->postmeta as $meta) {
 				$post['postmeta'][] = array(
 					'key' => (string)$meta->meta_key,
 					'value' => (string)$meta->meta_value
 				);
 			}
-
 			foreach ($wp->comment as $comment) {
 				$meta = array();
 				if (isset($comment->commentmeta)) {
@@ -205,7 +180,6 @@ class WXR_Parser_SimpleXML {
 						);
 					}
 				}
-
 				$post['comments'][] = array(
 					'comment_id' => (int)$comment->comment_id,
 					'comment_author' => (string)$comment->comment_author,
@@ -222,10 +196,8 @@ class WXR_Parser_SimpleXML {
 					'commentmeta' => $meta,
 				);
 			}
-
 			$posts[] = $post;
 		}
-
 		return array(
 			'authors' => $authors,
 			'posts' => $posts,
@@ -259,14 +231,12 @@ class WXR_Parser_XML {
 	function parse($file) {
 		$this->wxr_version = $this->in_post = $this->cdata = $this->data = $this->sub_data = $this->in_tag = $this->in_sub_tag = false;
 		$this->authors = $this->posts = $this->term = $this->category = $this->tag = array();
-
 		$xml = xml_parser_create('UTF-8');
 		xml_parser_set_option($xml, XML_OPTION_SKIP_WHITE, 1);
 		xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
 		xml_set_object($xml, $this);
 		xml_set_character_data_handler($xml, 'cdata');
 		xml_set_element_handler($xml, 'tag_open', 'tag_close');
-
 		if (!xml_parse($xml, file_get_contents($file), true)) {
 			$current_line = xml_get_current_line_number($xml);
 			$current_column = xml_get_current_column_number($xml);
@@ -275,10 +245,8 @@ class WXR_Parser_XML {
 			return new \WP_Error('XML_parse_error', 'There was an error when reading this WXR file', array($current_line, $current_column, $error_string));
 		}
 		xml_parser_free($xml);
-
 		if (!preg_match('/^\d+\.\d+$/', $this->wxr_version))
 			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
-
 		return array(
 			'authors' => $this->authors,
 			'posts' => $this->posts,
@@ -295,12 +263,10 @@ class WXR_Parser_XML {
 			$this->in_tag = substr($tag, 3);
 			return;
 		}
-
 		if (in_array($tag, $this->wp_sub_tags)) {
 			$this->in_sub_tag = substr($tag, 3);
 			return;
 		}
-
 		switch ($tag) {
 			case 'category':
 				if (isset($attr['domain'], $attr['nicename'])) {
@@ -325,7 +291,6 @@ class WXR_Parser_XML {
 			case 'excerpt:encoded':
 				$this->in_tag = 'post_excerpt';
 				break;
-
 			case 'wp:term_slug':
 				$this->in_tag = 'slug';
 				break;
@@ -341,7 +306,6 @@ class WXR_Parser_XML {
 	function cdata($parser, $cdata) {
 		if (!trim($cdata))
 			return;
-
 		$this->cdata .= trim($cdata);
 	}
 
@@ -393,7 +357,6 @@ class WXR_Parser_XML {
 			case 'wp:wxr_version':
 				$this->wxr_version = $this->cdata;
 				break;
-
 			default:
 				if ($this->in_sub_tag) {
 					$this->sub_data[$this->in_sub_tag] = !empty($this->cdata) ? $this->cdata : '';
@@ -403,7 +366,6 @@ class WXR_Parser_XML {
 					$this->in_tag = false;
 				}
 		}
-
 		$this->cdata = false;
 	}
 }
@@ -418,26 +380,21 @@ class WXR_Parser_Regex {
 	var $tags = array();
 	var $terms = array();
 	var $base_url = '';
-
 //	function WXR_Parser_Regex() {
 //		$this->__construct();
 //	}
-
 	function __construct() {
 		$this->has_gzip = is_callable('gzopen');
 	}
 
 	function parse($file) {
 		$wxr_version = $in_post = false;
-
 		$fp = $this->fopen($file, 'r');
 		if ($fp) {
 			while (!$this->feof($fp)) {
 				$importline = rtrim($this->fgets($fp));
-
 				if (!$wxr_version && preg_match('|<wp:wxr_version>(\d+\.\d+)</wp:wxr_version>|', $importline, $version))
 					$wxr_version = $version[1];
-
 				if (false !== strpos($importline, '<wp:base_site_url>')) {
 					preg_match('|<wp:base_site_url>(.*?)</wp:base_site_url>|is', $importline, $url);
 					$this->base_url = $url[1];
@@ -478,13 +435,10 @@ class WXR_Parser_Regex {
 					$post .= $importline . "\n";
 				}
 			}
-
 			$this->fclose($fp);
 		}
-
 		if (!$wxr_version)
 			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
-
 		return array(
 			'authors' => $this->authors,
 			'posts' => $this->posts,
@@ -575,26 +529,21 @@ class WXR_Parser_Regex {
 		$is_sticky = $this->get_tag($post, 'wp:is_sticky');
 		$guid = $this->get_tag($post, 'guid');
 		$post_author = $this->get_tag($post, 'dc:creator');
-
 		$post_excerpt = $this->get_tag($post, 'excerpt:encoded');
 		$post_excerpt = preg_replace_callback('|<(/?[A-Z]+)|', array(&$this, '_normalize_tag'), $post_excerpt);
 		$post_excerpt = str_replace('<br>', '<br />', $post_excerpt);
 		$post_excerpt = str_replace('<hr>', '<hr />', $post_excerpt);
-
 		$post_content = $this->get_tag($post, 'content:encoded');
 		$post_content = preg_replace_callback('|<(/?[A-Z]+)|', array(&$this, '_normalize_tag'), $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
-
 		$postdata = compact('post_id', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_excerpt',
 			'post_title', 'status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent',
 			'menu_order', 'post_type', 'post_password', 'is_sticky'
 		);
-
 		$attachment_url = $this->get_tag($post, 'wp:attachment_url');
 		if ($attachment_url)
 			$postdata['attachment_url'] = $attachment_url;
-
 		preg_match_all('|<category domain="([^"]+?)" nicename="([^"]+?)">(.+?)</category>|is', $post, $terms, PREG_SET_ORDER);
 		foreach ($terms as $t) {
 			$post_terms[] = array(
@@ -604,7 +553,6 @@ class WXR_Parser_Regex {
 			);
 		}
 		if (!empty($post_terms)) $postdata['terms'] = $post_terms;
-
 		preg_match_all('|<wp:comment>(.+?)</wp:comment>|is', $post, $comments);
 		$comments = $comments[1];
 		if ($comments) {
@@ -618,7 +566,6 @@ class WXR_Parser_Regex {
 						'value' => $this->get_tag($m, 'wp:meta_value'),
 					);
 				}
-
 				$post_comments[] = array(
 					'comment_id' => $this->get_tag($comment, 'wp:comment_id'),
 					'comment_author' => $this->get_tag($comment, 'wp:comment_author'),
@@ -637,7 +584,6 @@ class WXR_Parser_Regex {
 			}
 		}
 		if (!empty($post_comments)) $postdata['comments'] = $post_comments;
-
 		preg_match_all('|<wp:postmeta>(.+?)</wp:postmeta>|is', $post, $postmeta);
 		$postmeta = $postmeta[1];
 		if ($postmeta) {
@@ -649,7 +595,6 @@ class WXR_Parser_Regex {
 			}
 		}
 		if (!empty($post_postmeta)) $postdata['postmeta'] = $post_postmeta;
-
 		return $postdata;
 	}
 

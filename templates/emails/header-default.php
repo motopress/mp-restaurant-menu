@@ -49,7 +49,6 @@ $header_content_h1 = "
 	font-weight: 500;
 	line-height: 1.2;
 ";
-
 ?>
 <!DOCTYPE html>
 <html>
