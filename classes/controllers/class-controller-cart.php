@@ -41,4 +41,12 @@ class Controller_cart extends Controller {
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}
+	public function action_purchase(){
+		$request = $_REQUEST;
+		if ((bool)$request['is_ajax']) {
+			$this->send_json($this->date);
+		} else {
+//			wp_safe_redirect($request['_wp_http_referer']);
+		}
+	}
 }

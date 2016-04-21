@@ -62,4 +62,26 @@ class Misc extends Model {
 		$ret = $this->get('settings')->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_no_guest_checkout', $ret);
 	}
+
+	function get_ip() {
+
+		$ip = '127.0.0.1';
+
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+			//check ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			//to check ip is pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return apply_filters('mprm_get_ip', $ip);
+	}
+
+	function get_currency_name($code = 'USD') {
+		$currencies = $this->get('settings')->get_currencies();
+		$name = isset($currencies[$code]) ? $currencies[$code] : $code;
+		return apply_filters('mprm_currency_name', $name);
+	}
 }

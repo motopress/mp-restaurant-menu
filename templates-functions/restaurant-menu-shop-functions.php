@@ -75,7 +75,7 @@ function mprm_checkout_button_purchase() {
 	}
 	ob_start();
 	?>
-	<input type="submit" class="edd-submit <?php echo $color; ?> <?php echo $style; ?>" id="edd-purchase-button" name="edd-purchase" value="<?php echo $complete_purchase; ?>"/>
+	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
 }
@@ -138,53 +138,53 @@ function mprm_purchase_form() {
 function mprm_get_cc_form() {
 	ob_start(); ?>
 	<?php do_action('mprm_before_cc_fields'); ?>
-	<fieldset id="mprm_cc_fields" class="edd-do-validate">
-		<span><legend><?php _e('Credit Card Info', 'easy-digital-downloads'); ?></legend></span>
+	<fieldset id="mprm_cc_fields" class="mprm-do-validate">
+		<span><legend><?php _e('Credit Card Info', 'mp-restaurant-menu'); ?></legend></span>
 		<?php if (is_ssl()) : ?>
 			<div id="mprm_secure_site_wrapper">
 				<span class="padlock"></span>
-				<span><?php _e('This is a secure SSL encrypted payment.', 'easy-digital-downloads'); ?></span>
+				<span><?php _e('This is a secure SSL encrypted payment.', 'mp-restaurant-menu'); ?></span>
 			</div>
 		<?php endif; ?>
-		<p id="edd-card-number-wrap">
-			<label for="card_number" class="edd-label">
-				<?php _e('Card Number', 'easy-digital-downloads'); ?>
-				<span class="edd-required-indicator">*</span>
+		<p id="mprm-card-number-wrap">
+			<label for="card_number" class="mprm-label">
+				<?php _e('Card Number', 'mp-restaurant-menu'); ?>
+				<span class="mprm-required-indicator">*</span>
 				<span class="card-type"></span>
 			</label>
-			<span class="edd-description"><?php _e('The (typically) 16 digits on the front of your credit card.', 'easy-digital-downloads'); ?></span>
-			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number edd-input required" placeholder="<?php _e('Card number', 'easy-digital-downloads'); ?>"/>
+			<span class="mprm-description"><?php _e('The (typically) 16 digits on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number mprm-input required" placeholder="<?php _e('Card number', 'mp-restaurant-menu'); ?>"/>
 		</p>
-		<p id="edd-card-cvc-wrap">
-			<label for="card_cvc" class="edd-label">
-				<?php _e('CVC', 'easy-digital-downloads'); ?>
-				<span class="edd-required-indicator">*</span>
+		<p id="mprm-card-cvc-wrap">
+			<label for="card_cvc" class="mprm-label">
+				<?php _e('CVC', 'mp-restaurant-menu'); ?>
+				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="edd-description"><?php _e('The 3 digit (back) or 4 digit (front) value on your card.', 'easy-digital-downloads'); ?></span>
-			<input type="text" size="4" maxlength="4" autocomplete="off" name="card_cvc" id="card_cvc" class="card-cvc edd-input required" placeholder="<?php _e('Security code', 'easy-digital-downloads'); ?>"/>
+			<span class="mprm-description"><?php _e('The 3 digit (back) or 4 digit (front) value on your card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" size="4" maxlength="4" autocomplete="off" name="card_cvc" id="card_cvc" class="card-cvc mprm-input required" placeholder="<?php _e('Security code', 'mp-restaurant-menu'); ?>"/>
 		</p>
-		<p id="edd-card-name-wrap">
-			<label for="card_name" class="edd-label">
-				<?php _e('Name on the Card', 'easy-digital-downloads'); ?>
-				<span class="edd-required-indicator">*</span>
+		<p id="mprm-card-name-wrap">
+			<label for="card_name" class="mprm-label">
+				<?php _e('Name on the Card', 'mp-restaurant-menu'); ?>
+				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="edd-description"><?php _e('The name printed on the front of your credit card.', 'easy-digital-downloads'); ?></span>
-			<input type="text" autocomplete="off" name="card_name" id="card_name" class="card-name edd-input required" placeholder="<?php _e('Card name', 'easy-digital-downloads'); ?>"/>
+			<span class="mprm-description"><?php _e('The name printed on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" autocomplete="off" name="card_name" id="card_name" class="card-name mprm-input required" placeholder="<?php _e('Card name', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_before_cc_expiration'); ?>
 		<p class="card-expiration">
-			<label for="card_exp_month" class="edd-label">
-				<?php _e('Expiration (MM/YY)', 'easy-digital-downloads'); ?>
-				<span class="edd-required-indicator">*</span>
+			<label for="card_exp_month" class="mprm-label">
+				<?php _e('Expiration (MM/YY)', 'mp-restaurant-menu'); ?>
+				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="edd-description"><?php _e('The date your credit card expires, typically on the front of the card.', 'easy-digital-downloads'); ?></span>
-			<select id="card_exp_month" name="card_exp_month" class="card-expiry-month edd-select edd-select-small required">
+			<span class="mprm-description"><?php _e('The date your credit card expires, typically on the front of the card.', 'mp-restaurant-menu'); ?></span>
+			<select id="card_exp_month" name="card_exp_month" class="card-expiry-month mprm-select mprm-select-small required">
 				<?php for ($i = 1; $i <= 12; $i++) {
 					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>';
 				} ?>
 			</select>
 			<span class="exp-divider"> / </span>
-			<select id="card_exp_year" name="card_exp_year" class="card-expiry-year edd-select edd-select-small required">
+			<select id="card_exp_year" name="card_exp_year" class="card-expiry-year mprm-select mprm-select-small required">
 				<?php for ($i = date('Y'); $i <= date('Y') + 30; $i++) {
 					echo '<option value="' . $i . '">' . substr($i, 2) . '</option>';
 				} ?>
@@ -202,7 +202,7 @@ function mprm_get_register_fields() {
 	ob_start(); ?>
 	<fieldset id="mprm_register_fields">
 		<?php if ($show_register_form == 'both') { ?>
-			<p id="edd-login-account-wrap"><?php _e('Already have an account?', 'mp-restaurant-menu'); ?> <a href="<?php echo esc_url(add_query_arg('login', 1)); ?>" class="mprm_checkout_register_login" data-action="checkout_login"><?php _e('Login', 'mp-restaurant-menu'); ?></a></p>
+			<p id="mprm-login-account-wrap"><?php _e('Already have an account?', 'mp-restaurant-menu'); ?> <a href="<?php echo esc_url(add_query_arg('login', 1)); ?>" class="mprm_checkout_register_login" data-action="checkout_login"><?php _e('Login', 'mp-restaurant-menu'); ?></a></p>
 		<?php } ?>
 		<?php do_action('mprm_register_fields_before'); ?>
 		<fieldset id="mprm_register_account_fields">
@@ -213,46 +213,46 @@ function mprm_get_register_fields() {
 					} ?></legend>
 			</span>
 			<?php do_action('mprm_register_account_fields_before'); ?>
-			<p id="edd-user-login-wrap">
+			<p id="mprm-user-login-wrap">
 				<label for="mprm_user_login">
 					<?php _e('Username', 'mp-restaurant-menu'); ?>
 					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
-						<span class="edd-required-indicator">*</span>
+						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="edd-description"><?php _e('The username you will use to log into your account.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php _e('The username you will use to log into your account.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_login" id="mprm_user_login" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
 					echo 'required ';
-				} ?>edd-input" type="text" placeholder="<?php _e('Username', 'mp-restaurant-menu'); ?>" title="<?php _e('Username', 'mp-restaurant-menu'); ?>"/>
+				} ?>mprm-input" type="text" placeholder="<?php _e('Username', 'mp-restaurant-menu'); ?>" title="<?php _e('Username', 'mp-restaurant-menu'); ?>"/>
 			</p>
-			<p id="edd-user-pass-wrap">
+			<p id="mprm-user-pass-wrap">
 				<label for="mprm_user_pass">
 					<?php _e('Password', 'mp-restaurant-menu'); ?>
 					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
-						<span class="edd-required-indicator">*</span>
+						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="edd-description"><?php _e('The password used to access your account.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php _e('The password used to access your account.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_pass" id="mprm_user_pass" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
 					echo 'required ';
-				} ?>edd-input" placeholder="<?php _e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
+				} ?>mprm-input" placeholder="<?php _e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
-			<p id="edd-user-pass-confirm-wrap" class="mprm_register_password">
+			<p id="mprm-user-pass-confirm-wrap" class="mprm_register_password">
 				<label for="mprm_user_pass_confirm">
 					<?php _e('Password Again', 'mp-restaurant-menu'); ?>
 					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
-						<span class="edd-required-indicator">*</span>
+						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="edd-description"><?php _e('Confirm your password.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php _e('Confirm your password.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_pass_confirm" id="mprm_user_pass_confirm" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
 					echo 'required ';
-				} ?>edd-input" placeholder="<?php _e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
+				} ?>mprm-input" placeholder="<?php _e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
 			<?php do_action('mprm_register_account_fields_after'); ?>
 		</fieldset>
 		<?php do_action('mprm_register_fields_after'); ?>
-		<input type="hidden" name="edd-purchase-var" value="needs-to-register"/>
+		<input type="hidden" name="mprm-purchase-var" value="needs-to-register"/>
 		<?php do_action('mprm_purchase_form_user_info'); ?>
 		<?php do_action('mprm_purchase_form_user_register_fields'); ?>
 	</fieldset>
@@ -293,73 +293,73 @@ function mprm_default_cc_address_fields() {
 	}
 	ob_start(); ?>
 	<fieldset id="mprm_cc_address" class="cc-address">
-		<span><legend><?php _e('Billing Details', 'easy-digital-downloads'); ?></legend></span>
+		<span><legend><?php _e('Billing Details', 'mp-restaurant-menu'); ?></legend></span>
 		<?php do_action('mprm_cc_billing_top'); ?>
-		<p id="edd-card-address-wrap">
-			<label for="card_address" class="edd-label">
-				<?php _e('Billing Address', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-address-wrap">
+			<label for="card_address" class="mprm-label">
+				<?php _e('Billing Address', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_address')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The primary billing address for your credit card.', 'easy-digital-downloads'); ?></span>
-			<input type="text" id="card_address" name="card_address" class="card-address edd-input<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
+			<span class="mprm-description"><?php _e('The primary billing address for your credit card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" id="card_address" name="card_address" class="card-address mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 1', 'easy-digital-downloads'); ?>" value="<?php echo $customer['address']['line1']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
+			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['line1']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required ';
 			} ?>/>
 		</p>
-		<p id="edd-card-address-2-wrap">
-			<label for="card_address_2" class="edd-label">
-				<?php _e('Billing Address Line 2 (optional)', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-address-2-wrap">
+			<label for="card_address_2" class="mprm-label">
+				<?php _e('Billing Address Line 2 (optional)', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The suite, apt no, PO box, etc, associated with your billing address.', 'easy-digital-downloads'); ?></span>
-			<input type="text" id="card_address_2" name="card_address_2" class="card-address-2 edd-input<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
+			<span class="mprm-description"><?php _e('The suite, apt no, PO box, etc, associated with your billing address.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" id="card_address_2" name="card_address_2" class="card-address-2 mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 2', 'easy-digital-downloads'); ?>" value="<?php echo $customer['address']['line2']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
+			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['line2']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required ';
 			} ?>/>
 		</p>
-		<p id="edd-card-city-wrap">
-			<label for="card_city" class="edd-label">
-				<?php _e('Billing City', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-city-wrap">
+			<label for="card_city" class="mprm-label">
+				<?php _e('Billing City', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_city')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The city for your billing address.', 'easy-digital-downloads'); ?></span>
-			<input type="text" id="card_city" name="card_city" class="card-city edd-input<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
+			<span class="mprm-description"><?php _e('The city for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" id="card_city" name="card_city" class="card-city mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('City', 'easy-digital-downloads'); ?>" value="<?php echo $customer['address']['city']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
+			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['city']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required ';
 			} ?>/>
 		</p>
-		<p id="edd-card-zip-wrap">
-			<label for="card_zip" class="edd-label">
-				<?php _e('Billing Zip / Postal Code', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-zip-wrap">
+			<label for="card_zip" class="mprm-label">
+				<?php _e('Billing Zip / Postal Code', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The zip or postal code for your billing address.', 'easy-digital-downloads'); ?></span>
-			<input type="text" size="4" name="card_zip" class="card-zip edd-input<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
+			<span class="mprm-description"><?php _e('The zip or postal code for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" size="4" name="card_zip" class="card-zip mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Zip / Postal Code', 'easy-digital-downloads'); ?>" value="<?php echo $customer['address']['zip']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
+			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['zip']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required ';
 			} ?>/>
 		</p>
-		<p id="edd-card-country-wrap">
-			<label for="billing_country" class="edd-label">
-				<?php _e('Billing Country', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-country-wrap">
+			<label for="billing_country" class="mprm-label">
+				<?php _e('Billing Country', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The country for your billing address.', 'easy-digital-downloads'); ?></span>
-			<select name="billing_country" id="billing_country" class="billing_country edd-select<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) {
+			<span class="mprm-description"><?php _e('The country for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<select name="billing_country" id="billing_country" class="billing_country mprm-select<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) {
 				echo ' required';
 			} ?>"<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) {
 				echo ' required ';
@@ -376,14 +376,14 @@ function mprm_default_cc_address_fields() {
 				?>
 			</select>
 		</p>
-		<p id="edd-card-state-wrap">
-			<label for="card_state" class="edd-label">
-				<?php _e('Billing State / Province', 'easy-digital-downloads'); ?>
+		<p id="mprm-card-state-wrap">
+			<label for="card_state" class="mprm-label">
+				<?php _e('Billing State / Province', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_state')) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="edd-description"><?php _e('The state or province for your billing address.', 'easy-digital-downloads'); ?></span>
+			<span class="mprm-description"><?php _e('The state or province for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<?php
 			$selected_state = models\Settings::get_instance()->get_shop_state();
 			$states = models\Settings::get_instance()->get_shop_states($selected_country);
@@ -391,7 +391,7 @@ function mprm_default_cc_address_fields() {
 				$selected_state = $customer['address']['state'];
 			}
 			if (!empty($states)) : ?>
-				<select name="card_state" id="card_state" class="card_state edd-select<?php if (models\Checkout::get_instance()->field_is_required('card_state')) {
+				<select name="card_state" id="card_state" class="card_state mprm-select<?php if (models\Checkout::get_instance()->field_is_required('card_state')) {
 					echo ' required';
 				} ?>">
 					<?php
@@ -402,7 +402,7 @@ function mprm_default_cc_address_fields() {
 				</select>
 			<?php else : ?>
 				<?php $customer_state = !empty($customer['address']['state']) ? $customer['address']['state'] : ''; ?>
-				<input type="text" size="6" name="card_state" id="card_state" class="card_state edd-input" value="<?php echo esc_attr($customer_state); ?>" placeholder="<?php _e('State / Province', 'easy-digital-downloads'); ?>"/>
+				<input type="text" size="6" name="card_state" id="card_state" class="card_state mprm-input" value="<?php echo esc_attr($customer_state); ?>" placeholder="<?php _e('State / Province', 'mp-restaurant-menu'); ?>"/>
 			<?php endif; ?>
 		</p>
 		<?php do_action('mprm_cc_billing_bottom'); ?>
@@ -418,7 +418,7 @@ function mprm_checkout_submit() { ?>
 		<?php echo mprm_checkout_button_purchase(); ?>
 		<?php do_action('mprm_purchase_form_after_submit'); ?>
 		<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
-			<p class="edd-cancel"><a href="<?php echo models\Checkout::get_instance()->get_checkout_uri(); ?>"><?php _e('Go back', 'easy-digital-downloads'); ?></a></p>
+			<p class="mprm-cancel"><a href="<?php echo models\Checkout::get_instance()->get_checkout_uri(); ?>"><?php _e('Go back', 'mp-restaurant-menu'); ?></a></p>
 		<?php } ?>
 	</fieldset>
 	<?php
@@ -427,7 +427,7 @@ function mprm_checkout_submit() { ?>
 function mprm_terms_agreement() {
 	if (models\Settings::get_instance()->get_option('show_agree_to_terms', false)) {
 		$agree_text = models\Settings::get_instance()->get_option('agree_text', '');
-		$agree_label = models\Settings::get_instance()->get_option('agree_label', __('Agree to Terms?', 'easy-digital-downloads'));
+		$agree_label = models\Settings::get_instance()->get_option('agree_label', __('Agree to Terms?', 'mp-restaurant-menu'));
 		?>
 		<fieldset id="mprm_terms_agreement">
 			<div id="mprm_terms" style="display:none;">
@@ -438,10 +438,10 @@ function mprm_terms_agreement() {
 				?>
 			</div>
 			<div id="mprm_show_terms">
-				<a href="#" class="mprm_terms_links"><?php _e('Show Terms', 'easy-digital-downloads'); ?></a>
-				<a href="#" class="mprm_terms_links" style="display:none;"><?php _e('Hide Terms', 'easy-digital-downloads'); ?></a>
+				<a href="#" class="mprm_terms_links"><?php _e('Show Terms', 'mp-restaurant-menu'); ?></a>
+				<a href="#" class="mprm_terms_links" style="display:none;"><?php _e('Hide Terms', 'mp-restaurant-menu'); ?></a>
 			</div>
-			<div class="edd-terms-agreement">
+			<div class="mprm-terms-agreement">
 				<input name="mprm_agree_to_terms" class="required" type="checkbox" id="mprm_agree_to_terms" value="1"/>
 				<label for="mprm_agree_to_terms"><?php echo stripslashes($agree_label); ?></label>
 			</div>
@@ -457,7 +457,7 @@ function mprm_print_errors() {
 function mprm_checkout_final_total() {
 	?>
 	<p id="mprm_final_total_wrap">
-		<strong><?php _e('Purchase Total:', 'easy-digital-downloads'); ?></strong>
+		<strong><?php _e('Purchase Total:', 'mp-restaurant-menu'); ?></strong>
 		<span class="mprm_cart_amount" data-subtotal="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>" data-total="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>"><?php models\Cart::get_instance()->cart_total(); ?></span>
 	</p>
 	<?php
@@ -469,10 +469,10 @@ function mprm_purchase_form_after_submit() {
 function mprm_checkout_hidden_fields() {
 	?>
 	<?php if (is_user_logged_in()) { ?>
-		<input type="hidden" name="edd-user-id" value="<?php echo get_current_user_id(); ?>"/>
+		<input type="hidden" name="mprm-user-id" value="<?php echo get_current_user_id(); ?>"/>
 	<?php } ?>
 	<input type="hidden" name="mprm_action" value="purchase"/>
-	<input type="hidden" name="edd-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
+	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
 	<?php
 }
 
@@ -484,7 +484,7 @@ function mprm_get_login_fields() {
 	ob_start(); ?>
 	<fieldset id="mprm_login_fields">
 		<?php if ($show_register_form == 'both') { ?>
-			<p id="edd-new-account-wrap">
+			<p id="mprm-new-account-wrap">
 				<?php _e('Need to create an account?', 'mp-restaurant-menu'); ?>
 				<a href="<?php echo esc_url(remove_query_arg('login')); ?>" class="mprm_checkout_register_login" data-action="checkout_register">
 					<?php _e('Register', 'mp-restaurant-menu');
@@ -495,33 +495,33 @@ function mprm_get_login_fields() {
 			</p>
 		<?php } ?>
 		<?php do_action('mprm_checkout_login_fields_before'); ?>
-		<p id="edd-user-login-wrap">
-			<label class="edd-label" for="edd-username">
+		<p id="mprm-user-login-wrap">
+			<label class="mprm-label" for="mprm-username">
 				<?php _e('Username', 'mp-restaurant-menu'); ?>
 				<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
 			<input class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
 				echo 'required ';
-			} ?>edd-input" type="text" name="mprm_user_login" id="mprm_user_login" value="" placeholder="<?php _e('Your username', 'mp-restaurant-menu'); ?>"/>
+			} ?>mprm-input" type="text" name="mprm_user_login" id="mprm_user_login" value="" placeholder="<?php _e('Your username', 'mp-restaurant-menu'); ?>"/>
 		</p>
-		<p id="edd-user-pass-wrap" class="mprm_login_password">
-			<label class="edd-label" for="edd-password">
+		<p id="mprm-user-pass-wrap" class="mprm_login_password">
+			<label class="mprm-label" for="mprm-password">
 				<?php _e('Password', 'mp-restaurant-menu'); ?>
 				<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
-					<span class="edd-required-indicator">*</span>
+					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
 			<input class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
 				echo 'required ';
-			} ?>edd-input" type="password" name="mprm_user_pass" id="mprm_user_pass" placeholder="<?php _e('Your password', 'mp-restaurant-menu'); ?>"/>
+			} ?>mprm-input" type="password" name="mprm_user_pass" id="mprm_user_pass" placeholder="<?php _e('Your password', 'mp-restaurant-menu'); ?>"/>
 			<?php if (models\Misc::get_instance()->no_guest_checkout()) : ?>
-				<input type="hidden" name="edd-purchase-var" value="needs-to-login"/>
+				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
 		</p>
-		<p id="edd-user-login-submit">
-			<input type="submit" class="edd-submit button <?php echo $color; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
+		<p id="mprm-user-login-submit">
+			<input type="submit" class="mprm-submit button <?php echo $color; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_checkout_login_fields_after'); ?>
 	</fieldset>
@@ -653,9 +653,9 @@ function mprm_save_cart_button() {
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
-		<a class="edd-cart-saving-button edd-submit button<?php echo ' ' . $color; ?>" id="edd-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
 	<?php endif; ?>
-	<a class="edd-cart-saving-button edd-submit button<?php echo ' ' . $color; ?>" id="edd-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
 	<?php
 }
 

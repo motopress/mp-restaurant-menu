@@ -118,7 +118,7 @@ class Taxes extends Model {
 	function cart_needs_tax_address_fields() {
 		if (!$this->is_cart_taxed())
 			return false;
-		return !did_action('edd_after_cc_fields', 'edd_default_cc_address_fields');
+		return !did_action('mprm_after_cc_fields', 'mprm_default_cc_address_fields');
 	}
 
 }

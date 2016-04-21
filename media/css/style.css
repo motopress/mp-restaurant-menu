@@ -1148,121 +1148,139 @@ there.
   font-size: 3rem;
 }
 /*Buy button color*/
-.mprm_purchase_submit_wrapper .mprm-submit {
+.mprm-submit {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.mprm_purchase_submit_wrapper .mprm-submit:visited,
-.mprm_purchase_submit_wrapper .mprm-submit:hover,
-.mprm_purchase_submit_wrapper .mprm-submit:focus,
-.mprm_purchase_submit_wrapper .mprm-submit:active {
+.mprm-submit:visited,
+.mprm-submit:hover,
+.mprm-submit:focus,
+.mprm-submit:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.gray {
+.mprm-submit.gray {
   color: #333333;
   background: #f0f0f0;
   border-color: #cccccc;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.gray:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.gray:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.gray:active {
+.mprm-submit.gray:hover,
+.mprm-submit.gray:focus,
+.mprm-submit.gray:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.white {
+.mprm-submit.white {
   color: #333333;
   background: #ffffff;
   border-color: #cccccc;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.white:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.white:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.white:active {
+.mprm-submit.white:hover,
+.mprm-submit.white:focus,
+.mprm-submit.white:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.blue {
+.mprm-submit.blue {
   color: #ffffff;
   background: #428bca;
   border-color: #357ebd;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.blue:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.blue:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.blue:active {
+.mprm-submit.blue:hover,
+.mprm-submit.blue:focus,
+.mprm-submit.blue:active {
   color: #ffffff;
   background: #3276b1;
   border-color: #285e8e;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.red {
+.mprm-submit.red {
   color: #ffffff;
   background: #d9534f;
   border-color: #d43f3a;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.red:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.red:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.red:active {
+.mprm-submit.red:hover,
+.mprm-submit.red:focus,
+.mprm-submit.red:active {
   color: #ffffff;
   background: #d2322d;
   border-color: #ac2925;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.green {
+.mprm-submit.green {
   color: #ffffff;
   background: #5cb85c;
   border-color: #4cae4c;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.green:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.green:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.green:active {
+.mprm-submit.green:hover,
+.mprm-submit.green:focus,
+.mprm-submit.green:active {
   color: #ffffff;
   background: #47a447;
   border-color: #398439;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.yellow {
+.mprm-submit.yellow {
   color: #ffffff;
   background: #f0ad4e;
   border-color: #eea236;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:active {
+.mprm-submit.yellow:hover,
+.mprm-submit.yellow:focus,
+.mprm-submit.yellow:active {
   color: #ffffff;
   background: #ed9c28;
   border-color: #d58512;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.orange {
+.mprm-submit.orange {
   color: #ffffff;
   background: #ed9c28;
   border-color: #e3921e;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.orange:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.orange:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.orange:active {
+.mprm-submit.orange:hover,
+.mprm-submit.orange:focus,
+.mprm-submit.orange:active {
   color: #ffffff;
   background: #e59016;
   border-color: #d58512;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray {
-  color: #fff;
+.mprm-submit.dark-gray {
+  color: #ffffff;
   background: #363636;
   border-color: #222;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:active {
-  color: #fff;
+.mprm-submit.dark-gray:hover,
+.mprm-submit.dark-gray:focus,
+.mprm-submit.dark-gray:active {
+  color: #ffffff;
   background: #333;
   border-color: #adadad;
   background-image: none;
+}
+#mprm_checkout_wrap .mprm-required-indicator {
+  color: #b94a48;
+  display: inline;
+}
+#mprm_checkout_wrap label.mprm-label {
+  font-weight: 700;
+  display: block;
+  position: relative;
+  line-height: 100%;
+  font-size: 95%;
+  margin: 0 0 5px;
+}
+#mprm_checkout_wrap .mprm-description {
+  color: #666;
+  font-size: 80%;
+  display: block;
+  margin: 0 0 5px;
 }
 #mprm_checkout_cart th {
   padding: 1.387em;
@@ -1287,6 +1305,16 @@ there.
   border: 1px solid #eee;
   padding: 1.387em;
   margin: 0 0 21px;
+}
+#mprm_checkout_form_wrap fieldset#mprm_purchase_submit {
+  padding: 0;
+  border: none;
+}
+#mprm_checkout_form_wrap fieldset#mprm_purchase_submit #mprm_final_total_wrap {
+  background: #fafafa;
+  color: #666;
+  padding: .5em 1.387em;
+  border: 1px solid #eee;
 }
 #mprm-payment-mode-wrap .mprm-payment-mode-label {
   font-weight: 700;

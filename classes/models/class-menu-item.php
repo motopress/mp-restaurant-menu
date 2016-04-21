@@ -561,10 +561,10 @@ class Menu_item extends Model {
 		$is_free = false;
 		$variable_pricing = $this->has_variable_prices($post->ID);
 		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
-			$price = mprm_get_price_option_amount($post->ID, $price_id);
+			$price = edd_get_price_option_amount($post->ID, $price_id);
 		} elseif ($variable_pricing && $price_id === false) {
-			$lowest_price = (float)mprm_get_lowest_price_option($post->ID);
-			$highest_price = (float)mprm_get_highest_price_option($post->ID);
+			$lowest_price = (float)edd_get_lowest_price_option($post->ID);
+			$highest_price = (float)edd_get_highest_price_option($post->ID);
 			if ($lowest_price === 0.00 && $highest_price === 0.00) {
 				$price = 0;
 			}

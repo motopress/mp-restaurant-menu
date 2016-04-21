@@ -492,6 +492,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			init: function() {
 
 			},
+			/**
+			 * Add to cart
+			 */
 			addToCart: function() {
 				$('.mprm-add-to-cart').on('click', function(e) {
 					e.preventDefault();
@@ -520,9 +523,18 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				});
 			},
 			/**
+			 *  Change gateway
+			 */
+			changeGateway: function() {
+				$('input[name=payment-mode]', '#mprm_purchase_form').on('change', function() {
+					$('#mprm_purchase_form_wrap').html('');
+					state.loadGateway()
+				});
+			},
+			/**
 			 * Load gateway
 			 */
-			load_gateway: function() {
+			loadGateway: function() {
 				var gateway = $('input[name=payment-mode]:checked', '#mprm_purchase_form').val();
 				var $params = [
 					{
@@ -546,9 +558,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 				MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 					function(data) {
-						console.log(data);
 						$('.mprm-no-js').hide();
 						$('#mprm_purchase_form_wrap').html(data.html);
+						state.purchaseForm();
 					},
 					function(data) {
 						console.warn('Some error!!!');
@@ -593,8 +605,82 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				//		}
 				//	);
 				//});
-			}
+			},
+			/**
+			 * Purchase form
+			 */
+			purchaseForm: function() {
+				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').on('click', function(e) {
 
+					var purchaseForm = document.getElementById('mprm_purchase_form');
+
+					if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
+						return;
+					}
+
+					e.preventDefault();
+
+					var complete_purchase_val = $(this).val();
+
+					//$(this).val(edd_global_vars.purchase_loading);
+
+					$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
+					var $params = $('#mprm_purchase_form').serializeArray();
+
+					$params.push(
+						{
+							name: 'controller',
+							value: 'cart'
+						},
+						{
+							name: 'mprm_action',
+							value: 'purchase'
+						}
+					);
+
+					$.each($params, function(index, element) {
+						if (element) {
+							if (element.name == "mprm_action" && element.value == "gateway_select") {
+								$params.splice(index, 1);
+							}
+						}
+					});
+
+					$('.mprm-cart-ajax').show();
+					console.log($params);
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							$('.mprm_errors').remove();
+							$('.mprm-error').hide();
+						},
+						function(data) {
+							$('#mprm-purchase-button').val(complete_purchase_val);
+							$('.mprm-cart-ajax').remove();
+							$('.mprm_errors').remove();
+							$('.mprm-error').hide();
+							$('#mprm_purchase_submit').before(data);
+
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+
+					//
+					//$.post(edd_global_vars.ajaxurl, $('#edd_purchase_form').serialize() + '&action=edd_process_checkout&edd_ajax=true', function(data) {
+					//	if ($.trim(data) == 'success') {
+					//		$('.edd_errors').remove();
+					//		$('.edd-error').hide();
+					//		$(eddPurchaseform).submit();
+					//	} else {
+					//		$('#edd-purchase-button').val(complete_purchase_val);
+					//		$('.edd-cart-ajax').remove();
+					//		$('.edd_errors').remove();
+					//		$('.edd-error').hide();
+					//		$('#edd_purchase_submit').before(data);
+					//	}
+					//});
+				});
+			}
 		}
 	}
 
@@ -1125,7 +1211,9 @@ MP_RM_Registry.register("Theme", (function($) {
 
 		MP_RM_Registry._get('Menu-Shop').addToCart();
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();
-		MP_RM_Registry._get('Menu-Shop').load_gateway();
+		MP_RM_Registry._get('Menu-Shop').loadGateway();
+		MP_RM_Registry._get('Menu-Shop').changeGateway();
+		MP_RM_Registry._get('Menu-Shop').purchaseForm();
 
 		if ($('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();

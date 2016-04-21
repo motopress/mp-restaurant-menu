@@ -1,7 +1,7 @@
 <?php use \mp_restaurant_menu\classes\models\Gateways as Gateways; ?>
 <div id="mprm_checkout_wrap">
 	<?php if ($cart_contents || $cart_has_fees) :
-		//edd_checkout_cart();
+		//mprm_checkout_cart();
 		mprm_get_checkout_cart_template();
 		?>
 		<div id="mprm_checkout_form_wrap" class="mprm-clear">

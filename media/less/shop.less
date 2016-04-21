@@ -1,121 +1,142 @@
 /*Buy button color*/
-.mprm_purchase_submit_wrapper {
-  .mprm-submit {
 
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	&:visited,
+.mprm-submit {
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+	color: #333333;
+	background: #ebebeb;
+	border-color: #adadad;
+  }
+  &.gray {
+	color: #333333;
+	background: #f0f0f0;
+	border-color: #cccccc;
 	&:hover,
 	&:focus,
 	&:active {
 	  color: #333333;
 	  background: #ebebeb;
 	  border-color: #adadad;
+	  background-image: none;
 	}
-	&.gray {
+  }
+  &.white {
+	color: #333333;
+	background: @white;
+	border-color: #cccccc;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: #333333;
-	  background: #f0f0f0;
-	  border-color: #cccccc;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #333333;
-		background: #ebebeb;
-		border-color: #adadad;
-		background-image: none;
-	  }
+	  background: #ebebeb;
+	  border-color: #adadad;
+	  background-image: none;
 	}
-	&.white {
-	  color: #333333;
-	  background: #ffffff;
-	  border-color: #cccccc;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #333333;
-		background: #ebebeb;
-		border-color: #adadad;
-		background-image: none;
-	  }
+  }
+  &.blue {
+	color: @white;
+	background: #428bca;
+	border-color: #357ebd;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #3276b1;
+	  border-color: #285e8e;
+	  background-image: none;
 	}
-	&.blue {
-	  color: #ffffff;
-	  background: #428bca;
-	  border-color: #357ebd;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #ffffff;
-		background: #3276b1;
-		border-color: #285e8e;
-		background-image: none;
-	  }
+  }
+  &.red {
+	color: @white;
+	background: #d9534f;
+	border-color: #d43f3a;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #d2322d;
+	  border-color: #ac2925;
+	  background-image: none;
 	}
-	&.red {
-	  color: #ffffff;
-	  background: #d9534f;
-	  border-color: #d43f3a;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #ffffff;
-		background: #d2322d;
-		border-color: #ac2925;
-		background-image: none;
-	  }
+  }
+  &.green {
+	color: @white;
+	background: #5cb85c;
+	border-color: #4cae4c;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #47a447;
+	  border-color: #398439;
+	  background-image: none;
 	}
-	&.green {
-	  color: #ffffff;
-	  background: #5cb85c;
-	  border-color: #4cae4c;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #ffffff;
-		background: #47a447;
-		border-color: #398439;
-		background-image: none;
-	  }
-	}
-	&.yellow {
-	  color: #ffffff;
-	  background: #f0ad4e;
-	  border-color: #eea236;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #ffffff;
-		background: #ed9c28;
-		border-color: #d58512;
-		background-image: none;
-	  }
-	}
-	&.orange {
-	  color: #ffffff;
+  }
+  &.yellow {
+	color: @white;
+	background: #f0ad4e;
+	border-color: #eea236;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
 	  background: #ed9c28;
-	  border-color: #e3921e;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #ffffff;
-		background: #e59016;
-		border-color: #d58512;
-		background-image: none;
-	  }
+	  border-color: #d58512;
+	  background-image: none;
 	}
-	&.dark-gray {
-	  color: #fff;
-	  background: #363636;
-	  border-color: #222;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #fff;
-		background: #333;
-		border-color: #adadad;
-		background-image: none;
-	  }
+  }
+  &.orange {
+	color: @white;
+	background: #ed9c28;
+	border-color: #e3921e;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #e59016;
+	  border-color: #d58512;
+	  background-image: none;
 	}
+  }
+  &.dark-gray {
+	color: @white;
+	background: #363636;
+	border-color: #222;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #333;
+	  border-color: #adadad;
+	  background-image: none;
+	}
+  }
+}
+
+#mprm_checkout_wrap {
+  .mprm-required-indicator {
+	color: #b94a48;
+	display: inline;
+  }
+
+  label.mprm-label {
+	font-weight: 700;
+	display: block;
+	position: relative;
+	line-height: 100%;
+	font-size: 95%;
+	margin: 0 0 5px;
+  }
+  .mprm-description {
+	color: #666;
+	font-size: 80%;
+	display: block;
+	margin: 0 0 5px;
   }
 }
 
@@ -153,7 +174,18 @@
 	border: 1px solid #eee;
 	padding: 1.387em;
 	margin: 0 0 21px;
+	&#mprm_purchase_submit {
+	  padding: 0;
+	  border: none;
+	  #mprm_final_total_wrap {
+		background: #fafafa;
+		color: #666;
+		padding: .5em 1.387em;
+		border: 1px solid #eee;
+	  }
+	}
   }
+
 }
 
 #mprm-payment-mode-wrap {
