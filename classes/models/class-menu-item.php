@@ -561,10 +561,10 @@ class Menu_item extends Model {
 		$is_free = false;
 		$variable_pricing = $this->has_variable_prices($post->ID);
 		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
-			$price = edd_get_price_option_amount($post->ID, $price_id);
+			$price = $this->get('menu_item')->get_price_option_amount($post->ID, $price_id);
 		} elseif ($variable_pricing && $price_id === false) {
-			$lowest_price = (float)edd_get_lowest_price_option($post->ID);
-			$highest_price = (float)edd_get_highest_price_option($post->ID);
+			$lowest_price = (float)$this->get_price_option($post->ID, 'min');
+			$highest_price = (float)$this->get_price_option($post->ID, 'max');
 			if ($lowest_price === 0.00 && $highest_price === 0.00) {
 				$price = 0;
 			}
@@ -580,5 +580,94 @@ class Menu_item extends Model {
 	public function get_prices($post_id) {
 		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
 		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
+	}
+
+	public function get_menu_item($menu_item = 0) {
+		if (is_numeric($menu_item)) {
+			$menu_item = get_post($menu_item);
+			if (!$menu_item || 'mp_menu_item' !== $menu_item->post_type)
+				return null;
+			return $menu_item;
+		}
+
+		$args = array(
+			'post_type' => 'mp_menu_item',
+			'name' => $menu_item,
+			'numberposts' => 1
+		);
+
+		$menu_item = get_posts($args);
+
+		if ($menu_item) {
+			return $menu_item[0];
+		}
+
+		return null;
+	}
+
+	public function get_price_option_amount($menu_item_id = 0, $price_id = 0) {
+		$prices = $this->get_variable_prices($menu_item_id);
+		$amount = 0.00;
+
+		if ($prices && is_array($prices)) {
+			if (isset($prices[$price_id]))
+				$amount = $prices[$price_id]['amount'];
+		}
+
+		return apply_filters('mprm_get_price_option_amount', $this->get('formatting')->sanitize_amount($amount), $menu_item_id, $price_id);
+	}
+
+	public function get_variable_prices($menu_item_id = 0) {
+
+		if (empty($menu_item_id)) {
+			return false;
+		}
+		return $this->get_prices($menu_item_id);
+	}
+
+
+	public function get_price_option($menu_item_id = 0, $type = 'max') {
+		if (empty($menu_item_id))
+			$menu_item_id = get_the_ID();
+
+		if (!$this->has_variable_prices($menu_item_id)) {
+			return $this->get_price($menu_item_id);
+		}
+
+		$prices = $this->get_variable_prices($menu_item_id);
+
+		$price_type = 0.00;
+		$max = 0;
+		if (!empty($prices)) {
+
+			foreach ($prices as $key => $price) {
+
+				if (empty($price['amount'])) {
+					continue;
+				}
+				if ($type == 'min') {
+					if (!isset($min)) {
+						$min = $price['amount'];
+					} else {
+						$min = min($min, $price['amount']);
+					}
+
+					if ($price['amount'] == $min) {
+						$id = $key;
+					}
+				} elseif ($type == 'max') {
+					$max = max($max, $price['amount']);
+
+					if ($price['amount'] == $max) {
+						$id = $key;
+					}
+				}
+			}
+
+			$price_type = $prices[$id]['amount'];
+
+		}
+
+		return $this->get('formatting')->sanitize_amount($price_type);
 	}
 }

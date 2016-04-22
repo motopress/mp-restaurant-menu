@@ -35,7 +35,7 @@ class Payments extends Model {
 		switch (strtolower($field)) {
 
 			case 'id':
-				$payment = new \EDD_Payment($value);
+				$payment = $this->get('order')->setup_payment($value);
 				$id = $payment->ID;
 
 				if (empty($id)) {
@@ -90,7 +90,7 @@ class Payments extends Model {
 			return false;
 		}
 
-		$payment = new \EDD_Payment();
+		$payment = $this->get('order');
 
 		if (is_array($payment_data['cart_details']) && !empty($payment_data['cart_details'])) {
 
@@ -107,7 +107,7 @@ class Payments extends Model {
 
 				$options = isset($item['item_number']['options']) ? $item['item_number']['options'] : array();
 
-				$payment->add_download($item['id'], $args, $options);
+				$payment->add_menu_item($item['id'], $args, $options);
 			}
 
 		}
@@ -198,7 +198,7 @@ class Payments extends Model {
 			}
 		}
 
-		do_action('edd_payment_delete', $payment_id);
+		do_action('mprm_order_delete', $payment_id);
 
 		if ($customer->id && $update_customer) {
 
@@ -235,7 +235,7 @@ class Payments extends Model {
 			);
 		}
 
-		do_action('edd_payment_deleted', $payment_id);
+		do_action('mprm_order_deleted', $payment_id);
 	}
 
 	public function undo_purchase($download_id = false, $payment_id) {
@@ -303,7 +303,7 @@ class Payments extends Model {
 
 		$select = "SELECT p.post_status,count( * ) AS num_posts";
 		$join = '';
-		$where = "WHERE p.post_type = 'edd_payment'";
+		$where = "WHERE p.post_type = 'mprm_order'";
 
 		// Count payments for a specific user
 		if (!empty($args['user'])) {
@@ -476,7 +476,7 @@ class Payments extends Model {
 
 	public function check_for_existing_payment($payment_id) {
 		$exists = false;
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 
 		if ($payment_id === $payment->ID && 'publish' === $payment->status) {
 			$exists = true;
@@ -498,7 +498,7 @@ class Payments extends Model {
 			return false;
 		}
 
-		$payment = new \EDD_Payment($payment->ID);
+		$payment = $this->get('order')->setup_payment($payment->ID);
 
 		if (array_key_exists($payment->status, $statuses)) {
 			if (true === $return_label) {
@@ -518,12 +518,12 @@ class Payments extends Model {
 
 	public function get_payment_statuses() {
 		$payment_statuses = array(
-			'pending' => __('Pending', 'easy-digital-downloads'),
-			'publish' => __('Complete', 'easy-digital-downloads'),
-			'refunded' => __('Refunded', 'easy-digital-downloads'),
-			'failed' => __('Failed', 'easy-digital-downloads'),
-			'abandoned' => __('Abandoned', 'easy-digital-downloads'),
-			'revoked' => __('Revoked', 'easy-digital-downloads')
+			'pending' => __('Pending', 'mp-restaurant-menu'),
+			'publish' => __('Complete', 'mp-restaurant-menu'),
+			'refunded' => __('Refunded', 'mp-restaurant-menu'),
+			'failed' => __('Failed', 'mp-restaurant-menu'),
+			'abandoned' => __('Abandoned', 'mp-restaurant-menu'),
+			'revoked' => __('Revoked', 'mp-restaurant-menu')
 		);
 
 		return apply_filters('mprm_payment_statuses', $payment_statuses);
@@ -539,13 +539,10 @@ class Payments extends Model {
 
 
 	public function get_earnings_by_date($day = null, $month_num, $year = null, $hour = null, $include_taxes = true) {
-
-		// This is getting deprecated soon. Use \EDD_Payment_Stats with the get_earnings() method instead
-
 		global $wpdb;
 
 		$args = array(
-			'post_type' => 'edd_payment',
+			'post_type' => 'mprm_order',
 			'nopaging' => true,
 			'year' => $year,
 			'monthnum' => $month_num,
@@ -592,7 +589,7 @@ class Payments extends Model {
 		// This is getting deprecated soon. Use \EDD_Payment_Stats with the get_sales() method instead
 
 		$args = array(
-			'post_type' => 'edd_payment',
+			'post_type' => 'mprm_order',
 			'nopaging' => true,
 			'year' => $year,
 			'fields' => 'ids',
@@ -640,7 +637,7 @@ class Payments extends Model {
 
 
 	public function is_payment_complete($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 
 		$ret = false;
 
@@ -687,12 +684,6 @@ class Payments extends Model {
 
 				$payments = $this->get_payments($args);
 				if ($payments) {
-
-					/*
-					 * If performing a purchase, we need to skip the very last payment in the database, since it calls
-					 * edd_increase_total_earnings() on completion, which results in duplicated earnings for the very
-					 * first purchase
-					 */
 
 					if (did_action('edd_update_payment_status')) {
 						array_pop($payments);
@@ -741,30 +732,30 @@ class Payments extends Model {
 
 
 	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_payment_meta', $single = true) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->get_meta($meta_key, $single);
 	}
 
 
 	public function update_payment_meta($payment_id = 0, $meta_key = '', $meta_value = '', $prev_value = '') {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->update_meta($meta_key, $meta_value, $prev_value);
 	}
 
 
 	public function get_payment_meta_user_info($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->user_info;
 	}
 
 	public function get_payment_meta_downloads($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->downloads;
 	}
 
 
 	public function get_payment_meta_cart_details($payment_id, $include_bundle_files = false) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		$cart_details = $payment->cart_details;
 
 		$payment_currency = $payment->currency;
@@ -817,7 +808,7 @@ class Payments extends Model {
 
 
 	public function get_payment_user_email($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->email;
 	}
 
@@ -831,43 +822,43 @@ class Payments extends Model {
 
 
 	public function get_payment_user_id($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->user_id;
 	}
 
 
 	public function get_payment_customer_id($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->customer_id;
 	}
 
 
 	public function payment_has_unlimited_downloads($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->has_unlimited_downloads;
 	}
 
 
 	public function get_payment_user_ip($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->ip;
 	}
 
 
 	public function get_payment_completed_date($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->completed_date;
 	}
 
 
 	public function get_payment_gateway($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->gateway;
 	}
 
 
 	public function get_payment_currency_code($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->currency;
 	}
 
@@ -879,13 +870,13 @@ class Payments extends Model {
 
 
 	public function get_payment_key($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->key;
 	}
 
 
 	public function get_payment_number($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->number;
 	}
 
@@ -993,7 +984,7 @@ class Payments extends Model {
 
 
 	public function get_payment_amount($payment_id) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 
 		return apply_filters('mprm_payment_amount', floatval($payment->total), $payment_id);
 	}
@@ -1007,7 +998,7 @@ class Payments extends Model {
 
 
 	public function get_payment_subtotal($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 
 		return $payment->subtotal;
 	}
@@ -1020,14 +1011,14 @@ class Payments extends Model {
 
 
 	public function get_payment_tax($payment_id = 0, $payment_meta = false) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 
 		return $payment->tax;
 	}
 
 
 	public function get_payment_item_tax($payment_id = 0, $cart_key = false) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		$item_tax = 0;
 
 		$cart_details = $payment->cart_details;
@@ -1042,13 +1033,13 @@ class Payments extends Model {
 
 
 	public function get_payment_fees($payment_id = 0, $type = 'all') {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->get_fees($type);
 	}
 
 
 	public function get_payment_transaction_id($payment_id = 0) {
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order')->setup_payment($payment_id);
 		return $payment->transaction_id;
 	}
 
@@ -1125,7 +1116,7 @@ class Payments extends Model {
 			'comment_author_IP' => '',
 			'comment_author_url' => '',
 			'comment_author_email' => '',
-			'comment_type' => 'edd_payment_note'
+			'comment_type' => 'mprm_order_note'
 
 		)));
 
@@ -1156,7 +1147,7 @@ class Payments extends Model {
 			$user = get_userdata($note->user_id);
 			$user = $user->display_name;
 		} else {
-			$user = __('EDD Bot', 'easy-digital-downloads');
+			$user = __('EDD Bot', 'mp-restaurant-menu');
 		}
 
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
@@ -1171,7 +1162,7 @@ class Payments extends Model {
 		$note_html .= '<p>';
 		$note_html .= '<strong>' . $user . '</strong>&nbsp;&ndash;&nbsp;' . date_i18n($date_format, strtotime($note->comment_date)) . '<br/>';
 		$note_html .= $note->comment_content;
-		$note_html .= '&nbsp;&ndash;&nbsp;<a href="' . esc_url($delete_note_url) . '" class="edd-delete-payment-note" data-note-id="' . absint($note->comment_ID) . '" data-payment-id="' . absint($payment_id) . '" title="' . __('Delete this payment note', 'easy-digital-downloads') . '">' . __('Delete', 'easy-digital-downloads') . '</a>';
+		$note_html .= '&nbsp;&ndash;&nbsp;<a href="' . esc_url($delete_note_url) . '" class="edd-delete-payment-note" data-note-id="' . absint($note->comment_ID) . '" data-payment-id="' . absint($payment_id) . '" title="' . __('Delete this payment note', 'mp-restaurant-menu') . '">' . __('Delete', 'mp-restaurant-menu') . '</a>';
 		$note_html .= '</p>';
 		$note_html .= '</div>';
 
@@ -1187,7 +1178,7 @@ class Payments extends Model {
 			if (!is_array($types)) {
 				$types = array($types);
 			}
-			$types[] = 'edd_payment_note';
+			$types[] = 'mprm_order_note';
 			$query->query_vars['type__not_in'] = $types;
 		}
 	}
@@ -1197,7 +1188,7 @@ class Payments extends Model {
 		global $wpdb, $wp_version;
 
 		if (version_compare(floatval($wp_version), '4.1', '<')) {
-			$clauses['where'] .= ' AND comment_type != "edd_payment_note"';
+			$clauses['where'] .= ' AND comment_type != "mprm_order_note"';
 		}
 		return $clauses;
 	}
@@ -1206,7 +1197,7 @@ class Payments extends Model {
 	public function hide_payment_notes_from_feeds($where, $wp_comment_query) {
 		global $wpdb;
 
-		$where .= $wpdb->prepare(" AND comment_type != %s", 'edd_payment_note');
+		$where .= $wpdb->prepare(" AND comment_type != %s", 'mprm_order_note');
 		return $where;
 	}
 
@@ -1228,7 +1219,7 @@ class Payments extends Model {
 		if (false !== $stats)
 			return $stats;
 
-		$where = 'WHERE comment_type != "edd_payment_note"';
+		$where = 'WHERE comment_type != "mprm_order_note"';
 
 		if ($post_id > 0)
 			$where .= $wpdb->prepare(" AND comment_post_ID = %d", $post_id);

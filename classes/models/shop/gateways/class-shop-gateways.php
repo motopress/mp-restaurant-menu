@@ -126,4 +126,103 @@ class Gateways extends Model {
 		}
 		return apply_filters('mprm_show_gateways', $show_gateways);
 	}
+
+	public function send_to_gateway($gateway, $payment_data) {
+
+		$payment_data['gateway_nonce'] = wp_create_nonce('mprm-gateway');
+
+		// $gateway must match the ID used when registering the gateway
+		do_action('mprm_gateway_' . $gateway, $payment_data);
+	}
+	function build_straight_to_gateway_data( $download_id = 0, $options = array(), $quantity = 1 ) {
+
+		$price_options = array();
+
+		if( empty( $options ) || ! edd_has_variable_prices( $download_id ) ) {
+			$price = edd_get_download_price( $download_id );
+		} else {
+
+			if( is_array( $options['price_id'] ) ) {
+				$price_id = $options['price_id'][0];
+			} else {
+				$price_id = $options['price_id'];
+			}
+
+			$prices = edd_get_variable_prices( $download_id );
+
+			// Make sure a valid price ID was supplied
+			if( ! isset( $prices[ $price_id ] ) ) {
+				wp_die( __( 'The requested price ID does not exist.', 'mp-restaurant-menu' ), __( 'Error', 'mp-restaurant-menu' ), array( 'response' => 404 ) );
+			}
+
+			$price_options = array(
+				'price_id' => $price_id,
+				'amount'   => $prices[ $price_id ]['amount']
+			);
+			$price  = $prices[ $price_id ]['amount'];
+		}
+
+		// Set up Downloads array
+		$downloads = array(
+			array(
+				'id'      => $download_id,
+				'options' => $price_options
+			)
+		);
+
+		// Set up Cart Details array
+		$cart_details = array(
+			array(
+				'name'        => get_the_title( $download_id ),
+				'id'          => $download_id,
+				'item_number' => array(
+					'id'      => $download_id,
+					'options' => $price_options
+				),
+				'tax'         => 0,
+				'discount'    => 0,
+				'item_price'  => $price,
+				'subtotal'    => ( $price * $quantity ),
+				'price'       => ( $price * $quantity ),
+				'quantity'    => $quantity,
+			)
+		);
+
+		if( is_user_logged_in() ) {
+			$current_user = wp_get_current_user();
+		}
+
+
+		// Setup user information
+		$user_info = array(
+			'id'         => is_user_logged_in() ? get_current_user_id()         : -1,
+			'email'      => is_user_logged_in() ? $current_user->user_email     : '',
+			'first_name' => is_user_logged_in() ? $current_user->user_firstname : '',
+			'last_name'  => is_user_logged_in() ? $current_user->user_lastname  : '',
+			'discount'   => 'none',
+			'address'    => array()
+		);
+
+		// Setup purchase information
+		$purchase_data = array(
+			'downloads'    => $downloads,
+			'fees'         => edd_get_cart_fees(),
+			'subtotal'     => $price * $quantity,
+			'discount'     => 0,
+			'tax'          => 0,
+			'price'        => $price * $quantity,
+			'purchase_key' => strtolower( md5( uniqid() ) ),
+			'user_email'   => $user_info['email'],
+			'date'         => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ),
+			'user_info'    => $user_info,
+			'post_data'    => array(),
+			'cart_details' => $cart_details,
+			'gateway'      => 'paypal',
+			'buy_now'      => true,
+			'card_info'    => array()
+		);
+
+		return apply_filters( 'edd_straight_to_gateway_purchase_data', $purchase_data );
+
+	}
 }

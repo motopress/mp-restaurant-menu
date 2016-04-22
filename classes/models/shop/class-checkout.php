@@ -51,7 +51,20 @@ class Checkout extends Model {
 		return apply_filters('mprm_get_checkout_uri', $uri);
 	}
 
-	public function send_back_to_checkout() {
+	public function send_back_to_checkout($args = array()) {
+		$redirect = $this->get_checkout_uri();
+
+		if (!empty($args)) {
+			// Check for backward compatibility
+			if (is_string($args))
+				$args = str_replace('?', '', $args);
+
+			$args = wp_parse_args($args);
+
+			$redirect = add_query_arg($args, $redirect);
+		}
+
+		wp_redirect(apply_filters('mprm_send_back_to_checkout', $redirect, $args));
 	}
 
 	public function get_success_page_url() {

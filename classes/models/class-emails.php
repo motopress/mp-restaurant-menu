@@ -81,4 +81,38 @@ class Emails extends Model {
 		$emails->__set('headers', $headers);
 		//$emails->send(mprm_get_admin_notice_emails(), $subject, $message, $attachments);
 	}
+
+	function is_email_banned($email = '') {
+
+		if (empty($email)) {
+			return false;
+		}
+
+		$banned_emails = $this->get_banned_emails();
+
+		if (!is_array($banned_emails) || empty($banned_emails)) {
+			return false;
+		}
+
+		foreach ($banned_emails as $banned_email) {
+			if (is_email($banned_email)) {
+				$ret = ($banned_email == trim($email) ? true : false);
+			} else {
+				$ret = (stristr(trim($email), $banned_email) ? true : false);
+			}
+
+			if (true === $ret) {
+				break;
+			}
+		}
+
+		return apply_filters('mprm_is_email_banned', $ret, $email);
+	}
+
+	function get_banned_emails() {
+		$emails = array_map('trim', $this->get('settings')->get_option('banned_emails', array()));
+
+		return apply_filters('mprm_get_banned_emails', $emails);
+	}
+
 }

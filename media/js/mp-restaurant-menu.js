@@ -647,7 +647,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					});
 
 					$('.mprm-cart-ajax').show();
-					console.log($params);
+
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
 							$('.mprm_errors').remove();

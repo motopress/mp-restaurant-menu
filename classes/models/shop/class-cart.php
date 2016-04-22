@@ -220,6 +220,13 @@ class Cart extends Model {
 	}
 
 	public function empty_cart() {
+		$this->get('session')->set('mprm_cart', NULL);
+
+		$this->get('session')->set('mprm_cart_fees', NULL);
+
+		edd_unset_all_cart_discounts();
+
+		do_action('mprm_empty_cart');
 	}
 
 	public function set_purchase_session($purchase_data = array()) {

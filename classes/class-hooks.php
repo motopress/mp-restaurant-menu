@@ -3,7 +3,9 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Errors;
+use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Order;
+use mp_restaurant_menu\classes\models\Purchase;
 use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
@@ -123,6 +125,7 @@ class Hooks extends Core {
 	 * Install templates actions
 	 */
 	public static function install_templates_actions() {
+
 		self::install_menu_item_grid_actions();
 		self::install_menu_item_list_actions();
 		self::install_menu_items_actions();
@@ -133,6 +136,9 @@ class Hooks extends Core {
 		self::install_tag_actions();
 		self::install_cart_actions();
 		self::install_checkout_actions();
+
+		Manual_payment::get_instance()->init_action();
+		Purchase::get_instance()->init_action();
 	}
 
 	public static function install_cart_actions() {

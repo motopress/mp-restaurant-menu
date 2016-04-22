@@ -43,6 +43,7 @@ class Controller_cart extends Controller {
 	}
 	public function action_purchase(){
 		$request = $_REQUEST;
+		$this->get('purchase')->process_purchase_form();
 		if ((bool)$request['is_ajax']) {
 			$this->send_json($this->date);
 		} else {
