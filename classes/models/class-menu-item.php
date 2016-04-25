@@ -8,6 +8,15 @@ use mp_restaurant_menu\classes\View;
 
 class Menu_item extends Model {
 	protected static $instance;
+	private $bundled_downloads;
+
+
+	private $sales;
+
+	private $earnings;
+	private $type;
+	private $notes;
+	private $ID;
 
 	public static function get_instance() {
 		if (null === self::$instance) {
@@ -22,6 +31,35 @@ class Menu_item extends Model {
 	public function init_metaboxes() {
 		$metabox_array = Core::get_instance()->get_config("metaboxes");
 		Post::get_instance()->set_metaboxes($metabox_array);
+	}
+
+	public function __construct($_id = false, $_args = array()) {
+
+		$menu_item = \WP_Post::get_instance($_id);
+
+		return $this->setup_menu_item($menu_item);
+
+	}
+
+	public function get_ID() {
+		return $this->ID;
+	}
+
+	private function setup_menu_item($menu_item) {
+		if ($this->is_menu_item($menu_item)) {
+			foreach ($menu_item as $key => $value) {
+				switch ($key) {
+					default:
+						$this->$key = $value;
+						break;
+				}
+
+			}
+
+			return true;
+		}
+
+
 	}
 
 	/**
@@ -139,6 +177,24 @@ class Menu_item extends Model {
 			$price = $this->get_formatting_price($price);
 		}
 		return $price;
+	}
+
+	function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
+		if (is_null($amount_override)) {
+			$original_price = get_post_meta($menu_item_id, 'mprm_price', true);
+		} else {
+			$original_price = $amount_override;
+		}
+		if (isset($user_purchase_info['discount']) && $user_purchase_info['discount'] != 'none') {
+			// if the discount was a %, we modify the amount. Flat rate discounts are ignored
+			if ($this->get('discount')->get_discount_type($this->get('discount')->get_discount_id_by_code($user_purchase_info['discount'])) != 'flat')
+				$price = $this->get('discount')->get_discounted_amount($user_purchase_info['discount'], $original_price);
+			else
+				$price = $original_price;
+		} else {
+			$price = $original_price;
+		}
+		return apply_filters('mprm_final_price', $price, $menu_item_id, $user_purchase_info);
 	}
 
 	public function get_formatting_price($amount, $decimals = true) {
@@ -412,7 +468,7 @@ class Menu_item extends Model {
 		$post_id = is_object($post) ? $post->ID : 0;
 		$button_behavior = $this->get_button_behavior($post_id);
 		$defaults = apply_filters('mprm_purchase_link_defaults', array(
-			'download_id' => $post_id,
+			'menu_item_id' => $post_id,
 			'price' => (bool)true,
 			'price_id' => isset($args['price_id']) ? $args['price_id'] : false,
 			'direct' => $button_behavior == 'direct' ? true : false,
@@ -475,7 +531,7 @@ class Menu_item extends Model {
 			$mprm_displayed_form_ids[$post->ID] = 1;
 		}
 		$form_id = !empty($args['form_id']) ? $args['form_id'] : 'mprm_purchase_' . $post->ID;
-		// If we've already generated a form ID for this download ID, apped -#
+		// If we've already generated a form ID for this menu_item ID, apped -#
 		if ($mprm_displayed_form_ids[$post->ID] > 1) {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
@@ -499,7 +555,7 @@ class Menu_item extends Model {
 				'is_free' => $this->is_free($args['price_id'], $post->ID),
 				'type' => $type,
 			), false);
-		return apply_filters('mprm_purchase_download_form', $purchase_form, $args);
+		return apply_filters('mprm_purchase_menu_item_form', $purchase_form, $args);
 	}
 
 	public function get_button_behavior($post_id) {
@@ -530,12 +586,12 @@ class Menu_item extends Model {
 	public function has_variable_prices($post_id) {
 		$ret = get_post_meta($post_id, '_variable_pricing', true);
 		/**
-		 * Override whether the download has variables prices.
+		 * Override whether the menu_item has variables prices.
 		 *
 		 * @since 2.3
 		 *
-		 * @param bool $ret Does download have variable prices?
-		 * @param int|string The ID of the download.
+		 * @param bool $ret Does menu_item have variable prices?
+		 * @param int|string The ID of the menu_item.
 		 */
 		return (bool)apply_filters('mprm_has_variable_prices', $ret, $post_id);
 	}
@@ -543,12 +599,12 @@ class Menu_item extends Model {
 	public function is_single_price_mode($post_id) {
 		$ret = get_post_meta($post_id, '_mprm_price_options_mode', true);
 		/**
-		 * Override the price mode for a download when checking if is in single price mode.
+		 * Override the price mode for a menu_item when checking if is in single price mode.
 		 *
 		 * @since 2.3
 		 *
-		 * @param bool $ret Is download in single price mode?
-		 * @param int|string The ID of the download.
+		 * @param bool $ret Is menu_item in single price mode?
+		 * @param int|string The ID of the menu_item.
 		 */
 		return (bool)apply_filters('mprm_single_price_option_mode', $ret, $post_id);
 	}
@@ -574,7 +630,7 @@ class Menu_item extends Model {
 		if (isset($price) && (float)$price == 0) {
 			$is_free = true;
 		}
-		return (bool)apply_filters('mprm_is_free_download', $is_free, $post->ID, $price_id);
+		return (bool)apply_filters('mprm_is_free_menu_item', $is_free, $post->ID, $price_id);
 	}
 
 	public function get_prices($post_id) {
@@ -669,5 +725,141 @@ class Menu_item extends Model {
 		}
 
 		return $this->get('formatting')->sanitize_amount($price_type);
+	}
+
+	public function increase_sales($quantity = 1) {
+
+		$sales = $this->get_menu_item_sales_stats($this->ID);
+		$quantity = absint($quantity);
+		$total_sales = $sales + $quantity;
+
+		if ($this->update_meta('_mprm_download_sales', $total_sales)) {
+
+			$this->sales = $total_sales;
+			return $this->sales;
+
+		}
+
+		return false;
+	}
+
+	function get_menu_item_sales_stats($menu_item_id = 0) {
+		if (empty($this->sales)) {
+			$this->sales = get_post_meta($this->ID, '_mprm_menu_item_sales', true);
+		}
+		return $this->sales;
+	}
+
+	public function decrease_sales($quantity = 1) {
+
+		$sales = $this->get_menu_item_sales_stats($this->ID);
+
+		// Only decrease if not already zero
+		if ($sales > 0) {
+
+			$quantity = absint($quantity);
+			$total_sales = $sales - $quantity;
+
+			if ($this->update_meta('_mprm_menu_item_sales', $total_sales)) {
+
+				$this->sales = $total_sales;
+				return $this->sales;
+
+			}
+
+		}
+
+		return false;
+
+	}
+
+	public function get_increase_earnings($menu_item_id = 0, $amount) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->increase_earnings($amount);
+	}
+
+	public function increase_earnings($amount = 0) {
+
+		$earnings = $this->earnings;
+		$new_amount = $earnings + (float)$amount;
+
+		if ($this->update_meta('_mprm_menu_item_earnings', $new_amount)) {
+
+			$this->earnings = $new_amount;
+			return $this->earnings;
+
+		}
+
+		return false;
+
+	}
+
+	function get_decrease_earnings($menu_item_id = 0, $amount) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->decrease_earnings($amount);
+	}
+
+	public function decrease_earnings($amount) {
+
+		$earnings = $this->earnings;
+		if ($earnings > 0) {
+			// Only decrease if greater than zero
+			$new_amount = $earnings - (float)$amount;
+
+			if ($this->update_meta('_mprm_download_earnings', $new_amount)) {
+				$this->earnings = $new_amount;
+				return $this->earnings;
+			}
+		}
+		return false;
+	}
+
+	function decrease_purchase_count($menu_item_id = 0, $quantity = 1) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->decrease_sales($quantity);
+	}
+
+	function get_menu_item_type($menu_item_id = 0) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->type;
+	}
+
+	function get_bundled_products($menu_item_id = 0) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->bundled_downloads;
+	}
+
+	function get_sales_stats($menu_item_id = 0) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->sales;
+	}
+
+	private function update_meta($meta_key = '', $meta_value = '') {
+
+		global $wpdb;
+
+		if (empty($meta_key) || empty($meta_value)) {
+			return false;
+		}
+
+		// Make sure if it needs to be serialized, we do
+		$meta_value = maybe_serialize($meta_value);
+
+		if (is_numeric($meta_value)) {
+			$value_type = is_float($meta_value) ? '%f' : '%d';
+		} else {
+			$value_type = "'%s'";
+		}
+
+		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = $value_type WHERE post_id = $this->ID AND meta_key = '%s'", $meta_value, $meta_key);
+
+		if ($wpdb->query($sql)) {
+
+			clean_post_cache($this->ID);
+			return true;
+
+		}
+
+		return false;
 	}
 }

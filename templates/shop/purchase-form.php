@@ -12,11 +12,11 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	do_action('mprm_purchase_form_before_register_login');
 	$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
 	if (($show_register_form === 'registration' || ($show_register_form === 'both' && !isset($_GET['login']))) && !is_user_logged_in()) : ?>
-		<div id="edd_checkout_login_register">
+		<div id="mprm_checkout_login_register">
 			<?php do_action('mprm_purchase_form_register_fields'); ?>
 		</div>
 	<?php elseif (($show_register_form === 'login' || ($show_register_form === 'both' && isset($_GET['login']))) && !is_user_logged_in()) : ?>
-		<div id="edd_checkout_login_register">
+		<div id="mprm_checkout_login_register">
 			<?php do_action('mprm_purchase_form_login_fields'); ?>
 		</div>
 	<?php endif; ?>
@@ -31,10 +31,10 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	do_action('mprm_purchase_form_before_cc_form');
 	if (models\Cart::get_instance()->get_cart_total() > 0) {
 		// Load the credit card form and allow gateways to load their own if they wish
-		if (has_action('edd_' . $payment_mode . '_cc_form')) {
-			do_action('edd_' . $payment_mode . '_cc_form');
+		if (has_action('mprm_' . $payment_mode . '_cc_form')) {
+			do_action('mprm_' . $payment_mode . '_cc_form');
 		} else {
-			do_action('edd_cc_form');
+			do_action('mprm_cc_form');
 		}
 	}
 	/**

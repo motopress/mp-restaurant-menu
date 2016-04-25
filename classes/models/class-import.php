@@ -80,11 +80,11 @@ class Import extends Core {
 	}
 
 	/**
-	 * Decide whether or not the importer should attempt to download attachment files.
+	 * Decide whether or not the importer should attempt to menu_item attachment files.
 	 * Default is true, can be filtered via import_allow_fetch_attachments. The choice
 	 * made at the import options screen must also be true, false here hides that checkbox.
 	 *
-	 * @return bool True if downloading attachments is allowed
+	 * @return bool True if menu_iteming attachments is allowed
 	 */
 	public function allow_fetch_attachments() {
 		return apply_filters('import_allow_fetch_attachments', true);
@@ -299,7 +299,7 @@ class Import extends Core {
 	}
 
 	/**
-	 * Attempt to download a remote file attachment
+	 * Attempt to menu_item a remote file attachment
 	 *
 	 * @param string $url URL of item to fetch
 	 * @param array $post Attachment details
@@ -334,7 +334,7 @@ class Import extends Core {
 		}
 		if (0 == $filesize) {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Zero size file downloaded', 'mp-restaurant-menu'));
+			return new \WP_Error('import_file_error', __('Zero size file menu_itemed', 'mp-restaurant-menu'));
 		}
 		$max_size = (int)$this->max_attachment_size();
 		if (!empty($max_size) && $filesize > $max_size) {

@@ -70,7 +70,7 @@ final class Order extends Model {
 
 	protected $cart_details = array();
 
-	protected $has_unlimited_downloads = false;
+	protected $has_unlimited_menu_items = false;
 
 	private $pending;
 
@@ -235,7 +235,7 @@ final class Order extends Model {
 
 
 	public function __set($key, $value) {
-		$ignore = array('downloads', 'cart_details', 'fees', '_ID');
+		$ignore = array('menu_items', 'cart_details', 'fees', '_ID');
 
 		if ($key === 'status') {
 			$this->old_status = $this->status;
@@ -259,7 +259,7 @@ final class Order extends Model {
 	}
 
 
-	private function setup_payment($payment_id) {
+	public function setup_payment($payment_id) {
 		$this->pending = array();
 
 		if (empty($payment_id)) {
@@ -277,7 +277,7 @@ final class Order extends Model {
 		}
 
 		// Allow extensions to perform actions before the payment is loaded
-		do_action('edd_pre_setup_payment', $this, $payment_id);
+		do_action('mprm_pre_setup_payment', $this, $payment_id);
 
 		// Primary Identifier
 		$this->ID = absint($payment_id);
@@ -303,7 +303,7 @@ final class Order extends Model {
 		// Items
 		$this->fees = $this->setup_fees();
 		$this->cart_details = $this->setup_cart_details();
-		$this->downloads = $this->setup_downloads();
+		$this->menu_items = $this->setup_menu_items();
 
 		// Currency Based
 		$this->total = $this->setup_total();
@@ -332,16 +332,16 @@ final class Order extends Model {
 		$this->number = $this->setup_payment_number();
 
 		// Additional Attributes
-		$this->has_unlimited_downloads = $this->setup_has_unlimited();
+		$this->has_unlimited_menu_items = $this->setup_has_unlimited();
 
 		// Allow extensions to add items to this object via hook
-		do_action('edd_setup_payment', $this, $payment_id);
+		do_action('mprm_setup_payment', $this, $payment_id);
 
 		return true;
 	}
 
 
-	private function insert_payment() {
+	public function insert_payment($payment_data = array()) {
 
 		// Construct the payment title
 		$payment_title = '';
@@ -374,7 +374,7 @@ final class Order extends Model {
 			'user_email' => $this->email,
 			'purchase_key' => $this->key,
 			'currency' => $this->currency,
-			'downloads' => $this->downloads,
+			'menu_items' => $this->menu_items,
 			'user_info' => array(
 				'id' => $this->user_id,
 				'email' => $this->email,
@@ -407,12 +407,12 @@ final class Order extends Model {
 
 			$customer = new \stdClass;
 
-			if (did_action('edd_pre_process_purchase') && is_user_logged_in()) {
-				$customer = new \EDD_customer(get_current_user_id(), true);
+			if (did_action('mprm_pre_process_purchase') && is_user_logged_in()) {
+				$customer = new Customer(array('field' => 'id', 'value' => get_current_user_id()));
 			}
 
 			if (empty($customer->id)) {
-				$customer = new \EDD_Customer($this->email);
+				$customer = new Customer(array('field' => 'email', 'value' => $this->email));
 			}
 
 			if (empty($customer->id)) {
@@ -429,7 +429,7 @@ final class Order extends Model {
 
 			$this->customer_id = $customer->id;
 			$this->pending['customer_id'] = $this->customer_id;
-			$customer->attach_payment($this->ID, false);
+			//$customer->attach_payment($this->ID, false);
 
 			$this->payment_meta = apply_filters('mprm_payment_meta', $this->payment_meta, $payment_data);
 			if (!empty($this->payment_meta['fees'])) {
@@ -475,8 +475,8 @@ final class Order extends Model {
 
 			foreach ($this->pending as $key => $value) {
 				switch ($key) {
-					case 'downloads':
-						// Update totals for pending downloads
+					case 'menu_items':
+						// Update totals for pending menu_items
 						foreach ($this->pending[$key] as $item) {
 
 							switch ($item['action']) {
@@ -492,14 +492,14 @@ final class Order extends Model {
 										$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : 0;
 
 										$y = 0;
-										while ($y < $item['quantity']) {
-											edd_record_sale_in_log($item['id'], $this->ID, $price_id, $log_date);
-											$y++;
-										}
+//										while ($y < $item['quantity']) {
+//											edd_record_sale_in_log($item['id'], $this->ID, $price_id, $log_date);
+//											$y++;
+//										}
 
-										$menu_item = new \EDD_Download($item['id']);
+										$menu_item = new Menu_item($item['id']);
 										$menu_item->increase_sales($item['quantity']);
-										$menu_item->increase_earnings($price);
+										$menu_item->get_increase_earnings($price);
 
 										$total_increase += $price;
 									}
@@ -507,17 +507,17 @@ final class Order extends Model {
 
 								case 'remove':
 									$log_args = array(
-										'post_type' => 'edd_log',
+										'post_type' => 'mprm_log',
 										'post_parent' => $item['id'],
 										'numberposts' => $item['quantity'],
 										'meta_query' => array(
 											array(
-												'key' => '_edd_log_payment_id',
+												'key' => '_mprm_log_payment_id',
 												'value' => $this->ID,
 												'compare' => '=',
 											),
 											array(
-												'key' => '_edd_log_price_id',
+												'key' => '_mprm_log_price_id',
 												'value' => $item['price_id'],
 												'compare' => '='
 											)
@@ -530,7 +530,7 @@ final class Order extends Model {
 									}
 
 									if ('publish' === $this->status || 'complete' === $this->status || 'revoked' === $this->status) {
-										$menu_item = new \EDD_Download($item['id']);
+										$menu_item = new Menu_item($item['id']);
 										$menu_item->decrease_sales($item['quantity']);
 										$menu_item->decrease_earnings($item['amount']);
 
@@ -646,8 +646,8 @@ final class Order extends Model {
 						$this->update_meta('_mprm_completed_date', $this->completed_date);
 						break;
 
-					case 'has_unlimited_downloads':
-						$this->update_meta('_mprm_order_unlimited_downloads', $this->has_unlimited_downloads);
+					case 'has_unlimited_menu_items':
+						$this->update_meta('_mprm_order_unlimited_menu_items', $this->has_unlimited_menu_items);
 						break;
 
 					case 'parent_payment':
@@ -667,7 +667,7 @@ final class Order extends Model {
 
 			if ('pending' !== $this->status) {
 
-				$customer = new \EDD_Customer($this->customer_id);
+				$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
 
 				$total_change = $total_increase - $total_decrease;
 				if ($total_change < 0) {
@@ -690,10 +690,10 @@ final class Order extends Model {
 			$this->update_meta('_mprm_order_total', $this->total);
 			$this->update_meta('_mprm_order_tax', $this->tax);
 
-			$this->downloads = array_values($this->downloads);
+			$this->menu_items = array_values($this->menu_items);
 
 			$new_meta = array(
-				'downloads' => $this->downloads,
+				'menu_items' => $this->menu_items,
 				'cart_details' => $this->cart_details,
 				'fees' => $this->fees,
 				'currency' => $this->currency,
@@ -724,10 +724,10 @@ final class Order extends Model {
 
 
 	public function add_menu_item($menu_item_id = 0, $args = array(), $options = array()) {
-		$menu_item = new \EDD_Download($menu_item_id);
+		$menu_item = new Menu_item($menu_item_id);
 
-		// Bail if this post isn't a download
-		if (!$menu_item || $menu_item->post_type !== 'download') {
+		// Bail if this post isn't a menu_item
+		if (!$menu_item || $menu_item->post_type !== 'menu_item') {
 			return false;
 		}
 
@@ -741,24 +741,24 @@ final class Order extends Model {
 			'fees' => array(),
 		);
 
-		$args = wp_parse_args(apply_filters('mprm_payment_add_download_args', $args, $menu_item->ID), $defaults);
+		$args = wp_parse_args(apply_filters('mprm_payment_add_menu_item_args', $args, $menu_item->get_ID()), $defaults);
 
 		// Allow overriding the price
 		if (false !== $args['item_price']) {
 			$item_price = $args['item_price'];
 		} else {
 			// Deal with variable pricing
-			if ($this->get('menu_item')->has_variable_prices($menu_item->ID)) {
-				$prices = get_post_meta($menu_item->ID, 'mprm_variable_prices', true);
+			if ($this->get('menu_item')->has_variable_prices($menu_item->get_ID())) {
+				$prices = get_post_meta($menu_item->get_ID(), 'mprm_variable_prices', true);
 
 				if ($args['price_id'] && array_key_exists($args['price_id'], (array)$prices)) {
 					$item_price = $prices[$args['price_id']]['amount'];
 				} else {
-					$item_price = $this->get('menu_item')->get_price_option($menu_item->ID, 'min');
-					$args['price_id'] = $this->get('menu_item')->get_price_option($menu_item->ID, 'max');
+					$item_price = $this->get('menu_item')->get_price_option($menu_item->get_ID(), 'min');
+					$args['price_id'] = $this->get('menu_item')->get_price_option($menu_item->get_ID(), 'max');
 				}
 			} else {
-				$item_price = $this->get('menu_item')->get_price($menu_item->ID);
+				$item_price = $this->get('menu_item')->get_price($menu_item->get_ID());
 			}
 		}
 
@@ -767,9 +767,9 @@ final class Order extends Model {
 		$quantity = $this->get('cart')->item_quantities_enabled() ? absint($args['quantity']) : 1;
 		$amount = round($item_price * $quantity, $this->get('formatting')->currency_decimal_filter());
 
-		// Setup the downloads meta item
-		$new_download = array(
-			'id' => $menu_item->ID,
+		// Setup the menu_items meta item
+		$new_menu_item = array(
+			'id' => $menu_item->get_ID(),
 			'quantity' => $quantity,
 		);
 
@@ -782,9 +782,9 @@ final class Order extends Model {
 		}
 
 		$options = wp_parse_args($options, $default_options);
-		$new_download['options'] = $options;
+		$new_menu_item['options'] = $options;
 
-		$this->downloads[] = $new_download;
+		$this->menu_items[] = $new_menu_item;
 
 		$discount = $args['discount'];
 		$subtotal = $amount;
@@ -803,14 +803,14 @@ final class Order extends Model {
 
 		// Silly item_number array
 		$item_number = array(
-			'id' => $menu_item->ID,
+			'id' => $menu_item->get_ID(),
 			'quantity' => $quantity,
 			'options' => $options,
 		);
 
 		$this->cart_details[] = array(
 			'name' => $menu_item->post_title,
-			'id' => $menu_item->ID,
+			'id' => $menu_item->get_ID(),
 			'item_number' => $item_number,
 			'item_price' => round($item_price, $this->get('formatting')->currency_decimal_filter()),
 			'quantity' => $quantity,
@@ -821,10 +821,10 @@ final class Order extends Model {
 			'price' => round($total, $this->get('formatting')->currency_decimal_filter()),
 		);
 
-		$added_download = end($this->cart_details);
-		$added_download['action'] = 'add';
+		$added_menu_item = end($this->cart_details);
+		$added_menu_item['action'] = 'add';
 
-		$this->pending['downloads'][] = $added_download;
+		$this->pending['menu_items'][] = $added_menu_item;
 		reset($this->cart_details);
 
 		$this->increase_subtotal($subtotal - $discount);
@@ -834,8 +834,7 @@ final class Order extends Model {
 
 	}
 
-
-	public function remove_download($menu_item_id, $args = array()) {
+	public function remove_menu_item($menu_item_id, $args = array()) {
 
 		// Set some defaults
 		$defaults = array(
@@ -846,14 +845,14 @@ final class Order extends Model {
 		);
 		$args = wp_parse_args($args, $defaults);
 
-		$menu_item = new \EDD_Download($menu_item_id);
+		$menu_item = new Menu_item($menu_item_id);
 
-		// Bail if this post isn't a download
-		if (!$menu_item || $menu_item->post_type !== 'download') {
+		// Bail if this post isn't a menu_item
+		if (!$menu_item || $menu_item->post_type !== 'menu_item') {
 			return false;
 		}
 
-		foreach ($this->downloads as $key => $item) {
+		foreach ($this->menu_items as $key => $item) {
 
 			if ($menu_item_id != $item['id']) {
 				continue;
@@ -872,7 +871,7 @@ final class Order extends Model {
 
 				if (!empty($cart_item)) {
 
-					// If the cart index item isn't the same download ID, don't remove it
+					// If the cart index item isn't the same menu_item ID, don't remove it
 					if ($cart_item['id'] != $item['id']) {
 						continue;
 					}
@@ -886,16 +885,16 @@ final class Order extends Model {
 
 			}
 
-			$item_quantity = $this->downloads[$key]['quantity'];
+			$item_quantity = $this->menu_items[$key]['quantity'];
 
 			if ($item_quantity > $args['quantity']) {
 
-				$this->downloads[$key]['quantity'] -= $args['quantity'];
+				$this->menu_items[$key]['quantity'] -= $args['quantity'];
 				break;
 
 			} else {
 
-				unset($this->downloads[$key]);
+				unset($this->menu_items[$key]);
 				break;
 			}
 		}
@@ -980,7 +979,7 @@ final class Order extends Model {
 		$pending_args['quantity'] = $args['quantity'];
 		$pending_args['action'] = 'remove';
 
-		$this->pending['downloads'][] = $pending_args;
+		$this->pending['menu_items'][] = $pending_args;
 
 		$this->decrease_subtotal($total_reduced);
 		$this->decrease_tax($tax_reduced);
@@ -1006,7 +1005,7 @@ final class Order extends Model {
 			'type' => 'fee',
 			'id' => '',
 			'no_tax' => false,
-			'download_id' => 0,
+			'menu_item_id' => 0,
 		);
 
 		$fee = wp_parse_args($args, $default_args);
@@ -1287,7 +1286,7 @@ final class Order extends Model {
 
 		} else if ($meta_key == 'email' || $meta_key == '_mprm_order_user_email') {
 
-			$meta_value = apply_filters('mprm_edd_update_payment_meta_' . $meta_key, $meta_value, $this->ID);
+			$meta_value = apply_filters('mprm_mprm_update_payment_meta_' . $meta_key, $meta_value, $this->ID);
 			update_post_meta($this->ID, '_mprm_order_user_email', $meta_value);
 
 			$current_meta = $this->get_meta();
@@ -1347,7 +1346,8 @@ final class Order extends Model {
 		}
 
 		foreach ($discounts as $discount) {
-			edd_decrease_discount_usage($discount);
+
+			$this->get('discount')->decrease_discount_usage($discount);
 		}
 
 	}
@@ -1395,7 +1395,7 @@ final class Order extends Model {
 		// Decrement the stats for the customer
 		if (!empty($this->customer_id)) {
 
-			$customer = new \EDD_Customer($this->customer_id);
+			$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
 
 			if (true === $alter_customer_value) {
 				$customer->decrease_value($this->total);
@@ -1411,15 +1411,15 @@ final class Order extends Model {
 
 
 	private function delete_sales_logs() {
-		global $edd_logs;
+		global $mprm_logs;
 
 		// Remove related sale log entries
-		$edd_logs->delete_logs(
+		$mprm_logs->delete_logs(
 			null,
 			'sale',
 			array(
 				array(
-					'key' => '_edd_log_payment_id',
+					'key' => '_mprm_log_payment_id',
 					'value' => $this->ID,
 				),
 			)
@@ -1598,7 +1598,7 @@ final class Order extends Model {
 
 		if (empty($user_info)) {
 			// Get the customer, but only if it's been created
-			$customer = new \EDD_Customer($this->customer_id);
+			$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
 
 			if ($customer->id > 0) {
 				$name = explode(' ', $customer->name, 2);
@@ -1611,7 +1611,7 @@ final class Order extends Model {
 			}
 		} else {
 			// Get the customer, but only if it's been created
-			$customer = new \EDD_Customer($this->customer_id);
+			$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
 			if ($customer->id > 0) {
 				foreach ($user_info as $key => $value) {
 					if (!empty($value)) {
@@ -1681,14 +1681,14 @@ final class Order extends Model {
 	}
 
 
-	private function setup_downloads() {
-		$menu_items = isset($this->payment_meta['downloads']) ? maybe_unserialize($this->payment_meta['downloads']) : array();
+	private function setup_menu_items() {
+		$menu_items = isset($this->payment_meta['menu_items']) ? maybe_unserialize($this->payment_meta['menu_items']) : array();
 		return $menu_items;
 	}
 
 
 	private function setup_has_unlimited() {
-		$unlimited = (bool)$this->get_meta('_mprm_order_unlimited_downloads', true);
+		$unlimited = (bool)$this->get_meta('_mprm_order_unlimited_menu_items', true);
 		return $unlimited;
 	}
 
@@ -1777,12 +1777,12 @@ final class Order extends Model {
 		return apply_filters('mprm_payment_number', $this->number, $this->ID, $this);
 	}
 
-	private function get_downloads() {
-		return apply_filters('mprm_payment_meta_downloads', $this->downloads, $this->ID, $this);
+	private function get_menu_items() {
+		return apply_filters('mprm_payment_meta_menu_items', $this->menu_items, $this->ID, $this);
 	}
 
 
 	private function get_unlimited() {
-		return apply_filters('mprm_payment_unlimited_downloads', $this->unlimited, $this->ID, $this);
+		return apply_filters('mprm_payment_unlimited_menu_items', $this->unlimited, $this->ID, $this);
 	}
 }

@@ -14,6 +14,25 @@ class Checkout extends Model {
 	}
 
 	public function is_checkout() {
+		global $wp_query;
+
+		$is_object_set = isset($wp_query->queried_object);
+		$is_object_id_set = isset($wp_query->queried_object_id);
+		$is_checkout = is_page($this->get('settings')->get_option('purchase_page'));
+
+		if (!$is_object_set) {
+
+			unset($wp_query->queried_object);
+
+		}
+
+		if (!$is_object_id_set) {
+
+			unset($wp_query->queried_object_id);
+
+		}
+
+		return apply_filters('edd_is_checkout', $is_checkout);
 	}
 
 	public function can_checkout() {
@@ -22,12 +41,28 @@ class Checkout extends Model {
 	}
 
 	public function get_success_page_uri() {
+		$page_id = $this->get('settings')->get_option('success_page', 0);
+		$page_id = absint($page_id);
+
+		return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 	}
 
 	public function is_success_page() {
+		$is_success_page = $this->get('settings')->get_option('success_page', false);
+		$is_success_page = isset($is_success_page) ? is_page($is_success_page) : false;
+
+		return apply_filters('mprm_is_success_page', $is_success_page);
 	}
 
-	public function send_to_success_page() {
+	public function send_to_success_page($query_string = null) {
+		$redirect = $this->get_success_page_uri();
+
+		if ($query_string)
+			$redirect .= $query_string;
+
+		$gateway = isset($_REQUEST['mprm-gateway']) ? $_REQUEST['mprm-gateway'] : '';
+
+		wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
 	}
 
 	public function get_checkout_uri() {
@@ -67,16 +102,47 @@ class Checkout extends Model {
 		wp_redirect(apply_filters('mprm_send_back_to_checkout', $redirect, $args));
 	}
 
-	public function get_success_page_url() {
+	public function get_success_page_url($query_string = null) {
+		$success_page = $this->get('settings')->get_option('success_page', 0);
+		$success_page = get_permalink($success_page);
+
+		if ($query_string)
+			$success_page .= $query_string;
+
+		return apply_filters('mprm_success_page_url', $success_page);
 	}
 
-	public function get_failed_transaction_uri() {
+	public function get_failed_transaction_uri($extras = false) {
+		$uri = $this->get('settings')->get_option('failure_page', '');
+		$uri = !empty($uri) ? trailingslashit(get_permalink($uri)) : home_url();
+
+		if ($extras)
+			$uri .= $extras;
+
+		return apply_filters('mprm_get_failed_transaction_uri', $uri);
 	}
 
 	public function is_failed_transaction_page() {
+		$ret = $this->get('settings')->get_option('failure_page', false);
+		$ret = isset($ret) ? is_page($ret) : false;
+
+		return apply_filters('mprm_is_failure_page', $ret);
 	}
 
 	public function listen_for_failed_payments() {
+		$failed_page = $this->get('settings')->get_option('failure_page', 0);
+
+		if (!empty($failed_page) && is_page($failed_page) && !empty($_GET['payment-id'])) {
+
+			$payment_id = absint($_GET['payment-id']);
+			$payment = get_post($payment_id);
+			$status = $this->get('payments')->get_payment_status($payment);
+
+			if ($status && 'pending' === strtolower($status)) {
+
+				$this->get('payments')->update_payment_status($payment_id, 'failed');
+			}
+		}
 	}
 
 	public function validate_card_number_format($number = 0) {
@@ -87,7 +153,6 @@ class Checkout extends Model {
 		if (!is_numeric($number)) {
 			return false;
 		}
-		$is_valid_format = false;
 		// First check if it passes with the passed method, Luhn by default
 		$is_valid_format = $this->validate_card_number_format_luhn($number);
 		// Run additional checks before we start the regexing and looping by type
@@ -144,7 +209,7 @@ class Checkout extends Model {
 	 *
 	 * @return string|bool
 	 */
-	function detect_cc_type($number) {
+	public function detect_cc_type($number) {
 		$return = false;
 		$card_types = array(
 			array(
@@ -224,18 +289,18 @@ class Checkout extends Model {
 	 *
 	 * @return bool
 	 */
-	function purchase_form_validate_cc_exp_date($exp_month, $exp_year) {
+	public function purchase_form_validate_cc_exp_date($exp_month, $exp_year) {
 		$month_name = date('M', mktime(0, 0, 0, $exp_month, 10));
 		$expiration = strtotime(date('t', strtotime($month_name . ' ' . $exp_year)) . ' ' . $month_name . ' ' . $exp_year . ' 11:59:59PM');
 		return $expiration >= time();
 	}
 
-	function straight_to_checkout() {
+	public function straight_to_checkout() {
 		$ret = $this->get('settings')->get_option('redirect_on_add', false);
 		return (bool)apply_filters('mprm_straight_to_checkout', $ret);
 	}
 
-	function enforced_ssl_asset_filter($content) {
+	public function enforced_ssl_asset_filter($content) {
 		if (is_array($content)) {
 			$content = array_map(array($this, 'enforced_ssl_asset_filter'), $content);
 		} else {
@@ -249,18 +314,18 @@ class Checkout extends Model {
 		return $content;
 	}
 
-	function is_purchase_history_page() {
+	public function is_purchase_history_page() {
 		$ret = $this->get('settings')->get_option('purchase_history_page', false);
 		$ret = $ret ? is_page($ret) : false;
 		return apply_filters('mprm_is_purchase_history_page', $ret);
 	}
 
-	function field_is_required($field = '') {
+	public function field_is_required($field = '') {
 		$required_fields = $this->purchase_form_required_fields();
 		return array_key_exists($field, $required_fields);
 	}
 
-	function purchase_form_required_fields() {
+	public function purchase_form_required_fields() {
 		$required_fields = array(
 			'mprm_email' => array(
 				'error_id' => 'invalid_email',

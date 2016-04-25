@@ -21,7 +21,7 @@ class Manual_payment extends Model {
 		* Purchase data comes in like this
 		*
 		$purchase_data = array(
-			'downloads' => array of download IDs,
+			'menu_items' => array of menu_item IDs,
 			'price' => total price of cart contents,
 			'purchase_key' =>  // Random key
 			'user_email' => $user_email,
@@ -39,14 +39,14 @@ class Manual_payment extends Model {
 			'user_email' => $purchase_data['user_email'],
 			'purchase_key' => $purchase_data['purchase_key'],
 			'currency' => $this->get('settings')->get_currency(),
-			'downloads' => $purchase_data['downloads'],
+			'menu_items' => $purchase_data['menu_items'],
 			'user_info' => $purchase_data['user_info'],
 			'cart_details' => $purchase_data['cart_details'],
 			'status' => 'pending'
 		);
 
 		// Record the pending payment
-		$payment = $this->get('payments')->insert_payment($payment_data);
+		$payment = $this->get('order')->insert_payment($payment_data);
 
 		if ($payment) {
 			$this->get('payments')->update_payment_status($payment, 'publish');

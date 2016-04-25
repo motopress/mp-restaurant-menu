@@ -307,7 +307,7 @@ class Export extends Core {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string $wp_filename The name of the file for download.
+		 * @param string $wp_filename The name of the file for menu_item.
 		 * @param string $sitename The site name.
 		 * @param string $date Today's date, formatted.
 		 */

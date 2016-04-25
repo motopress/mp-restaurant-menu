@@ -45,7 +45,7 @@ class Fees extends Model {
 			}
 		}
 		if (!empty($fees)) {
-			// Remove fees that belong to a specific download but are not in the cart
+			// Remove fees that belong to a specific menu_item but are not in the cart
 			foreach ($fees as $key => $fee) {
 				if (empty($fee['menu_item_id'])) {
 					continue;
@@ -58,8 +58,8 @@ class Fees extends Model {
 		return !empty($fees) ? $fees : array();
 	}
 
-	public function total($download_id = 0) {
-		$fees = $this->get_fees('all', $download_id);
+	public function total($menu_item_id = 0) {
+		$fees = $this->get_fees('all', $menu_item_id);
 		$total = (float)0.00;
 		if ($this->has_fees('all')) {
 			foreach ($fees as $fee) {

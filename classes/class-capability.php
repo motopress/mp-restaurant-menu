@@ -182,11 +182,11 @@ class Capabilities extends Core {
 				if (empty($args[0])) {
 					break;
 				}
-				$download = get_post($args[0]);
-				if (empty($download)) {
+				$menu_item = get_post($args[0]);
+				if (empty($menu_item)) {
 					break;
 				}
-				if (user_can($user_id, 'view_shop_reports') || $user_id == $download->post_author) {
+				if (user_can($user_id, 'view_shop_reports') || $user_id == $menu_item->post_author) {
 					$caps = array();
 				}
 				break;

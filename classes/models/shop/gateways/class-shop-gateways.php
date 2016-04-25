@@ -103,7 +103,7 @@ class Gateways extends Model {
 			foreach ($gateways as $gateway_id => $gateway):
 				$enabled_gateway = $gateway_id;
 				if ($this->get('cart')->get_cart_subtotal() <= 0) {
-					$enabled_gateway = 'manual'; // This allows a free download by filling in the info
+					$enabled_gateway = 'manual'; // This allows a free menu_item by filling in the info
 				}
 			endforeach;
 		} else if ($this->get('cart')->get_cart_subtotal() <= 0) {
@@ -134,38 +134,39 @@ class Gateways extends Model {
 		// $gateway must match the ID used when registering the gateway
 		do_action('mprm_gateway_' . $gateway, $payment_data);
 	}
-	function build_straight_to_gateway_data( $download_id = 0, $options = array(), $quantity = 1 ) {
+
+	function build_straight_to_gateway_data($menu_item_id = 0, $options = array(), $quantity = 1) {
 
 		$price_options = array();
 
-		if( empty( $options ) || ! edd_has_variable_prices( $download_id ) ) {
-			$price = edd_get_download_price( $download_id );
+		if (empty($options) || !$this->get('menu_item')->has_variable_prices($menu_item_id)) {
+			$price = $this->get('menu_item')->get_price($menu_item_id);
 		} else {
 
-			if( is_array( $options['price_id'] ) ) {
+			if (is_array($options['price_id'])) {
 				$price_id = $options['price_id'][0];
 			} else {
 				$price_id = $options['price_id'];
 			}
 
-			$prices = edd_get_variable_prices( $download_id );
+			$prices = $this->get('menu_item')->get_variable_prices($menu_item_id);
 
 			// Make sure a valid price ID was supplied
-			if( ! isset( $prices[ $price_id ] ) ) {
-				wp_die( __( 'The requested price ID does not exist.', 'mp-restaurant-menu' ), __( 'Error', 'mp-restaurant-menu' ), array( 'response' => 404 ) );
+			if (!isset($prices[$price_id])) {
+				wp_die(__('The requested price ID does not exist.', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 404));
 			}
 
 			$price_options = array(
 				'price_id' => $price_id,
-				'amount'   => $prices[ $price_id ]['amount']
+				'amount' => $prices[$price_id]['amount']
 			);
-			$price  = $prices[ $price_id ]['amount'];
+			$price = $prices[$price_id]['amount'];
 		}
 
 		// Set up Downloads array
-		$downloads = array(
+		$menu_items = array(
 			array(
-				'id'      => $download_id,
+				'id' => $menu_item_id,
 				'options' => $price_options
 			)
 		);
@@ -173,56 +174,56 @@ class Gateways extends Model {
 		// Set up Cart Details array
 		$cart_details = array(
 			array(
-				'name'        => get_the_title( $download_id ),
-				'id'          => $download_id,
+				'name' => get_the_title($menu_item_id),
+				'id' => $menu_item_id,
 				'item_number' => array(
-					'id'      => $download_id,
+					'id' => $menu_item_id,
 					'options' => $price_options
 				),
-				'tax'         => 0,
-				'discount'    => 0,
-				'item_price'  => $price,
-				'subtotal'    => ( $price * $quantity ),
-				'price'       => ( $price * $quantity ),
-				'quantity'    => $quantity,
+				'tax' => 0,
+				'discount' => 0,
+				'item_price' => $price,
+				'subtotal' => ($price * $quantity),
+				'price' => ($price * $quantity),
+				'quantity' => $quantity,
 			)
 		);
 
-		if( is_user_logged_in() ) {
+		if (is_user_logged_in()) {
 			$current_user = wp_get_current_user();
 		}
 
 
 		// Setup user information
 		$user_info = array(
-			'id'         => is_user_logged_in() ? get_current_user_id()         : -1,
-			'email'      => is_user_logged_in() ? $current_user->user_email     : '',
+			'id' => is_user_logged_in() ? get_current_user_id() : -1,
+			'email' => is_user_logged_in() ? $current_user->user_email : '',
 			'first_name' => is_user_logged_in() ? $current_user->user_firstname : '',
-			'last_name'  => is_user_logged_in() ? $current_user->user_lastname  : '',
-			'discount'   => 'none',
-			'address'    => array()
+			'last_name' => is_user_logged_in() ? $current_user->user_lastname : '',
+			'discount' => 'none',
+			'address' => array()
 		);
 
 		// Setup purchase information
 		$purchase_data = array(
-			'downloads'    => $downloads,
-			'fees'         => edd_get_cart_fees(),
-			'subtotal'     => $price * $quantity,
-			'discount'     => 0,
-			'tax'          => 0,
-			'price'        => $price * $quantity,
-			'purchase_key' => strtolower( md5( uniqid() ) ),
-			'user_email'   => $user_info['email'],
-			'date'         => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ),
-			'user_info'    => $user_info,
-			'post_data'    => array(),
+			'menu_items' => $menu_items,
+			'fees' => $this->get('cart')->get_cart_fees(),
+			'subtotal' => $price * $quantity,
+			'discount' => 0,
+			'tax' => 0,
+			'price' => $price * $quantity,
+			'purchase_key' => strtolower(md5(uniqid())),
+			'user_email' => $user_info['email'],
+			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
+			'user_info' => $user_info,
+			'post_data' => array(),
 			'cart_details' => $cart_details,
-			'gateway'      => 'paypal',
-			'buy_now'      => true,
-			'card_info'    => array()
+			'gateway' => 'paypal',
+			'buy_now' => true,
+			'card_info' => array()
 		);
 
-		return apply_filters( 'edd_straight_to_gateway_purchase_data', $purchase_data );
+		return apply_filters('mprm_straight_to_gateway_purchase_data', $purchase_data);
 
 	}
 }

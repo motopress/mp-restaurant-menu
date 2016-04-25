@@ -534,7 +534,7 @@ class Media extends Core {
 						'purchase_page' => array(
 							'id' => 'purchase_page',
 							'name' => __('Checkout Page', 'mp-restaurant-menu'),
-							'desc' => __('This is the checkout page where buyers will complete their purchases. The [download_checkout] short code must be on this page.', 'mp-restaurant-menu'),
+							'desc' => __('This is the checkout page where buyers will complete their purchases. The [menu_item_checkout] short code must be on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -561,7 +561,7 @@ class Media extends Core {
 						'purchase_history_page' => array(
 							'id' => 'purchase_history_page',
 							'name' => __('Purchase History Page', 'mp-restaurant-menu'),
-							'desc' => __('This page shows a complete purchase history for the current user, including download links', 'mp-restaurant-menu'),
+							'desc' => __('This page shows a complete purchase history for the current user, including menu_item links', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -797,7 +797,7 @@ class Media extends Core {
 							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
 							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' /*. mprm_get_emails_tags_list()*/,
 							'type' => 'rich_editor',
-							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n\n" . __("Thank you for your purchase. Please click on the link(s) below to download your files.", "mp-restaurant-menu") . "\n\n{download_list}\n\n{sitename}",
+							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n\n" . __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n\n{menu_item_list}\n\n{sitename}",
 						),
 					),
 					'sale_notifications' => array(
@@ -811,7 +811,7 @@ class Media extends Core {
 							'name' => __('Sale Notification Subject', 'mp-restaurant-menu'),
 							'desc' => __('Enter the subject line for the sale notification email', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => 'New download purchase - Order #{payment_id}',
+							'std' => 'New menu_item purchase - Order #{payment_id}',
 						),
 						'sale_notification' => array(
 							'id' => 'sale_notification',
@@ -1047,48 +1047,48 @@ class Media extends Core {
 							'std' => __('Buy Now', 'mp-restaurant-menu'),
 						),
 					),
-					'file_downloads' => array(
+					'file_menu_items' => array(
 						'file_settings' => array(
 							'id' => 'file_settings',
 							'name' => '<h3>' . __('File Download Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
-						'download_method' => array(
-							'id' => 'download_method',
+						'menu_item_method' => array(
+							'id' => 'menu_item_method',
 							'name' => __('Download Method', 'mp-restaurant-menu'),
-							'desc' => sprintf(__('Select the file download method. Note, not all methods work on all servers.', 'mp-restaurant-menu'), $this->get_label_singular()),
+							'desc' => sprintf(__('Select the file menu_item method. Note, not all methods work on all servers.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'select',
 							'options' => array(
 								'direct' => __('Forced', 'mp-restaurant-menu'),
 								'redirect' => __('Redirect', 'mp-restaurant-menu'),
 							),
 						),
-						'symlink_file_downloads' => array(
-							'id' => 'symlink_file_downloads',
+						'symlink_file_menu_items' => array(
+							'id' => 'symlink_file_menu_items',
 							'name' => __('Symlink File Downloads?', 'mp-restaurant-menu'),
-							'desc' => __('Check this if you are delivering really large files or having problems with file downloads completing.', 'mp-restaurant-menu'),
+							'desc' => __('Check this if you are delivering really large files or having problems with file menu_items completing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
-						'file_download_limit' => array(
-							'id' => 'file_download_limit',
+						'file_menu_item_limit' => array(
+							'id' => 'file_menu_item_limit',
 							'name' => __('File Download Limit', 'mp-restaurant-menu'),
-							'desc' => sprintf(__('The maximum number of times files can be downloaded for purchases. Can be overwritten for each %s.', 'mp-restaurant-menu'), $this->get_label_singular()),
+							'desc' => sprintf(__('The maximum number of times files can be menu_itemed for purchases. Can be overwritten for each %s.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'number',
 							'size' => 'small',
 						),
-						'download_link_expiration' => array(
-							'id' => 'download_link_expiration',
+						'menu_item_link_expiration' => array(
+							'id' => 'menu_item_link_expiration',
 							'name' => __('Download Link Expiration', 'mp-restaurant-menu'),
-							'desc' => __('How long should download links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'mp-restaurant-menu'),
+							'desc' => __('How long should menu_item links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'mp-restaurant-menu'),
 							'type' => 'number',
 							'size' => 'small',
 							'std' => '24',
 							'min' => '0',
 						),
-						'disable_redownload' => array(
-							'id' => 'disable_redownload',
-							'name' => __('Disable Redownload?', 'mp-restaurant-menu'),
-							'desc' => __('Check this if you do not want to allow users to redownload items from their purchase history.', 'mp-restaurant-menu'),
+						'disable_remenu_item' => array(
+							'id' => 'disable_remenu_item',
+							'name' => __('Disable Remenu_item?', 'mp-restaurant-menu'),
+							'desc' => __('Check this if you do not want to allow users to remenu_item items from their purchase history.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -1215,7 +1215,7 @@ class Media extends Core {
 				'main' => __('Misc Settings', 'mp-restaurant-menu'),
 				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
 				'button_text' => __('Button Text', 'mp-restaurant-menu'),
-				'file_downloads' => __('File Downloads', 'mp-restaurant-menu'),
+				'file_menu_items' => __('File Downloads', 'mp-restaurant-menu'),
 				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
@@ -1314,7 +1314,7 @@ class Media extends Core {
 			'singular' => __('Download', 'mp-restaurant-menu'),
 			'plural' => __('Downloads', 'mp-restaurant-menu')
 		);
-		return apply_filters('mprm_default_downloads_name', $defaults);
+		return apply_filters('mprm_default_menu_items_name', $defaults);
 	}
 
 	public function get_settings_tabs() {

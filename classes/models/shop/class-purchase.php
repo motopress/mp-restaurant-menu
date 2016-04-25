@@ -67,13 +67,13 @@ class Purchase extends Model {
 
 		// Setup purchase information
 		$purchase_data = array(
-			'downloads' => $this->get('cart')->get_cart_contents(),
+			'menu_items' => $this->get('cart')->get_cart_contents(),
 			'fees' => $this->get('cart')->get_cart_fees(),        // Any arbitrary fees that have been added to the cart
 			'subtotal' => $this->get('cart')->get_cart_subtotal(),    // Amount before taxes and discounts
 			'discount' => $this->get('cart')->get_cart_discounted_amount(), // Discounted amount
 			'tax' => $this->get('cart')->get_cart_tax(),               // Taxed amount
 			'price' => $this->get('cart')->get_cart_total(),    // Amount after taxes
-			'purchase_key' => strtolower(md5($user['user_email'] . date('Y-m-d H:i:s') . $auth_key . uniqid('edd', true))),  // Unique key
+			'purchase_key' => strtolower(md5($user['user_email'] . date('Y-m-d H:i:s') . $auth_key . uniqid('mprm', true))),  // Unique key
 			'user_email' => $user['user_email'],
 			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
 			'user_info' => stripslashes_deep($user_info),
@@ -87,9 +87,9 @@ class Purchase extends Model {
 		$valid_data['user'] = $user;
 
 		// Allow themes and plugins to hook before the gateway
-		do_action('edd_checkout_before_gateway', $_POST, $user_info, $valid_data);
+		do_action('mprm_checkout_before_gateway', $_POST, $user_info, $valid_data);
 
-		// If the total amount in the cart is 0, send to the manual gateway. This emulates a free download purchase
+		// If the total amount in the cart is 0, send to the manual gateway. This emulates a free menu_item purchase
 		if (!$purchase_data['price']) {
 			// Revert to manual
 			$purchase_data['gateway'] = 'manual';
@@ -105,7 +105,7 @@ class Purchase extends Model {
 		// Make sure credit card numbers are never stored in sessions
 		unset($session_data['card_info']['card_number']);
 
-		// Used for showing download links to non logged-in users after purchase, and for other plugins needing purchase data.
+		// Used for showing menu_item links to non logged-in users after purchase, and for other plugins needing purchase data.
 		$this->get('session')->set('mptm_purchase', $purchase_data);
 
 		// Send info to the gateway for payment processing
@@ -129,7 +129,7 @@ class Purchase extends Model {
 			}
 		}
 
-		edd_log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
+		//edd_log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
 
 		if ($is_ajax) {
 			echo 'success';
@@ -239,8 +239,8 @@ class Purchase extends Model {
 			$posted_discount = isset($_POST['mprm-discount']) ? trim($_POST['mprm-discount']) : false;
 
 			// Add the posted discount to the discounts
-			if ($posted_discount && (empty($discounts) || edd_multiple_discounts_allowed()) && edd_is_discount_valid($posted_discount, $user)) {
-				edd_set_cart_discount($posted_discount);
+			if ($posted_discount && (empty($discounts) || $this->get('discount')->multiple_discounts_allowed()) && $this->get('discount')->is_discount_valid($posted_discount, $user)) {
+				$this->get('discount')->set_cart_discount($posted_discount);
 			}
 
 		}
@@ -250,7 +250,7 @@ class Purchase extends Model {
 
 			foreach ($discounts as $discount) {
 				// Check if valid
-				if (!edd_is_discount_valid($discount, $user)) {
+				if (!$this->get('discount')->is_discount_valid($discount, $user)) {
 					// Discount is not valid
 					$error = true;
 				}
@@ -522,7 +522,7 @@ class Purchase extends Model {
 		);
 
 		// Show error message if user must be logged in
-		if (edd_logged_in_only()) {
+		if ($this->get('settings')->logged_in_only()) {
 			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
 		}
 
@@ -619,7 +619,7 @@ class Purchase extends Model {
 				// Set user
 				$user = $valid_data['login_user_data'];
 				// Login user
-				edd_log_user_in($user['user_id'], $user['user_login'], $user['user_pass']);
+				$this->get('customer')->log_user_in($user['user_id'], $user['user_login'], $user['user_pass']);
 			}
 		}
 
@@ -659,7 +659,7 @@ class Purchase extends Model {
 
 		if (!empty($user['user_id']) && $user['user_id'] > 0 && !empty($user['address'])) {
 			// Store the address in the user's meta so the cart can be pre-populated with it on return purchases
-			update_user_meta($user['user_id'], '_edd_user_address', $user['address']);
+			update_user_meta($user['user_id'], '_mprm_user_address', $user['address']);
 		}
 
 		// Return valid user
@@ -898,7 +898,7 @@ class Purchase extends Model {
 		} elseif (isset($posted['mprm-purchase-var']) && $posted['mprm-purchase-var'] == 'needs-to-login') {
 
 			// The user is logging in, check that their email is not banned
-			$user_data = get_user_by('login', $posted['edd_user_login']);
+			$user_data = get_user_by('login', $posted['mprm_user_login']);
 			if ($user_data && $this->get('emails')->is_email_banned($user_data->user_email)) {
 				$is_banned = true;
 			}
@@ -923,7 +923,7 @@ class Purchase extends Model {
 
 		$menu_item_id = $data['menu_item_id'];
 		$options = isset($data['mprm_options']) ? $data['mprm_options'] : array();
-		$quantity = isset($data['mprm_download_quantity']) ? $data['mprm_download_quantity'] : 1;
+		$quantity = isset($data['mprm_menu_item_quantity']) ? $data['mprm_menu_item_quantity'] : 1;
 
 		if (empty($menu_item_id) || !$this->get('menu_item')->get_menu_item($menu_item_id)) {
 			return;
@@ -942,6 +942,7 @@ class Purchase extends Model {
 		add_action('mprm_checkout_error_checks', array($this, 'check_purchase_email', 10, 2));
 		add_action('wp_ajax_mprm_process_checkout_login', array($this, 'process_purchase_login'));
 		add_action('wp_ajax_nopriv_mprm_process_checkout_login', array($this, 'process_purchase_login'));
+		add_action('mprm_checkout_before_gateway', array($this, 'mprm_checkout_before_gateway'), 10, 3);
 	}
 
 }

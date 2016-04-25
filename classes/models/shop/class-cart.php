@@ -62,6 +62,16 @@ class Cart extends Model {
 	}
 
 	public function get_cart_quantity() {
+		$total_quantity = 0;
+		$cart = $this->get_cart_contents();
+
+		if (!empty($cart)) {
+			$quantities = wp_list_pluck($cart, 'quantity');
+			$total_quantity = absint(array_sum($quantities));
+		}
+
+
+		return apply_filters('mprm_get_cart_quantity', $total_quantity, $cart);
 	}
 
 	public function add_to_cart($item_id, $options = array()) {
@@ -75,7 +85,7 @@ class Cart extends Model {
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
 		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
 		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
-			// Forces to the first price ID if none is specified and download has variable prices
+			// Forces to the first price ID if none is specified and menu_item has variable prices
 			$options['price_id'] = '0';
 		}
 		if (isset($options['quantity'])) {
@@ -186,9 +196,6 @@ class Cart extends Model {
 		return $cart; // The updated cart items
 	}
 
-	public function check_item_in_cart() {
-	}
-
 	public function item_in_cart($post_id, $options) {
 		$cart_items = $this->get_cart_contents();
 		$ret = false;
@@ -217,22 +224,60 @@ class Cart extends Model {
 	}
 
 	public function save_cart() {
+		if ($this->is_cart_saving_disabled())
+			return false;
+
+		$user_id = get_current_user_id();
+		$cart = $this->get('session')->get_session_by_key('mprm_cart');
+		$token = $this->generate_cart_token();
+		if (is_user_logged_in()) {
+
+			update_user_meta($user_id, 'mprm_saved_cart', $cart, false);
+			update_user_meta($user_id, 'mprm_cart_token', $token, false);
+
+		} else {
+
+			$cart = json_encode($cart);
+
+			setcookie('mprm_saved_cart', $cart, time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN);
+			setcookie('mprm_cart_token', $token, time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN);
+
+		}
+
+		$messages = $this->get('session')->get_session_by_key('mprm_cart_messages');
+
+		if (!$messages)
+			$messages = array();
+
+		$messages['mprm_cart_save_successful'] = sprintf(
+			'<strong>%1$s</strong>: %2$s',
+			__('Success', 'mp-restaurant-menu'),
+			__('Cart saved successfully. You can restore your cart using this URL:', 'mp-restaurant-menu') . ' ' . '<a href="' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '">' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '</a>'
+		);
+
+		$this->get('session')->set('mprm_cart_messages', $messages);
+
+		if ($cart) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function empty_cart() {
 		$this->get('session')->set('mprm_cart', NULL);
-
 		$this->get('session')->set('mprm_cart_fees', NULL);
-
-		edd_unset_all_cart_discounts();
+		$this->get('discount')->unset_all_cart_discounts();
 
 		do_action('mprm_empty_cart');
 	}
 
 	public function set_purchase_session($purchase_data = array()) {
+		return $this->get('session')->set('mprm_purchase', $purchase_data);
 	}
 
 	public function get_purchase_session() {
+		return $this->get('session')->get_session_by_key('mprm_purchase');
 	}
 
 	public function get_cart_token() {
@@ -268,6 +313,41 @@ class Cart extends Model {
 	}
 
 	public function delete_saved_carts() {
+		global $wpdb;
+
+		$start = date('Y-m-d', strtotime('-7 days'));
+		$carts = $wpdb->get_results(
+			"
+		SELECT user_id, meta_key, FROM_UNIXTIME(meta_value, '%Y-%m-%d') AS date
+		FROM {$wpdb->usermeta}
+		WHERE meta_key = 'mprm_cart_token'
+		", ARRAY_A
+		);
+
+		if ($carts) {
+			foreach ($carts as $cart) {
+				$user_id = $cart['user_id'];
+				$meta_value = $cart['date'];
+
+				if (strtotime($meta_value) < strtotime('-1 week')) {
+					$wpdb->delete(
+						$wpdb->usermeta,
+						array(
+							'user_id' => $user_id,
+							'meta_key' => 'mprm_cart_token'
+						)
+					);
+
+					$wpdb->delete(
+						$wpdb->usermeta,
+						array(
+							'user_id' => $user_id,
+							'meta_key' => 'mprm_saved_cart'
+						)
+					);
+				}
+			}
+		}
 	}
 
 	public function generate_cart_token() {
@@ -326,7 +406,7 @@ class Cart extends Model {
 		return (float)apply_filters('mprm_get_cart_total', $total);
 	}
 
-	function get_cart_discounted_amount($discounts = false) {
+	public function get_cart_discounted_amount($discounts = false) {
 		$amount = 0.00;
 		$items = $this->get_cart_content_details();
 		if ($items) {
@@ -339,7 +419,7 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_discounted_amount', $amount);
 	}
 
-	function get_cart_tax() {
+	public function get_cart_tax() {
 		$cart_tax = 0;
 		$items = $this->get_cart_content_details();
 		if ($items) {
@@ -352,12 +432,12 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_tax', $this->get('formatting')->sanitize_amount($cart_tax));
 	}
 
-	function is_cart_saving_disabled() {
+	public function is_cart_saving_disabled() {
 		$ret = $this->get('settings')->get_option('enable_cart_saving', false);
 		return apply_filters('mprm_cart_saving_disabled', !$ret);
 	}
 
-	function get_cart_item_name($item = array()) {
+	public function get_cart_item_name($item = array()) {
 		$item_title = get_the_title($item['id']);
 		if (empty($item_title)) {
 			$item_title = $item['id'];
@@ -368,7 +448,7 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_item_name', $item_title, $item['id'], $item);
 	}
 
-	function cart_item_price($item_id = 0, $options = array()) {
+	public function cart_item_price($item_id = 0, $options = array()) {
 		$price = $this->get_cart_item_price($item_id, $options);
 		$label = '';
 		$price_id = isset($options['price_id']) ? $options['price_id'] : false;
@@ -393,7 +473,7 @@ class Cart extends Model {
 		return apply_filters('mprm_cart_item_price_label', $price . $label, $item_id, $options);
 	}
 
-	function get_cart_item_quantity($menu_item_id = 0, $options = array()) {
+	public function get_cart_item_quantity($menu_item_id = 0, $options = array()) {
 		$cart = $this->get_cart_contents();
 		$key = $this->get_item_position_in_cart($menu_item_id, $options);
 		$quantity = isset($cart[$key]['quantity']) && $this->item_quantities_enabled() ? $cart[$key]['quantity'] : 1;
@@ -402,7 +482,7 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_item_quantity', $quantity, $menu_item_id, $options);
 	}
 
-	function remove_item_url($cart_key) {
+	public function remove_item_url($cart_key) {
 		global $wp_query;
 		if (defined('DOING_AJAX')) {
 			$current_page = $this->get('checkout')->get_checkout_uri();
@@ -413,7 +493,7 @@ class Cart extends Model {
 		return apply_filters('mprm_remove_item_url', $remove_url);
 	}
 
-	function get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
+	public function get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
 		$price = 0;
 		$variable_prices = $this->get('menu_item')->has_variable_prices($menu_item_id);
 		if ($variable_prices) {
@@ -436,11 +516,11 @@ class Cart extends Model {
 		return apply_filters('mprm_cart_item_price', $price, $menu_item_id, $options);
 	}
 
-	function get_cart_fees($type = 'all', $menu_item_id = 0) {
+	public function get_cart_fees($type = 'all', $menu_item_id = 0) {
 		return $this->get('fees')->get_fees($type, $menu_item_id);
 	}
 
-	function remove_cart_fee_url($fee_id = '') {
+	public function remove_cart_fee_url($fee_id = '') {
 		global $post;
 		if (defined('DOING_AJAX')) {
 			$current_page = $this->get('checkout')->get_checkout_uri();
@@ -451,19 +531,19 @@ class Cart extends Model {
 		return apply_filters('mprm_remove_fee_url', $remove_url);
 	}
 
-	function checkout_cart_columns() {
+	public function checkout_cart_columns() {
 		$head_first = did_action('mprm_checkout_table_header_first');
 		$head_last = did_action('mprm_checkout_table_header_last');
 		$default = 3;
 		return apply_filters('mprm_checkout_cart_columns', $head_first + $head_last + $default);
 	}
 
-	function cart_subtotal() {
+	public function cart_subtotal() {
 		$price = $this->get('menu_item')->currency_filter(Formatting::get_instance()->format_amount($this->get_cart_subtotal()));
 		return $price;
 	}
 
-	function cart_has_discounts() {
+	public function cart_has_discounts() {
 		$ret = false;
 		if ($this->get_cart_discounts()) {
 			$ret = true;
@@ -471,13 +551,13 @@ class Cart extends Model {
 		return apply_filters('mprm_cart_has_discounts', $ret);
 	}
 
-	function get_cart_discounts() {
+	public function get_cart_discounts() {
 		$discounts = $this->get('session')->get_session_by_key('cart_discounts');
 		$discounts = !empty($discounts) ? explode('|', $discounts) : false;
 		return $discounts;
 	}
 
-	function get_cart_item_price_id($item = array()) {
+	public function get_cart_item_price_id($item = array()) {
 		if (isset($item['item_number'])) {
 			$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
 		} else {
@@ -486,14 +566,14 @@ class Cart extends Model {
 		return $price_id;
 	}
 
-	function get_cart_item_price_name($item = array()) {
+	public function get_cart_item_price_name($item = array()) {
 		$price_id = (int)$this->get_cart_item_price_id($item);
 		$prices = $this->get('menu_item')->get_prices($item['id']);
 		$name = !empty($prices[$price_id]) ? $prices[$price_id]['name'] : '';
 		return apply_filters('mprm_get_cart_item_price_name', $name, $item['id'], $price_id, $item);
 	}
 
-	function get_cart_fee_tax() {
+	public function get_cart_fee_tax() {
 		$tax = 0;
 		$fees = $this->get_cart_fees();
 		if ($fees) {
@@ -510,7 +590,7 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_fee_tax', $tax);
 	}
 
-	function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
+	public function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
 		$tax = 0;
 		if (!$this->get('taxes')->menu_item_is_tax_exclusive($menu_item_id)) {
 			$country = !empty($_POST['billing_country']) ? $_POST['billing_country'] : false;
@@ -520,7 +600,7 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_item_tax', $tax, $menu_item_id, $options, $subtotal);
 	}
 
-	function cart_total($echo = true) {
+	public function cart_total($echo = true) {
 		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total())));
 		if (!$echo) {
 			return $total;
@@ -528,7 +608,7 @@ class Cart extends Model {
 		echo $total;
 	}
 
-	function cart_tax($echo = false) {
+	public function cart_tax($echo = false) {
 		$cart_tax = 0;
 		if ($this->get('taxes')->is_cart_taxed()) {
 			$cart_tax = $this->get_cart_tax();
@@ -541,7 +621,7 @@ class Cart extends Model {
 		echo $tax;
 	}
 
-	function is_cart_saved() {
+	public function is_cart_saved() {
 		if ($this->get('settings')->is_cart_saving_disabled())
 			return false;
 		if (is_user_logged_in()) {

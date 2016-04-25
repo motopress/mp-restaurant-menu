@@ -35,7 +35,8 @@ class Payments extends Model {
 		switch (strtolower($field)) {
 
 			case 'id':
-				$payment = $this->get('order')->setup_payment($value);
+				$payment = $this->get('order');
+				$payment->setup_payment($value);
 				$id = $payment->ID;
 
 				if (empty($id)) {
@@ -53,7 +54,7 @@ class Payments extends Model {
 				));
 
 				if ($payment) {
-					$payment = new \EDD_Payment($payment[0]);
+					$payment = $payment->setup_payment($payment[0]);
 				}
 
 				break;
@@ -67,7 +68,7 @@ class Payments extends Model {
 				));
 
 				if ($payment) {
-					$payment = new \EDD_Payment($payment[0]);
+					$payment = $payment->setup_payment($payment[0]);
 				}
 
 				break;
@@ -115,7 +116,7 @@ class Payments extends Model {
 		$payment->increase_tax($this->get('cart')->get_cart_fee_tax());
 
 		$gateway = !empty($payment_data['gateway']) ? $payment_data['gateway'] : '';
-		$gateway = empty($gateway) && isset($_POST['edd-gateway']) ? $_POST['edd-gateway'] : $gateway;
+		$gateway = empty($gateway) && isset($_POST['mprm-gateway']) ? $_POST['mprm-gateway'] : $gateway;
 
 		$payment->status = !empty($payment_data['status']) ? $payment_data['status'] : 'pending';
 		$payment->currency = !empty($payment_data['currency']) ? $payment_data['currency'] : $this->get('settings')->get_currency();
@@ -160,7 +161,8 @@ class Payments extends Model {
 
 	public function update_payment_status($payment_id, $new_status = 'publish') {
 
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order');
+		$payment->setup_payment($payment_id);
 		$payment->status = $new_status;
 		$updated = $payment->save();
 
@@ -169,25 +171,24 @@ class Payments extends Model {
 	}
 
 
-	public function delete_purchase($payment_id = 0, $update_customer = true, $delete_download_logs = false) {
-		global $edd_logs;
-
-		$payment = new \EDD_Payment($payment_id);
+	public function delete_purchase($payment_id = 0, $update_customer = true, $delete_menu_item_logs = false) {
+		global $mprm_logs;
+		$payment = new Order($payment_id);
 
 		// Update sale counts and earnings for all purchased products
-		edd_undo_purchase(false, $payment_id);
+		$this->undo_purchase(false, $payment_id);
 
 		$amount = $this->get_payment_amount($payment_id);
 		$status = $payment->post_status;
 		$customer_id = $this->get_payment_customer_id($payment_id);
 
-		$customer = new \EDD_Customer($customer_id);
+		$customer = new Customer(array('field', 'ID', 'value' => $customer_id));
 
 		if ($status == 'revoked' || $status == 'publish') {
 			// Only decrease earnings if they haven't already been decreased (or were never increased for this payment)
 			$this->decrease_total_earnings($amount);
 			// Clear the This Month earnings (this_monththis_month is NOT a typo)
-			delete_transient(md5('edd_earnings_this_monththis_month'));
+			delete_transient(md5('mprm_earnings_this_monththis_month'));
 
 			if ($customer->id && $update_customer) {
 
@@ -211,7 +212,7 @@ class Payments extends Model {
 		wp_delete_post($payment_id, true);
 
 		// Remove related sale log entries
-		$edd_logs->delete_logs(
+		$mprm_logs->delete_logs(
 			null,
 			'sale',
 			array(
@@ -222,10 +223,10 @@ class Payments extends Model {
 			)
 		);
 
-		if ($delete_download_logs) {
-			$edd_logs->delete_logs(
+		if ($delete_menu_item_logs) {
+			$mprm_logs->delete_logs(
 				null,
-				'file_download',
+				'file_menu_item',
 				array(
 					array(
 						'key' => '_mprm_log_payment_id',
@@ -238,10 +239,11 @@ class Payments extends Model {
 		do_action('mprm_order_deleted', $payment_id);
 	}
 
-	public function undo_purchase($download_id = false, $payment_id) {
+	public function undo_purchase($menu_item_id = false, $payment_id) {
 
 
-		$payment = new \EDD_Payment($payment_id);
+		$payment = $this->get('order');
+		$payment->setup_payment($payment_id);
 
 		$cart_details = $payment->cart_details;
 		$user_info = $payment->user_info;
@@ -256,15 +258,15 @@ class Payments extends Model {
 				// Decrease earnings/sales and fire action once per quantity number
 				for ($i = 0; $i < $item['quantity']; $i++) {
 
-					// variable priced downloads
+					// variable priced menu_items
 					if (false === $amount && $this->get('menu_item')->has_variable_prices($item['id'])) {
 						$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
-						$amount = !isset($item['price']) && 0 !== $item['price'] ? edd_get_price_option_amount($item['id'], $price_id) : $item['price'];
+						$amount = !isset($item['price']) && 0 !== $item['price'] ? $this->get('menu_item')->get_price_option_amount($item['id'], $price_id) : $item['price'];
 					}
 
 					if (!$amount) {
 						// This function is only used on payments with near 1.0 cart data structure
-						$amount = edd_get_download_final_price($item['id'], $user_info, $amount);
+						$amount = $this->get('menu_item')->get_final_price($item['id'], $user_info, $amount);
 					}
 
 				}
@@ -272,13 +274,13 @@ class Payments extends Model {
 				$maybe_decrease_earnings = apply_filters('mprm_decrease_earnings_on_undo', true, $payment, $item['id']);
 				if (true === $maybe_decrease_earnings) {
 					// decrease earnings
-					edd_decrease_earnings($item['id'], $amount);
+					$this->get('menu_item')->decrease_earnings($item['id'], $amount);
 				}
 
 				$maybe_decrease_sales = apply_filters('mprm_decrease_sales_on_undo', true, $payment, $item['id']);
 				if (true === $maybe_decrease_sales) {
 					// decrease purchase count
-					edd_decrease_purchase_count($item['id'], $item['quantity']);
+					$this->get('menu_item')->decrease_purchase_count($item['id'], $item['quantity']);
 				}
 
 			}
@@ -296,7 +298,7 @@ class Payments extends Model {
 			's' => null,
 			'start-date' => null,
 			'end-date' => null,
-			'download' => null,
+			'menu_item' => null,
 		);
 
 		$args = wp_parse_args($args, $defaults);
@@ -350,7 +352,7 @@ class Payments extends Model {
 				$select = "SELECT p2.post_status,count( * ) AS num_posts ";
 				$join = "LEFT JOIN $wpdb->postmeta m ON m.meta_key = '_mprm_log_payment_id' AND m.post_id = p.ID ";
 				$join .= "INNER JOIN $wpdb->posts p2 ON m.meta_value = p2.ID ";
-				$where = "WHERE p.post_type = 'edd_log' ";
+				$where = "WHERE p.post_type = 'mprm_log' ";
 				$where .= $wpdb->prepare("AND p.post_parent = %d} ", $search);
 
 			} elseif (is_numeric($args['s'])) {
@@ -383,9 +385,9 @@ class Payments extends Model {
 
 		}
 
-		if (!empty($args['download']) && is_numeric($args['download'])) {
+		if (!empty($args['menu_item']) && is_numeric($args['menu_item'])) {
 
-			$where .= $wpdb->prepare(" AND p.post_parent = %d", $args['download']);
+			$where .= $wpdb->prepare(" AND p.post_parent = %d", $args['menu_item']);
 
 		}
 
@@ -476,7 +478,7 @@ class Payments extends Model {
 
 	public function check_for_existing_payment($payment_id) {
 		$exists = false;
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 
 		if ($payment_id === $payment->ID && 'publish' === $payment->status) {
 			$exists = true;
@@ -498,7 +500,7 @@ class Payments extends Model {
 			return false;
 		}
 
-		$payment = $this->get('order')->setup_payment($payment->ID);
+		$payment = $payment = new Order($payment->ID);
 
 		if (array_key_exists($payment->status, $statuses)) {
 			if (true === $return_label) {
@@ -586,8 +588,6 @@ class Payments extends Model {
 
 	public function get_sales_by_date($day = null, $month_num = null, $year = null, $hour = null) {
 
-		// This is getting deprecated soon. Use \EDD_Payment_Stats with the get_sales() method instead
-
 		$args = array(
 			'post_type' => 'mprm_order',
 			'nopaging' => true,
@@ -637,7 +637,7 @@ class Payments extends Model {
 
 
 	public function is_payment_complete($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 
 		$ret = false;
 
@@ -713,7 +713,7 @@ class Payments extends Model {
 
 
 	public function increase_total_earnings($amount = 0) {
-		$total = edd_get_total_earnings();
+		$total = $this->get_total_earnings();
 		$total += $amount;
 		update_option('mprm_earnings_total', $total);
 		return $total;
@@ -732,30 +732,31 @@ class Payments extends Model {
 
 
 	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_payment_meta', $single = true) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->get_meta($meta_key, $single);
 	}
 
 
 	public function update_payment_meta($payment_id = 0, $meta_key = '', $meta_value = '', $prev_value = '') {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->update_meta($meta_key, $meta_value, $prev_value);
 	}
 
 
 	public function get_payment_meta_user_info($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->user_info;
 	}
 
-	public function get_payment_meta_downloads($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
-		return $payment->downloads;
+	public function get_payment_meta_menu_items($payment_id) {
+		$payment = new Order($payment_id);
+		return $payment->menu_items;
 	}
 
 
 	public function get_payment_meta_cart_details($payment_id, $include_bundle_files = false) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = $this->get('order');
+		$payment->setup_payment($payment_id);
 		$cart_details = $payment->cart_details;
 
 		$payment_currency = $payment->currency;
@@ -772,10 +773,10 @@ class Payments extends Model {
 
 				if ($include_bundle_files) {
 
-					if ('bundle' != edd_get_download_type($cart_item['id']))
+					if ('bundle' != $this->get('menu_item')->get_menu_item_type($cart_item['id']))
 						continue;
 
-					$products = edd_get_bundled_products($cart_item['id']);
+					$products = $this->get('menu_item')->get_bundled_products($cart_item['id']);
 					if (empty($products))
 						continue;
 
@@ -808,7 +809,7 @@ class Payments extends Model {
 
 
 	public function get_payment_user_email($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->email;
 	}
 
@@ -822,43 +823,43 @@ class Payments extends Model {
 
 
 	public function get_payment_user_id($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->user_id;
 	}
 
 
 	public function get_payment_customer_id($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->customer_id;
 	}
 
 
-	public function payment_has_unlimited_downloads($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
-		return $payment->has_unlimited_downloads;
+	public function payment_has_unlimited_menu_items($payment_id) {
+		$payment = new Order($payment_id);
+		return $payment->has_unlimited_menu_items;
 	}
 
 
 	public function get_payment_user_ip($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->ip;
 	}
 
 
 	public function get_payment_completed_date($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->completed_date;
 	}
 
 
 	public function get_payment_gateway($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->gateway;
 	}
 
 
 	public function get_payment_currency_code($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->currency;
 	}
 
@@ -870,20 +871,20 @@ class Payments extends Model {
 
 
 	public function get_payment_key($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->key;
 	}
 
 
 	public function get_payment_number($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->number;
 	}
 
 
 	public function format_payment_number($number) {
 
-		if (!edd_get_option('enable_sequential')) {
+		if (!$this->get('settings')->get_option('enable_sequential')) {
 			return $number;
 		}
 
@@ -891,9 +892,9 @@ class Payments extends Model {
 			return $number;
 		}
 
-		$prefix = edd_get_option('sequential_prefix');
+		$prefix = $this->get('settings')->get_option('sequential_prefix');
 		$number = absint($number);
-		$postfix = edd_get_option('sequential_postfix');
+		$postfix = $this->get('settings')->get_option('sequential_postfix');
 
 		$formatted_number = $prefix . $number . $postfix;
 
@@ -903,12 +904,12 @@ class Payments extends Model {
 
 	public function get_next_payment_number() {
 
-		if (!edd_get_option('enable_sequential')) {
+		if (!$this->get('settings')->get_option('enable_sequential')) {
 			return false;
 		}
 
 		$number = get_option('mprm_last_payment_number');
-		$start = edd_get_option('sequential_start', 1);
+		$start = $this->get('settings')->get_option('sequential_start', 1);
 		$increment_number = true;
 
 		if (false !== $number) {
@@ -956,8 +957,8 @@ class Payments extends Model {
 
 	public function remove_payment_prefix_postfix($number) {
 
-		$prefix = edd_get_option('sequential_prefix');
-		$postfix = edd_get_option('sequential_postfix');
+		$prefix = $this->get('settings')->get_option('sequential_prefix');
+		$postfix = $this->get('settings')->get_option('sequential_postfix');
 
 		// Remove prefix
 		$number = preg_replace('/' . $prefix . '/', '', $number, 1);
@@ -984,7 +985,7 @@ class Payments extends Model {
 
 
 	public function get_payment_amount($payment_id) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 
 		return apply_filters('mprm_payment_amount', floatval($payment->total), $payment_id);
 	}
@@ -998,7 +999,7 @@ class Payments extends Model {
 
 
 	public function get_payment_subtotal($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 
 		return $payment->subtotal;
 	}
@@ -1011,14 +1012,14 @@ class Payments extends Model {
 
 
 	public function get_payment_tax($payment_id = 0, $payment_meta = false) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 
 		return $payment->tax;
 	}
 
 
 	public function get_payment_item_tax($payment_id = 0, $cart_key = false) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		$item_tax = 0;
 
 		$cart_details = $payment->cart_details;
@@ -1033,13 +1034,13 @@ class Payments extends Model {
 
 
 	public function get_payment_fees($payment_id = 0, $type = 'all') {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->get_fees($type);
 	}
 
 
 	public function get_payment_transaction_id($payment_id = 0) {
-		$payment = $this->get('order')->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		return $payment->transaction_id;
 	}
 
@@ -1153,16 +1154,16 @@ class Payments extends Model {
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
 
 		$delete_note_url = wp_nonce_url(add_query_arg(array(
-			'edd-action' => 'delete_payment_note',
+			'mprm-action' => 'delete_payment_note',
 			'note_id' => $note->comment_ID,
 			'payment_id' => $payment_id
 		)), 'edd_delete_payment_note_' . $note->comment_ID);
 
-		$note_html = '<div class="edd-payment-note" id="edd-payment-note-' . $note->comment_ID . '">';
+		$note_html = '<div class="mprm-payment-note" id="mprm-payment-note-' . $note->comment_ID . '">';
 		$note_html .= '<p>';
 		$note_html .= '<strong>' . $user . '</strong>&nbsp;&ndash;&nbsp;' . date_i18n($date_format, strtotime($note->comment_date)) . '<br/>';
 		$note_html .= $note->comment_content;
-		$note_html .= '&nbsp;&ndash;&nbsp;<a href="' . esc_url($delete_note_url) . '" class="edd-delete-payment-note" data-note-id="' . absint($note->comment_ID) . '" data-payment-id="' . absint($payment_id) . '" title="' . __('Delete this payment note', 'mp-restaurant-menu') . '">' . __('Delete', 'mp-restaurant-menu') . '</a>';
+		$note_html .= '&nbsp;&ndash;&nbsp;<a href="' . esc_url($delete_note_url) . '" class="mprm-delete-payment-note" data-note-id="' . absint($note->comment_ID) . '" data-payment-id="' . absint($payment_id) . '" title="' . __('Delete this payment note', 'mp-restaurant-menu') . '">' . __('Delete', 'mp-restaurant-menu') . '</a>';
 		$note_html .= '</p>';
 		$note_html .= '</div>';
 

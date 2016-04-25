@@ -924,7 +924,7 @@ class Settings extends Model {
 						$messages[] = sprintf(
 							__('Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'mp-restaurant-menu'),
 							date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
-							'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
+							'https://easydigitalmenu_items.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
 						);
 						$license_status = 'license-' . $class . '-notice';
 						break;
@@ -932,7 +932,7 @@ class Settings extends Model {
 						$class = 'error';
 						$messages[] = sprintf(
 							__('Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'mp-restaurant-menu'),
-							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
+							'https://easydigitalmenu_items.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
 						);
 						$license_status = 'license-' . $class . '-notice';
 						break;
@@ -942,7 +942,7 @@ class Settings extends Model {
 						$messages[] = sprintf(
 							__('Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'mp-restaurant-menu'),
 							$args['name'],
-							'https://easydigitaldownloads.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
+							'https://easydigitalmenu_items.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
 						);
 						$license_status = 'license-' . $class . '-notice';
 						break;
@@ -953,7 +953,7 @@ class Settings extends Model {
 						break;
 					case 'no_activations_left':
 						$class = 'error';
-						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'mp-restaurant-menu'), 'https://easydigitaldownloads.com/your-account/');
+						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'mp-restaurant-menu'), 'https://easydigitalmenu_items.com/your-account/');
 						$license_status = 'license-' . $class . '-notice';
 						break;
 				}
@@ -971,7 +971,7 @@ class Settings extends Model {
 							$messages[] = sprintf(
 								__('Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'mp-restaurant-menu'),
 								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
-								'https://easydigitaldownloads.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew'
+								'https://easydigitalmenu_items.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew'
 							);
 							$license_status = 'license-expires-soon-notice';
 						} else {
@@ -1204,5 +1204,10 @@ class Settings extends Model {
 	function is_cart_saving_disabled() {
 		$ret = $this->get_option('enable_cart_saving', false);
 		return apply_filters('mprm_cart_saving_disabled', !$ret);
+	}
+
+	function logged_in_only() {
+		$ret = $this->get_option('logged_in_only', false);
+		return (bool)apply_filters('mprm_logged_in_only', $ret);
 	}
 }

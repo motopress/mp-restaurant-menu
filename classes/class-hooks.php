@@ -16,6 +16,7 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_Cart;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Category;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Checkout;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
+use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
 
 class Hooks extends Core {
 	protected static $instance;
@@ -112,6 +113,7 @@ class Hooks extends Core {
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_cart', array(Shortcode_Cart::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
@@ -189,6 +191,9 @@ class Hooks extends Core {
 		add_action('mprm_after_cc_fields', 'mprm_after_cc_fields');
 		add_action('mprm_before_cc_expiration', 'mprm_before_cc_expiration');
 		add_action('mprm_after_cc_expiration', 'mprm_after_cc_expiration');
+
+
+		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
 
 	public static function install_checkout_actions() {

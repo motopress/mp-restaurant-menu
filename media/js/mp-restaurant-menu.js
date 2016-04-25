@@ -753,10 +753,10 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 							window.tbframe_interval = setInterval(function() {
 								jQuery('#TB_iframeContent').contents().find('.savesend .button').val(admin_lang.use_this_file).end().find('#insert-gallery, .wp-post-thumbnail').hide();
 							}, 2000);
-							tb_show(admin_lang.add_new_download, 'media-upload.php?TB_iframe=true');
+							tb_show(admin_lang.add_new_menu_item, 'media-upload.php?TB_iframe=true');
 						});
 
-						window.edd_send_to_editor = window.send_to_editor;
+						window.mprm_send_to_editor = window.send_to_editor;
 						window.send_to_editor = function(html) {
 							if (window.formfield) {
 								var imgurl = $('a', '<div>' + html + '</div>').attr('href');
@@ -764,9 +764,9 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 								window.clearInterval(window.tbframe_interval);
 								tb_remove();
 							} else {
-								window.edd_send_to_editor(html);
+								window.mprm_send_to_editor(html);
 							}
-							window.send_to_editor = window.edd_send_to_editor;
+							window.send_to_editor = window.mprm_send_to_editor;
 							window.formfield = '';
 							window.imagefield = false;
 						};
@@ -1114,7 +1114,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 			openUploadWindow: function() {
 				if (this.window === undefined) {
 					// Create the media frame.
-					this.window = wp.media.frames.downloadable_file = wp.media({
+					this.window = wp.media.frames.menu_itemable_file = wp.media({
 						title: window.admin_lang.choose_image,
 						button: {
 							text: window.admin_lang.use_image

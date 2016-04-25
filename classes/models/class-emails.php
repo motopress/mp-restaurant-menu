@@ -15,8 +15,8 @@ class Emails extends Model {
 
 	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
 		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
-		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to download your files.", "mp-restaurant-menu") . "\n\n";
-		$default_email_body .= "{download_list}\n\n";
+		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n\n";
+		$default_email_body .= "{menu_item_list}\n\n";
 		$default_email_body .= "{sitename}";
 		$email = $this->get('settings')->get_option('purchase_receipt', false);
 		$email = $email ? stripslashes($email) : $default_email_body;
@@ -26,13 +26,13 @@ class Emails extends Model {
 	}
 
 	public function email_preview_template_tags($message) {
-		$download_list = '<ul>';
-		$download_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
-		$download_list .= '<div>';
-		$download_list .= '<a href="#">' . __('Sample Download File Name', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this download.', 'mp-restaurant-menu') . '</small>';
-		$download_list .= '</div>';
-		$download_list .= '</li>';
-		$download_list .= '</ul>';
+		$menu_item_list = '<ul>';
+		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
+		$menu_item_list .= '<div>';
+		$menu_item_list .= '<a href="#">' . __('Sample Download File Name', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this menu_item.', 'mp-restaurant-menu') . '</small>';
+		$menu_item_list .= '</div>';
+		$menu_item_list .= '</li>';
+		$menu_item_list .= '</ul>';
 		$file_urls = esc_html(trailingslashit(get_site_url()) . 'test.zip?test=key&key=123');
 		$price = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(10.50, true));
 		$gateway = 'PayPal';
@@ -42,7 +42,7 @@ class Emails extends Model {
 		$sub_total = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(9.50, true));
 		$payment_id = rand(1, 100);
 		$user = wp_get_current_user();
-		$message = str_replace('{download_list}', $download_list, $message);
+		$message = str_replace('{menu_item_list}', $menu_item_list, $message);
 		$message = str_replace('{file_urls}', $file_urls, $message);
 		$message = str_replace('{name}', $user->display_name, $message);
 		$message = str_replace('{fullname}', $user->display_name, $message);

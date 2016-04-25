@@ -1,10 +1,10 @@
 <?php
 ob_start(); ?>
-<?php do_action('edd_before_cc_fields'); ?>
-	<fieldset id="edd_cc_fields" class="mprm-do-validate">
+<?php do_action('mprm_before_cc_fields'); ?>
+	<fieldset id="mprm_cc_fields" class="mprm-do-validate">
 		<span><legend><?php _e('Credit Card Info', 'mp-restaurant-menu'); ?></legend></span>
 		<?php if (is_ssl()) : ?>
-			<div id="edd_secure_site_wrapper">
+			<div id="mprm_secure_site_wrapper">
 				<span class="padlock"></span>
 				<span><?php _e('This is a secure SSL encrypted payment.', 'mp-restaurant-menu'); ?></span>
 			</div>
@@ -34,7 +34,7 @@ ob_start(); ?>
 			<span class="mprm-description"><?php _e('The name printed on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" autocomplete="off" name="card_name" id="card_name" class="card-name mprm-input required" placeholder="<?php _e('Card name', 'mp-restaurant-menu'); ?>"/>
 		</p>
-		<?php do_action('edd_before_cc_expiration'); ?>
+		<?php do_action('mprm_before_cc_expiration'); ?>
 		<p class="card-expiration">
 			<label for="card_exp_month" class="mprm-label">
 				<?php _e('Expiration (MM/YY)', 'mp-restaurant-menu'); ?>
@@ -53,8 +53,8 @@ ob_start(); ?>
 				} ?>
 			</select>
 		</p>
-		<?php do_action('edd_after_cc_expiration'); ?>
+		<?php do_action('mprm_after_cc_expiration'); ?>
 	</fieldset>
 <?php
-do_action('edd_after_cc_fields');
+do_action('mprm_after_cc_fields');
 echo ob_get_clean();
