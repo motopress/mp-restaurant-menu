@@ -14,9 +14,9 @@ class Emails extends Model {
 	}
 
 	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
-		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
-		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n\n";
-		$default_email_body .= "{menu_item_list}\n\n";
+		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n";
+		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n";
+		$default_email_body .= "{menu_item_list}\n";
 		$default_email_body .= "{sitename}";
 		$email = $this->get('settings')->get_option('purchase_receipt', false);
 		$email = $email ? stripslashes($email) : $default_email_body;
@@ -114,5 +114,4 @@ class Emails extends Model {
 
 		return apply_filters('mprm_get_banned_emails', $emails);
 	}
-
 }

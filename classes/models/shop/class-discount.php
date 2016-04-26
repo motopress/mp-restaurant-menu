@@ -495,7 +495,7 @@ class Discount extends Model {
 			if (is_email($user)) {
 
 				$user_found = true; // All we need is the email
-				$key = '_mprm_payment_user_email';
+				$key = '_mprm_order_user_email';
 				$value = $user;
 
 			} else {
@@ -505,7 +505,7 @@ class Discount extends Model {
 				if ($user_data) {
 
 					$user_found = true;
-					$key = '_mprm_payment_user_id';
+					$key = '_mprm_order_user_id';
 					$value = $user_data->ID;
 
 				}

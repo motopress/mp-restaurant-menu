@@ -47,7 +47,7 @@ class Payments extends Model {
 
 			case 'key':
 				$payment = $this->get_payments(array(
-					'meta_key' => '_mprm_payment_purchase_key',
+					'meta_key' => '_mprm_order_purchase_key',
 					'meta_value' => $value,
 					'posts_per_page' => 1,
 					'fields' => 'ids',
@@ -61,7 +61,7 @@ class Payments extends Model {
 
 			case 'payment_number':
 				$payment = $this->get_payments(array(
-					'meta_key' => '_mprm_payment_number',
+					'meta_key' => '_mprm_order_number',
 					'meta_value' => $value,
 					'posts_per_page' => 1,
 					'fields' => 'ids',
@@ -137,7 +137,7 @@ class Payments extends Model {
 			$payment->date = $payment_data['post_date'];
 		}
 
-		if ($this->get('settigns')->get_option('enable_sequential')) {
+		if ($this->get('settings')->get_option('enable_sequential')) {
 			$number = $this->get_next_payment_number();
 			$payment->number = $this->format_payment_number($number);
 			update_option('mprm_last_payment_number', $number);
@@ -148,7 +148,7 @@ class Payments extends Model {
 
 		$payment->save();
 
-		do_action('edd_insert_payment', $payment->ID, $payment_data);
+		do_action('mprm_insert_payment', $payment->ID, $payment_data);
 
 		if (!empty($payment->ID)) {
 			return $payment->ID;
@@ -158,7 +158,6 @@ class Payments extends Model {
 		return false;
 	}
 
-
 	public function update_payment_status($payment_id, $new_status = 'publish') {
 
 		$payment = $this->get('order');
@@ -167,9 +166,7 @@ class Payments extends Model {
 		$updated = $payment->save();
 
 		return $updated;
-
 	}
-
 
 	public function delete_purchase($payment_id = 0, $update_customer = true, $delete_menu_item_logs = false) {
 		global $mprm_logs;
@@ -241,7 +238,6 @@ class Payments extends Model {
 
 	public function undo_purchase($menu_item_id = false, $payment_id) {
 
-
 		$payment = $this->get('order');
 		$payment->setup_payment($payment_id);
 
@@ -270,7 +266,6 @@ class Payments extends Model {
 					}
 
 				}
-
 				$maybe_decrease_earnings = apply_filters('mprm_decrease_earnings_on_undo', true, $payment, $item['id']);
 				if (true === $maybe_decrease_earnings) {
 					// decrease earnings
@@ -290,7 +285,6 @@ class Payments extends Model {
 	}
 
 	public function count_payments($args = array()) {
-
 		global $wpdb;
 
 		$defaults = array(
@@ -321,7 +315,7 @@ class Payments extends Model {
 
 			if (!empty($field)) {
 				$where .= "
-				AND m.meta_key = '_mprm_payment_user_{$field}'
+				AND m.meta_key = '_mprm_order_user_{$field}'
 				AND m.meta_value = '{$args['user']}'";
 			}
 
@@ -331,9 +325,9 @@ class Payments extends Model {
 			if (is_email($args['s']) || strlen($args['s']) == 32) {
 
 				if (is_email($args['s']))
-					$field = '_mprm_payment_user_email';
+					$field = '_mprm_order_user_email';
 				else
-					$field = '_mprm_payment_purchase_key';
+					$field = '_mprm_order_purchase_key';
 
 
 				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
@@ -359,7 +353,7 @@ class Payments extends Model {
 
 				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
 				$where .= $wpdb->prepare("
-				AND m.meta_key = '_mprm_payment_user_id'
+				AND m.meta_key = '_mprm_order_user_id'
 				AND m.meta_value = %d",
 					$args['s']
 				);
@@ -371,7 +365,7 @@ class Payments extends Model {
 
 				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
 				$where .= $wpdb->prepare("
-				AND m.meta_key = '_mprm_payment_meta'
+				AND m.meta_key = '_mprm_order_meta'
 				AND m.meta_value REGEXP %s",
 					$search
 				);
@@ -388,7 +382,6 @@ class Payments extends Model {
 		if (!empty($args['menu_item']) && is_numeric($args['menu_item'])) {
 
 			$where .= $wpdb->prepare(" AND p.post_parent = %d", $args['menu_item']);
-
 		}
 
 		// Limit payments count by date
@@ -411,9 +404,7 @@ class Payments extends Model {
 			if (empty($args['end-date'])) {
 				$args['end-date'] = $args['start-date'];
 			}
-
 		}
-
 		if (!empty ($args['end-date']) && false !== strpos($args['end-date'], '/')) {
 
 			$date_parts = explode('/', $args['end-date']);
@@ -427,11 +418,8 @@ class Payments extends Model {
 
 				$date = new \DateTime($args['end-date']);
 				$where .= $wpdb->prepare(" AND p.post_date <= '%s'", $date->format('Y-m-d'));
-
 			}
-
 		}
-
 		$where = apply_filters('mprm_count_payments_where', $where);
 		$join = apply_filters('mprm_count_payments_join', $join);
 
@@ -475,7 +463,6 @@ class Payments extends Model {
 		return $stats;
 	}
 
-
 	public function check_for_existing_payment($payment_id) {
 		$exists = false;
 		$payment = new Order($payment_id);
@@ -517,7 +504,6 @@ class Payments extends Model {
 		return false;
 	}
 
-
 	public function get_payment_statuses() {
 		$payment_statuses = array(
 			'pending' => __('Pending', 'mp-restaurant-menu'),
@@ -531,14 +517,12 @@ class Payments extends Model {
 		return apply_filters('mprm_payment_statuses', $payment_statuses);
 	}
 
-
 	public function get_payment_status_keys() {
 		$statuses = array_keys($this->get_payment_statuses());
 		asort($statuses);
 
 		return array_values($statuses);
 	}
-
 
 	public function get_earnings_by_date($day = null, $month_num, $year = null, $hour = null, $include_taxes = true) {
 		global $wpdb;
@@ -569,11 +553,11 @@ class Payments extends Model {
 			if ($sales) {
 				$sales = implode(',', $sales);
 
-				$total_earnings = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_payment_total' AND post_id IN ({$sales})");
+				$total_earnings = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN ({$sales})");
 				$total_tax = 0;
 
 				if (!$include_taxes) {
-					$total_tax = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_payment_tax' AND post_id IN ({$sales})");
+					$total_tax = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_tax' AND post_id IN ({$sales})");
 				}
 
 				$earnings += ($total_earnings - $total_tax);
@@ -584,7 +568,6 @@ class Payments extends Model {
 
 		return round($earnings, 2);
 	}
-
 
 	public function get_sales_by_date($day = null, $month_num = null, $year = null, $hour = null) {
 
@@ -603,7 +586,7 @@ class Payments extends Model {
 		if (false === $show_free) {
 			$args['meta_query'] = array(
 				array(
-					'key' => '_mprm_payment_total',
+					'key' => '_mprm_order_total',
 					'value' => 0,
 					'compare' => '>',
 					'type' => 'NUMERIC',
@@ -635,7 +618,6 @@ class Payments extends Model {
 		return $count;
 	}
 
-
 	public function is_payment_complete($payment_id = 0) {
 		$payment = new Order($payment_id);
 
@@ -652,12 +634,10 @@ class Payments extends Model {
 		return apply_filters('mprm_is_payment_complete', $ret, $payment_id, $payment->post_status);
 	}
 
-
 	public function get_total_sales() {
 		$payments = $this->count_payments();
 		return $payments->revoked + $payments->publish;
 	}
-
 
 	public function get_total_earnings() {
 
@@ -691,7 +671,7 @@ class Payments extends Model {
 
 					if (!empty($payments)) {
 						$payments = implode(',', $payments);
-						$total += $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_payment_total' AND post_id IN({$payments})");
+						$total += $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN({$payments})");
 					}
 
 				}
@@ -711,14 +691,12 @@ class Payments extends Model {
 		return apply_filters('mprm_total_earnings', round($total, $this->get('formatting')->currency_decimal_filter()));
 	}
 
-
 	public function increase_total_earnings($amount = 0) {
 		$total = $this->get_total_earnings();
 		$total += $amount;
 		update_option('mprm_earnings_total', $total);
 		return $total;
 	}
-
 
 	public function decrease_total_earnings($amount = 0) {
 		$total = $this->get_total_earnings();
@@ -730,18 +708,15 @@ class Payments extends Model {
 		return $total;
 	}
 
-
-	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_payment_meta', $single = true) {
+	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
 		$payment = new Order($payment_id);
 		return $payment->get_meta($meta_key, $single);
 	}
-
 
 	public function update_payment_meta($payment_id = 0, $meta_key = '', $meta_value = '', $prev_value = '') {
 		$payment = new Order($payment_id);
 		return $payment->update_meta($meta_key, $meta_value, $prev_value);
 	}
-
 
 	public function get_payment_meta_user_info($payment_id) {
 		$payment = new Order($payment_id);
@@ -752,7 +727,6 @@ class Payments extends Model {
 		$payment = new Order($payment_id);
 		return $payment->menu_items;
 	}
-
 
 	public function get_payment_meta_cart_details($payment_id, $include_bundle_files = false) {
 		$payment = $this->get('order');
@@ -807,12 +781,10 @@ class Payments extends Model {
 		return apply_filters('mprm_payment_meta_cart_details', $cart_details, $payment_id);
 	}
 
-
 	public function get_payment_user_email($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->email;
 	}
-
 
 	public function is_guest_payment($payment_id) {
 		$payment_user_id = $this->get_payment_user_id($payment_id);
@@ -821,66 +793,55 @@ class Payments extends Model {
 		return (bool)apply_filters('mprm_is_guest_payment', $is_guest_payment, $payment_id);
 	}
 
-
 	public function get_payment_user_id($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->user_id;
 	}
-
 
 	public function get_payment_customer_id($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->customer_id;
 	}
 
-
 	public function payment_has_unlimited_menu_items($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->has_unlimited_menu_items;
 	}
-
 
 	public function get_payment_user_ip($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->ip;
 	}
 
-
 	public function get_payment_completed_date($payment_id = 0) {
 		$payment = new Order($payment_id);
 		return $payment->completed_date;
 	}
-
 
 	public function get_payment_gateway($payment_id) {
 		$payment = new Order($payment_id);
 		return $payment->gateway;
 	}
 
-
 	public function get_payment_currency_code($payment_id = 0) {
 		$payment = new Order($payment_id);
 		return $payment->currency;
 	}
-
 
 	public function get_payment_currency($payment_id = 0) {
 		$currency = $this->get_payment_currency_code($payment_id);
 		return apply_filters('mprm_payment_currency', $this->get('misc')->get_currency_name($currency), $payment_id);
 	}
 
-
 	public function get_payment_key($payment_id = 0) {
 		$payment = new Order($payment_id);
 		return $payment->key;
 	}
 
-
 	public function get_payment_number($payment_id = 0) {
 		$payment = new Order($payment_id);
 		return $payment->number;
 	}
-
 
 	public function format_payment_number($number) {
 
@@ -900,7 +861,6 @@ class Payments extends Model {
 
 		return apply_filters('mprm_format_payment_number', $formatted_number, $prefix, $number, $postfix);
 	}
-
 
 	public function get_next_payment_number() {
 
@@ -954,7 +914,6 @@ class Payments extends Model {
 		return apply_filters('mprm_get_next_payment_number', $number);
 	}
 
-
 	public function remove_payment_prefix_postfix($number) {
 
 		$prefix = $this->get('settings')->get_option('sequential_prefix');
@@ -977,12 +936,10 @@ class Payments extends Model {
 
 	}
 
-
 	public function payment_amount($payment_id = 0) {
 		$amount = $this->get_payment_amount($payment_id);
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($amount), $this->get_payment_currency_code($payment_id));
 	}
-
 
 	public function get_payment_amount($payment_id) {
 		$payment = new Order($payment_id);
@@ -990,13 +947,11 @@ class Payments extends Model {
 		return apply_filters('mprm_payment_amount', floatval($payment->total), $payment_id);
 	}
 
-
 	public function payment_subtotal($payment_id = 0) {
 		$subtotal = $this->get_payment_subtotal($payment_id);
 
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($subtotal), $this->get_payment_currency_code($payment_id));
 	}
-
 
 	public function get_payment_subtotal($payment_id = 0) {
 		$payment = new Order($payment_id);
@@ -1004,12 +959,10 @@ class Payments extends Model {
 		return $payment->subtotal;
 	}
 
-
 	public function payment_tax($payment_id = 0, $payment_meta = false) {
 		$tax = $this->get_payment_tax($payment_id, $payment_meta);
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($tax), $this->get_payment_currency_code($payment_id));
 	}
-
 
 	public function get_payment_tax($payment_id = 0, $payment_meta = false) {
 		$payment = new Order($payment_id);
@@ -1053,14 +1006,14 @@ class Payments extends Model {
 
 		$transaction_id = apply_filters('mprm_set_payment_transaction_id', $transaction_id, $payment_id);
 
-		return $this->update_payment_meta($payment_id, '_mprm_payment_transaction_id', $transaction_id);
+		return $this->update_payment_meta($payment_id, '_mprm_order_transaction_id', $transaction_id);
 	}
 
 
 	public function get_purchase_id_by_key($key) {
 		global $wpdb;
 
-		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_payment_purchase_key' AND meta_value = %s LIMIT 1", $key));
+		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_purchase_key' AND meta_value = %s LIMIT 1", $key));
 
 		if ($purchase != NULL)
 			return $purchase;
@@ -1072,7 +1025,7 @@ class Payments extends Model {
 	public function get_purchase_id_by_transaction_id($key) {
 		global $wpdb;
 
-		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_payment_transaction_id' AND meta_value = %s LIMIT 1", $key));
+		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_transaction_id' AND meta_value = %s LIMIT 1", $key));
 
 		if ($purchase != NULL)
 			return $purchase;

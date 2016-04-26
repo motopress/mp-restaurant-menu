@@ -57,12 +57,16 @@ class Checkout extends Model {
 	public function send_to_success_page($query_string = null) {
 		$redirect = $this->get_success_page_uri();
 
-		if ($query_string)
+		if ($query_string) {
 			$redirect .= $query_string;
+		}
 
 		$gateway = isset($_REQUEST['mprm-gateway']) ? $_REQUEST['mprm-gateway'] : '';
+		if (!headers_sent()) {
+			wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
+			$this->get('misc')->mprm_die();
+		}
 
-		wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
 	}
 
 	public function get_checkout_uri() {

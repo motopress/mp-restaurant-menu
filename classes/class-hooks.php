@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Manual_payment;
+use mp_restaurant_menu\classes\models\Misc;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\models\Purchase;
 use mp_restaurant_menu\classes\models\Session;
@@ -120,6 +121,7 @@ class Hooks extends Core {
 
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
+		Misc::get_instance()->mprm_request_actions();
 
 	}
 
@@ -159,7 +161,7 @@ class Hooks extends Core {
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
-		add_action('mprm_purchase_form_before_register_login', 'mprm_purchase_form_before_register_login');
+
 		add_action('mprm_purchase_form_register_fields', 'mprm_get_register_fields');
 		add_action('mprm_register_account_fields_before', 'mprm_register_account_fields_before');
 		add_action('mprm_register_account_fields_after', 'mprm_register_account_fields_after');
@@ -222,7 +224,6 @@ class Hooks extends Core {
 		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
 		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
-		add_action('mprm_purchase_form_user_info', 'mprm_purchase_form_user_info');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
 	}
 

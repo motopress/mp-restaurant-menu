@@ -46,7 +46,7 @@ class Manual_payment extends Model {
 		);
 
 		// Record the pending payment
-		$payment = $this->get('order')->insert_payment($payment_data);
+		$payment = $this->get('payments')->insert_payment($payment_data);
 
 		if ($payment) {
 			$this->get('payments')->update_payment_status($payment, 'publish');
@@ -58,7 +58,6 @@ class Manual_payment extends Model {
 			// If errors are present, send the user back to the purchase page so they can be corrected
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		}
-
 	}
 
 	public function init_action() {

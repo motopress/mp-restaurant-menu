@@ -453,7 +453,7 @@ class Media extends Core {
 		// save br ad paragraph
 		if ($args['save_format']) {
 			$args['text'] = str_replace("\r", '', $args['text']);
-			$args['text'] = preg_replace("~\n\n+~", "</p><p>", $args['text']);
+			$args['text'] = preg_replace("~\n+~", "</p><p>", $args['text']);
 			$args['text'] = "<p>" . str_replace("\n", "<br />", trim($args['text'])) . "</p>";
 		}
 		if ($args['echo']) {
@@ -797,7 +797,7 @@ class Media extends Core {
 							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
 							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' /*. mprm_get_emails_tags_list()*/,
 							'type' => 'rich_editor',
-							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n\n" . __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n\n{menu_item_list}\n\n{sitename}",
+							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n" . __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n{menu_item_list}\n{sitename}",
 						),
 					),
 					'sale_notifications' => array(

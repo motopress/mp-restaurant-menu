@@ -53,13 +53,9 @@ class Menu_item extends Model {
 						$this->$key = $value;
 						break;
 				}
-
 			}
-
 			return true;
 		}
-
-
 	}
 
 	/**

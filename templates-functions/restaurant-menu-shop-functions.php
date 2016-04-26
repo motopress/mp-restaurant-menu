@@ -472,6 +472,7 @@ function mprm_checkout_hidden_fields() {
 		<input type="hidden" name="mprm-user-id" value="<?php echo get_current_user_id(); ?>"/>
 	<?php } ?>
 	<input type="hidden" name="mprm_action" value="purchase"/>
+	<input type="hidden" name="controller" value="cart"/>
 	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
 	<?php
 }
@@ -662,6 +663,30 @@ function mprm_save_cart_button() {
 function mprm_user_info_fields() {
 	$customer = models\Customer::get_instance()->get_session_customer();
 	mprm_get_template('/shop/user-info-fields', array('customer' => $customer));
+}
+
+function mprm_purchase_form_before_register_login() {
+
+}
+
+function mprm_purchase_form_top() {
+
+}
+
+function mprm_purchase_form_before_email() {
+
+}
+
+function mprm_purchase_form_after_email() {
+
+}
+
+function mprm_purchase_form_user_info() {
+
+}
+
+function mprm_purchase_form_user_info_fields() {
+
 }
 
 ?>

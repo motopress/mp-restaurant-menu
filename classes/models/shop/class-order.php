@@ -727,7 +727,7 @@ final class Order extends Model {
 		$menu_item = new Menu_item($menu_item_id);
 
 		// Bail if this post isn't a menu_item
-		if (!$menu_item || $menu_item->post_type !== 'menu_item') {
+		if (!$menu_item || $menu_item->post_type !== 'mp_menu_item') {
 			return false;
 		}
 
@@ -1207,7 +1207,7 @@ final class Order extends Model {
 
 		if ($do_change) {
 
-			do_action('edd_before_payment_status_change', $this->ID, $status, $old_status);
+			do_action('mprm_before_payment_status_change', $this->ID, $status, $old_status);
 
 			$update_fields = array('ID' => $this->ID, 'post_status' => $status, 'edit_date' => current_time('mysql'));
 
@@ -1318,7 +1318,7 @@ final class Order extends Model {
 			return;
 		}
 
-		do_action('edd_pre_refund_payment', $this);
+		do_action('mprm_pre_refund_payment', $this);
 
 		$decrease_store_earnings = apply_filters('mprm_decrease_store_earnings_on_refund', true, $this);
 		$decrease_customer_value = apply_filters('mprm_decrease_customer_value_on_refund', true, $this);
@@ -1330,9 +1330,8 @@ final class Order extends Model {
 		// Clear the This Month earnings (this_monththis_month is NOT a typo)
 		delete_transient(md5('mprm_earnings_this_monththis_month'));
 
-		do_action('edd_post_refund_payment', $this);
+		do_action('mprm_post_refund_payment', $this);
 	}
-
 
 	private function process_failure() {
 
@@ -1351,7 +1350,6 @@ final class Order extends Model {
 		}
 
 	}
-
 
 	private function process_pending() {
 		$process_pending = true;
@@ -1382,7 +1380,6 @@ final class Order extends Model {
 		delete_transient(md5('mprm_earnings_this_monththis_month'));
 	}
 
-
 	private function maybe_alter_stats($alter_store_earnings, $alter_customer_value, $alter_customer_purchase_count) {
 
 		$this->get('payments')->undo_purchase(false, $this->ID);
@@ -1409,7 +1406,6 @@ final class Order extends Model {
 
 	}
 
-
 	private function delete_sales_logs() {
 		global $mprm_logs;
 
@@ -1426,7 +1422,6 @@ final class Order extends Model {
 		);
 	}
 
-
 	private function setup_completed_date() {
 		$payment = get_post($this->ID);
 
@@ -1438,7 +1433,6 @@ final class Order extends Model {
 
 		return $date;
 	}
-
 
 	private function setup_mode() {
 		return $this->get_meta('_mprm_order_mode');
@@ -1459,7 +1453,6 @@ final class Order extends Model {
 		return $amount;
 	}
 
-
 	private function setup_tax() {
 		$tax = $this->get_meta('_mprm_order_tax', true);
 
@@ -1469,11 +1462,9 @@ final class Order extends Model {
 			$tax = isset($payment_meta['tax']) ? $payment_meta['tax'] : 0;
 
 		}
-
 		return $tax;
 
 	}
-
 
 	private function setup_fees_total() {
 		$fees_total = (float)0.00;
@@ -1489,7 +1480,6 @@ final class Order extends Model {
 
 	}
 
-
 	private function setup_subtotal() {
 		$subtotal = 0;
 		$cart_details = $this->cart_details;
@@ -1503,7 +1493,6 @@ final class Order extends Model {
 					$subtotal += $item['subtotal'];
 
 				}
-
 			}
 
 		} else {
@@ -1517,30 +1506,25 @@ final class Order extends Model {
 		return $subtotal;
 	}
 
-
 	private function setup_discounts() {
 		$discounts = !empty($this->payment_meta['user_info']['discount']) ? $this->payment_meta['user_info']['discount'] : array();
 		return $discounts;
 	}
-
 
 	private function setup_currency() {
 		$currency = isset($this->payment_meta['currency']) ? $this->payment_meta['currency'] : apply_filters('mprm_payment_currency_default', $this->get('settings')->get_currency(), $this);
 		return $currency;
 	}
 
-
 	private function setup_fees() {
 		$payment_fees = isset($this->payment_meta['fees']) ? $this->payment_meta['fees'] : array();
 		return $payment_fees;
 	}
 
-
 	private function setup_gateway() {
 		$gateway = $this->get_meta('_mprm_order_gateway', true);
 		return $gateway;
 	}
-
 
 	private function setup_transaction_id() {
 		$transaction_id = $this->get_meta('_mprm_order_transaction_id', true);
@@ -1555,24 +1539,20 @@ final class Order extends Model {
 		return $transaction_id;
 	}
 
-
 	private function setup_ip() {
 		$ip = $this->get_meta('_mprm_order_user_ip', true);
 		return $ip;
 	}
-
 
 	private function setup_customer_id() {
 		$customer_id = $this->get_meta('_mprm_order_customer_id', true);
 		return $customer_id;
 	}
 
-
 	private function setup_user_id() {
 		$user_id = $this->get_meta('_mprm_order_user_id', true);
 		return $user_id;
 	}
-
 
 	private function setup_email() {
 		$email = $this->get_meta('_mprm_order_user_email', true);
@@ -1584,7 +1564,6 @@ final class Order extends Model {
 		return $email;
 	}
 
-
 	private function setup_user_info() {
 		$defaults = array(
 			'first_name' => $this->first_name,
@@ -1594,7 +1573,6 @@ final class Order extends Model {
 
 		$user_info = isset($this->payment_meta['user_info']) ? maybe_unserialize($this->payment_meta['user_info']) : array();
 		$user_info = wp_parse_args($user_info, $defaults);
-
 
 		if (empty($user_info)) {
 			// Get the customer, but only if it's been created
@@ -1650,7 +1628,6 @@ final class Order extends Model {
 		return $address;
 	}
 
-
 	private function setup_payment_key() {
 		$key = $this->get_meta('_mprm_order_purchase_key', true);
 		return $key;
@@ -1664,114 +1641,91 @@ final class Order extends Model {
 			$number = $this->get_meta('_mprm_order_number', true);
 
 			if (!$number) {
-
 				$number = $this->ID;
-
 			}
-
 		}
 
 		return $number;
 	}
-
 
 	private function setup_cart_details() {
 		$cart_details = isset($this->payment_meta['cart_details']) ? maybe_unserialize($this->payment_meta['cart_details']) : array();
 		return $cart_details;
 	}
 
-
 	private function setup_menu_items() {
 		$menu_items = isset($this->payment_meta['menu_items']) ? maybe_unserialize($this->payment_meta['menu_items']) : array();
 		return $menu_items;
 	}
-
 
 	private function setup_has_unlimited() {
 		$unlimited = (bool)$this->get_meta('_mprm_order_unlimited_menu_items', true);
 		return $unlimited;
 	}
 
-
 	public function array_convert() {
 		return get_object_vars($this);
 	}
-
 
 	private function get_cart_details() {
 		return apply_filters('mprm_payment_cart_details', $this->cart_details, $this->ID, $this);
 	}
 
-
 	private function get_completed_date() {
 		return apply_filters('mprm_payment_completed_date', $this->completed_date, $this->ID, $this);
 	}
-
 
 	private function get_tax() {
 		return apply_filters('mprm_get_payment_tax', $this->tax, $this->ID, $this);
 	}
 
-
 	private function get_subtotal() {
 		return apply_filters('mprm_get_payment_subtotal', $this->subtotal, $this->ID, $this);
 	}
-
 
 	private function get_discounts() {
 		return apply_filters('mprm_payment_discounts', $this->discounts, $this->ID, $this);
 	}
 
-
 	private function get_currency() {
 		return apply_filters('mprm_payment_currency_code', $this->currency, $this->ID, $this);
 	}
-
 
 	private function get_gateway() {
 		return apply_filters('mprm_payment_gateway', $this->gateway, $this->ID, $this);
 	}
 
-
 	private function get_transaction_id() {
 		return apply_filters('mprm_get_payment_transaction_id', $this->transaction_id, $this->ID, $this);
 	}
-
 
 	private function get_ip() {
 		return apply_filters('mprm_payment_user_ip', $this->ip, $this->ID, $this);
 	}
 
-
 	private function get_customer_id() {
 		return apply_filters('mprm_payment_customer_id', $this->customer_id, $this->ID, $this);
 	}
-
 
 	private function get_user_id() {
 		return apply_filters('mprm_payment_user_id', $this->user_id, $this->ID, $this);
 	}
 
-
 	private function get_email() {
 		return apply_filters('mprm_payment_user_email', $this->email, $this->ID, $this);
 	}
-
 
 	private function get_user_info() {
 		return apply_filters('mprm_payment_meta_user_info', $this->user_info, $this->ID, $this);
 	}
 
-
 	private function get_address() {
 		return apply_filters('mprm_payment_address', $this->address, $this->ID, $this);
 	}
 
-
 	private function get_key() {
 		return apply_filters('mprm_payment_key', $this->key, $this->ID, $this);
 	}
-
 
 	private function get_number() {
 		return apply_filters('mprm_payment_number', $this->number, $this->ID, $this);
@@ -1780,7 +1734,6 @@ final class Order extends Model {
 	private function get_menu_items() {
 		return apply_filters('mprm_payment_meta_menu_items', $this->menu_items, $this->ID, $this);
 	}
-
 
 	private function get_unlimited() {
 		return apply_filters('mprm_payment_unlimited_menu_items', $this->unlimited, $this->ID, $this);

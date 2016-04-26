@@ -2,6 +2,7 @@
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
+use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\View;
 
 class Controller_cart extends Controller {
@@ -41,13 +42,12 @@ class Controller_cart extends Controller {
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}
-	public function action_purchase(){
-		$request = $_REQUEST;
-		$this->get('purchase')->process_purchase_form();
-		if ((bool)$request['is_ajax']) {
-			$this->send_json($this->date);
+
+	public function action_purchase() {
+		if (Core::is_ajax()) {
+			$this->get('purchase')->process_purchase_form();
 		} else {
-//			wp_safe_redirect($request['_wp_http_referer']);
+			$this->get('purchase')->process_purchase_form();
 		}
 	}
 }

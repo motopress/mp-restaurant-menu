@@ -84,4 +84,22 @@ class Misc extends Model {
 		$name = isset($currencies[$code]) ? $currencies[$code] : $code;
 		return apply_filters('mprm_currency_name', $name);
 	}
+
+	function mprm_die_handler() {
+		die();
+	}
+
+	function mprm_die($message = '', $title = '', $status = 400) {
+		add_filter('wp_die_ajax_handler', array($this, 'mprm_die_handler'), 10, 3);
+		add_filter('wp_die_handler', array($this, 'mprm_die_handler'), 10, 3);
+		wp_die($message, $title, array('response' => $status));
+	}
+
+	function mprm_request_actions() {
+		if (isset($_REQUEST['mprm_action'])) {
+			do_action('mprm_' . $_REQUEST['mprm_action'], $_REQUEST);
+		}
+	}
+
+
 }

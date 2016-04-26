@@ -1,6 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Model;
 
 class Purchase extends Model {
@@ -29,7 +30,7 @@ class Purchase extends Model {
 			do_action('mprm_checkout_error_checks', $valid_data, $_POST);
 		}
 
-		$is_ajax = isset($_POST['mprm_ajax']);
+		$is_ajax = Core::is_ajax();
 
 		// Process the login form
 		if (isset($_POST['mprm_login_submit'])) {
@@ -42,15 +43,15 @@ class Purchase extends Model {
 		if (false === $valid_data || $this->get('errors')->get_errors() || !$user) {
 			if ($is_ajax) {
 				do_action('mprm_ajax_checkout_errors');
-				//edd_die();
+				$this->get('misc')->mprm_die();
 			} else {
 				return false;
 			}
 		}
 
 		if ($is_ajax) {
-			echo 'success';
-			//edd_die();
+			wp_send_json_success();
+			$this->get('misc')->mprm_die();
 		}
 
 		// Setup user information
@@ -106,12 +107,11 @@ class Purchase extends Model {
 		unset($session_data['card_info']['card_number']);
 
 		// Used for showing menu_item links to non logged-in users after purchase, and for other plugins needing purchase data.
-		$this->get('session')->set('mptm_purchase', $purchase_data);
+		$this->get('session')->set('mptm_purchase', $session_data);
 
 		// Send info to the gateway for payment processing
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
-
 
 	function process_purchase_login() {
 
@@ -132,13 +132,12 @@ class Purchase extends Model {
 		//edd_log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
 
 		if ($is_ajax) {
-			echo 'success';
+			//echo 'success';
 			//edd_die();
 		} else {
 			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
 		}
 	}
-
 
 	function purchase_form_validate_fields() {
 		// Check if there is $_POST
@@ -186,7 +185,6 @@ class Purchase extends Model {
 		return $valid_data;
 	}
 
-
 	function purchase_form_validate_gateway() {
 
 		$gateway = $this->get('gateways')->get_default_gateway();
@@ -207,11 +205,8 @@ class Purchase extends Model {
 			}
 
 		}
-
 		return $gateway;
-
 	}
-
 
 	function purchase_form_validate_discounts() {
 		// Retrieve the discount stored in cookies
@@ -242,7 +237,6 @@ class Purchase extends Model {
 			if ($posted_discount && (empty($discounts) || $this->get('discount')->multiple_discounts_allowed()) && $this->get('discount')->is_discount_valid($posted_discount, $user)) {
 				$this->get('discount')->set_cart_discount($posted_discount);
 			}
-
 		}
 
 		// If we have discounts, loop through them
@@ -267,7 +261,6 @@ class Purchase extends Model {
 		return implode(', ', $discounts);
 	}
 
-
 	function purchase_form_validate_agree_to_terms() {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
@@ -275,7 +268,6 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
 		}
 	}
-
 
 	function purchase_form_required_fields() {
 		$required_fields = array(
@@ -313,7 +305,6 @@ class Purchase extends Model {
 
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
 	}
-
 
 	function purchase_form_validate_logged_in_user() {
 		global $user_ID;
@@ -359,7 +350,6 @@ class Purchase extends Model {
 		// Return user data
 		return $valid_user_data;
 	}
-
 
 	function purchase_form_validate_new_user() {
 		$registering_new_user = false;
@@ -453,7 +443,6 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-
 	function purchase_form_validate_user_login() {
 
 		// Start an array to collect valid user data
@@ -513,7 +502,6 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-
 	function purchase_form_validate_guest_user() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
@@ -554,7 +542,6 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-
 	function register_and_login_new_user($user_data = array()) {
 		// Verify the array
 		if (empty($user_data))
@@ -593,16 +580,12 @@ class Purchase extends Model {
 		return $user_id;
 	}
 
-
 	function get_purchase_form_user($valid_data = array()) {
 		// Initialize user
 		$user = false;
 		$is_ajax = defined('DOING_AJAX') && DOING_AJAX;
 
-		if ($is_ajax) {
-			// Do not create or login the user during the ajax submission (check for errors only)
-			return true;
-		} else if (is_user_logged_in()) {
+		if (is_user_logged_in()) {
 			// Set the valid user as the logged in collected data
 			$user = $valid_data['logged_in_user'];
 		} else if ($valid_data['need_new_user'] === true || $valid_data['need_user_login'] === true) {
@@ -614,8 +597,6 @@ class Purchase extends Model {
 				$user['user_id'] = $this->register_and_login_new_user($user);
 				// User login
 			} else if ($valid_data['need_user_login'] === true && !$is_ajax) {
-
-
 				// Set user
 				$user = $valid_data['login_user_data'];
 				// Login user
@@ -666,7 +647,6 @@ class Purchase extends Model {
 		return $user;
 	}
 
-
 	function purchase_form_validate_cc() {
 		$card_data = $this->get_purchase_cc_info();
 
@@ -680,7 +660,6 @@ class Purchase extends Model {
 		// This should validate card numbers at some point too
 		return $card_data;
 	}
-
 
 	function get_purchase_cc_info() {
 		$cc_info = array();
@@ -699,7 +678,6 @@ class Purchase extends Model {
 		// Return cc info
 		return $cc_info;
 	}
-
 
 	function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
 		$ret = false;
@@ -873,7 +851,6 @@ class Purchase extends Model {
 		return apply_filters('mprm_is_zip_valid', $ret, $zip, $country_code);
 	}
 
-
 	function check_purchase_email($valid_data, $posted) {
 		$is_banned = false;
 		$banned = $this->get('emails')->get_banned_emails();
@@ -918,7 +895,6 @@ class Purchase extends Model {
 		}
 	}
 
-
 	public function process_straight_to_gateway($data) {
 
 		$menu_item_id = $data['menu_item_id'];
@@ -939,7 +915,7 @@ class Purchase extends Model {
 		add_action('mprm_purchase', array($this, 'process_purchase_form'));
 		add_action('wp_ajax_mprm_process_checkout', array($this, 'process_purchase_form'));
 		add_action('wp_ajax_nopriv_mprm_process_checkout', array($this, 'process_purchase_form'));
-		add_action('mprm_checkout_error_checks', array($this, 'check_purchase_email', 10, 2));
+		add_action('mprm_checkout_error_checks', array($this, 'check_purchase_email'), 10, 2);
 		add_action('wp_ajax_mprm_process_checkout_login', array($this, 'process_purchase_login'));
 		add_action('wp_ajax_nopriv_mprm_process_checkout_login', array($this, 'process_purchase_login'));
 		add_action('mprm_checkout_before_gateway', array($this, 'mprm_checkout_before_gateway'), 10, 3);
