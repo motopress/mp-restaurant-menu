@@ -643,4 +643,22 @@ class Cart extends Model {
 			return true;
 		}
 	}
+
+	function get_purchase_summary($purchase_data, $email = true) {
+		$summary = '';
+
+		if ($email) {
+			$summary .= $purchase_data['user_email'] . ' - ';
+		}
+
+		if (!empty($purchase_data['menu_items'])) {
+			foreach ($purchase_data['menu_items'] as $menu_item) {
+				$summary .= get_the_title($menu_item['id']) . ', ';
+			}
+
+			$summary = substr($summary, 0, -2);
+		}
+
+		return apply_filters('mprm_get_purchase_summary', $summary, $purchase_data, $email);
+	}
 }

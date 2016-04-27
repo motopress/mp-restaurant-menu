@@ -6,6 +6,8 @@ use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Misc;
 use mp_restaurant_menu\classes\models\Order;
+use mp_restaurant_menu\classes\models\Paypal;
+use mp_restaurant_menu\classes\models\Paypal_standart;
 use mp_restaurant_menu\classes\models\Purchase;
 use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\models\Settings;
@@ -121,7 +123,6 @@ class Hooks extends Core {
 
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
-		Misc::get_instance()->mprm_request_actions();
 
 	}
 
@@ -142,6 +143,9 @@ class Hooks extends Core {
 		self::install_checkout_actions();
 
 		Manual_payment::get_instance()->init_action();
+		Paypal_standart::get_instance()->init_action();
+		Paypal::get_instance()->init_action();
+
 		Purchase::get_instance()->init_action();
 	}
 

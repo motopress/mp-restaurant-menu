@@ -369,8 +369,8 @@ class Discount extends Model {
 					// Default back to true
 					$ret = true;
 
-					foreach ($product_reqs as $download_id) {
-						if (!$this->get('cart')->item_in_cart($download_id)) {
+					foreach ($product_reqs as $menu_item_id) {
+						if (!$this->get('cart')->item_in_cart($menu_item_id)) {
 							$this->get('errors')->set_error('mprm-discount-error', __('The product requirements for this discount are not met.', 'mp-restaurant-menu'));
 							$ret = false;
 							break;
@@ -380,9 +380,9 @@ class Discount extends Model {
 					break;
 
 				default : // Any
-					foreach ($product_reqs as $download_id) {
+					foreach ($product_reqs as $menu_item_id) {
 
-						if ($this->get('cart')->item_in_cart($download_id)) {
+						if ($this->get('cart')->item_in_cart($menu_item_id)) {
 							$ret = true;
 							break;
 						}

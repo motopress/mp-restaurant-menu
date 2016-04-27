@@ -95,11 +95,45 @@ class Misc extends Model {
 		wp_die($message, $title, array('response' => $status));
 	}
 
-	function mprm_request_actions() {
-		if (isset($_REQUEST['mprm_action'])) {
-			do_action('mprm_' . $_REQUEST['mprm_action'], $_REQUEST);
-		}
+	function use_skus() {
+		$ret = $this->get('settings')->get_option('enable_skus', false);
+		return (bool)apply_filters('mprm_use_skus', $ret);
 	}
 
+	function can_view_receipt($payment_key = '') {
+		global $mprm_receipt_args;
 
+		$return = false;
+		if (empty($payment_key)) {
+			return $return;
+		}
+
+		$mprm_receipt_args['id'] = $this->get('payments')->get_purchase_id_by_key($payment_key);
+
+		$user_id = (int)$this->get('payments')->get_payment_user_id($mprm_receipt_args['id']);
+
+		$payment_meta = $this->get('payments')->get_payment_meta($mprm_receipt_args['id']);
+
+		if (is_user_logged_in()) {
+			if ($user_id === (int)get_current_user_id()) {
+				$return = true;
+			} elseif (wp_get_current_user()->user_email === $this->get('payments')->get_payment_user_email($mprm_receipt_args['id'])) {
+				$return = true;
+			} elseif (current_user_can('view_shop_sensitive_data')) {
+				$return = true;
+			}
+		}
+		$session = $this->get('session')->get_session_by_key('mprm_purchase');
+		if (!empty($session) && !is_user_logged_in()) {
+			if ($session['purchase_key'] === $payment_meta['key']) {
+				$return = true;
+			}
+		}
+
+		return (bool)apply_filters('mprm_can_view_receipt', $return, $payment_key);
+	}
+
+	function eget_php_arg_separator_output() {
+		return ini_get('arg_separator.output');
+	}
 }

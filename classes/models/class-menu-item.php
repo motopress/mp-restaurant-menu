@@ -8,7 +8,7 @@ use mp_restaurant_menu\classes\View;
 
 class Menu_item extends Model {
 	protected static $instance;
-	private $bundled_downloads;
+	private $bundled_menu_items;
 
 
 	private $sales;
@@ -17,6 +17,7 @@ class Menu_item extends Model {
 	private $type;
 	private $notes;
 	private $ID;
+	private $sku;
 
 	public static function get_instance() {
 		if (null === self::$instance) {
@@ -44,6 +45,31 @@ class Menu_item extends Model {
 	public function get_ID() {
 		return $this->ID;
 	}
+
+	public function get_sku() {
+		if (!isset($this->sku)) {
+
+			$this->sku = get_post_meta($this->ID, 'mprm_sku', true);
+
+			if (empty($this->sku)) {
+				$this->sku = '-';
+			}
+
+		}
+
+		return apply_filters('mprm_get_menu_item_sku', $this->sku, $this->ID);
+	}
+
+	public function get_notes() {
+
+		if (!isset($this->notes)) {
+			$this->notes = get_post_meta($this->ID, 'mprm_product_notes', true);
+		}
+
+		return (string)apply_filters('mprm_product_notes', $this->notes, $this->ID);
+
+	}
+
 
 	private function setup_menu_item($menu_item) {
 		if ($this->is_menu_item($menu_item)) {
@@ -729,7 +755,7 @@ class Menu_item extends Model {
 		$quantity = absint($quantity);
 		$total_sales = $sales + $quantity;
 
-		if ($this->update_meta('_mprm_download_sales', $total_sales)) {
+		if ($this->update_meta('_mprm_menu_item_sales', $total_sales)) {
 
 			$this->sales = $total_sales;
 			return $this->sales;
@@ -802,7 +828,7 @@ class Menu_item extends Model {
 			// Only decrease if greater than zero
 			$new_amount = $earnings - (float)$amount;
 
-			if ($this->update_meta('_mprm_download_earnings', $new_amount)) {
+			if ($this->update_meta('_mprm_menu_item_earnings', $new_amount)) {
 				$this->earnings = $new_amount;
 				return $this->earnings;
 			}
@@ -822,7 +848,7 @@ class Menu_item extends Model {
 
 	function get_bundled_products($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
-		return $this->bundled_downloads;
+		return $this->bundled_menu_items;
 	}
 
 	function get_sales_stats($menu_item_id = 0) {
@@ -858,4 +884,17 @@ class Menu_item extends Model {
 
 		return false;
 	}
+
+	function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
+		$prices = $this->get_variable_prices($menu_item_id);
+		$price_name = '';
+
+		if ($prices && is_array($prices)) {
+			if (isset($prices[$price_id]))
+				$price_name = $prices[$price_id]['name'];
+		}
+
+		return apply_filters('mprm_get_price_option_name', $price_name, $menu_item_id, $payment_id, $price_id);
+	}
+
 }

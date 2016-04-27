@@ -1,5 +1,5 @@
-<?php use \mp_restaurant_menu\classes\models; ?>
-<?php
+<?php use \mp_restaurant_menu\classes\models;
+
 function mprm_before_purchase_form() {
 }
 
@@ -10,6 +10,32 @@ function mprm_checkout_form_top() {
 }
 
 function mprm_checkout_form_bottom() {
+}
+
+function mprm_before_cc_fields() {
+}
+
+function mprm_before_cc_expiration() {
+}
+
+function mprm_after_cc_expiration() {
+}
+
+function mprm_after_cc_fields() {
+}
+
+function mprm_get_purchase_session() {
+	return models\Session::get_instance()->get_session_by_key('mprm_purchase');
+}
+
+function mprm_get_menu_item_sku($menu_item_id = 0) {
+	$menu_item = new models\Menu_item($menu_item_id);
+	return $menu_item->get_sku();
+}
+
+function mprm_get_menu_item_notes($menu_item_id = 0) {
+	$menu_item = new models\Menu_item($menu_item_id);
+	return $menu_item->get_notes();
 }
 
 function mprm_payment_mode_select() {

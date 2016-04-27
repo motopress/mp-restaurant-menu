@@ -107,7 +107,7 @@ class Purchase extends Model {
 		unset($session_data['card_info']['card_number']);
 
 		// Used for showing menu_item links to non logged-in users after purchase, and for other plugins needing purchase data.
-		$this->get('session')->set('mptm_purchase', $session_data);
+		$this->get('session')->set('mprm_purchase', $session_data);
 
 		// Send info to the gateway for payment processing
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
@@ -906,7 +906,7 @@ class Purchase extends Model {
 		}
 
 		$purchase_data = $this->get('gateways')->build_straight_to_gateway_data($menu_item_id, $options, $quantity);
-		$this->get('session')->set('mptm_purchase', $purchase_data);
+		$this->get('session')->set('mprm_purchase', $purchase_data);
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
 

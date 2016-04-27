@@ -1209,9 +1209,27 @@ class Payments extends Model {
 		$where .= " AND post_date <= '{$start}'";
 		return $where;
 	}
+
+	public function get_payment_id($params = array()) {
+		$payment_id = false;
+		if (!empty($params)) {
+			switch ($params['search_key']) {
+				case 'payment_key':
+					$payment_id = $this->get_purchase_id_by_key($params['value']);
+					break;
+				default:
+					break;
+			}
+		}
+		return $payment_id;
+	}
+
+
+	public function init_action() {
+		add_filter('wp_count_comments', 'mprm_remove_payment_notes_in_comment_counts', 10, 2);
+		add_filter('comment_feed_where', 'mprm_hide_payment_notes_from_feeds', 10, 2);
+		add_filter('comments_clauses', 'mprm_hide_payment_notes_pre_41', 10, 2);
+		add_action('pre_get_comments', 'mprm_hide_payment_notes', 10);
+	}
 }
 
-add_filter('wp_count_comments', 'edd_remove_payment_notes_in_comment_counts', 10, 2);
-add_filter('comment_feed_where', 'edd_hide_payment_notes_from_feeds', 10, 2);
-add_filter('comments_clauses', 'edd_hide_payment_notes_pre_41', 10, 2);
-add_action('pre_get_comments', 'edd_hide_payment_notes', 10);

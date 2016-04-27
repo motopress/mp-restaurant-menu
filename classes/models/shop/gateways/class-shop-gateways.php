@@ -226,4 +226,15 @@ class Gateways extends Model {
 		return apply_filters('mprm_straight_to_gateway_purchase_data', $purchase_data);
 
 	}
+
+	function get_gateway_checkout_label($gateway) {
+		$gateways = $this->get_payment_gateways();
+		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['checkout_label'] : $gateway;
+
+		if ($gateway == 'manual') {
+			$label = __('Free Purchase', 'mp-restaurant-menu');
+		}
+
+		return apply_filters('mprm_gateway_checkout_label', $label, $gateway);
+	}
 }
