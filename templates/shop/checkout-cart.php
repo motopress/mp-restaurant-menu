@@ -61,7 +61,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">
 				<?php do_action('mprm_cart_fee_rows_before', $fee_id, $fee); ?>
 				<td class="mprm_cart_fee_label"><?php echo esc_html($fee['label']); ?></td>
-				<td class="mprm_cart_fee_amount"><?php echo esc_html(Menu_item::get_instance()->currency_filter(Formatting::get_instance()->format_amount($fee['amount']))); ?></td>
+				<td class="mprm_cart_fee_amount"><?php echo esc_html(Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount']))); ?></td>
 				<td>
 					<?php if (!empty($fee['type']) && 'item' == $fee['type']) : ?>
 						<a href="<?php echo esc_url(Cart::get_instance()->remove_cart_fee_url($fee_id)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>

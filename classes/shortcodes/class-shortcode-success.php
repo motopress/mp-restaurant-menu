@@ -58,28 +58,13 @@ class Shortcode_success extends Shortcodes {
 		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('misc')->is_guest_payment($payment_id)) {
 
 			$mprm_login_redirect = $this->get('misc')->get_current_page_url();
-
-			ob_start();
-
-			echo '<p class="mprm-alert mprm-alert-warn">' . __('You must be logged in to view this payment receipt.', 'mp-restaurant-menu') . '</p>';
-			edd_get_template_part('shortcode', 'login');
-
-			$login_form = ob_get_clean();
-
-			return $login_form;
+			$data['need_login'] = true;
+			$data['login_from'] = View::get_instance()->render_html("shop/login", array(), false);
 		}
 
 		if (!apply_filters('mprm_user_can_view_receipt', $user_can_view, $mprm_receipt_args)) {
-			return '<p class="mprm-alert mprm-alert-error">' . $mprm_receipt_args['error'] . '</p>';
+			$data['can_view'] = true;
 		}
-
-		ob_start();
-
-		edd_get_template_part('shortcode', 'receipt');
-
-		$display = ob_get_clean();
-
-		//return $display;
 
 
 		$data['payment'] = get_post($payment_id);

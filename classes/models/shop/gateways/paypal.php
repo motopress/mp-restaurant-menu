@@ -1,5 +1,6 @@
 <?php namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\libs\IpnListener;
 use mp_restaurant_menu\classes\Model;
 
 class Paypal extends Model {
@@ -176,7 +177,7 @@ class Paypal extends Model {
 //			include_once(EDD_PLUGIN_DIR . 'includes/gateways/libraries/paypal/ipnlistener.php');
 //		}
 
-		$listener = new \IpnListener();
+		$listener = new IpnListener();
 
 		if ($this->get('misc')->is_test_mode()) {
 			$listener->use_sandbox = true;

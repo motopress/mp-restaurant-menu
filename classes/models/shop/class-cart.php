@@ -539,7 +539,7 @@ class Cart extends Model {
 	}
 
 	public function cart_subtotal() {
-		$price = $this->get('menu_item')->currency_filter(Formatting::get_instance()->format_amount($this->get_cart_subtotal()));
+		$price = $this->get('menu_item')->currency_filter(mprm_format_amount($this->get_cart_subtotal()));
 		return $price;
 	}
 

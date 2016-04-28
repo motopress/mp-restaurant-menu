@@ -50,4 +50,8 @@ class Controller_cart extends Controller {
 			$this->get('purchase')->process_purchase_form();
 		}
 	}
+
+	public function action_ipn_listener() {
+		update_option('IPN', $_REQUEST);
+	}
 }

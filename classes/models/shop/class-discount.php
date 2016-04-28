@@ -178,6 +178,32 @@ class Discount extends Model {
 
 	}
 
+	function increase_discount_usage($code) {
+
+		$id = $this->get_discount_id_by_code($code);
+
+		if (false === $id) {
+			return false;
+		}
+
+		$uses = $this->get_discount_uses($id);
+
+		if ($uses) {
+			$uses++;
+		}
+
+		if ($uses < 0) {
+			$uses = 0;
+		}
+
+		update_post_meta($id, '_mprm_discount_uses', $uses);
+
+		do_action('mprm_discount_increase_use_count', $uses, $id, $code);
+
+		return $uses;
+
+	}
+
 	function get_discount_uses($code_id = null) {
 		$uses = get_post_meta($code_id, '_mprm_discount_uses', true);
 
@@ -697,8 +723,11 @@ class Discount extends Model {
 		return false;
 	}
 
+
+
 	public function init_action() {
 		add_action('mprm_discount_decrease_use_count', 'mprm_discount_decrease_use_count', 10, 3);
+		add_action('mprm_discount_increase_use_count', 'mprm_discount_increase_use_count', 10, 3);
 		add_action('mprm_pre_update_discount_status', 'mprm_pre_update_discount_status', 10, 3);
 		add_action('mprm_post_update_discount_status', 'mprm_post_update_discount_status', 10, 3);
 	}

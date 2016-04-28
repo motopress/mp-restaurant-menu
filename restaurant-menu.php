@@ -105,6 +105,10 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 */
 		require_once MP_RM_LIBS_PATH . 'parsers.php';
 		/**
+		 * Include WP Parser
+		 */
+		require_once MP_RM_LIBS_PATH . 'gateways/ipnlistener.php';
+		/**
 		 * Include state
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-state-factory.php';

@@ -665,7 +665,7 @@ class Payments extends Model {
 				$payments = $this->get_payments($args);
 				if ($payments) {
 
-					if (did_action('edd_update_payment_status')) {
+					if (did_action('mprm_update_payment_status')) {
 						array_pop($payments);
 					}
 
@@ -1040,13 +1040,13 @@ class Payments extends Model {
 			return false;
 		}
 
-		remove_action('pre_get_comments', 'edd_hide_payment_notes', 10);
-		remove_filter('comments_clauses', 'edd_hide_payment_notes_pre_41', 10);
+		remove_action('pre_get_comments', array($this, 'hide_payment_notes'), 10);
+		remove_filter('comments_clauses', array($this, 'hide_payment_notes_pre_41'), 10);
 
 		$notes = get_comments(array('post_id' => $payment_id, 'order' => 'ASC', 'search' => $search));
 
-		add_action('pre_get_comments', 'edd_hide_payment_notes', 10);
-		add_filter('comments_clauses', 'edd_hide_payment_notes_pre_41', 10, 2);
+		add_action('pre_get_comments', array($this, 'hide_payment_notes'), 10);
+		add_filter('comments_clauses', array($this, 'hide_payment_notes_pre_41'), 10, 2);
 
 		return $notes;
 	}
@@ -1056,7 +1056,7 @@ class Payments extends Model {
 		if (empty($payment_id))
 			return false;
 
-		do_action('edd_pre_insert_payment_note', $payment_id, $note);
+		do_action('mprm_pre_insert_payment_note', $payment_id, $note);
 
 		$note_id = wp_insert_comment(wp_filter_comment(array(
 			'comment_post_ID' => $payment_id,
@@ -1074,7 +1074,7 @@ class Payments extends Model {
 
 		)));
 
-		do_action('edd_insert_payment_note', $note_id, $payment_id, $note);
+		do_action('mprm_insert_payment_note', $note_id, $payment_id, $note);
 
 		return $note_id;
 	}
@@ -1084,9 +1084,9 @@ class Payments extends Model {
 		if (empty($comment_id))
 			return false;
 
-		do_action('edd_pre_delete_payment_note', $comment_id, $payment_id);
+		do_action('mprm_pre_delete_payment_note', $comment_id, $payment_id);
 		$ret = wp_delete_comment($comment_id, true);
-		do_action('edd_post_delete_payment_note', $comment_id, $payment_id);
+		do_action('mprm_post_delete_payment_note', $comment_id, $payment_id);
 
 		return $ret;
 	}
@@ -1110,7 +1110,7 @@ class Payments extends Model {
 			'mprm-action' => 'delete_payment_note',
 			'note_id' => $note->comment_ID,
 			'payment_id' => $payment_id
-		)), 'edd_delete_payment_note_' . $note->comment_ID);
+		)), 'mprm_delete_payment_note_' . $note->comment_ID);
 
 		$note_html = '<div class="mprm-payment-note" id="mprm-payment-note-' . $note->comment_ID . '">';
 		$note_html .= '<p>';
@@ -1224,12 +1224,273 @@ class Payments extends Model {
 		return $payment_id;
 	}
 
+	public function complete_purchase($payment_id, $new_status, $old_status) {
+		if ($old_status == 'publish' || $old_status == 'complete') {
+			return; // Make sure that payments are only completed once
+		}
+
+		// Make sure the payment completion is only processed when new status is complete
+		if ($new_status != 'publish' && $new_status != 'complete') {
+			return;
+		}
+
+		$payment = new Order($payment_id);
+
+		$creation_date = get_post_field('post_date', $payment_id, 'raw');
+		$completed_date = $payment->completed_date;
+		$user_info = $payment->user_info;
+		$customer_id = $payment->customer_id;
+		$amount = $payment->total;
+		$cart_details = $payment->cart_details;
+
+		do_action('mprm_pre_complete_purchase', $payment_id);
+
+		if (is_array($cart_details)) {
+
+			// Increase purchase count and earnings
+			foreach ($cart_details as $cart_index => $menu_item) {
+
+				// "bundle" or "default"
+				$menu_item_type = $this->get('menu_item')->get_menu_item_type($menu_item['id']);
+				$price_id = isset($menu_item['item_number']['options']['price_id']) ? (int)$menu_item['item_number']['options']['price_id'] : false;
+				// Increase earnings and fire actions once per quantity number
+				for ($i = 0; $i < $menu_item['quantity']; $i++) {
+
+					// Ensure these actions only run once, ever
+					if (empty($completed_date)) {
+						//edd_record_sale_in_log($menu_item['id'], $payment_id, $price_id, $creation_date);
+						do_action('mprm_complete_purchase', $menu_item['id'], $payment_id, $menu_item_type, $menu_item, $cart_index);
+
+					}
+				}
+
+				// Increase the earnings for this download ID
+				$this->get('menu_item')->increase_earnings($menu_item['id'], $menu_item['price']);
+				mprm_increase_purchase_count($menu_item['id'], $menu_item['quantity']);
+
+			}
+
+			// Clear the total earnings cache
+			delete_transient('mprm_earnings_total');
+			// Clear the This Month earnings (this_monththis_month is NOT a typo)
+			delete_transient(md5('mprm_earnings_this_monththis_month'));
+			delete_transient(md5('mprm_earnings_todaytoday'));
+		}
+
+
+		// Increase the customer's purchase stats
+		$customer = new Customer($customer_id);
+		$customer->increase_purchase_count();
+		$customer->increase_value($amount);
+
+		$this->get('payments')->increase_total_earnings($amount);
+
+		// Check for discount codes and increment their use counts
+		if (!empty($user_info['discount']) && $user_info['discount'] !== 'none') {
+			$discounts = array_map('trim', explode(',', $user_info['discount']));
+			if (!empty($discounts)) {
+				foreach ($discounts as $code) {
+					$this->get('discount')->increase_discount_usage($code);
+				}
+			}
+		}
+
+		// Ensure this action only runs once ever
+		if (empty($completed_date)) {
+
+			// Save the completed date
+			$payment->completed_date = current_time('mysql');
+			$payment->save();
+
+			do_action('mprm_complete_purchase', $payment_id);
+
+		}
+
+		// Empty the shopping cart
+		$this->get('cart')->empty_cart();
+	}
+
+	public function record_status_change($payment_id, $new_status, $old_status) {
+
+		// Get the list of statuses so that status in the payment note can be translated
+		$stati = $this->get('payments')->get_payment_statuses();
+		$old_status = isset($stati[$old_status]) ? $stati[$old_status] : $old_status;
+		$new_status = isset($stati[$new_status]) ? $stati[$new_status] : $new_status;
+
+		$status_change = sprintf(__('Status changed from %s to %s', 'easy-digital-downloads'), $old_status, $new_status);
+
+		$this->get('payments')->insert_payment_note($payment_id, $status_change);
+	}
+
+
+	/**
+	 * Reduces earnings and sales stats when a purchase is refunded
+	 *
+	 * @since 1.8.2
+	 *
+	 * @param int $payment_id the ID number of the payment
+	 * @param string $new_status the status of the payment, probably "publish"
+	 * @param string $old_status the status of the payment prior to being marked as "complete", probably "pending"
+	 *
+	 * @internal param Arguments $data passed
+	 */
+	public function undo_purchase_on_refund($payment_id, $new_status, $old_status) {
+		$payment = new Order($payment_id);
+		$payment->refund();
+	}
+
+	/**
+	 * Flushes the current user's purchase history transient when a payment status
+	 * is updated
+	 *
+	 * @since 1.2.2
+	 *
+	 * @param int $payment_id the ID number of the payment
+	 * @param string $new_status the status of the payment, probably "publish"
+	 * @param string $old_status the status of the payment prior to being marked as "complete", probably "pending"
+	 */
+	public function clear_user_history_cache($payment_id, $new_status, $old_status) {
+		$payment = new Order($payment_id);
+
+		if (!empty($payment->user_id)) {
+			delete_transient('mprm_user_' . $payment->user_id . '_purchases');
+		}
+	}
+
+
+	public function update_old_payments_with_totals($data) {
+		if (!wp_verify_nonce($data['_wpnonce'], 'mprm_upgrade_payments_nonce')) {
+			return;
+		}
+
+		if (get_option('mprm_payment_totals_upgraded')) {
+			return;
+		}
+
+		$payments = $this->get('payments')->get_payments(array(
+			'offset' => 0,
+			'number' => -1,
+			'mode' => 'all',
+		));
+
+		if ($payments) {
+			foreach ($payments as $payment) {
+
+				$payment = new Order($payment->ID);
+				$meta = $payment->get_meta();
+
+				$payment->total = $meta['amount'];
+				$payment->save();
+			}
+		}
+
+		add_option('mprm_payment_totals_upgraded', 1);
+	}
+
+
+	/**
+	 * Updates week-old+ 'pending' orders to 'abandoned'
+	 *
+	 * @since 1.6
+	 * @return void
+	 */
+	public function mark_abandoned_orders() {
+		$args = array(
+			'status' => 'pending',
+			'number' => -1,
+			'output' => 'mprm_payments',
+		);
+
+		add_filter('posts_where', 'mprm_filter_where_older_than_week');
+
+		$payments = $this->get('payments')->get_payments($args);
+
+		remove_filter('posts_where', 'mprm_filter_where_older_than_week');
+
+		if ($payments) {
+			foreach ($payments as $payment) {
+				if ('pending' === $payment->post_status) {
+					$payment->status = 'abandoned';
+					$payment->save();
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Listens to the updated_postmeta hook for our backwards compatible payment_meta updates, and runs through them
+	 *
+	 * @since  2.3
+	 *
+	 * @param  int $meta_id The Meta ID that was updated
+	 * @param  int $object_id The Object ID that was updated (post ID)
+	 * @param  string $meta_key The Meta key that was updated
+	 * @param  string|int|float $meta_value The Value being updated
+	 *
+	 * @return bool|int             If successful the number of rows updated, if it fails, false
+	 */
+	public function update_payment_backwards_compat($meta_id, $object_id, $meta_key, $meta_value) {
+		global $wpdb;
+		$meta_keys = array('_mprm_order_meta', '_mprm_order_tax');
+
+		if (!in_array($meta_key, $meta_keys)) {
+			return;
+		}
+
+		switch ($meta_key) {
+
+			case '_mprm_order_meta':
+				$meta_value = maybe_unserialize($meta_value);
+
+				if (!isset($meta_value['tax'])) {
+					return;
+				}
+
+				$tax_value = $meta_value['tax'];
+				$data = array('meta_value' => $tax_value);
+				$where = array('post_id' => $object_id, 'meta_key' => '_mprm_order_tax');
+				$data_format = array('%f');
+				$where_format = array('%d', '%s');
+				break;
+
+			case '_mprm_order_tax':
+				$tax_value = !empty($meta_value) ? $meta_value : 0;
+				$current_meta = $this->get('payments')->get_payment_meta($object_id, '_mprm_order_meta', true);
+
+				$current_meta['tax'] = $tax_value;
+				$new_meta = maybe_serialize($current_meta);
+
+				$data = array('meta_value' => $new_meta);
+				$where = array('post_id' => $object_id, 'meta_key' => '_mprm_order_meta');
+				$data_format = array('%s');
+				$where_format = array('%d', '%s');
+				break;
+			default:
+				break;
+		}
+
+		$updated = $wpdb->update($wpdb->postmeta, $data, $where, $data_format, $where_format);
+
+		if (!empty($updated)) {
+			// Since we did a direct DB query, clear the postmeta cache.
+			wp_cache_delete($object_id, 'post_meta');
+		}
+
+		return $updated;
+	}
 
 	public function init_action() {
-		add_filter('wp_count_comments', 'mprm_remove_payment_notes_in_comment_counts', 10, 2);
-		add_filter('comment_feed_where', 'mprm_hide_payment_notes_from_feeds', 10, 2);
-		add_filter('comments_clauses', 'mprm_hide_payment_notes_pre_41', 10, 2);
-		add_action('pre_get_comments', 'mprm_hide_payment_notes', 10);
+		add_action('updated_postmeta', array($this, 'update_payment_backwards_compat'), 10, 4);
+		add_action('mprm_weekly_scheduled_events', array($this, 'mark_abandoned_orders'));
+		add_action('mprm_upgrade_payments', array($this, 'update_old_payments_with_totals'));
+		add_action('mprm_update_payment_status', array($this, 'clear_user_history_cache'), 10, 3);
+		add_action('mprm_update_payment_status', array($this, 'complete_purchase'), 100, 3);
+		add_action('mprm_update_payment_status', array($this, 'record_status_change'), 100, 3);
+		add_filter('wp_count_comments', array($this, 'remove_payment_notes_in_comment_counts'), 10, 2);
+		add_filter('comment_feed_where', array($this, 'hide_payment_notes_from_feeds'), 10, 2);
+		add_filter('comments_clauses', array($this, 'hide_payment_notes_pre_41'), 10, 2);
+		add_action('pre_get_comments', array($this, 'hide_payment_notes'), 10);
 	}
 }
 

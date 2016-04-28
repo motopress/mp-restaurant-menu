@@ -715,4 +715,38 @@ function mprm_purchase_form_user_info_fields() {
 
 }
 
+function mprm_filter_where_older_than_week($where = '') {
+	// Payments older than one week
+	$start = date('Y-m-d', strtotime('-7 days'));
+	$where .= " AND post_date <= '{$start}'";
+	return $where;
+}
+
+function mprm_increase_purchase_count($menu_item_id = 0, $quantity = 1) {
+	$quantity = (int)$quantity;
+	$menu_item = new models\Menu_item($menu_item_id);
+	return $menu_item->increase_sales($quantity);
+}
+
+function mprm_currency_filter($price, $currency) {
+	return models\Menu_item::get_instance()->currency_filter($price, $currency);
+}
+
+function mprm_format_amount($amount, $decimals = true) {
+	return models\Formatting::get_instance()->format_amount($amount, $decimals);
+}
+
+function mprm_get_payment_amount($payment_id) {
+	return models\Payments::get_instance()->get_payment_amount($payment_id);
+}
+
+function mprm_get_label_plural($lowercase = false) {
+	return models\Menu_item::get_instance()->get_label($lowercase, 'plural');
+}
+
+function mprm_get_label_singular($lowercase = false) {
+	return models\Menu_item::get_instance()->get_label($lowercase, 'singular');
+}
+
+
 ?>

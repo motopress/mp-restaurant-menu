@@ -571,7 +571,7 @@ class Purchase extends Model {
 		$user_data = apply_filters('mprm_insert_user_data', $user_data, $user_args);
 
 		// Allow themes and plugins to hook
-		do_action('edd_insert_user', $user_id, $user_data);
+		do_action('mprm_insert_user', $user_id, $user_data);
 
 		// Login new user
 		$this->get('customer')->log_user_in($user_id, $user_data['user_login'], $user_data['user_pass']);

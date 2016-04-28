@@ -5,14 +5,20 @@ use \mp_restaurant_menu\classes\models\Taxes as Taxes;
 use \mp_restaurant_menu\classes\models\Cart as Cart;
 use \mp_restaurant_menu\classes\models\Misc as Misc;
 use \mp_restaurant_menu\classes\models\Menu_item as Menu_item;
-use \mp_restaurant_menu\classes\models\Formatting as Formatting;
 
 // No key found
 if (!isset($payment_key)) { ?>
 	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
+	<?php
+	return;
+}
+if (isset($can_view) && $can_view) {
+	?>
+	<p class="mprm-alert mprm-alert-error">' . $mprm_receipt_args['error'] . '</p>';
+	<?php
+	return;
 
-<?php }
-
+}
 if (empty($payment)) : ?>
 
 	<div class="mprm_errors mprm-alert mprm-alert-error">
@@ -22,7 +28,11 @@ if (empty($payment)) : ?>
 	<?php
 	return;
 endif;
+if (isset($need_login) && $need_login) {
+	echo empty($login_from) ? '' : $login_from;
+}
 ?>
+
 <table id="mprm_purchase_receipt">
 	<thead>
 	<?php do_action('mprm_payment_receipt_before', $payment, $receipt_args); ?>
@@ -71,7 +81,7 @@ endif;
 						<li>
 							<span class="mprm_fee_label"><?php echo esc_html($fee['label']); ?></span>
 							<span class="mprm_fee_sep">&nbsp;&ndash;&nbsp;</span>
-							<span class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(Formatting::get_instance()->format_amount($fee['amount'])); ?></span>
+							<span class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount'])); ?></span>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -226,7 +236,7 @@ endif;
 						<?php } ?>
 						<td>
 							<?php if (empty($item['in_bundle'])) : // Only show price when product is not part of a bundle ?>
-								<?php echo Menu_item::get_instance()->currency_filter(Formatting::get_instance()->format_amount($item['price'])); ?>
+								<?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($item['price'])); ?>
 							<?php endif; ?>
 						</td>
 					</tr>
@@ -240,7 +250,7 @@ endif;
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 						<td></td>
 					<?php endif; ?>
-					<td class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(Formatting::get_instance()->format_amount($fee['amount'])) ?></td>
+					<td class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount'])) ?></td>
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>

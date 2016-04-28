@@ -59,8 +59,6 @@ class Session extends Core {
 			if (is_multisite()) {
 				$this->prefix = '_' . get_current_blog_id();
 			}
-			// Use PHP SESSION (must be enabled via the MPRM_USE_PHP_SESSIONS constant)
-			//	add_action('init', array($this, 'maybe_start_session'), -2);
 		} else {
 			// Use WP_Session (default)
 			if (!defined('WP_SESSION_COOKIE')) {
@@ -76,11 +74,6 @@ class Session extends Core {
 			add_filter('wp_session_expiration_variant', array($this, 'set_expiration_variant_time'), 99999);
 			add_filter('wp_session_expiration', array($this, 'set_expiration_time'), 99999);
 		}
-//		if (empty($this->session) && !$this->use_php_sessions) {
-//			add_action('plugins_loaded', array($this, 'init'), -1);
-//		} else {
-//			add_action('init', array($this, 'init'), -1);
-//		}
 	}
 
 	/**
@@ -88,7 +81,7 @@ class Session extends Core {
 	 *
 	 * @access public
 	 * @since 1.5
-	 * @return void
+	 * @return WP_Session
 	 */
 	public function init() {
 		if ($this->use_php_sessions) {

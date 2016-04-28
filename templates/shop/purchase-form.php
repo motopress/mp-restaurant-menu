@@ -47,9 +47,5 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	// Can't checkout
 	do_action('mprm_purchase_form_no_access');
 }
-/**
- * Hooks in at the bottom of the purchase form
- *
- * @since 1.4
- */
-do_action('edd_purchase_form_bottom');
+
+do_action('mprm_purchase_form_bottom');

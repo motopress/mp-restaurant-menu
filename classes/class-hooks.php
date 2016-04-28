@@ -2,6 +2,7 @@
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
+use mp_restaurant_menu\classes\models\Emails;
 use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Misc;
@@ -145,7 +146,7 @@ class Hooks extends Core {
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
 		Paypal::get_instance()->init_action();
-
+		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
 	}
 

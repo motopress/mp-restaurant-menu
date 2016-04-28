@@ -32,7 +32,7 @@ class Checkout extends Model {
 
 		}
 
-		return apply_filters('edd_is_checkout', $is_checkout);
+		return apply_filters('mprm_is_checkout', $is_checkout);
 	}
 
 	public function can_checkout() {

@@ -237,4 +237,19 @@ class Gateways extends Model {
 
 		return apply_filters('mprm_gateway_checkout_label', $label, $gateway);
 	}
+
+	function get_gateway_admin_label($gateway) {
+		$gateways = $this->get_payment_gateways();
+		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['admin_label'] : $gateway;
+		$payment = isset($_GET['id']) ? absint($_GET['id']) : false;
+
+		if ($gateway == 'manual' && $payment) {
+			if ($this->get('payments')->get_payment_amount($payment) == 0) {
+				$label = __('Free Purchase', 'easy-digital-downloads');
+			}
+		}
+
+		return apply_filters('mprm_gateway_admin_label', $label, $gateway);
+	}
+
 }

@@ -6,13 +6,21 @@ use mp_restaurant_menu\classes\Model;
 class Customer extends Model {
 	protected static $instance;
 	public $id = 0;
+
 	public $purchase_count = 0;
+
 	public $purchase_value = 0;
+
 	public $email;
+
 	public $name;
+
 	public $date_created;
+
 	public $payment_ids;
+
 	public $user_id;
+
 	public $notes;
 
 	public static function get_instance() {
@@ -193,15 +201,25 @@ class Customer extends Model {
 		return $this->purchase_count;
 	}
 
-	public function init_action() {
-		add_action('mprm_customer_pre_decrease_value', 'mprm_customer_pre_decrease_value');
-		add_action('mprm_customer_post_decrease_value', 'mprm_customer_post_decrease_value');
-		add_action('mprm_customer_pre_decrease_purchase_count', 'mprm_customer_pre_decrease_purchase_count');
-		add_action('mprm_customer_post_decrease_purchase_count', 'mprm_customer_post_decrease_purchase_count');
-		add_action('mprm_customer_pre_update', 'mprm_customer_pre_update');
-		add_action('mprm_customer_post_update', 'mprm_customer_post_update');
-		add_action('mprm_customer_pre_create', 'mprm_customer_pre_create');
-		add_action('mprm_customer_post_create', 'mprm_customer_post_create');
+
+	public function increase_purchase_count($count = 1) {
+
+		// Make sure it's numeric and not negative
+		if (!is_numeric($count) || $count != absint($count)) {
+			return false;
+		}
+
+		$new_total = (int)$this->purchase_count + (int)$count;
+
+		do_action('mprm_customer_pre_increase_purchase_count', $count, $this->id);
+
+		if ($this->update(array('purchase_count' => $new_total))) {
+			$this->purchase_count = $new_total;
+		}
+
+		do_action('mprm_customer_post_increase_purchase_count', $this->purchase_count, $count, $this->id);
+
+		return $this->purchase_count;
 	}
 
 	public function update($data = array()) {
@@ -231,5 +249,16 @@ class Customer extends Model {
 		}
 		do_action('mprm_customer_post_increase_value', $this->purchase_value, $value, $this->id);
 		return $this->purchase_value;
+	}
+
+	public function init_action() {
+		add_action('mprm_customer_pre_decrease_value', 'mprm_customer_pre_decrease_value');
+		add_action('mprm_customer_post_decrease_value', 'mprm_customer_post_decrease_value');
+		add_action('mprm_customer_pre_decrease_purchase_count', 'mprm_customer_pre_decrease_purchase_count');
+		add_action('mprm_customer_post_decrease_purchase_count', 'mprm_customer_post_decrease_purchase_count');
+		add_action('mprm_customer_pre_update', 'mprm_customer_pre_update');
+		add_action('mprm_customer_post_update', 'mprm_customer_post_update');
+		add_action('mprm_customer_pre_create', 'mprm_customer_pre_create');
+		add_action('mprm_customer_post_create', 'mprm_customer_post_create');
 	}
 }

@@ -1229,7 +1229,7 @@ final class Order extends Model {
 					break;
 			}
 
-			do_action('edd_update_payment_status', $this->ID, $status, $old_status);
+			do_action('mprm_update_payment_status', $this->ID, $status, $old_status);
 
 		}
 

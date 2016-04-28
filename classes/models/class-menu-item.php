@@ -897,4 +897,12 @@ class Menu_item extends Model {
 		return apply_filters('mprm_get_price_option_name', $price_name, $menu_item_id, $payment_id, $price_id);
 	}
 
+	public function get_label($lowercase = false, $type = 'singular') {
+		$labels = array(
+			'singular' => __('Menu item', 'mp-restaurant-menu'),
+			'plural' => __('Menu items', 'mp-restaurant-menu')
+		);
+		return ($lowercase) ? strtolower($labels[$type]) : $labels[$type];
+	}
+
 }

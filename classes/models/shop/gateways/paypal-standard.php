@@ -1,6 +1,7 @@
 <?php namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\View;
 
 class Paypal_standart extends Model {
 
@@ -13,7 +14,7 @@ class Paypal_standart extends Model {
 		return self::$instance;
 	}
 
-	function process_paypal_purchase($purchase_data) {
+	public function process_paypal_purchase($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
@@ -43,7 +44,7 @@ class Paypal_standart extends Model {
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		} else {
 			// Only send to PayPal if the pending payment is created successfully
-			$listener_url = add_query_arg('mprm-listener', 'IPN', home_url('index.php'));
+			$listener_url = add_query_arg(array('mprm-listener' => 'IPN', 'mprm_action' => 'ipn_listener', 'controller' => 'cart'), home_url('index.php'));
 
 			// Get the success url
 			$return_url = add_query_arg(array(
@@ -73,7 +74,7 @@ class Paypal_standart extends Model {
 				'notify_url' => $listener_url,
 				'page_style' => $this->get_paypal_page_style(),
 				'cbt' => get_bloginfo('name'),
-				'bn' => 'EasyDigitalDownloads_SP'
+				'bn' => 'MotoPress_SP_MPRM'
 			);
 
 			if (!empty($purchase_data['user_info']['address'])) {
@@ -165,7 +166,7 @@ class Paypal_standart extends Model {
 	 * @since 1.0
 	 * @return void
 	 */
-	function listen_for_paypal_ipn() {
+	public function listen_for_paypal_ipn() {
 		// Regular PayPal IPN
 		if (isset($_GET['mprm-listener']) && $_GET['mprm-listener'] == 'IPN') {
 			do_action('mprm_verify_paypal_ipn');
@@ -178,7 +179,7 @@ class Paypal_standart extends Model {
 	 * @since 1.0
 	 * @return void
 	 */
-	function process_paypal_ipn() {
+	public function process_paypal_ipn() {
 		// Check the request method is POST
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST') {
 			return;
@@ -217,12 +218,10 @@ class Paypal_standart extends Model {
 				}
 			}
 		}
-
 		// Convert collected post data to an array
 		parse_str($encoded_data, $encoded_data_array);
 
 		foreach ($encoded_data_array as $key => $value) {
-
 			if (false !== strpos($key, 'amp;')) {
 				$new_key = str_replace('&amp;', '&', $key);
 				$new_key = str_replace('amp;', '&', $new_key);
@@ -230,15 +229,12 @@ class Paypal_standart extends Model {
 				unset($encoded_data_array[$key]);
 				$encoded_data_array[$new_key] = $value;
 			}
-
 		}
 		// Get the PayPal redirect uri
 		$paypal_redirect = $this->get_paypal_redirect(true);
 
 		if (!$this->get('settings')->get_option('disable_paypal_verification')) {
-
 			// Validate the IPN
-
 			$remote_post_vars = array(
 				'method' => 'POST',
 				'timeout' => 45,
@@ -255,22 +251,17 @@ class Paypal_standart extends Model {
 				'sslverify' => false,
 				'body' => $encoded_data_array
 			);
-
 			// Get response
 			$api_response = wp_remote_post($this->get_paypal_redirect(), $remote_post_vars);
-
 			if (is_wp_error($api_response)) {
 				//	edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
 				return; // Something went wrong
 			}
-
 			if ($api_response['body'] !== 'VERIFIED' && $this->get('settings')->get_option('disable_paypal_verification', false)) {
 				//	edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
 				return; // Response not okay
 			}
-
 		}
-
 		// Check if $post_data_array has been populated
 		if (!is_array($encoded_data_array) && !empty($encoded_data_array))
 			return;
@@ -301,10 +292,11 @@ class Paypal_standart extends Model {
 	 * @since 1.3.4
 	 *
 	 * @param array $data IPN Data
+	 * @param int $payment_id
 	 *
 	 * @return void
 	 */
-	function process_paypal_web_accept_and_cart($data, $payment_id) {
+	public function process_paypal_web_accept_and_cart($data, $payment_id) {
 		if ($data['txn_type'] != 'web_accept' && $data['txn_type'] != 'cart' && $data['payment_status'] != 'Refunded') {
 			return;
 		}
@@ -409,74 +401,41 @@ class Paypal_standart extends Model {
 			} else if ('pending' == $payment_status && isset($data['pending_reason'])) {
 
 				// Look for possible pending reasons, such as an echeck
-
 				$note = '';
-
 				switch (strtolower($data['pending_reason'])) {
-
 					case 'echeck' :
-
 						$note = __('Payment made via eCheck and will clear automatically in 5-8 days', 'mp-restaurant-menu');
-
 						break;
-
 					case 'address' :
-
 						$note = __('Payment requires a confirmed customer address and must be accepted manually through PayPal', 'mp-restaurant-menu');
-
 						break;
-
 					case 'intl' :
-
 						$note = __('Payment must be accepted manually through PayPal due to international account regulations', 'mp-restaurant-menu');
-
 						break;
-
 					case 'multi-currency' :
-
 						$note = __('Payment received in non-shop currency and must be accepted manually through PayPal', 'mp-restaurant-menu');
-
 						break;
-
 					case 'paymentreview' :
 					case 'regulatory_review' :
-
 						$note = __('Payment is being reviewed by PayPal staff as high-risk or in possible violation of government regulations', 'mp-restaurant-menu');
-
 						break;
-
 					case 'unilateral' :
-
 						$note = __('Payment was sent to non-confirmed or non-registered email address.', 'mp-restaurant-menu');
-
 						break;
-
 					case 'upgrade' :
-
 						$note = __('PayPal account must be upgraded before this payment can be accepted', 'mp-restaurant-menu');
-
 						break;
-
 					case 'verify' :
-
 						$note = __('PayPal account is not verified. Verify account in order to accept this payment', 'mp-restaurant-menu');
-
 						break;
-
 					case 'other' :
-
 						$note = __('Payment is pending for unknown reasons. Contact PayPal support for assistance', 'mp-restaurant-menu');
-
 						break;
-
 				}
 
 				if (!empty($note)) {
-
 					$this->get('payments')->insert_payment_note($payment_id, $note);
-
 				}
-
 			}
 		}
 	}
@@ -488,10 +447,11 @@ class Paypal_standart extends Model {
 	 * @since 1.3.4
 	 *
 	 * @param array $data IPN Data
+	 * @param $payment_id
 	 *
 	 * @return void
 	 */
-	function process_paypal_refund($data, $payment_id = 0) {
+	public function process_paypal_refund($data, $payment_id = 0) {
 
 		// Collect payment details
 
@@ -527,7 +487,7 @@ class Paypal_standart extends Model {
 	 *
 	 * @return string
 	 */
-	function get_paypal_redirect($ssl_check = false) {
+	public function get_paypal_redirect($ssl_check = false) {
 		if (is_ssl() || !$ssl_check) {
 			$protocal = 'https://';
 		} else {
@@ -552,7 +512,7 @@ class Paypal_standart extends Model {
 	 * @since 1.4.1
 	 * @return string
 	 */
-	function get_paypal_page_style() {
+	public function get_paypal_page_style() {
 		$page_style = trim($this->get('settings')->get_option('paypal_page_style', 'PayPal'));
 		return apply_filters('mprm_paypal_page_style', $page_style);
 	}
@@ -563,9 +523,12 @@ class Paypal_standart extends Model {
 	 * This helps address the Race Condition, as detailed in issue #1839
 	 *
 	 * @since 1.9
+	 *
+	 * @param $content
+	 *
 	 * @return string
 	 */
-	function paypal_success_page_content($content) {
+	public function paypal_success_page_content($content) {
 
 		if (!isset($_GET['payment-id']) && !$this->get('cart')->get_purchase_session()) {
 			return $content;
@@ -582,13 +545,8 @@ class Paypal_standart extends Model {
 
 		if ($payment && 'pending' == $payment->post_status) {
 
-			// Payment is still pending so show processing indicator to fix the Race Condition, issue #
-			ob_start();
-
-			edd_get_template_part('payment', 'processing');
-
-			$content = ob_get_clean();
-
+			$success_page_uri = $this->get('checkout')->get_success_page_uri();
+			$content = View::get_instance()->render_html('shop/processing', array('success_page_uri' => $success_page_uri), false);
 		}
 
 		return $content;
@@ -605,7 +563,7 @@ class Paypal_standart extends Model {
 	 *
 	 * @return string                   Transaction ID
 	 */
-	function paypal_get_payment_transaction_id($payment_id) {
+	public function paypal_get_payment_transaction_id($payment_id) {
 
 		$transaction_id = '';
 		$notes = $this->get('payments')->get_payment_notes($payment_id);
@@ -631,7 +589,7 @@ class Paypal_standart extends Model {
 	 *
 	 * @return string                 A link to the PayPal transaction details
 	 */
-	function paypal_link_transaction_id($transaction_id, $payment_id) {
+	public function paypal_link_transaction_id($transaction_id, $payment_id) {
 
 		$paypal_base_url = 'https://www.paypal.com/webscr?cmd=_history-details-from-hub&id=';
 		$transaction_url = '<a href="' . esc_url($paypal_base_url . $transaction_id) . '" target="_blank">' . $transaction_id . '</a>';
