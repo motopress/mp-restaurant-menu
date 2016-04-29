@@ -133,7 +133,7 @@ class Misc extends Model {
 		return (bool)apply_filters('mprm_can_view_receipt', $return, $payment_key);
 	}
 
-	function eget_php_arg_separator_output() {
+	function get_php_arg_separator_output() {
 		return ini_get('arg_separator.output');
 	}
 }

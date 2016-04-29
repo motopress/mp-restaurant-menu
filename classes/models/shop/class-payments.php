@@ -1484,9 +1484,11 @@ class Payments extends Model {
 		add_action('updated_postmeta', array($this, 'update_payment_backwards_compat'), 10, 4);
 		add_action('mprm_weekly_scheduled_events', array($this, 'mark_abandoned_orders'));
 		add_action('mprm_upgrade_payments', array($this, 'update_old_payments_with_totals'));
+
 		add_action('mprm_update_payment_status', array($this, 'clear_user_history_cache'), 10, 3);
 		add_action('mprm_update_payment_status', array($this, 'complete_purchase'), 100, 3);
 		add_action('mprm_update_payment_status', array($this, 'record_status_change'), 100, 3);
+
 		add_filter('wp_count_comments', array($this, 'remove_payment_notes_in_comment_counts'), 10, 2);
 		add_filter('comment_feed_where', array($this, 'hide_payment_notes_from_feeds'), 10, 2);
 		add_filter('comments_clauses', array($this, 'hide_payment_notes_pre_41'), 10, 2);

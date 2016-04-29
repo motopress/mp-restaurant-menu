@@ -44,7 +44,8 @@ class Paypal_standart extends Model {
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		} else {
 			// Only send to PayPal if the pending payment is created successfully
-			$listener_url = add_query_arg(array('mprm-listener' => 'IPN', 'mprm_action' => 'ipn_listener', 'controller' => 'cart'), home_url('index.php'));
+			// 'mprm_action' => 'ipn_listener', 'controller' => 'cart'
+			$listener_url = add_query_arg(array('mprm-listener' => 'IPN'), home_url('index.php'));
 
 			// Get the success url
 			$return_url = add_query_arg(array(
@@ -137,9 +138,7 @@ class Paypal_standart extends Model {
 
 			// Add taxes to the cart
 			if ($this->get('taxes')->use_taxes()) {
-
 				$paypal_args['tax_cart'] = $this->get('formatting')->sanitize_amount($purchase_data['tax']);
-
 			}
 
 			$paypal_args = apply_filters('mprm_paypal_redirect_args', $paypal_args, $purchase_data);
@@ -168,6 +167,7 @@ class Paypal_standart extends Model {
 	 */
 	public function listen_for_paypal_ipn() {
 		// Regular PayPal IPN
+
 		if (isset($_GET['mprm-listener']) && $_GET['mprm-listener'] == 'IPN') {
 			do_action('mprm_verify_paypal_ipn');
 		}
@@ -180,6 +180,7 @@ class Paypal_standart extends Model {
 	 * @return void
 	 */
 	public function process_paypal_ipn() {
+
 		// Check the request method is POST
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST') {
 			return;
@@ -251,8 +252,10 @@ class Paypal_standart extends Model {
 				'sslverify' => false,
 				'body' => $encoded_data_array
 			);
+
 			// Get response
 			$api_response = wp_remote_post($this->get_paypal_redirect(), $remote_post_vars);
+
 			if (is_wp_error($api_response)) {
 				//	edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
 				return; // Something went wrong
@@ -276,6 +279,7 @@ class Paypal_standart extends Model {
 		$payment_id = isset($encoded_data_array['custom']) ? absint($encoded_data_array['custom']) : 0;
 
 		if (has_action('mprm_paypal_' . $encoded_data_array['txn_type'])) {
+
 			// Allow PayPal IPN types to be processed separately
 			do_action('mprm_paypal_' . $encoded_data_array['txn_type'], $encoded_data_array, $payment_id);
 		} else {
@@ -297,6 +301,7 @@ class Paypal_standart extends Model {
 	 * @return void
 	 */
 	public function process_paypal_web_accept_and_cart($data, $payment_id) {
+
 		if ($data['txn_type'] != 'web_accept' && $data['txn_type'] != 'cart' && $data['payment_status'] != 'Refunded') {
 			return;
 		}
@@ -384,7 +389,8 @@ class Paypal_standart extends Model {
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid amount in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
-			if ($purchase_key != $this->get('payment')->get_payment_key($payment_id)) {
+
+			if ($purchase_key != $this->get('payments')->get_payment_key($payment_id)) {
 				// Purchase keys don't match
 				//edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid purchase key in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
 				$this->get('payments')->update_payment_status($payment_id, 'failed');

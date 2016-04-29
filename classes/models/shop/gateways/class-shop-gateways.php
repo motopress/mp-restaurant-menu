@@ -245,7 +245,7 @@ class Gateways extends Model {
 
 		if ($gateway == 'manual' && $payment) {
 			if ($this->get('payments')->get_payment_amount($payment) == 0) {
-				$label = __('Free Purchase', 'easy-digital-downloads');
+				$label = __('Free Purchase', 'mp-restaurant-menu');
 			}
 		}
 

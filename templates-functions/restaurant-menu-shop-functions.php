@@ -748,5 +748,17 @@ function mprm_get_label_singular($lowercase = false) {
 	return models\Menu_item::get_instance()->get_label($lowercase, 'singular');
 }
 
+function mprm_is_success_page() {
+	return models\Checkout::get_instance()->is_success_page();
+}
+
+function mprm_filter_success_page_content($content) {
+	if (isset($_GET['payment-confirmation']) && mprm_is_success_page()) {
+		if (has_filter('mprm_payment_confirm_' . $_GET['payment-confirmation'])) {
+			$content = apply_filters('mprm_payment_confirm_' . $_GET['payment-confirmation'], $content);
+		}
+	}
+	return $content;
+}
 
 ?>

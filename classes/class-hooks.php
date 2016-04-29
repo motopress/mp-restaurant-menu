@@ -95,6 +95,8 @@ class Hooks extends Core {
 	 * Init hook
 	 */
 	public function init() {
+		Paypal_standart::get_instance()->listen_for_paypal_ipn();
+		Paypal::get_instance()->listen_for_paypal_ipn();
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');
@@ -145,7 +147,7 @@ class Hooks extends Core {
 
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
-		Paypal::get_instance()->init_action();
+		//Paypal::get_instance()->init_action();
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
 	}
@@ -230,6 +232,8 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
+
+		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
 	}
 
 	/**
