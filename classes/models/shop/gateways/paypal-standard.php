@@ -169,6 +169,8 @@ class Paypal_standart extends Model {
 		// Regular PayPal IPN
 
 		if (isset($_GET['mprm-listener']) && $_GET['mprm-listener'] == 'IPN') {
+
+
 			do_action('mprm_verify_paypal_ipn');
 		}
 	}
@@ -235,6 +237,7 @@ class Paypal_standart extends Model {
 		$paypal_redirect = $this->get_paypal_redirect(true);
 
 		if (!$this->get('settings')->get_option('disable_paypal_verification')) {
+
 			// Validate the IPN
 			$remote_post_vars = array(
 				'method' => 'POST',
@@ -279,7 +282,6 @@ class Paypal_standart extends Model {
 		$payment_id = isset($encoded_data_array['custom']) ? absint($encoded_data_array['custom']) : 0;
 
 		if (has_action('mprm_paypal_' . $encoded_data_array['txn_type'])) {
-
 			// Allow PayPal IPN types to be processed separately
 			do_action('mprm_paypal_' . $encoded_data_array['txn_type'], $encoded_data_array, $payment_id);
 		} else {

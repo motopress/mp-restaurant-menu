@@ -97,6 +97,7 @@ class Hooks extends Core {
 	public function init() {
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
+		add_action('http_api_curl', array($this, 'http_api_curl'));
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');
@@ -747,5 +748,9 @@ class Hooks extends Core {
 
 	public function admin_notices_action() {
 		settings_errors('mprm-notices');
+	}
+
+	public function http_api_curl($handle) {
+		curl_setopt($handle, CURLOPT_SSLVERSION, 6);
 	}
 }

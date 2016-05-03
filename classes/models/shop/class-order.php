@@ -125,10 +125,11 @@ final class Order extends Model {
 	 */
 	public function render_order_columns($column) {
 		global $post;
-		//$the_order = new Order();
+		$order = new $this($post->ID);
 		switch ($column) {
 			case 'order_status':
-				echo ucfirst($post->post_status);
+				echo $this->get('payments')->get_payment_status($post);
+				//echo ucfirst($post->post_status);
 				break;
 			case  'order_title':
 				$order_user = $this->get_user($post);
@@ -156,22 +157,18 @@ final class Order extends Model {
 				}
 				echo '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __('Show more details', 'mp-restaurant-menu') . '</span></button>';
 				break;
-			case 'order_date' :
-				if ('0000-00-00 00:00:00' == $post->post_date) {
-					$t_time = $h_time = __('Unpublished', 'mp-restaurant-menu');
-				} else {
-					$t_time = get_the_time(__('Y/m/d g:i:s A', 'mp-restaurant-menu'), $post);
-					$h_time = get_the_time(__('Y/m/d', 'mp-restaurant-menu'), $post);
-				}
-				echo '<abbr title="' . esc_attr($t_time) . '">' . esc_html(apply_filters('mprm_post_date_column_time', $h_time, $post)) . '</abbr>';
-				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', $this->get_item_count($post), 'mp-restaurant-menu'), $this->get_item_count($post)), $post) . '</a>';
-				if (sizeof($this->get_order_items($post)) > 0) {
+				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
+				if (sizeof($order->menu_items) > 0) {
 				}
+				break;
+			case 'order_date' :
+				$date = strtotime($order->date);
+				$value = date_i18n(get_option('date_format'), $date);
+				echo $value;
 				break;
 			case 'order_total' :
-				echo $this->get_order_total($post);
+				echo $order->total;
 				break;
 			default:
 				break;
@@ -192,6 +189,7 @@ final class Order extends Model {
 	}
 
 	public function get_order_total(\WP_Post $post) {
+
 		return 0;
 	}
 
@@ -1094,7 +1092,6 @@ final class Order extends Model {
 		return $removed;
 	}
 
-
 	public function get_fees($type = 'all') {
 		$fees = array();
 
@@ -1114,7 +1111,6 @@ final class Order extends Model {
 
 		return apply_filters('mprm_get_payment_fees', $fees, $this->ID, $this);
 	}
-
 
 	public function add_note($note = false) {
 		// Bail if no note specified
@@ -1681,6 +1677,10 @@ final class Order extends Model {
 
 	private function get_subtotal() {
 		return apply_filters('mprm_get_payment_subtotal', $this->subtotal, $this->ID, $this);
+	}
+
+	private function get_total() {
+		return apply_filters('mprm_get_payment_total', $this->total, $this->ID, $this);
 	}
 
 	private function get_discounts() {

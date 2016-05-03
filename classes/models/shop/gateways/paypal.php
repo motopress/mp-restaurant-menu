@@ -195,7 +195,7 @@ class Paypal extends Model {
 			$listener->requirePostMethod();
 			$verified = $listener->processIpn();
 		} catch (\Exception $e) {
-			wp_mail(get_bloginfo('admin_email'), 'IPN Error', $e->getMessage());
+
 			exit(0);
 		}
 
