@@ -280,7 +280,7 @@ class Settings_emails extends Model {
 	 */
 	public function send($to, $subject, $message, $attachments = '') {
 		if (!did_action('init') && !did_action('admin_init')) {
-			_doing_it_wrong(__FUNCTION__, __('You cannot send email with EDD_Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
+			_doing_it_wrong(__FUNCTION__, __('You cannot send email with Restaurant menu Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
 			return false;
 		}
 		/**

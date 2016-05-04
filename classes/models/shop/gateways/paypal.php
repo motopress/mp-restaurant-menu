@@ -172,11 +172,6 @@ class Paypal extends Model {
 	public function process_paypal_ipn() {
 		global $mprm_options;
 
-		// instantiate the IpnListener class
-//		if (!class_exists('IpnListener')) {
-//			include_once(EDD_PLUGIN_DIR . 'includes/gateways/libraries/paypal/ipnlistener.php');
-//		}
-
 		$listener = new IpnListener();
 
 		if ($this->get('misc')->is_test_mode()) {

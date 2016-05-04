@@ -971,7 +971,7 @@ class Media extends Core {
 						'uninstall_on_delete' => array(
 							'id' => 'uninstall_on_delete',
 							'name' => __('Remove Data on Uninstall?', 'mp-restaurant-menu'),
-							'desc' => __('Check this box if you would like EDD to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
+							'desc' => __('Check this box if you would like Restaurant menu to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),

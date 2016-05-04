@@ -1,4 +1,6 @@
-<?php use \mp_restaurant_menu\classes\models;
+<?php
+use \mp_restaurant_menu\classes\models;
+use \mp_restaurant_menu\classes\Core as Core;
 
 function mprm_before_purchase_form() {
 }
@@ -728,7 +730,7 @@ function mprm_increase_purchase_count($menu_item_id = 0, $quantity = 1) {
 	return $menu_item->increase_sales($quantity);
 }
 
-function mprm_currency_filter($price, $currency) {
+function mprm_currency_filter($price = '', $currency = '') {
 	return models\Menu_item::get_instance()->currency_filter($price, $currency);
 }
 
@@ -761,4 +763,53 @@ function mprm_filter_success_page_content($content) {
 	return $content;
 }
 
+function mprm_get_plugin_version() {
+	return Core::get_instance()->get_version();
+}
+
+function mprm_get_success_page_uri() {
+	$page_id = models\Settings::get_instance()->get_option('success_page', 0);
+	$page_id = absint($page_id);
+
+	return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
+}
+
+function mprm_get_payment_key($payment_id = 0) {
+	return models\Payments::get_instance()->get_payment_key($payment_id);
+}
+
+function mprm_get_payment_number($payment_id = 0) {
+	return models\Payments::get_instance()->get_payment_number($payment_id);
+}
+
+function mprm_get_payment_status($payment, $return_label = false) {
+	return models\Payments::get_instance()->get_payment_status($payment, $return_label);
+}
+
+function mprm_get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
+	return models\Payments::get_instance()->get_payment_meta($payment_id, $meta_key, $single);
+}
+
+function mprm_get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'complete') {
+	return models\Customer::get_instance()->get_users_purchases($user, $number, $pagination, $status);
+}
+
+function mprm_item_quantities_enabled() {
+	return models\Cart::get_instance()->item_quantities_enabled();
+}
+
+function mprm_user_pending_verification($user_id = 0) {
+	return models\Customer::get_instance()->user_pending_verification($user_id);
+}
+
+function mprm_count_purchases_of_customer() {
+	if (empty($user)) {
+		$user = get_current_user_id();
+	}
+	$stats = !empty($user) ? models\Customer::get_instance()->get_purchase_stats_by_user($user) : false;
+	return isset($stats['purchases']) ? $stats['purchases'] : 0;
+}
+function mprm_get_user_verification_request_url($user_id = 0){
+	return models\Customer::get_instance()->get_user_verification_request_url($user_id);
+}
 ?>

@@ -36,7 +36,6 @@ class Errors extends Model {
 	 * If errors exist, they are returned.
 	 *
 	 * @since 1.0
-	 * @uses EDD_Session::get()
 	 * @return mixed array if errors are present, false if none found
 	 */
 	function get_errors() {
@@ -49,7 +48,6 @@ class Errors extends Model {
 	 * Stores an error in a session var.
 	 *
 	 * @since 1.0
-	 * @uses EDD_Session::get()
 	 *
 	 * @param int $error_id ID of the error being set
 	 * @param string $error_message Message to store with the error
@@ -69,7 +67,6 @@ class Errors extends Model {
 	 * Clears all stored errors.
 	 *
 	 * @since 1.0
-	 * @uses EDD_Session::set()
 	 * @return void
 	 */
 	function clear_errors() {
@@ -80,7 +77,6 @@ class Errors extends Model {
 	 * Removes (unsets) a stored error
 	 *
 	 * @since 1.3.4
-	 * @uses EDD_Session::set()
 	 *
 	 * @param int $error_id ID of the error being set
 	 *

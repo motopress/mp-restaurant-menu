@@ -3,15 +3,11 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Emails;
-use mp_restaurant_menu\classes\models\Errors;
 use mp_restaurant_menu\classes\models\Manual_payment;
-use mp_restaurant_menu\classes\models\Misc;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\models\Paypal;
 use mp_restaurant_menu\classes\models\Paypal_standart;
 use mp_restaurant_menu\classes\models\Purchase;
-use mp_restaurant_menu\classes\models\Session;
-use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
@@ -19,6 +15,7 @@ use mp_restaurant_menu\classes\models\Menu_category;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Cart;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Category;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Checkout;
+use mp_restaurant_menu\classes\shortcodes\Shortcode_history;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
 
@@ -97,30 +94,41 @@ class Hooks extends Core {
 	public function init() {
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
+
 		add_action('http_api_curl', array($this, 'http_api_curl'));
+
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');
 		}
+
 		// Register attachment sizes
 		$this->get('image')->add_image_sizes();
+
 		// Image downsize
 		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
+
 		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
+
 		// Include template
 		add_filter('template_include', array(Media::get_instance(), 'template_include'));
+
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
+
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
+
 		// Shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_cart', array(Shortcode_Cart::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
+
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
@@ -153,6 +161,9 @@ class Hooks extends Core {
 		Purchase::get_instance()->init_action();
 	}
 
+	/**
+	 * Install cart actions
+	 */
 	public static function install_cart_actions() {
 		if (Cart::get_instance()->item_quantities_enabled()) {
 			add_action('mprm_cart_footer_buttons', 'mprm_update_cart_button');
@@ -206,6 +217,9 @@ class Hooks extends Core {
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
 
+	/**
+	 * Install checkout actions
+	 */
 	public static function install_checkout_actions() {
 		add_action('mprm_checkout_table_header_first', 'mprm_checkout_table_header_first');
 		add_action('mprm_checkout_table_header_last', 'mprm_checkout_table_header_last');
@@ -269,6 +283,7 @@ class Hooks extends Core {
 	 * Install category actions
 	 */
 	public static function install_category_actions() {
+
 		add_action('mprm-single-category-before-wrapper', 'mprm_theme_wrapper_before');
 		add_action('mprm-single-category-after-wrapper', 'mprm_theme_wrapper_after');
 		/**
@@ -746,10 +761,18 @@ class Hooks extends Core {
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
 	}
 
+	/**
+	 *  Settings error
+	 */
 	public function admin_notices_action() {
 		settings_errors('mprm-notices');
 	}
 
+	/**
+	 * Set TLS 1.2 for CURL
+	 *
+	 * @param $handle
+	 */
 	public function http_api_curl($handle) {
 		curl_setopt($handle, CURLOPT_SSLVERSION, 6);
 	}

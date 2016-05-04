@@ -92,6 +92,35 @@ final class Order extends Model {
 		$this->setup_payment($payment_id);
 	}
 
+	public function __get($key) {
+
+		if (method_exists($this, 'get_' . $key)) {
+
+			$value = call_user_func(array($this, 'get_' . $key));
+
+		} else {
+			$value = $this->$key;
+		}
+		return $value;
+	}
+
+
+	public function __set($key, $value) {
+		$ignore = array('menu_items', 'cart_details', 'fees', '_ID');
+
+		if ($key === 'status') {
+			$this->old_status = $this->status;
+		}
+
+		if (!in_array($key, $ignore)) {
+			$this->pending[$key] = $value;
+		}
+
+		if ('_ID' !== $key) {
+			$this->$key = $value;
+		}
+	}
+
 	/**
 	 * Init metaboxes
 	 */
@@ -215,38 +244,6 @@ final class Order extends Model {
 		return wp_parse_args($custom, $columns);
 	}
 
-
-	public function __get($key) {
-
-		if (method_exists($this, 'get_' . $key)) {
-
-			$value = call_user_func(array($this, 'get_' . $key));
-
-		} else {
-
-			$value = $this->$key;
-
-		}
-
-		return $value;
-	}
-
-
-	public function __set($key, $value) {
-		$ignore = array('menu_items', 'cart_details', 'fees', '_ID');
-
-		if ($key === 'status') {
-			$this->old_status = $this->status;
-		}
-
-		if (!in_array($key, $ignore)) {
-			$this->pending[$key] = $value;
-		}
-
-		if ('_ID' !== $key) {
-			$this->$key = $value;
-		}
-	}
 
 	public function __isset($name) {
 		if (property_exists($this, $name)) {
@@ -1248,7 +1245,6 @@ final class Order extends Model {
 
 		if ($meta_key === '_mprm_order_meta') {
 
-			// Payment meta was simplified in EDD v1.5, so these are here for backwards compatibility
 			if (empty($meta['key'])) {
 				$meta['key'] = $this->setup_payment_key();
 			}

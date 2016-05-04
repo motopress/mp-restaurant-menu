@@ -27,7 +27,7 @@ class Formatting extends Model {
 	}
 
 	/**
-	 * Sanitizes a string key for EDD Settings
+	 * Sanitizes a string key
 	 *
 	 * Keys are used as internal identifiers. Alphanumeric characters, dashes, underscores, stops, colons and slashes are allowed
 	 *

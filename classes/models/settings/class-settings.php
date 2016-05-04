@@ -848,11 +848,13 @@ class Settings extends Model {
 										'placeholder' => __('Choose a state', 'mp-restaurant-menu')
 									)
 								);
+
 							} else {
-								echo EDD()->html->text(array(
+								$args = array(
 									'name' => 'tax_rates[' . sanitize_key($key) . '][state]', $rate['state'],
 									'value' => !empty($rate['state']) ? $rate['state'] : '',
-								));
+								);
+								View::get_instance()->render_html('../admin/settings/text', $args);
 							}
 							?>
 						</td>
@@ -882,7 +884,8 @@ class Settings extends Model {
 						?>
 					</td>
 					<td class="tax_state">
-						<?php echo EDD()->html->text(array(
+						<?php
+						View::get_instance()->render_html('../admin/settings/text', array(
 							'name' => 'tax_rates[0][state]'
 						)); ?>
 					</td>
