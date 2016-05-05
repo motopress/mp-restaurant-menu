@@ -1,6 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
 
+use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Module;
 
 class Post extends Module {
@@ -113,9 +114,9 @@ class Post extends Module {
 	/**
 	 * Hook Add meta boxes
 	 *
-	 * @param type $post_type
+	 * @param string $post_type
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes($post_type = '') {
 		if (!empty($this->metaboxes) && is_array($this->metaboxes)) {
 			foreach ($this->metaboxes as $metabox) {
 				// add metabox to current post type
@@ -127,6 +128,7 @@ class Post extends Module {
 				add_meta_box($metabox['name'], $metabox['title'], $callback, $metabox['post_type'], $context, $priority, $callback_args);
 			}
 		}
+		Order::get_instance()->init_metaboxes();
 	}
 
 	/**

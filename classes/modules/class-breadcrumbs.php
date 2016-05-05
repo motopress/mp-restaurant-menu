@@ -1,18 +1,14 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
-
 use mp_restaurant_menu\classes\Module;
-
 class Breadcrumbs extends Module {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	// Breadcrumbs
 	function show_breadcrumbs(array $params = array()) {
 		// Settings

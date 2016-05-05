@@ -5,7 +5,6 @@ use \mp_restaurant_menu\classes\models\Taxes as Taxes;
 use \mp_restaurant_menu\classes\models\Cart as Cart;
 use \mp_restaurant_menu\classes\models\Misc as Misc;
 use \mp_restaurant_menu\classes\models\Menu_item as Menu_item;
-
 // No key found
 if (!isset($payment_key)) { ?>
 	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
@@ -17,14 +16,11 @@ if (isset($can_view) && $can_view) {
 	<p class="mprm-alert mprm-alert-error">' . $mprm_receipt_args['error'] . '</p>';
 	<?php
 	return;
-
 }
 if (empty($payment)) : ?>
-
 	<div class="mprm_errors mprm-alert mprm-alert-error">
 		<?php _e('The specified receipt ID appears to be invalid', 'mp-restaurant-menu'); ?>
 	</div>
-
 	<?php
 	return;
 endif;
@@ -32,11 +28,9 @@ if (isset($need_login) && $need_login) {
 	echo empty($login_from) ? '' : $login_from;
 }
 ?>
-
 <table id="mprm_purchase_receipt">
 	<thead>
 	<?php do_action('mprm_payment_receipt_before', $payment, $receipt_args); ?>
-
 	<?php if (filter_var($receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<th><strong><?php _e('Payment', 'mp-restaurant-menu'); ?>:</strong></th>
@@ -44,21 +38,17 @@ if (isset($need_login) && $need_login) {
 		</tr>
 	<?php endif; ?>
 	</thead>
-
 	<tbody>
-
 	<tr>
 		<td class="mprm_receipt_payment_status"><strong><?php _e('Payment Status', 'mp-restaurant-menu'); ?>:</strong></td>
 		<td class="mprm_receipt_payment_status <?php echo strtolower($status); ?>"><?php echo $status; ?></td>
 	</tr>
-
 	<?php if (filter_var($receipt_args['payment_key'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Payment Key', 'mp-restaurant-menu'); ?>:</strong></td>
 			<td><?php echo get_post_meta($payment->ID, '_mprm_order_purchase_key', true); ?></td>
 		</tr>
 	<?php endif; ?>
-
 	<?php if (filter_var($receipt_args['payment_method'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Payment Method', 'mp-restaurant-menu'); ?>:</strong></td>
@@ -71,7 +61,6 @@ if (isset($need_login) && $need_login) {
 			<td><?php echo date_i18n(get_option('date_format'), strtotime($meta['date'])); ?></td>
 		</tr>
 	<?php endif; ?>
-
 	<?php if (($fees = Payments::get_instance()->get_payment_fees($payment->ID, 'fee'))) : ?>
 		<tr>
 			<td><strong><?php _e('Fees', 'mp-restaurant-menu'); ?>:</strong></td>
@@ -88,89 +77,69 @@ if (isset($need_login) && $need_login) {
 			</td>
 		</tr>
 	<?php endif; ?>
-
 	<?php if (filter_var($receipt_args['discount'], FILTER_VALIDATE_BOOLEAN) && isset($user['discount']) && $user['discount'] != 'none') : ?>
 		<tr>
 			<td><strong><?php _e('Discount(s)', 'mp-restaurant-menu'); ?>:</strong></td>
 			<td><?php echo $user['discount']; ?></td>
 		</tr>
 	<?php endif; ?>
-
 	<?php if (Taxes::get_instance()->use_taxes()) : ?>
 		<tr>
 			<td><strong><?php _e('Tax', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo Payments::get_instance()->payment_tax($payment->ID); ?></td>
 		</tr>
 	<?php endif; ?>
-
 	<?php if (filter_var($receipt_args['price'], FILTER_VALIDATE_BOOLEAN)) : ?>
-
 		<tr>
 			<td><strong><?php _e('Subtotal', 'mp-restaurant-menu'); ?></strong></td>
 			<td>
 				<?php echo Payments::get_instance()->payment_subtotal($payment->ID); ?>
 			</td>
 		</tr>
-
 		<tr>
 			<td><strong><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</strong></td>
 			<td><?php echo Payments::get_instance()->payment_amount($payment->ID); ?></td>
 		</tr>
-
 	<?php endif; ?>
-
 	<?php do_action('mprm_payment_receipt_after', $payment, $receipt_args); ?>
 	</tbody>
 </table>
-
 <?php do_action('mprm_payment_receipt_after_table', $payment, $receipt_args); ?>
-
 <?php if (filter_var($receipt_args['products'], FILTER_VALIDATE_BOOLEAN)) : ?>
-
 	<h3><?php echo apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')); ?></h3>
-
 	<table id="mprm_purchase_receipt_products">
 		<thead>
 		<th><?php _e('Name', 'mp-restaurant-menu'); ?></th>
 		<?php if (Misc::get_instance()->use_skus()) { ?>
 			<th><?php _e('SKU', 'mp-restaurant-menu'); ?></th>
 		<?php } ?>
-
 		<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 			<th><?php _e('Quantity', 'mp-restaurant-menu'); ?></th>
 		<?php endif; ?>
-
 		<th><?php _e('Price', 'mp-restaurant-menu'); ?></th>
 		</thead>
-
 		<tbody>
 		<?php if ($cart) : ?>
 			<?php foreach ($cart as $key => $item) : ?>
-
 				<?php if (!apply_filters('mprm_user_can_view_receipt_item', true, $item)) : ?>
 					<?php continue; // Skip this item if can't view it ?>
 				<?php endif; ?>
-
 				<?php if (empty($item['in_bundle'])) : ?>
 					<tr>
 						<td>
-
 							<?php
 							$price_id = Cart::get_instance()->get_cart_item_price_id($item);
 							//							$menu_item_files = edd_get_menu_item_files($item['id'], $price_id);
 							?>
-
 							<div class="mprm_purchase_receipt_product_name">
 								<?php echo esc_html($item['name']); ?>
 								<?php if (Menu_item::get_instance()->has_variable_prices($item['id']) && !is_null($price_id)) : ?>
 									<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo Menu_item::get_instance()->get_price_option_name($item['id'], $price_id, $payment->ID); ?></span>
 								<?php endif; ?>
 							</div>
-
 							<?php if ($receipt_args['notes']) : ?>
 								<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop(mprm_get_menu_item_notes($item['id'])); ?></div>
 							<?php endif; ?>
-
 							<!--							--><?php
 							//							if (edd_is_payment_complete($payment->ID) && edd_receipt_show_menu_item_files($item['id'], $receipt_args, $item)) : ?>
 							<!--								<ul class="mprm_purchase_receipt_files">-->
@@ -225,12 +194,10 @@ if (isset($need_login) && $need_login) {
 							//									endif; ?>
 							<!--								</ul>-->
 							<!--							--><?php //endif; ?>
-
 						</td>
 						<?php if (Misc::get_instance()->use_skus()) : ?>
 							<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
 						<?php endif; ?>
-
 						<?php if (Cart::get_instance()->item_quantities_enabled()) { ?>
 							<td><?php echo $item['quantity']; ?></td>
 						<?php } ?>
@@ -255,6 +222,5 @@ if (isset($need_login) && $need_login) {
 			<?php endforeach; ?>
 		<?php endif; ?>
 		</tbody>
-
 	</table>
 <?php endif; ?>

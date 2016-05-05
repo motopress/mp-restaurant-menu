@@ -5,7 +5,6 @@ if (!is_user_logged_in()) : ?>
 	<?php
 // Show any error messages after form submission
 	mprm_print_errors(); ?>
-
 	<form id="mprm_login_form" class="mprm_form" action="" method="post">
 		<fieldset>
 			<span><legend><?php _e('Log into Your Account', 'mp-restaurant-menu'); ?></legend></span>

@@ -13,7 +13,6 @@
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Capabilities;
-
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
@@ -35,17 +34,14 @@ register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init()
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
-
 class MP_Restaurant_Menu_Setup_Plugin {
 	protected static $instance;
-
 	public static function init() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * On activation defrozo plugin
 	 */
@@ -65,7 +61,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			check_admin_referer("activate-plugin_{$plugin}");
 		}
 	}
-
 	/**
 	 * On deactivation defrozo plugin
 	 */
@@ -80,7 +75,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			check_admin_referer("deactivate-plugin_{$plugin}");
 		}
 	}
-
 	/**
 	 * On uninstall
 	 */
@@ -90,7 +84,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		}
 		check_admin_referer('bulk-plugins');
 	}
-
 	static function include_all() {
 		/**
 		 * Install Fire bug
@@ -153,7 +146,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
 	}
-
 	public function __construct() {
 		$this->include_all();
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);

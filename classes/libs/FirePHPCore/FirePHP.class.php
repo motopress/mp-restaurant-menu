@@ -57,7 +57,6 @@ if (!defined('E_DEPRECATED')) {
 if (!defined('E_USER_DEPRECATED')) {
 	define('E_USER_DEPRECATED', 16384);
 }
-
 /**
  * Sends the given data to the FirePHP Firefox Extension.
  * The data can be displayed in the Firebug Console or in the
@@ -220,7 +219,6 @@ class FirePHP {
 	 * @var object
 	 */
 	protected $logToInsightConsole = null;
-
 	/**
 	 * When the object gets serialized only include specific object members.
 	 *
@@ -229,7 +227,6 @@ class FirePHP {
 	public function __sleep() {
 		return array('options', 'objectFilters', 'enabled');
 	}
-
 	/**
 	 * Gets singleton instance of FirePHP
 	 *
@@ -243,7 +240,6 @@ class FirePHP {
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Creates FirePHP object and stores it for singleton access
 	 *
@@ -252,7 +248,6 @@ class FirePHP {
 	public static function init() {
 		return self::setInstance(new self());
 	}
-
 	/**
 	 * Set the instance of the FirePHP singleton
 	 *
@@ -263,7 +258,6 @@ class FirePHP {
 	public static function setInstance($instance) {
 		return self::$instance = $instance;
 	}
-
 	/**
 	 * Set an Insight console to direct all logging calls to
 	 *
@@ -281,7 +275,6 @@ class FirePHP {
 			$this->logToInsightConsole = $console;
 		}
 	}
-
 	/**
 	 * Enable and disable logging to Firebug
 	 *
@@ -292,7 +285,6 @@ class FirePHP {
 	public function setEnabled($Enabled) {
 		$this->enabled = $Enabled;
 	}
-
 	/**
 	 * Check if logging is enabled
 	 *
@@ -301,7 +293,6 @@ class FirePHP {
 	public function getEnabled() {
 		return $this->enabled;
 	}
-
 	/**
 	 * Specify a filter to be used when encoding an object
 	 *
@@ -315,7 +306,6 @@ class FirePHP {
 	public function setObjectFilter($Class, $Filter) {
 		$this->objectFilters[strtolower($Class)] = $Filter;
 	}
-
 	/**
 	 * Set some options for the library
 	 *
@@ -333,7 +323,6 @@ class FirePHP {
 	public function setOptions($Options) {
 		$this->options = array_merge($this->options, $Options);
 	}
-
 	/**
 	 * Get options from the library
 	 *
@@ -342,7 +331,6 @@ class FirePHP {
 	public function getOptions() {
 		return $this->options;
 	}
-
 	/**
 	 * Set an option for the library
 	 *
@@ -358,7 +346,6 @@ class FirePHP {
 		}
 		$this->options[$Name] = $Value;
 	}
-
 	/**
 	 * Get an option from the library
 	 *
@@ -373,7 +360,6 @@ class FirePHP {
 		}
 		return $this->options[$Name];
 	}
-
 	/**
 	 * Register FirePHP as your error handler
 	 *
@@ -389,7 +375,6 @@ class FirePHP {
 		$this->throwErrorExceptions = $throwErrorExceptions;
 		return set_error_handler(array($this, 'errorHandler'));
 	}
-
 	/**
 	 * FirePHP's error handler
 	 *
@@ -416,7 +401,6 @@ class FirePHP {
 			}
 		}
 	}
-
 	/**
 	 * Register FirePHP as your exception handler
 	 *
@@ -427,7 +411,6 @@ class FirePHP {
 	public function registerExceptionHandler() {
 		return set_exception_handler(array($this, 'exceptionHandler'));
 	}
-
 	/**
 	 * FirePHP's exception handler
 	 *
@@ -447,7 +430,6 @@ class FirePHP {
 		}
 		$this->inExceptionHandler = false;
 	}
-
 	/**
 	 * Register FirePHP driver as your assert callback
 	 *
@@ -464,7 +446,6 @@ class FirePHP {
 		}
 		return assert_options(ASSERT_CALLBACK, array($this, 'assertionHandler'));
 	}
-
 	/**
 	 * FirePHP's assertion handler
 	 *
@@ -486,7 +467,6 @@ class FirePHP {
 			$this->fb($code, 'Assertion Failed', FirePHP::ERROR, array('File' => $file, 'Line' => $line));
 		}
 	}
-
 	/**
 	 * Start a group for following messages.
 	 *
@@ -514,7 +494,6 @@ class FirePHP {
 		}
 		return $this->fb(null, $Name, FirePHP::GROUP_START, $Options);
 	}
-
 	/**
 	 * Ends a group you have started before
 	 *
@@ -524,7 +503,6 @@ class FirePHP {
 	public function groupEnd() {
 		return $this->fb(null, null, FirePHP::GROUP_END);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -539,7 +517,6 @@ class FirePHP {
 	public function log($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::LOG, $Options);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -554,7 +531,6 @@ class FirePHP {
 	public function info($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::INFO, $Options);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -569,7 +545,6 @@ class FirePHP {
 	public function warn($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::WARN, $Options);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -584,7 +559,6 @@ class FirePHP {
 	public function error($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::ERROR, $Options);
 	}
-
 	/**
 	 * Dumps key and variable to firebug server panel
 	 *
@@ -608,7 +582,6 @@ class FirePHP {
 		}
 		return $this->fb($Variable, $Key, FirePHP::DUMP, $Options);
 	}
-
 	/**
 	 * Log a trace in the firebug console
 	 *
@@ -622,7 +595,6 @@ class FirePHP {
 	public function trace($Label) {
 		return $this->fb($Label, FirePHP::TRACE);
 	}
-
 	/**
 	 * Log a table in the firebug console
 	 *
@@ -637,7 +609,6 @@ class FirePHP {
 	public function table($Label, $Table, $Options = array()) {
 		return $this->fb($Table, $Label, FirePHP::TABLE, $Options);
 	}
-
 	/**
 	 * Insight API wrapper
 	 *
@@ -651,7 +622,6 @@ class FirePHP {
 		$args = func_get_args();
 		return call_user_func_array(array($instance, '_to'), $args);
 	}
-
 	/**
 	 * Insight API wrapper
 	 *
@@ -665,7 +635,6 @@ class FirePHP {
 		$args = func_get_args();
 		return call_user_func_array(array($instance, '_plugin'), $args);
 	}
-
 	/**
 	 * Check if FirePHP is installed on client
 	 *
@@ -686,7 +655,6 @@ class FirePHP {
 			}
 		return false;
 	}
-
 	/**
 	 * Log varible to Firebug
 	 *
@@ -993,7 +961,6 @@ class FirePHP {
 		$this->setHeader('X-Wf-1-Index', $this->messageIndex - 1);
 		return true;
 	}
-
 	/**
 	 * Standardizes path for windows systems.
 	 *
@@ -1004,7 +971,6 @@ class FirePHP {
 	protected function _standardizePath($Path) {
 		return preg_replace('/\\\\+/', '/', $Path);
 	}
-
 	/**
 	 * Escape trace path for windows systems
 	 *
@@ -1024,7 +990,6 @@ class FirePHP {
 		}
 		return $Trace;
 	}
-
 	/**
 	 * Escape file information of trace for windows systems
 	 *
@@ -1041,7 +1006,6 @@ class FirePHP {
 		}
 		return $File;
 	}
-
 	/**
 	 * Check if headers have already been sent
 	 *
@@ -1051,7 +1015,6 @@ class FirePHP {
 	protected function headersSent(&$Filename, &$Linenum) {
 		return headers_sent($Filename, $Linenum);
 	}
-
 	/**
 	 * Send header
 	 *
@@ -1061,7 +1024,6 @@ class FirePHP {
 	protected function setHeader($Name, $Value) {
 		return header($Name . ': ' . $Value);
 	}
-
 	/**
 	 * Get user agent
 	 *
@@ -1071,7 +1033,6 @@ class FirePHP {
 		if (!isset($_SERVER['HTTP_USER_AGENT'])) return false;
 		return $_SERVER['HTTP_USER_AGENT'];
 	}
-
 	/**
 	 * Get all request headers
 	 *
@@ -1096,7 +1057,6 @@ class FirePHP {
 		}
 		return $_cached_headers = $headers;
 	}
-
 	/**
 	 * Get a request header
 	 *
@@ -1109,7 +1069,6 @@ class FirePHP {
 		}
 		return false;
 	}
-
 	/**
 	 * Returns a new exception
 	 *
@@ -1120,7 +1079,6 @@ class FirePHP {
 	protected function newException($Message) {
 		return new Exception($Message);
 	}
-
 	/**
 	 * Encode an object into a JSON string
 	 *
@@ -1142,7 +1100,6 @@ class FirePHP {
 			return $this->json_encode($Object);
 		}
 	}
-
 	/**
 	 * Encodes a table by encoding each row and column with encodeObject()
 	 *
@@ -1164,7 +1121,6 @@ class FirePHP {
 		}
 		return $new_table;
 	}
-
 	/**
 	 * Encodes an object including members with
 	 * protected and private visibility
@@ -1287,7 +1243,6 @@ class FirePHP {
 			}
 		return $return;
 	}
-
 	/**
 	 * Returns true if $string is valid UTF-8 and false otherwise.
 	 *
@@ -1379,12 +1334,10 @@ class FirePHP {
 	 * @license     http://www.opensource.org/licenses/bsd-license.php
 	 * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=198
 	 */
-
 	/**
 	 * Keep a list of objects as we descend into the array so we can detect recursion.
 	 */
 	private $json_objectStack = array();
-
 	/**
 	 * convert a string from one UTF-8 char to one UTF-16 char
 	 *
@@ -1424,7 +1377,6 @@ class FirePHP {
 		// ignoring UTF-32 for now, sorry
 		return '';
 	}
-
 	/**
 	 * encodes an arbitrary variable into JSON format
 	 *
@@ -1604,7 +1556,6 @@ class FirePHP {
 				return null;
 		}
 	}
-
 	/**
 	 * array-walking function for use in generating JSON-formatted name-value pairs
 	 *
@@ -1631,14 +1582,12 @@ class FirePHP {
 		}
 		return $this->json_encode(strval($name)) . ':' . $encoded_value;
 	}
-
 	/**
 	 * @deprecated
 	 */
 	public function setProcessorUrl($URL) {
 		trigger_error("The FirePHP::setProcessorUrl() method is no longer supported", E_USER_DEPRECATED);
 	}
-
 	/**
 	 * @deprecated
 	 */

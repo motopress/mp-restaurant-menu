@@ -61,7 +61,6 @@ function fb() {
 	$args = func_get_args();
 	return call_user_func_array(array($instance, 'fb'), $args);
 }
-
 class FB {
 	/**
 	 * Enable and disable logging to Firebug
@@ -76,7 +75,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		$instance->setEnabled($Enabled);
 	}
-
 	/**
 	 * Check if logging is enabled
 	 *
@@ -87,7 +85,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		return $instance->getEnabled();
 	}
-
 	/**
 	 * Specify a filter to be used when encoding an object
 	 *
@@ -104,7 +101,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		$instance->setObjectFilter($Class, $Filter);
 	}
-
 	/**
 	 * Set some options for the library
 	 *
@@ -118,7 +114,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		$instance->setOptions($Options);
 	}
-
 	/**
 	 * Get options for the library
 	 *
@@ -129,7 +124,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		return $instance->getOptions();
 	}
-
 	/**
 	 * Log object to firebug
 	 *
@@ -145,7 +139,6 @@ class FB {
 		$args = func_get_args();
 		return call_user_func_array(array($instance, 'fb'), $args);
 	}
-
 	/**
 	 * Start a group for following messages
 	 *
@@ -162,7 +155,6 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		return $instance->group($Name, $Options);
 	}
-
 	/**
 	 * Ends a group you have started before
 	 *
@@ -172,7 +164,6 @@ class FB {
 	public static function groupEnd() {
 		return self::send(null, null, FirePHP::GROUP_END);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -187,7 +178,6 @@ class FB {
 	public static function log($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::LOG);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -202,7 +192,6 @@ class FB {
 	public static function info($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::INFO);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -217,7 +206,6 @@ class FB {
 	public static function warn($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::WARN);
 	}
-
 	/**
 	 * Log object with label to firebug console
 	 *
@@ -232,7 +220,6 @@ class FB {
 	public static function error($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::ERROR);
 	}
-
 	/**
 	 * Dumps key and variable to firebug server panel
 	 *
@@ -247,7 +234,6 @@ class FB {
 	public static function dump($Key, $Variable) {
 		return self::send($Variable, $Key, FirePHP::DUMP);
 	}
-
 	/**
 	 * Log a trace in the firebug console
 	 *
@@ -261,7 +247,6 @@ class FB {
 	public static function trace($Label) {
 		return self::send($Label, FirePHP::TRACE);
 	}
-
 	/**
 	 * Log a table in the firebug console
 	 *

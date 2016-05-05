@@ -1,7 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes;
 class Capabilities extends Core {
-
 	protected static $instance;
 
 	public static function get_instance() {

@@ -53,7 +53,6 @@ class GUMP {
 			return true;
 		}
 	}
-
 	/**
 	 * Shorthand method for running only the data filters.
 	 *
@@ -66,7 +65,6 @@ class GUMP {
 		$gump = new self();
 		return $gump->filter($data, $filters);
 	}
-
 	/**
 	 * Magic method to generate the validation error messages.
 	 *
@@ -75,7 +73,6 @@ class GUMP {
 	public function __toString() {
 		return $this->get_readable_errors(true);
 	}
-
 	/**
 	 * Perform XSS clean to prevent cross site scripting.
 	 *
@@ -91,7 +88,6 @@ class GUMP {
 		}
 		return $data;
 	}
-
 	/**
 	 * Adds a custom validation rule using a callback function.
 	 *
@@ -110,7 +106,6 @@ class GUMP {
 		self::$validation_methods[$rule] = $callback;
 		return true;
 	}
-
 	/**
 	 * Adds a custom filter using a callback function.
 	 *
@@ -129,7 +124,6 @@ class GUMP {
 		self::$filter_methods[$rule] = $callback;
 		return true;
 	}
-
 	/**
 	 * Helper method to extract an element from an array safely
 	 *
@@ -149,7 +143,6 @@ class GUMP {
 			return $default;
 		}
 	}
-
 	/**
 	 * Getter/Setter for the validation rules.
 	 *
@@ -163,7 +156,6 @@ class GUMP {
 		}
 		$this->validation_rules = $rules;
 	}
-
 	/**
 	 * Getter/Setter for the filter rules.
 	 *
@@ -177,7 +169,6 @@ class GUMP {
 		}
 		$this->filter_rules = $rules;
 	}
-
 	/**
 	 * Run the filtering and validation after each other.
 	 *
@@ -201,7 +192,6 @@ class GUMP {
 		}
 		return $data;
 	}
-
 	/**
 	 * Ensure that the field counts match the validation rule counts.
 	 *
@@ -220,7 +210,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Sanitize the input data.
 	 *
@@ -264,7 +253,6 @@ class GUMP {
 		}
 		return $return;
 	}
-
 	/**
 	 * Return the error array from the last validation run.
 	 *
@@ -273,7 +261,6 @@ class GUMP {
 	public function errors() {
 		return $this->errors;
 	}
-
 	/**
 	 * Perform data validation against the provided ruleset.
 	 *
@@ -327,7 +314,6 @@ class GUMP {
 		}
 		return (count($this->errors) > 0) ? $this->errors : true;
 	}
-
 	/**
 	 * Overloadable method to invoke validation.
 	 *
@@ -340,7 +326,6 @@ class GUMP {
 	protected function shouldRunValidation(array $input, $rules, $field) {
 		return in_array('required', $rules) || (isset($input[$field]) && trim($input[$field]) != '');
 	}
-
 	/**
 	 * Set a readable name for a specified field names.
 	 *
@@ -350,7 +335,6 @@ class GUMP {
 	public static function set_field_name($field, $readable_name) {
 		self::$fields[$field] = $readable_name;
 	}
-
 	/**
 	 * Set readable name for specified fields in an array.
 	 *
@@ -368,7 +352,6 @@ class GUMP {
 			self::$fields[$field] = $readable_name;
 		}
 	}
-
 	/**
 	 * Process the validation errors and return human readable error messages.
 	 *
@@ -496,7 +479,6 @@ class GUMP {
 			return $buffer;
 		}
 	}
-
 	/**
 	 * Process the validation errors and return an array of errors with field names as keys.
 	 *
@@ -595,7 +577,6 @@ class GUMP {
 		}
 		return $resp;
 	}
-
 	/**
 	 * Filter the input data according to the specified filter set.
 	 *
@@ -659,7 +640,6 @@ class GUMP {
 		}
 		return trim($value);
 	}
-
 	/**
 	 * Remove all known punctuation from a string.
 	 *
@@ -732,7 +712,6 @@ class GUMP {
 	protected function filter_sanitize_string($value, $params = null) {
 		return filter_var($value, FILTER_SANITIZE_STRING);
 	}
-
 	/**
 	 * Sanitize the string by urlencoding characters.
 	 *
@@ -746,7 +725,6 @@ class GUMP {
 	protected function filter_urlencode($value, $params = null) {
 		return filter_var($value, FILTER_SANITIZE_ENCODED);
 	}
-
 	/**
 	 * Sanitize the string by converting HTML characters to their HTML entities.
 	 *
@@ -760,7 +738,6 @@ class GUMP {
 	protected function filter_htmlencode($value, $params = null) {
 		return filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
 	}
-
 	/**
 	 * Sanitize the string by removing illegal characters from emails.
 	 *
@@ -774,7 +751,6 @@ class GUMP {
 	protected function filter_sanitize_email($value, $params = null) {
 		return filter_var($value, FILTER_SANITIZE_EMAIL);
 	}
-
 	/**
 	 * Sanitize the string by removing illegal characters from numbers.
 	 *
@@ -786,7 +762,6 @@ class GUMP {
 	protected function filter_sanitize_numbers($value, $params = null) {
 		return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
 	}
-
 	/**
 	 * Filter out all HTML tags except the defined basic tags.
 	 *
@@ -798,7 +773,6 @@ class GUMP {
 	protected function filter_basic_tags($value, $params = null) {
 		return strip_tags($value, self::$basic_tags);
 	}
-
 	/**
 	 * Convert the provided numeric value to a whole number.
 	 *
@@ -811,7 +785,6 @@ class GUMP {
 		return intval($value);
 	}
 	// ** ------------------------- Validators ------------------------------------ ** //
-
 	/**
 	 * Verify that a value is contained within the pre-defined value set.
 	 *
@@ -844,7 +817,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Verify that a value is contained within the pre-defined value set.
 	 * OUTPUT: will NOT show the list of values.
@@ -872,7 +844,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Verify that a value is NOT contained within the pre-defined value set.
 	 * OUTPUT: will NOT show the list of values.
@@ -899,7 +870,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Check if the specified key is present and not empty.
 	 *
@@ -922,7 +892,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided email is valid.
 	 *
@@ -947,7 +916,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value length is less or equal to a specific value.
 	 *
@@ -979,7 +947,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided value length is more or equal to a specific value.
 	 *
@@ -1011,7 +978,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided value length matches a specific value.
 	 *
@@ -1043,7 +1009,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided value contains only alpha characters.
 	 *
@@ -1068,7 +1033,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value contains only alpha-numeric characters.
 	 *
@@ -1093,7 +1057,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value contains only alpha characters with dashed and underscores.
 	 *
@@ -1118,7 +1081,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value contains only alpha numeric characters with spaces.
 	 *
@@ -1143,7 +1105,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid number or numeric string.
 	 *
@@ -1168,7 +1129,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid integer.
 	 *
@@ -1193,7 +1153,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a PHP accepted boolean.
 	 *
@@ -1219,7 +1178,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided value is a valid float.
 	 *
@@ -1244,7 +1202,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid URL.
 	 *
@@ -1269,7 +1226,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if a URL exists & is accessible.
 	 *
@@ -1309,7 +1265,6 @@ class GUMP {
 			}
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid IP address.
 	 *
@@ -1363,7 +1318,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid IPv6 address.
 	 *
@@ -1387,7 +1341,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the input is a valid credit card number.
 	 *
@@ -1431,7 +1384,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the input is a valid human name [Credits to http://github.com/ben-s].
 	 *
@@ -1456,7 +1408,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided input is likely to be a street address using weak detection.
 	 *
@@ -1485,7 +1436,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided value is a valid IBAN.
 	 *
@@ -1527,7 +1477,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided input is a valid date (ISO 8601).
 	 *
@@ -1554,7 +1503,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided input meets age requirement (ISO 8601).
 	 *
@@ -1583,7 +1531,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided numeric value is lower or equal to a specific value.
 	 *
@@ -1609,7 +1556,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided numeric value is higher or equal to a specific value.
 	 *
@@ -1635,7 +1581,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided value starts with param.
 	 *
@@ -1659,7 +1604,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * checks if a file was uploaded.
 	 *
@@ -1681,7 +1625,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * check the uploaded file for extension
 	 * for now checks onlt the ext should add mime type check.
@@ -1710,7 +1653,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Determine if the provided field value equals current field value.
 	 *
@@ -1736,7 +1678,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Determine if the provided field value is a valid GUID (v4)
 	 *
@@ -1762,7 +1703,6 @@ class GUMP {
 			'param' => $param,
 		);
 	}
-
 	/**
 	 * Trims whitespace only when the value is a scalar.
 	 *
@@ -1776,7 +1716,6 @@ class GUMP {
 		}
 		return $value;
 	}
-
 	/**
 	 * Determine if the provided value is a valid phone number.
 	 *
@@ -1811,7 +1750,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Custom regex validator.
 	 *
@@ -1836,7 +1774,6 @@ class GUMP {
 			);
 		}
 	}
-
 	/**
 	 * Json validatior.
 	 *

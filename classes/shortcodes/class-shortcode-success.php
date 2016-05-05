@@ -1,19 +1,15 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
-
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
-
 class Shortcode_success extends Shortcodes {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Render shortcode
 	 *
@@ -23,11 +19,8 @@ class Shortcode_success extends Shortcodes {
 	 */
 	public function render_shortcode($data) {
 		global $mprm_receipt_args, $mprm_login_redirect;
-
 		$data = empty($data) ? array() : $data;
-
 		$payment_key = false;
-
 		$mprm_receipt_args = shortcode_atts(array(
 			'error' => __('Sorry, trouble retrieving payment receipt.', 'mp-restaurant-menu'),
 			'price' => true,
@@ -40,32 +33,24 @@ class Shortcode_success extends Shortcodes {
 			'payment_id' => true
 		), $data, 'mprm_success');
 
-
 		$session = $this->get('session')->get_session_by_key('mprm_purchase');
 		if (isset($_GET['payment_key'])) {
 			$payment_key = urldecode($_GET['payment_key']);
 		} else if ($session) {
 			$payment_key = $session['purchase_key'];
 		}
-
 		$data['payment_key'] = $payment_key;
-
 		$user_can_view = $this->get('misc')->can_view_receipt($payment_key);
-
 		$payment_id = $this->get('payments')->get_payment_id(array('search_key' => 'payment_key', 'value' => $payment_key));
-
 		// Key was provided, but user is logged out. Offer them the ability to login and view the receipt
 		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('misc')->is_guest_payment($payment_id)) {
-
 			$mprm_login_redirect = $this->get('misc')->get_current_page_url();
 			$data['need_login'] = true;
 			$data['login_from'] = View::get_instance()->render_html("shop/login", array(), false);
 		}
-
 		if (!apply_filters('mprm_user_can_view_receipt', $user_can_view, $mprm_receipt_args)) {
 			$data['can_view'] = true;
 		}
-
 
 		$data['payment'] = get_post($payment_id);
 		if (is_a($data['payment'], 'WP_Post') && 'mprm_order' == $data['payment']->post_type) {

@@ -1,9 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
 use mp_restaurant_menu\classes\libs;
 use mp_restaurant_menu\classes\models\Menu_category;
-
 /**
  * Model Events
  */
@@ -32,18 +30,15 @@ class Import extends Core {
 	var $fetch_attachments = false;
 	var $url_remap = array();
 	var $featured_images = array();
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	function __construct() {
 		parent::__construct();
 	}
-
 	/**
 	 *
 	 * @param bool $return_me
@@ -56,19 +51,15 @@ class Import extends Core {
 			$return_me = true;
 		return $return_me;
 	}
-
 	public function header() {
 		View::get_instance()->render_html('../admin/import/header');
 	}
-
 	public function footer() {
 		View::get_instance()->render_html('../admin/import/footer');
 	}
-
 	public function greet() {
 		View::get_instance()->render_html('../admin/import/greet');
 	}
-
 	/**
 	 * Decide whether or not the importer is allowed to create users.
 	 * Default is true, can be filtered via import_allow_create_users
@@ -78,7 +69,6 @@ class Import extends Core {
 	public function allow_create_users() {
 		return apply_filters('import_allow_create_users', true);
 	}
-
 	/**
 	 * Decide whether or not the importer should attempt to menu_item attachment files.
 	 * Default is true, can be filtered via import_allow_fetch_attachments. The choice
@@ -89,7 +79,6 @@ class Import extends Core {
 	public function allow_fetch_attachments() {
 		return apply_filters('import_allow_fetch_attachments', true);
 	}
-
 	public function import_options() {
 		$j = 0;
 		?>
@@ -119,7 +108,6 @@ class Import extends Core {
 		</form>
 		<?php
 	}
-
 	/**
 	 * Display import options for an individual author. That is, either create
 	 * a new user based on import info or map to an existing user
@@ -154,7 +142,6 @@ class Import extends Core {
 		if ($this->version != '1.0')
 			echo '</div>';
 	}
-
 	/**
 	 * Import
 	 */
@@ -192,7 +179,6 @@ class Import extends Core {
 		}
 		$this->footer();
 	}
-
 	/**
 	 * Import start
 	 *
@@ -215,7 +201,6 @@ class Import extends Core {
 		wp_defer_comment_counting(true);
 		do_action('import_start');
 	}
-
 	public function process_end() {
 		wp_import_cleanup($this->id);
 		wp_cache_flush();
@@ -229,7 +214,6 @@ class Import extends Core {
 		echo '<p>' . __('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
 		do_action('import_end');
 	}
-
 	/**
 	 * If fetching attachments is enabled then attempt to create a new attachment
 	 *
@@ -266,7 +250,6 @@ class Import extends Core {
 		}
 		return $post_id;
 	}
-
 	/**
 	 * Get file by URL and write upload
 	 *
@@ -297,7 +280,6 @@ class Import extends Core {
 		clearstatcache();
 		return true;
 	}
-
 	/**
 	 * Attempt to menu_item a remote file attachment
 	 *
@@ -349,7 +331,6 @@ class Import extends Core {
 			$this->url_remap[$headers['x-final-location']] = $upload['url'];
 		return $upload;
 	}
-
 	public function handle_upload() {
 		$file = wp_import_handle_upload();
 		if (isset($file['error'])) {
@@ -379,7 +360,6 @@ class Import extends Core {
 		$this->get_authors_from_import($this->import_data);
 		return true;
 	}
-
 	/**
 	 * Parse a WXR file
 	 *
@@ -391,7 +371,6 @@ class Import extends Core {
 		$parser = new libs\WXR_Parser();
 		return $parser->parse($file);
 	}
-
 	/**
 	 * Decide if the given meta key maps to information we will want to import
 	 *
@@ -406,7 +385,6 @@ class Import extends Core {
 			return false;
 		return $key;
 	}
-
 	/**
 	 * Added to http_request_timeout filter to force timeout at 60 seconds during import
 	 * @return int 60
@@ -414,7 +392,6 @@ class Import extends Core {
 	function bump_request_timeout() {
 		return 60;
 	}
-
 	/**
 	 * Retrieve authors from parsed WXR data
 	 *
@@ -443,7 +420,6 @@ class Import extends Core {
 			}
 		}
 	}
-
 	/**
 	 * Create new terms based on import information
 	 *
@@ -481,7 +457,6 @@ class Import extends Core {
 			}
 			$description = isset($term['term_description']) ? $term['term_description'] : '';
 			$termarr = array('slug' => $term['slug'], 'description' => $description, 'parent' => intval($parent));
-
 			$id = wp_insert_term($term['term_name'], $term['term_taxonomy'], $termarr);
 			if (!is_wp_error($id)) {
 				if (isset($term['term_id'])) {
@@ -500,7 +475,6 @@ class Import extends Core {
 		}
 		unset($this->terms);
 	}
-
 	/**
 	 * Create new posts based on import information
 	 *
@@ -686,7 +660,6 @@ class Import extends Core {
 					}
 				}
 			}
-
 			if (!isset($post['postmeta'])) {
 				$post['postmeta'] = array();
 			}
@@ -717,7 +690,6 @@ class Import extends Core {
 		}
 		unset($this->posts);
 	}
-
 	/**
 	 * Attempt to associate posts and menu items with previously missing parents
 	 *
@@ -752,7 +724,6 @@ class Import extends Core {
 				update_post_meta($local_child_id, '_menu_item_menu_item_parent', (int)$local_parent_id);
 		}
 	}
-
 	/**
 	 * Use stored mapping information to update old attachment URLs
 	 */
@@ -767,12 +738,10 @@ class Import extends Core {
 			$result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url));
 		}
 	}
-
 	// return the difference in length between two strings
 	public function cmpr_strlen($a, $b) {
 		return strlen($b) - strlen($a);
 	}
-
 	/**
 	 * Update _thumbnail_id meta to new, imported attachment IDs
 	 */
@@ -787,7 +756,6 @@ class Import extends Core {
 			}
 		}
 	}
-
 	function max_attachment_size() {
 		return apply_filters('import_attachment_size_limit', 0);
 	}

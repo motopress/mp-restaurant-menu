@@ -1,18 +1,14 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Model;
-
 class Formatting extends Model {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	public function currency_decimal_filter($decimals = 2) {
 		$currency = $this->get('settings')->get_currency();
 		switch ($currency) {
@@ -25,7 +21,6 @@ class Formatting extends Model {
 		}
 		return apply_filters('mprm_currency_decimal_count', $decimals, $currency);
 	}
-
 	/**
 	 * Sanitizes a string key
 	 *
@@ -50,7 +45,6 @@ class Formatting extends Model {
 		 */
 		return apply_filters('mprm_sanitize_key', $key, $raw_key);
 	}
-
 	public function sanitize_amount($amount) {
 		$is_negative = false;
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
@@ -92,7 +86,6 @@ class Formatting extends Model {
 		 */
 		return apply_filters('mprm_sanitize_amount', $amount);
 	}
-
 	function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
@@ -117,5 +110,4 @@ class Formatting extends Model {
 		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
 		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 	}
-
 }

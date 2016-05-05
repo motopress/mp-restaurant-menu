@@ -1,19 +1,15 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\models\parents\Term;
 use mp_restaurant_menu\classes\View;
-
 class Menu_category extends Term {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Add form field hook
 	 *
@@ -24,7 +20,6 @@ class Menu_category extends Term {
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/add_form_fields", $data);
 	}
-
 	/**
 	 * Edit form field
 	 *
@@ -43,7 +38,6 @@ class Menu_category extends Term {
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/edit_form_fields", $data);
 	}
-
 	/**
 	 * Get term params
 	 *
@@ -76,7 +70,6 @@ class Menu_category extends Term {
 			return $term_meta;
 		}
 	}
-
 	public function get_term_image($mprm_term, $size = 'mprm-big') {
 		if (!empty($mprm_term->term_id)) {
 			$term_meta = $this->get_term_params($mprm_term->term_id);
@@ -91,7 +84,6 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
-
 	public function get_term_icon($mprm_term) {
 		if (!empty($mprm_term)) {
 			$icon = $this->get_term_params($mprm_term->term_id, 'iconname');
@@ -100,7 +92,6 @@ class Menu_category extends Term {
 			return '';
 		}
 	}
-
 	public function has_category_image($mprm_term) {
 		if (!empty($mprm_term->term_id)) {
 			$thumbnail_id = $this->get_term_params($mprm_term->term_id, 'thumbnail_id');
@@ -113,7 +104,6 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
-
 	/**
 	 * Save menu category
 	 *
@@ -133,7 +123,6 @@ class Menu_category extends Term {
 			}
 		}
 	}
-
 	/**
 	 * Get categories by ids
 	 *
@@ -146,7 +135,6 @@ class Menu_category extends Term {
 		$terms = $this->get_terms($taxonomy, $ids);
 		return $terms;
 	}
-
 	/**
 	 * Get category options
 	 *

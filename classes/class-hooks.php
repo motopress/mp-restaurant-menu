@@ -5,6 +5,7 @@ use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Emails;
 use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Order;
+use mp_restaurant_menu\classes\models\Payments;
 use mp_restaurant_menu\classes\models\Paypal;
 use mp_restaurant_menu\classes\models\Paypal_standart;
 use mp_restaurant_menu\classes\models\Purchase;
@@ -51,10 +52,12 @@ class Hooks extends Core {
 	public function admin_init() {
 		// load languages
 		$this->load_language();
-
 		// install metaboxes
+
 		$this->get('menu_item')->init_metaboxes();
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));
+
+
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
 		// List posts
@@ -92,35 +95,29 @@ class Hooks extends Core {
 	 * Init hook
 	 */
 	public function init() {
+		//Register custom post types
+		Post::get_instance()->register_post_status();
+		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
-
 		add_action('http_api_curl', array($this, 'http_api_curl'));
-
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');
 		}
-
 		// Register attachment sizes
 		$this->get('image')->add_image_sizes();
-
 		// Image downsize
 		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
-
 		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-
 		// Include template
 		add_filter('template_include', array(Media::get_instance(), 'template_include'));
-
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
-
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
-
 		// Shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
@@ -128,21 +125,17 @@ class Hooks extends Core {
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
-
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
-
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
-
 	}
 
 	/**
 	 * Install templates actions
 	 */
 	public static function install_templates_actions() {
-
 		self::install_menu_item_grid_actions();
 		self::install_menu_item_list_actions();
 		self::install_menu_items_actions();
@@ -153,9 +146,9 @@ class Hooks extends Core {
 		self::install_tag_actions();
 		self::install_cart_actions();
 		self::install_checkout_actions();
-
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
+		Payments::get_instance()->init_action();
 		//Paypal::get_instance()->init_action();
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
@@ -180,7 +173,6 @@ class Hooks extends Core {
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
-
 		add_action('mprm_purchase_form_register_fields', 'mprm_get_register_fields');
 		add_action('mprm_register_account_fields_before', 'mprm_register_account_fields_before');
 		add_action('mprm_register_account_fields_after', 'mprm_register_account_fields_after');
@@ -212,7 +204,6 @@ class Hooks extends Core {
 		add_action('mprm_after_cc_fields', 'mprm_after_cc_fields');
 		add_action('mprm_before_cc_expiration', 'mprm_before_cc_expiration');
 		add_action('mprm_after_cc_expiration', 'mprm_after_cc_expiration');
-
 
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
@@ -247,7 +238,6 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
-
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
 	}
 
@@ -283,7 +273,6 @@ class Hooks extends Core {
 	 * Install category actions
 	 */
 	public static function install_category_actions() {
-
 		add_action('mprm-single-category-before-wrapper', 'mprm_theme_wrapper_before');
 		add_action('mprm-single-category-after-wrapper', 'mprm_theme_wrapper_after');
 		/**

@@ -1,22 +1,17 @@
 <?php namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Model;
-
 class Manual_payment extends Model {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	public function manual_payment($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
-
 		/*
 		* Purchase data comes in like this
 		*
@@ -32,7 +27,6 @@ class Manual_payment extends Model {
 			'cart_details' => array of cart details,
 		);
 		*/
-
 		$payment_data = array(
 			'price' => $purchase_data['price'],
 			'date' => $purchase_data['date'],
@@ -44,10 +38,8 @@ class Manual_payment extends Model {
 			'cart_details' => $purchase_data['cart_details'],
 			'status' => 'pending'
 		);
-
 		// Record the pending payment
 		$payment = $this->get('payments')->insert_payment($payment_data);
-
 		if ($payment) {
 			$this->get('payments')->update_payment_status($payment, 'publish');
 			// Empty the shopping cart
@@ -59,12 +51,9 @@ class Manual_payment extends Model {
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		}
 	}
-
 	public function init_action() {
 		add_action('mprm_gateway_manual', array($this, 'manual_payment'));
 		add_action('mprm_manual_cc_form', '__return_false');
 	}
 }
-
-
 

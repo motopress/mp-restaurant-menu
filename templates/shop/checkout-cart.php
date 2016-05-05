@@ -4,7 +4,6 @@ use mp_restaurant_menu\classes\models\Cart as Cart;
 use mp_restaurant_menu\classes\models\Menu_item as Menu_item;
 use mp_restaurant_menu\classes\models\Formatting as Formatting;
 use mp_restaurant_menu\classes\models\Taxes as Taxes;
-
 ?>
 <table id="mprm_checkout_cart" <?php if (!$is_ajax_disabled) {
 	echo 'class="ajaxed"';
@@ -55,7 +54,6 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php endforeach; ?>
 	<?php endif; ?>
 	<?php do_action('mprm_cart_items_middle'); ?>
-
 	<?php if (Cart::get_instance()->cart_has_fees()) : ?>
 		<?php foreach (Cart::get_instance()->get_cart_fees() as $fee_id => $fee) : ?>
 			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">

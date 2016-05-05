@@ -11,15 +11,12 @@ $defaults = array(
 	'autocomplete' => '',
 	'data' => false
 );
-
 $args = wp_parse_args($args, $defaults);
-
 $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class'])));
 $disabled = '';
 if ($args['disabled']) {
 	$disabled = ' disabled="disabled"';
 }
-
 $data = '';
 if (!empty($args['data'])) {
 	foreach ($args['data'] as $key => $value) {

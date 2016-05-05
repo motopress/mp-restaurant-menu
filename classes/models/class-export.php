@@ -1,31 +1,25 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
 use mp_restaurant_menu\classes\models\Menu_category;
-
 /**
  * Export class
  */
 class Export extends Core {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	function __construct() {
 		parent::__construct();
 	}
-
 	public function export_wp($args = array()) {
 		if (in_array($args['content'], $this->post_types)) {
 			$this->export($args);
 		}
 	}
-
 	/**
 	 * Export file
 	 *
@@ -290,7 +284,6 @@ class Export extends Core {
 		</rss>
 		<?php
 	}
-
 	/**
 	 * Generate file name
 	 * @return mixed|void
@@ -314,7 +307,6 @@ class Export extends Core {
 		$filename = apply_filters('export_wp_filename', $wp_filename, $sitename, $date);
 		return $filename;
 	}
-
 	/**
 	 * Output list of authors with posts
 	 *
@@ -348,7 +340,6 @@ class Export extends Core {
 			echo "</wp:author>\n";
 		}
 	}
-
 	/**
 	 * Return the URL of the site
 	 *
@@ -364,7 +355,6 @@ class Export extends Core {
 		else
 			return get_bloginfo_rss('url');
 	}
-
 	/**
 	 * Output a term_description XML tag from a given term object
 	 *
@@ -377,7 +367,6 @@ class Export extends Core {
 			return;
 		echo '<wp:term_description>' . $this->mptt_cdata($term->description) . '</wp:term_description>';
 	}
-
 	/**
 	 * Output a term_name XML tag from a given term object
 	 *
@@ -390,7 +379,6 @@ class Export extends Core {
 			return;
 		echo '<wp:term_name>' . $this->mptt_cdata($term->name) . '</wp:term_name>';
 	}
-
 	/**
 	 * Wrap given string in XML CDATA tag.
 	 *
@@ -408,7 +396,6 @@ class Export extends Core {
 		$str = '<![CDATA[' . str_replace(']]>', ']]]]><![CDATA[>', $str) . ']]>';
 		return $str;
 	}
-
 	/**
 	 *
 	 * @param bool $return_me
@@ -421,7 +408,6 @@ class Export extends Core {
 			$return_me = true;
 		return $return_me;
 	}
-
 	/**
 	 * Output list of taxonomy terms, in XML tag format, associated with a post
 	 *

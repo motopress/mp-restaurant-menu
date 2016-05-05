@@ -14,10 +14,15 @@ class Core {
 	 * Current state
 	 */
 	private $state;
+
 	private $version;
+
 	protected $taxonomy_names;
+
 	protected $post_types;
+
 	protected $posts = array();
+
 	protected static $instance;
 
 	public function __construct() {
@@ -43,6 +48,16 @@ class Core {
 
 	public function get_version() {
 		return $this->version;
+	}
+
+	public function get_post_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->post_types);
+		} elseif ($output == 'value') {
+			return array_values($this->post_types);
+		} else {
+			return $this->post_types;
+		}
 	}
 
 	/**

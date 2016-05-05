@@ -1,27 +1,22 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
 //model
 use mp_restaurant_menu\classes\Model;
-
 /**
  * Singleton factory
  */
 class State_Factory {
 	protected static $instance;
 	protected $namespace;
-
 	public function __construct($namespace = 'mp_restaurant_menu') {
 		$this->namespace = $namespace;
 	}
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Get register instance object
 	 *
@@ -41,7 +36,6 @@ class State_Factory {
 		}
 		return $model;
 	}
-
 	/**
 	 * Get controller instance object
 	 *
@@ -57,7 +51,6 @@ class State_Factory {
 		}
 		return $controller;
 	}
-
 	/**
 	 *  Get Preprocessor instance object
 	 *

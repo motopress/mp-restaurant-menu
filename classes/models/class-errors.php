@@ -1,18 +1,14 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Model;
-
 class Errors extends Model {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	function print_errors() {
 		$errors = $this->get_errors();
 		if ($errors) {
@@ -28,7 +24,6 @@ class Errors extends Model {
 			$this->clear_errors();
 		}
 	}
-
 	/**
 	 * Get Errors
 	 *
@@ -41,7 +36,6 @@ class Errors extends Model {
 	function get_errors() {
 		return $this->get('session')->get_session_by_key('mprm_errors');
 	}
-
 	/**
 	 * Set Error
 	 *
@@ -62,7 +56,6 @@ class Errors extends Model {
 		$errors[$error_id] = $error_message;
 		$this->get('session')->set('mprm_errors', $errors);
 	}
-
 	/**
 	 * Clears all stored errors.
 	 *
@@ -72,7 +65,6 @@ class Errors extends Model {
 	function clear_errors() {
 		$this->get('session')->set('mprm_errors', null);
 	}
-
 	/**
 	 * Removes (unsets) a stored error
 	 *
@@ -89,6 +81,5 @@ class Errors extends Model {
 			$this->get('session')->set('mprm_errors', $errors);
 		}
 	}
-
 
 }

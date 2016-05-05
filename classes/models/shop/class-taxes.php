@@ -1,37 +1,29 @@
 <?php namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Model;
-
 class Taxes extends Model {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	public function use_taxes() {
 		$ret = $this->get('settings')->get_option('enable_taxes', false);
 		return (bool)apply_filters('mprm_use_taxes', $ret);
 	}
-
 	public function display_tax_rate() {
 		$ret = $this->use_taxes() && $this->get('settings')->get_option('display_tax_rate', false);
 		return apply_filters('mprm_display_tax_rate', $ret);
 	}
-
 	public function prices_include_tax() {
 		$ret = ($this->get('settings')->get_option('prices_include_tax', false) == 'yes' && $this->use_taxes());
 		return apply_filters('mprm_prices_include_tax', $ret);
 	}
-
 	public function get_tax_rates() {
 		$rates = get_option('mprm_tax_rates', array());
 		return apply_filters('mprm_get_tax_rates', $rates);
 	}
-
 	public function get_tax_rate($country = false, $state = false) {
 		$rate = (float)$this->get('settings')->get_option('tax_rate', 0);
 		$user_address = $this->get('customer')->get_customer_address();
@@ -79,7 +71,6 @@ class Taxes extends Model {
 		}
 		return apply_filters('mprm_tax_rate', $rate, $country, $state);
 	}
-
 	function calculate_tax($amount = 0, $country = false, $state = false) {
 		$rate = $this->get_tax_rate($country, $state);
 		$tax = 0.00;
@@ -93,32 +84,26 @@ class Taxes extends Model {
 		}
 		return apply_filters('mprm_taxed_amount', $tax, $rate, $country, $state);
 	}
-
 	function menu_item_is_tax_exclusive($menu_item_id = 0) {
 		$ret = (bool)get_post_meta($menu_item_id, '_mprm_menu_item_tax_exclusive', true);
 		return apply_filters('menu_item_is_tax_exclusive', $ret, $menu_item_id);
 	}
-
 	function prices_show_tax_on_checkout() {
 		$ret = ($this->get('settings')->get_option('checkout_include_tax', false) == 'yes' && $this->use_taxes());
 		return apply_filters('mprm_taxes_on_prices_on_checkout', $ret);
 	}
-
 	function get_formatted_tax_rate($country = false, $state = false) {
 		$rate = $this->get_tax_rate($country, $state);
 		$rate = round($rate * 100, 4);
 		$formatted = $rate .= '%';
 		return apply_filters('mprm_formatted_tax_rate', $formatted, $rate, $country, $state);
 	}
-
 	function is_cart_taxed() {
 		return $this->use_taxes();
 	}
-
 	function cart_needs_tax_address_fields() {
 		if (!$this->is_cart_taxed())
 			return false;
 		return !did_action('mprm_after_cc_fields', 'mprm_default_cc_address_fields');
 	}
-
 }

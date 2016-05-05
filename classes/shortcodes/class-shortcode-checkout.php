@@ -1,20 +1,16 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
-
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
-
 class Shortcode_Checkout extends Shortcodes {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Render shortcode
 	 *

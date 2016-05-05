@@ -1,22 +1,17 @@
 <?php namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\libs\IpnListener;
 use mp_restaurant_menu\classes\Model;
-
 class Paypal extends Model {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	public function paypal_remove_cc_form() {
 		// we only register the action so that the default CC form is not shown
 	}
-
 
 	/**
 	 * Process PayPal Purchase
@@ -25,10 +20,8 @@ class Paypal extends Model {
 	 * @since       1.0
 	 * @return      void
 	 */
-
 	public function process_paypal_purchase($purchase_data) {
 		global $mprm_options;
-
 		/*
 		* purchase data comes in like this
 		*
@@ -44,7 +37,6 @@ class Paypal extends Model {
 			'cart_details' => array of cart details,
 		);
 		*/
-
 		$payment_data = array(
 			'price' => $purchase_data['price'],
 			'date' => $purchase_data['date'],
@@ -56,16 +48,13 @@ class Paypal extends Model {
 			'cart_details' => $purchase_data['cart_details'],
 			'status' => 'pending'
 		);
-
 		// record the pending payment
 		$payment = $this->get('payments')->insert_payment($payment_data);
-
 		if ($payment) {
 			// only send to paypal if the pending payment is created successfully
 			$listener_url = trailingslashit(home_url()) . '?mprm-listener=IPN';
 			$return_url = add_query_arg('payment-confirmation', 'paypal', get_permalink($mprm_options['success_page']));
 			$cart_summary = $this->get('cart')->get_purchase_summary($purchase_data, false);
-
 			// one time payment
 			if ($this->get('misc')->is_test_mode()) {
 				$paypal_redirect = 'https://www.sandbox.paypal.com/cgi-bin/webscr/?';
@@ -90,22 +79,17 @@ class Paypal extends Model {
 			);
 			//var_dump(http_build_query($paypal_args)); exit;
 			$paypal_redirect .= http_build_query($paypal_args);
-
 			//var_dump(urldecode($paypal_redirect)); exit;
-
 			// get rid of cart contents
 			$this->get('cart')->empty_cart();
-
 			// Redirect to paypal
 			wp_redirect($paypal_redirect);
 			exit;
-
 		} else {
 			// if errors are present, send the user back to the purchase page so they can be corrected
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		}
 	}
-
 
 	/**
 	 * Listen For PayPal IPN
@@ -116,17 +100,13 @@ class Paypal extends Model {
 	 * @since       1.0
 	 * @return      void
 	 */
-
 	public function listen_for_paypal_ipn() {
 		global $mprm_options;
-
 		// regular PayPal IPN
 		if (!isset($mprm_options['paypal_alternate_verification'])) {
-
 			if (isset($_GET['mprm-listener']) && $_GET['mprm-listener'] == 'IPN') {
 				do_action('mprm_verify_paypal_ipn');
 			}
-
 			// alternate purchase verification
 		} else {
 			if (isset($_GET['tx']) && isset($_GET['st']) && isset($_GET['amt']) && isset($_GET['cc']) && isset($_GET['cm']) && isset($_GET['item_number'])) {
@@ -137,7 +117,6 @@ class Paypal extends Model {
 				$payment_id = $_GET['cm'];
 				$purchase_key = $_GET['item_number'];
 				$currency = $_GET['cc'];
-
 				// retrieve the meta info for this payment
 				$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 				$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);
@@ -153,13 +132,11 @@ class Paypal extends Model {
 				if (strtolower($payment_status) != 'completed' || $this->get('misc')->is_test_mode()) {
 					return; // payment wasn't completed
 				}
-
 				// everything has been verified, update the payment to "complete"
 				$this->get('payments')->update_payment_status($payment_id, 'publish');
 			}
 		}
 	}
-
 
 	/**
 	 * Process PayPal IPN
@@ -168,16 +145,12 @@ class Paypal extends Model {
 	 * @since       1.0
 	 * @return      void
 	 */
-
 	public function process_paypal_ipn() {
 		global $mprm_options;
-
 		$listener = new IpnListener();
-
 		if ($this->get('misc')->is_test_mode()) {
 			$listener->use_sandbox = true;
 		}
-
 		if (isset($mprm_options['ssl'])) {
 			$listener->use_ssl = false;
 		}
@@ -185,26 +158,21 @@ class Paypal extends Model {
 		if (isset($mprm_options['paypal_disable_curl'])) {
 			$listener->use_curl = false;
 		}
-
 		try {
 			$listener->requirePostMethod();
 			$verified = $listener->processIpn();
 		} catch (\Exception $e) {
-
 			exit(0);
 		}
-
 		if ($verified) {
 			$payment_id = $_POST['custom'];
 			$purchase_key = $_POST['item_number'];
 			$paypal_amount = $_POST['mc_gross'];
 			$payment_status = $_POST['payment_status'];
 			$currency_code = strtolower($_POST['mc_currency']);
-
 			// retrieve the meta info for this payment
 			$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 			$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);
-
 			if ($currency_code != strtolower($mprm_options['currency'])) {
 				return; // the currency code is invalid
 			}
@@ -214,44 +182,31 @@ class Paypal extends Model {
 			if ($purchase_key != $payment_meta['key']) {
 				return; // purchase keys don't match
 			}
-
 			if (isset($_POST['txn_type']) && $_POST['txn_type'] == 'web_accept') {
-
 				$status = strtolower($payment_status);
-
 				if ($status == 'completed' || $this->get('misc')->is_test_mode()) {
-
 					// set the payment to complete. This also sends the emails
 					$this->get('payments')->update_payment_status($payment_id, 'publish');
-
 				} else if ($status == 'refunded') {
-
 					// this refund process doesn't work yet
 					$payment_data = get_post_meta($payment_id, '_mprm_order_meta', true);
 					$menu_items = maybe_unserialize($payment_data['menu_items']);
-
 					if (is_array($menu_items)) {
 						foreach ($menu_items as $menu_item) {
 							$this->get('payments')->undo_purchase($menu_item['id'], $payment_id);
 						}
 					}
-
 					wp_update_post(array('ID' => $payment_id, 'post_status' => 'refunded'));
-
 				}
 			}
-
 		} else {
 			wp_mail(get_bloginfo('admin_email'), __('Invalid IPN', 'mprm'), $listener->getTextReport());
 		}
 	}
-
 	public function init_action() {
 		add_action('init', array($this, 'listen_for_paypal_ipn'));
-
 		add_action('mprm_verify_paypal_ipn', array($this, 'process_paypal_ipn'));
 		add_action('mprm_gateway_paypal', array($this, 'process_paypal_purchase'));
 		add_action('mprm_paypal_cc_form', array($this, 'paypal_remove_cc_form'));
 	}
 }
-

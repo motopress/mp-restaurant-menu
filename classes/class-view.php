@@ -6,14 +6,12 @@ namespace mp_restaurant_menu\classes;
 class View {
 	private $data;
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Render template
 	 *
@@ -28,7 +26,6 @@ class View {
 		$this->data = $data;
 		include_once MP_RM_TEMPLATES_PATH . 'index.php';
 	}
-
 	/**
 	 * Render html
 	 *

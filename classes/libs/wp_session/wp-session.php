@@ -19,14 +19,12 @@ function wp_session_cache_expire() {
 	$wp_session = WP_Session::get_instance();
 	return $wp_session->cache_expiration();
 }
-
 /**
  * Alias of wp_session_write_close()
  */
 function wp_session_commit() {
 	wp_session_write_close();
 }
-
 /**
  * Load a JSON-encoded string into the current session.
  *
@@ -38,7 +36,6 @@ function wp_session_decode($data) {
 	$wp_session = WP_Session::get_instance();
 	return $wp_session->json_in($data);
 }
-
 /**
  * Encode the current session's data as a JSON string.
  *
@@ -48,7 +45,6 @@ function wp_session_encode() {
 	$wp_session = WP_Session::get_instance();
 	return $wp_session->json_out();
 }
-
 /**
  * Regenerate the session ID.
  *
@@ -61,7 +57,6 @@ function wp_session_regenerate_id($delete_old_session = false) {
 	$wp_session->regenerate_id($delete_old_session);
 	return true;
 }
-
 /**
  * Start new or resume existing session.
  *
@@ -74,7 +69,6 @@ function wp_session_start() {
 	do_action('wp_session_start');
 	return $wp_session->session_started();
 }
-
 add_action('plugins_loaded', 'wp_session_start');
 /**
  * Return the current session status.
@@ -88,7 +82,6 @@ function wp_session_status() {
 	}
 	return PHP_SESSION_NONE;
 }
-
 /**
  * Unset all session variables.
  */
@@ -96,7 +89,6 @@ function wp_session_unset() {
 	$wp_session = WP_Session::get_instance();
 	$wp_session->reset();
 }
-
 /**
  * Write session data and end session
  */
@@ -105,7 +97,6 @@ function wp_session_write_close() {
 	$wp_session->write_data();
 	do_action('wp_session_commit');
 }
-
 add_action('shutdown', 'wp_session_write_close');
 /**
  * Clean up expired sessions by removing data and their expiration entries from
@@ -144,7 +135,6 @@ function wp_session_cleanup() {
 	// Allow other plugins to hook in to the garbage collection process.
 	do_action('wp_session_cleanup');
 }
-
 add_action('wp_session_garbage_collection', 'wp_session_cleanup');
 /**
  * Register the garbage collector as a twice daily event.
@@ -154,5 +144,4 @@ function wp_session_register_garbage_collection() {
 		wp_schedule_event(current_time('timestamp'), 'twicedaily', 'wp_session_garbage_collection');
 	}
 }
-
 add_action('wp', 'wp_session_register_garbage_collection');

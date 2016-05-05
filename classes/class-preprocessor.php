@@ -1,27 +1,22 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\libs\FB;
-
 class Preprocessor extends GUMP {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Install Preprocessors
 	 */
 	static function install() {
 		Core::include_all(MP_RM_PREPROCESSORS_PATH);
 	}
-
 	/**
 	 * Check for fatal
 	 *
@@ -54,7 +49,6 @@ class Preprocessor extends GUMP {
 		}
 		return $buffer;
 	}
-
 	/**
 	 * Call controller
 	 *
@@ -84,7 +78,6 @@ class Preprocessor extends GUMP {
 			trigger_error("Wrong {$action} in {$path}class-controller-{$page}.php");
 		}
 	}
-
 	/**
 	 * Progress
 	 *
@@ -105,7 +98,6 @@ class Preprocessor extends GUMP {
 			return array('success' => $success, 'data' => $this->$name());
 		}
 	}
-
 	/**
 	 * Process the validation errors and return an array of errors with field names as keys.
 	 *

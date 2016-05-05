@@ -1,22 +1,17 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
 use mp_restaurant_menu\classes\Core;
-
 /**
  * Controller class
  */
 class Controller extends Core {
-
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Install controllers
 	 */
@@ -24,7 +19,6 @@ class Controller extends Core {
 		// include all core controllers
 		Core::include_all(MP_RM_CONTROLLERS_PATH);
 	}
-
 	/**
 	 * Send json data
 	 *

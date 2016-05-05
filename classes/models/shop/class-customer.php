@@ -6,21 +6,13 @@ use mp_restaurant_menu\classes\Model;
 class Customer extends Model {
 	protected static $instance;
 	public $id = 0;
-
 	public $purchase_count = 0;
-
 	public $purchase_value = 0;
-
 	public $email;
-
 	public $name;
-
 	public $date_created;
-
 	public $payment_ids;
-
 	public $user_id;
-
 	public $notes;
 
 	public static function get_instance() {
@@ -38,7 +30,6 @@ class Customer extends Model {
 			}
 			$this->setup_customer($customer);
 		}
-
 	}
 
 	private function setup_customer($customer) {
@@ -201,24 +192,17 @@ class Customer extends Model {
 		return $this->purchase_count;
 	}
 
-
 	public function increase_purchase_count($count = 1) {
-
 		// Make sure it's numeric and not negative
 		if (!is_numeric($count) || $count != absint($count)) {
 			return false;
 		}
-
 		$new_total = (int)$this->purchase_count + (int)$count;
-
 		do_action('mprm_customer_pre_increase_purchase_count', $count, $this->id);
-
 		if ($this->update(array('purchase_count' => $new_total))) {
 			$this->purchase_count = $new_total;
 		}
-
 		do_action('mprm_customer_post_increase_purchase_count', $this->purchase_count, $count, $this->id);
-
 		return $this->purchase_count;
 	}
 
@@ -252,17 +236,13 @@ class Customer extends Model {
 	}
 
 	public function get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'complete') {
-
 		if (empty($user)) {
 			$user = get_current_user_id();
 		}
-
 		if (0 === $user) {
 			return false;
 		}
-
 		$status = $status === 'complete' ? 'publish' : $status;
-
 		if ($pagination) {
 			if (get_query_var('paged'))
 				$paged = get_query_var('paged');
@@ -271,64 +251,47 @@ class Customer extends Model {
 			else
 				$paged = 1;
 		}
-
 		$args = array(
 			'user' => $user,
 			'number' => $number,
 			'status' => $status,
 			'orderby' => 'date'
 		);
-
 		if ($pagination) {
-
 			$args['page'] = $paged;
-
 		} else {
-
 			$args['nopaging'] = true;
-
 		}
-
 		$customer = get_user_by('id', $user);
-
 		$this->setup_customer($customer);
 		if (!empty($customer->payment_ids)) {
 			unset($args['user']);
 			$args['post__in'] = array_map('absint', explode(',', $customer->payment_ids));
 		}
 		$purchases = $this->get('payments')->get_payments(apply_filters('mprm_get_users_purchases_args', $args));
-
 		// No purchases
 		if (!$purchases)
 			return false;
-
 		return $purchases;
 	}
 
 	public function user_pending_verification($user_id = 0) {
-
 		if (empty($user_id)) {
 			$user_id = get_current_user_id();
 		}
 
-
 		if (empty($user_id)) {
 			return false;
 		}
-
 		$pending = get_user_meta($user_id, '_mprm_pending_verification', true);
-
 		return (bool)apply_filters('mprm_user_pending_verification', !empty($pending), $user_id);
-
 	}
 
 	public function count_purchases_of_customer($user = null) {
 		if (empty($user)) {
 			$user = get_current_user_id();
 		}
-
 		$stats = !empty($user) ? $this->get_purchase_stats_by_user($user) : false;
-
 		return isset($stats['purchases']) ? $stats['purchases'] : 0;
 	}
 
@@ -338,32 +301,24 @@ class Customer extends Model {
 		} elseif (is_numeric($user)) {
 			$field = 'user_id';
 		}
-
 		$stats = array();
 		$customer = get_user_by($field, $user);
 		$this->setup_customer($customer);
-
 		if ($customer) {
-
 			$stats['purchases'] = absint($this->purchase_count);
 			$stats['total_spent'] = $this->get('formatting')->sanitize_amount($this->purchase_value);
-
 		}
 		return (array)apply_filters('mprm_purchase_stats_by_user', $stats, $user);
 	}
 
 	public function get_user_verification_request_url($user_id = 0) {
-
 		if (empty($user_id)) {
 			$user_id = get_current_user_id();
 		}
-
 		$url = wp_nonce_url(add_query_arg(array(
 			'mprm_action' => 'send_verification_email'
 		)), 'mprm-request-verification');
-
 		return apply_filters('mprm_get_user_verification_request_url', $url, $user_id);
-
 	}
 
 	public function init_action() {
@@ -376,5 +331,4 @@ class Customer extends Model {
 		add_action('mprm_customer_pre_create', 'mprm_customer_pre_create');
 		add_action('mprm_customer_post_create', 'mprm_customer_post_create');
 	}
-
 }

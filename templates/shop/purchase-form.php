@@ -1,6 +1,5 @@
 <?php
 use \mp_restaurant_menu\classes\models;
-
 $payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
 /**
  * Hooks in at the top of the purchase form
@@ -47,5 +46,4 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	// Can't checkout
 	do_action('mprm_purchase_form_no_access');
 }
-
 do_action('mprm_purchase_form_bottom');

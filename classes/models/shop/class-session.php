@@ -1,9 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\WP_Session;
-
 /**
  * MPRM_Session Class
  *
@@ -11,14 +9,12 @@ use mp_restaurant_menu\classes\libs\WP_Session;
  */
 class Session extends Core {
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Holds our session data
 	 *
@@ -43,7 +39,6 @@ class Session extends Core {
 	 * @since 2.3
 	 */
 	private $prefix = '';
-
 	/**
 	 * Get things started
 	 *
@@ -75,7 +70,6 @@ class Session extends Core {
 			add_filter('wp_session_expiration', array($this, 'set_expiration_time'), 99999);
 		}
 	}
-
 	/**
 	 * Setup the WP_Session instance
 	 *
@@ -101,7 +95,6 @@ class Session extends Core {
 		}
 		return $this->session;
 	}
-
 	/**
 	 * Retrieve session ID
 	 *
@@ -112,12 +105,10 @@ class Session extends Core {
 	public function get_id() {
 		return $this->session->session_id;
 	}
-
 	public function get_session_by_key($key) {
 		$key = sanitize_key($key);
 		return isset($this->session[$key]) ? maybe_unserialize($this->session[$key]) : false;
 	}
-
 	/**
 	 * Set a session variable
 	 *
@@ -140,7 +131,6 @@ class Session extends Core {
 		}
 		return $this->session[$key];
 	}
-
 	/**
 	 * Retrieve a session variable
 	 *
@@ -155,7 +145,6 @@ class Session extends Core {
 		$key = sanitize_key($key);
 		return isset($this->session[$key]) ? maybe_unserialize($this->session[$key]) : false;
 	}
-
 	/**
 	 * Set a session variable
 	 *
@@ -178,7 +167,6 @@ class Session extends Core {
 		}
 		return $this->session[$key];
 	}
-
 	/**
 	 * Set a cookie to identify whether the cart is empty or not
 	 *
@@ -202,7 +190,6 @@ class Session extends Core {
 			}
 		}
 	}
-
 	/**
 	 * Force the cookie expiration variant time to 23 hours
 	 *
@@ -216,7 +203,6 @@ class Session extends Core {
 	public function set_expiration_variant_time($exp) {
 		return (30 * 60 * 23);
 	}
-
 	/**
 	 * Force the cookie expiration time to 24 hours
 	 *
@@ -230,7 +216,6 @@ class Session extends Core {
 	public function set_expiration_time($exp) {
 		return (30 * 60 * 24);
 	}
-
 	/**
 	 * Starts a new session if one hasn't started yet.
 	 *
@@ -268,7 +253,6 @@ class Session extends Core {
 		}
 		return (bool)apply_filters('mprm_use_php_sessions', $ret);
 	}
-
 	/**
 	 * Determines if a user has set the MPRM_USE_CART_COOKIE
 	 *
@@ -282,7 +266,6 @@ class Session extends Core {
 		}
 		return (bool)apply_filters('mprm_use_cart_cookie', $ret);
 	}
-
 	/**
 	 * Starts a new session if one hasn't started yet.
 	 */

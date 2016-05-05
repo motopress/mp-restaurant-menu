@@ -7,24 +7,18 @@ if (!mprm_user_pending_verification()) {
 			<table id="mprm_user_history">
 				<thead>
 				<tr class="mprm_purchase_row">
-
 					<?php do_action('mprm_purchase_history_header_before'); ?>
-
 					<th class="mprm_purchase_id"><?php _e('ID', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_date"><?php _e('Date', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_amount"><?php _e('Amount', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_details"><?php _e('Details', 'mp-restaurant-menu'); ?></th>
-
 					<?php do_action('mprm_purchase_history_header_after'); ?>
-
 				</tr>
 				</thead>
 				<?php foreach ($purchases as $post) : setup_postdata($post); ?>
 					<?php $purchase_data = mprm_get_payment_meta($post->ID); ?>
 					<tr class="mprm_purchase_row">
-
 						<?php do_action('mprm_purchase_history_row_start', $post->ID, $purchase_data); ?>
-
 						<td class="mprm_purchase_id">#<?php echo mprm_get_payment_number($post->ID); ?></td>
 						<td class="mprm_purchase_date"><?php echo date_i18n(get_option('date_format'), strtotime(get_post_field('post_date', $post->ID))); ?></td>
 						<td class="mprm_purchase_amount">
@@ -38,13 +32,10 @@ if (!mprm_user_pending_verification()) {
 								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details and Downloads', 'mp-restaurant-menu'); ?></a>
 							<?php endif; ?>
 						</td>
-
 						<?php do_action('mprm_purchase_history_row_end', $post->ID, $purchase_data); ?>
-
 					</tr>
 				<?php endforeach; ?>
 			</table>
-
 			<div id="mprm_purchase_history_pagination" class="mprm_pagination navigation">
 				<?php
 				$big = 999999;
@@ -56,17 +47,13 @@ if (!mprm_user_pending_verification()) {
 				));
 				?>
 			</div>
-
 			<?php do_action('mprm_after_purchase_history'); ?>
-
 			<?php wp_reset_postdata(); ?>
 		<?php else : ?>
 			<p class="mprm-no-purchases"><?php _e('You have not made any purchases', 'mp-restaurant-menu'); ?></p>
 		<?php endif;
 	endif;
-
 } else {
-
 	if (!empty($_GET['mprm-verify-request'])) : ?>
 		<p class="mprm-account-pending mprm_success">
 			<?php _e('An email with an activation link has been sent.', 'mp-restaurant-menu'); ?>

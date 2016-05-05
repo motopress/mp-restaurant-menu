@@ -29,7 +29,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 	 * @var bool
 	 */
 	protected $dirty = false;
-
 	/**
 	 * Default object constructor.
 	 *
@@ -40,7 +39,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 			$this[$key] = $value;
 		}
 	}
-
 	/**
 	 * Allow deep copies of objects
 	 */
@@ -51,7 +49,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 			}
 		}
 	}
-
 	/**
 	 * Output the data container as a multidimensional array.
 	 *
@@ -81,7 +78,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 	public function offsetExists($offset) {
 		return isset($this->container[$offset]);
 	}
-
 	/**
 	 * Offset to retrieve
 	 *
@@ -94,7 +90,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 	public function offsetGet($offset) {
 		return isset($this->container[$offset]) ? $this->container[$offset] : null;
 	}
-
 	/**
 	 *  * Offset to set
 	 *
@@ -116,7 +111,6 @@ class Recursive_ArrayAccess implements \ArrayAccess {
 		}
 		$this->dirty = true;
 	}
-
 	/**
 	 * Offset to unset
 	 *

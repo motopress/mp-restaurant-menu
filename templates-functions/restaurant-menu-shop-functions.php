@@ -294,7 +294,6 @@ function mprm_purchase_form_before_cc_form() {
 function mprm_checkout_tax_fields() {
 	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && models\Cart::get_instance()->get_cart_total())
 		mprm_default_cc_address_fields();
-
 }
 
 function mprm_default_cc_address_fields() {
@@ -694,27 +693,21 @@ function mprm_user_info_fields() {
 }
 
 function mprm_purchase_form_before_register_login() {
-
 }
 
 function mprm_purchase_form_top() {
-
 }
 
 function mprm_purchase_form_before_email() {
-
 }
 
 function mprm_purchase_form_after_email() {
-
 }
 
 function mprm_purchase_form_user_info() {
-
 }
 
 function mprm_purchase_form_user_info_fields() {
-
 }
 
 function mprm_filter_where_older_than_week($where = '') {
@@ -770,7 +763,6 @@ function mprm_get_plugin_version() {
 function mprm_get_success_page_uri() {
 	$page_id = models\Settings::get_instance()->get_option('success_page', 0);
 	$page_id = absint($page_id);
-
 	return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 }
 
@@ -809,7 +801,9 @@ function mprm_count_purchases_of_customer() {
 	$stats = !empty($user) ? models\Customer::get_instance()->get_purchase_stats_by_user($user) : false;
 	return isset($stats['purchases']) ? $stats['purchases'] : 0;
 }
-function mprm_get_user_verification_request_url($user_id = 0){
+
+function mprm_get_user_verification_request_url($user_id = 0) {
 	return models\Customer::get_instance()->get_user_verification_request_url($user_id);
 }
+
 ?>
