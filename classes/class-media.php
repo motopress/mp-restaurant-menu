@@ -1,18 +1,22 @@
 <?php
 namespace mp_restaurant_menu\classes;
+
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 use mp_restaurant_menu\classes\modules\Menu;
+
 class Media extends Core {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Registered page in admin wp
 	 */
@@ -92,6 +96,7 @@ class Media extends Core {
 		));
 		$this->register_settings();
 	}
+
 	/**
 	 * Current screen
 	 *
@@ -132,6 +137,9 @@ class Media extends Core {
 					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
 					wp_enqueue_media();
 					break;
+				case "mprm_order":
+
+					break;
 				case "customize":
 					break;
 				default:
@@ -139,6 +147,7 @@ class Media extends Core {
 			}
 		}
 	}
+
 	/**
 	 * Admin script
 	 */
@@ -146,12 +155,14 @@ class Media extends Core {
 		global $current_screen;
 		$this->current_screen($current_screen);
 	}
+
 	/**
 	 * Wp head
 	 */
 	public function wp_head() {
 		$this->add_theme_css();
 	}
+
 	/**
 	 * Wp footer
 	 */
@@ -222,6 +233,7 @@ class Media extends Core {
 				break;
 		}
 	}
+
 	/**
 	 * Add theme js
 	 */
@@ -237,6 +249,7 @@ class Media extends Core {
 				break;
 		}
 	}
+
 	public function add_plugin_js($type = false) {
 		switch ($type) {
 			case"shortcode":
@@ -246,6 +259,7 @@ class Media extends Core {
 				break;
 		}
 	}
+
 	/**
 	 * Register all post type
 	 */
@@ -293,10 +307,11 @@ class Media extends Core {
 			'show_in_nav_menus' => false,
 			'rewrite' => false,
 			'query_var' => false,
-			'supports' => array('title', 'comments', 'custom-fields'),
+			'supports' => array('title', 'comments'),
 			'has_archive' => false,
 		));
 	}
+
 	/**
 	 * Register all taxonomies
 	 */
@@ -320,6 +335,7 @@ class Media extends Core {
 			'titles' => array('many' => 'ingredients', 'single' => 'ingredient'),
 		));
 	}
+
 	/**
 	 * Template include
 	 *
@@ -350,6 +366,7 @@ class Media extends Core {
 		}
 		return $template;
 	}
+
 	/**
 	 * Connect js for MCE editor
 	 *
@@ -362,6 +379,7 @@ class Media extends Core {
 		$plugin_array['mp_restaurant_menu'] = $path;
 		return $plugin_array;
 	}
+
 	/**
 	 * Add button in MCE editor
 	 *
@@ -373,6 +391,7 @@ class Media extends Core {
 		array_push($buttons, 'mp_add_menu');
 		return $buttons;
 	}
+
 	/**
 	 * Enqueue script
 	 *
@@ -389,6 +408,7 @@ class Media extends Core {
 		}
 		wp_enqueue_script($name, MP_RM_JS_URL . $path, $parent, $version);
 	}
+
 	/**
 	 * Enqueue style
 	 *
@@ -404,6 +424,7 @@ class Media extends Core {
 		}
 		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $parent, $version);
 	}
+
 	/**
 	 * Cut string
 	 *
@@ -442,12 +463,14 @@ class Media extends Core {
 		}
 		return $args['text'];
 	}
+
 	public function disable_autosave() {
 		global $post;
 		if (!empty($post) && $post->post_type == 'mprm_order') {
 			wp_dequeue_script('autosave');
 		}
 	}
+
 	public function register_settings() {
 		if (false == get_option('mprm_settings')) {
 			add_option('mprm_settings');
@@ -497,6 +520,7 @@ class Media extends Core {
 		// Creates our settings in the options table
 		register_setting('mprm_settings', 'mprm_settings', array(Settings::get_instance(), 'mprm_settings_sanitize'));
 	}
+
 	public function get_registered_settings() {
 		$mprm_settings = array(
 			/** General Settings */
@@ -1140,6 +1164,7 @@ class Media extends Core {
 		);
 		return apply_filters('mprm_registered_settings', $mprm_settings);
 	}
+
 	/**
 	 * Settings tab
 	 *
@@ -1157,6 +1182,7 @@ class Media extends Core {
 		}
 		return $tabs;
 	}
+
 	public function get_registered_settings_sections() {
 		static $sections = false;
 		if (false !== $sections) {
@@ -1199,6 +1225,7 @@ class Media extends Core {
 		$sections = apply_filters('mprm_settings_sections', $sections);
 		return $sections;
 	}
+
 	public function get_pages($force = false) {
 		$pages_options = array('' => ''); // Blank option
 		if ((!isset($_GET['page']) || 'admin.php?page=mprm-settings' != $_GET['page']) && !$force) {
@@ -1212,6 +1239,7 @@ class Media extends Core {
 		}
 		return $pages_options;
 	}
+
 	public function get_payment_gateways() {
 		// Default, built-in gateways
 		$gateways = array(
@@ -1227,6 +1255,7 @@ class Media extends Core {
 		);
 		return apply_filters('mprm_payment_gateways', $gateways);
 	}
+
 	public function get_button_styles() {
 		$styles = array(
 			'button' => __('Button', 'mp-restaurant-menu'),
@@ -1234,6 +1263,7 @@ class Media extends Core {
 		);
 		return apply_filters('mprm_button_styles', $styles);
 	}
+
 	public function get_button_colors() {
 		$colors = array(
 			'white' => array(
@@ -1275,10 +1305,12 @@ class Media extends Core {
 		);
 		return apply_filters('mprm_button_colors', $colors);
 	}
+
 	public function get_label_singular($lowercase = false) {
 		$defaults = $this->get_default_labels();
 		return ($lowercase) ? strtolower($defaults['singular']) : $defaults['singular'];
 	}
+
 	public function get_default_labels() {
 		$defaults = array(
 			'singular' => __('Download', 'mp-restaurant-menu'),
@@ -1286,6 +1318,7 @@ class Media extends Core {
 		);
 		return apply_filters('mprm_default_menu_items_name', $defaults);
 	}
+
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();
 		$tabs = array();

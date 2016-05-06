@@ -1,6 +1,7 @@
 <?php
 use \mp_restaurant_menu\classes\models;
 use \mp_restaurant_menu\classes\Core as Core;
+use \mp_restaurant_menu\classes\View as View;
 
 function mprm_before_purchase_form() {
 }
@@ -804,6 +805,82 @@ function mprm_count_purchases_of_customer() {
 
 function mprm_get_user_verification_request_url($user_id = 0) {
 	return models\Customer::get_instance()->get_user_verification_request_url($user_id);
+}
+
+function mprm_get_payment_statuses() {
+	return models\Payments::get_instance()->get_payment_statuses();
+}
+
+function mprm_get_order_object(\WP_Post $post) {
+	return new models\Order($post->ID);
+}
+
+function mprm_use_taxes() {
+	return models\Taxes::get_instance()->use_taxes();
+}
+
+function mprm_currency_symbol($currency = '') {
+	return models\Settings::get_instance()->get_currency_symbol($currency);
+}
+
+function mprm_get_payment_meta_user_info($order_id) {
+	return models\Payments::get_instance()->get_payment_meta_user_info($order_id);
+}
+
+function mprm_get_gateway_admin_label($gateway) {
+	return models\Gateways::get_instance()->get_gateway_admin_label($gateway);
+}
+
+function mprm_get_cart_items() {
+	return models\Cart::get_instance()->get_cart_contents();
+}
+
+function mprm_get_menu_item_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
+	return models\Menu_item::get_instance()->get_final_price($menu_item_id, $user_purchase_info, $amount_override);
+}
+
+function mprm_has_variable_prices($menu_item_id) {
+	return models\Menu_item::get_instance()->has_variable_prices($menu_item_id);
+}
+
+function mprm_get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
+	return models\Menu_item::get_instance()->get_price_option_name($menu_item_id, $price_id, $payment_id);
+}
+
+function mprm_is_payment_complete($payment_id) {
+	return models\Payments::get_instance()->is_payment_complete($payment_id);
+}
+
+function mprm_menu_item_dropdown($data) {
+	$menu_items = mprm_get_menu_items(array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item'));
+
+	if ($menu_items) {
+		$options[0] = sprintf(__('Select a %s', 'mp-restaurant-menu'), mprm_get_label_singular());
+		foreach ($menu_items as $product) {
+			$options[absint($product->ID)] = esc_html($product->post_title);
+		}
+	} else {
+		$options[0] = __('No products found', 'mp-restaurant-menu');
+	}
+	$data['options'] = $options;
+	$data['show_option_all'] = false;
+	$data['show_option_none'] = false;
+	$data['placeholder'] = __('Select a Menu item', 'mp-restaurant-menu');
+
+	return View::get_instance()->render_html('../admin/settings/select', $data, false);
+}
+
+function mprm_text($data) {
+	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
+}
+
+function mprm_sanitize_key($key) {
+	return models\Formatting::get_instance()->sanitize_key($key);
+}
+
+function mprm_get_menu_items(array $args) {
+	$menu_items = models\Menu_item::get_instance()->get_menu_items($args);
+	return $menu_items[0]['posts'];
 }
 
 ?>

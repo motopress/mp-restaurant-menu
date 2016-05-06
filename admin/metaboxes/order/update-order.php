@@ -1,54 +1,105 @@
-<div class="mprmadmin-box">
+<?php global $post;
+$order = mprm_get_order_object($post);
+$order_id = $order->ID;
+$number = $order->number;
+$order_meta = $order->get_meta();
+$transaction_id = esc_attr($order->transaction_id);
+$cart_items = $order->cart_details;
+$user_id = $order->user_id;
+$customer_id = $order->customer_id;
+$order_date = strtotime($order->date);
+$address = $order->address;
+$currency_code = $order->currency;
+$fees = $order->fees;
+$user_info = mprm_get_payment_meta_user_info($order_id);
+
+?>
+<div class="mprm-admin-box">
 	<div class="mprm-admin-box-inside">
 		<p>
-			<span class="label">Status:</span>&nbsp;
-			<select name="mprm-order-status" class="medium-text">
-				<option value="pending">Pending</option>
-				<option value="publish">Complete</option>
-				<option value="refunded" selected="selected">Refunded</option>
-				<option value="failed">Failed</option>
-				<option value="abandoned">Abandoned</option>
-				<option value="revoked">Revoked</option>
+			<span class="label"><?php _e('Status:', 'mp-restaurant-menu') ?></span>&nbsp;
+			<select name="mprm-order-status" class="">
+				<?php foreach (mprm_get_payment_statuses() as $key => $status) : ?>
+					<option value="<?php echo esc_attr($key); ?>"<?php selected($order->status, $key, true); ?>><?php echo esc_html($status); ?></option>
+				<?php endforeach; ?>
 			</select>
 		</p>
 	</div>
 
 	<div class="mprm-admin-box-inside">
 		<p>
-			<span class="label">Date:</span>&nbsp;
-			<input type="text" name="mprm-payment-date" value="04/29/2016" class="medium-text edd_datepicker hasDatepicker" id="dp1462456939093">
+			<span class="label"><?php _e('Date:', 'mp-restaurant-menu'); ?></span>&nbsp;
+			<input type="text" name="mprm-order-date mprm_datepicker hasDatepicker" value="<?php echo esc_attr(date('m/d/Y', $order_date)); ?>" class=" "/>
 		</p>
 	</div>
 
 	<div class="mprm-admin-box-inside">
 		<p>
-			<span class="label">Time:</span>&nbsp;
-			<input type="text" maxlength="2" name="mprm-payment-time-hour" value="14" class="small-text mprm-payment-time-hour">&nbsp;:&nbsp;
-			<input type="text" maxlength="2" name="mprm-payment-time-min" value="06" class="small-text mprm-payment-time-min">
+			<span class="label"><?php _e('Time:', 'mp-restaurant-menu'); ?></span>
+			<input type="text" maxlength="2" name="mprm-order-time-hour" value="<?php echo esc_attr(date_i18n('H', $order_date)); ?>" class="admin-time-input"/> &nbsp;: &nbsp;
+			<input type="text" maxlength="2" name="mprm-order-time-min" value="<?php echo esc_attr(date('i', $order_date)); ?>" class="admin-time-input"/>
 		</p>
 	</div>
 
+	<?php do_action('mprm_view_order_details_update_inner', $order_id); ?>
 
 	<div class="mprm-order-discount mprm-admin-box-inside">
 		<p>
-			<span class="label">Discount Code:</span>&nbsp;
-			<span>None</span>
+			<span class="label"><?php _e('Discount Code', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+			<span><?php if ($order->discounts !== 'none') {
+					echo '<code>' . $order->discounts . '</code>';
+				} else {
+					_e('None', 'mp-restaurant-menu');
+				} ?></span>
 		</p>
 	</div>
 
-	<div class="mprm-order-payment mprm-admin-box-inside">
+	<?php
+	if (!empty($fees)) : ?>
+		<div class="mprm-order-fees mprm-admin-box-inside">
+			<p class="strong"><?php _e('Fees', 'mp-restaurant-menu'); ?>:</p>
+			<ul class="mprm-order-fees">
+				<?php foreach ($fees as $fee) : ?>
+					<li><span class="fee-label"><?php echo $fee['label'] . ':</span> ' . '<span class="fee-amount" data-fee="' . esc_attr($fee['amount']) . '">' . mprm_currency_filter($fee['amount'], $currency_code); ?></span></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
+	<?php if (mprm_use_taxes()) : ?>
+		<div class="mprm-order-taxes mprm-admin-box-inside">
+			<p>
+				<span class="label"><?php _e('Tax', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+				<input name="mprm-order-tax" class="med-text" type="text" value="<?php echo esc_attr(mprm_format_amount($order->tax)); ?>"/>
+			</p>
+		</div>
+	<?php endif; ?>
+
+	<div class="mprm-order-order mprm-admin-box-inside">
 		<p>
-			<span class="label">Total Price:</span>&nbsp;
-			$&nbsp;<input name="mprm-payment-total" type="text" class="med-text" value="76.00">
+			<span class="label"><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+			<?php echo mprm_currency_symbol($order->currency); ?>&nbsp;<input name="mprm-order-total" type="text" class="med-text" value="<?php echo esc_attr(mprm_format_amount($order->total)); ?>"/>
 		</p>
 	</div>
 
-	<div class="mprm-order-payment-recalc-totals mprm-admin-box-inside" style="display:none;">
+	<div class="mprm-order-order-recalc-totals mprm-admin-box-inside" style="display:none">
 		<p>
-			<span class="label">Recalculate Totals:</span>&nbsp;
-			<a href="" id="mprm-order-recalc-total" class="button button-secondary right">Recalculate</a>
+			<span class="label"><?php _e('Recalculate Totals', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+			<a href="" id="mprm-order-recalc-total" class="button button-secondary right"><?php _e('Recalculate', 'mp-restaurant-menu'); ?></a>
 		</p>
 	</div>
+	<?php do_action('mprm_view_order_details_totals_after', $order_id); ?>
 
+	<div class="mprm-order-update-box mprm-admin-box-inside">
+		<?php do_action('mprm_view_order_details_update_before', $order_id); ?>
+		<div>
+			<div id="delete-action">
+				<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm-action' => 'delete_order', 'purchase_id' => $order_id), admin_url('edit.php?post_type=download&page=mprm-order-history')), 'mprm_order_nonce') ?>" class="mprm-delete-order mprm-delete"><?php _e('Delete Payment', 'mp-restaurant-menu'); ?></a>
+			</div>
+			<input type="submit" class="button button-primary right" value="<?php esc_attr_e('Save Payment', 'mp-restaurant-menu'); ?>"/>
+			<div class="mprm-clear"></div>
+		</div>
+		<?php do_action('mprm_view_order_details_update_after', $order_id); ?>
+	</div>
 
 </div>

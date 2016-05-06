@@ -118,6 +118,7 @@ final class Order extends Model {
 	 * Init metaboxes
 	 */
 	public function init_metaboxes() {
+		//Side meta box
 		add_meta_box(
 			'update-order',
 			__('Update Order', 'mp-restaurant-menu'),
@@ -136,6 +137,55 @@ final class Order extends Model {
 			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
+		add_meta_box(
+			'order-log',
+			__('Order logs', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'side',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+		//Meta box
+		add_meta_box(
+			'order-purchased',
+			__('Purchased Menu items', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+		add_meta_box(
+			'order-customer',
+			__('Customer Details', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+
+		add_meta_box(
+			'order-billing-address',
+			__('Billing Address', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+		add_meta_box(
+			'order-notes',
+			__('Payment Notes', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+
+
 	}
 
 	public function render_meta_box(\WP_Post $post, array $params) {
