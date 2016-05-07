@@ -1,6 +1,4 @@
 <?php
-
-
 $defaults = array(
 	'options' => array(),
 	'name' => null,

@@ -29,7 +29,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 	<div class="mprm-admin-box-inside">
 		<p>
 			<span class="label"><?php _e('Date:', 'mp-restaurant-menu'); ?></span>&nbsp;
-			<input type="text" name="mprm-order-date mprm_datepicker hasDatepicker" value="<?php echo esc_attr(date('m/d/Y', $order_date)); ?>" class=" "/>
+			<input type="text" name="mprm-order-date" value="<?php echo esc_attr(date('m/d/Y', $order_date)); ?>" class="mprm_datepicker hasDatepicker "/>
 		</p>
 	</div>
 

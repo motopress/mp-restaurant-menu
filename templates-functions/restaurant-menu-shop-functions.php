@@ -874,13 +874,37 @@ function mprm_text($data) {
 	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
 }
 
+function mprn_select($data) {
+	return View::get_instance()->render_html('../admin/settings/select', $data, false);
+}
+
 function mprm_sanitize_key($key) {
 	return models\Formatting::get_instance()->sanitize_key($key);
+}
+
+function mprm_get_country_list() {
+	return models\Settings::get_instance()->get_country_list();
+}
+
+function mprm_get_shop_states($country = null) {
+	return models\Settings::get_instance()->get_shop_states($country);
 }
 
 function mprm_get_menu_items(array $args) {
 	$menu_items = models\Menu_item::get_instance()->get_menu_items($args);
 	return $menu_items[0]['posts'];
+}
+
+function mprm_get_payment_notes($payment_id = 0, $search = '') {
+	return models\Payments::get_instance()->get_payment_notes($payment_id, $search);
+}
+
+function mprm_get_payment_note_html($note, $payment_id = 0) {
+	return models\Payments::get_instance()->get_payment_note_html($note, $payment_id);
+}
+
+function mprm_get_customer($customer_id) {
+	return new models\Customer(array('field' => 'id', 'value' => $customer_id));
 }
 
 ?>

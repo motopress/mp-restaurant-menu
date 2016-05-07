@@ -1,28 +1,27 @@
-<div id="edd-payment-notes" class="postbox">
-	<h3 class="hndle"><span><?php _e( 'Payment Notes', 'easy-digital-downloads' ); ?></span></h3>
-	<div class="inside">
-		<div id="edd-payment-notes-inner">
-			<?php
-			$notes = edd_get_payment_notes( $payment_id );
-			if ( ! empty( $notes ) ) :
-				$no_notes_display = ' style="display:none;"';
-				foreach ( $notes as $note ) :
+<?php
+global $post;
+$order = mprm_get_order_object($post);
+$order_id = $order->ID;
+?>
+<div id="mprm-order-notes" class="">
+	<div id="mprm-order-notes-inner">
+		<?php
+		$notes = mprm_get_payment_notes($order_id);
+		if (!empty($notes)) :
+			$no_notes_display = ' style="display:none;"';
+			foreach ($notes as $note) :
+				echo mprm_get_payment_note_html($note, $order_id);
+			endforeach;
+		else :
+			$no_notes_display = '';
+		endif;
+		echo '<p class="mprm-no-order-notes"' . $no_notes_display . '>' . __('No order notes', 'mp-restaurant-menu') . '</p>';
+		?>
+	</div>
 
-					echo edd_get_payment_note_html( $note, $payment_id );
-
-				endforeach;
-			else :
-				$no_notes_display = '';
-			endif;
-			echo '<p class="edd-no-payment-notes"' . $no_notes_display . '>'. __( 'No payment notes', 'easy-digital-downloads' ) . '</p>';
-			?>
-		</div>
-		<textarea name="edd-payment-note" id="edd-payment-note" class="large-text"></textarea>
-
-		<p>
-			<button id="edd-add-payment-note" class="button button-secondary right" data-payment-id="<?php echo absint( $payment_id ); ?>"><?php _e( 'Add Note', 'easy-digital-downloads' ); ?></button>
-		</p>
-
-		<div class="clear"></div>
-	</div><!-- /.inside -->
-</div><!-- /#edd-payment-notes -->
+	<textarea name="mprm-order-note" id="mprm-order-note" class="large-text"></textarea>
+	<p>
+		<button id="mprm-add-order-note" class="button button-secondary right" data-order-id="<?php echo absint($order_id); ?>"><?php _e('Add Note', 'mp-restaurant-menu'); ?></button>
+	</p>
+	<div class="mprm-clear"></div>
+</div>

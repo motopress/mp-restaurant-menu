@@ -1,4 +1,5 @@
 // -------------------------------------PLUGIN CORRECT STYLES------------------------------------- //
+@import 'grid.less';
 
 #mp_menu_gallery {
   .mprm-inside {
@@ -186,29 +187,13 @@
   }
 }
 
-#mprm-purchased-wrapper {
-  li {
-	display: inline-block;
-	position: relative;
-	vertical-align: middle;
-	margin-right: 5%;
-	line-height: 30px;
-  }
-  .row {
+.admin-bar.post-type-mprm_order {
+  .mprm-row {
 	padding: 12px;
 	border-bottom: 1px solid #eee;
-  }
-  &.columns-4 {
-	li {
-	  width: 22%;
-	  margin-right: 2%;
-	}
-
-  }
-  &.columns-3 {
-	li {
-	  width: 31%;
-	  margin-right: 3%;
+	.mprm-columns {
+	  vertical-align: middle;
+	  line-height: 30px;
 	}
   }
 

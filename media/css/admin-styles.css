@@ -1,3 +1,214 @@
+/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+* Less Version by Seth Coelen https://github.com/whatsnewsaes
+*/
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Grid
+- Base Styles
+- Typography
+- Links
+- Buttons
+- Forms
+- Lists
+- Code
+- Tables
+- Spacing
+- Utilities
+- Clearing
+- Media Queries
+*/
+/* Grid
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.mprm-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.mprm-column,
+.mprm-columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box;
+}
+/* For devices larger than 400px */
+@media (min-width: 400px) {
+  .mprm-container {
+    width: 100%;
+    padding: 0;
+  }
+}
+/* For devices larger than 550px */
+@media (min-width: 550px) {
+  .mprm-container {
+    width: 100%;
+  }
+  .mprm-column,
+  .mprm-columns {
+    margin-left: 4%;
+  }
+  .mprm-column:first-child,
+  .mprm-columns:first-child {
+    margin-left: 0;
+  }
+  .mprm-one.mprm-column,
+  .mprm-one.mprm-columns {
+    width: 4.66666667%;
+  }
+  .mprm-two.mprm-columns {
+    width: 13.33333333%;
+  }
+  .mprm-three.mprm-columns {
+    width: 22%;
+  }
+  .mprm-four.mprm-columns {
+    width: 30.66666667%;
+  }
+  .mprm-five.mprm-columns {
+    width: 39.33333333%;
+  }
+  .mprm-six.mprm-columns {
+    width: 48%;
+  }
+  .mprm-seven.mprm-columns {
+    width: 56.66666667%;
+  }
+  .mprm-eight.mprm-columns {
+    width: 65.33333333%;
+  }
+  .mprm-nine.mprm-columns {
+    width: 74%;
+  }
+  .mprm-ten.mprm-columns {
+    width: 82.66666667%;
+  }
+  .mprm-eleven.mprm-columns {
+    width: 91.33333333%;
+  }
+  .mprm-twelve.mprm-columns {
+    width: 100%;
+    margin-left: 0;
+  }
+  .mprm-one-third.mprm-column {
+    width: 30.66666667%;
+  }
+  .mprm-two-thirds.mprm-column {
+    width: 65.33333333%;
+  }
+  .mprm-one-half.mprm-column {
+    width: 48%;
+  }
+  /* Offsets */
+  .mprm-offset-by-one.mprm-column,
+  .mprm-offset-by-one.mprm-columns {
+    margin-left: 8.66666667%;
+  }
+  .mprm-offset-by-two.mprm-column,
+  .mprm-offset-by-two.mprm-columns {
+    margin-left: 17.33333333%;
+  }
+  .mprm-offset-by-three.mprm-column,
+  .mprm-offset-by-three.mprm-columns {
+    margin-left: 26%;
+  }
+  .mprm-offset-by-four.mprm-column,
+  .mprm-offset-by-four.mprm-columns {
+    margin-left: 34.66666667%;
+  }
+  .mprm-offset-by-five.mprm-column,
+  .mprm-offset-by-five.mprm-columns {
+    margin-left: 43.33333333%;
+  }
+  .mprm-offset-by-six.mprm-column,
+  .mprm-offset-by-six.mprm-columns {
+    margin-left: 52%;
+  }
+  .mprm-offset-by-seven.mprm-column,
+  .mprm-offset-by-seven.mprm-columns {
+    margin-left: 60.66666667%;
+  }
+  .mprm-offset-by-eight.mprm-column,
+  .mprm-offset-by-eight.mprm-columns {
+    margin-left: 69.33333333%;
+  }
+  .mprm-offset-by-nine.mprm-column,
+  .mprm-offset-by-nine.mprm-columns {
+    margin-left: 78%;
+  }
+  .mprm-offset-by-ten.mprm-column,
+  .mprm-offset-by-ten.mprm-columns {
+    margin-left: 86.66666667%;
+  }
+  .mprm-offset-by-eleven.mprm-column,
+  .mprm-offset-by-eleven.mprm-columns {
+    margin-left: 95.33333333%;
+  }
+  .mprm-offset-by-one-third.mprm-column,
+  .mprm-offset-by-one-third.mprm-columns {
+    margin-left: 34.66666667%;
+  }
+  .mprm-offset-by-two-thirds.mprm-column,
+  .mprm-offset-by-two-thirds.mprm-columns {
+    margin-left: 69.33333333%;
+  }
+  .mprm-offset-by-one-half.mprm-column,
+  .mprm-offset-by-one-half.mprm-column {
+    margin-left: 52%;
+  }
+}
+.mprm-u-full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+.mprm-u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.mprm-u-pull-right {
+  float: right;
+}
+.mprm-u-pull-left {
+  float: left;
+}
+/* Misc
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #e1e1e1;
+}
+/* Clearing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* Self Clearing Goodness */
+.mprm-container:after,
+.mprm-row:after,
+.mprm-u-cf {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Media Queries
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*
+Note: The best way to structure the use of media queries is to create the queries
+near the relevant code. For example, if you wanted to change the styles for buttons
+on small devices, paste the mobile query code up in the buttons section and style it
+there.
+*/
+/* Larger than mobile */
+/* Larger than phablet (also point when grid becomes active) */
+/* Larger than tablet */
+/* Larger than desktop */
+/* Larger than Desktop HD */
 #mp_menu_gallery .mprm-inside {
   margin: 0;
   padding: 0;
@@ -176,24 +387,13 @@
 .mprm-admin-box .mprm-admin-box-inside .admin-time-input {
   width: 25%;
 }
-#mprm-purchased-wrapper li {
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  margin-right: 5%;
-  line-height: 30px;
-}
-#mprm-purchased-wrapper .row {
+.admin-bar.post-type-mprm_order .mprm-row {
   padding: 12px;
   border-bottom: 1px solid #eee;
 }
-#mprm-purchased-wrapper.columns-4 li {
-  width: 22%;
-  margin-right: 2%;
-}
-#mprm-purchased-wrapper.columns-3 li {
-  width: 31%;
-  margin-right: 3%;
+.admin-bar.post-type-mprm_order .mprm-row .mprm-columns {
+  vertical-align: middle;
+  line-height: 30px;
 }
 .wp-list-table .column-mptt-thumb {
   width: 52px;

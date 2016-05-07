@@ -109,15 +109,23 @@ class Customer extends Model {
 	}
 
 	public function get_notes($length = 20, $paged = 1) {
-//		$length = is_numeric($length) ? $length : 20;
-//		$offset = is_numeric($paged) && $paged != 1 ? ((absint($paged) - 1) * $length) : 0;
+		$length = is_numeric($length) ? $length : 20;
+		$offset = is_numeric($paged) && $paged != 1 ? ((absint($paged) - 1) * $length) : 0;
+
+		$all_notes = $this->get_raw_notes();
+		$notes_array = array_reverse(array_filter(explode("\n", $all_notes)));
+
+		$desired_notes = array_slice($notes_array, $offset, $length);
+
+		return $desired_notes;
+	}
+
+	private function get_raw_notes() {
 //
-//		$all_notes = $this->get_raw_notes();
-//		$notes_array = array_reverse(array_filter(explode("\n", $all_notes)));
-//
-//		$desired_notes = array_slice($notes_array, $offset, $length);
-//
-//		return $desired_notes;
+//		$all_notes = $this->db->get_column('notes', $this->id);
+
+		return '';//(string)$all_notes;
+
 	}
 
 	public function get_customer_address() {

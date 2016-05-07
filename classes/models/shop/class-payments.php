@@ -3,6 +3,7 @@ namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\models\parents\Parent_query;
+use mp_timetable\plugin_core\classes\View;
 
 class Payments extends Parent_query {
 
@@ -893,21 +894,18 @@ class Payments extends Parent_query {
 			$user = get_userdata($note->user_id);
 			$user = $user->display_name;
 		} else {
-			$user = __('EDD Bot', 'mp-restaurant-menu');
+			$user = __('Guest Bot', 'mp-restaurant-menu');
 		}
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
+
 		$delete_note_url = wp_nonce_url(add_query_arg(array(
 			'mprm-action' => 'delete_payment_note',
 			'note_id' => $note->comment_ID,
 			'payment_id' => $payment_id
 		)), 'mprm_delete_payment_note_' . $note->comment_ID);
-		$note_html = '<div class="mprm-payment-note" id="mprm-payment-note-' . $note->comment_ID . '">';
-		$note_html .= '<p>';
-		$note_html .= '<strong>' . $user . '</strong>&nbsp;&ndash;&nbsp;' . date_i18n($date_format, strtotime($note->comment_date)) . '<br/>';
-		$note_html .= $note->comment_content;
-		$note_html .= '&nbsp;&ndash;&nbsp;<a href="' . esc_url($delete_note_url) . '" class="mprm-delete-payment-note" data-note-id="' . absint($note->comment_ID) . '" data-payment-id="' . absint($payment_id) . '" title="' . __('Delete this payment note', 'mp-restaurant-menu') . '">' . __('Delete', 'mp-restaurant-menu') . '</a>';
-		$note_html .= '</p>';
-		$note_html .= '</div>';
+
+
+		$note_html = View::get_instance()->render_html('..admin/metaboxes/order/notes', array('note' => $note, 'user' => $user, 'delete_note_url' => $delete_note_url, 'date_format' => $date_format), false);
 		return $note_html;
 	}
 
@@ -1062,7 +1060,7 @@ class Payments extends Parent_query {
 		$stati = $this->get('payments')->get_payment_statuses();
 		$old_status = isset($stati[$old_status]) ? $stati[$old_status] : $old_status;
 		$new_status = isset($stati[$new_status]) ? $stati[$new_status] : $new_status;
-		$status_change = sprintf(__('Status changed from %s to %s', 'easy-digital-downloads'), $old_status, $new_status);
+		$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
 		$this->get('payments')->insert_payment_note($payment_id, $status_change);
 	}
 
