@@ -125,7 +125,6 @@ class Customer extends Model {
 //		$all_notes = $this->db->get_column('notes', $this->id);
 
 		return '';//(string)$all_notes;
-
 	}
 
 	public function get_customer_address() {
