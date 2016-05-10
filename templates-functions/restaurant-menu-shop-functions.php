@@ -907,4 +907,8 @@ function mprm_get_customer($customer_id) {
 	return new models\Customer(array('field' => 'id', 'value' => $customer_id));
 }
 
+function mprm_sanitize_amount($amount) {
+	return models\Formatting::get_instance()->sanitize_amount($amount);
+}
+
 ?>

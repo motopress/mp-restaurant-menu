@@ -6,23 +6,23 @@ $address = $order->address; ?>
 		<div class="mprm-columns mprm-four">
 			<p>
 				<strong class="order-data-address-line"><?php _e('Street Address Line 1:', 'mp-restaurant-menu'); ?></strong><br/>
-				<input type="text" name="mprm-payment-address[0][line1]" value="<?php echo esc_attr($address['line1']); ?>" class="medium-text"/>
+				<input type="text" name="mprm-order-address[0][line1]" value="<?php echo esc_attr($address['line1']); ?>" class="medium-text"/>
 			</p>
 			<p>
 				<strong class="order-data-address-line"><?php _e('Street Address Line 2:', 'mp-restaurant-menu'); ?></strong><br/>
-				<input type="text" name="mprm-payment-address[0][line2]" value="<?php echo esc_attr($address['line2']); ?>" class="medium-text"/>
+				<input type="text" name="mprm-order-address[0][line2]" value="<?php echo esc_attr($address['line2']); ?>" class="medium-text"/>
 			</p>
 
 		</div>
 		<div class="mprm-columns mprm-four">
 			<p>
 				<strong class="order-data-address-line"><?php echo _x('City:', 'Address City', 'mp-restaurant-menu'); ?></strong><br/>
-				<input type="text" name="mprm-payment-address[0][city]" value="<?php echo esc_attr($address['city']); ?>" class="medium-text"/>
+				<input type="text" name="mprm-order-address[0][city]" value="<?php echo esc_attr($address['city']); ?>" class="medium-text"/>
 
 			</p>
 			<p>
 				<strong class="order-data-address-line"><?php echo _x('Zip / Postal Code:', 'Zip / Postal code of address', 'mp-restaurant-menu'); ?></strong><br/>
-				<input type="text" name="mprm-payment-address[0][zip]" value="<?php echo esc_attr($address['zip']); ?>" class="medium-text"/>
+				<input type="text" name="mprm-order-address[0][zip]" value="<?php echo esc_attr($address['zip']); ?>" class="medium-text"/>
 
 			</p>
 		</div>
@@ -32,7 +32,7 @@ $address = $order->address; ?>
 				<?php
 				echo mprn_select(array(
 					'options' => mprm_get_country_list(),
-					'name' => 'mprm-payment-address[0][country]',
+					'name' => 'mprm-order-address[0][country]',
 					'selected' => $address['country'],
 					'show_option_all' => false,
 					'show_option_none' => false,
@@ -50,7 +50,7 @@ $address = $order->address; ?>
 				if (!empty($states)) {
 					echo mprn_select(array(
 						'options' => $states,
-						'name' => 'mprm-payment-address[0][state]',
+						'name' => 'mprm-order-address[0][state]',
 						'selected' => $address['state'],
 						'show_option_all' => false,
 						'show_option_none' => false,
@@ -58,7 +58,7 @@ $address = $order->address; ?>
 						'placeholder' => __('Select a state', 'mp-restaurant-menu')
 					));
 				} else { ?>
-					<input type="text" name="mprm-payment-address[0][state]" value="<?php echo esc_attr($address['state']); ?>" class="medium-text"/>
+					<input type="text" name="mprm-order-address[0][state]" value="<?php echo esc_attr($address['state']); ?>" class="medium-text"/>
 					<?php
 				} ?>
 			</p>

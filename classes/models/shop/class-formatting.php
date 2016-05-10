@@ -93,7 +93,7 @@ class Formatting extends Model {
 		return apply_filters('mprm_sanitize_amount', $amount);
 	}
 
-	function format_amount($amount, $decimals = true) {
+	public function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
 		// Format the amount

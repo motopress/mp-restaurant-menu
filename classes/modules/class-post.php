@@ -152,6 +152,7 @@ class Post extends Module {
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post_id;
 		}
+
 		// Cher user rules
 		if ('page' == $_POST['post_type']) {
 			if (!current_user_can('edit_page', $post_id)) {
@@ -161,6 +162,9 @@ class Post extends Module {
 			if (!current_user_can('edit_post', $post_id)) {
 				return $post_id;
 			}
+		}
+		if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
+			$this->get('payments')->update_payment_details($_POST);
 		}
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type

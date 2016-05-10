@@ -13,6 +13,7 @@ $defaults = array(
 	'data' => array(),
 );
 $args = wp_parse_args($data, $defaults);
+
 $data_elements = '';
 foreach ($args['data'] as $key => $value) {
 	$data_elements .= ' data-' . esc_attr($key) . '="' . esc_attr($value) . '"';
@@ -31,6 +32,7 @@ if ($args['placeholder']) {
 	$placeholder = '';
 }
 $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class']))); ?>
+
 <select name="<?php echo esc_attr($args['name']) ?>" id="<?php esc_attr(mprm_sanitize_key((str_replace('-', '_', $args['id'])))) ?>" class="mprm-select <?php echo $class . $multiple ?> data-placeholder="<?php echo $placeholder . $data_elements ?>>
 	<?php
 	if ($args['show_option_all']) {

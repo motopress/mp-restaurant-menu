@@ -138,6 +138,8 @@ class Media extends Core {
 					wp_enqueue_media();
 					break;
 				case "mprm_order":
+					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
+					$this->enqueue_script('mprm-chosen', 'libs/chosen.jquery.min.js', array("jquery"), '1.1.0');
 
 					break;
 				case "customize":

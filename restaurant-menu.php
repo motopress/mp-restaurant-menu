@@ -13,6 +13,7 @@
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Capabilities;
+
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
@@ -30,22 +31,27 @@ define('MP_RM_LIBS_PATH', MP_RM_CLASSES_PATH . 'libs/');
 define('MP_RM_CONFIGS_PATH', MP_RM_PLUGIN_PATH . 'configs/');
 define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
+
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
+
 class MP_Restaurant_Menu_Setup_Plugin {
 	protected static $instance;
+
 	public static function init() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * On activation defrozo plugin
 	 */
 	public static function on_activation() {
+		global $wpdb;
 		if (!current_user_can('activate_plugins')) {
 			return;
 		}
@@ -60,7 +66,32 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		if (!empty($plugin)) {
 			check_admin_referer("activate-plugin_{$plugin}");
 		}
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+
+		$charset_collate = $wpdb->get_charset_collate();
+		$table_name = $wpdb->prefix . "mprm_customer";
+
+
+		$sql = "CREATE TABLE " . $table_name . " (
+		id bigint(11) NOT NULL AUTO_INCREMENT,
+		user_id bigint(11) NOT NULL,
+		email varchar(50) NOT NULL,
+		name mediumtext NOT NULL,
+		purchase_value mediumtext NOT NULL,
+		purchase_count bigint(11) NOT NULL,
+		payment_ids longtext NOT NULL,
+		notes longtext NOT NULL,
+		date_created datetime NOT NULL,
+		PRIMARY KEY  (id),
+		UNIQUE KEY email (email),
+		KEY user (user_id)
+		)  $charset_collate";
+
+		dbDelta($sql);
+		update_option($table_name . '_db_version', Core::get_instance()->get_version());
 	}
+
 	/**
 	 * On deactivation defrozo plugin
 	 */
@@ -75,6 +106,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			check_admin_referer("deactivate-plugin_{$plugin}");
 		}
 	}
+
 	/**
 	 * On uninstall
 	 */
@@ -84,6 +116,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		}
 		check_admin_referer('bulk-plugins');
 	}
+
 	static function include_all() {
 		/**
 		 * Install Fire bug
@@ -146,6 +179,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
 	}
+
 	public function __construct() {
 		$this->include_all();
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);

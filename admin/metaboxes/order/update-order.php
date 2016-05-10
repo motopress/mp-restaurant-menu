@@ -101,5 +101,5 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 		</div>
 		<?php do_action('mprm_view_order_details_update_after', $order_id); ?>
 	</div>
-
+	<input type="hidden" name="mprm_update" value="1"/>
 </div>

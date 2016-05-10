@@ -57,6 +57,18 @@ class Customer extends Model {
 		return false;
 	}
 
+	public function get_customers($args = array()) {
+		global $wpdb;
+		$customers = array();
+		$sql_reguest = "SELECT * FROM " . $this->table_name;
+		$customers_data = $this->wpdb->get_results($sql_reguest);
+
+		foreach ($customers_data as $customer) {
+			$customer->post = get_post($customer->event_id);
+		}
+		return $customers;
+	}
+
 	public function create($data = array()) {
 		if ($this->id != 0 || empty($data)) {
 			return false;
@@ -217,6 +229,28 @@ class Customer extends Model {
 		if (empty($data)) {
 			return false;
 		}
+//		$result = $this->wpdb->update(
+//			$this->table_name,
+//			array(
+//				'event_start' => date('H:i:s', strtotime($data['event_start'])),
+//				'event_end' => date('H:i:s', strtotime($data['event_end'])),
+//				'description' => $data['description'],
+//				'column_id' => $data['weekday_ids'],
+//				'user_id' => $data['user_id'],
+//			),
+//			array('id' => $data['id']),
+//			array(
+//				'%s',
+//				'%s',
+//				'%s',
+//				'%d',
+//				'%d',
+//			),
+//			array('%d')
+//		);
+//		return $result;
+
+
 		//$data = $this->sanitize_columns( $data );
 		do_action('mprm_customer_pre_update', $this->id, $data);
 		$updated = false;
@@ -327,6 +361,7 @@ class Customer extends Model {
 		)), 'mprm-request-verification');
 		return apply_filters('mprm_get_user_verification_request_url', $url, $user_id);
 	}
+
 
 	public function init_action() {
 		add_action('mprm_customer_pre_decrease_value', 'mprm_customer_pre_decrease_value');

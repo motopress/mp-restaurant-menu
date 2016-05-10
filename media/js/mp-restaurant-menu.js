@@ -1,5 +1,5 @@
 /*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false*/
-window.MP_RM_Registry = (function () {
+window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
 
@@ -85,13 +85,13 @@ window.MP_RM_Registry = (function () {
 /**
  * Global function
  */
-MP_RM_Registry.register("MP_RM_Functions", (function ($) {
+MP_RM_Registry.register("MP_RM_Functions", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
+			init: function() {
 
 			},
 			/**
@@ -102,16 +102,16 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param {function} callbackError
 			 * @returns {undefined}
 			 */
-			wpAjax: function (params, callbackSuccess, callbackError) {
+			wpAjax: function(params, callbackSuccess, callbackError) {
 				params.mprm_action = params.action;
 				delete params.action;
 				wp.ajax.send("route_url", {
-					success: function (data) {
+					success: function(data) {
 						if (!_.isUndefined(callbackError) && _.isFunction(callbackError)) {
 							callbackSuccess(data);
 						}
 					},
-					error: function (data) {
+					error: function(data) {
 						if (!_.isUndefined(callbackError) && _.isFunction(callbackError)) {
 							callbackError(data);
 						} else {
@@ -134,7 +134,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param timeOut
 			 * @returns {jBox}
 			 */
-			callTooltip: function (selector, text, timeOut) {
+			callTooltip: function(selector, text, timeOut) {
 				if (_.isUndefined(timeOut)) {
 					timeOut = 5;
 				}
@@ -153,9 +153,9 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 					reposition: true,
 					closeOnClick: "body",
 					maxWidth: 200,
-					onOpen: function () {
+					onOpen: function() {
 						if (timeOut > 0) {
-							setTimeout(function () {
+							setTimeout(function() {
 								tooltip.close();
 							}, timeOut * 1000);
 						}
@@ -170,7 +170,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param start_content
 			 * @param open_callback
 			 */
-			callModal: function (start_content, open_callback, args) {
+			callModal: function(start_content, open_callback, args) {
 				start_content = (_.isEmpty(start_content)) ? spinner : start_content;
 				var height = $(window).outerHeight() - 60,
 					width = $(window).outerWidth() - 60,
@@ -190,11 +190,11 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 						height: height,
 						closeButton: "box",
 						addClass: 'mprm-modal',
-						onOpen: function () {
+						onOpen: function() {
 							var jbox_container = $("#" + this.id);
 							open_callback.call(this, jbox_container);
 						},
-						onClose: function () {
+						onClose: function() {
 							$("#" + this.id).remove();
 						}
 					};
@@ -204,7 +204,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 				var popup = new jBox('Modal', params);
 				popup.open();
 			},
-			callNotice: function (text, type, timeOut) {
+			callNotice: function(text, type, timeOut) {
 				var color,
 					Notice = {};
 				switch (type) {
@@ -231,9 +231,9 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 						y: 'bottom'
 					},
 					animation: {open: 'slide:bottom', close: 'slide:left'},
-					onOpen: function () {
+					onOpen: function() {
 						Notice = this;
-						setTimeout(function () {
+						setTimeout(function() {
 							Notice.close();
 						}, timeOut * 1000);
 					}
@@ -245,7 +245,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param name (value attr data-display)
 			 * @param container (parent where search)
 			 */
-			showBlocks: function (name, container) {
+			showBlocks: function(name, container) {
 				state.doActionForObj(name, container, "show");
 			},
 			/**
@@ -253,7 +253,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param name (value attr data-display)
 			 * @param container (parent where search)
 			 */
-			showSomeBlock: function (name, container) {
+			showSomeBlock: function(name, container) {
 				state.doActionForObj(name, container, "some-show");
 			},
 			/**
@@ -261,7 +261,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param name (value attr data-display)
 			 * @param container (parent where search)
 			 */
-			hideBlocks: function (name, container) {
+			hideBlocks: function(name, container) {
 				state.doActionForObj(name, container, "hide");
 			},
 			/**
@@ -271,7 +271,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param {type} container
 			 * @param {type} action
 			 */
-			doActionForObj: function (name, container, action) {
+			doActionForObj: function(name, container, action) {
 				if (_.isUndefined(action)) {
 					action = "show";
 				}
@@ -283,16 +283,16 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 				} else {
 					arrayBlocks = container.find('[data-display]');
 				}
-				arrayBlocks.each(function () {
+				arrayBlocks.each(function() {
 					var value = $(this),
 						find = [],
 						searchArray,
 						attrValues = value.attr("data-display").split(","); //construct array attrs
-					$.each(attrValues, function (key, value) { //each attrs array
+					$.each(attrValues, function(key, value) { //each attrs array
 						attrValues[key] = $.trim(value); //trim space around value
 					});
 					searchArray = name.split(",");
-					$.each(searchArray, function (keySearch, search) {
+					$.each(searchArray, function(keySearch, search) {
 						$.extend(find, state.inArray(attrValues, search));
 					});
 					if (!_.isEmpty(find)) {
@@ -323,7 +323,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 			 * @param {type} search
 			 * @returns {Array}
 			 */
-			inArray: function (array, search) {
+			inArray: function(array, search) {
 				var result = [],
 					key = $.inArray(search, array);
 				if (key >= 0) {
@@ -335,7 +335,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -346,7 +346,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function ($) {
 /**
  * Html build function
  */
-MP_RM_Registry.register("HtmlBuilder", (function ($) {
+MP_RM_Registry.register("HtmlBuilder", (function($) {
 	"use strict";
 	var state;
 
@@ -406,19 +406,19 @@ MP_RM_Registry.register("HtmlBuilder", (function ($) {
 			 * @param params - json
 			 * @returns {string|*|n|string}
 			 */
-			generateHTML: function (params) {
+			generateHTML: function(params) {
 				var content = "",
 					result;
 				if (_.isObject(params)) {
 					var element = document.createElement(params.tag);
 					if (!_.isUndefined(params.attrs)) {
-						$.each(params.attrs, function (key, value) {
+						$.each(params.attrs, function(key, value) {
 							element.setAttribute(key, value);
 						});
 					}
 					if (_.isArray(params.content)) {
 
-						$.each(params.content, function (key, value) {
+						$.each(params.content, function(key, value) {
 							content += state.generateHTML(value);
 						});
 						$(element).html(content);
@@ -447,7 +447,7 @@ MP_RM_Registry.register("HtmlBuilder", (function ($) {
 			 * @param $data
 			 * @returns {boolean}
 			 */
-			getHtml: function ($template, $data) {
+			getHtml: function($template, $data) {
 				if (_.isUndefined($template)) {
 					return false;
 				}
@@ -455,7 +455,7 @@ MP_RM_Registry.register("HtmlBuilder", (function ($) {
 				if (_.isUndefined($data)) {
 					if (_.isArray($template)) {
 						result = "";
-						$.each($template, function (key, value) {
+						$.each($template, function(key, value) {
 							result += state.generateHTML(value);
 						});
 					} else {
@@ -472,7 +472,7 @@ MP_RM_Registry.register("HtmlBuilder", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -483,20 +483,20 @@ MP_RM_Registry.register("HtmlBuilder", (function ($) {
 /**
  * Html build function
  */
-MP_RM_Registry.register("Menu-Shop", (function ($) {
+MP_RM_Registry.register("Menu-Shop", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
+			init: function() {
 
 			},
 			/**
 			 * Add to cart
 			 */
-			addToCart: function () {
-				$('.mprm-add-to-cart').on('click', function (e) {
+			addToCart: function() {
+				$('.mprm-add-to-cart').on('click', function(e) {
 					e.preventDefault();
 					var $this = $(this), form = $this.closest('form');
 					var $params = form.serializeArray();
@@ -506,16 +506,16 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 					});
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function (data) {
+						function(data) {
 							form.find('.mprm_go_to_checkout').show();
 							form.find('.mprm-add-to-cart').hide();
 
 							$('.mprm-cart-added-alert', form).fadeIn();
-							setTimeout(function () {
+							setTimeout(function() {
 								$('.mprm-cart-added-alert', form).fadeOut();
 							}, 3000);
 						},
-						function (data) {
+						function(data) {
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
@@ -525,8 +525,8 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 			/**
 			 *  Change gateway
 			 */
-			changeGateway: function () {
-				$('input[name=payment-mode]', '#mprm_purchase_form').on('change', function () {
+			changeGateway: function() {
+				$('input[name=payment-mode]', '#mprm_purchase_form').on('change', function() {
 					$('#mprm_purchase_form_wrap').html('');
 					state.loadGateway()
 				});
@@ -534,41 +534,39 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 			/**
 			 * Load gateway
 			 */
-			loadGateway: function () {
+			loadGateway: function() {
 				var gateway = $('input[name=payment-mode]:checked', '#mprm_purchase_form').val();
-				var $params = [
-					{
-						name: 'controller',
-						value: 'cart'
-					}, {
-						name: 'mprm_action',
-						value: 'load_gateway'
-					},
-					//{
-					//	name: 'gateway',
-					//	value: gateway
-					//},
-					{
-						name: 'payment-mode',
-						value: gateway
-					}
-				];
+				if (!!gateway) {
+					var $params = [
+						{
+							name: 'controller',
+							value: 'cart'
+						}, {
+							name: 'mprm_action',
+							value: 'load_gateway'
+						},
+						{
+							name: 'payment-mode',
+							value: gateway
+						}
+					];
 
-				$('.mprm-cart-ajax').show();
+					$('.mprm-cart-ajax').show();
 
-				MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-					function (data) {
-						$('.mprm-no-js').hide();
-						$('#mprm_purchase_form_wrap').html(data.html);
-						state.purchaseForm();
-					},
-					function (data) {
-						console.warn('Some error!!!');
-						console.warn(data);
-					}
-				);
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							$('.mprm-no-js').hide();
+							$('#mprm_purchase_form_wrap').html(data.html);
+							state.purchaseForm();
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				}
 			},
-			removeFromCart: function () {
+			removeFromCart: function() {
 				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {
 				//	e.preventDefault();
 				//
@@ -609,9 +607,9 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 			/**
 			 * Purchase form
 			 */
-			purchaseForm: function () {
+			purchaseForm: function() {
 
-				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').off('click').on('click', function (e) {
+				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').off('click').on('click', function(e) {
 
 					var purchaseForm = document.getElementById('mprm_purchase_form');
 
@@ -639,7 +637,7 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 						}
 					);
 
-					$.each($params, function (index, element) {
+					$.each($params, function(index, element) {
 						if (element) {
 							if (element.name == "mprm_action" && element.value == "gateway_select") {
 								$params.splice(index, 1);
@@ -650,12 +648,12 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 					$('.mprm-cart-ajax').show();
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function (data) {
+						function(data) {
 							$('.mprm_errors').remove();
 							$('.mprm-error').hide();
 							$('#mprm_purchase_form').submit();
 						},
-						function (data) {
+						function(data) {
 							//$('#mprm-purchase-button').val(complete_purchase_val);
 							$('.mprm-cart-ajax').remove();
 							$('.mprm_errors').remove();
@@ -686,7 +684,7 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -695,24 +693,24 @@ MP_RM_Registry.register("Menu-Shop", (function ($) {
 	};
 })(jQuery));
 
-
 /**
  * Html build function
  */
-MP_RM_Registry.register("Order", (function ($) {
+MP_RM_Registry.register("Order", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
+			init: function() {
 
 				state.hideElementOrder();
 				state.addComment();
 				state.removeComment();
+				state.initChosen();
 			},
-			addComment: function () {
-				$('#mprm-add-order-note').on('click', function (e) {
+			addComment: function() {
+				$('#mprm-add-order-note').on('click', function(e) {
 
 					e.preventDefault();
 					var $params = {
@@ -723,19 +721,29 @@ MP_RM_Registry.register("Order", (function ($) {
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function (data) {
-							$('.mprm-no-order-notes').before(data.html);
+						function(data) {
+							$('.mprm-no-order-notes').hide();
+							$('#mprm-order-notes-inner').append(data.html);
 							$('#mprm-order-note').val('');
+							state.removeComment()
 						},
-						function (data) {
+						function(data) {
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
 					);
 				});
 			},
-			removeComment: function () {
-				$('.mprm-delete-order-note').on('click', function (e) {
+			initChosen: function() {
+				$('.mprm-select-chosen').chosen({
+					inherit_select_classes: true,
+					placeholder_text_single: admin_lang.one_option,
+					placeholder_text_multiple: admin_lang.one_or_more_option
+				});
+
+			},
+			removeComment: function() {
+				$('.mprm-delete-order-note').off('click').on('click', function(e) {
 					e.preventDefault();
 					var note_id = $(this).attr('data-note-id');
 					var $params = {
@@ -745,18 +753,23 @@ MP_RM_Registry.register("Order", (function ($) {
 						note_id: note_id
 					};
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function (data) {
+						function(data) {
 							$('#mprm-payment-note-' + note_id).remove();
+
+							if ($('.mprm-payment-note').length < 1) {
+								$('.mprm-no-order-notes').show();
+							}
 						},
-						function (data) {
+						function(data) {
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
 					);
 				});
 			},
-			hideElementOrder: function () {
+			hideElementOrder: function() {
 				$('#submitdiv').hide();
+				$('#order-log').hide();
 				$('#titlewrap').parents('#post-body-content').hide();
 				$('#commentstatusdiv').parent().hide();
 			}
@@ -764,7 +777,7 @@ MP_RM_Registry.register("Order", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -777,21 +790,21 @@ MP_RM_Registry.register("Order", (function ($) {
 /**
  * Menu settings module
  */
-MP_RM_Registry.register("Menu-Settings", (function ($) {
+MP_RM_Registry.register("Menu-Settings", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
-				$('#rm_settings').on('submit', function () {
+			init: function() {
+				$('#rm_settings').on('submit', function() {
 					var params = $(this).serializeArray();
 					$('#setting-error-settings_updated:visible').remove();
-					state.saveSettings(params, function ($data) {
+					state.saveSettings(params, function($data) {
 						var $message = $('#setting-error-settings_updated').clone();
 						$message.removeClass('hidden');
 						$('.wrap #settings-title').after($message);
-						$('.notice-dismiss').on('click', function () {
+						$('.notice-dismiss').on('click', function() {
 							$(this).parent().remove();
 						});
 					});
@@ -807,20 +820,20 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 			 * @param {type} $params
 			 * @param {type} callback
 			 */
-			saveSettings: function ($params, callback) {
+			saveSettings: function($params, callback) {
 				MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-					function (data) {
+					function(data) {
 						if (!_.isUndefined(callback) && _.isFunction(callback)) {
 							callback(data);
 						}
 					},
-					function (data) {
+					function(data) {
 						console.warn('Some error!!!');
 						console.warn(data);
 					}
 				);
 			},
-			settingsUpload: function () {
+			settingsUpload: function() {
 				// Settings Upload field JS
 				if (typeof wp === "undefined" || '1' !== admin_lang.new_media_ui) {
 					//Old Thickbox uploader
@@ -828,17 +841,17 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 					if (mprm_settings_upload_button.length > 0) {
 						window.formfield = '';
 
-						$(document.body).on('click', mprm_settings_upload_button, function (e) {
+						$(document.body).on('click', mprm_settings_upload_button, function(e) {
 							e.preventDefault();
 							window.formfield = $(this).parent().prev();
-							window.tbframe_interval = setInterval(function () {
+							window.tbframe_interval = setInterval(function() {
 								jQuery('#TB_iframeContent').contents().find('.savesend .button').val(admin_lang.use_this_file).end().find('#insert-gallery, .wp-post-thumbnail').hide();
 							}, 2000);
 							tb_show(admin_lang.add_new_menu_item, 'media-upload.php?TB_iframe=true');
 						});
 
 						window.mprm_send_to_editor = window.send_to_editor;
-						window.send_to_editor = function (html) {
+						window.send_to_editor = function(html) {
 							if (window.formfield) {
 								var imgurl = $('a', '<div>' + html + '</div>').attr('href');
 								window.formfield.val(imgurl);
@@ -857,7 +870,7 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 					var file_frame;
 					window.formfield = '';
 
-					$(document.body).on('click', '.mprm_settings_upload_button', function (e) {
+					$(document.body).on('click', '.mprm_settings_upload_button', function(e) {
 
 						e.preventDefault();
 
@@ -883,7 +896,7 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 							multiple: false
 						});
 
-						file_frame.on('menu:render:default', function (view) {
+						file_frame.on('menu:render:default', function(view) {
 							// Store our views in an object.
 							var views = {};
 
@@ -898,10 +911,10 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 						});
 
 						// When an image is selected, run a callback.
-						file_frame.on('insert', function () {
+						file_frame.on('insert', function() {
 
 							var selection = file_frame.state().get('selection');
-							selection.each(function (attachment, index) {
+							selection.each(function(attachment, index) {
 								attachment = attachment.toJSON();
 								window.formfield.val(attachment.url);
 							});
@@ -916,13 +929,13 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 				}
 
 			},
-			changeBaseCountry: function () {
+			changeBaseCountry: function() {
 
 				if ($("[name='mprm_settings[base_state]'] option").length < 1) {
 					$("[name='mprm_settings[base_state]']").parents('tr').hide();
 				}
 
-				$("[name='mprm_settings[base_country]']").on('change', function () {
+				$("[name='mprm_settings[base_country]']").on('change', function() {
 					var $params = {
 						action: 'get_state_list',
 						controller: 'settings',
@@ -931,18 +944,18 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 					var $parentTr = $(this).closest('tr');
 					var stateSelect = $parentTr.next().find('select');
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function (data) {
+						function(data) {
 							if ($.isEmptyObject(data)) {
 								$parentTr.next().hide();
 							} else {
 								$parentTr.next().show();
 								stateSelect.remove('option');
-								$.each(data, function (i, value) {
+								$.each(data, function(i, value) {
 									stateSelect.append($('<option>').text(value).attr('value', i))
 								})
 							}
 						},
-						function (data) {
+						function(data) {
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
@@ -953,7 +966,7 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -964,24 +977,24 @@ MP_RM_Registry.register("Menu-Settings", (function ($) {
 /**
  * Menu item module
  */
-MP_RM_Registry.register("Menu-Item", (function ($) {
+MP_RM_Registry.register("Menu-Item", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
 			imgIds: [],
-			init: function () {
+			init: function() {
 				state.imagesInit();
-				$('a.mp_menu_gallery').on('click', function () {
+				$('a.mp_menu_gallery').on('click', function() {
 					state.openMediaWindow();
 				});
 			},
 			/**
 			 * Gallery Init
 			 */
-			imagesInit: function () {
-				$('.mp_menu_images a.mprm-delete').off('click').on('click', function () {
+			imagesInit: function() {
+				$('.mp_menu_images a.mprm-delete').off('click').on('click', function() {
 					$(this).parents('li.mprm-image').remove();
 					state.refreshImages();
 					return false;
@@ -998,13 +1011,13 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 					helper: 'clone',
 					opacity: 0.65,
 					placeholder: 'mp-metabox-sortable-placeholder',
-					start: function (event, ui) {
+					start: function(event, ui) {
 						ui.item.css('background-color', '#f6f6f6');
 					},
-					stop: function (event, ui) {
+					stop: function(event, ui) {
 						ui.item.removeAttr('style');
 					},
-					update: function () {
+					update: function() {
 						state.refreshImages();
 					}
 				});
@@ -1015,7 +1028,7 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 			 * @param {type} id
 			 * @returns {Boolean}
 			 */
-			isNewImg: function (order) {
+			isNewImg: function(order) {
 				var image = $('.mp_menu_images li.mprm-image[data-key="' + order + '"]');
 				if (parseInt(image.attr('new_image'))) {
 					return true;
@@ -1028,7 +1041,7 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 			 *
 			 * @returns {Boolean}
 			 */
-			openMediaWindow: function () {
+			openMediaWindow: function() {
 				if (this.window === undefined) {
 					this.window = wp.media({
 						title: window.admin_lang.insert_media,
@@ -1039,7 +1052,7 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 
 					var self = this;
 					// Needed to retrieve our variable in the anonymous function below
-					this.window.on('select', function () {
+					this.window.on('select', function() {
 						var $data = self.window.state().get('selection').toJSON();
 						// biuld gallery html
 						$('#mprm-menu-item-gallery .mp_menu_images').append(state._buildImages($data));
@@ -1054,9 +1067,9 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 			 *
 			 * @returns {undefined}
 			 */
-			refreshImages: function () {
+			refreshImages: function() {
 				var ids = [];
-				$('#mprm-menu-item-gallery .mp_menu_images li.mprm-image').each(function (key, value) {
+				$('#mprm-menu-item-gallery .mp_menu_images li.mprm-image').each(function(key, value) {
 					ids[key] = $(value).attr('data-attachment_id');
 					$(value).attr('data-key', key);
 				});
@@ -1068,9 +1081,9 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 			 * @param {type} $data
 			 * @returns {unresolved}
 			 */
-			_buildImages: function ($data) {
+			_buildImages: function($data) {
 				var structure = [];
-				$.each($data, function (key, value) {
+				$.each($data, function(key, value) {
 					structure.push({
 						tag: "li",
 						attrs: {
@@ -1122,19 +1135,19 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 			 * @param {type} $params
 			 * @param {type} callback
 			 */
-			removeImg: function ($params, callback) {
+			removeImg: function($params, callback) {
 				var $args = {
 					controller: "menu_item",
 					action: "delete_gallery_img"
 				};
 				$.extend($args, $params);
 				MP_RM_Registry._get('MP_RM_Functions').wpAjax($args,
-					function (data) {
+					function(data) {
 						if (!_.isUndefined(callback) && _.isFunction(callback)) {
 							callback(data);
 						}
 					},
-					function (data) {
+					function(data) {
 						console.warn('Some error!!!');
 						console.warn(data);
 					}
@@ -1144,7 +1157,7 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -1155,32 +1168,32 @@ MP_RM_Registry.register("Menu-Item", (function ($) {
 /**
  * Category module
  */
-MP_RM_Registry.register("Menu-Category", (function ($) {
+MP_RM_Registry.register("Menu-Category", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
+			init: function() {
 				$('#IconPicker').fontIconPicker({
 					source: $.fnt_icons_categorized,
 					emptyIcon: true,
 					hasSearch: true
-				}).on('change', function () {
+				}).on('change', function() {
 					//console.log($(this));
 				});
 
 				// remove icon
-				$('.remove_icon_button').on('click', function () {
+				$('.remove_icon_button').on('click', function() {
 					$(this).siblings('.mprm_icon_p').find('input').attr({'value': ''});
 				});
 
-				$('.upload_image_button').on('click', function () {
+				$('.upload_image_button').on('click', function() {
 					state.openUploadWindow();
 					return false;
 				});
 
-				$('.remove_image_button').on('click', function () {
+				$('.remove_image_button').on('click', function() {
 					$('#menu_category_thumbnail img').attr('src', $('#menu_category_thumbnail img').attr('data-placeholder'));
 					$('#menu_category_thumbnail_id').val('');
 					$('.remove_image_button').hide();
@@ -1192,7 +1205,7 @@ MP_RM_Registry.register("Menu-Category", (function ($) {
 			 *
 			 * @returns {undefined}
 			 */
-			openUploadWindow: function () {
+			openUploadWindow: function() {
 				if (this.window === undefined) {
 					// Create the media frame.
 					this.window = wp.media.frames.menu_itemable_file = wp.media({
@@ -1204,7 +1217,7 @@ MP_RM_Registry.register("Menu-Category", (function ($) {
 					});
 					var self = this;
 					// When an image is selected, run a callback.
-					this.window.on('select', function () {
+					this.window.on('select', function() {
 						var attachment = self.window.state().get('selection').first().toJSON();
 						$('#menu_category_thumbnail_id').val(attachment.id);
 						$('#menu_category_thumbnail img').attr('src', attachment.sizes.thumbnail.url);
@@ -1218,7 +1231,7 @@ MP_RM_Registry.register("Menu-Category", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -1229,13 +1242,13 @@ MP_RM_Registry.register("Menu-Category", (function ($) {
 /**
  * Theme module
  */
-MP_RM_Registry.register("Theme", (function ($) {
+MP_RM_Registry.register("Theme", (function($) {
 	"use strict";
 	var state;
 
 	function createInstance() {
 		return {
-			init: function () {
+			init: function() {
 				// Init slider
 				$('.mprm-item-gallery').magnificPopup({
 					delegate: 'a',
@@ -1249,7 +1262,7 @@ MP_RM_Registry.register("Theme", (function ($) {
 					},
 					image: {
 						tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-						titleSrc: function (item) {
+						titleSrc: function(item) {
 							return item.el.attr('title');
 						}
 					},
@@ -1265,7 +1278,7 @@ MP_RM_Registry.register("Theme", (function ($) {
 	}
 
 	return {
-		getInstance: function () {
+		getInstance: function() {
 			if (!state) {
 				state = createInstance();
 			}
@@ -1274,9 +1287,9 @@ MP_RM_Registry.register("Theme", (function ($) {
 	};
 })(jQuery));
 
-(function ($) {
+(function($) {
 	"use strict";
-	$(document).ready(function () {
+	$(document).ready(function() {
 		// if edit and add menu_item
 		if ('mp_menu_item' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Menu-Item").init();
@@ -1290,7 +1303,9 @@ MP_RM_Registry.register("Theme", (function ($) {
 			MP_RM_Registry._get("Menu-Category").init();
 		}
 
-		MP_RM_Registry._get("Order").init();
+		if ('mprm_order' === $(window.post_type).val()) {
+			MP_RM_Registry._get("Order").init();
+		}
 
 		MP_RM_Registry._get('Menu-Shop').addToCart();
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();
