@@ -33,8 +33,10 @@ class Menu_item extends Model {
 	}
 
 	public function __construct($_id = false, $_args = array()) {
-		$menu_item = \WP_Post::get_instance($_id);
-		return $this->setup_menu_item($menu_item);
+		if ($_id) {
+			$menu_item = \WP_Post::get_instance($_id);
+			return $this->setup_menu_item($menu_item);
+		}
 	}
 
 	public function get_ID() {

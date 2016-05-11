@@ -870,6 +870,25 @@ function mprm_menu_item_dropdown($data) {
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
+function mprm_customers_dropdown($data) {
+	$options = array();
+	$argc = array(
+		'name' => 'customer-id',
+		'show_option_all' => false,
+		'show_option_none' => false);
+	$data = wp_parse_args($data, $argc);
+
+	$customers = models\Customer::get_instance()->get_customers();
+	foreach ($customers as $customer) {
+		$options[$customer->id] = $customer->name;
+	}
+
+	$data['options'] = $options;
+	$data['placeholder'] = __('Select a Customer', 'mp-restaurant-menu');
+
+	return View::get_instance()->render_html('../admin/settings/select', $data, false);
+}
+
 function mprm_text($data) {
 	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
 }
@@ -911,4 +930,14 @@ function mprm_sanitize_amount($amount) {
 	return models\Formatting::get_instance()->sanitize_amount($amount);
 }
 
+function mprm_get_currency() {
+	return models\Settings::get_instance()->get_currency();
+}
+
+function mprm_get_option($key, $default = false) {
+	return models\Settings::get_instance()->get_option($key, $default);
+}
+function mprm_currency_decimal_filter(){
+	return models\Formatting::get_instance()->currency_decimal_filter();
+}
 ?>

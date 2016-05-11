@@ -1,20 +1,22 @@
 <?php global $post;
+
 $order = mprm_get_order_object($post);
 $cart_items = $order->cart_details;
 $order_id = $order->ID;
 $currency_code = $order->currency;
-?>
 
-<?php do_action('mprm_view_order_details_main_before', $order_id); ?>
-<?php $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four'; ?>
+do_action('mprm_view_order_details_main_before', $order_id);
+
+$column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
+?>
 	<div id="mprm-purchased-wrapper">
 
 		<?php if (is_array($cart_items)) :
 
 			$i = 0;
 			foreach ($cart_items as $key => $cart_item) : ?>
-				<div class="mprm-row">
 
+				<div class="mprm-row item">
 					<?php
 					$item_id = isset($cart_item['id']) ? $cart_item['id'] : $cart_item;
 					$price = isset($cart_item['price']) ? $cart_item['price'] : false;
@@ -63,16 +65,14 @@ $currency_code = $order->currency;
 
 					<div class="actions mprm-columns <?php echo $column ?>">
 						<input type="hidden" class="mprm-order-detail-has-log" name="mprm-order-details[<?php echo $key; ?>][has_log]" value="1"/>
-						<?php if (mprm_is_payment_complete($order_id)) : ?>
-							<a href="" class="mprm-copy-menu-item-link" data-menu-item-id="<?php echo esc_attr($item_id); ?>" data-price-id="<?php echo esc_attr($price_id); ?>"><?php _e('Copy Download Link(s)', 'mp-restaurant-menu'); ?></a> |
-						<?php endif; ?>
-						<a href="" class="mprm-order-remove-download mprm-delete" data-key="<?php echo esc_attr($key); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
+						<a href="" class="mprm-order-remove-menu-item mprm-delete" data-key="<?php echo esc_attr($key); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 					</div>
 
 				</div>
 				<?php
 				$i++;
 			endforeach; ?>
+
 			<div class="mprm-row">
 				<div class="item mprm-columns <?php echo $column ?>">
 					<?php
@@ -106,12 +106,12 @@ $currency_code = $order->currency;
 				</div>
 
 				<div class="actions mprm-columns <?php echo $column ?>">
-					<a href="" id="mprm-order-add-download" class="button button-secondary"><?php printf(__('Add %s to Payment', 'mp-restaurant-menu'), mprm_get_label_singular()); ?></a>
+					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php printf(__('Add %s to Payment', 'mp-restaurant-menu'), mprm_get_label_singular()); ?></a>
 				</div>
 
 			</div>
 
-			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-downloads-changed" value=""/>
+			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-menu-items-changed" value=""/>
 			<input type="hidden" name="mprm-payment-removed" id="mprm-payment-removed" value="{}"/>
 
 		<?php else : $key = 0; ?>

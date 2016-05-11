@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
 
 class Customer extends Model {
+	private $table_name = '';
 	protected static $instance;
 	public $id = 0;
 	public $purchase_count = 0;
@@ -15,6 +16,7 @@ class Customer extends Model {
 	public $user_id;
 	public $notes;
 
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -23,8 +25,10 @@ class Customer extends Model {
 	}
 
 	public function __construct($params = array()) {
+		global $wpdb;
+		$this->table_name = $wpdb->prefix . "mprm_customer";
 		if (!empty($params)) {
-			$customer = get_user_by($params['field'], $params['value']);
+			$customer = $this->get_customer($params);
 			if (empty($customer) || !is_object($customer)) {
 				return false;
 			}
@@ -57,19 +61,34 @@ class Customer extends Model {
 		return false;
 	}
 
+	public function get_customer($params = array()) {
+		global $wpdb;
+		if (empty($params)) {
+			return false;
+		}
+
+		$customer = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $this->table_name . ' WHERE ' . $params["field"] . ' = %s LIMIT 1', $params['value']));
+
+		return empty($customer) ? false : $customer;
+	}
+
 	public function get_customers($args = array()) {
 		global $wpdb;
-		$customers = array();
-		$sql_reguest = "SELECT * FROM " . $this->table_name;
-		$customers_data = $this->wpdb->get_results($sql_reguest);
+		$default_args = array('fields' => array('id', 'user_id', 'email', 'name'));
+		$args = wp_parse_args($args, $default_args);
 
-		foreach ($customers_data as $customer) {
-			$customer->post = get_post($customer->event_id);
+		if (is_array($args['fields']) && !empty($args['fields'])) {
+			$fields = implode(',', $args['fields']);
+
 		}
-		return $customers;
+		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name;
+		$customers_data = $wpdb->get_results($sql_reguest);
+
+		return empty($customers_data) ? false : $customers_data;
 	}
 
 	public function create($data = array()) {
+		global $wpdb;
 		if ($this->id != 0 || empty($data)) {
 			return false;
 		}
@@ -83,32 +102,34 @@ class Customer extends Model {
 		if (!empty($args['payment_ids']) && is_array($args['payment_ids'])) {
 			$args['payment_ids'] = implode(',', array_unique(array_values($args['payment_ids'])));
 		}
-		/**
-		 * Fires before a customer is created
-		 *
-		 * @param array $args Contains customer information such as payment ID, name, and email.
-		 */
+
 		do_action('mprm_customer_pre_create', $args);
+
 		$created = false;
-		// The DB class 'add' implies an update if the customer being asked to be created already exists
-//		if ($this->db->add($data)) {
-//
-//			// We've successfully added/updated the customer, reset the class vars with the new data
-//			$customer = $this->db->get_customer_by('email', $args['email']);
-//
-//			// Setup the customer data with the values from DB
-//			$this->setup_customer($customer);
-//
-//			$created = $this->id;
-//		}
-		/**
-		 * Fires after a customer is created
-		 *
-		 * @param int $created If created successfully, the customer ID.  Defaults to false.
-		 * @param array $args Contains customer information such as payment ID, name, and email.
-		 */
+		if (!$this->is_customer_exist($args['email'])) {
+			$created = $wpdb->insert($this->table_name,
+				array(
+					'email' => $args['email'],
+					'name' => $args['name'],
+					'payment_ids' => $args['payment_ids'],
+					'date_created' => date('Y-m-d H:i:s')
+				)
+			);
+			$customer = $this->get_customer(array('field' => 'email', 'value' => $args['email']));
+			$this->setup_customer($customer);
+		}
+
 		do_action('mprm_customer_post_create', $created, $args);
 		return $created;
+	}
+
+	public function is_customer_exist($customer_email = '') {
+		global $wpdb;
+		if (empty($customer_email)) {
+			return false;
+		}
+		$data = $wpdb->get_results('SELECT email FROM  ' . $this->table_name . '   WHERE email = "' . $customer_email . '"');
+		return empty($data) ? false : true;
 	}
 
 	function log_user_in($user_id, $user_login, $user_pass) {
@@ -132,11 +153,15 @@ class Customer extends Model {
 		return $desired_notes;
 	}
 
-	private function get_raw_notes() {
-//
-//		$all_notes = $this->db->get_column('notes', $this->id);
+	private function get_column($column, $customer_id) {
+		global $wpdb;
+		$column_value = $wpdb->get_var($wpdb->prepare("SELECT {$column} FROM  $this->table_name  WHERE id  = %d LIMIT 1", $customer_id));
+		return $column_value;
+	}
 
-		return '';//(string)$all_notes;
+	private function get_raw_notes() {
+		$all_notes = $this->get_column('notes', $this->id);
+		return (string)$all_notes;
 	}
 
 	public function get_customer_address() {
@@ -226,43 +251,27 @@ class Customer extends Model {
 	}
 
 	public function update($data = array()) {
+		global $wpdb;
 		if (empty($data)) {
 			return false;
 		}
-//		$result = $this->wpdb->update(
-//			$this->table_name,
-//			array(
-//				'event_start' => date('H:i:s', strtotime($data['event_start'])),
-//				'event_end' => date('H:i:s', strtotime($data['event_end'])),
-//				'description' => $data['description'],
-//				'column_id' => $data['weekday_ids'],
-//				'user_id' => $data['user_id'],
-//			),
-//			array('id' => $data['id']),
-//			array(
-//				'%s',
-//				'%s',
-//				'%s',
-//				'%d',
-//				'%d',
-//			),
-//			array('%d')
-//		);
-//		return $result;
-
-
-		//$data = $this->sanitize_columns( $data );
+		$data = $this->sanitize_columns($data);
 		do_action('mprm_customer_pre_update', $this->id, $data);
 		$updated = false;
-		foreach ($data as $meta_key => $meta_value) {
-			update_user_meta($this->id, $meta_key, $meta_value);
+
+		$result = $wpdb->update(
+			$this->table_name,
+			$data,
+			array('id' => $this->id)
+		);
+
+		if ($result) {
+			$customer = $this->get_customer(array('field' => 'id', 'value' => $this->id));
+			$this->setup_customer($customer);
+			$updated = true;
 		}
-//		if ($this->db->update($this->id, $data)) {
-		//$customer = $this->db->get_customer_by('id', $this->id);
-		//$this->setup_customer($customer);
-		$updated = true;
-//		}
 		do_action('mprm_customer_post_update', $updated, $this->id, $data);
+
 		return $updated;
 	}
 
@@ -362,6 +371,191 @@ class Customer extends Model {
 		return apply_filters('mprm_get_user_verification_request_url', $url, $user_id);
 	}
 
+	public function attach_payment($payment_id = 0, $update_stats = true) {
+
+		if (empty($payment_id)) {
+			return false;
+		}
+
+		$payment = new Order($payment_id);
+
+		if (empty($this->payment_ids)) {
+
+			$new_payment_ids = $payment->ID;
+
+		} else {
+
+			$payment_ids = array_map('absint', explode(',', $this->payment_ids));
+
+			if (in_array($payment->ID, $payment_ids)) {
+				$update_stats = false;
+			}
+
+			$payment_ids[] = $payment->ID;
+
+			$new_payment_ids = implode(',', array_unique(array_values($payment_ids)));
+
+		}
+
+		do_action('mprm_customer_pre_attach_payment', $payment->ID, $this->id);
+
+		$payment_added = $this->update(array('payment_ids' => $new_payment_ids));
+
+		if ($payment_added) {
+
+			$this->payment_ids = $new_payment_ids;
+
+			// We added this payment successfully, increment the stats
+			if ($update_stats) {
+
+				if (!empty($payment->total)) {
+					$this->increase_value($payment->total);
+				}
+
+				$this->increase_purchase_count();
+			}
+
+		}
+
+		do_action('mprm_customer_post_attach_payment', $payment_added, $payment->ID, $this->id);
+
+		return $payment_added;
+	}
+
+	public function remove_payment($payment_id = 0, $update_stats = true) {
+
+		if (empty($payment_id)) {
+			return false;
+		}
+
+		$payment = new Order($payment_id);
+
+		if ('publish' !== $payment->status && 'revoked' !== $payment->status) {
+			$update_stats = false;
+		}
+
+		$new_payment_ids = '';
+
+		if (!empty($this->payment_ids)) {
+
+			$payment_ids = array_map('absint', explode(',', $this->payment_ids));
+
+			$pos = array_search($payment->ID, $payment_ids);
+			if (false === $pos) {
+				return false;
+			}
+
+			unset($payment_ids[$pos]);
+			$payment_ids = array_filter($payment_ids);
+
+			$new_payment_ids = implode(',', array_unique(array_values($payment_ids)));
+
+		}
+
+		do_action('mprm_customer_pre_remove_payment', $payment->ID, $this->id);
+
+		$payment_removed = $this->update(array('payment_ids' => $new_payment_ids));
+
+		if ($payment_removed) {
+
+			$this->payment_ids = $new_payment_ids;
+
+			if ($update_stats) {
+				// We removed this payment successfully, decrement the stats
+				if (!empty($payment->total)) {
+					$this->decrease_value($payment->total);
+				}
+				$this->decrease_purchase_count();
+			}
+
+		}
+		do_action('mprm_customer_post_remove_payment', $payment_removed, $payment->ID, $this->id);
+
+		return $payment_removed;
+
+	}
+
+	public function get_columns() {
+		return array(
+			'id' => '%d',
+			'user_id' => '%d',
+			'name' => '%s',
+			'email' => '%s',
+			'payment_ids' => '%s',
+			'purchase_value' => '%f',
+			'purchase_count' => '%d',
+			'notes' => '%s',
+			'date_created' => '%s',
+		);
+	}
+
+
+	public function get_column_defaults() {
+		return array(
+			'user_id' => 0,
+			'email' => '',
+			'name' => '',
+			'payment_ids' => '',
+			'purchase_value' => 0.00,
+			'purchase_count' => 0,
+			'notes' => '',
+			'date_created' => date('Y-m-d H:i:s'),
+		);
+	}
+
+	private function sanitize_columns($data) {
+
+		$columns = $this->get_columns();
+		$default_values = $this->get_column_defaults();
+
+		foreach ($columns as $key => $type) {
+
+			// Only sanitize data that we were provided
+			if (!array_key_exists($key, $data)) {
+				continue;
+			}
+
+			switch ($type) {
+
+				case '%s':
+					if ('email' == $key) {
+						$data[$key] = sanitize_email($data[$key]);
+					} elseif ('notes' == $key) {
+						$data[$key] = strip_tags($data[$key]);
+					} else {
+						$data[$key] = sanitize_text_field($data[$key]);
+					}
+					break;
+
+				case '%d':
+					if (!is_numeric($data[$key]) || (int)$data[$key] !== absint($data[$key])) {
+						$data[$key] = $default_values[$key];
+					} else {
+						$data[$key] = absint($data[$key]);
+					}
+					break;
+
+				case '%f':
+					// Convert what was given to a float
+					$value = floatval($data[$key]);
+
+					if (!is_float($value)) {
+						$data[$key] = $default_values[$key];
+					} else {
+						$data[$key] = $value;
+					}
+					break;
+
+				default:
+					$data[$key] = sanitize_text_field($data[$key]);
+					break;
+
+			}
+
+		}
+
+		return $data;
+	}
 
 	public function init_action() {
 		add_action('mprm_customer_pre_decrease_value', 'mprm_customer_pre_decrease_value');

@@ -156,6 +156,11 @@ class Payments extends Parent_query {
 		return false;
 	}
 
+	/**
+	 * Save / edit order data
+	 *
+	 * @param $data
+	 */
 	public function update_payment_details($data) {
 		unset($_POST['mprm_update']);
 		// Retrieve the payment ID

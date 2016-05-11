@@ -75,14 +75,14 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 		</div>
 	<?php endif; ?>
 
-	<div class="mprm-order-order mprm-admin-box-inside">
+	<div class="mprm-order mprm-admin-box-inside">
 		<p>
 			<span class="label"><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</span>&nbsp;
 			<?php echo mprm_currency_symbol($order->currency); ?>&nbsp;<input name="mprm-order-total" type="text" class="med-text" value="<?php echo esc_attr(mprm_format_amount($order->total)); ?>"/>
 		</p>
 	</div>
 
-	<div class="mprm-order-order-recalc-totals mprm-admin-box-inside" style="display:none">
+	<div class="mprm-order-recalc-totals mprm-admin-box-inside" style="display:none">
 		<p>
 			<span class="label"><?php _e('Recalculate Totals', 'mp-restaurant-menu'); ?>:</span>&nbsp;
 			<a href="" id="mprm-order-recalc-total" class="button button-secondary right"><?php _e('Recalculate', 'mp-restaurant-menu'); ?></a>
@@ -94,7 +94,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 		<?php do_action('mprm_view_order_details_update_before', $order_id); ?>
 		<div>
 			<div id="delete-action">
-				<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm-action' => 'delete_order', 'purchase_id' => $order_id), admin_url('edit.php?post_type=download&page=mprm-order-history')), 'mprm_order_nonce') ?>" class="mprm-delete-order mprm-delete"><?php _e('Delete Payment', 'mp-restaurant-menu'); ?></a>
+				<a style="display: none" href="<?php echo wp_nonce_url(add_query_arg(array('mprm-action' => 'delete_order', 'purchase_id' => $order_id), admin_url('edit.php?post_type=download&page=mprm-order-history')), 'mprm_order_nonce') ?>" class="mprm-delete-order mprm-delete"><?php _e('Delete Payment', 'mp-restaurant-menu'); ?></a>
 			</div>
 			<input type="submit" class="button button-primary right" value="<?php esc_attr_e('Save Payment', 'mp-restaurant-menu'); ?>"/>
 			<div class="mprm-clear"></div>

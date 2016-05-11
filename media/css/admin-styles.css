@@ -395,6 +395,9 @@ there.
   vertical-align: middle;
   line-height: 30px;
 }
+.admin-bar.post-type-mprm_order .mprm-row .mprm-new-customer-cancel {
+  margin: 0 10px 0 0;
+}
 .wp-list-table .column-mptt-thumb {
   width: 52px;
   text-align: center;
