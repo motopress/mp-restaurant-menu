@@ -703,7 +703,6 @@ MP_RM_Registry.register("Order", (function($) {
 	function createInstance() {
 		return {
 			init: function() {
-
 				state.hideElementOrder();
 				state.addComment();
 				state.removeComment();
@@ -714,6 +713,9 @@ MP_RM_Registry.register("Order", (function($) {
 				state.recalculate_total();
 				state.changeOrderBaseCountry();
 			},
+			/**
+			 * Change order Base Country
+			 */
 			changeOrderBaseCountry: function() {
 
 				if ($("[name='mprm_settings[base_state]'] option").length < 1) {

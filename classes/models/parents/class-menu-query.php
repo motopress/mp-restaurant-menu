@@ -104,14 +104,12 @@ class Parent_query extends Model {
 		add_filter('posts_where', array($this, 'payments_where'));
 	}
 
-
 	public function date_filter_post() {
 		if (!($this->args['start_date'] || $this->args['end_date'])) {
 			return;
 		}
 		remove_filter('posts_where', array($this, 'payments_where'));
 	}
-
 
 	public function status() {
 		if (!isset ($this->args['status'])) {
