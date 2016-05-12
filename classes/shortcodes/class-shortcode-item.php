@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
@@ -21,6 +22,7 @@ class Shortcode_Item extends Shortcodes {
 	 */
 	public function render_shortcode(array $args) {
 		global $mprm_view_args;
+		Media::get_instance()->add_plugin_js('shortcode');
 		$mprm_view_args = $args;
 		$mprm_view_args['action_path'] = "shortcodes/menu/{$args['view']}/item";
 		return View::get_instance()->render_html("shortcodes/menu/index", $args, false);

@@ -566,6 +566,53 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					);
 				}
 			},
+
+			update_item_quantities: function(event) {
+				$('.mprm-item-quantity').on('change', function() {
+
+					var $this = $(this),
+						quantity = $this.val(),
+						key = $this.data('key'),
+						menu_item_id = $this.closest('.mprm_cart_item').data('menu-item-id'),
+						options = $this.parent().find('input[name="mprm-cart-menu-item-' + key + '-options"]').val();
+
+					var $params = {
+						action: 'update_cart_item_quantity',
+						controller: 'cart',
+						quantity: quantity,
+						menu_item_id: menu_item_id,
+						options: options
+					};
+
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							$('.mprm_cart_subtotal_amount').each(function() {
+								var element = $(this);
+								element.text(data.subtotal);
+								element.attr('data-subtotal', data.subtotal);
+								element.attr('data-total', data.subtotal);
+							});
+
+							$('.mprm_cart_tax_amount').each(function() {
+								$(this).text(data.taxes);
+							});
+
+							$('.mprm_cart_amount').each(function() {
+								var element = $(this);
+								element.text(data.total);
+								element.attr('data-subtotal', data.total);
+								element.attr('data-total', data.total);
+							});
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+
+
+				});
+			},
 			removeFromCart: function() {
 				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {
 				//	e.preventDefault();
@@ -621,8 +668,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					var complete_purchase_val = $(this).val();
 
-					//$(this).val(edd_global_vars.purchase_loading);
-
 					$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
 					var $params = $(purchaseForm).serializeArray();
 
@@ -654,30 +699,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							$('#mprm_purchase_form').submit();
 						},
 						function(data) {
-							//$('#mprm-purchase-button').val(complete_purchase_val);
 							$('.mprm-cart-ajax').remove();
 							$('.mprm_errors').remove();
 							$('.mprm-error').hide();
-							//$('#mprm_purchase_submit').before(data);
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
 					);
-
-					//
-					//$.post(edd_global_vars.ajaxurl, $('#edd_purchase_form').serialize() + '&action=edd_process_checkout&edd_ajax=true', function(data) {
-					//	if ($.trim(data) == 'success') {
-					//		$('.edd_errors').remove();
-					//		$('.edd-error').hide();
-					//		$(eddPurchaseform).submit();
-					//	} else {
-					//		$('#edd-purchase-button').val(complete_purchase_val);
-					//		$('.edd-cart-ajax').remove();
-					//		$('.edd_errors').remove();
-					//		$('.edd-error').hide();
-					//		$('#edd_purchase_submit').before(data);
-					//	}
-					//});
 				});
 			}
 		}
@@ -1041,8 +1069,6 @@ MP_RM_Registry.register("Order", (function($) {
 		}
 	};
 })(jQuery));
-
-
 /**
  * Menu settings module
  */
@@ -1199,6 +1225,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					};
 					var $parentTr = $(this).closest('tr');
 					var stateSelect = $parentTr.next().find('select');
+
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
 							if ($.isEmptyObject(data)) {
@@ -1562,12 +1589,22 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ('mprm_order' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Order").init();
 		}
+		if ($('.mprm-add-to-cart').length) {
+			MP_RM_Registry._get('Menu-Shop').addToCart();
+		}
+		if ($('#mprm_purchase_submit').length) {
+			MP_RM_Registry._get('Menu-Shop').purchaseForm();
+		}
 
-		MP_RM_Registry._get('Menu-Shop').addToCart();
+
+		if ($('#mprm_purchase_form').length) {
+			MP_RM_Registry._get('Menu-Shop').loadGateway();
+			MP_RM_Registry._get('Menu-Shop').changeGateway();
+			MP_RM_Registry._get('Menu-Shop').update_item_quantities();
+		}
+
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();
-		MP_RM_Registry._get('Menu-Shop').loadGateway();
-		MP_RM_Registry._get('Menu-Shop').changeGateway();
-		MP_RM_Registry._get('Menu-Shop').purchaseForm();
+
 
 		if ($('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();

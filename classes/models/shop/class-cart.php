@@ -349,14 +349,14 @@ class Cart extends Model {
 			'ID' => $post->ID,
 			'template' => 'default',
 			'error' => false,
-			'price' => Menu_item::get_instance()->get_price($post->id),
+			'price' => Menu_item::get_instance()->get_price($post->ID),
 			'direct' => false,
 			'text' => __('Purchase', 'mp-restaurant-menu'),
 			'style' => $this->get('settings')->get_option('mprm_button_style', 'button'),
 			'color' => $this->get('settings')->get_option('mprm_checkout_color', 'blue'),
 			'class' => 'mprm-submit'
 		);
-		$purchase_page = $this->get('settings')->get_option('mprm_purchase_page', false);
+		$purchase_page = $this->get('settings')->get_option('purchase_page', false);
 		if (!$purchase_page || $purchase_page == 0) {
 			$data['error'] = true;
 			$data['error_message'] = $this->get_error('purchase_page');
@@ -636,5 +636,18 @@ class Cart extends Model {
 			$summary = substr($summary, 0, -2);
 		}
 		return apply_filters('mprm_get_purchase_summary', $summary, $purchase_data, $email);
+	}
+
+	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array()) {
+		$cart = $this->get_cart_contents();
+		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+
+		if ($quantity < 1) {
+			$quantity = 1;
+		}
+
+		$cart[$key]['quantity'] = $quantity;
+		$this->get('session')->set('mprm_cart', $cart);
+		return $cart;
 	}
 }

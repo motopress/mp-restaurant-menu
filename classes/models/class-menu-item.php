@@ -33,6 +33,7 @@ class Menu_item extends Model {
 	}
 
 	public function __construct($_id = false, $_args = array()) {
+		parent::__construct();
 		if ($_id) {
 			$menu_item = \WP_Post::get_instance($_id);
 			return $this->setup_menu_item($menu_item);
@@ -306,7 +307,7 @@ class Menu_item extends Model {
 			'orderby' => 'menu_order',
 			'tax_query' => array()
 		);
-		$params = wp_parse_args($args, $params);
+		//	$params = wp_parse_args($args, $params);
 
 		if (!empty($args['categ'])) {
 			if (is_array($args['categ'])) {

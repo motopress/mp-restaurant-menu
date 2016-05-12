@@ -297,7 +297,9 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_ingredients', 35);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_tags', 40);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_price', 45);
-		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 50);
+		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 50);
+
+		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 55);
 		/**
 		 * After Menu_item list
 		 *
@@ -325,8 +327,9 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_ingredients', 45);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_tags', 50);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_price', 55);
-		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_end', 60);
-		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 65);
+		add_action('mprm_taxonomy_grid', 'mprm_get_purchase_template', 60);
+		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_end', 65);
+		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 70);
 		/**
 		 * After Menu_item grid
 		 *
@@ -426,7 +429,6 @@ class Hooks extends Core {
 		 */
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_price', 5);
 		add_action('mprm_menu_item_slidebar', 'mprm_get_purchase_template', 10);
-		add_action('mprm_menu_item_slidebar', 'mprm_purchase_link', 15);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_attributes', 20);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_ingredients', 25);
 		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_nutritional', 30);
@@ -621,8 +623,9 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_excerpt', 35);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_tags', 40);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_price', 45);
-		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_footer', 50);
-		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 55);
+		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 50);
+		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_footer', 55);
+		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 60);
 		/**
 		 * After Menu item list
 		 *
@@ -659,6 +662,7 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_excerpt', 60);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_tags', 70);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_price', 80);
+		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_right_footer', 90);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_footer', 95);
 		/**
@@ -703,6 +707,8 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_excerpt', 60);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_tags', 70);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_price', 80);
+		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
+
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
 		/**
 		 * After Menu item grid
@@ -739,6 +745,7 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_excerpt', 60);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_tags', 70);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_price', 80);
+		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 85);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
 		/**
 		 * After Menu item grid

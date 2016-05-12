@@ -240,15 +240,27 @@ class Media extends Core {
 	 * Add theme js
 	 */
 	private function add_theme_js() {
-		global $post_type;
+		global $post_type, $taxonomy;
 		switch ($post_type) {
-			case"mp_menu_item":
+			case "mp_menu_item":
 				wp_enqueue_script('underscore');
 				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
 				break;
+
 			default:
 				break;
+		}
+
+		switch ($taxonomy) {
+			case "mp_menu_category":
+			case "mp_menu_tag":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+				break;
+			default:
+				break;
+
 		}
 	}
 
@@ -537,16 +549,15 @@ class Media extends Core {
 						),
 						'category_view' => array(
 							'id' => 'category_view',
-							'name' => __('Checkout Page', 'mp-restaurant-menu'),
+							'name' => __('Menu category view', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
 								'grid' => __('Grid', 'mp-restaurant-menu'),
 								'list' => __('List', 'mp-restaurant-menu')
 							),
 							'chosen' => false,
-							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
 						),
-
 						'purchase_page' => array(
 							'id' => 'purchase_page',
 							'name' => __('Checkout Page', 'mp-restaurant-menu'),
