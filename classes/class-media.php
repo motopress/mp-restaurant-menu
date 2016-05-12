@@ -535,6 +535,18 @@ class Media extends Core {
 							'desc' => '',
 							'type' => 'header',
 						),
+						'category_view' => array(
+							'id' => 'category_view',
+							'name' => __('Checkout Page', 'mp-restaurant-menu'),
+							'type' => 'select',
+							'options' => array(
+								'grid' => __('Grid', 'mp-restaurant-menu'),
+								'list' => __('List', 'mp-restaurant-menu')
+							),
+							'chosen' => false,
+							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+						),
+
 						'purchase_page' => array(
 							'id' => 'purchase_page',
 							'name' => __('Checkout Page', 'mp-restaurant-menu'),
