@@ -30,15 +30,17 @@ $address = $order->address; ?>
 			<p id="mprm-order-address-country-wrap">
 				<strong class="order-data-address-line"><?php echo _x('Country:', 'Address country', 'mp-restaurant-menu'); ?></strong><br/>
 				<?php
-				echo mprn_select(array(
-					'options' => mprm_get_country_list(),
-					'name' => 'mprm-order-address[0][country]',
-					'selected' => $address['country'],
-					'show_option_all' => false,
-					'show_option_none' => false,
-					'chosen' => true,
-					'placeholder' => __('Select a country', 'mp-restaurant-menu')
-				));
+				echo mprn_select(
+					array(
+						'class' => 'mprm-country-list',
+						'options' => mprm_get_country_list(),
+						'name' => 'mprm-order-address[0][country]',
+						'selected' => $address['country'],
+						'show_option_all' => false,
+						'show_option_none' => false,
+						'chosen' => true,
+						'placeholder' => __('Select a country', 'mp-restaurant-menu')
+					));
 
 				?>
 			</p>
@@ -49,6 +51,7 @@ $address = $order->address; ?>
 
 				if (!empty($states)) {
 					echo mprn_select(array(
+						'class' => 'mprm-country-state',
 						'options' => $states,
 						'name' => 'mprm-order-address[0][state]',
 						'selected' => $address['state'],

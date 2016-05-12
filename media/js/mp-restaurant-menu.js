@@ -1,4 +1,4 @@
-/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false*/
+/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,admin_lang:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -711,6 +711,45 @@ MP_RM_Registry.register("Order", (function($) {
 				state.addCustomer();
 				state.removeMenuItem();
 				state.addMenuItem();
+				state.recalculate_total();
+				state.changeOrderBaseCountry();
+			},
+			changeOrderBaseCountry: function() {
+
+				if ($("[name='mprm_settings[base_state]'] option").length < 1) {
+					$("[name='mprm_settings[base_state]']").parents('tr').hide();
+				}
+
+				$("select.mprm-country-list").on('change', function() {
+					var $params = {
+						action: 'get_state_list',
+						controller: 'settings',
+						country: $(this).val()
+					};
+
+					var $parent = $(this).parents('.mprm-columns.mprm-four');
+					var stateSelect = $parent.find('select.mprm-country-state');
+
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							stateSelect.parents('#mprm-order-address-state-wrap').hide();
+							if ($.isEmptyObject(data)) {
+								stateSelect.parents('#mprm-order-address-state-wrap').hide();
+							} else {
+								stateSelect.find("option").remove();
+								$.each(data, function(i, value) {
+									stateSelect.append($('<option>').text(value).attr('value', i))
+								});
+								stateSelect.trigger("chosen:updated");
+								stateSelect.parents('#mprm-order-address-state-wrap').show();
+							}
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				})
 			},
 			/**
 			 * Add comment
@@ -740,6 +779,9 @@ MP_RM_Registry.register("Order", (function($) {
 					);
 				});
 			},
+			/**
+			 * Add menu item
+			 */
 			addMenuItem: function() {
 				$('[name="mprm-order-menu-item-select"]').on('change', function() {
 
@@ -841,17 +883,59 @@ MP_RM_Registry.register("Order", (function($) {
 					$('#mprm-payment-menu-items-changed').val(1);
 
 					$(clone).insertAfter('#mprm-purchased-wrapper .mprm-row.item:last');
+
 					$('.mprm-order-recalc-totals').show();
 				})
 
 			},
-			removeMenuItem: function() {
-				$('.mprm-order-remove-menu-item.mprm-delete').on('click', function(e) {
+			/**
+			 * Recalculate order total
+			 */
+			recalculate_total: function() {
+
+				$('#mprm-order-recalc-total').on('click', function(e) {
 					e.preventDefault();
 
-					var menuItem = $(this);
-					menuItem.parents('.mprm-row').remove();
+					var total = 0,
+						purchased = $('#mprm-purchased-wrapper .mprm-row.item .mprm-order-detail-amount');
+
+					if (purchased.length) {
+						purchased.each(function() {
+							total += parseFloat($(this).val());
+						});
+					}
+
+					if ($('.mprm-order-fees').length) {
+						$('.mprm-order-fees span.fee-amount').each(function() {
+							total += parseFloat($(this).data('fee'));
+						});
+					}
+
+					$('input[name="mprm-order-total"]').val(total.toFixed(admin_lang.currency_decimals));
+
+					$('.mprm-order-recalc-totals').hide();
 				});
+
+			},
+			/**
+			 * Remove menu item
+			 */
+			removeMenuItem: function() {
+
+				$('.mprm-order-remove-menu-item.mprm-delete').on('click', function(e) {
+					e.preventDefault();
+					if ($('.mprm-row.item').length > 1) {
+						var menuItem = $(this);
+						menuItem.parents('.mprm-row').remove();
+
+						$('.mprm-order-recalc-totals').show();
+					} else {
+						alert(admin_lang.one_menu_item_min);
+						return false;
+					}
+
+				});
+
 			},
 			/**
 			 * Add new customer

@@ -1,19 +1,23 @@
 <?php
 namespace mp_restaurant_menu\classes\controllers;
+
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_countries;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\View;
+
 class Controller_Settings extends Controller {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Action content
 	 */
@@ -29,6 +33,7 @@ class Controller_Settings extends Controller {
 		$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
 		View::get_instance()->render_html('settings', $data);
 	}
+
 	/**
 	 * Action save
 	 */
@@ -36,6 +41,7 @@ class Controller_Settings extends Controller {
 		$data = $this->get('settings')->save_settings($_REQUEST);
 		$this->send_json($data);
 	}
+
 	public function action_get_state_list() {
 		$data = array();
 		$country = $_REQUEST['country'];
@@ -43,9 +49,11 @@ class Controller_Settings extends Controller {
 		$data['success'] = true;
 		$this->send_json($data);
 	}
+
 	public function action_preview_email() {
 		Settings_emails::get_instance()->display_email_template_preview();
 	}
+
 	public function action_send_test_email() {
 		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'mprm-test-email')) {
 			return;
