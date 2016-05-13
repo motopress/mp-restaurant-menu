@@ -45,6 +45,7 @@ function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways(true);
 	$page_URL = models\Misc::get_instance()->get_current_page_url();
 	do_action('mprm_payment_mode_top'); ?>
+
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
 	<?php } ?>

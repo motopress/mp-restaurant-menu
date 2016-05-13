@@ -27,7 +27,7 @@ class Payments extends Parent_query {
 
 	public function get_posts($args = array()) {
 		do_action('mprm_pre_get_order', $this);
-
+		//$this->setup_args($args);
 		$query = new \WP_Query($this->args);
 
 		if ($query->have_posts()) {
@@ -240,7 +240,7 @@ class Payments extends Parent_query {
 
 			}
 
-			$deleted_menu_items = json_decode(stripcslashes($data['edd-payment-removed']), true);
+			$deleted_menu_items = json_decode(stripcslashes($data['mprm-order-removed']), true);
 
 			foreach ($deleted_menu_items as $deleted_menu_item) {
 				$deleted_menu_item = $deleted_menu_item[0];
@@ -1006,14 +1006,15 @@ class Payments extends Parent_query {
 			}
 		} else {
 			// This case handles the first addition of the new option, as well as if it get's deleted for any reason
-			$payments = new \EDD_Payments_Query(array(
+
+			$last_payment = $this->get_posts(array(
 				'number' => 1,
 				'order' => 'DESC',
 				'orderby' => 'ID',
 				'output' => 'posts',
 				'fields' => 'ids'
 			));
-			$last_payment = $payments->get_payments();
+
 			if (!empty($last_payment)) {
 				$number = $this->get_payment_number($last_payment[0]);
 			}
@@ -1341,7 +1342,7 @@ class Payments extends Parent_query {
 				for ($i = 0; $i < $menu_item['quantity']; $i++) {
 					// Ensure these actions only run once, ever
 					if (empty($completed_date)) {
-						//edd_record_sale_in_log($menu_item['id'], $payment_id, $price_id, $creation_date);
+						//mprm_record_sale_in_log($menu_item['id'], $payment_id, $price_id, $creation_date);
 						do_action('mprm_complete_purchase', $menu_item['id'], $payment_id, $menu_item_type, $menu_item, $cart_index);
 					}
 				}

@@ -31,7 +31,7 @@ class Paypal_standart extends Model {
 		// Check payment
 		if (!$payment) {
 			// Record the error
-			//edd_record_gateway_error(__('Payment Error', 'mp-restaurant-menu'), sprintf(__('Payment creation failed before sending buyer to PayPal. Payment data: %s', 'mp-restaurant-menu'), json_encode($payment_data)), $payment);
+			//mprm_record_gateway_error(__('Payment Error', 'mp-restaurant-menu'), sprintf(__('Payment creation failed before sending buyer to PayPal. Payment data: %s', 'mp-restaurant-menu'), json_encode($payment_data)), $payment);
 			// Problems? send back
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		} else {
@@ -216,11 +216,11 @@ class Paypal_standart extends Model {
 			// Get response
 			$api_response = wp_remote_post($this->get_paypal_redirect(), $remote_post_vars);
 			if (is_wp_error($api_response)) {
-				//	edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
+				//	mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
 				return; // Something went wrong
 			}
 			if ($api_response['body'] !== 'VERIFIED' && $this->get('settings')->get_option('disable_paypal_verification', false)) {
-				//	edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
+				//	mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
 				return; // Response not okay
 			}
 		}
@@ -273,14 +273,14 @@ class Paypal_standart extends Model {
 		}
 		// Verify payment recipient
 		if (strcasecmp($business_email, trim($this->get('settings')->get_option('paypal_email', false))) != 0) {
-			//edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid business email in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid business email in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
 			$this->get('payments')->update_payment_status($payment_id, 'failed');
 			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid PayPal business email.', 'mp-restaurant-menu'));
 			return;
 		}
 		// Verify payment currency
 		if ($currency_code != strtolower($payment_meta['currency'])) {
-			//edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid currency in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid currency in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
 			$this->get('payments')->update_payment_status($payment_id, 'failed');
 			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid currency in PayPal IPN.', 'mp-restaurant-menu'));
 			return;
@@ -318,14 +318,14 @@ class Paypal_standart extends Model {
 			$payment_amount = $this->get('payments')->get_payment_amount($payment_id);
 			if (number_format((float)$paypal_amount, 2) < number_format((float)$payment_amount, 2)) {
 				// The prices don't match
-				//edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid payment amount in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid payment amount in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
 				$this->get('payments')->update_payment_status($payment_id, 'failed');
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid amount in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
 			if ($purchase_key != $this->get('payments')->get_payment_key($payment_id)) {
 				// Purchase keys don't match
-				//edd_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid purchase key in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid purchase key in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
 				$this->get('payments')->update_payment_status($payment_id, 'failed');
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid purchase key in PayPal IPN.', 'mp-restaurant-menu'));
 				return;

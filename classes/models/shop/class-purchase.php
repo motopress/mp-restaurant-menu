@@ -1,15 +1,19 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Model;
+
 class Purchase extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	function process_purchase_form() {
 		do_action('mprm_pre_process_purchase');
 		// Make sure the cart isn't empty
@@ -89,26 +93,27 @@ class Purchase extends Model {
 		// Send info to the gateway for payment processing
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
+
 	function process_purchase_login() {
 		$is_ajax = isset($_POST['mprm_ajax']);
 		$user_data = $this->purchase_form_validate_user_login();
 		if ($this->get('errors')->get_errors() || $user_data['user_id'] < 1) {
 			if ($is_ajax) {
 				do_action('mprm_ajax_checkout_errors');
-				//edd_die();
+				wp_die();
 			} else {
 				wp_redirect($_SERVER['HTTP_REFERER']);
 				exit;
 			}
 		}
-		//edd_log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
+		$this->get('customer')->log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
 		if ($is_ajax) {
-			//echo 'success';
-			//edd_die();
+			//wp_die();
 		} else {
 			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
 		}
 	}
+
 	function purchase_form_validate_fields() {
 		// Check if there is $_POST
 		if (empty($_POST)) return false;
@@ -148,6 +153,7 @@ class Purchase extends Model {
 		// Return collected data
 		return $valid_data;
 	}
+
 	function purchase_form_validate_gateway() {
 		$gateway = $this->get('gateways')->get_default_gateway();
 		// Check if a gateway value is present
@@ -161,6 +167,7 @@ class Purchase extends Model {
 		}
 		return $gateway;
 	}
+
 	function purchase_form_validate_discounts() {
 		// Retrieve the discount stored in cookies
 		$discounts = $this->get('cart')->get_cart_discounts();
@@ -200,6 +207,7 @@ class Purchase extends Model {
 		}
 		return implode(', ', $discounts);
 	}
+
 	function purchase_form_validate_agree_to_terms() {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
@@ -207,6 +215,7 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
 		}
 	}
+
 	function purchase_form_required_fields() {
 		$required_fields = array(
 			'mprm_email' => array(
@@ -240,6 +249,7 @@ class Purchase extends Model {
 		}
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
 	}
+
 	function purchase_form_validate_logged_in_user() {
 		global $user_ID;
 		// Start empty array to collect valid user data
@@ -277,6 +287,7 @@ class Purchase extends Model {
 		// Return user data
 		return $valid_user_data;
 	}
+
 	function purchase_form_validate_new_user() {
 		$registering_new_user = false;
 		// Start an empty array to collect valid user data
@@ -360,6 +371,7 @@ class Purchase extends Model {
 		}
 		return $valid_user_data;
 	}
+
 	function purchase_form_validate_user_login() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
@@ -412,6 +424,7 @@ class Purchase extends Model {
 		}
 		return $valid_user_data;
 	}
+
 	function purchase_form_validate_guest_user() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
@@ -446,6 +459,7 @@ class Purchase extends Model {
 		}
 		return $valid_user_data;
 	}
+
 	function register_and_login_new_user($user_data = array()) {
 		// Verify the array
 		if (empty($user_data))
@@ -475,6 +489,7 @@ class Purchase extends Model {
 		// Return user id
 		return $user_id;
 	}
+
 	function get_purchase_form_user($valid_data = array()) {
 		// Initialize user
 		$user = false;
@@ -532,6 +547,7 @@ class Purchase extends Model {
 		// Return valid user
 		return $user;
 	}
+
 	function purchase_form_validate_cc() {
 		$card_data = $this->get_purchase_cc_info();
 		// Validate the card zip
@@ -543,6 +559,7 @@ class Purchase extends Model {
 		// This should validate card numbers at some point too
 		return $card_data;
 	}
+
 	function get_purchase_cc_info() {
 		$cc_info = array();
 		$cc_info['card_name'] = isset($_POST['card_name']) ? sanitize_text_field($_POST['card_name']) : '';
@@ -559,6 +576,7 @@ class Purchase extends Model {
 		// Return cc info
 		return $cc_info;
 	}
+
 	function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
 		$ret = false;
 		if (empty($zip) || empty($country_code))
@@ -725,6 +743,7 @@ class Purchase extends Model {
 			$ret = true;
 		return apply_filters('mprm_is_zip_valid', $ret, $zip, $country_code);
 	}
+
 	function check_purchase_email($valid_data, $posted) {
 		$is_banned = false;
 		$banned = $this->get('emails')->get_banned_emails();
@@ -757,6 +776,7 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('email_banned', __('An internal error has occurred, please try again or contact support.', 'mp-restaurant-menu'));
 		}
 	}
+
 	public function process_straight_to_gateway($data) {
 		$menu_item_id = $data['menu_item_id'];
 		$options = isset($data['mprm_options']) ? $data['mprm_options'] : array();
@@ -768,6 +788,7 @@ class Purchase extends Model {
 		$this->get('session')->set('mprm_purchase', $purchase_data);
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
+
 	public function init_action() {
 		add_action('mprm_straight_to_gateway', array($this, 'process_straight_to_gateway'));
 		add_action('mprm_purchase', array($this, 'process_purchase_form'));

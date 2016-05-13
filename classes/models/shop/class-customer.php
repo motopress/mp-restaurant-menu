@@ -132,7 +132,13 @@ class Customer extends Model {
 		return empty($data) ? false : true;
 	}
 
-	function log_user_in($user_id, $user_login, $user_pass) {
+	/**
+	 * Set login user
+	 * @param $user_id
+	 * @param $user_login
+	 * @param $user_pass
+	 */
+	public function log_user_in($user_id, $user_login, $user_pass) {
 		if ($user_id < 1)
 			return;
 		wp_set_auth_cookie($user_id);

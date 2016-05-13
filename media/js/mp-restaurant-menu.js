@@ -541,7 +541,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						{
 							name: 'controller',
 							value: 'cart'
-						}, {
+						},
+						{
 							name: 'mprm_action',
 							value: 'load_gateway'
 						},
@@ -657,14 +658,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			purchaseForm: function() {
 
 				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').off('click').on('click', function(e) {
+					e.preventDefault();
 
 					var purchaseForm = document.getElementById('mprm_purchase_form');
 
 					if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
 						return;
 					}
-
-					e.preventDefault();
 
 					var complete_purchase_val = $(this).val();
 
@@ -839,13 +839,12 @@ MP_RM_Registry.register("Order", (function($) {
 					var order_menu_item_select = $('[name="mprm-order-menu-item-select"]'),
 						order_menu_item_quantity = $('#mprm-order-menu-item-quantity'),
 						order_menu_item_amount = $('[name="mprm-order-menu-item-amount"]');
-					//selected_price_option = $('.edd_price_options_select option:selected');
 					var menu_item_id = order_menu_item_select.val(),
 						menu_item_title = $('[name="mprm-order-menu-item-select"] option:selected').text(),
 						quantity = order_menu_item_quantity.val(),
 						amount = order_menu_item_amount.val(),
-						price_id = 0, //selected_price_option.val(),
-						price_name = false; //selected_price_option.text();
+						price_id = 0,
+						price_name = false;
 
 
 					if (menu_item_id < 1) {

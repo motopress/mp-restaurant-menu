@@ -666,20 +666,20 @@ class Media extends Core {
 							'std' => '.',
 						),
 					),
-					'api' => array(
-						'api_settings' => array(
-							'id' => 'api_settings',
-							'name' => '<h3>' . __('API Settings', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),
-						'api_allow_user_keys' => array(
-							'id' => 'api_allow_user_keys',
-							'name' => __('Allow User Keys', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-					),
+//					'api' => array(
+//						'api_settings' => array(
+//							'id' => 'api_settings',
+//							'name' => '<h3>' . __('API Settings', 'mp-restaurant-menu') . '</h3>',
+//							'desc' => '',
+//							'type' => 'header',
+//						),
+//						'api_allow_user_keys' => array(
+//							'id' => 'api_allow_user_keys',
+//							'name' => __('Allow User Keys', 'mp-restaurant-menu'),
+//							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//					),
 				)
 			),
 			/** Payment Gateways Settings */
@@ -902,64 +902,64 @@ class Media extends Core {
 				)
 			),
 			/** Taxes Settings */
-			'taxes' => apply_filters('mprm_settings_taxes',
-				array(
-					'main' => array(
-						'tax_settings' => array(
-							'id' => 'tax_settings',
-							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'enable_taxes' => array(
-							'id' => 'enable_taxes',
-							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'tax_rates' => array(
-							'id' => 'tax_rates',
-							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
-							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
-							'type' => 'tax_rates',
-						),
-						'tax_rate' => array(
-							'id' => 'tax_rate',
-							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
-							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
-							'type' => 'text',
-							'size' => 'small',
-						),
-						'prices_include_tax' => array(
-							'id' => 'prices_include_tax',
-							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
-							'desc' => __('This option affects how you enter prices.', 'mp-restaurant-menu'),
-							'type' => 'radio',
-							'std' => 'no',
-							'options' => array(
-								'yes' => __('Yes, I will enter prices inclusive of tax', 'mp-restaurant-menu'),
-								'no' => __('No, I will enter prices exclusive of tax', 'mp-restaurant-menu'),
-							),
-						),
-						'display_tax_rate' => array(
-							'id' => 'display_tax_rate',
-							'name' => __('Display Tax Rate on Prices', 'mp-restaurant-menu'),
-							'desc' => __('Some countries require a notice when product prices include tax.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'checkout_include_tax' => array(
-							'id' => 'checkout_include_tax',
-							'name' => __('Display during checkout', 'mp-restaurant-menu'),
-							'desc' => __('Should prices on the checkout page be shown with or without tax?', 'mp-restaurant-menu'),
-							'type' => 'select',
-							'std' => 'no',
-							'options' => array(
-								'yes' => __('Including tax', 'mp-restaurant-menu'),
-								'no' => __('Excluding tax', 'mp-restaurant-menu'),
-							),
-						),
-					),
-				)
-			),
+//			'taxes' => apply_filters('mprm_settings_taxes',
+//				array(
+//					'main' => array(
+//						'tax_settings' => array(
+//							'id' => 'tax_settings',
+//							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
+//							'type' => 'header',
+//						),
+//						'enable_taxes' => array(
+//							'id' => 'enable_taxes',
+//							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
+//							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'tax_rates' => array(
+//							'id' => 'tax_rates',
+//							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
+//							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
+//							'type' => 'tax_rates',
+//						),
+//						'tax_rate' => array(
+//							'id' => 'tax_rate',
+//							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
+//							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
+//							'type' => 'text',
+//							'size' => 'small',
+//						),
+//						'prices_include_tax' => array(
+//							'id' => 'prices_include_tax',
+//							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
+//							'desc' => __('This option affects how you enter prices.', 'mp-restaurant-menu'),
+//							'type' => 'radio',
+//							'std' => 'no',
+//							'options' => array(
+//								'yes' => __('Yes, I will enter prices inclusive of tax', 'mp-restaurant-menu'),
+//								'no' => __('No, I will enter prices exclusive of tax', 'mp-restaurant-menu'),
+//							),
+//						),
+//						'display_tax_rate' => array(
+//							'id' => 'display_tax_rate',
+//							'name' => __('Display Tax Rate on Prices', 'mp-restaurant-menu'),
+//							'desc' => __('Some countries require a notice when product prices include tax.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'checkout_include_tax' => array(
+//							'id' => 'checkout_include_tax',
+//							'name' => __('Display during checkout', 'mp-restaurant-menu'),
+//							'desc' => __('Should prices on the checkout page be shown with or without tax?', 'mp-restaurant-menu'),
+//							'type' => 'select',
+//							'std' => 'no',
+//							'options' => array(
+//								'yes' => __('Including tax', 'mp-restaurant-menu'),
+//								'no' => __('Excluding tax', 'mp-restaurant-menu'),
+//							),
+//						),
+//					),
+//				)
+//			),
 			/** Extension Settings */
 			'extensions' => apply_filters('mprm_settings_extensions',
 				array()
@@ -1090,12 +1090,12 @@ class Media extends Core {
 								'redirect' => __('Redirect', 'mp-restaurant-menu'),
 							),
 						),
-						'symlink_file_menu_items' => array(
-							'id' => 'symlink_file_menu_items',
-							'name' => __('Symlink File Downloads?', 'mp-restaurant-menu'),
-							'desc' => __('Check this if you are delivering really large files or having problems with file menu_items completing.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
+//						'symlink_file_menu_items' => array(
+//							'id' => 'symlink_file_menu_items',
+//							'name' => __('Symlink File Downloads?', 'mp-restaurant-menu'),
+//							'desc' => __('Check this if you are delivering really large files or having problems with file menu_items completing.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
 						'file_menu_item_limit' => array(
 							'id' => 'file_menu_item_limit',
 							'name' => __('File Download Limit', 'mp-restaurant-menu'),
@@ -1217,7 +1217,7 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_sections_general', array(
 				'main' => __('General Settings', 'mp-restaurant-menu'),
 				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
-				'api' => __('API Settings', 'mp-restaurant-menu'),
+//				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateway Settings', 'mp-restaurant-menu'),
@@ -1231,9 +1231,9 @@ class Media extends Core {
 			'styles' => apply_filters('mprm_settings_sections_styles', array(
 				'main' => __('Style Settings', 'mp-restaurant-menu'),
 			)),
-			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
-				'main' => __('Tax Settings', 'mp-restaurant-menu'),
-			)),
+//			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
+//				'main' => __('Tax Settings', 'mp-restaurant-menu'),
+//			)),
 			'extensions' => apply_filters('mprm_settings_sections_extensions', array(
 				'main' => __('Main', 'mp-restaurant-menu')
 			)),
@@ -1242,7 +1242,7 @@ class Media extends Core {
 				'main' => __('Misc Settings', 'mp-restaurant-menu'),
 				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
 				'button_text' => __('Button Text', 'mp-restaurant-menu'),
-				'file_menu_items' => __('File Downloads', 'mp-restaurant-menu'),
+//				'file_menu_items' => __('File Downloads', 'mp-restaurant-menu'),
 				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
@@ -1351,7 +1351,7 @@ class Media extends Core {
 		$tabs['gateways'] = __('Payment Gateways', 'mp-restaurant-menu');
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
-		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
+//		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
 		if (!empty($settings['extensions'])) {
 			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}

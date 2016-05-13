@@ -2,6 +2,7 @@
 namespace mp_restaurant_menu\classes\models\parents;
 
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\models\Order;
 
 class Parent_query extends Model {
 
@@ -76,7 +77,7 @@ class Parent_query extends Model {
 				$query->the_post();
 
 				$payment_id = get_post()->ID;
-				$payment = new \EDD_Payment($payment_id);
+				$payment = new Order($payment_id);
 
 				if ($this->get('settings')->get_option('enable_sequential')) {
 					// Backwards Compatibility, needs to set `payment_number` attribute
@@ -282,7 +283,7 @@ class Parent_query extends Model {
 
 			$search = str_replace('#:', '', $search);
 			$search = str_replace('#', '', $search);
-			$this->__set('download', $search);
+			$this->__set('menu_item', $search);
 			$this->__unset('s');
 
 		} elseif (0 === strpos($search, 'discount:')) {

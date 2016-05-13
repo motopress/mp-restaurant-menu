@@ -500,7 +500,7 @@ final class Order extends Model {
 										$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : 0;
 										$y = 0;
 //										while ($y < $item['quantity']) {
-//											edd_record_sale_in_log($item['id'], $this->ID, $price_id, $log_date);
+//											mprm_record_sale_in_log($item['id'], $this->ID, $price_id, $log_date);
 //											$y++;
 //										}
 										$menu_item = new Menu_item($item['id']);
@@ -1301,7 +1301,7 @@ final class Order extends Model {
 	private function setup_email() {
 		$email = $this->get_meta('_mprm_order_user_email', true);
 		if (empty($email)) {
-			$email = EDD()->customers->get_column('email', $this->customer_id);
+			$email = $this->get('customer')->get_column('email', $this->customer_id);
 		}
 		return $email;
 	}

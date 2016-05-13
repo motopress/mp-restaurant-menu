@@ -6,6 +6,7 @@ use mp_restaurant_menu\classes\Core;
  */
 class Controller extends Core {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

@@ -1,14 +1,18 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+
 class Discount extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	function get_discount_excluded_products($code_id = null) {
 		$excluded_products = get_post_meta($code_id, '_mprm_discount_excluded_products', true);
 		if (empty($excluded_products) || !is_array($excluded_products)) {
@@ -16,9 +20,11 @@ class Discount extends Model {
 		}
 		return (array)apply_filters('mprm_get_discount_excluded_products', $excluded_products, $code_id);
 	}
+
 	function is_discount_not_global($code_id = 0) {
 		return (bool)get_post_meta($code_id, '_mprm_discount_is_not_global', true);
 	}
+
 	function get_cart_item_discount_amount($item = array()) {
 		global $mprm_is_last_cart_item, $mprm_flat_discount_total;
 		// If we're not meeting the requirements of the $item array, return or set them
@@ -93,6 +99,7 @@ class Discount extends Model {
 		}
 		return $amount;
 	}
+
 	function get_discount_product_reqs($code_id = null) {
 		$product_reqs = get_post_meta($code_id, '_mprm_discount_product_reqs', true);
 		if (empty($product_reqs) || !is_array($product_reqs)) {
@@ -100,6 +107,7 @@ class Discount extends Model {
 		}
 		return (array)apply_filters('mprm_get_discount_product_reqs', $product_reqs, $code_id);
 	}
+
 	function get_discounted_amount($code, $base_price) {
 		$amount = $base_price;
 		$discount_id = $this->get_discount_id_by_code($code);
@@ -121,14 +129,17 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_discounted_amount', $amount);
 	}
+
 	function get_discount_amount($code_id = null) {
 		$amount = get_post_meta($code_id, '_mprm_discount_amount', true);
 		return (float)apply_filters('mprm_get_discount_amount', $amount, $code_id);
 	}
+
 	function get_discount_type($code_id = null) {
 		$type = strtolower(get_post_meta($code_id, '_mprm_discount_type', true));
 		return apply_filters('mprm_get_discount_type', $type, $code_id);
 	}
+
 	function get_discount_id_by_code($code) {
 		$discount = $this->get_discount_by_code($code);
 		if ($discount) {
@@ -136,9 +147,11 @@ class Discount extends Model {
 		}
 		return false;
 	}
+
 	function unset_all_cart_discounts() {
 		$this->get('session')->set('cart_discounts', null);
 	}
+
 	function decrease_discount_usage($code) {
 		$id = $this->get_discount_id_by_code($code);
 		if (false === $id) {
@@ -155,6 +168,7 @@ class Discount extends Model {
 		do_action('mprm_discount_decrease_use_count', $uses, $id, $code);
 		return $uses;
 	}
+
 	function increase_discount_usage($code) {
 		$id = $this->get_discount_id_by_code($code);
 		if (false === $id) {
@@ -171,16 +185,19 @@ class Discount extends Model {
 		do_action('mprm_discount_increase_use_count', $uses, $id, $code);
 		return $uses;
 	}
+
 	function get_discount_uses($code_id = null) {
 		$uses = get_post_meta($code_id, '_mprm_discount_uses', true);
 		return (int)apply_filters('mprm_get_discount_uses', $uses, $code_id);
 	}
+
 	function get_discount_by_code($code = '') {
 		if (empty($code) || !is_string($code)) {
 			return false;
 		}
 		return $this->get_discount_by('code', $code);
 	}
+
 	function get_discount_by($field = '', $value = '') {
 		if (empty($field) || empty($value)) {
 			return false;
@@ -222,6 +239,7 @@ class Discount extends Model {
 		}
 		return false;
 	}
+
 	function get_discount($discount_id = 0) {
 		if (empty($discount_id)) {
 			return false;
@@ -232,6 +250,7 @@ class Discount extends Model {
 		}
 		return $discount;
 	}
+
 	function get_discounts($args = array()) {
 		$defaults = array(
 			'post_type' => 'mprm_discount',
@@ -257,10 +276,12 @@ class Discount extends Model {
 		}
 		return false;
 	}
+
 	function multiple_discounts_allowed() {
 		$ret = $this->get('settings')->get_option('allow_multiple_discounts', false);
 		return (bool)apply_filters('mprm_multiple_discounts_allowed', $ret);
 	}
+
 	function is_discount_valid($code = '', $user = '', $set_error = true) {
 
 		$return = false;
@@ -284,9 +305,11 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_valid', $return, $discount_id, $code, $user);
 	}
+
 	function get_discount_product_condition($code_id = 0) {
 		return get_post_meta($code_id, '_mprm_discount_product_condition', true);
 	}
+
 	function discount_product_reqs_met($code_id = null) {
 		$product_reqs = $this->get_discount_product_reqs($code_id);
 		$condition = $this->get_discount_product_condition($code_id);
@@ -346,10 +369,12 @@ class Discount extends Model {
 		}
 		return (bool)apply_filters('mprm_is_discount_products_req_met', $ret, $code_id, $condition);
 	}
+
 	function get_discount_min_price($code_id = null) {
 		$min_price = get_post_meta($code_id, '_mprm_discount_min_price', true);
 		return (float)apply_filters('mprm_get_discount_min_price', $min_price, $code_id);
 	}
+
 	function discount_is_min_met($code_id = null) {
 		$discount = $this->get_discount($code_id);
 		$return = false;
@@ -365,6 +390,7 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_min_met', $return, $code_id);
 	}
+
 	function get_cart_discountable_subtotal($code_id) {
 		$cart_items = $this->get('cart')->get_cart_content_details();
 		$items = array();
@@ -379,14 +405,17 @@ class Discount extends Model {
 		$subtotal = $this->get('cart')->get_cart_items_subtotal($items);
 		return apply_filters('mprm_get_cart_discountable_subtotal', $subtotal);
 	}
+
 	function get_discount_max_uses($code_id = null) {
 		$max_uses = get_post_meta($code_id, '_mprm_discount_max_uses', true);
 		return (int)apply_filters('mprm_get_discount_max_uses', $max_uses, $code_id);
 	}
+
 	function discount_is_single_use($code_id = 0) {
 		$single_use = get_post_meta($code_id, '_mprm_discount_is_single_use', true);
 		return (bool)apply_filters('mprm_is_discount_single_use', $single_use, $code_id);
 	}
+
 	function is_discount_used($code = null, $user = '', $code_id = 0) {
 		$return = false;
 		if (empty($code_id)) {
@@ -397,14 +426,6 @@ class Discount extends Model {
 		}
 		if ($this->discount_is_single_use($code_id)) {
 			$payments = array();
-//			if (!EDD()->customers->installed()) {
-//
-//				$by_user_id = is_email($user) ? false : true;
-//				$customer = new \EDD_Customer($user, $by_user_id);
-//
-//				$payments = explode(',', $customer->payment_ids);
-//
-//			} else {
 			$user_found = false;
 			if (is_email($user)) {
 				$user_found = true; // All we need is the email
@@ -455,6 +476,7 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_used', $return, $code, $user);
 	}
+
 	function set_cart_discount($code = '') {
 		if ($this->multiple_discounts_allowed()) {
 			// Get all active cart discounts
@@ -475,6 +497,7 @@ class Discount extends Model {
 		$this->get('session')->set('cart_discounts', implode('|', $discounts));
 		return $discounts;
 	}
+
 	function is_discount_maxed_out($code_id = null) {
 		$discount = $this->get_discount($code_id);
 		$return = false;
@@ -491,6 +514,7 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_maxed_out', $return, $code_id);
 	}
+
 	function is_discount_started($code_id = null) {
 		$discount = $this->get_discount($code_id);
 		$return = false;
@@ -511,10 +535,12 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_started', $return, $code_id);
 	}
+
 	function get_discount_start_date($code_id = null) {
 		$start_date = get_post_meta($code_id, '_mprm_discount_start', true);
 		return apply_filters('mprm_get_discount_start_date', $start_date, $code_id);
 	}
+
 	function is_discount_active($code_id = null) {
 		$discount = $this->get_discount($code_id);
 		$return = false;
@@ -533,6 +559,7 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_active', $return, $code_id);
 	}
+
 	function is_discount_expired($code_id = null) {
 		$discount = $this->get_discount($code_id);
 		$return = false;
@@ -549,10 +576,12 @@ class Discount extends Model {
 		}
 		return apply_filters('mprm_is_discount_expired', $return, $code_id);
 	}
+
 	function get_discount_expiration($code_id = null) {
 		$expiration = get_post_meta($code_id, '_mprm_discount_expiration', true);
 		return apply_filters('mprm_get_discount_expiration', $expiration, $code_id);
 	}
+
 	function update_discount_status($code_id = 0, $new_status = 'active') {
 		$discount = $this->get_discount($code_id);
 		if ($discount) {

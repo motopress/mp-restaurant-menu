@@ -3,6 +3,7 @@ namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Core;
+
 use mp_restaurant_menu\classes\View;
 
 class Controller_cart extends Controller {
@@ -21,6 +22,7 @@ class Controller_cart extends Controller {
 	}
 
 	public function action_add_to_cart() {
+		$this->date['data'] = array();
 		$request = $_REQUEST;
 		$cartCount = $this->get('cart')->add_to_cart($request['menu_item_id']);
 		if ((bool)$request['is_ajax']) {
@@ -38,12 +40,14 @@ class Controller_cart extends Controller {
 	}
 
 	public function action_load_gateway() {
+		$this->date['data'] = array();
 		$this->date['data']['html'] = View::get_instance()->render_html('/shop/purchase-form', $this->date['data'], false);
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}
 
 	public function action_purchase() {
+
 		if (Core::is_ajax()) {
 			$this->get('purchase')->process_purchase_form();
 		} else {
