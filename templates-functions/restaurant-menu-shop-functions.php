@@ -165,6 +165,10 @@ function mprm_purchase_form() {
 	do_action('mprm_purchase_form_bottom');
 }
 
+function mprm_show_gateways() {
+	return models\Gateways::get_instance()->show_gateways();
+}
+
 function mprm_get_cc_form() {
 	ob_start(); ?>
 	<?php do_action('mprm_before_cc_fields'); ?>
@@ -697,7 +701,21 @@ function mprm_user_info_fields() {
 function mprm_purchase_form_before_register_login() {
 }
 
-function mprm_purchase_form_top() {
+function mprm_purchase_form_top() { ?>
+	<?php
+	$class = '';
+	if (models\Settings::get_instance()->is_ajax_disabled()) {
+		$class = 'mprm-no-js';
+	} ?>
+
+	<form id="mprm_purchase_form" class="mprm_form <?php echo $class ?>"  method="POST">
+	<?php
+}
+
+function mprm_purchase_form_bottom() {
+	?>
+	</form>
+	<?php
 }
 
 function mprm_purchase_form_before_email() {
@@ -938,7 +956,9 @@ function mprm_get_currency() {
 function mprm_get_option($key, $default = false) {
 	return models\Settings::get_instance()->get_option($key, $default);
 }
-function mprm_currency_decimal_filter(){
+
+function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
 }
+
 ?>

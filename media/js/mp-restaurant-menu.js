@@ -658,55 +658,59 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			purchaseForm: function() {
 
 				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').off('click').on('click', function(e) {
-					e.preventDefault();
+					var form = $(this).parents('form');
+					if (!form.hasClass('mprm-no-js')) {
 
-					var purchaseForm = document.getElementById('mprm_purchase_form');
+						e.preventDefault();
 
-					if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
-						return;
-					}
+						var purchaseForm = document.getElementById('mprm_purchase_form');
 
-					var complete_purchase_val = $(this).val();
-
-					$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
-					var $params = $(purchaseForm).serializeArray();
-
-					$params.push(
-						{
-							name: 'controller',
-							value: 'cart'
-						},
-						{
-							name: 'mprm_action',
-							value: 'purchase'
+						if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
+							return;
 						}
-					);
 
-					$.each($params, function(index, element) {
-						if (element) {
-							if (element.name == "mprm_action" && element.value == "gateway_select") {
-								$params.splice(index, 1);
+						var complete_purchase_val = $(this).val();
+
+						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
+						var $params = $(purchaseForm).serializeArray();
+						$params.push(
+							{
+								name: 'controller',
+								value: 'cart'
+							},
+							{
+								name: 'mprm_action',
+								value: 'purchase'
 							}
-						}
-					});
+						);
 
-					$('.mprm-cart-ajax').show();
+						$.each($params, function(index, element) {
+							if (element) {
+								if (element.name == "mprm_action" && element.value == "gateway_select") {
+									$params.splice(index, 1);
+								}
+							}
+						});
 
-					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function(data) {
-							$('.mprm_errors').remove();
-							$('.mprm-error').hide();
-							$('#mprm_purchase_form').submit();
-						},
-						function(data) {
-							$('.mprm-cart-ajax').remove();
-							$('.mprm_errors').remove();
-							$('.mprm-error').hide();
-							console.warn('Some error!!!');
-							console.warn(data);
-						}
-					);
+						$('.mprm-cart-ajax').show();
+
+						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+							function(data) {
+								$('.mprm_errors').remove();
+								$('.mprm-error').hide();
+								$('#mprm_purchase_form').submit();
+							},
+							function(data) {
+								$('.mprm-cart-ajax').remove();
+								$('.mprm_errors').remove();
+								$('.mprm-error').hide();
+								console.warn('Some error!!!');
+								console.warn(data);
+							}
+						);
+					}
 				});
+
 			}
 		}
 	}

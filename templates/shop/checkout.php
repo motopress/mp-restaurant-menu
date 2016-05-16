@@ -1,7 +1,5 @@
-<?php use \mp_restaurant_menu\classes\models\Gateways as Gateways; ?>
 <div id="mprm_checkout_wrap">
 	<?php if ($cart_contents || $cart_has_fees) :
-		//mprm_checkout_cart();
 		mprm_get_checkout_cart_template();
 		?>
 		<div id="mprm_checkout_form_wrap" class="mprm-clear">
@@ -14,7 +12,7 @@
 				 * @since 1.0
 				 */
 				do_action('mprm_checkout_form_top');
-				if (Gateways::get_instance()->show_gateways()) {
+				if (mprm_show_gateways()) {
 					do_action('mprm_payment_mode_select');
 				} else {
 					do_action('mprm_purchase_form');
