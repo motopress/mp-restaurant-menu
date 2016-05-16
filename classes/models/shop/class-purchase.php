@@ -14,7 +14,10 @@ class Purchase extends Model {
 		return self::$instance;
 	}
 
-	function process_purchase_form() {
+	/**
+	 * Purchase form
+	 */
+	public function process_purchase_form() {
 		do_action('mprm_pre_process_purchase');
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {

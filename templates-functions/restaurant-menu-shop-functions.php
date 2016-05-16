@@ -890,7 +890,7 @@ function mprm_menu_item_dropdown($data) {
 }
 
 function mprm_customers_dropdown($data) {
-	$options = array();
+	$options = array(__('No customer attached', 'mp-restaurant-menu'));
 	$argc = array(
 		'name' => 'customer-id',
 		'show_option_all' => false,
@@ -898,10 +898,11 @@ function mprm_customers_dropdown($data) {
 	$data = wp_parse_args($data, $argc);
 
 	$customers = models\Customer::get_instance()->get_customers();
-	foreach ($customers as $customer) {
-		$options[$customer->id] = $customer->name;
+	if (!empty($customers)) {
+		foreach ($customers as $customer) {
+			$options[$customer->id] = $customer->name;
+		}
 	}
-
 	$data['options'] = $options;
 	$data['placeholder'] = __('Select a Customer', 'mp-restaurant-menu');
 

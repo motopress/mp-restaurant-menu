@@ -439,7 +439,7 @@ final class Order extends Model {
 			$this->_ID = $payment_id;
 			$customer = new \stdClass;
 			if (did_action('mprm_pre_process_purchase') && is_user_logged_in()) {
-				$customer = new Customer(array('field' => 'id', 'value' => get_current_user_id()));
+				$customer = new Customer(array('field' => 'user_id', 'value' => get_current_user_id()));
 			}
 			if (empty($customer->id)) {
 				$customer = new Customer(array('field' => 'email', 'value' => $this->email));
