@@ -831,7 +831,7 @@ final class Order extends Model {
 				return false; // Invalid cart index passed.
 			}
 			if ($this->cart_details[$cart_index]['id'] !== $menu_item_id) {
-				return false; // We still need the proper Download ID to be sure.
+				return false; // We still need the proper Menu item ID to be sure.
 			}
 			$found_cart_key = $cart_index;
 		}
@@ -1298,7 +1298,7 @@ final class Order extends Model {
 		return $user_id;
 	}
 
-	private function setup_email() {
+	public function setup_email() {
 		$email = $this->get_meta('_mprm_order_user_email', true);
 		if (empty($email)) {
 			$email = $this->get('customer')->get_column('email', $this->customer_id);

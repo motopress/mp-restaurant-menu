@@ -31,6 +31,20 @@ function mprm_get_purchase_session() {
 	return models\Session::get_instance()->get_session_by_key('mprm_purchase');
 }
 
+function mprm_use_skus() {
+	$ret = models\Settings::get_instance()->get_option('enable_skus', false);
+	return (bool)apply_filters('mprm_use_skus', $ret);
+}
+
+function mprm_get_cart_item_price_id($item = array()) {
+	if (isset($item['item_number'])) {
+		$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
+	} else {
+		$price_id = isset($item['options']['price_id']) ? $item['options']['price_id'] : null;
+	}
+	return $price_id;
+}
+
 function mprm_get_menu_item_sku($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->get_sku();
@@ -101,7 +115,7 @@ function mprm_checkout_button_purchase() {
 	if (models\Cart::get_instance()->get_cart_total()) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
-		$complete_purchase = !empty($label) ? $label : __('Free Download', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : __('Free Menu item', 'mp-restaurant-menu');
 	}
 	ob_start();
 	?>
@@ -814,6 +828,11 @@ function mprm_user_pending_verification($user_id = 0) {
 	return models\Customer::get_instance()->user_pending_verification($user_id);
 }
 
+function mprm_is_bundled_product($menu_item_id = 0) {
+	$download = new models\Menu_item($menu_item_id);
+	return $download->is_bundled_menu_item();
+}
+
 function mprm_count_purchases_of_customer() {
 	if (empty($user)) {
 		$user = get_current_user_id();
@@ -961,5 +980,6 @@ function mprm_get_option($key, $default = false) {
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
 }
+
 
 ?>

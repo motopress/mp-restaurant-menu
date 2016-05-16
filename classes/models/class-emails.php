@@ -6,6 +6,10 @@ use mp_restaurant_menu\classes\Model;
 class Emails extends Model {
 	protected static $instance;
 
+	private $tags;
+
+	private $payment_id;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -29,7 +33,7 @@ class Emails extends Model {
 		$menu_item_list = '<ul>';
 		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
 		$menu_item_list .= '<div>';
-		$menu_item_list .= '<a href="#">' . __('Sample Download File Name', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this menu_item.', 'mp-restaurant-menu') . '</small>';
+		$menu_item_list .= '<a href="#">' . __('Sample Menu item File Name', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this menu_item.', 'mp-restaurant-menu') . '</small>';
 		$menu_item_list .= '</div>';
 		$menu_item_list .= '</li>';
 		$menu_item_list .= '</ul>';
@@ -42,6 +46,7 @@ class Emails extends Model {
 		$sub_total = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(9.50, true));
 		$payment_id = rand(1, 100);
 		$user = wp_get_current_user();
+
 		$message = str_replace('{menu_item_list}', $menu_item_list, $message);
 		$message = str_replace('{file_urls}', $file_urls, $message);
 		$message = str_replace('{name}', $user->display_name, $message);
@@ -58,6 +63,7 @@ class Emails extends Model {
 		$message = str_replace('{payment_id}', $payment_id, $message);
 		$message = str_replace('{receipt_link}', sprintf(__('%1$sView it in your browser.%2$s', 'mp-restaurant-menu'), '<a href="' . esc_url(add_query_arg(array('payment_key' => $receipt_id, 'mprm_action' => 'view_receipt'), home_url())) . '">', '</a>'), $message);
 		$message = apply_filters('mprm_email_preview_template_tags', $message);
+
 		return apply_filters('mprm_email_template_wpautop', true) ? wpautop($message) : $message;
 	}
 
@@ -70,13 +76,13 @@ class Emails extends Model {
 
 		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
-		$subject = '';// edd_do_email_tags($subject, 0);
+		$subject = mprm_do_email_tags($subject, 0);
 
 		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
 
 		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
-		$message = '';//edd_do_email_tags($this->get_email_body_content(0, array()), 0);
+		$message = mprm_do_email_tags($this->get_email_body_content(0, array()), 0);
 
 		$emails = $this->get('settings_emails');
 		$emails->__set('from_name', $from_name);
@@ -84,35 +90,48 @@ class Emails extends Model {
 		$emails->__set('heading', $heading);
 		$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), 0, array());
 		$emails->__set('headers', $headers);
-		//$emails->send(mprm_get_admin_notice_emails(), $subject, $message, $attachments);
+		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
 	}
 
 	public function is_email_banned($email = '') {
 		if (empty($email)) {
 			return false;
 		}
+
+		$return = false;
 		$banned_emails = $this->get_banned_emails();
+
 		if (!is_array($banned_emails) || empty($banned_emails)) {
 			return false;
 		}
+
 		foreach ($banned_emails as $banned_email) {
 			if (is_email($banned_email)) {
-				$ret = ($banned_email == trim($email) ? true : false);
+				$return = ($banned_email == trim($email) ? true : false);
 			} else {
-				$ret = (stristr(trim($email), $banned_email) ? true : false);
+				$return = (stristr(trim($email), $banned_email) ? true : false);
 			}
-			if (true === $ret) {
+			if (true === $return) {
 				break;
 			}
 		}
-		return apply_filters('mprm_is_email_banned', $ret, $email);
+		return apply_filters('mprm_is_email_banned', $return, $email);
 	}
 
+	/**
+	 * Banned emails
+	 * @return mixed|void
+	 */
 	public function get_banned_emails() {
 		$emails = array_map('trim', $this->get('settings')->get_option('banned_emails', array()));
 		return apply_filters('mprm_get_banned_emails', $emails);
 	}
 
+	/**
+	 * Trigger purchase receipt
+	 *
+	 * @param $payment_id
+	 */
 	public function trigger_purchase_receipt($payment_id) {
 		// Make sure we don't send a purchase receipt while editing a payment
 		if (isset($_POST['mprm-action']) && 'edit_payment' == $_POST['mprm-action']) {
@@ -122,6 +141,12 @@ class Emails extends Model {
 		$this->email_purchase_receipt($payment_id);
 	}
 
+	/**
+	 * Email purchase
+	 *
+	 * @param $payment_id
+	 * @param bool $admin_notice
+	 */
 	public function email_purchase_receipt($payment_id, $admin_notice = true) {
 		$payment_data = $this->get('payments')->get_payment_meta($payment_id);
 		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
@@ -131,12 +156,11 @@ class Emails extends Model {
 		$to_email = $this->get('payments')->get_payment_user_email($payment_id);
 		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), $payment_id);
-		$subject = edd_do_email_tags($subject, $payment_id);
+		$subject = mprm_do_email_tags($subject, $payment_id);
 		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$heading = apply_filters('mprm_purchase_heading', $heading, $payment_id, $payment_data);
 		$attachments = apply_filters('mprm_receipt_attachments', array(), $payment_id, $payment_data);
-		//$message = edd_do_email_tags($this->get_email_body_content($payment_id, $payment_data), $payment_id);
-		$message = '';
+		$message = mprm_do_email_tags($this->get_email_body_content($payment_id, $payment_data), $payment_id);
 		$emails = $this->get('settings_emails');
 		$emails->__set('from_name', $from_name);
 		$emails->__set('from_email', $from_email);
@@ -150,11 +174,23 @@ class Emails extends Model {
 		}
 	}
 
+	/**
+	 * Admin notices disabled
+	 *
+	 * @param int $payment_id
+	 *
+	 * @return bool
+	 */
 	public function admin_notices_disabled($payment_id = 0) {
 		$ret = $this->get('settings')->get_option('disable_admin_notices', false);
 		return (bool)apply_filters('mprm_admin_notices_disabled', $ret, $payment_id);
 	}
 
+	/**
+	 * Resend purchase receipt
+	 *
+	 * @param $data
+	 */
 	public function resend_purchase_receipt($data) {
 		$purchase_id = absint($data['purchase_id']);
 		if (empty($purchase_id)) {
@@ -164,14 +200,13 @@ class Emails extends Model {
 			wp_die(__('You do not have permission to edit this payment record', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
 		$this->email_purchase_receipt($purchase_id, false);
-		// Grab all menu_items of the purchase and update their file menu_item limits, if needed
-		// This allows admins to resend purchase receipts to grant additional file menu_items
+
 		//$menu_items = $this->get('payments')->get_payment_meta_cart_details($purchase_id, true);
 //		if (is_array($menu_items)) {
 //			foreach ($menu_items as $menu_item) {
-//				$limit = edd_get_file_menu_item_limit($menu_item['id']);
+//				$limit = mprm_get_file_menu_item_limit($menu_item['id']);
 //				if (!empty($limit)) {
-//					edd_set_file_menu_item_limit_override($menu_item['id'], $purchase_id);
+//					mprm_set_file_menu_item_limit_override($menu_item['id'], $purchase_id);
 //				}
 //			}
 //		}
@@ -179,6 +214,11 @@ class Emails extends Model {
 		exit;
 	}
 
+	/**
+	 * Send test email
+	 *
+	 * @param $data
+	 */
 	public function send_test_email($data) {
 		if (!wp_verify_nonce($data['_wpnonce'], 'mprm-test-email')) {
 			return;
@@ -190,6 +230,12 @@ class Emails extends Model {
 		exit;
 	}
 
+	/**
+	 * Admin email notice
+	 *
+	 * @param int $payment_id
+	 * @param array $payment_data
+	 */
 	public function admin_email_notice($payment_id = 0, $payment_data = array()) {
 		$payment_id = absint($payment_id);
 		if (empty($payment_id)) {
@@ -204,10 +250,10 @@ class Emails extends Model {
 		$from_email = apply_filters('mprm_admin_sale_from_address', $from_email, $payment_id, $payment_data);
 		$subject = $this->get('settings')->get_option('sale_notification_subject', sprintf(__('New menu_item purchase - Order #%1$s', 'mp-restaurant-menu'), $payment_id));
 		$subject = apply_filters('mprm_admin_sale_notification_subject', wp_strip_all_tags($subject), $payment_id);
-		//$subject = edd_do_email_tags($subject, $payment_id);
+		$subject = mprm_do_email_tags($subject, $payment_id);
 		$headers = "From: " . stripslashes_deep(html_entity_decode($from_name, ENT_COMPAT, 'UTF-8')) . " <$from_email>\r\n";
 		$headers .= "Reply-To: " . $from_email . "\r\n";
-		//$headers  .= "MIME-Version: 1.0\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 		$headers = apply_filters('mprm_admin_sale_notification_headers', $headers, $payment_id, $payment_data);
 		$attachments = apply_filters('mprm_admin_sale_notification_attachments', array(), $payment_id, $payment_data);
@@ -220,7 +266,15 @@ class Emails extends Model {
 		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
 	}
 
-	function get_sale_notification_body_content($payment_id = 0, $payment_data = array()) {
+	/**
+	 * Sale notification body content
+	 *
+	 * @param int $payment_id
+	 * @param array $payment_data
+	 *
+	 * @return mixed|void
+	 */
+	public function get_sale_notification_body_content($payment_id = 0, $payment_data = array()) {
 		$user_info = maybe_unserialize($payment_data['user_info']);
 		$email = $this->get('payments')->get_payment_user_email($payment_id);
 		if (isset($user_info['id']) && $user_info['id'] > 0) {
@@ -255,13 +309,15 @@ class Emails extends Model {
 		$default_email_body .= __('Thank you', 'mp-restaurant-menu');
 		$email = $this->get('settings')->get_option('sale_notification', false);
 		$email = $email ? stripslashes($email) : $default_email_body;
-		$email_body = ''; //edd_email_template_tags( $email, $payment_data, $payment_id, true );
-		$email_body = ''; //edd_do_email_tags($email, $payment_id);
-		$email_body = '';
+		$email_body = mprm_do_email_tags($email, $payment_id);
 		$email_body = apply_filters('mprm_email_template_wpautop', true) ? wpautop($email_body) : $email_body;
 		return apply_filters('mprm_sale_notification', $email_body, $payment_id, $payment_data);
 	}
 
+	/**
+	 * Admin emails notice
+	 * @return mixed|void
+	 */
 	public function get_admin_notice_emails() {
 		$emails = $this->get('settings')->get_option('admin_notice_emails', false);
 		$emails = strlen(trim($emails)) > 0 ? $emails : get_bloginfo('admin_email');
@@ -269,6 +325,12 @@ class Emails extends Model {
 		return apply_filters('mprm_admin_notice_emails', $emails);
 	}
 
+	/**
+	 * New user notification
+	 *
+	 * @param int $user_id
+	 * @param array $user_data
+	 */
 	public function new_user_notification($user_id = 0, $user_data = array()) {
 		if (empty($user_id) || empty($user_data)) {
 			return;
@@ -293,7 +355,158 @@ class Emails extends Model {
 		$emails->send($user_data['user_email'], $user_subject, $user_message);
 	}
 
+	public function add($tag, $description, $func) {
+		if (is_callable($func)) {
+			$this->tags[$tag] = array(
+				'tag' => $tag,
+				'description' => $description,
+				'func' => $func
+			);
+		}
+	}
+
+	public function remove($tag) {
+		unset($this->tags[$tag]);
+	}
+
+	public function email_tag_exists($tag) {
+		return array_key_exists($tag, $this->tags);
+	}
+
+	public function get_tags() {
+		return $this->tags;
+	}
+
+	public function do_tags($content, $payment_id) {
+
+		// Check if there is atleast one tag added
+		if (empty($this->tags) || !is_array($this->tags)) {
+			return $content;
+		}
+
+		$this->payment_id = $payment_id;
+
+		$new_content = preg_replace_callback("/{([A-z0-9\-\_]+)}/s", array($this, 'do_tag'), $content);
+
+		$this->payment_id = null;
+
+		return $new_content;
+	}
+
+	public function do_tag($m) {
+
+		// Get tag
+		$tag = $m[1];
+
+		// Return tag if tag not set
+		if (!$this->email_tag_exists($tag)) {
+			return $m[0];
+		}
+
+		return call_user_func($this->tags[$tag]['func'], $this->payment_id, $tag);
+	}
+
+	public function mprm_setup_email_tags() {
+
+		$email_tags = array(
+			array(
+				'tag' => 'menu_item_list',
+				'description' => __('A list of menu item links for each menu item purchased', 'mp-restaurant-menu'),
+				'function' => 'text/html' == $this->get('settings_emails')->get_content_type() ? 'mprm_email_tag_download_list' : 'mprm_email_tag_download_list_plain'
+			),
+			array(
+				'tag' => 'name',
+				'description' => __("The buyer's first name", 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_first_name'
+			),
+			array(
+				'tag' => 'fullname',
+				'description' => __("The buyer's full name, first and last", 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_fullname'
+			),
+			array(
+				'tag' => 'username',
+				'description' => __("The buyer's user name on the site, if they registered an account", 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_username'
+			),
+			array(
+				'tag' => 'user_email',
+				'description' => __("The buyer's email address", 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_user_email'
+			),
+			array(
+				'tag' => 'billing_address',
+				'description' => __('The buyer\'s billing address', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_billing_address'
+			),
+			array(
+				'tag' => 'date',
+				'description' => __('The date of the purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_date'
+			),
+			array(
+				'tag' => 'subtotal',
+				'description' => __('The price of the purchase before taxes', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_subtotal'
+			),
+			array(
+				'tag' => 'tax',
+				'description' => __('The taxed amount of the purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_tax'
+			),
+			array(
+				'tag' => 'price',
+				'description' => __('The total price of the purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_price'
+			),
+			array(
+				'tag' => 'payment_id',
+				'description' => __('The unique ID number for this purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_payment_id'
+			),
+			array(
+				'tag' => 'receipt_id',
+				'description' => __('The unique ID number for this purchase receipt', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_receipt_id'
+			),
+			array(
+				'tag' => 'payment_method',
+				'description' => __('The method of payment used for this purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_payment_method'
+			),
+			array(
+				'tag' => 'sitename',
+				'description' => __('Your site name', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_sitename'
+			),
+			array(
+				'tag' => 'receipt_link',
+				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_receipt_link'
+			),
+			array(
+				'tag' => 'discount_codes',
+				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_discount_codes'
+			),
+			array(
+				'tag' => 'ip_address',
+				'description' => __('The buyer\'s IP Address', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_ip_address'
+			)
+		);
+
+		$email_tags = apply_filters('mprm_email_tags', $email_tags);
+
+		foreach ($email_tags as $email_tag) {
+			mprm_add_email_tag($email_tag['tag'], $email_tag['description'], $email_tag['function']);
+		}
+
+	}
+
 	public function init_action() {
+		add_action('init', 'mprm_load_email_tags', -999);
+		add_action('mprm_add_email_tags', array($this, 'mprm_setup_email_tags'));
 		add_action('mprm_admin_sale_notice', array($this, 'admin_email_notice'), 10, 2);
 		add_action('mprm_complete_purchase', array($this, 'trigger_purchase_receipt'), 999, 1);
 		add_action('mprm_send_test_email', array($this, 'send_test_email'));

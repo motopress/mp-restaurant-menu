@@ -114,6 +114,26 @@ class Menu_item extends Model {
 		return $gallery;
 	}
 
+	public function is_bundled_menu_item() {
+		return 'bundle' === $this->get_type();
+	}
+
+	public function get_type() {
+
+		if (!isset($this->type)) {
+
+			$this->type = get_post_meta($this->ID, '_mprm_product_type', true);
+
+			if (empty($this->type)) {
+				$this->type = 'default';
+			}
+
+		}
+
+		return apply_filters('mprm_get_download_type', $this->type, $this->ID);
+
+	}
+
 	/**
 	 * Get around items
 	 *

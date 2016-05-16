@@ -487,7 +487,7 @@ class Cart extends Model {
 			}
 		}
 		if (!$variable_prices || false === $price) {
-			// Get the standard Download price if not using variable prices
+			// Get the standard Menu item price if not using variable prices
 			$price = $this->get('menu_item')->get_price($menu_item_id);
 		}
 		if ($remove_tax_from_inclusive && $this->get('taxes')->prices_include_tax()) {

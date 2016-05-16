@@ -111,7 +111,7 @@ class Media extends Core {
 					wp_enqueue_script('underscore');
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					$this->enqueue_script('jBox', 'libs/jBox.min.js');
-					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
 					break;
 				default:
@@ -121,7 +121,7 @@ class Media extends Core {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					wp_enqueue_script('wp-util');
 					wp_enqueue_media();
 					wp_enqueue_script('thickbox');
@@ -131,7 +131,7 @@ class Media extends Core {
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
 					$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
-					wp_localize_script("mp-restaurant-menu", 'admin_lang', $this->get_config('language-admin-js'));
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
 					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
@@ -184,7 +184,7 @@ class Media extends Core {
 //		$this->enqueue_script('jBox', 'libs/jBox.min.js');
 //		//$this->enqueue_script('html-builder', 'html-builder.js');
 //		$this->enqueue_script('admin-functions', 'admin-functions.js');
-//		wp_localize_script("admin-functions", 'admin_lang', $this->get_config('language-admin-js'));
+//		wp_localize_script("admin-functions", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 //		switch ($current_screen->id) {
 //			case 'mp_menu_item':
 //				//$this->enqueue_script('menu-item', 'menu-item.js');
@@ -1077,12 +1077,12 @@ class Media extends Core {
 					'file_menu_items' => array(
 						'file_settings' => array(
 							'id' => 'file_settings',
-							'name' => '<h3>' . __('File Download Settings', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . __('File Menu item Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'menu_item_method' => array(
 							'id' => 'menu_item_method',
-							'name' => __('Download Method', 'mp-restaurant-menu'),
+							'name' => __('Menu item Method', 'mp-restaurant-menu'),
 							'desc' => sprintf(__('Select the file menu_item method. Note, not all methods work on all servers.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'select',
 							'options' => array(
@@ -1092,20 +1092,20 @@ class Media extends Core {
 						),
 //						'symlink_file_menu_items' => array(
 //							'id' => 'symlink_file_menu_items',
-//							'name' => __('Symlink File Downloads?', 'mp-restaurant-menu'),
+//							'name' => __('Symlink File Menu item?', 'mp-restaurant-menu'),
 //							'desc' => __('Check this if you are delivering really large files or having problems with file menu_items completing.', 'mp-restaurant-menu'),
 //							'type' => 'checkbox',
 //						),
 						'file_menu_item_limit' => array(
 							'id' => 'file_menu_item_limit',
-							'name' => __('File Download Limit', 'mp-restaurant-menu'),
+							'name' => __('File Menu item Limit', 'mp-restaurant-menu'),
 							'desc' => sprintf(__('The maximum number of times files can be menu_itemed for purchases. Can be overwritten for each %s.', 'mp-restaurant-menu'), $this->get_label_singular()),
 							'type' => 'number',
 							'size' => 'small',
 						),
 						'menu_item_link_expiration' => array(
 							'id' => 'menu_item_link_expiration',
-							'name' => __('Download Link Expiration', 'mp-restaurant-menu'),
+							'name' => __('Menu item Link Expiration', 'mp-restaurant-menu'),
 							'desc' => __('How long should menu_item links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'mp-restaurant-menu'),
 							'type' => 'number',
 							'size' => 'small',
@@ -1242,7 +1242,7 @@ class Media extends Core {
 				'main' => __('Misc Settings', 'mp-restaurant-menu'),
 				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
 				'button_text' => __('Button Text', 'mp-restaurant-menu'),
-//				'file_menu_items' => __('File Downloads', 'mp-restaurant-menu'),
+//				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
 				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
@@ -1338,8 +1338,8 @@ class Media extends Core {
 
 	public function get_default_labels() {
 		$defaults = array(
-			'singular' => __('Download', 'mp-restaurant-menu'),
-			'plural' => __('Downloads', 'mp-restaurant-menu')
+			'singular' => __('Menu item', 'mp-restaurant-menu'),
+			'plural' => __('Menu items', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_default_menu_items_name', $defaults);
 	}

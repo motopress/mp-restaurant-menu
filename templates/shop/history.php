@@ -29,7 +29,7 @@ if (!mprm_user_pending_verification()) {
 								<span class="mprm_purchase_status <?php echo $post->post_status; ?>"><?php echo mprm_get_payment_status($post, true); ?></span>
 								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>">&raquo;</a>
 							<?php else: ?>
-								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details and Downloads', 'mp-restaurant-menu'); ?></a>
+								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details and Menu items', 'mp-restaurant-menu'); ?></a>
 							<?php endif; ?>
 						</td>
 						<?php do_action('mprm_purchase_history_row_end', $post->ID, $purchase_data); ?>

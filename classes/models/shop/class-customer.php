@@ -134,6 +134,7 @@ class Customer extends Model {
 
 	/**
 	 * Set login user
+	 *
 	 * @param $user_id
 	 * @param $user_login
 	 * @param $user_pass
@@ -159,7 +160,7 @@ class Customer extends Model {
 		return $desired_notes;
 	}
 
-	private function get_column($column, $customer_id) {
+	public function get_column($column, $customer_id) {
 		global $wpdb;
 		$column_value = $wpdb->get_var($wpdb->prepare("SELECT {$column} FROM  $this->table_name  WHERE id  = %d LIMIT 1", $customer_id));
 		return $column_value;

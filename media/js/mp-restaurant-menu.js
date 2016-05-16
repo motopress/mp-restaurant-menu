@@ -1,4 +1,4 @@
-/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,admin_lang:false*/
+/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -815,6 +815,7 @@ MP_RM_Registry.register("Order", (function($) {
 			},
 			/**
 			 * Add menu item
+			 *
 			 */
 			addMenuItem: function() {
 				$('[name="mprm-order-menu-item-select"]').on('change', function() {
@@ -861,27 +862,27 @@ MP_RM_Registry.register("Order", (function($) {
 
 					amount = parseFloat(amount);
 					if (isNaN(amount)) {
-						alert(admin_lang.numeric_item_price);
+						alert(mprm_admin_vars.numeric_item_price);
 						return false;
 					}
 
 					var item_price = amount;
 
-					if (admin_lang.quantities_enabled === '1') {
+					if (mprm_admin_vars.quantities_enabled === '1') {
 						if (!isNaN(parseInt(quantity))) {
 							amount = amount * quantity;
 						} else {
-							alert(admin_lang.numeric_quantity);
+							alert(mprm_admin_vars.numeric_quantity);
 							return false;
 						}
 					}
 
 
-					amount = amount.toFixed(admin_lang.currency_decimals);
+					amount = amount.toFixed(mprm_admin_vars.currency_decimals);
 
-					var formatted_amount = amount + admin_lang.currency_sign;
-					if ('before' === admin_lang.currency_pos) {
-						formatted_amount = admin_lang.currency_sign + amount;
+					var formatted_amount = amount + mprm_admin_vars.currency_sign;
+					if ('before' === mprm_admin_vars.currency_pos) {
+						formatted_amount = mprm_admin_vars.currency_sign + amount;
 					}
 
 					if (price_name) {
@@ -895,7 +896,7 @@ MP_RM_Registry.register("Order", (function($) {
 					clone.find('.item span a').text(menu_item_title);
 					clone.find('.price-text').text(formatted_amount);
 					clone.find('.item-quantity').text(quantity);
-					clone.find('.item-price').text(admin_lang.currency_sign + ( amount / quantity ).toFixed(admin_lang.currency_decimals));
+					clone.find('.item-price').text(mprm_admin_vars.currency_sign + ( amount / quantity ).toFixed(mprm_admin_vars.currency_decimals));
 					clone.find('input.mprm-order-detail-id').val(menu_item_id);
 					clone.find('input.mprm-order-detail-price-id').val(price_id);
 					clone.find('input.mprm-order-detail-item-price').val(item_price);
@@ -912,7 +913,7 @@ MP_RM_Registry.register("Order", (function($) {
 						$(this).attr('name', name).attr('id', name);
 					});
 
-					// Flag the Downloads section as changed
+					// Flag the Menu items section as changed
 					$('#mprm-payment-menu-items-changed').val(1);
 
 					$(clone).insertAfter('#mprm-purchased-wrapper .mprm-row.item:last');
@@ -922,7 +923,7 @@ MP_RM_Registry.register("Order", (function($) {
 
 			},
 			/**
-			 * Recalculate order total
+			 *  Recalculate order total
 			 */
 			recalculate_total: function() {
 
@@ -944,7 +945,7 @@ MP_RM_Registry.register("Order", (function($) {
 						});
 					}
 
-					$('input[name="mprm-order-total"]').val(total.toFixed(admin_lang.currency_decimals));
+					$('input[name="mprm-order-total"]').val(total.toFixed(mprm_admin_vars.currency_decimals));
 
 					$('.mprm-order-recalc-totals').hide();
 				});
@@ -963,7 +964,7 @@ MP_RM_Registry.register("Order", (function($) {
 
 						$('.mprm-order-recalc-totals').show();
 					} else {
-						alert(admin_lang.one_menu_item_min);
+						alert(mprm_admin_vars.one_menu_item_min);
 						return false;
 					}
 
@@ -1019,8 +1020,8 @@ MP_RM_Registry.register("Order", (function($) {
 			initChosen: function() {
 				$('.mprm-select-chosen').chosen({
 					inherit_select_classes: true,
-					placeholder_text_single: admin_lang.one_option,
-					placeholder_text_multiple: admin_lang.one_or_more_option
+					placeholder_text_single: mprm_admin_vars.one_option,
+					placeholder_text_multiple: mprm_admin_vars.one_or_more_option
 				});
 			},
 			/**
@@ -1120,7 +1121,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 			},
 			settingsUpload: function() {
 				// Settings Upload field JS
-				if (typeof wp === "undefined" || '1' !== admin_lang.new_media_ui) {
+				if (typeof wp === "undefined" || '1' !== mprm_admin_vars.new_media_ui) {
 					//Old Thickbox uploader
 					var mprm_settings_upload_button = $('.mprm_settings_upload_button');
 					if (mprm_settings_upload_button.length > 0) {
@@ -1130,9 +1131,9 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 							e.preventDefault();
 							window.formfield = $(this).parent().prev();
 							window.tbframe_interval = setInterval(function() {
-								jQuery('#TB_iframeContent').contents().find('.savesend .button').val(admin_lang.use_this_file).end().find('#insert-gallery, .wp-post-thumbnail').hide();
+								jQuery('#TB_iframeContent').contents().find('.savesend .button').val(mprm_admin_vars.use_this_file).end().find('#insert-gallery, .wp-post-thumbnail').hide();
 							}, 2000);
-							tb_show(admin_lang.add_new_menu_item, 'media-upload.php?TB_iframe=true');
+							tb_show(mprm_admin_vars.add_new_menu_item, 'media-upload.php?TB_iframe=true');
 						});
 
 						window.mprm_send_to_editor = window.send_to_editor;
@@ -1330,10 +1331,10 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 			openMediaWindow: function() {
 				if (this.window === undefined) {
 					this.window = wp.media({
-						title: window.admin_lang.insert_media,
+						title: window.mprm_admin_vars.insert_media,
 						library: {type: 'image'},
 						multiple: true,
-						button: {text: window.admin_lang.insert}
+						button: {text: window.mprm_admin_vars.insert}
 					});
 
 					var self = this;
@@ -1365,7 +1366,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 			 * Build images
 			 *
 			 * @param {type} $data
-			 * @returns {unresolved}
+			 * @returns
 			 */
 			_buildImages: function($data) {
 				var structure = [];
@@ -1396,10 +1397,10 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 												tag: "a",
 												attrs: {
 													"class": "mprm-delete",
-													title: window.admin_lang.delete_img,
+													title: window.mprm_admin_vars.delete_img,
 													href: "#"
 												},
-												content: window.admin_lang.delete
+												content: window.mprm_admin_vars.delete
 											}
 										]
 									}
@@ -1495,9 +1496,9 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 				if (this.window === undefined) {
 					// Create the media frame.
 					this.window = wp.media.frames.menu_itemable_file = wp.media({
-						title: window.admin_lang.choose_image,
+						title: window.mprm_admin_vars.choose_image,
 						button: {
-							text: window.admin_lang.use_image
+							text: window.mprm_admin_vars.use_image
 						},
 						multiple: false
 					});
@@ -1525,6 +1526,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Theme module
  */

@@ -140,7 +140,7 @@ class Gateways extends Model {
 			);
 			$price = $prices[$price_id]['amount'];
 		}
-		// Set up Downloads array
+		// Set up Menu items array
 		$menu_items = array(
 			array(
 				'id' => $menu_item_id,

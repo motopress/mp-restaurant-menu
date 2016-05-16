@@ -1,4 +1,4 @@
 <?php
-// {email} is replaced by the content entered in Downloads > Settings > Emails
+// {email} is replaced by the content entered in Menu items > Settings > Emails
 ?>
 {email}

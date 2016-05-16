@@ -69,6 +69,8 @@ class Hooks extends Core {
 		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
 		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
 		add_action("manage_edit-{$this->get_post_type('order')}_sortable_columns", array(Order::get_instance(), "order_sortable_columns"), 10, 2);
+		add_filter('request', array($this, 'order_order_total_orderby'));
+
 		// ajax redirect
 		add_action('wp_ajax_route_url', array(Core::get_instance(), "wp_ajax_route_url"));
 		//mce editor plugins
@@ -100,6 +102,7 @@ class Hooks extends Core {
 		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
+
 		add_action('http_api_curl', array($this, 'http_api_curl'));
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
@@ -754,6 +757,23 @@ class Hooks extends Core {
 		 */
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_header', 10);
 		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
+	}
+
+	/**
+	 * Order by order total
+	 *
+	 * @param $vars
+	 *
+	 * @return array
+	 */
+	public function order_order_total_orderby($vars) {
+		if (isset($vars['orderby']) && 'order_total' == $vars['orderby'] && $vars['post_type'] == 'mprm_order') {
+			$vars = array_merge($vars, array(
+				'meta_key' => '_mprm_order_total',
+				'orderby' => 'meta_value_num'
+			));
+		}
+		return $vars;
 	}
 
 	/**

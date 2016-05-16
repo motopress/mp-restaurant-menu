@@ -280,7 +280,7 @@ class Settings_emails extends Model {
 				$to = implode(',', $to);
 			}
 			$log_message = sprintf(
-				__("Email from Easy Digital Downloads failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n", 'mp-restaurant-menu'),
+				__("Email from Easy Digital Menu items failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n", 'mp-restaurant-menu'),
 				date_i18n('F j Y H:i:s', current_time('timestamp')),
 				$to,
 				$subject

@@ -32,7 +32,7 @@ class Fees extends Model {
 			}
 		}
 		if (!empty($fees) && !empty($menu_item_id)) {
-			// Remove fees that don't belong to the specified Download
+			// Remove fees that don't belong to the specified Menu item
 			foreach ($fees as $key => $fee) {
 				if ((int)$menu_item_id !== (int)$fee['menu_item_id']) {
 					unset($fees[$key]);
