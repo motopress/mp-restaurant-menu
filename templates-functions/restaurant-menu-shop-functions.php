@@ -829,8 +829,8 @@ function mprm_user_pending_verification($user_id = 0) {
 }
 
 function mprm_is_bundled_product($menu_item_id = 0) {
-	$download = new models\Menu_item($menu_item_id);
-	return $download->is_bundled_menu_item();
+	$menu_item = new models\Menu_item($menu_item_id);
+	return $menu_item->is_bundled_menu_item();
 }
 
 function mprm_count_purchases_of_customer() {

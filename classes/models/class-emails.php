@@ -338,6 +338,7 @@ class Emails extends Model {
 		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
 		$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
 		$emails = $this->get('settings_emails');
+
 		$emails->__set('from_name', $from_name);
 		$emails->__set('from_email', $from_email);
 		$admin_subject = sprintf(__('[%s] New User Registration', 'mp-restaurant-menu'), $from_name);
@@ -412,7 +413,7 @@ class Emails extends Model {
 			array(
 				'tag' => 'menu_item_list',
 				'description' => __('A list of menu item links for each menu item purchased', 'mp-restaurant-menu'),
-				'function' => 'text/html' == $this->get('settings_emails')->get_content_type() ? 'mprm_email_tag_download_list' : 'mprm_email_tag_download_list_plain'
+				'function' => 'text/html' == $this->get('settings_emails')->get_content_type() ? 'mprm_email_tag_menu_item_list' : 'mprm_email_tag_menu_item_list_plain'
 			),
 			array(
 				'tag' => 'name',

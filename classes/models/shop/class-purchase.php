@@ -781,6 +781,10 @@ class Purchase extends Model {
 		}
 	}
 
+	public function checkout_before_gateway() {
+
+	}
+
 	public function process_straight_to_gateway($data) {
 		$menu_item_id = $data['menu_item_id'];
 		$options = isset($data['mprm_options']) ? $data['mprm_options'] : array();

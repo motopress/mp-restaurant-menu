@@ -130,7 +130,7 @@ class Menu_item extends Model {
 
 		}
 
-		return apply_filters('mprm_get_download_type', $this->type, $this->ID);
+		return apply_filters('mprm_get_menu_item_type', $this->type, $this->ID);
 
 	}
 
