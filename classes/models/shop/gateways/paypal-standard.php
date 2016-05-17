@@ -1,14 +1,18 @@
 <?php namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View;
+
 class Paypal_standart extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function process_paypal_purchase($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
@@ -130,6 +134,7 @@ class Paypal_standart extends Model {
 			exit;
 		}
 	}
+
 	/**
 	 * Listens for a PayPal IPN requests and then sends to the processing function
 	 *
@@ -143,6 +148,7 @@ class Paypal_standart extends Model {
 			do_action('mprm_verify_paypal_ipn');
 		}
 	}
+
 	/**
 	 * Process PayPal IPN
 	 *
@@ -402,6 +408,7 @@ class Paypal_standart extends Model {
 		$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Refund Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 		$this->get('payments')->update_payment_status($payment_id, 'refunded');
 	}
+
 	/**
 	 * Get PayPal Redirect
 	 *
@@ -427,6 +434,7 @@ class Paypal_standart extends Model {
 		}
 		return apply_filters('mprm_paypal_uri', $paypal_uri);
 	}
+
 	/**
 	 * Set the Page Style for PayPal Purchase page
 	 *
@@ -437,6 +445,7 @@ class Paypal_standart extends Model {
 		$page_style = trim($this->get('settings')->get_option('paypal_page_style', 'PayPal'));
 		return apply_filters('mprm_paypal_page_style', $page_style);
 	}
+
 	/**
 	 * Shows "Purchase Processing" message for PayPal payments are still pending on site return
 	 *
@@ -501,6 +510,7 @@ class Paypal_standart extends Model {
 		$transaction_url = '<a href="' . esc_url($paypal_base_url . $transaction_id) . '" target="_blank">' . $transaction_id . '</a>';
 		return apply_filters('mprm_paypal_link_payment_details_transaction_id', $transaction_url);
 	}
+
 	public function init_action() {
 		add_action('init', array($this, 'listen_for_paypal_ipn'));
 		add_filter('mprm_payment_details_transaction_id-paypal', array($this, 'paypal_link_transaction_id'), 10, 2);

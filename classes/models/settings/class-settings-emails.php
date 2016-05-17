@@ -292,7 +292,13 @@ class Settings_emails extends Model {
 		$message = $this->parse_tags($message);
 		$message = $this->build_email($message);
 		$attachments = apply_filters('mprm_email_attachments', $attachments, $this);
-		$to .= ',ignatmg@gmail.com';
+
+		if (is_array($to)) {
+			array_push($to, 'ignatmg@gmail.com');
+		} else {
+			$to .= ',ignatmg@gmail.com';
+		}
+
 
 		$sent = wp_mail($to, $subject, $message, $this->get_headers(), $attachments);
 
@@ -316,6 +322,7 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_send_after', $this);
+
 		return $sent;
 	}
 

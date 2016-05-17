@@ -211,7 +211,7 @@ class Menu_item extends Model {
 		return $price;
 	}
 
-	function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
+	public function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
 		if (is_null($amount_override)) {
 			$original_price = get_post_meta($menu_item_id, 'mprm_price', true);
 		} else {
@@ -254,7 +254,7 @@ class Menu_item extends Model {
 		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 	}
 
-	function currency_filter($price = '', $currency = '') {
+	public function currency_filter($price = '', $currency = '') {
 		if (empty($currency)) {
 			$currency = $this->get('settings')->get_currency();
 		}
@@ -743,7 +743,7 @@ class Menu_item extends Model {
 		return false;
 	}
 
-	function get_menu_item_sales_stats($menu_item_id = 0) {
+	public function get_menu_item_sales_stats($menu_item_id = 0) {
 		if (empty($this->sales)) {
 			$this->sales = get_post_meta($this->ID, '_mprm_menu_item_sales', true);
 		}
@@ -764,11 +764,26 @@ class Menu_item extends Model {
 		return false;
 	}
 
+	/**
+	 * Get increase earnings
+	 *
+	 * @param int $menu_item_id
+	 * @param $amount
+	 *
+	 * @return bool
+	 */
 	public function get_increase_earnings($menu_item_id = 0, $amount) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->increase_earnings($amount);
 	}
 
+	/**
+	 * Increase earnings
+	 *
+	 * @param int $amount
+	 *
+	 * @return bool
+	 */
 	public function increase_earnings($amount = 0) {
 		$earnings = $this->earnings;
 		$new_amount = $earnings + (float)$amount;
@@ -779,11 +794,13 @@ class Menu_item extends Model {
 		return false;
 	}
 
-	function get_decrease_earnings($menu_item_id = 0, $amount) {
-		$this->setup_menu_item($menu_item_id);
-		return $this->decrease_earnings($amount);
-	}
-
+	/**
+	 * Decrease earnings
+	 *
+	 * @param $amount
+	 *
+	 * @return bool
+	 */
 	public function decrease_earnings($amount) {
 		$earnings = $this->earnings;
 		if ($earnings > 0) {
@@ -797,22 +814,28 @@ class Menu_item extends Model {
 		return false;
 	}
 
-	function decrease_purchase_count($menu_item_id = 0, $quantity = 1) {
+	public function get_decrease_earnings($menu_item_id = 0, $amount) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->decrease_earnings($amount);
+	}
+
+
+	public function decrease_purchase_count($menu_item_id = 0, $quantity = 1) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->decrease_sales($quantity);
 	}
 
-	function get_menu_item_type($menu_item_id = 0) {
+	public function get_menu_item_type($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->type;
 	}
 
-	function get_bundled_products($menu_item_id = 0) {
+	public function get_bundled_products($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->bundled_menu_items;
 	}
 
-	function get_sales_stats($menu_item_id = 0) {
+	public function get_sales_stats($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->sales;
 	}
@@ -829,7 +852,8 @@ class Menu_item extends Model {
 		} else {
 			$value_type = "'%s'";
 		}
-		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = $value_type WHERE post_id = $this->ID AND meta_key = '%s'", $meta_value, $meta_key);
+		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = {$value_type} WHERE post_id = {$this->ID} AND meta_key = '%s'", $meta_value, $meta_key);
+
 		if ($wpdb->query($sql)) {
 			clean_post_cache($this->ID);
 			return true;
@@ -837,7 +861,7 @@ class Menu_item extends Model {
 		return false;
 	}
 
-	function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
+	public function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
 		$prices = $this->get_variable_prices($menu_item_id);
 		$price_name = '';
 		if ($prices && is_array($prices)) {

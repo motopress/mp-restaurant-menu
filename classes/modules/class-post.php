@@ -163,8 +163,10 @@ class Post extends Module {
 				return $post_id;
 			}
 		}
-		if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
-			$this->get('payments')->update_payment_details($_POST);
+		if (isset($_POST['mprm_update'])) {
+			if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
+				$this->get('payments')->update_payment_details($_POST);
+			}
 		}
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type

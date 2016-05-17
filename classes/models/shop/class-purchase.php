@@ -805,6 +805,6 @@ class Purchase extends Model {
 		add_action('mprm_checkout_error_checks', array($this, 'check_purchase_email'), 10, 2);
 		add_action('wp_ajax_mprm_process_checkout_login', array($this, 'process_purchase_login'));
 		add_action('wp_ajax_nopriv_mprm_process_checkout_login', array($this, 'process_purchase_login'));
-		add_action('mprm_checkout_before_gateway', array($this, 'mprm_checkout_before_gateway'), 10, 3);
+		add_action('mprm_checkout_before_gateway', array($this, 'checkout_before_gateway'), 10, 3);
 	}
 }

@@ -27,8 +27,15 @@ class Payments extends Parent_query {
 
 	public function get_posts($args = array()) {
 		do_action('mprm_pre_get_order', $this);
-		//$this->setup_args($args);
 		$query = new \WP_Query($this->args);
+
+		$custom_output = array(
+			'orders'
+		);
+
+		if (in_array($this->args['output'], $custom_output)) {
+			return $query->posts;
+		}
 
 		if ($query->have_posts()) {
 			while ($query->have_posts()) {
@@ -53,20 +60,35 @@ class Payments extends Parent_query {
 		return $this->posts;
 	}
 
+	/**
+	 * Get payment by param
+	 *
+	 * @param string $field
+	 * @param string $value
+	 *
+	 * @return array|bool|mixed
+	 */
 	public function get_payment_by($field = '', $value = '') {
 		if (empty($field) || empty($value)) {
 			return false;
 		}
+
 		switch (strtolower($field)) {
+
 			case 'id':
 				$payment = $this->get('order');
+
 				$payment->setup_payment($value);
+
 				$id = $payment->ID;
+
 				if (empty($id)) {
 					return false;
 				}
+
 				break;
 			case 'key':
+
 				$payment = $this->get_payments(array(
 					'meta_key' => '_mprm_order_purchase_key',
 					'meta_value' => $value,
@@ -91,6 +113,7 @@ class Payments extends Parent_query {
 			default:
 				return false;
 		}
+
 		if ($payment) {
 			return $payment;
 		}
@@ -98,6 +121,13 @@ class Payments extends Parent_query {
 		return false;
 	}
 
+	/**
+	 * Insert payment
+	 *
+	 * @param array $payment_data
+	 *
+	 * @return bool
+	 */
 	public function insert_payment($payment_data = array()) {
 		if (empty($payment_data)) {
 			return false;
@@ -240,26 +270,28 @@ class Payments extends Parent_query {
 
 			}
 
-			$deleted_menu_items = json_decode(stripcslashes($data['mprm-order-removed']), true);
+			if (!empty($data['mprm-order-removed'])) {
+				$deleted_menu_items = json_decode(stripcslashes($data['mprm-order-removed']), true);
 
-			foreach ($deleted_menu_items as $deleted_menu_item) {
-				$deleted_menu_item = $deleted_menu_item[0];
+				foreach ($deleted_menu_items as $deleted_menu_item) {
+					$deleted_menu_item = $deleted_menu_item[0];
 
-				if (empty ($deleted_menu_item['id'])) {
-					continue;
+					if (empty ($deleted_menu_item['id'])) {
+						continue;
+					}
+
+					$price_id = empty($deleted_menu_item['price_id']) ? 0 : (int)$deleted_menu_item['price_id'];
+
+					$args = array(
+						'quantity' => (int)$deleted_menu_item['quantity'],
+						'price_id' => (int)$price_id,
+						'item_price' => (float)$deleted_menu_item['amount'],
+					);
+
+					$payment->remove_menu_item($deleted_menu_item['id'], $args);
+
+					do_action('mprm_remove_menu_item_from_payment', $payment_id, $deleted_menu_item['id']);
 				}
-
-				$price_id = empty($deleted_menu_item['price_id']) ? 0 : (int)$deleted_menu_item['price_id'];
-
-				$args = array(
-					'quantity' => (int)$deleted_menu_item['quantity'],
-					'price_id' => (int)$price_id,
-					'item_price' => (float)$deleted_menu_item['amount'],
-				);
-
-				$payment->remove_menu_item($deleted_menu_item['id'], $args);
-
-				do_action('mprm_remove_menu_item_from_payment', $payment_id, $deleted_menu_item['id']);
 			}
 		}
 
@@ -386,15 +418,29 @@ class Payments extends Parent_query {
 
 	}
 
+	/**
+	 * Update payment status
+	 *
+	 * @param $payment_id
+	 * @param string $new_status
+	 *
+	 * @return bool
+	 */
 	public function update_payment_status($payment_id, $new_status = 'publish') {
-		$payment = $this->get('order');
-		$payment->setup_payment($payment_id);
+		$payment = new Order($payment_id);
 		$payment->status = $new_status;
 		$updated = $payment->save();
 
 		return $updated;
 	}
 
+	/**
+	 * Delete purchase
+	 *
+	 * @param int $payment_id
+	 * @param bool $update_customer
+	 * @param bool $delete_menu_item_logs
+	 */
 	public function delete_purchase($payment_id = 0, $update_customer = true, $delete_menu_item_logs = false) {
 		global $mprm_logs;
 		$payment = new Order($payment_id);
@@ -423,31 +469,37 @@ class Payments extends Parent_query {
 		// Remove the payment
 		wp_delete_post($payment_id, true);
 		// Remove related sale log entries
-		$mprm_logs->delete_logs(
-			null,
-			'sale',
-			array(
-				array(
-					'key' => '_mprm_log_payment_id',
-					'value' => $payment_id
-				)
-			)
-		);
-		if ($delete_menu_item_logs) {
-			$mprm_logs->delete_logs(
-				null,
-				'file_menu_item',
-				array(
-					array(
-						'key' => '_mprm_log_payment_id',
-						'value' => $payment_id
-					)
-				)
-			);
-		}
+//		$mprm_logs->delete_logs(
+//			null,
+//			'sale',
+//			array(
+//				array(
+//					'key' => '_mprm_log_payment_id',
+//					'value' => $payment_id
+//				)
+//			)
+//		);
+//		if ($delete_menu_item_logs) {
+//			$mprm_logs->delete_logs(
+//				null,
+//				'file_menu_item',
+//				array(
+//					array(
+//						'key' => '_mprm_log_payment_id',
+//						'value' => $payment_id
+//					)
+//				)
+//			);
+//		}
 		do_action('mprm_order_deleted', $payment_id);
 	}
 
+	/**
+	 * Undo purchase
+	 *
+	 * @param bool $menu_item_id
+	 * @param $payment_id
+	 */
 	public function undo_purchase($menu_item_id = false, $payment_id) {
 		$payment = $this->get('order');
 
@@ -631,6 +683,14 @@ class Payments extends Parent_query {
 		return $exists;
 	}
 
+	/**
+	 * Get payment status
+	 *
+	 * @param $payment
+	 * @param bool $return_label
+	 *
+	 * @return bool|mixed
+	 */
 	public function get_payment_status($payment, $return_label = false) {
 		if (!is_object($payment) || !isset($payment->post_status)) {
 			return false;
@@ -788,10 +848,12 @@ class Payments extends Parent_query {
 					'offset' => 0,
 					'number' => -1,
 					'status' => array('publish', 'revoked'),
-					'fields' => 'ids'
+					'fields' => 'ids',
+					'output' => 'orders'
 				));
 
 				$payments = $this->get_payments($args);
+
 				if ($payments) {
 					if (did_action('mprm_update_payment_status')) {
 						array_pop($payments);
@@ -1346,7 +1408,10 @@ class Payments extends Parent_query {
 						do_action('mprm_complete_purchase', $menu_item['id'], $payment_id, $menu_item_type, $menu_item, $cart_index);
 					}
 				}
-				$this->get('menu_item')->increase_earnings($menu_item['id'], $menu_item['price']);
+				$menu_item_object = new Menu_item($menu_item['id']);
+
+				$menu_item_object->increase_earnings($menu_item['price']);
+
 				mprm_increase_purchase_count($menu_item['id'], $menu_item['quantity']);
 			}
 			// Clear the total earnings cache
@@ -1357,8 +1422,10 @@ class Payments extends Parent_query {
 		}
 		// Increase the customer's purchase stats
 		$customer = new Customer(array('field' => 'id', 'value' => $customer_id));
+
 		$customer->increase_purchase_count();
 		$customer->increase_value($amount);
+
 		$this->get('payments')->increase_total_earnings($amount);
 		// Check for discount codes and increment their use counts
 		if (!empty($user_info['discount']) && $user_info['discount'] !== 'none') {

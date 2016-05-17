@@ -329,6 +329,7 @@ final class Order extends Model {
 			return false;
 		}
 		$payment = get_post($payment_id);
+
 		if (!$payment || is_wp_error($payment)) {
 			return false;
 		}
@@ -1032,6 +1033,7 @@ final class Order extends Model {
 		if ($old_status === $status) {
 			return false; // Don't permit status changes that aren't changes
 		}
+
 		$do_change = apply_filters('mprm_should_update_payment_status', true, $this->ID, $status, $old_status);
 		$updated = false;
 		if ($do_change) {
@@ -1180,16 +1182,16 @@ final class Order extends Model {
 	private function delete_sales_logs() {
 		global $mprm_logs;
 		// Remove related sale log entries
-		$mprm_logs->delete_logs(
-			null,
-			'sale',
-			array(
-				array(
-					'key' => '_mprm_log_payment_id',
-					'value' => $this->ID,
-				),
-			)
-		);
+//		$mprm_logs->delete_logs(
+//			null,
+//			'sale',
+//			array(
+//				array(
+//					'key' => '_mprm_log_payment_id',
+//					'value' => $this->ID,
+//				),
+//			)
+//		);
 	}
 
 	private function setup_completed_date() {
