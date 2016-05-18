@@ -73,7 +73,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	</tbody>
 	<tfoot>
 	<?php if (has_action('mprm_cart_footer_buttons')) : ?>
-		<tr class="mprm_cart_footer_row<?php if (Cart::get_instance()->is_cart_saving_disabled()) {
+		<tr class="mprm_cart_footer_row<?php if (mprm_is_cart_saving_disabled()) {
 			echo ' mprm-no-js';
 		} ?>">
 			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>">

@@ -278,7 +278,6 @@ class Emails extends Model {
 		if (!$payment_object) {
 			return;
 		}
-
 		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
 		$from_name = apply_filters('mprm_purchase_from_name', $from_name, $payment_id, $payment_data);
 		$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));

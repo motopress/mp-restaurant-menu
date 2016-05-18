@@ -490,6 +490,7 @@ class Menu_item extends Model {
 
 	public function get_purchase_link($args) {
 		global $post, $mprm_displayed_form_ids;
+
 		if (!$this->is_menu_item($post)) {
 			return false;
 		}
@@ -504,16 +505,18 @@ class Menu_item extends Model {
 		}
 		$post_id = is_object($post) ? $post->ID : 0;
 		$button_behavior = $this->get_button_behavior($post_id);
+
 		$defaults = apply_filters('mprm_purchase_link_defaults', array(
 			'menu_item_id' => $post_id,
 			'price' => (bool)true,
 			'price_id' => isset($args['price_id']) ? $args['price_id'] : false,
 			'direct' => $button_behavior == 'direct' ? true : false,
-			'text' => $button_behavior == 'direct' ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', __('Purchase', 'mp-restaurant-menu')),
+			'text' => ($button_behavior == 'direct') ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', __('Add to Cart', 'mp-restaurant-menu')),
 			'style' => $this->get('settings')->get_option('button_style', 'button'),
 			'color' => $this->get('settings')->get_option('checkout_color', 'blue'),
 			'class' => 'mprm-submit'
 		));
+
 		$args = wp_parse_args($args, $defaults);
 		// Override the straight_to_gateway if the shop doesn't support it
 		//	if (mprm_shop_supports_buy_now()) {
@@ -547,13 +550,15 @@ class Menu_item extends Model {
 		$args['display_price'] = $data_price_value;
 		$data_price = 'data-price="' . $data_price_value . '"';
 		$button_text = !empty($args['text']) ? '&nbsp;&ndash;&nbsp;' . $args['text'] : '';
+
 		if (false !== $price) {
 			if (0 == $price) {
 				$args['text'] = __('Free', 'mp-restaurant-menu') . $button_text;
 			} else {
-				$args['text'] = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price($price)) . $button_text;
+				$args['text'] = apply_filters('mprm_show_price', false) ? $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price($price)) . $button_text : $args['text'];
 			}
 		}
+
 		if ($this->get('cart')->item_in_cart($post->ID, $options) && (!$variable_pricing || !$this->is_single_price_mode($post->ID))) {
 			$button_display = 'style="display:none;"';
 			$checkout_display = '';
@@ -561,6 +566,7 @@ class Menu_item extends Model {
 			$button_display = '';
 			$checkout_display = 'style="display:none;"';
 		}
+
 		// Collect any form IDs we've displayed already so we can avoid duplicate IDs
 		if (isset($mprm_displayed_form_ids[$post->ID])) {
 			$mprm_displayed_form_ids[$post->ID]++;

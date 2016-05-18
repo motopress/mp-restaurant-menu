@@ -696,7 +696,7 @@ function mprm_update_cart_button() {
 }
 
 function mprm_save_cart_button() {
-	if (models\Settings::get_instance()->is_cart_saving_disabled())
+	if (mprm_is_cart_saving_disabled())
 		return;
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
 	$color = ($color == 'inherit') ? '' : $color;

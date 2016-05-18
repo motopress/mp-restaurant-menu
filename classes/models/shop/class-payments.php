@@ -1405,7 +1405,7 @@ class Payments extends Parent_query {
 					// Ensure these actions only run once, ever
 					if (empty($completed_date)) {
 						//mprm_record_sale_in_log($menu_item['id'], $payment_id, $price_id, $creation_date);
-						do_action('mprm_complete_purchase', $menu_item['id'], $payment_id, $menu_item_type, $menu_item, $cart_index);
+						do_action('mprm_complete_menu_item_purchase', $menu_item['id'], $payment_id, $menu_item_type, $menu_item, $cart_index);
 					}
 				}
 				$menu_item_object = new Menu_item($menu_item['id']);
@@ -1449,9 +1449,9 @@ class Payments extends Parent_query {
 
 	public function record_status_change($payment_id, $new_status, $old_status) {
 		// Get the list of statuses so that status in the payment note can be translated
-		$stati = $this->get('payments')->get_payment_statuses();
-		$old_status = isset($stati[$old_status]) ? $stati[$old_status] : $old_status;
-		$new_status = isset($stati[$new_status]) ? $stati[$new_status] : $new_status;
+		$status = $this->get('payments')->get_payment_statuses();
+		$old_status = isset($status[$old_status]) ? $status[$old_status] : $old_status;
+		$new_status = isset($status[$new_status]) ? $status[$new_status] : $new_status;
 		$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
 		$this->get('payments')->insert_payment_note($payment_id, $status_change);
 	}

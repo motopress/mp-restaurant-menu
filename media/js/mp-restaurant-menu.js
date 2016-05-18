@@ -559,6 +559,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							$('.mprm-no-js').hide();
 							$('#mprm_purchase_form_wrap').html(data.html);
 							state.purchaseForm();
+							state.showTerms();
 						},
 						function(data) {
 							console.warn('Some error!!!');
@@ -664,7 +665,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						e.preventDefault();
 
 						var purchaseForm = document.getElementById('mprm_purchase_form');
-
 						if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
 							return;
 						}
@@ -711,6 +711,16 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					}
 				});
 
+			},
+			/**
+			 * Terms show/hide
+			 */
+			showTerms: function() {
+				$('#mprm_show_terms .mprm_terms_links').on('click', function(e) {
+					e.preventDefault();
+					$(this).parents('#mprm_show_terms').find('.mprm_terms_links').toggle();
+					$('#mprm_terms').toggle();
+				});
 			}
 		}
 	}
@@ -1599,6 +1609,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 		if ($('#mprm_purchase_submit').length) {
 			MP_RM_Registry._get('Menu-Shop').purchaseForm();
+
 		}
 
 
@@ -1606,6 +1617,7 @@ MP_RM_Registry.register("Theme", (function($) {
 			MP_RM_Registry._get('Menu-Shop').loadGateway();
 			MP_RM_Registry._get('Menu-Shop').changeGateway();
 			MP_RM_Registry._get('Menu-Shop').update_item_quantities();
+			MP_RM_Registry._get('Menu-Shop').showTerms();
 		}
 
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();

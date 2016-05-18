@@ -69,6 +69,13 @@ class Settings extends Model {
 		return $this->get_arr($params, $success);
 	}
 
+	/**
+	 * Currency symbol
+	 *
+	 * @param string $currency
+	 *
+	 * @return string
+	 */
 	public function get_currency_symbol($currency = '') {
 		if (!$currency) {
 			$currency = $this->get_settings('currency_code');
@@ -203,11 +210,23 @@ class Settings extends Model {
 		return $currency_symbol;
 	}
 
-	function get_currency() {
+	/**
+	 * Currency
+	 *
+	 * @default USD
+	 *
+	 * @return mixed|void
+	 */
+	public function get_currency() {
 		$currency = $this->get_option('currency', 'USD');
 		return apply_filters('mprm_currency', $currency);
 	}
 
+	/**
+	 * Get list currencies
+	 *
+	 * @return mixed|void
+	 */
 	public function get_currencies() {
 		$currencies = array(
 			'USD' => __('US Dollars (&#36;)', 'mp-restaurant-menu'),
@@ -1197,17 +1216,12 @@ class Settings extends Model {
 		return $country;
 	}
 
-	function get_shop_state() {
+	public function get_shop_state() {
 		$state = $this->get_option('base_state', false);
 		return apply_filters('mprm_shop_state', $state);
 	}
 
-	function is_cart_saving_disabled() {
-		$ret = $this->get_option('enable_cart_saving', false);
-		return apply_filters('mprm_cart_saving_disabled', !$ret);
-	}
-
-	function logged_in_only() {
+	public function logged_in_only() {
 		$ret = $this->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_logged_in_only', $ret);
 	}

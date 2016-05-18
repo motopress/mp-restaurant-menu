@@ -1,71 +1,88 @@
 <?php
 namespace mp_restaurant_menu\classes\widgets;
+
 use mp_restaurant_menu\classes\View;
+
 class Cart_widget extends \WP_Widget {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function __construct() {
-		$this->widget_cssclass = 'mprm_widget';
-		$this->widget_description = __('Display cart.', 'mp-restaurant-menu');
-		$this->widget_id = 'mprm_cart';
-		$this->widget_name = __('Restaurant Menu Cart', 'mp-restaurant-menu');
-		$widget_ops = array(
-			'classname' => $this->widget_cssclass,
-			'description' => $this->widget_description
-		);
-		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
+		parent::__construct('mprm_cart_widget', __('Menu items Cart', 'mp-restaurant-menu'), array('description' => __('Display the menu items shopping cart', 'mp-restaurant-menu')));
 	}
+
 	/**
-	 * Get default data
-	 *
-	 * @param array $instance
-	 *
-	 * @return string
+	 * @see WP_Widget::widget
 	 */
-	function get_data($instance) {
-		if (!empty($instance)) {
-			$data = $instance;
-		} else {
-			//default configuration
-			$data = array(
-				"view" => "grid",
-				"col" => "1",
-				"sort" => "title",
-				"categ_name" => "1",
-				"feat_img" => "1",
-				"categ_icon" => "1",
-				"categ_descr" => "1"
-			);
+	function widget($args, $instance) {
+
+		if (!empty($instance['hide_on_checkout']) && mprm_is_checkout()) {
+			return;
 		}
-		return $data;
+
+		$args['id'] = (isset($args['id'])) ? $args['id'] : 'mprm_cart_widget';
+		$instance['title'] = (isset($instance['title'])) ? $instance['title'] : '';
+
+		$title = apply_filters('widget_title', $instance['title'], $instance, $args['id']);
+
+		echo $args['before_widget'];
+
+		if ($title) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
+
+		do_action('mprm_before_cart_widget');
+
+
+
+
+
+//		edd_shopping_cart(true);
+
+		do_action('mprm_after_cart_widget');
+
+		echo $args['after_widget'];
 	}
+
 	/**
-	 * @param array $instance
-	 *
-	 * @return void
+	 * @see WP_Widget::update
 	 */
-	public function form($instance) {
-		$data = $this->get_data($instance);
-		$data['widget_object'] = $this;
-		View::get_instance()->render_html('../admin/widgets/category/form', $data, true);
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['hide_on_checkout'] = isset($new_instance['hide_on_checkout']);
+
+		return $instance;
 	}
-	/**
-	 * Display widget
-	 *
-	 * @param array $args
-	 * @param array $instance
-	 */
-	public function widget($args, $instance) {
-		$data = $this->get_data($instance);
-		global $mprm_view_args, $mprm_widget_args;
-		$mprm_view_args = $data;
-		$mprm_view_args['action_path'] = "widgets/cart/{$data['view']}/item";
-		$mprm_widget_args = $args;
-		View::get_instance()->render_html("widgets/cart/index", $data, true);
+
+	/** @see WP_Widget::form */
+	function form($instance) {
+
+		$defaults = array(
+			'title' => '',
+			'hide_on_checkout' => false,
+		);
+
+		$instance = wp_parse_args((array)$instance, $defaults); ?>
+		<p>
+			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title:', 'mp-restaurant-menu'); ?></label>
+			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo $instance['title']; ?>"/>
+		</p>
+
+		<p>
+			<input <?php checked($instance['hide_on_checkout'], true); ?> id="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>" name="<?php echo esc_attr($this->get_field_name('hide_on_checkout')); ?>" type="checkbox"/>
+			<label for="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>"><?php _e('Hide on Checkout Page', 'mp-restaurant-menu'); ?></label>
+		</p>
+
+		<?php
 	}
 }
+
+

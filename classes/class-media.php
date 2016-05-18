@@ -594,35 +594,35 @@ class Media extends Core {
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
-						'locale_settings' => array(
-							'id' => 'locale_settings',
-							'name' => '<h3>' . __('Store Location', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),
-						'base_country' => array(
-							'id' => 'base_country',
-							'name' => __('Base Country', 'mp-restaurant-menu'),
-							'desc' => __('Where does your store operate from?', 'mp-restaurant-menu'),
-							'type' => 'select',
-							'options' => Settings::get_instance()->get_country_list(),
-							'chosen' => true,
-							'placeholder' => __('Select a country', 'mp-restaurant-menu'),
-						),
-						'base_state' => array(
-							'id' => 'base_state',
-							'name' => __('Base State / Province', 'mp-restaurant-menu'),
-							'desc' => __('What state / province does your store operate from?', 'mp-restaurant-menu'),
-							'type' => 'shop_states',
-							'chosen' => true,
-							'placeholder' => __('Select a state', 'mp-restaurant-menu'),
-						),
-						'tracking_settings' => array(
-							'id' => 'tracking_settings',
-							'name' => '<h3>' . __('Tracking Settings', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						)
+//						'locale_settings' => array(
+//							'id' => 'locale_settings',
+//							'name' => '<h3>' . __('Store Location', 'mp-restaurant-menu') . '</h3>',
+//							'desc' => '',
+//							'type' => 'header',
+//						),
+//						'base_country' => array(
+//							'id' => 'base_country',
+//							'name' => __('Base Country', 'mp-restaurant-menu'),
+//							'desc' => __('Where does your store operate from?', 'mp-restaurant-menu'),
+//							'type' => 'select',
+//							'options' => Settings::get_instance()->get_country_list(),
+//							'chosen' => true,
+//							'placeholder' => __('Select a country', 'mp-restaurant-menu'),
+//						),
+//						'base_state' => array(
+//							'id' => 'base_state',
+//							'name' => __('Base State / Province', 'mp-restaurant-menu'),
+//							'desc' => __('What state / province does your store operate from?', 'mp-restaurant-menu'),
+//							'type' => 'shop_states',
+//							'chosen' => true,
+//							'placeholder' => __('Select a state', 'mp-restaurant-menu'),
+//						),
+//						'tracking_settings' => array(
+//							'id' => 'tracking_settings',
+//							'name' => '<h3>' . __('Tracking Settings', 'mp-restaurant-menu') . '</h3>',
+//							'desc' => '',
+//							'type' => 'header',
+//						)
 					),
 					'currency' => array(
 						'currency_settings' => array(
@@ -1017,7 +1017,7 @@ class Media extends Core {
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
 							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Require that users be logged-in to purchase files.', 'mp-restaurant-menu'),
+							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'show_register_form' => array(
@@ -1033,12 +1033,12 @@ class Media extends Core {
 								'none' => __('None', 'mp-restaurant-menu'),
 							),
 						),
-						'allow_multiple_discounts' => array(
-							'id' => 'allow_multiple_discounts',
-							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
-							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
+//						'allow_multiple_discounts' => array(
+//							'id' => 'allow_multiple_discounts',
+//							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
+//							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
 						'enable_cart_saving' => array(
 							'id' => 'enable_cart_saving',
 							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
@@ -1065,14 +1065,15 @@ class Media extends Core {
 							'desc' => __('Text shown on the Add to Cart Buttons.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => __('Add to Cart', 'mp-restaurant-menu'),
-						),
-						'buy_now_text' => array(
-							'id' => 'buy_now_text',
-							'name' => __('Buy Now Text', 'mp-restaurant-menu'),
-							'desc' => __('Text shown on the Buy Now Buttons.', 'mp-restaurant-menu'),
-							'type' => 'text',
-							'std' => __('Buy Now', 'mp-restaurant-menu'),
-						),
+						)
+//					,
+//						'buy_now_text' => array(
+//							'id' => 'buy_now_text',
+//							'name' => __('Buy Now Text', 'mp-restaurant-menu'),
+//							'desc' => __('Text shown on the Buy Now Buttons.', 'mp-restaurant-menu'),
+//							'type' => 'text',
+//							'std' => __('Buy Now', 'mp-restaurant-menu'),
+//						)
 					),
 					'file_menu_items' => array(
 						'file_settings' => array(
@@ -1119,45 +1120,45 @@ class Media extends Core {
 							'type' => 'checkbox',
 						),
 					),
-					'accounting' => array(
-						'accounting_settings' => array(
-							'id' => 'accounting_settings',
-							'name' => '<h3>' . __('Accounting Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'enable_skus' => array(
-							'id' => 'enable_skus',
-							'name' => __('Enable SKU Entry', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to allow entry of product SKUs. SKUs will be shown on purchase receipt and exported purchase histories.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'enable_sequential' => array(
-							'id' => 'enable_sequential',
-							'name' => __('Sequential Order Numbers', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to enable sequential order numbers.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'sequential_start' => array(
-							'id' => 'sequential_start',
-							'name' => __('Sequential Starting Number', 'mp-restaurant-menu'),
-							'desc' => __('The number at which the sequence should begin.', 'mp-restaurant-menu'),
-							'type' => 'number',
-							'size' => 'small',
-							'std' => '1',
-						),
-						'sequential_prefix' => array(
-							'id' => 'sequential_prefix',
-							'name' => __('Sequential Number Prefix', 'mp-restaurant-menu'),
-							'desc' => __('A prefix to prepend to all sequential order numbers.', 'mp-restaurant-menu'),
-							'type' => 'text',
-						),
-						'sequential_postfix' => array(
-							'id' => 'sequential_postfix',
-							'name' => __('Sequential Number Postfix', 'mp-restaurant-menu'),
-							'desc' => __('A postfix to append to all sequential order numbers.', 'mp-restaurant-menu'),
-							'type' => 'text',
-						),
-					),
+//					'accounting' => array(
+//						'accounting_settings' => array(
+//							'id' => 'accounting_settings',
+//							'name' => '<h3>' . __('Accounting Settings', 'mp-restaurant-menu') . '</h3>',
+//							'type' => 'header',
+//						),
+//						'enable_skus' => array(
+//							'id' => 'enable_skus',
+//							'name' => __('Enable SKU Entry', 'mp-restaurant-menu'),
+//							'desc' => __('Check this box to allow entry of product SKUs. SKUs will be shown on purchase receipt and exported purchase histories.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'enable_sequential' => array(
+//							'id' => 'enable_sequential',
+//							'name' => __('Sequential Order Numbers', 'mp-restaurant-menu'),
+//							'desc' => __('Check this box to enable sequential order numbers.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'sequential_start' => array(
+//							'id' => 'sequential_start',
+//							'name' => __('Sequential Starting Number', 'mp-restaurant-menu'),
+//							'desc' => __('The number at which the sequence should begin.', 'mp-restaurant-menu'),
+//							'type' => 'number',
+//							'size' => 'small',
+//							'std' => '1',
+//						),
+//						'sequential_prefix' => array(
+//							'id' => 'sequential_prefix',
+//							'name' => __('Sequential Number Prefix', 'mp-restaurant-menu'),
+//							'desc' => __('A prefix to prepend to all sequential order numbers.', 'mp-restaurant-menu'),
+//							'type' => 'text',
+//						),
+//						'sequential_postfix' => array(
+//							'id' => 'sequential_postfix',
+//							'name' => __('Sequential Number Postfix', 'mp-restaurant-menu'),
+//							'desc' => __('A postfix to append to all sequential order numbers.', 'mp-restaurant-menu'),
+//							'type' => 'text',
+//						),
+//					),
 					'site_terms' => array(
 						'terms_settings' => array(
 							'id' => 'terms_settings',
@@ -1243,7 +1244,7 @@ class Media extends Core {
 				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
 				'button_text' => __('Button Text', 'mp-restaurant-menu'),
 //				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
-				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
+//				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
 			)),
 		);

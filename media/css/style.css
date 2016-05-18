@@ -318,6 +318,11 @@ there.
 /* Larger than tablet */
 /* Larger than desktop */
 /* Larger than Desktop HD */
+@media (max-width: 550px) {
+  .mprm-column .mprm-columns {
+    margin-bottom: 1rem;
+  }
+}
 /* =============== Shortcode style start ========*/
 .mprm-container.mprm-shortcode-categories {
   margin: 2rem 0;

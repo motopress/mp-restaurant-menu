@@ -602,8 +602,9 @@ class Cart extends Model {
 	}
 
 	public function is_cart_saved() {
-		if ($this->get('settings')->is_cart_saving_disabled())
+		if ($this->is_cart_saving_disabled()) {
 			return false;
+		}
 		if (is_user_logged_in()) {
 			$saved_cart = get_user_meta(get_current_user_id(), 'mprm_saved_cart', true);
 			// Check that a cart exists

