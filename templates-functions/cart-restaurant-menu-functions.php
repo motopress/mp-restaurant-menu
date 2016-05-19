@@ -38,7 +38,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	}
 
 
-	$item = View::get_instance()->render_html('widgets\cart\cart-item');
+	$item = View::get_instance()->render_html('widgets\cart\cart-item', array(), false);
 
 
 	$item = str_replace('{item_title}', $title, $item);
@@ -66,7 +66,6 @@ function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove
 
 function mprm_remove_item_url($cart_key) {
 	return models\Cart::get_instance()->remove_item_url($cart_key);
-
 }
 
 function mprm_get_price_name($menu_item_id = 0, $options = array()) {

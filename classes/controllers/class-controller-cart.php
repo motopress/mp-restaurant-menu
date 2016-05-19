@@ -8,7 +8,8 @@ use mp_restaurant_menu\classes\View;
 
 class Controller_cart extends Controller {
 	protected static $instance;
-	private $date;
+
+	private $date = array('data' => array());
 
 	public static function get_instance() {
 		if (null === self::$instance) {
@@ -17,35 +18,55 @@ class Controller_cart extends Controller {
 		return self::$instance;
 	}
 
-	function __construct() {
-		$this->date = array();
-	}
-
+	/**
+	 * Add item to cart
+	 */
 	public function action_add_to_cart() {
-		$this->date['data'] = array();
 		$request = $_REQUEST;
 		$cartCount = $this->get('cart')->add_to_cart($request['menu_item_id']);
 		if ((bool)$request['is_ajax']) {
 			$this->date['success'] = (is_numeric($cartCount)) ? true : false;
+			$this->date['data']['cart'] = View::get_instance()->render_html('widgets/cart/index', array(), false);
 			$this->send_json($this->date);
 		} else {
-			wp_safe_redirect($request['_wp_http_referer']);
+
+			if (wp_get_referer()) {
+
+				wp_safe_redirect(wp_get_referer());
+
+			} else {
+
+				wp_safe_redirect($request['_wp_http_referer']);
+			}
+
 		}
 	}
 
+	/**
+	 * Remove from cart
+	 */
 	public function action_remove() {
 		$request = $_REQUEST;
 		$this->get('cart')->remove_from_cart($request['cart_item']);
-		wp_safe_redirect($this->get('checkout')->get_checkout_uri());
+		if (wp_get_referer()) {
+			wp_safe_redirect(wp_get_referer());
+		} else {
+			wp_safe_redirect($this->get('checkout')->get_checkout_uri());
+		}
 	}
 
+	/**
+	 * Load gateway
+	 */
 	public function action_load_gateway() {
-		$this->date['data'] = array();
 		$this->date['data']['html'] = View::get_instance()->render_html('/shop/purchase-form', $this->date['data'], false);
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}
 
+	/**
+	 *  Purchase
+	 */
 	public function action_purchase() {
 
 		if (Core::is_ajax()) {
@@ -55,6 +76,9 @@ class Controller_cart extends Controller {
 		}
 	}
 
+	/**
+	 * Update cart item quantity
+	 */
 	public function action_update_cart_item_quantity() {
 		if (!empty($_POST['quantity']) && !empty($_POST['menu_item_id'])) {
 

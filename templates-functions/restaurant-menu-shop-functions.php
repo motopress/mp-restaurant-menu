@@ -889,6 +889,10 @@ function mprm_is_payment_complete($payment_id) {
 	return models\Payments::get_instance()->is_payment_complete($payment_id);
 }
 
+function mprm_clean($var) {
+	return is_array($var) ? array_map('mprm_clean', $var) : sanitize_text_field($var);
+}
+
 function mprm_menu_item_dropdown($data) {
 	$menu_items = mprm_get_menu_items(array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item'));
 

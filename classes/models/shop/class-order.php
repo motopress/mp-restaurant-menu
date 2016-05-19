@@ -92,6 +92,13 @@ final class Order extends Model {
 		$this->setup_payment($payment_id);
 	}
 
+	/**
+	 * Magic method get
+	 *
+	 * @param $key
+	 *
+	 * @return mixed
+	 */
 	public function __get($key) {
 		if (method_exists($this, 'get_' . $key)) {
 			$value = call_user_func(array($this, 'get_' . $key));
@@ -100,6 +107,13 @@ final class Order extends Model {
 		}
 		return $value;
 	}
+
+	/**
+	 * Magic method set
+	 *
+	 * @param $key
+	 * @param $value
+	 */
 
 	public function __set($key, $value) {
 		$ignore = array('menu_items', 'cart_details', 'fees', '_ID');
@@ -211,6 +225,8 @@ final class Order extends Model {
 		$columns['cb'] = $existing_columns['cb'];
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
+		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
+		$columns['order_customer_note'] = __('Customer note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
@@ -229,8 +245,7 @@ final class Order extends Model {
 		$order = new $this($post->ID);
 		switch ($column) {
 			case 'order_status':
-				echo $this->get('payments')->get_payment_status($post);
-				//echo ucfirst($post->post_status);
+				echo ucfirst($this->get('payments')->get_payment_status($post));
 				break;
 			case  'order_title':
 				$order_user = $this->get_user($post);
@@ -258,8 +273,12 @@ final class Order extends Model {
 				}
 				echo '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __('Show more details', 'mp-restaurant-menu') . '</span></button>';
 				break;
+			case 'order_ship_to':
+				break;
+			case 'order_customer_note':
+				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
+				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d purchase', '%d purchases', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
 				if (sizeof($order->menu_items) > 0) {
 				}
 				break;
@@ -269,7 +288,7 @@ final class Order extends Model {
 				echo $value;
 				break;
 			case 'order_total' :
-				echo $order->total;
+				echo mprm_currency_filter(mprm_format_amount($order->total));
 				break;
 			default:
 				break;

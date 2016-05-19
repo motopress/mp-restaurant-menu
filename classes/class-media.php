@@ -46,7 +46,7 @@ class Media extends Core {
 		));
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Shop orders', 'mp-restaurant-menu'),
+			'title' => __('Orders', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'edit_posts',
 		));
