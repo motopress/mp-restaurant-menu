@@ -100,6 +100,30 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
+		register_post_status('mprm-preparing', array(
+			'label' => _x('Preparing', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Preparing <span class="count">(%s)</span>', 'Preparing <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+		register_post_status('mprm-shipping', array(
+			'label' => _x('Shipping', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Shipping <span class="count">(%s)</span>', 'Shipping <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+		register_post_status('mprm-shipped', array(
+			'label' => _x('Shipped', 'Order status', 'mp-restaurant-menu'),
+			'public' => false,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Shipped <span class="count">(%s)</span>', 'Shipped <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
 	}
 
 	/**

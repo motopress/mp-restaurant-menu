@@ -497,6 +497,10 @@ function mprm_terms_agreement() {
 	}
 }
 
+function mprm_checkout_additional_information() {
+	View::get_instance()->render_html('/shop/checkout-additional-information');
+}
+
 function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
 }
@@ -984,6 +988,3 @@ function mprm_get_option($key, $default = false) {
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
 }
-
-
-?>

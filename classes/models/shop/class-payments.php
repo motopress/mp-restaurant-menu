@@ -134,6 +134,7 @@ class Payments extends Parent_query {
 		}
 
 		$payment = $this->get('order');
+		$session = $this->get('session')->get_session_by_key('mprm_purchase');
 		if (is_array($payment_data['cart_details']) && !empty($payment_data['cart_details'])) {
 			foreach ($payment_data['cart_details'] as $item) {
 				$args = array(
@@ -166,6 +167,12 @@ class Payments extends Parent_query {
 		$payment->mode = $this->get('misc')->is_test_mode() ? 'test' : 'live';
 		$payment->parent_payment = !empty($payment_data['parent']) ? absint($payment_data['parent']) : '';
 		$payment->discounts = !empty($payment_data['user_info']['discount']) ? $payment_data['user_info']['discount'] : array();
+
+		$payment->customer_note = !empty($session['customer_note']) ? $session['customer_note'] : '';
+		$payment->shipping_adress = !empty($session['shipping_adress']) ? $session['shipping_adress'] : '';
+		$payment->phone_number = !empty($session['phone_number']) ? $session['phone_number'] : '';
+
+
 		if (isset($payment_data['post_date'])) {
 			$payment->date = $payment_data['post_date'];
 		}
@@ -722,7 +729,10 @@ class Payments extends Parent_query {
 			'refunded' => __('Refunded', 'mp-restaurant-menu'),
 			'failed' => __('Failed', 'mp-restaurant-menu'),
 			'abandoned' => __('Abandoned', 'mp-restaurant-menu'),
-			'revoked' => __('Revoked', 'mp-restaurant-menu')
+			'revoked' => __('Revoked', 'mp-restaurant-menu'),
+			'mprm-preparing' => __('Preparing', 'mp-restaurant-menu'),
+			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
+			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
 		);
 
 		return apply_filters('mprm_payment_statuses', $payment_statuses);

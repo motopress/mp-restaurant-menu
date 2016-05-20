@@ -61,6 +61,12 @@ final class Order extends Model {
 
 	protected $ip = '';
 
+	protected $customer_note = '';
+
+	protected $shipping_adress = '';
+
+	protected $phone_number = '';
+
 	protected $gateway = '';
 
 	protected $currency = '';
@@ -198,6 +204,15 @@ final class Order extends Model {
 			'low',
 			array('post_type' => $this->get_post_type('order'))
 		);
+		add_meta_box(
+			'customer-notes',
+			__('Order Notes', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
 
 
 	}
@@ -248,18 +263,26 @@ final class Order extends Model {
 				echo ucfirst($this->get('payments')->get_payment_status($post));
 				break;
 			case  'order_title':
+				;
+
 				$order_user = $this->get_user($post);
+
 				if (!empty($order_user)) {
 					$user_info = get_userdata($order_user);
 				}
 				if (!empty($user_info)) {
-					$username = '<a href="user-edit.php?user_id=' . absint($user_info->ID) . '">';
-					if ($user_info->first_name || $user_info->last_name) {
-						$username .= esc_html(sprintf(_x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), ucfirst($user_info->first_name), ucfirst($user_info->last_name)));
+					if (empty($order->user_info)) {
+
+						$username = '<a href="user-edit.php?user_id=' . absint($user_info->ID) . '">';
+						if ($user_info->first_name || $user_info->last_name) {
+							$username .= esc_html(sprintf(_x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), ucfirst($user_info->first_name), ucfirst($user_info->last_name)));
+						} else {
+							$username .= esc_html(ucfirst($user_info->display_name));
+						}
+						$username .= '</a>';
 					} else {
-						$username .= esc_html(ucfirst($user_info->display_name));
+						$username = $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . '<br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
 					}
-					$username .= '</a>';
 				} else {
 					if ($post->billing_first_name || $post->billing_last_name) {
 						$username = trim(sprintf(_x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), $post->billing_first_name, $post->billing_last_name));
@@ -267,15 +290,18 @@ final class Order extends Model {
 						$username = __('Guest', 'mp-restaurant-menu');
 					}
 				}
+
 				printf(_x('%s by %s', 'Order number by X', 'mp-restaurant-menu'), '<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username);
 				if ($post->billing_email) {
 					echo '<small class="meta email"><a href="' . esc_url('mailto:' . $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
-				echo '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __('Show more details', 'mp-restaurant-menu') . '</span></button>';
+
 				break;
 			case 'order_ship_to':
+				echo $order->shipping_adress;
 				break;
 			case 'order_customer_note':
+				echo $order->customer_note;
 				break;
 			case 'order_items' :
 				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d purchase', '%d purchases', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
@@ -396,9 +422,14 @@ final class Order extends Model {
 		$this->discounts = $this->user_info['discount'];
 		$this->first_name = $this->user_info['first_name'];
 		$this->last_name = $this->user_info['last_name'];
+		//additional information
+		$this->phone_number = $this->setup_phone_number();
+		$this->shipping_adress = $this->setup_shipping_adress();
+		$this->customer_note = $this->setup_customer_note();
 		// Other Identifiers
 		$this->key = $this->setup_payment_key();
 		$this->number = $this->setup_payment_number();
+
 		// Additional Attributes
 		$this->has_unlimited_menu_items = $this->setup_has_unlimited();
 		// Allow extensions to add items to this object via hook
@@ -623,6 +654,15 @@ final class Order extends Model {
 						break;
 					case 'number':
 						$this->update_meta('_mprm_order_number', $this->number);
+						break;
+					case 'customer_note':
+						$this->update_meta('_mprm_order_customer_note', $this->customer_note);
+						break;
+					case 'shipping_adress':
+						$this->update_meta('_mprm_order_shipping_adress', $this->shipping_adress);
+						break;
+					case 'phone_number':
+						$this->update_meta('_mprm_order_phone_number', $this->phone_number);
 						break;
 					case 'date':
 						$args = array(
@@ -1319,6 +1359,21 @@ final class Order extends Model {
 		return $user_id;
 	}
 
+	private function setup_phone_number() {
+		$phone_number = $this->get_meta('_mprm_order_phone_number', true);
+		return $phone_number;
+	}
+
+	private function setup_shipping_adress() {
+		$shipping_adress = $this->get_meta('_mprm_order_shipping_adress', true);
+		return $shipping_adress;
+	}
+
+	private function setup_customer_note() {
+		$customer_note = $this->get_meta('_mprm_order_customer_note', true);
+		return $customer_note;
+	}
+
 	public function setup_email() {
 		$email = $this->get_meta('_mprm_order_user_email', true);
 		if (empty($email)) {
@@ -1417,6 +1472,18 @@ final class Order extends Model {
 
 	private function get_cart_details() {
 		return apply_filters('mprm_payment_cart_details', $this->cart_details, $this->ID, $this);
+	}
+
+	private function get_phone_number() {
+		return apply_filters('mprm_payment_phone_number', $this->phone_number, $this->ID, $this);
+	}
+
+	private function get_shipping_adress() {
+		return apply_filters('mprm_payment_shipping_adress', $this->shipping_adress, $this->ID, $this);
+	}
+
+	private function get_customer_note() {
+		return apply_filters('mprm_payment_customer_note', $this->customer_note, $this->ID, $this);
 	}
 
 	private function get_completed_date() {

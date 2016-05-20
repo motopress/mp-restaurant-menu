@@ -4,6 +4,7 @@ $order = mprm_get_order_object($post);
 $order_id = $order->ID;
 $gateway = $order->gateway;
 $transaction_id = esc_attr($order->transaction_id);
+$phone = esc_attr($order->phone_number);
 ?>
 <div id="mprm-order-details" class="mprm-order-data">
 	<div class="mprm-admin-box">
@@ -39,6 +40,15 @@ $transaction_id = esc_attr($order->transaction_id);
 				<p>
 					<span class="label"><?php _e('Transaction ID:', 'mp-restaurant-menu'); ?></span>&nbsp;
 					<span><?php echo apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id); ?></span>
+				</p>
+			</div>
+		<?php endif; ?>
+
+		<?php if ($phone) : ?>
+			<div class="mprm-order-tx-phone mprm-admin-box-inside">
+				<p>
+					<span class="label"><?php _e('Contact phone:', 'mp-restaurant-menu'); ?></span>&nbsp;
+					<span><?php echo apply_filters('mprm_order_phone', $phone, $order_id); ?></span>
 				</p>
 			</div>
 		<?php endif; ?>

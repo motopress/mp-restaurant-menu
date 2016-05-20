@@ -55,6 +55,10 @@ class Hooks extends Core {
 		// install metaboxes
 
 		$this->get('menu_item')->init_metaboxes();
+
+		add_filter('post_updated_messages', array($this, 'post_updated_messages'));
+		add_filter('bulk_post_updated_messages', array($this, 'bulk_post_updated_messages'), 10, 2);
+
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));
 		// Shop order search
 		add_filter('get_search_query', array($this, 'mprm_order_search_label'));
@@ -63,11 +67,12 @@ class Hooks extends Core {
 
 		// Bulk / quick edit
 		add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
-		add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
+		//add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
 		add_action('load-edit.php', array($this, 'bulk_action'));
 		add_action('admin_notices', array($this, 'bulk_admin_notices'));
+		add_filter('post_row_actions', array($this, 'remove_row_actions'), 10, 2);
 
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
@@ -202,10 +207,13 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_no_access', 'mprm_purchase_form_no_access');
 		add_action('mprm_purchase_form_after_user_info', 'mprm_user_info_fields');
 		add_action('mprm_cc_billing_top', 'mprm_cc_billing_top');
+
 		add_action('mprm_cc_billing_bottom', 'mprm_cc_billing_bottom');
 		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
 		add_action('mprm_purchase_form_before_submit', 'mprm_terms_agreement');
+		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_additional_information');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_final_total', 999);
+
 		add_action('mprm_purchase_form_after_submit', 'mprm_purchase_form_after_submit');
 		add_action('mprm_ajax_checkout_errors', 'mprm_print_errors');
 		add_action('mprm_before_terms', 'mprm_before_terms');
@@ -908,20 +916,17 @@ class Hooks extends Core {
 		$action = $wp_list_table->current_action();
 
 		// Bail out if this is not a status-changing action
-		if (strpos($action, 'mark_') === false) {
+		if (strpos($action, 'set-order-') === false) {
 			return;
 		}
 
 		$order_statuses = mprm_get_payment_statuses();
 
-		$new_status = substr($action, 5); // get the status name from action
-		$report_action = 'marked_' . $new_status;
-
-		// Sanity check: bail out if this is actually not a status, or is
-		// not a registered status
-		if (!isset($order_statuses['wc-' . $new_status])) {
-			return;
-		}
+		$new_status = substr($action, 10); // get the status name from action
+//
+//		if (!isset($order_statuses['wc-' . $new_status])) {
+//			return;
+//		}
 
 		$changed = 0;
 
@@ -930,11 +935,10 @@ class Hooks extends Core {
 		foreach ($post_ids as $post_id) {
 			$order = new Order($post_id);
 			$order->update_status($new_status);
-			do_action('woocommerce_order_edit_status', $post_id, $new_status);
 			$changed++;
 		}
 
-		$sendback = add_query_arg(array('post_type' => 'mprm_order', $report_action => true, 'changed' => $changed, 'ids' => join(',', $post_ids)), '');
+		$sendback = add_query_arg(array('post_type' => 'mprm_order', 'changed' => $changed, 'ids' => join(',', $post_ids)), '');
 
 		if (isset($_GET['post_status'])) {
 			$sendback = add_query_arg('post_status', sanitize_text_field($_GET['post_status']), $sendback);
@@ -946,19 +950,15 @@ class Hooks extends Core {
 
 	public function bulk_admin_footer() {
 		global $post_type;
-
+		$order_statuses = mprm_get_payment_statuses();
 		if ('mprm_order' == $post_type) {
 			?>
 			<script type="text/javascript">
 				jQuery(function() {
-					jQuery('<option>').val('mark_processing').text('<?php _e('Mark processing', 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('mark_processing').text('<?php _e('Mark processing', 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
-
-					jQuery('<option>').val('mark_on-hold').text('<?php _e('Mark on-hold', 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('mark_on-hold').text('<?php _e('Mark on-hold', 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
-
-					jQuery('<option>').val('mark_completed').text('<?php _e('Mark complete', 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('mark_completed').text('<?php _e('Mark complete', 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
+					<?php foreach($order_statuses as $key => $value): ?>
+					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
+					<?php endforeach;?>
 				});
 			</script>
 			<?php
@@ -967,15 +967,7 @@ class Hooks extends Core {
 
 	public function quick_edit($column_name, $post_type) {
 
-		if ('price' != $column_name || 'product' != $post_type) {
-			return;
-		}
 
-		$shipping_class = get_terms('product_shipping_class', array(
-			'hide_empty' => false,
-		));
-
-		include(WC()->plugin_path() . '/includes/admin/views/html-quick-edit-product.php');
 	}
 
 	public function bulk_and_quick_edit_save_post($post_id, $post) {
@@ -1001,15 +993,15 @@ class Hooks extends Core {
 		}
 
 		// Check nonces
-		if (!isset($_REQUEST['woocommerce_quick_edit_nonce']) && !isset($_REQUEST['woocommerce_bulk_edit_nonce'])) {
-			return $post_id;
-		}
-		if (isset($_REQUEST['woocommerce_quick_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_quick_edit_nonce'], 'woocommerce_quick_edit_nonce')) {
-			return $post_id;
-		}
-		if (isset($_REQUEST['woocommerce_bulk_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_bulk_edit_nonce'], 'woocommerce_bulk_edit_nonce')) {
-			return $post_id;
-		}
+//		if (!isset($_REQUEST['woocommerce_quick_edit_nonce']) && !isset($_REQUEST['woocommerce_bulk_edit_nonce'])) {
+//			return $post_id;
+//		}
+//		if (isset($_REQUEST['woocommerce_quick_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_quick_edit_nonce'], 'woocommerce_quick_edit_nonce')) {
+//			return $post_id;
+//		}
+//		if (isset($_REQUEST['woocommerce_bulk_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_bulk_edit_nonce'], 'woocommerce_bulk_edit_nonce')) {
+//			return $post_id;
+//		}
 
 		// Get the product and save
 		$product = wc_get_product($post);
@@ -1033,27 +1025,27 @@ class Hooks extends Core {
 
 		// Save fields
 		if (!empty($_REQUEST['change_weight']) && isset($_REQUEST['_weight'])) {
-			update_post_meta($post_id, '_weight', wc_clean(stripslashes($_REQUEST['_weight'])));
+			update_post_meta($post_id, '_weight', mprm_clean(stripslashes($_REQUEST['_weight'])));
 		}
 
 		if (!empty($_REQUEST['change_dimensions'])) {
 			if (isset($_REQUEST['_length'])) {
-				update_post_meta($post_id, '_length', wc_clean(stripslashes($_REQUEST['_length'])));
+				update_post_meta($post_id, '_length', mprm_clean(stripslashes($_REQUEST['_length'])));
 			}
 			if (isset($_REQUEST['_width'])) {
-				update_post_meta($post_id, '_width', wc_clean(stripslashes($_REQUEST['_width'])));
+				update_post_meta($post_id, '_width', mprm_clean(stripslashes($_REQUEST['_width'])));
 			}
 			if (isset($_REQUEST['_height'])) {
-				update_post_meta($post_id, '_height', wc_clean(stripslashes($_REQUEST['_height'])));
+				update_post_meta($post_id, '_height', mprm_clean(stripslashes($_REQUEST['_height'])));
 			}
 		}
 
 		if (!empty($_REQUEST['_tax_status'])) {
-			update_post_meta($post_id, '_tax_status', wc_clean($_REQUEST['_tax_status']));
+			update_post_meta($post_id, '_tax_status', mprm_clean($_REQUEST['_tax_status']));
 		}
 
 		if (!empty($_REQUEST['_tax_class'])) {
-			$tax_class = wc_clean($_REQUEST['_tax_class']);
+			$tax_class = mprm_clean($_REQUEST['_tax_class']);
 			if ('standard' == $tax_class) {
 				$tax_class = '';
 			}
@@ -1061,7 +1053,7 @@ class Hooks extends Core {
 		}
 
 		if (!empty($_REQUEST['_stock_status'])) {
-			$stock_status = wc_clean($_REQUEST['_stock_status']);
+			$stock_status = mprm_clean($_REQUEST['_stock_status']);
 
 			if ($product->is_type('variable')) {
 				foreach ($product->get_children() as $child_id) {
@@ -1077,14 +1069,14 @@ class Hooks extends Core {
 		}
 
 		if (!empty($_REQUEST['_shipping_class'])) {
-			$shipping_class = '_no_shipping_class' == $_REQUEST['_shipping_class'] ? '' : wc_clean($_REQUEST['_shipping_class']);
+			$shipping_class = '_no_shipping_class' == $_REQUEST['_shipping_class'] ? '' : mprm_clean($_REQUEST['_shipping_class']);
 
 			wp_set_object_terms($post_id, $shipping_class, 'product_shipping_class');
 		}
 
 		if (!empty($_REQUEST['_visibility'])) {
-			if (update_post_meta($post_id, '_visibility', wc_clean($_REQUEST['_visibility']))) {
-				do_action('woocommerce_product_set_visibility', $post_id, wc_clean($_REQUEST['_visibility']));
+			if (update_post_meta($post_id, '_visibility', mprm_clean($_REQUEST['_visibility']))) {
+				do_action('woocommerce_product_set_visibility', $post_id, mprm_clean($_REQUEST['_visibility']));
 			}
 		}
 
@@ -1237,7 +1229,7 @@ class Hooks extends Core {
 			}
 
 			if (!empty($_REQUEST['_backorders'])) {
-				update_post_meta($post_id, '_backorders', wc_clean($_REQUEST['_backorders']));
+				update_post_meta($post_id, '_backorders', mprm_clean($_REQUEST['_backorders']));
 			}
 
 		}
@@ -1266,7 +1258,7 @@ class Hooks extends Core {
 			return;
 		}
 
-		$order_statuses = wc_get_order_statuses();
+		$order_statuses = mprm_get_payment_statuses();
 
 		// Check if any status changes happened
 		foreach ($order_statuses as $slug => $name) {
@@ -1280,5 +1272,216 @@ class Hooks extends Core {
 				break;
 			}
 		}
+	}
+
+	private function quick_edit_save($post_id, $product) {
+		global $wpdb;
+
+		$old_regular_price = $product->regular_price;
+		$old_sale_price = $product->sale_price;
+
+		// Save fields
+		if (isset($_REQUEST['_sku'])) {
+			$sku = get_post_meta($post_id, '_sku', true);
+			$new_sku = wc_clean($_REQUEST['_sku']);
+
+			if ($new_sku !== $sku) {
+				if (!empty($new_sku)) {
+					$unique_sku = wc_product_has_unique_sku($post_id, $new_sku);
+					if ($unique_sku) {
+						update_post_meta($post_id, '_sku', $new_sku);
+					}
+				} else {
+					update_post_meta($post_id, '_sku', '');
+				}
+			}
+		}
+
+		if (isset($_REQUEST['_weight'])) {
+			update_post_meta($post_id, '_weight', wc_clean($_REQUEST['_weight']));
+		}
+
+		if (isset($_REQUEST['_length'])) {
+			update_post_meta($post_id, '_length', wc_clean($_REQUEST['_length']));
+		}
+
+		if (isset($_REQUEST['_width'])) {
+			update_post_meta($post_id, '_width', wc_clean($_REQUEST['_width']));
+		}
+
+		if (isset($_REQUEST['_height'])) {
+			update_post_meta($post_id, '_height', wc_clean($_REQUEST['_height']));
+		}
+
+		if (!empty($_REQUEST['_shipping_class'])) {
+			$shipping_class = '_no_shipping_class' == $_REQUEST['_shipping_class'] ? '' : wc_clean($_REQUEST['_shipping_class']);
+
+			wp_set_object_terms($post_id, $shipping_class, 'product_shipping_class');
+		}
+
+		if (isset($_REQUEST['_visibility'])) {
+			if (update_post_meta($post_id, '_visibility', wc_clean($_REQUEST['_visibility']))) {
+				do_action('woocommerce_product_set_visibility', $post_id, wc_clean($_REQUEST['_visibility']));
+			}
+		}
+
+		if (isset($_REQUEST['_featured'])) {
+			if (update_post_meta($post_id, '_featured', 'yes')) {
+				delete_transient('wc_featured_products');
+			}
+		} else {
+			if (update_post_meta($post_id, '_featured', 'no')) {
+				delete_transient('wc_featured_products');
+			}
+		}
+
+		if (isset($_REQUEST['_tax_status'])) {
+			update_post_meta($post_id, '_tax_status', wc_clean($_REQUEST['_tax_status']));
+		}
+
+		if (isset($_REQUEST['_tax_class'])) {
+			update_post_meta($post_id, '_tax_class', wc_clean($_REQUEST['_tax_class']));
+		}
+
+		if ($product->is_type('simple') || $product->is_type('external')) {
+
+			if (isset($_REQUEST['_regular_price'])) {
+				$new_regular_price = $_REQUEST['_regular_price'] === '' ? '' : wc_format_decimal($_REQUEST['_regular_price']);
+				update_post_meta($post_id, '_regular_price', $new_regular_price);
+			} else {
+				$new_regular_price = null;
+			}
+			if (isset($_REQUEST['_sale_price'])) {
+				$new_sale_price = $_REQUEST['_sale_price'] === '' ? '' : wc_format_decimal($_REQUEST['_sale_price']);
+				update_post_meta($post_id, '_sale_price', $new_sale_price);
+			} else {
+				$new_sale_price = null;
+			}
+
+			// Handle price - remove dates and set to lowest
+			$price_changed = false;
+
+			if (!is_null($new_regular_price) && $new_regular_price != $old_regular_price) {
+				$price_changed = true;
+			} elseif (!is_null($new_sale_price) && $new_sale_price != $old_sale_price) {
+				$price_changed = true;
+			}
+
+			if ($price_changed) {
+				update_post_meta($post_id, '_sale_price_dates_from', '');
+				update_post_meta($post_id, '_sale_price_dates_to', '');
+
+				if (!is_null($new_sale_price) && $new_sale_price !== '') {
+					update_post_meta($post_id, '_price', $new_sale_price);
+				} else {
+					update_post_meta($post_id, '_price', $new_regular_price);
+				}
+			}
+		}
+
+		// Handle stock status
+		if (isset($_REQUEST['_stock_status'])) {
+			$stock_status = wc_clean($_REQUEST['_stock_status']);
+
+			if ($product->is_type('variable')) {
+				foreach ($product->get_children() as $child_id) {
+					if ('yes' !== get_post_meta($child_id, '_manage_stock', true)) {
+						wc_update_product_stock_status($child_id, $stock_status);
+					}
+				}
+
+				\WC_Product_Variable::sync_stock_status($post_id);
+			} else {
+				wc_update_product_stock_status($post_id, $stock_status);
+			}
+		}
+
+		// Handle stock
+		if (!$product->is_type('grouped')) {
+			if (isset($_REQUEST['_manage_stock'])) {
+				update_post_meta($post_id, '_manage_stock', 'yes');
+				wc_update_product_stock($post_id, wc_stock_amount($_REQUEST['_stock']));
+			} else {
+				update_post_meta($post_id, '_manage_stock', 'no');
+				wc_update_product_stock($post_id, 0);
+			}
+
+			if (!empty($_REQUEST['_backorders'])) {
+				update_post_meta($post_id, '_backorders', wc_clean($_REQUEST['_backorders']));
+			}
+		}
+
+		do_action('woocommerce_product_quick_edit_save', $product);
+	}
+
+	public function post_updated_messages($messages) {
+		global $post, $post_ID;
+//
+//		$messages['product'] = array(
+//			0 => '', // Unused. Messages start at index 1.
+//			1 => sprintf( __( 'Product updated. <a href="%s">View Product</a>', 'mp-restaurant-menu' ), esc_url( get_permalink( $post_ID ) ) ),
+//			2 => __( 'Custom field updated.', 'mp-restaurant-menu' ),
+//			3 => __( 'Custom field deleted.', 'mp-restaurant-menu' ),
+//			4 => __( 'Product updated.', 'mp-restaurant-menu' ),
+//			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Product restored to revision from %s', 'mp-restaurant-menu' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+//			6 => sprintf( __( 'Product published. <a href="%s">View Product</a>', 'mp-restaurant-menu' ), esc_url( get_permalink( $post_ID ) ) ),
+//			7 => __( 'Product saved.', 'mp-restaurant-menu' ),
+//			8 => sprintf( __( 'Product submitted. <a target="_blank" href="%s">Preview Product</a>', 'mp-restaurant-menu' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+//			9 => sprintf( __( 'Product scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Product</a>', 'mp-restaurant-menu' ),
+//				date_i18n( __( 'M j, Y @ G:i', 'mp-restaurant-menu' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ) ),
+//			10 => sprintf( __( 'Product draft updated. <a target="_blank" href="%s">Preview Product</a>', 'mp-restaurant-menu' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+//		);
+
+		$messages['mprm_order'] = array(
+			0 => '', // Unused. Messages start at index 1.
+			1 => __('Order updated.', 'mp-restaurant-menu'),
+			2 => __('Custom field updated.', 'mp-restaurant-menu'),
+			3 => __('Custom field deleted.', 'mp-restaurant-menu'),
+			4 => __('Order updated.', 'mp-restaurant-menu'),
+			5 => isset($_GET['revision']) ? sprintf(__('Order restored to revision from %s', 'mp-restaurant-menu'), wp_post_revision_title((int)$_GET['revision'], false)) : false,
+			6 => __('Order updated.', 'mp-restaurant-menu'),
+			7 => __('Order saved.', 'mp-restaurant-menu'),
+			8 => __('Order submitted.', 'mp-restaurant-menu'),
+			9 => sprintf(__('Order scheduled for: <strong>%1$s</strong>.', 'mp-restaurant-menu'),
+				date_i18n(__('M j, Y @ G:i', 'mp-restaurant-menu'), strtotime($post->post_date))),
+			10 => __('Order draft updated.', 'mp-restaurant-menu'),
+			11 => __('Order updated and email sent.', 'mp-restaurant-menu')
+		);
+
+
+		return $messages;
+	}
+
+	public function bulk_post_updated_messages($bulk_messages, $bulk_counts) {
+
+		$bulk_messages['mprm_menu_item'] = array(
+			'updated' => _n('%s menu item updated.', '%s menu items updated.', $bulk_counts['updated'], 'mp-restaurant-menu'),
+			'locked' => _n('%s menu item not updated, somebody is editing it.', '%s menu items not updated, somebody is editing them.', $bulk_counts['locked'], 'mp-restaurant-menu'),
+			'deleted' => _n('%s menu item permanently deleted.', '%s menu items permanently deleted.', $bulk_counts['deleted'], 'mp-restaurant-menu'),
+			'trashed' => _n('%s menu item moved to the Trash.', '%s menu items moved to the Trash.', $bulk_counts['trashed'], 'mp-restaurant-menu'),
+			'untrashed' => _n('%s menu item restored from the Trash.', '%s menu items restored from the Trash.', $bulk_counts['untrashed'], 'mp-restaurant-menu'),
+		);
+
+		$bulk_messages['mprm_order'] = array(
+			'updated' => _n('%s order updated.', '%s orders updated.', $bulk_counts['updated'], 'mp-restaurant-menu'),
+			'locked' => _n('%s order not updated, somebody is editing it.', '%s orders not updated, somebody is editing them.', $bulk_counts['locked'], 'mp-restaurant-menu'),
+			'deleted' => _n('%s order permanently deleted.', '%s orders permanently deleted.', $bulk_counts['deleted'], 'mp-restaurant-menu'),
+			'trashed' => _n('%s order moved to the Trash.', '%s orders moved to the Trash.', $bulk_counts['trashed'], 'mp-restaurant-menu'),
+			'untrashed' => _n('%s order restored from the Trash.', '%s orders restored from the Trash.', $bulk_counts['untrashed'], 'mp-restaurant-menu'),
+		);
+
+
+		return $bulk_messages;
+	}
+
+	public function remove_row_actions($actions, $post) {
+		global $current_screen;
+		if ($current_screen->post_type != 'mprm_order') return $actions;
+		unset($actions['edit']);
+		unset($actions['view']);
+		unset($actions['trash']);
+		unset($actions['inline hide-if-no-js']);
+
+		return $actions;
 	}
 }

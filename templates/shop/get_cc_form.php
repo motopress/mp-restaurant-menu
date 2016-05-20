@@ -1,5 +1,3 @@
-<?php
-ob_start(); ?>
 <?php do_action('mprm_before_cc_fields'); ?>
 	<fieldset id="mprm_cc_fields" class="mprm-do-validate">
 		<span><legend><?php _e('Credit Card Info', 'mp-restaurant-menu'); ?></legend></span>
@@ -57,4 +55,3 @@ ob_start(); ?>
 	</fieldset>
 <?php
 do_action('mprm_after_cc_fields');
-echo ob_get_clean();

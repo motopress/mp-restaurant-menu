@@ -1140,6 +1140,11 @@ class Settings extends Model {
 
 	public function get_option($key = '', $default = false) {
 		global $mprm_options;
+
+		if (empty($mprm_options)) {
+			$mprm_options = Settings::get_instance()->get_settings();
+		}
+
 		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
 		$value = apply_filters('mprm_get_option', $value, $key, $default);
 		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);

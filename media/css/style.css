@@ -1269,6 +1269,9 @@ there.
   border-color: #adadad;
   background-image: none;
 }
+#mprm_purchase_form textarea {
+  width: 100%;
+}
 #mprm_checkout_wrap .mprm-required-indicator {
   color: #b94a48;
   display: inline;

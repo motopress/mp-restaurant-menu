@@ -1,7 +1,4 @@
-<?php
-use \mp_restaurant_menu\classes\models;
-
-?>
+<?php use \mp_restaurant_menu\classes\models; ?>
 	<fieldset id="mprm_checkout_user_info">
 		<span><legend><?php echo apply_filters('mprm_checkout_personal_info_text', __('Personal Info', 'mp-restaurant-menu')); ?></legend></span>
 		<?php do_action('mprm_purchase_form_before_email'); ?>

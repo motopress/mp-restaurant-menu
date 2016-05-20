@@ -31,10 +31,12 @@ class Purchase extends Model {
 			do_action('mprm_checkout_error_checks', $valid_data, $_POST);
 		}
 		$is_ajax = Core::is_ajax();
+
 		// Process the login form
 		if (isset($_POST['mprm_login_submit'])) {
 			$this->process_purchase_login();
 		}
+
 		// Validate the user
 		$user = $this->get_purchase_form_user($valid_data);
 		if (false === $valid_data || $this->get('errors')->get_errors() || !$user) {
@@ -45,10 +47,12 @@ class Purchase extends Model {
 				return false;
 			}
 		}
+
 		if ($is_ajax) {
 			wp_send_json_success();
 			$this->get('misc')->mprm_die();
 		}
+
 		// Setup user information
 		$user_info = array(
 			'id' => $user['user_id'],
@@ -59,6 +63,7 @@ class Purchase extends Model {
 			'address' => $user['address']
 		);
 		$auth_key = defined('AUTH_KEY') ? AUTH_KEY : '';
+
 		// Setup purchase information
 		$purchase_data = array(
 			'menu_items' => $this->get('cart')->get_cart_contents(),
@@ -74,12 +79,18 @@ class Purchase extends Model {
 			'post_data' => $_POST,
 			'cart_details' => $this->get('cart')->get_cart_content_details(),
 			'gateway' => $valid_data['gateway'],
-			'card_info' => $valid_data['cc_info']
+			'card_info' => $valid_data['cc_info'],
+			'customer_note' => $valid_data['customer_note'],
+			'shipping_adress' => $valid_data['shipping_adress'],
+			'phone_number' => $valid_data['phone_number']
 		);
+
 		// Add the user data for hooks
 		$valid_data['user'] = $user;
+
 		// Allow themes and plugins to hook before the gateway
 		do_action('mprm_checkout_before_gateway', $_POST, $user_info, $valid_data);
+
 		// If the total amount in the cart is 0, send to the manual gateway. This emulates a free menu_item purchase
 		if (!$purchase_data['price']) {
 			// Revert to manual
@@ -88,17 +99,21 @@ class Purchase extends Model {
 		}
 		// Allow the purchase data to be modified before it is sent to the gateway
 		$purchase_data = apply_filters('mprm_purchase_data_before_gateway', $purchase_data, $valid_data);
+
 		// Setup the data we're storing in the purchase session
 		$session_data = $purchase_data;
+
 		// Make sure credit card numbers are never stored in sessions
 		unset($session_data['card_info']['card_number']);
+
 		// Used for showing menu_item links to non logged-in users after purchase, and for other plugins needing purchase data.
 		$this->get('session')->set('mprm_purchase', $session_data);
+
 		// Send info to the gateway for payment processing
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
 
-	function process_purchase_login() {
+	public function process_purchase_login() {
 		$is_ajax = isset($_POST['mprm_ajax']);
 		$user_data = $this->purchase_form_validate_user_login();
 		if ($this->get('errors')->get_errors() || $user_data['user_id'] < 1) {
@@ -118,7 +133,17 @@ class Purchase extends Model {
 		}
 	}
 
-	function purchase_form_validate_fields() {
+	public function purchase_form_validate_phone() {
+		$number = sanitize_text_field($_POST['phone_number']);
+		$regex = "/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i";
+		$valid = preg_match($regex, $number) ? true : false;
+		if (!$valid) {
+			$this->get('errors')->set_error('invalid_discount', __('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
+		}
+		return $valid ? $number : false;
+	}
+
+	public function purchase_form_validate_fields() {
 		// Check if there is $_POST
 		if (empty($_POST)) return false;
 		// Start an array to collect valid data
@@ -131,11 +156,17 @@ class Purchase extends Model {
 			'new_user_data' => array(),   // New user collected data
 			'login_user_data' => array(),   // Login user collected data
 			'guest_user_data' => array(),   // Guest user collected data
-			'cc_info' => $this->purchase_form_validate_cc()    // Credit card info
+			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
+			'customer_note' => sanitize_text_field($_POST['customer_note']),
+			'shipping_adress' => sanitize_text_field($_POST['shipping_adress']),
+			'phone_number' => $this->purchase_form_validate_phone()
 		);
+
 		// Validate agree to terms
-		if ($this->get('settings')->get_option('show_agree_to_terms', false))
+		if ($this->get('settings')->get_option('show_agree_to_terms', false)) {
 			$this->purchase_form_validate_agree_to_terms();
+		}
+
 		if (is_user_logged_in()) {
 			// Collect logged in user data
 			$valid_data['logged_in_user'] = $this->purchase_form_validate_logged_in_user();
@@ -158,7 +189,7 @@ class Purchase extends Model {
 		return $valid_data;
 	}
 
-	function purchase_form_validate_gateway() {
+	public function purchase_form_validate_gateway() {
 		$gateway = $this->get('gateways')->get_default_gateway();
 		// Check if a gateway value is present
 		if (!empty($_REQUEST['mprm-gateway'])) {
@@ -172,7 +203,7 @@ class Purchase extends Model {
 		return $gateway;
 	}
 
-	function purchase_form_validate_discounts() {
+	public function purchase_form_validate_discounts() {
 		// Retrieve the discount stored in cookies
 		$discounts = $this->get('cart')->get_cart_discounts();
 		$user = '';
@@ -212,7 +243,7 @@ class Purchase extends Model {
 		return implode(', ', $discounts);
 	}
 
-	function purchase_form_validate_agree_to_terms() {
+	public function purchase_form_validate_agree_to_terms() {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
 			// User did not agree
@@ -220,7 +251,7 @@ class Purchase extends Model {
 		}
 	}
 
-	function purchase_form_required_fields() {
+	public function purchase_form_required_fields() {
 		$required_fields = array(
 			'mprm_email' => array(
 				'error_id' => 'invalid_email',
@@ -254,7 +285,7 @@ class Purchase extends Model {
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
 	}
 
-	function purchase_form_validate_logged_in_user() {
+	public function purchase_form_validate_logged_in_user() {
 		global $user_ID;
 		// Start empty array to collect valid user data
 		$valid_user_data = array(
@@ -292,7 +323,7 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-	function purchase_form_validate_new_user() {
+	public function purchase_form_validate_new_user() {
 		$registering_new_user = false;
 		// Start an empty array to collect valid user data
 		$valid_user_data = array(
@@ -376,7 +407,7 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-	function purchase_form_validate_user_login() {
+	public function purchase_form_validate_user_login() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
 			// Assume there will be errors
@@ -429,7 +460,7 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-	function purchase_form_validate_guest_user() {
+	public function purchase_form_validate_guest_user() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
 			// Set a default id for guests
@@ -464,7 +495,7 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
-	function register_and_login_new_user($user_data = array()) {
+	public function register_and_login_new_user($user_data = array()) {
 		// Verify the array
 		if (empty($user_data))
 			return -1;
@@ -494,7 +525,7 @@ class Purchase extends Model {
 		return $user_id;
 	}
 
-	function get_purchase_form_user($valid_data = array()) {
+	public function get_purchase_form_user($valid_data = array()) {
 		// Initialize user
 		$user = false;
 		$is_ajax = defined('DOING_AJAX') && DOING_AJAX;
@@ -552,7 +583,7 @@ class Purchase extends Model {
 		return $user;
 	}
 
-	function purchase_form_validate_cc() {
+	public function purchase_form_validate_cc() {
 		$card_data = $this->get_purchase_cc_info();
 		// Validate the card zip
 		if (!empty($card_data['card_zip'])) {
@@ -564,7 +595,7 @@ class Purchase extends Model {
 		return $card_data;
 	}
 
-	function get_purchase_cc_info() {
+	public function get_purchase_cc_info() {
 		$cc_info = array();
 		$cc_info['card_name'] = isset($_POST['card_name']) ? sanitize_text_field($_POST['card_name']) : '';
 		$cc_info['card_number'] = isset($_POST['card_number']) ? sanitize_text_field($_POST['card_number']) : '';
@@ -581,7 +612,7 @@ class Purchase extends Model {
 		return $cc_info;
 	}
 
-	function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
+	public function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
 		$ret = false;
 		if (empty($zip) || empty($country_code))
 			return $ret;
@@ -748,7 +779,7 @@ class Purchase extends Model {
 		return apply_filters('mprm_is_zip_valid', $ret, $zip, $country_code);
 	}
 
-	function check_purchase_email($valid_data, $posted) {
+	public function check_purchase_email($valid_data, $posted) {
 		$is_banned = false;
 		$banned = $this->get('emails')->get_banned_emails();
 		if (empty($banned)) {

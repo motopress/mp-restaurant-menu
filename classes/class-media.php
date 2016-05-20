@@ -1008,6 +1008,18 @@ class Media extends Core {
 							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
+						'customer_phone' => array(
+							'id' => 'customer_phone',
+							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'shipping adress' => array(
+							'id' => 'shipping_adress',
+							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
 						'enforce_ssl' => array(
 							'id' => 'enforce_ssl',
 							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),

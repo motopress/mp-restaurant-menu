@@ -43,7 +43,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 
 	<?php do_action('mprm_view_order_details_update_inner', $order_id); ?>
 
-	<div class="mprm-order-discount mprm-admin-box-inside">
+	<div class="mprm-order-discount mprm-admin-box-inside" style="display: none">
 		<p>
 			<span class="label"><?php _e('Discount Code', 'mp-restaurant-menu'); ?>:</span>&nbsp;
 			<span><?php if ($order->discounts !== 'none') {
