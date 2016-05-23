@@ -46,7 +46,7 @@ class Paypal extends Model {
 			'menu_items' => $purchase_data['menu_items'],
 			'user_info' => $purchase_data['user_info'],
 			'cart_details' => $purchase_data['cart_details'],
-			'status' => 'pending'
+			'status' => 'mprm-pending'
 		);
 		// record the pending payment
 		$payment = $this->get('payments')->insert_payment($payment_data);
@@ -187,7 +187,7 @@ class Paypal extends Model {
 				if ($status == 'completed' || $this->get('misc')->is_test_mode()) {
 					// set the payment to complete. This also sends the emails
 					$this->get('payments')->update_payment_status($payment_id, 'publish');
-				} else if ($status == 'refunded') {
+				} else if ($status == 'mprm-refunded') {
 					// this refund process doesn't work yet
 					$payment_data = get_post_meta($payment_id, '_mprm_order_meta', true);
 					$menu_items = maybe_unserialize($payment_data['menu_items']);
@@ -196,7 +196,7 @@ class Paypal extends Model {
 							$this->get('payments')->undo_purchase($menu_item['id'], $payment_id);
 						}
 					}
-					wp_update_post(array('ID' => $payment_id, 'post_status' => 'refunded'));
+					wp_update_post(array('ID' => $payment_id, 'post_status' => 'mprm-refunded'));
 				}
 			}
 		} else {

@@ -36,7 +36,7 @@ class Manual_payment extends Model {
 			'menu_items' => $purchase_data['menu_items'],
 			'user_info' => $purchase_data['user_info'],
 			'cart_details' => $purchase_data['cart_details'],
-			'status' => 'pending'
+			'status' => 'mprm-pending'
 		);
 		// Record the pending payment
 		$payment = $this->get('payments')->insert_payment($payment_data);

@@ -153,7 +153,7 @@ class Payments extends Parent_query {
 		$payment->increase_tax($this->get('cart')->get_cart_fee_tax());
 		$gateway = !empty($payment_data['gateway']) ? $payment_data['gateway'] : '';
 		$gateway = empty($gateway) && isset($_POST['mprm-gateway']) ? $_POST['mprm-gateway'] : $gateway;
-		$payment->status = !empty($payment_data['status']) ? $payment_data['status'] : 'pending';
+		$payment->status = !empty($payment_data['status']) ? $payment_data['status'] : 'mprm-pending';
 		$payment->currency = !empty($payment_data['currency']) ? $payment_data['currency'] : $this->get('settings')->get_currency();
 		$payment->user_info = $payment_data['user_info'];
 		$payment->gateway = $gateway;
@@ -378,7 +378,7 @@ class Payments extends Parent_query {
 			$customer->attach_payment($payment_id, false);
 
 			// If purchase was completed and not ever refunded, adjust stats of customers
-			if ('revoked' == $status || 'publish' == $status) {
+			if ('mprm-revoked' == $status || 'publish' == $status) {
 				$previous_customer->decrease_purchase_count();
 				$previous_customer->decrease_value($new_total);
 				$customer->increase_purchase_count();
@@ -409,7 +409,7 @@ class Payments extends Parent_query {
 		$payment->status = $status;
 
 		// Adjust total store earnings if the payment total has been changed
-		if ($new_total !== $curr_total && ('publish' == $status || 'revoked' == $status)) {
+		if ($new_total !== $curr_total && ('publish' == $status || 'mprm-revoked' == $status)) {
 
 			if ($new_total > $curr_total) {
 				// Increase if our new total is higher
@@ -459,7 +459,7 @@ class Payments extends Parent_query {
 		$status = $payment->post_status;
 		$customer_id = $this->get_payment_customer_id($payment_id);
 		$customer = new Customer(array('field' => 'id', 'value' => $customer_id));
-		if ($status == 'revoked' || $status == 'publish') {
+		if ($status == 'mprm-revoked' || $status == 'publish') {
 			// Only decrease earnings if they haven't already been decreased (or were never increased for this payment)
 			$this->decrease_total_earnings($amount);
 			// Clear the This Month earnings (this_monththis_month is NOT a typo)
@@ -726,12 +726,10 @@ class Payments extends Parent_query {
 
 	public function get_payment_statuses() {
 		$payment_statuses = array(
-			'pending' => __('Pending', 'mp-restaurant-menu'),
+			'mprm-pending' => __('Pending', 'mp-restaurant-menu'),
 			'publish' => __('Complete', 'mp-restaurant-menu'),
-			'refunded' => __('Refunded', 'mp-restaurant-menu'),
-			'failed' => __('Failed', 'mp-restaurant-menu'),
-			'abandoned' => __('Abandoned', 'mp-restaurant-menu'),
-			'revoked' => __('Revoked', 'mp-restaurant-menu'),
+			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
+			'mprm-revoked' => __('Revoked', 'mp-restaurant-menu'),
 			'mprm-preparing' => __('Preparing', 'mp-restaurant-menu'),
 			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
 			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
@@ -754,7 +752,7 @@ class Payments extends Parent_query {
 			'nopaging' => true,
 			'year' => $year,
 			'monthnum' => $month_num,
-			'post_status' => array('publish', 'revoked'),
+			'post_status' => array('publish', 'mprm-revoked'),
 			'fields' => 'ids',
 			'update_post_term_cache' => false,
 			'include_taxes' => $include_taxes,
@@ -793,7 +791,7 @@ class Payments extends Parent_query {
 			'nopaging' => true,
 			'year' => $year,
 			'fields' => 'ids',
-			'post_status' => array('publish', 'revoked'),
+			'post_status' => array('publish', 'mprm-revoked'),
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false
 		);
@@ -859,7 +857,7 @@ class Payments extends Parent_query {
 				$args = apply_filters('mprm_get_total_earnings_args', array(
 					'offset' => 0,
 					'number' => -1,
-					'status' => array('publish', 'revoked'),
+					'status' => array('publish', 'mprm-revoked'),
 					'fields' => 'ids',
 					'output' => 'orders'
 				));
@@ -1532,7 +1530,7 @@ class Payments extends Parent_query {
 	 */
 	public function mark_abandoned_orders() {
 		$args = array(
-			'status' => 'pending',
+			'status' => 'mprm-pending',
 			'number' => -1,
 			'output' => 'mprm_payments',
 		);
@@ -1541,7 +1539,7 @@ class Payments extends Parent_query {
 		remove_filter('posts_where', 'mprm_filter_where_older_than_week');
 		if ($payments) {
 			foreach ($payments as $payment) {
-				if ('pending' === $payment->post_status) {
+				if ('mprm-pending' === $payment->post_status) {
 					$payment->status = 'abandoned';
 					$payment->save();
 				}

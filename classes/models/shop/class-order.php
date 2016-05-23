@@ -35,9 +35,9 @@ final class Order extends Model {
 
 	protected $completed_date = '';
 
-	protected $status = 'pending';
+	protected $status = 'mprm-pending';
 
-	protected $post_status = 'pending';
+	protected $post_status = 'mprm-pending';
 
 	protected $old_status = '';
 
@@ -545,7 +545,7 @@ final class Order extends Model {
 								case 'add':
 									$price = $item['price'];
 									$taxes = $item['tax'];
-									if ('publish' === $this->status || 'complete' === $this->status || 'revoked' === $this->status) {
+									if ('publish' === $this->status || 'complete' === $this->status || 'mprm-revoked' === $this->status) {
 										// Add sales logs
 										$log_date = date_i18n('Y-m-d G:i:s', current_time('timestamp'));
 										$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : 0;
@@ -582,7 +582,7 @@ final class Order extends Model {
 									foreach ($found_logs as $log) {
 										wp_delete_post($log->ID, true);
 									}
-									if ('publish' === $this->status || 'complete' === $this->status || 'revoked' === $this->status) {
+									if ('publish' === $this->status || 'complete' === $this->status || 'mprm-revoked' === $this->status) {
 										$menu_item = new Menu_item($item['id']);
 										$menu_item->decrease_sales($item['quantity']);
 										$menu_item->decrease_earnings($item['amount']);
@@ -593,7 +593,7 @@ final class Order extends Model {
 						}
 						break;
 					case 'fees':
-						if ('publish' !== $this->status && 'complete' !== $this->status && 'revoked' !== $this->status) {
+						if ('publish' !== $this->status && 'complete' !== $this->status && 'mprm-revoked' !== $this->status) {
 							break;
 						}
 						if (empty($this->pending[$key])) {
@@ -690,7 +690,7 @@ final class Order extends Model {
 						break;
 				}
 			}
-			if ('pending' !== $this->status) {
+			if ('mprm-pending' !== $this->status) {
 				$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
 				$total_change = $total_increase - $total_decrease;
 				if ($total_change < 0) {
@@ -1103,13 +1103,13 @@ final class Order extends Model {
 			$this->status_nicename = array_key_exists($status, $all_payment_statuses) ? $all_payment_statuses[$status] : ucfirst($status);
 			// Process any specific status functions
 			switch ($status) {
-				case 'refunded':
+				case 'mprm-refunded':
 					$this->process_refund();
 					break;
 				case 'failed':
 					$this->process_failure();
 					break;
-				case 'pending':
+				case 'mprm-pending':
 					$this->process_pending();
 					break;
 			}
@@ -1120,7 +1120,7 @@ final class Order extends Model {
 
 	public function refund() {
 		$this->old_status = $this->status;
-		$this->status = 'refunded';
+		$this->status = 'mprm-refunded';
 		$this->pending['status'] = $this->status;
 		$this->save();
 	}
@@ -1165,8 +1165,8 @@ final class Order extends Model {
 
 	private function process_refund() {
 		$process_refund = true;
-		// If the payment was not in publish or revoked status, don't decrement stats as they were never incremented
-		if (('publish' != $this->old_status && 'revoked' != $this->old_status) || 'refunded' != $this->status) {
+		// If the payment was not in publish or mprm-revoked status, don't decrement stats as they were never incremented
+		if (('publish' != $this->old_status && 'mprm-revoked' != $this->old_status) || 'mprm-refunded' != $this->status) {
 			$process_refund = false;
 		}
 		// Allow extensions to filter for their own payment types, Example: Recurring Payments
@@ -1201,7 +1201,7 @@ final class Order extends Model {
 	private function process_pending() {
 		$process_pending = true;
 		// If the payment was not in publish or revoked status, don't decrement stats as they were never incremented
-		if (('publish' != $this->old_status && 'revoked' != $this->old_status) || 'pending' != $this->status) {
+		if (('publish' != $this->old_status && 'mprm-revoked' != $this->old_status) || 'mprm-pending' != $this->status) {
 			$process_pending = false;
 		}
 		// Allow extensions to filter for their own payment types, Example: Recurring Payments
@@ -1255,7 +1255,7 @@ final class Order extends Model {
 
 	private function setup_completed_date() {
 		$payment = get_post($this->ID);
-		if ('pending' == $payment->post_status || 'preapproved' == $payment->post_status) {
+		if ('mprm-pending' == $payment->post_status || 'preapproved' == $payment->post_status) {
 			return false; // This payment was never completed
 		}
 		$date = ($date = $this->get_meta('_mprm_completed_date', true)) ? $date : $payment->modified_date;

@@ -63,6 +63,11 @@ class Controller_customer extends Controller {
 				}
 				$this->date['data']['html'] = $this->get('errors')->get_error_html();
 				$this->send_json($this->date);
+			} else {
+				$this->date['success'] = true;
+				$this->date['data']['redirect'] = true;
+				$this->date['data']['redirect_url'] = esc_url_raw($request['redirect']);
+				$this->send_json($this->date);
 			}
 		} else {
 			$this->date['success'] = false;

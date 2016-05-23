@@ -777,6 +777,11 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
+							if (data.redirect) {
+								window.location = data.redirect_url;
+							} else {
+								window.location.reload();
+							}
 						},
 						function(data) {
 							if (data.data.html) {

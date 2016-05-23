@@ -1477,9 +1477,9 @@ class Hooks extends Core {
 	public function remove_row_actions($actions, $post) {
 		global $current_screen;
 		if ($current_screen->post_type != 'mprm_order') return $actions;
-		unset($actions['edit']);
+//		unset($actions['edit']);
 		unset($actions['view']);
-		unset($actions['trash']);
+//		unset($actions['trash']);
 		unset($actions['inline hide-if-no-js']);
 
 		return $actions;

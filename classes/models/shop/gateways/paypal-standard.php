@@ -28,7 +28,7 @@ class Paypal_standart extends Model {
 			'user_info' => $purchase_data['user_info'],
 			'cart_details' => $purchase_data['cart_details'],
 			'gateway' => 'paypal',
-			'status' => !empty($purchase_data['buy_now']) ? 'private' : 'pending'
+			'status' => !empty($purchase_data['buy_now']) ? 'private' : 'mprm-pending'
 		);
 		// Record the pending payment
 		$payment = $this->get('payments')->insert_payment($payment_data);
@@ -313,7 +313,7 @@ class Paypal_standart extends Model {
 			$payment_meta['user_info'] = $user_info;
 			$this->get('payments')->update_payment_meta($payment_id, '_mprm_order_meta', $payment_meta);
 		}
-		if ($payment_status == 'refunded' || $payment_status == 'reversed') {
+		if ($payment_status == 'mprm-refunded' || $payment_status == 'reversed') {
 			// Process a refund
 			$this->process_paypal_refund($data, $payment_id);
 		} else {
@@ -340,7 +340,7 @@ class Paypal_standart extends Model {
 				$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 				$this->get('payments')->set_payment_transaction_id($payment_id, $data['txn_id']);
 				$this->get('payments')->update_payment_status($payment_id, 'publish');
-			} else if ('pending' == $payment_status && isset($data['pending_reason'])) {
+			} else if ('mprm-pending' == $payment_status && isset($data['pending_reason'])) {
 				// Look for possible pending reasons, such as an echeck
 				$note = '';
 				switch (strtolower($data['pending_reason'])) {
@@ -395,7 +395,7 @@ class Paypal_standart extends Model {
 		if (empty($payment_id)) {
 			return;
 		}
-		if (get_post_status($payment_id) == 'refunded') {
+		if (get_post_status($payment_id) == 'mprm-refunded') {
 			return; // Only refund payments once
 		}
 		$payment_amount = $this->get('payments')->get_payment_amount($payment_id);
@@ -406,7 +406,7 @@ class Paypal_standart extends Model {
 		}
 		$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Payment #%s Refunded for reason: %s', 'mp-restaurant-menu'), $data['parent_txn_id'], $data['reason_code']));
 		$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Refund Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
-		$this->get('payments')->update_payment_status($payment_id, 'refunded');
+		$this->get('payments')->update_payment_status($payment_id, 'mprm-refunded');
 	}
 
 	/**
@@ -467,7 +467,7 @@ class Paypal_standart extends Model {
 			$payment_id = $this->get('payments')->get_payment_id(array('search_key' => 'payment_key', 'value' => $session['purchase_key']));
 		}
 		$payment = get_post($payment_id);
-		if ($payment && 'pending' == $payment->post_status) {
+		if ($payment && 'mprm-pending' == $payment->post_status) {
 			$success_page_uri = $this->get('checkout')->get_success_page_uri();
 			$content = View::get_instance()->render_html('shop/processing', array('success_page_uri' => $success_page_uri), false);
 		}

@@ -437,7 +437,7 @@ class Customer extends Model {
 
 		$payment = new Order($payment_id);
 
-		if ('publish' !== $payment->status && 'revoked' !== $payment->status) {
+		if ('publish' !== $payment->status && 'mprm-revoked' !== $payment->status) {
 			$update_stats = false;
 		}
 
