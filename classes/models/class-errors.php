@@ -1,15 +1,20 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\View as View;
+
 class Errors extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-	function print_errors() {
+
+	public function print_errors() {
 		$errors = $this->get_errors();
 		if ($errors) {
 			$classes = apply_filters('mprm_error_class', array(
@@ -24,6 +29,22 @@ class Errors extends Model {
 			$this->clear_errors();
 		}
 	}
+
+	public function get_error_html() {
+		$errors = $this->get_errors();
+		if ($errors) {
+
+			$classes = apply_filters('mprm_error_class', array(
+				'mprm-errors', 'mprm-alert', 'mprm-alert-error'
+			));
+
+			$error_html = View::get_instance()->render_html('shop/errors', array('errors' => $errors, 'classes' => $classes), false);
+			$this->clear_errors();
+			return $error_html;
+		}
+		return false;
+	}
+
 	/**
 	 * Get Errors
 	 *
@@ -33,9 +54,10 @@ class Errors extends Model {
 	 * @since 1.0
 	 * @return mixed array if errors are present, false if none found
 	 */
-	function get_errors() {
+	public function get_errors() {
 		return $this->get('session')->get_session_by_key('mprm_errors');
 	}
+
 	/**
 	 * Set Error
 	 *
@@ -48,7 +70,7 @@ class Errors extends Model {
 	 *
 	 * @return void
 	 */
-	function set_error($error_id, $error_message) {
+	public function set_error($error_id, $error_message) {
 		$errors = $this->get_errors();
 		if (!$errors) {
 			$errors = array();
@@ -56,15 +78,17 @@ class Errors extends Model {
 		$errors[$error_id] = $error_message;
 		$this->get('session')->set('mprm_errors', $errors);
 	}
+
 	/**
 	 * Clears all stored errors.
 	 *
 	 * @since 1.0
 	 * @return void
 	 */
-	function clear_errors() {
+	public function clear_errors() {
 		$this->get('session')->set('mprm_errors', null);
 	}
+
 	/**
 	 * Removes (unsets) a stored error
 	 *
@@ -74,7 +98,7 @@ class Errors extends Model {
 	 *
 	 * @return string
 	 */
-	function unset_error($error_id) {
+	public function unset_error($error_id) {
 		$errors = $this->get_errors();
 		if ($errors) {
 			unset($errors[$error_id]);

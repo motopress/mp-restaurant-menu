@@ -1051,12 +1051,12 @@ class Media extends Core {
 //							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
 //							'type' => 'checkbox',
 //						),
-						'enable_cart_saving' => array(
-							'id' => 'enable_cart_saving',
-							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
+//						'enable_cart_saving' => array(
+//							'id' => 'enable_cart_saving',
+//							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
+//							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
 					),
 					'button_text' => array(
 						'button_settings' => array(

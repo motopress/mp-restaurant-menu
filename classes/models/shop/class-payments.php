@@ -396,7 +396,9 @@ class Payments extends Parent_query {
 
 		$payment->total = $new_total;
 		$payment->tax = $tax;
-
+		if (!empty($data['mprm-customer-note'])) {
+			$payment->customer_note = sanitize_text_field($data['mprm-customer-note']);
+		}
 		// Check for payment notes
 		if (!empty($data['mprm-order-note'])) {
 			$note = wp_kses($data['mprm-order-note'], array());

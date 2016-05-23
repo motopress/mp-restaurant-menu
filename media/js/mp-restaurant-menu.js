@@ -568,6 +568,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							$('#mprm_purchase_form_wrap').html(data.html);
 							state.purchaseForm();
 							state.showTerms();
+
 						},
 						function(data) {
 							console.warn('Some error!!!');
@@ -735,7 +736,62 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					$(this).parents('#mprm_show_terms').find('.mprm_terms_links').toggle();
 					$('#mprm_terms').toggle();
 				});
+			},
+			/**
+			 * Get login form
+			 */
+			get_login: function() {
+				$('#mprm_checkout_form_wrap').on('click', '.mprm_checkout_register_login', function(e) {
+					e.preventDefault();
+					var $this = $(this),
+						$params = {
+							action: 'get_login',
+							controller: 'customer'
+						};
+
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							$('#mprm_checkout_form_wrap').html(data.html);
+
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				});
+			},
+			loginAjax: function() {
+				$('#mprm_checkout_form_wrap').on('click', '#mprm_login_submit', function(e) {
+					e.preventDefault();
+					$('.mprm-errors').remove();
+					var $params = {
+						action: 'login_ajax',
+						controller: 'customer',
+						nonce: $('[name="mprm_login_nonce"]').val(),
+						redirect: $('[name="redirect"]').val(),
+						pass: $('[name="mprm_user_pass"]').val(),
+						login: $('[name="mprm_user_login"]').val()
+
+					};
+
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+						},
+						function(data) {
+							if (data.data.html) {
+								$('#mprm_checkout_form_wrap .mprm-login-fields').after(data.data.html);
+							} else {
+								console.warn('Some error!!!');
+								console.warn(data);
+							}
+
+						}
+					);
+				});
+
 			}
+
 		}
 	}
 
@@ -1626,12 +1682,14 @@ MP_RM_Registry.register("Theme", (function($) {
 
 		}
 
-
 		if ($('#mprm_purchase_form').length) {
+
 			MP_RM_Registry._get('Menu-Shop').loadGateway();
 			MP_RM_Registry._get('Menu-Shop').changeGateway();
 			MP_RM_Registry._get('Menu-Shop').update_item_quantities();
 			MP_RM_Registry._get('Menu-Shop').showTerms();
+			MP_RM_Registry._get('Menu-Shop').get_login();
+			MP_RM_Registry._get('Menu-Shop').loginAjax();
 		}
 
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();

@@ -133,6 +133,11 @@ class Purchase extends Model {
 		}
 	}
 
+	/**
+	 * Validate phone
+	 *
+	 * @return bool|string
+	 */
 	public function purchase_form_validate_phone() {
 		$number = sanitize_text_field($_POST['phone_number']);
 		$regex = "/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i";
