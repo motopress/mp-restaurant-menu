@@ -118,7 +118,7 @@ class Checkout extends Model {
 			$payment = get_post($payment_id);
 			$status = $this->get('payments')->get_payment_status($payment);
 			if ($status && 'mprm-pending' === strtolower($status)) {
-				$this->get('payments')->update_payment_status($payment_id, 'failed');
+				$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
 			}
 		}
 	}

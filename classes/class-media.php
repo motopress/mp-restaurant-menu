@@ -95,6 +95,18 @@ class Media extends Core {
 			'capability' => 'import',
 		));
 		$this->register_settings();
+
+
+		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids')));
+		global $submenu;
+		foreach ($submenu as $key => $value) {
+			if (isset($submenu[$key][1])) {
+				if ($submenu[$key][1][2] == 'edit.php?post_type=mprm_order') {
+					$submenu[$key][1][0] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
+					return;
+				}
+			}
+		}
 	}
 
 	/**
@@ -822,7 +834,7 @@ class Media extends Core {
 						'purchase_receipt' => array(
 							'id' => 'purchase_receipt',
 							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
-							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' /*. mprm_get_emails_tags_list()*/,
+							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
 							'type' => 'rich_editor',
 							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n" . __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n{menu_item_list}\n{sitename}",
 						),

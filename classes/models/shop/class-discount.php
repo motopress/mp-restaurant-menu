@@ -460,7 +460,7 @@ class Discount extends Model {
 					if (empty($payment->discounts)) {
 						continue;
 					}
-					if (in_array($payment->status, array('abandoned', 'failed'))) {
+					if (in_array($payment->status, array('abandoned', 'mprm-failed'))) {
 						continue;
 					}
 					$discounts = explode(',', $payment->discounts);

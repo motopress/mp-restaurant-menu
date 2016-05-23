@@ -32,9 +32,10 @@ class Payments extends Parent_query {
 		$custom_output = array(
 			'orders'
 		);
-
-		if (in_array($this->args['output'], $custom_output)) {
-			return $query->posts;
+		if (isset($this->args['output'])) {
+			if (in_array($this->args['output'], $custom_output)) {
+				return $query->posts;
+			}
 		}
 
 		if ($query->have_posts()) {
@@ -708,7 +709,7 @@ class Payments extends Parent_query {
 		if (!is_array($statuses) || empty($statuses)) {
 			return false;
 		}
-		$payment = $payment = new Order($payment->ID);
+		$payment = new Order($payment->ID);
 		if (array_key_exists($payment->status, $statuses)) {
 			if (true === $return_label) {
 				return $statuses[$payment->status];
@@ -717,11 +718,16 @@ class Payments extends Parent_query {
 				$post_status = 'publish' == $payment->status ? 'Complete' : $payment->post_status;
 
 				// Make sure we're matching cases, since they matter
-				return array_search(strtolower($post_status), array_map('strtolower', $statuses));
+				$post_label = array_search(strtolower($post_status), array_map('strtolower', $statuses));
+				if ($post_label) {
+					return $statuses[$post_label];
+				} else {
+					return !empty($statuses[$payment->status]) ? $statuses[$payment->status] : $payment->status;
+				}
 			}
 		}
 
-		return false;
+		return $payment->status;
 	}
 
 	public function get_payment_statuses() {
@@ -729,7 +735,7 @@ class Payments extends Parent_query {
 			'mprm-pending' => __('Pending', 'mp-restaurant-menu'),
 			'publish' => __('Complete', 'mp-restaurant-menu'),
 			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
-			'mprm-revoked' => __('Revoked', 'mp-restaurant-menu'),
+			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
 			'mprm-preparing' => __('Preparing', 'mp-restaurant-menu'),
 			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
 			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
@@ -1389,11 +1395,11 @@ class Payments extends Parent_query {
 	}
 
 	public function complete_purchase($payment_id, $new_status, $old_status) {
-		if ($old_status == 'publish' || $old_status == 'complete') {
+		if ($old_status == 'publish' || $old_status == 'mprm-complete') {
 			return; // Make sure that payments are only completed once
 		}
 		// Make sure the payment completion is only processed when new status is complete
-		if ($new_status != 'publish' && $new_status != 'complete') {
+		if ($new_status != 'publish' && $new_status != 'mprm-complete') {
 			return;
 		}
 		$payment = new Order($payment_id);
@@ -1459,7 +1465,7 @@ class Payments extends Parent_query {
 
 	public function record_status_change($payment_id, $new_status, $old_status) {
 		// Get the list of statuses so that status in the payment note can be translated
-		$status = $this->get('payments')->get_payment_statuses();
+		$status = $this->get_payment_statuses();
 		$old_status = isset($status[$old_status]) ? $status[$old_status] : $old_status;
 		$new_status = isset($status[$new_status]) ? $status[$new_status] : $new_status;
 		$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);

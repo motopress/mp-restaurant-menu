@@ -820,7 +820,7 @@ function mprm_get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', 
 	return models\Payments::get_instance()->get_payment_meta($payment_id, $meta_key, $single);
 }
 
-function mprm_get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'complete') {
+function mprm_get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'mprm-complete') {
 	return models\Customer::get_instance()->get_users_purchases($user, $number, $pagination, $status);
 }
 

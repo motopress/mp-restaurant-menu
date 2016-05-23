@@ -292,14 +292,14 @@ class Customer extends Model {
 		return $this->purchase_value;
 	}
 
-	public function get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'complete') {
+	public function get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'mprm-complete') {
 		if (empty($user)) {
 			$user = get_current_user_id();
 		}
 		if (0 === $user) {
 			return false;
 		}
-		$status = $status === 'complete' ? 'publish' : $status;
+		$status = $status === 'mprm-complete' ? 'publish' : $status;
 		if ($pagination) {
 			if (get_query_var('paged'))
 				$paged = get_query_var('paged');
@@ -340,7 +340,7 @@ class Customer extends Model {
 		if (empty($user_id)) {
 			return false;
 		}
-		$pending = get_user_meta($user_id, '_mprm_pending_verification', true);
+		$pending = get_user_meta($user_id, '_mprm-pending_verification', true);
 		return (bool)apply_filters('mprm_user_pending_verification', !empty($pending), $user_id);
 	}
 

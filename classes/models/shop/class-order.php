@@ -545,7 +545,7 @@ final class Order extends Model {
 								case 'add':
 									$price = $item['price'];
 									$taxes = $item['tax'];
-									if ('publish' === $this->status || 'complete' === $this->status || 'mprm-revoked' === $this->status) {
+									if ('publish' === $this->status || 'mprm-complete' === $this->status || 'mprm-revoked' === $this->status) {
 										// Add sales logs
 										$log_date = date_i18n('Y-m-d G:i:s', current_time('timestamp'));
 										$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : 0;
@@ -582,7 +582,7 @@ final class Order extends Model {
 									foreach ($found_logs as $log) {
 										wp_delete_post($log->ID, true);
 									}
-									if ('publish' === $this->status || 'complete' === $this->status || 'mprm-revoked' === $this->status) {
+									if ('publish' === $this->status || 'mprm-complete' === $this->status || 'mprm-revoked' === $this->status) {
 										$menu_item = new Menu_item($item['id']);
 										$menu_item->decrease_sales($item['quantity']);
 										$menu_item->decrease_earnings($item['amount']);
@@ -593,7 +593,7 @@ final class Order extends Model {
 						}
 						break;
 					case 'fees':
-						if ('publish' !== $this->status && 'complete' !== $this->status && 'mprm-revoked' !== $this->status) {
+						if ('publish' !== $this->status && 'mprm-complete' !== $this->status && 'mprm-revoked' !== $this->status) {
 							break;
 						}
 						if (empty($this->pending[$key])) {
@@ -1085,7 +1085,7 @@ final class Order extends Model {
 	}
 
 	public function update_status($status = false) {
-		if ($status == 'completed' || $status == 'complete') {
+		if ($status == 'mprm-completed' || $status == 'mprm-complete') {
 			$status = 'publish';
 		}
 		$old_status = !empty($this->old_status) ? $this->old_status : false;
@@ -1106,7 +1106,7 @@ final class Order extends Model {
 				case 'mprm-refunded':
 					$this->process_refund();
 					break;
-				case 'failed':
+				case 'mprm-failed':
 					$this->process_failure();
 					break;
 				case 'mprm-pending':

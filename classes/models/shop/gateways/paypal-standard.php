@@ -280,14 +280,14 @@ class Paypal_standart extends Model {
 		// Verify payment recipient
 		if (strcasecmp($business_email, trim($this->get('settings')->get_option('paypal_email', false))) != 0) {
 			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid business email in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
-			$this->get('payments')->update_payment_status($payment_id, 'failed');
+			$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
 			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid PayPal business email.', 'mp-restaurant-menu'));
 			return;
 		}
 		// Verify payment currency
 		if ($currency_code != strtolower($payment_meta['currency'])) {
 			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid currency in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
-			$this->get('payments')->update_payment_status($payment_id, 'failed');
+			$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
 			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid currency in PayPal IPN.', 'mp-restaurant-menu'));
 			return;
 		}
@@ -325,18 +325,18 @@ class Paypal_standart extends Model {
 			if (number_format((float)$paypal_amount, 2) < number_format((float)$payment_amount, 2)) {
 				// The prices don't match
 				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid payment amount in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
-				$this->get('payments')->update_payment_status($payment_id, 'failed');
+				$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid amount in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
 			if ($purchase_key != $this->get('payments')->get_payment_key($payment_id)) {
 				// Purchase keys don't match
 				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid purchase key in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
-				$this->get('payments')->update_payment_status($payment_id, 'failed');
+				$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid purchase key in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
-			if ('completed' == $payment_status || $this->get('misc')->is_test_mode()) {
+			if ('mprm-completed' == $payment_status || $this->get('misc')->is_test_mode()) {
 				$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 				$this->get('payments')->set_payment_transaction_id($payment_id, $data['txn_id']);
 				$this->get('payments')->update_payment_status($payment_id, 'publish');

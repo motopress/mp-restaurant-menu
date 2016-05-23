@@ -2,7 +2,7 @@
 	<fieldset id="mprm_additional_information_fields" class="mprm-do-validate">
 		<span><legend><?php _e('Additional information', 'mp-restaurant-menu'); ?></legend></span>
 		<?php $temp = mprm_get_option('shipping_adress', true); ?>
-		<?php if (mprm_get_option('shipping_adress', true)): ?>
+		<?php if (mprm_get_option('shipping_adress')): ?>
 			<p id="mprm-adress-wrap">
 				<label for="phone_number" class="mprm-label">
 					<?php _e('Shipping adress:', 'mp-restaurant-menu'); ?>
@@ -14,7 +14,7 @@
 			</p>
 		<?php endif; ?>
 
-		<?php if (mprm_get_option('customer_phone', true)): ?>
+		<?php if (mprm_get_option('customer_phone')): ?>
 			<p id="mprm-phone-number-wrap">
 				<label for="phone_number" class="mprm-label">
 					<?php _e('Phone Number:', 'mp-restaurant-menu'); ?>

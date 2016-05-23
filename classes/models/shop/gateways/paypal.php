@@ -129,7 +129,7 @@ class Paypal extends Model {
 				if ($purchase_key != $payment_meta['key']) {
 					return; // purchase keys don't match
 				}
-				if (strtolower($payment_status) != 'completed' || $this->get('misc')->is_test_mode()) {
+				if (strtolower($payment_status) != 'mprm-completed' || $this->get('misc')->is_test_mode()) {
 					return; // payment wasn't completed
 				}
 				// everything has been verified, update the payment to "complete"
@@ -184,7 +184,7 @@ class Paypal extends Model {
 			}
 			if (isset($_POST['txn_type']) && $_POST['txn_type'] == 'web_accept') {
 				$status = strtolower($payment_status);
-				if ($status == 'completed' || $this->get('misc')->is_test_mode()) {
+				if ($status == 'mprm-completed' || $this->get('misc')->is_test_mode()) {
 					// set the payment to complete. This also sends the emails
 					$this->get('payments')->update_payment_status($payment_id, 'publish');
 				} else if ($status == 'mprm-refunded') {
