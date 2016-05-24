@@ -49,7 +49,11 @@ class Purchase extends Model {
 		}
 
 		if ($is_ajax) {
-			wp_send_json_success();
+			$errors = $this->get('errors')->get_errors();
+			wp_send_json_success(array(
+				'errors' => $this->get('errors')->get_error_html(),
+				'error' => !empty($errors) ? true : false,
+			));
 			$this->get('misc')->mprm_die();
 		}
 
@@ -164,7 +168,7 @@ class Purchase extends Model {
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
 			'customer_note' => sanitize_text_field($_POST['customer_note']),
 			'shipping_adress' => sanitize_text_field($_POST['shipping_adress']),
-			'phone_number' => !empty(sanitize_text_field($_POST['phone_number'])) ? $this->purchase_form_validate_phone() : ''
+			'phone_number' => !empty($_POST['phone_number']) ? $this->purchase_form_validate_phone() : ''
 		);
 
 		// Validate agree to terms

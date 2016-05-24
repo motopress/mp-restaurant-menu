@@ -46,6 +46,10 @@ class Hooks extends Core {
 		add_action('widgets_init', array(MPRM_Widget::get_instance(), 'register'));
 	}
 
+	public function __construct() {
+		parent::__construct();
+	}
+
 	/**
 	 * Hooks for admin panel
 	 */
@@ -63,10 +67,10 @@ class Hooks extends Core {
 		// Shop order search
 		add_filter('get_search_query', array($this, 'mprm_order_search_label'));
 		add_filter('query_vars', array($this, 'add_custom_query_var'));
-		add_action('parse_query', array($this, 'mprm_order_search_custom_fields'));
+		add_action('parse_query', array($this, 'mprm_search_custom_fields'));
 
 		// Bulk / quick edit
-		add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
+		//add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
 		//add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
@@ -836,33 +840,25 @@ class Hooks extends Core {
 		return $public_query_vars;
 	}
 
-	public function mprm_order_search_custom_fields($wp) {
+	public function mprm_search_custom_fields($wp) {
 		global $pagenow, $wpdb;
 
-		if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || $wp->query_vars['post_type'] != 'mprm_order') {
+		if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || !in_array($wp->query_vars['post_type'], array_values($this->post_types))) {
 			return;
 		}
-
-		$search_fields = array_map('mprm_clean', apply_filters('mprm_order_search_fields', array(
-			'_order_key',
-			'_billing_company',
-			'_billing_address_1',
-			'_billing_address_2',
-			'_billing_city',
-			'_billing_postcode',
-			'_billing_country',
-			'_billing_state',
-			'_billing_email',
-			'_billing_phone',
-			'_shipping_address_1',
-			'_shipping_address_2',
-			'_shipping_city',
-			'_shipping_postcode',
-			'_shipping_country',
-			'_shipping_state'
-		)));
-
-		$search_order_id = str_replace('Order #', '', $_GET['s']);
+		switch ($wp->query_vars['post_type']) {
+			case'mp_menu_item':
+				$search_params = $this->get('menu_item')->get_search_params();
+				$search_fields = array_map('mprm_clean', apply_filters('mprm_menu_item_search_fields', $search_params));
+				break;
+			case'mprm_order':
+				$search_params = $this->get('order')->get_search_params();
+				$search_fields = array_map('mprm_clean', apply_filters('mprm_order_search_fields', $search_params));
+				break;
+			default:
+				break;
+		}
+		$search_order_id = preg_replace('/[a-z# ]/i', '', $_GET['s']);
 
 		// Search orders
 		if (is_numeric($search_order_id)) {
@@ -872,33 +868,18 @@ class Hooks extends Core {
 				),
 				array(absint($search_order_id))
 			));
-//		} else {
-//			$post_ids = array_unique(array_merge(
-//				$wpdb->get_col(
-//					$wpdb->prepare("
-//						SELECT DISTINCT p1.post_id
-//						FROM {$wpdb->postmeta} p1
-//						INNER JOIN {$wpdb->postmeta} p2 ON p1.post_id = p2.post_id
-//						WHERE
-//							( p1.meta_key = '_billing_first_name' AND p2.meta_key = '_billing_last_name' AND CONCAT(p1.meta_value, ' ', p2.meta_value) LIKE '%%%s%%' )
-//						OR
-//							( p1.meta_key = '_shipping_first_name' AND p2.meta_key = '_shipping_last_name' AND CONCAT(p1.meta_value, ' ', p2.meta_value) LIKE '%%%s%%' )
-//						OR
-//							( p1.meta_key IN ('" . implode("','", array_map('esc_sql', $search_fields)) . "') AND p1.meta_value LIKE '%%%s%%' )
-//						",
-//						mprm_clean($_GET['s']), mprm_clean($_GET['s']), mprm_clean($_GET['s'])
-//					)
-//				),
-//				$wpdb->get_col(
-//					$wpdb->prepare("
-//						SELECT order_id
-//						FROM {$wpdb->prefix}woocommerce_order_items as order_items
-//						WHERE order_item_name LIKE '%%%s%%'
-//						",
-//						mprm_clean($_GET['s'])
-//					)
-//				)
-//			));
+		} else {
+			$post_ids = array_unique(array_merge(
+				$wpdb->get_col(
+					$wpdb->prepare("
+						SELECT DISTINCT p1.post_id
+						FROM {$wpdb->postmeta} p1
+						INNER JOIN {$wpdb->postmeta} p2 ON p1.post_id = p2.post_id
+						WHERE		( p1.meta_key IN ('" . implode("','", array_map('esc_sql', $search_fields)) . "') AND p1.meta_value LIKE '%%%s%%' )	",
+						mprm_clean($_GET['s']), mprm_clean($_GET['s']), mprm_clean($_GET['s'])
+					)
+				), $wpdb->get_col($wpdb->prepare("SELECT *  FROM {$wpdb->postmeta} WHERE `post_title` LIKE '%%%s%%'"), mprm_clean($_GET['s']))
+			));
 		}
 
 		// Remove s - we don't want to search order name
@@ -923,10 +904,10 @@ class Hooks extends Core {
 		$order_statuses = mprm_get_payment_statuses();
 
 		$new_status = substr($action, 10); // get the status name from action
-//
-//		if (!isset($order_statuses['wc-' . $new_status])) {
-//			return;
-//		}
+
+		if (!isset($order_statuses['mprm-' . $new_status]) && $new_status != 'publish') {
+			return;
+		}
 
 		$changed = 0;
 
@@ -983,271 +964,21 @@ class Hooks extends Core {
 		}
 
 		// Check post type is product
-		if ('product' != $post->post_type) {
-			return $post_id;
-		}
+//		if ('product' != $post->post_type) {
+//			return $post_id;
+//		}
 
 		// Check user permission
 		if (!current_user_can('edit_post', $post_id)) {
 			return $post_id;
 		}
 
-		// Check nonces
-//		if (!isset($_REQUEST['woocommerce_quick_edit_nonce']) && !isset($_REQUEST['woocommerce_bulk_edit_nonce'])) {
-//			return $post_id;
-//		}
-//		if (isset($_REQUEST['woocommerce_quick_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_quick_edit_nonce'], 'woocommerce_quick_edit_nonce')) {
-//			return $post_id;
-//		}
-//		if (isset($_REQUEST['woocommerce_bulk_edit_nonce']) && !wp_verify_nonce($_REQUEST['woocommerce_bulk_edit_nonce'], 'woocommerce_bulk_edit_nonce')) {
-//			return $post_id;
-//		}
-
-		// Get the product and save
-		$product = wc_get_product($post);
-
-		if (!empty($_REQUEST['woocommerce_quick_edit'])) {
-			$this->quick_edit_save($post_id, $product);
-		} else {
-			$this->bulk_edit_save($post_id, $product);
-		}
-
-		// Clear transient
-		wc_delete_product_transients($post_id);
 
 		return $post_id;
 	}
 
-	public function bulk_edit_save($post_id, $product) {
-
-		$old_regular_price = $product->regular_price;
-		$old_sale_price = $product->sale_price;
-
-		// Save fields
-		if (!empty($_REQUEST['change_weight']) && isset($_REQUEST['_weight'])) {
-			update_post_meta($post_id, '_weight', mprm_clean(stripslashes($_REQUEST['_weight'])));
-		}
-
-		if (!empty($_REQUEST['change_dimensions'])) {
-			if (isset($_REQUEST['_length'])) {
-				update_post_meta($post_id, '_length', mprm_clean(stripslashes($_REQUEST['_length'])));
-			}
-			if (isset($_REQUEST['_width'])) {
-				update_post_meta($post_id, '_width', mprm_clean(stripslashes($_REQUEST['_width'])));
-			}
-			if (isset($_REQUEST['_height'])) {
-				update_post_meta($post_id, '_height', mprm_clean(stripslashes($_REQUEST['_height'])));
-			}
-		}
-
-		if (!empty($_REQUEST['_tax_status'])) {
-			update_post_meta($post_id, '_tax_status', mprm_clean($_REQUEST['_tax_status']));
-		}
-
-		if (!empty($_REQUEST['_tax_class'])) {
-			$tax_class = mprm_clean($_REQUEST['_tax_class']);
-			if ('standard' == $tax_class) {
-				$tax_class = '';
-			}
-			update_post_meta($post_id, '_tax_class', $tax_class);
-		}
-
-		if (!empty($_REQUEST['_stock_status'])) {
-			$stock_status = mprm_clean($_REQUEST['_stock_status']);
-
-			if ($product->is_type('variable')) {
-				foreach ($product->get_children() as $child_id) {
-					if ('yes' !== get_post_meta($child_id, '_manage_stock', true)) {
-						wc_update_product_stock_status($child_id, $stock_status);
-					}
-				}
-
-				\WC_Product_Variable::sync_stock_status($post_id);
-			} else {
-				wc_update_product_stock_status($post_id, $stock_status);
-			}
-		}
-
-		if (!empty($_REQUEST['_shipping_class'])) {
-			$shipping_class = '_no_shipping_class' == $_REQUEST['_shipping_class'] ? '' : mprm_clean($_REQUEST['_shipping_class']);
-
-			wp_set_object_terms($post_id, $shipping_class, 'product_shipping_class');
-		}
-
-		if (!empty($_REQUEST['_visibility'])) {
-			if (update_post_meta($post_id, '_visibility', mprm_clean($_REQUEST['_visibility']))) {
-				do_action('woocommerce_product_set_visibility', $post_id, mprm_clean($_REQUEST['_visibility']));
-			}
-		}
-
-		if (!empty($_REQUEST['_featured'])) {
-			if (update_post_meta($post_id, '_featured', stripslashes($_REQUEST['_featured']))) {
-				delete_transient('wc_featured_products');
-			}
-		}
-
-		// Sold Individually
-		if (!empty($_REQUEST['_sold_individually'])) {
-			if ($_REQUEST['_sold_individually'] == 'yes') {
-				update_post_meta($post_id, '_sold_individually', 'yes');
-			} else {
-				update_post_meta($post_id, '_sold_individually', '');
-			}
-		}
-
-		// Handle price - remove dates and set to lowest
-		$change_price_product_types = apply_filters('woocommerce_bulk_edit_save_price_product_types', array('simple', 'external'));
-		$can_product_type_change_price = false;
-		foreach ($change_price_product_types as $product_type) {
-			if ($product->is_type($product_type)) {
-				$can_product_type_change_price = true;
-				break;
-			}
-		}
-
-		if ($can_product_type_change_price) {
-
-			$price_changed = false;
-
-			if (!empty($_REQUEST['change_regular_price'])) {
-
-				$change_regular_price = absint($_REQUEST['change_regular_price']);
-				$regular_price = esc_attr(stripslashes($_REQUEST['_regular_price']));
-
-				switch ($change_regular_price) {
-					case 1 :
-						$new_price = $regular_price;
-						break;
-					case 2 :
-						if (strstr($regular_price, '%')) {
-							$percent = str_replace('%', '', $regular_price) / 100;
-							$new_price = $old_regular_price + (round($old_regular_price * $percent, wc_get_price_decimals()));
-						} else {
-							$new_price = $old_regular_price + $regular_price;
-						}
-						break;
-					case 3 :
-						if (strstr($regular_price, '%')) {
-							$percent = str_replace('%', '', $regular_price) / 100;
-							$new_price = max(0, $old_regular_price - (round($old_regular_price * $percent, wc_get_price_decimals())));
-						} else {
-							$new_price = max(0, $old_regular_price - $regular_price);
-						}
-						break;
-
-					default :
-						break;
-				}
-
-				if (isset($new_price) && $new_price != $old_regular_price) {
-					$price_changed = true;
-					$new_price = round($new_price, wc_get_price_decimals());
-					update_post_meta($post_id, '_regular_price', $new_price);
-					$product->regular_price = $new_price;
-				}
-			}
-
-			if (!empty($_REQUEST['change_sale_price'])) {
-
-				$change_sale_price = absint($_REQUEST['change_sale_price']);
-				$sale_price = esc_attr(stripslashes($_REQUEST['_sale_price']));
-
-				switch ($change_sale_price) {
-					case 1 :
-						$new_price = $sale_price;
-						break;
-					case 2 :
-						if (strstr($sale_price, '%')) {
-							$percent = str_replace('%', '', $sale_price) / 100;
-							$new_price = $old_sale_price + ($old_sale_price * $percent);
-						} else {
-							$new_price = $old_sale_price + $sale_price;
-						}
-						break;
-					case 3 :
-						if (strstr($sale_price, '%')) {
-							$percent = str_replace('%', '', $sale_price) / 100;
-							$new_price = max(0, $old_sale_price - ($old_sale_price * $percent));
-						} else {
-							$new_price = max(0, $old_sale_price - $sale_price);
-						}
-						break;
-					case 4 :
-						if (strstr($sale_price, '%')) {
-							$percent = str_replace('%', '', $sale_price) / 100;
-							$new_price = max(0, $product->regular_price - ($product->regular_price * $percent));
-						} else {
-							$new_price = max(0, $product->regular_price - $sale_price);
-						}
-						break;
-
-					default :
-						break;
-				}
-
-				if (isset($new_price) && $new_price != $old_sale_price) {
-					$price_changed = true;
-					$new_price = !empty($new_price) || '0' === $new_price ? round($new_price, wc_get_price_decimals()) : '';
-					update_post_meta($post_id, '_sale_price', $new_price);
-					$product->sale_price = $new_price;
-				}
-			}
-
-			if ($price_changed) {
-				update_post_meta($post_id, '_sale_price_dates_from', '');
-				update_post_meta($post_id, '_sale_price_dates_to', '');
-
-				if ($product->regular_price < $product->sale_price) {
-					$product->sale_price = '';
-					update_post_meta($post_id, '_sale_price', '');
-				}
-
-				if ($product->sale_price) {
-					update_post_meta($post_id, '_price', $product->sale_price);
-				} else {
-					update_post_meta($post_id, '_price', $product->regular_price);
-				}
-			}
-		}
-
-		// Handle stock
-		if (!$product->is_type('grouped')) {
-
-			if (!empty($_REQUEST['change_stock'])) {
-				update_post_meta($post_id, '_manage_stock', 'yes');
-				wc_update_product_stock($post_id, wc_stock_amount($_REQUEST['_stock']));
-			}
-
-			if (!empty($_REQUEST['_manage_stock'])) {
-
-				if ($_REQUEST['_manage_stock'] == 'yes') {
-					update_post_meta($post_id, '_manage_stock', 'yes');
-				} else {
-					update_post_meta($post_id, '_manage_stock', 'no');
-					wc_update_product_stock($post_id, 0);
-				}
-			}
-
-			if (!empty($_REQUEST['_backorders'])) {
-				update_post_meta($post_id, '_backorders', mprm_clean($_REQUEST['_backorders']));
-			}
-
-		}
-
-		do_action('woocommerce_product_bulk_edit_save', $product);
-	}
-
 	public function bulk_edit($column_name, $post_type) {
 
-		if ('price' != $column_name || 'product' != $post_type) {
-			return;
-		}
-
-		$shipping_class = get_terms('product_shipping_class', array(
-			'hide_empty' => false,
-		));
-
-		include(WC()->plugin_path() . '/includes/admin/views/html-bulk-edit-product.php');
 	}
 
 	public function bulk_admin_notices() {
@@ -1260,178 +991,26 @@ class Hooks extends Core {
 
 		$order_statuses = mprm_get_payment_statuses();
 
-		// Check if any status changes happened
-		foreach ($order_statuses as $slug => $name) {
-
-			if (isset($_REQUEST['marked_' . str_replace('wc-', '', $slug)])) {
-
-				$number = isset($_REQUEST['changed']) ? absint($_REQUEST['changed']) : 0;
-				$message = sprintf(_n('Order status changed.', '%s order statuses changed.', $number, 'mp-restaurant-menu'), number_format_i18n($number));
-				echo '<div class="updated"><p>' . $message . '</p></div>';
-
-				break;
-			}
-		}
+//		// Check if any status changes happened
+//		foreach ($order_statuses as $slug => $name) {
+//
+//			if (isset($_REQUEST['marked_' . str_replace('mprm-', '', $slug)])) {
+//
+//				$number = isset($_REQUEST['changed']) ? absint($_REQUEST['changed']) : 0;
+//				$message = sprintf(_n('Order status changed.', '%s order statuses changed.', $number, 'mp-restaurant-menu'), number_format_i18n($number));
+//				echo '<div class="updated"><p>' . $message . '</p></div>';
+//
+//				break;
+//			}
+//		}
 	}
 
 	private function quick_edit_save($post_id, $product) {
-		global $wpdb;
 
-		$old_regular_price = $product->regular_price;
-		$old_sale_price = $product->sale_price;
-
-		// Save fields
-		if (isset($_REQUEST['_sku'])) {
-			$sku = get_post_meta($post_id, '_sku', true);
-			$new_sku = wc_clean($_REQUEST['_sku']);
-
-			if ($new_sku !== $sku) {
-				if (!empty($new_sku)) {
-					$unique_sku = wc_product_has_unique_sku($post_id, $new_sku);
-					if ($unique_sku) {
-						update_post_meta($post_id, '_sku', $new_sku);
-					}
-				} else {
-					update_post_meta($post_id, '_sku', '');
-				}
-			}
-		}
-
-		if (isset($_REQUEST['_weight'])) {
-			update_post_meta($post_id, '_weight', wc_clean($_REQUEST['_weight']));
-		}
-
-		if (isset($_REQUEST['_length'])) {
-			update_post_meta($post_id, '_length', wc_clean($_REQUEST['_length']));
-		}
-
-		if (isset($_REQUEST['_width'])) {
-			update_post_meta($post_id, '_width', wc_clean($_REQUEST['_width']));
-		}
-
-		if (isset($_REQUEST['_height'])) {
-			update_post_meta($post_id, '_height', wc_clean($_REQUEST['_height']));
-		}
-
-		if (!empty($_REQUEST['_shipping_class'])) {
-			$shipping_class = '_no_shipping_class' == $_REQUEST['_shipping_class'] ? '' : wc_clean($_REQUEST['_shipping_class']);
-
-			wp_set_object_terms($post_id, $shipping_class, 'product_shipping_class');
-		}
-
-		if (isset($_REQUEST['_visibility'])) {
-			if (update_post_meta($post_id, '_visibility', wc_clean($_REQUEST['_visibility']))) {
-				do_action('woocommerce_product_set_visibility', $post_id, wc_clean($_REQUEST['_visibility']));
-			}
-		}
-
-		if (isset($_REQUEST['_featured'])) {
-			if (update_post_meta($post_id, '_featured', 'yes')) {
-				delete_transient('wc_featured_products');
-			}
-		} else {
-			if (update_post_meta($post_id, '_featured', 'no')) {
-				delete_transient('wc_featured_products');
-			}
-		}
-
-		if (isset($_REQUEST['_tax_status'])) {
-			update_post_meta($post_id, '_tax_status', wc_clean($_REQUEST['_tax_status']));
-		}
-
-		if (isset($_REQUEST['_tax_class'])) {
-			update_post_meta($post_id, '_tax_class', wc_clean($_REQUEST['_tax_class']));
-		}
-
-		if ($product->is_type('simple') || $product->is_type('external')) {
-
-			if (isset($_REQUEST['_regular_price'])) {
-				$new_regular_price = $_REQUEST['_regular_price'] === '' ? '' : wc_format_decimal($_REQUEST['_regular_price']);
-				update_post_meta($post_id, '_regular_price', $new_regular_price);
-			} else {
-				$new_regular_price = null;
-			}
-			if (isset($_REQUEST['_sale_price'])) {
-				$new_sale_price = $_REQUEST['_sale_price'] === '' ? '' : wc_format_decimal($_REQUEST['_sale_price']);
-				update_post_meta($post_id, '_sale_price', $new_sale_price);
-			} else {
-				$new_sale_price = null;
-			}
-
-			// Handle price - remove dates and set to lowest
-			$price_changed = false;
-
-			if (!is_null($new_regular_price) && $new_regular_price != $old_regular_price) {
-				$price_changed = true;
-			} elseif (!is_null($new_sale_price) && $new_sale_price != $old_sale_price) {
-				$price_changed = true;
-			}
-
-			if ($price_changed) {
-				update_post_meta($post_id, '_sale_price_dates_from', '');
-				update_post_meta($post_id, '_sale_price_dates_to', '');
-
-				if (!is_null($new_sale_price) && $new_sale_price !== '') {
-					update_post_meta($post_id, '_price', $new_sale_price);
-				} else {
-					update_post_meta($post_id, '_price', $new_regular_price);
-				}
-			}
-		}
-
-		// Handle stock status
-		if (isset($_REQUEST['_stock_status'])) {
-			$stock_status = wc_clean($_REQUEST['_stock_status']);
-
-			if ($product->is_type('variable')) {
-				foreach ($product->get_children() as $child_id) {
-					if ('yes' !== get_post_meta($child_id, '_manage_stock', true)) {
-						wc_update_product_stock_status($child_id, $stock_status);
-					}
-				}
-
-				\WC_Product_Variable::sync_stock_status($post_id);
-			} else {
-				wc_update_product_stock_status($post_id, $stock_status);
-			}
-		}
-
-		// Handle stock
-		if (!$product->is_type('grouped')) {
-			if (isset($_REQUEST['_manage_stock'])) {
-				update_post_meta($post_id, '_manage_stock', 'yes');
-				wc_update_product_stock($post_id, wc_stock_amount($_REQUEST['_stock']));
-			} else {
-				update_post_meta($post_id, '_manage_stock', 'no');
-				wc_update_product_stock($post_id, 0);
-			}
-
-			if (!empty($_REQUEST['_backorders'])) {
-				update_post_meta($post_id, '_backorders', wc_clean($_REQUEST['_backorders']));
-			}
-		}
-
-		do_action('woocommerce_product_quick_edit_save', $product);
 	}
 
 	public function post_updated_messages($messages) {
 		global $post, $post_ID;
-//
-//		$messages['product'] = array(
-//			0 => '', // Unused. Messages start at index 1.
-//			1 => sprintf( __( 'Product updated. <a href="%s">View Product</a>', 'mp-restaurant-menu' ), esc_url( get_permalink( $post_ID ) ) ),
-//			2 => __( 'Custom field updated.', 'mp-restaurant-menu' ),
-//			3 => __( 'Custom field deleted.', 'mp-restaurant-menu' ),
-//			4 => __( 'Product updated.', 'mp-restaurant-menu' ),
-//			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Product restored to revision from %s', 'mp-restaurant-menu' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-//			6 => sprintf( __( 'Product published. <a href="%s">View Product</a>', 'mp-restaurant-menu' ), esc_url( get_permalink( $post_ID ) ) ),
-//			7 => __( 'Product saved.', 'mp-restaurant-menu' ),
-//			8 => sprintf( __( 'Product submitted. <a target="_blank" href="%s">Preview Product</a>', 'mp-restaurant-menu' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
-//			9 => sprintf( __( 'Product scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Product</a>', 'mp-restaurant-menu' ),
-//				date_i18n( __( 'M j, Y @ G:i', 'mp-restaurant-menu' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ) ),
-//			10 => sprintf( __( 'Product draft updated. <a target="_blank" href="%s">Preview Product</a>', 'mp-restaurant-menu' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
-//		);
-
 		$messages['mprm_order'] = array(
 			0 => '', // Unused. Messages start at index 1.
 			1 => __('Order updated.', 'mp-restaurant-menu'),
@@ -1447,8 +1026,6 @@ class Hooks extends Core {
 			10 => __('Order draft updated.', 'mp-restaurant-menu'),
 			11 => __('Order updated and email sent.', 'mp-restaurant-menu')
 		);
-
-
 		return $messages;
 	}
 

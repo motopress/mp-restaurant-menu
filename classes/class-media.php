@@ -855,9 +855,9 @@ class Media extends Core {
 						'sale_notification' => array(
 							'id' => 'sale_notification',
 							'name' => __('Sale Notification', 'mp-restaurant-menu'),
-							'desc' => __('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>'  /* . mprm_get_emails_tags_list()*/,
+							'desc' => __('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
 							'type' => 'rich_editor',
-							//'std' => mprm_get_default_sale_notification_email(),
+							'std' => mprm_get_default_sale_notification_email(),
 						),
 						'admin_notice_emails' => array(
 							'id' => 'admin_notice_emails',

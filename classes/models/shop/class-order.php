@@ -238,8 +238,8 @@ final class Order extends Model {
 	public function order_columns(array $existing_columns) {
 		$columns = array();
 		$columns['cb'] = $existing_columns['cb'];
-		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
+		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
 		$columns['order_customer_note'] = __('Customer note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
@@ -366,6 +366,22 @@ final class Order extends Model {
 		} else {
 			return null;
 		}
+	}
+
+	public function get_search_params() {
+		$search_params = array(
+			'_mprm_order_gateway',
+			'_mprm_order_user_id',
+			'_mprm_order_user_email',
+			'_mprm_order_purchase_key',
+			'_mprm_order_customer_note',
+			'_mprm_order_shipping_adress',
+			'_mprm_order_phone_number',
+			'_mprm_order_customer_id',
+			'_mprm_order_total',
+			'_mprm_completed_date'
+		);
+		return $search_params;
 	}
 
 	public function setup_payment($payment_id) {

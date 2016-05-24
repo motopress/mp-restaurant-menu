@@ -489,7 +489,7 @@ function mprm_terms_agreement() {
 				<a href="#" class="mprm_terms_links" style="display:none;"><?php _e('Hide Terms', 'mp-restaurant-menu'); ?></a>
 			</div>
 			<div class="mprm-terms-agreement">
-				<input name="mprm_agree_to_terms" class="required" type="checkbox" id="mprm_agree_to_terms" value="1"/>
+				<input name="mprm_agree_to_terms" class="required" required="required" type="checkbox" id="mprm_agree_to_terms" value="1"/>
 				<label for="mprm_agree_to_terms"><?php echo stripslashes($agree_label); ?></label>
 			</div>
 		</fieldset>
@@ -987,4 +987,19 @@ function mprm_get_option($key, $default = false) {
 
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
+}
+
+function mprm_get_default_sale_notification_email() {
+	$default_email_body = __('Hello', 'mp-restaurant-menu') . "\n\n" . sprintf(__('A %s purchase has been made', 'mp-restaurant-menu'), mprm_get_label_plural()) . ".\n\n";
+	$default_email_body .= sprintf(__('%s sold:', 'mp-restaurant-menu'), edd_get_label_plural()) . "\n\n";
+	$default_email_body .= '{menu_item_list}' . "\n\n";
+	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . ' {name}' . "\n";
+	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . ' {price}' . "\n";
+	$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . ' {payment_method}' . "\n\n";
+	$default_email_body .= __('Thank you', 'mp-restaurant-menu');
+
+	$message = mprm_get_option('sale_notification', false);
+	$message = !empty($message) ? $message : $default_email_body;
+
+	return $message;
 }

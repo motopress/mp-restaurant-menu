@@ -867,6 +867,13 @@ class Menu_item extends Model {
 		return false;
 	}
 
+	public function get_search_params() {
+		$search_params = array(
+			'sku'
+		);
+		return $search_params;
+	}
+
 	public function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
 		$prices = $this->get_variable_prices($menu_item_id);
 		$price_name = '';

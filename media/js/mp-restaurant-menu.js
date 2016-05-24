@@ -388,9 +388,14 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 						form = document.getElementById(formSelectorByID);
 
 					if (typeof form.checkValidity === "function" && false === form.checkValidity()) {
-						formObject.find(":invalid").first().focus();
 						formObject.find(":invalid").addClass('mprm-form-error');
 
+						formObject.find('input').each(function() {
+							if (!this.validity.valid) {
+								$(this).focus();
+
+							}
+						});
 						$("input", formObject).off('keypress').on("keypress", function(event) {
 							var type = $(this).attr("type");
 							if (/date|email|month|number|search|tel|text|time|url|week/.test(type)
@@ -399,7 +404,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 								$(this).removeClass('mprm-form-error');
 							}
 						});
-
 						return false;
 					} else {
 						return true;
@@ -749,12 +753,11 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Purchase form
 			 */
 			purchaseForm: function() {
+				$(document).on('click', '#mprm_purchase_form #mprm_purchase_submit input[type=submit]', function(e) {
 
-				$('#mprm_purchase_submit input[type=submit]', '#mprm_checkout_wrap').off('click').on('click', function(e) {
 					var form = $(this).parents('form');
 					if (!form.hasClass('mprm-no-js')) {
 
-						e.preventDefault();
 						var purchaseForm = document.getElementById('mprm_purchase_form'),
 							formObject = $(purchaseForm);
 
@@ -763,15 +766,15 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							return;
 						}
 
-						//var complete_purchase_val = $(this).val();
+						e.preventDefault();
 
 						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
 						var $params = $(purchaseForm).serializeArray();
 
 
 						//$.each($params, function(index, value) {
-						//	console.log(index);
-						//	console.log(value)
+						//
+						//	value)
 						//});
 
 						//$params.push(
@@ -798,8 +801,12 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 							function(data) {
 								$('.mprm_errors').remove();
-								//$('.mprm-error').hide();
-								$('#mprm_purchase_form').submit();
+
+								if (data.errors) {
+									$('#mprm_final_total_wrap').before(data.errors);
+								} else {
+									$('#mprm_purchase_form').submit();
+								}
 							},
 							function(data) {
 								$('.mprm-cart-ajax').remove();

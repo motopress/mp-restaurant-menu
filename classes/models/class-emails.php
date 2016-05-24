@@ -561,11 +561,11 @@ class Emails extends Model {
 				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_link'
 			),
-			array(
-				'tag' => 'discount_codes',
-				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_discount_codes'
-			),
+//			array(
+//				'tag' => 'discount_codes',
+//				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
+//				'function' => 'mprm_email_tag_discount_codes'
+//			),
 			array(
 				'tag' => 'ip_address',
 				'description' => __('The buyer\'s IP Address', 'mp-restaurant-menu'),
