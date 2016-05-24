@@ -210,8 +210,8 @@ class Hooks extends Core {
 
 		add_action('mprm_cc_billing_bottom', 'mprm_cc_billing_bottom');
 		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
-		add_action('mprm_purchase_form_before_submit', 'mprm_terms_agreement');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_additional_information');
+		add_action('mprm_purchase_form_before_submit', 'mprm_terms_agreement');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_final_total', 999);
 
 		add_action('mprm_purchase_form_after_submit', 'mprm_purchase_form_after_submit');

@@ -1026,7 +1026,7 @@ class Media extends Core {
 							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
-						'shipping adress' => array(
+						'shipping_adress' => array(
 							'id' => 'shipping_adress',
 							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
 							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),

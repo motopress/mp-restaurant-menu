@@ -121,11 +121,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					data: params
 				});
 			},
-			//$.ajax({
-			//url: 'ajax/test.html',
-			//success: function(){
-			//	alert('Load was performed.');
-			//}
 			/**
 			 * Call Tool tip
 			 *
@@ -330,6 +325,88 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					result.push(array[key]);
 				}
 				return result;
+			},
+			///**
+			// *
+			// * @param errorList
+			// */
+			//showAllErrorMessages: function(errorList, form) {
+			//	errorList.empty();
+			//	form.find('input').removeClass('mprm-form-error');
+			//	// Find all invalid fields within the form.
+			//	var invalidFields = form.find(":invalid").each(function(index, node) {
+			//
+			//		// Find the field's corresponding label
+			//		var label = $("label[for=" + node.id + "] "),
+			//		// Opera incorrectly does not fill the validationMessage property.
+			//			message = node.validationMessage || 'Invalid value.';
+			//
+			//		errorList
+			//			.show()
+			//			.append("<li><span>" + label.html() + "</span> " + message + "</li>");
+			//	});
+			//},
+			///**
+			// *
+			// */
+			//createAllErrors: function(selector) {
+			//	if (!selector) {
+			//		var form = $(this);
+			//	} else {
+			//		form = $(selector);
+			//	}
+			//	var errorList = $("ul.errorMessages", form);
+			//
+			//	// Support Safari
+			//	form.on("submit", function(event) {
+			//		if (this.checkValidity && !this.checkValidity()) {
+			//			$(this).find(":invalid").first().focus();
+			//
+			//			$(this).find(":invalid").addClass('mprm-form-error');
+			//
+			//			event.preventDefault();
+			//		}
+			//	});
+			//
+			//	$("input[type=submit], button:not([type=button])", form)
+			//		.on("click", state.showAllErrorMessages(errorList, form));
+			//
+			//	$("input", form).on("keypress", function(event) {
+			//		var type = $(this).attr("type");
+			//		if (/date|email|month|number|search|tel|text|time|url|week/.test(type)
+			//			&& event.keyCode == 13) {
+			//			state.showAllErrorMessages(errorList, form);
+			//		}
+			//	});
+			//
+			//},
+
+			validateForm: function(formSelectorByID) {
+				if (formSelectorByID) {
+
+					var formObject = $('#' + formSelectorByID),
+						form = document.getElementById(formSelectorByID);
+
+					if (typeof form.checkValidity === "function" && false === form.checkValidity()) {
+						formObject.find(":invalid").first().focus();
+						formObject.find(":invalid").addClass('mprm-form-error');
+
+						$("input", formObject).off('keypress').on("keypress", function(event) {
+							var type = $(this).attr("type");
+							if (/date|email|month|number|search|tel|text|time|url|week/.test(type)
+								&& event.keyCode == 13) {
+							} else {
+								$(this).removeClass('mprm-form-error');
+							}
+						});
+
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					return false;
+				}
 			}
 		};
 	}
@@ -678,26 +755,35 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					if (!form.hasClass('mprm-no-js')) {
 
 						e.preventDefault();
+						var purchaseForm = document.getElementById('mprm_purchase_form'),
+							formObject = $(purchaseForm);
 
-						var purchaseForm = document.getElementById('mprm_purchase_form');
-						if (typeof purchaseForm.checkValidity === "function" && false === purchaseForm.checkValidity()) {
+
+						if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
 							return;
 						}
 
-						var complete_purchase_val = $(this).val();
+						//var complete_purchase_val = $(this).val();
 
 						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
 						var $params = $(purchaseForm).serializeArray();
-						$params.push(
-							{
-								name: 'controller',
-								value: 'cart'
-							},
-							{
-								name: 'mprm_action',
-								value: 'purchase'
-							}
-						);
+
+
+						//$.each($params, function(index, value) {
+						//	console.log(index);
+						//	console.log(value)
+						//});
+
+						//$params.push(
+						//	{
+						//		name: 'controller',
+						//		value: 'cart'
+						//	},
+						//	{
+						//		name: 'mprm_action',
+						//		value: 'purchase'
+						//	}
+						//);
 
 						$.each($params, function(index, element) {
 							if (element) {
@@ -712,13 +798,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 							function(data) {
 								$('.mprm_errors').remove();
-								$('.mprm-error').hide();
+								//$('.mprm-error').hide();
 								$('#mprm_purchase_form').submit();
 							},
 							function(data) {
 								$('.mprm-cart-ajax').remove();
 								$('.mprm_errors').remove();
-								$('.mprm-error').hide();
+								//	$('.mprm-error').hide();
 								console.warn('Some error!!!');
 								console.warn(data);
 							}
@@ -1683,11 +1769,14 @@ MP_RM_Registry.register("Theme", (function($) {
 			MP_RM_Registry._get('Menu-Shop').addToCart();
 		}
 		if ($('#mprm_purchase_submit').length) {
+
 			MP_RM_Registry._get('Menu-Shop').purchaseForm();
 
 		}
 
 		if ($('#mprm_purchase_form').length) {
+			//$("form").each(MP_RM_Registry._get('MP_RM_Functions').createAllErrors());
+			//MP_RM_Registry._get('MP_RM_Functions').createAllErrors('#mprm_purchase_form');
 
 			MP_RM_Registry._get('Menu-Shop').loadGateway();
 			MP_RM_Registry._get('Menu-Shop').changeGateway();

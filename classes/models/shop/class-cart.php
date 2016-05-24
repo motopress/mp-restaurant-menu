@@ -581,7 +581,7 @@ class Cart extends Model {
 	}
 
 	public function cart_total($echo = true) {
-		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total())));
+		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total(), true)));
 		if (!$echo) {
 			return $total;
 		}

@@ -1,7 +1,7 @@
 <?php do_action('mprm_before_additional_information'); ?>
 	<fieldset id="mprm_additional_information_fields" class="mprm-do-validate">
 		<span><legend><?php _e('Additional information', 'mp-restaurant-menu'); ?></legend></span>
-		<?php $temp = mprm_get_option('shipping_adress', true); ?>
+		<?php $temp = mprm_get_option('shipping_adress', false); ?>
 		<?php if (mprm_get_option('shipping_adress')): ?>
 			<p id="mprm-adress-wrap">
 				<label for="phone_number" class="mprm-label">

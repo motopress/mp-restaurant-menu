@@ -5,6 +5,7 @@ use \mp_restaurant_menu\classes\models\Taxes as Taxes;
 use \mp_restaurant_menu\classes\models\Cart as Cart;
 use \mp_restaurant_menu\classes\models\Misc as Misc;
 use \mp_restaurant_menu\classes\models\Menu_item as Menu_item;
+
 // No key found
 if (!isset($payment_key)) { ?>
 	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
@@ -70,7 +71,7 @@ if (isset($need_login) && $need_login) {
 						<li>
 							<span class="mprm_fee_label"><?php echo esc_html($fee['label']); ?></span>
 							<span class="mprm_fee_sep">&nbsp;&ndash;&nbsp;</span>
-							<span class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount'])); ?></span>
+							<span class="mprm_fee_amount"><?php echo mprm_currency_filter(mprm_format_amount($fee['amount'])); ?></span>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -204,7 +205,7 @@ if (isset($need_login) && $need_login) {
 						<?php } ?>
 						<td>
 							<?php if (empty($item['in_bundle'])) : // Only show price when product is not part of a bundle ?>
-								<?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($item['price'])); ?>
+								<?php echo mprm_currency_filter(mprm_format_amount($item['price'])); ?>
 							<?php endif; ?>
 						</td>
 					</tr>
@@ -218,7 +219,7 @@ if (isset($need_login) && $need_login) {
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 						<td></td>
 					<?php endif; ?>
-					<td class="mprm_fee_amount"><?php echo Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount'])) ?></td>
+					<td class="mprm_fee_amount"><?php echo mprm_currency_filter(mprm_format_amount($fee['amount'])) ?></td>
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>

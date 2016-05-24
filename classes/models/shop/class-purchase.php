@@ -143,7 +143,7 @@ class Purchase extends Model {
 		$regex = "/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i";
 		$valid = preg_match($regex, $number) ? true : false;
 		if (!$valid) {
-			$this->get('errors')->set_error('invalid_discount', __('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
 		}
 		return $valid ? $number : false;
 	}
@@ -164,7 +164,7 @@ class Purchase extends Model {
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
 			'customer_note' => sanitize_text_field($_POST['customer_note']),
 			'shipping_adress' => sanitize_text_field($_POST['shipping_adress']),
-			'phone_number' => $this->purchase_form_validate_phone()
+			'phone_number' => !empty(sanitize_text_field($_POST['phone_number'])) ? $this->purchase_form_validate_phone() : ''
 		);
 
 		// Validate agree to terms

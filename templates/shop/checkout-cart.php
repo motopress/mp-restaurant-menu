@@ -4,6 +4,7 @@ use mp_restaurant_menu\classes\models\Cart as Cart;
 use mp_restaurant_menu\classes\models\Menu_item as Menu_item;
 use mp_restaurant_menu\classes\models\Formatting as Formatting;
 use mp_restaurant_menu\classes\models\Taxes as Taxes;
+
 ?>
 <table id="mprm_checkout_cart" <?php if (!$is_ajax_disabled) {
 	echo 'class="ajaxed"';
@@ -59,7 +60,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">
 				<?php do_action('mprm_cart_fee_rows_before', $fee_id, $fee); ?>
 				<td class="mprm_cart_fee_label"><?php echo esc_html($fee['label']); ?></td>
-				<td class="mprm_cart_fee_amount"><?php echo esc_html(Menu_item::get_instance()->currency_filter(mprm_format_amount($fee['amount']))); ?></td>
+				<td class="mprm_cart_fee_amount"><?php echo esc_html(mprm_currency_filter(mprm_format_amount($fee['amount']))); ?></td>
 				<td>
 					<?php if (!empty($fee['type']) && 'item' == $fee['type']) : ?>
 						<a href="<?php echo esc_url(Cart::get_instance()->remove_cart_fee_url($fee_id)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
@@ -109,8 +110,8 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<tr class="mprm_cart_footer_row">
 		<?php do_action('mprm_checkout_table_footer_first'); ?>
 		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>:
-			<span class="mprm_cart_amount" data-subtotal="<?php echo Cart::get_instance()->get_cart_total(); ?>" data-total="<?php echo Cart::get_instance()->get_cart_total(); ?>">
-				<?php Cart::get_instance()->cart_total(); ?>
+			<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_get_cart_total(); ?>" data-total="<?php echo mprm_get_cart_total(); ?>">
+				<?php echo mprm_get_cart_total(); ?>
 			</span>
 		</th>
 		<?php do_action('mprm_checkout_table_footer_last'); ?>
