@@ -1290,6 +1290,9 @@ there.
   display: block;
   margin: 0 0 5px;
 }
+#mprm_checkout_cart {
+  table-layout: auto;
+}
 #mprm_checkout_cart th {
   padding: 1.387em;
   font-weight: 700;
@@ -1308,6 +1311,9 @@ there.
   border: 1px solid #eee;
   color: #666;
   padding: .5em 1.387em;
+}
+#mprm_checkout_cart td.mprm_cart_actions .mprm-item-quantity {
+  width: 25%;
 }
 #mprm_checkout_form_wrap fieldset {
   border: 1px solid #eee;

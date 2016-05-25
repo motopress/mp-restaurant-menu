@@ -392,6 +392,9 @@ there.
 .mprm-admin-box .mprm-admin-box-inside .admin-time-input {
   width: 25%;
 }
+.mprm-admin-box .mprm-admin-box-inside .small-text {
+  width: 25%;
+}
 .admin-bar.post-type-mprm_order .mprm-row {
   padding: 12px;
   border-bottom: 1px solid #eee;

@@ -16,6 +16,18 @@
 				} ?>/>
 		</p>
 
+		<?php if (mprm_get_option('customer_phone')): ?>
+			<p id="mprm-phone-number-wrap">
+				<label for="phone_number" class="mprm-label">
+					<?php _e('Phone Number:', 'mp-restaurant-menu'); ?>
+					<span class="mprm-required-indicator">*</span>
+					<span class="phone-type"></span>
+				</label>
+				<span class="mprm-description"><?php _e('This is your primary home phone', 'mp-restaurant-menu'); ?></span>
+				<input type="tel" pattern="(\+?\d[- .]*){7,13}" autocomplete="off" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
+			</p>
+		<?php endif; ?>
+
 		<?php do_action('mprm_purchase_form_after_email'); ?>
 		<p id="mprm-first-name-wrap">
 			<label class="mprm-label" for="mprm-first">
@@ -30,6 +42,7 @@
 					echo ' required ';
 				} ?>/>
 		</p>
+
 		<p id="mprm-last-name-wrap">
 			<label class="mprm-label" for="mprm-last">
 				<?php _e('Last Name', 'mp-restaurant-menu'); ?>

@@ -110,8 +110,8 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<tr class="mprm_cart_footer_row">
 		<?php do_action('mprm_checkout_table_footer_first'); ?>
 		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>:
-			<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_get_cart_total(); ?>" data-total="<?php echo mprm_get_cart_total(); ?>">
-				<?php echo mprm_get_cart_total(); ?>
+			<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>" data-total="<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>">
+				<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>
 			</span>
 		</th>
 		<?php do_action('mprm_checkout_table_footer_last'); ?>

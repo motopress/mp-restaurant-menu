@@ -166,6 +166,7 @@ final class Order extends Model {
 			'low',
 			array('post_type' => $this->get_post_type('order'))
 		);
+
 		//Meta box
 		add_meta_box(
 			'order-purchased',
@@ -173,7 +174,16 @@ final class Order extends Model {
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
-			'low',
+			'high',
+			array('post_type' => $this->get_post_type('order'))
+		);
+		add_meta_box(
+			'customer-notes',
+			__('Order Notes', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
 		add_meta_box(
@@ -198,15 +208,6 @@ final class Order extends Model {
 		add_meta_box(
 			'order-notes',
 			__('Payment Notes', 'mp-restaurant-menu'),
-			array($this, 'render_meta_box'),
-			$this->get_post_type('order'),
-			'advanced',
-			'low',
-			array('post_type' => $this->get_post_type('order'))
-		);
-		add_meta_box(
-			'customer-notes',
-			__('Order Notes', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -240,7 +241,7 @@ final class Order extends Model {
 		$columns['cb'] = $existing_columns['cb'];
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
-		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
+//		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
 		$columns['order_customer_note'] = __('Customer note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
@@ -297,14 +298,14 @@ final class Order extends Model {
 				}
 
 				break;
-			case 'order_ship_to':
-				echo $order->shipping_adress;
-				break;
+//			case 'order_ship_to':
+//				echo $order->shipping_adress;
+//				break;
 			case 'order_customer_note':
 				echo $order->customer_note;
 				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d purchase', '%d purchases', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
+				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
 				if (sizeof($order->menu_items) > 0) {
 				}
 				break;
@@ -1179,6 +1180,9 @@ final class Order extends Model {
 		return update_post_meta($this->ID, $meta_key, $meta_value, $prev_value);
 	}
 
+	/**
+	 * Process refund
+	 */
 	private function process_refund() {
 		$process_refund = true;
 		// If the payment was not in publish or mprm-revoked status, don't decrement stats as they were never incremented
@@ -1201,6 +1205,9 @@ final class Order extends Model {
 		do_action('mprm_post_refund_payment', $this);
 	}
 
+	/**
+	 * Process failure
+	 */
 	private function process_failure() {
 		$discounts = $this->discounts;
 		if ('none' === $discounts || empty($discounts)) {
@@ -1214,6 +1221,9 @@ final class Order extends Model {
 		}
 	}
 
+	/**
+	 *  Process_pending
+	 */
 	private function process_pending() {
 		$process_pending = true;
 		// If the payment was not in publish or revoked status, don't decrement stats as they were never incremented

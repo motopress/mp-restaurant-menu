@@ -14,17 +14,7 @@
 			</p>
 		<?php endif; ?>
 
-		<?php if (mprm_get_option('customer_phone')): ?>
-			<p id="mprm-phone-number-wrap">
-				<label for="phone_number" class="mprm-label">
-					<?php _e('Phone Number:', 'mp-restaurant-menu'); ?>
-					<span class="mprm-required-indicator">*</span>
-					<span class="phone-type"></span>
-				</label>
-				<span class="mprm-description"><?php _e('This is your primary home phone', 'mp-restaurant-menu'); ?></span>
-				<input type="text" autocomplete="off" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
-			</p>
-		<?php endif; ?>
+
 
 		<p id="mprm-phone-number-wrap">
 			<label for="customer_note" class="mprm-label">

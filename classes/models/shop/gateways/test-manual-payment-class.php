@@ -1,14 +1,18 @@
 <?php namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
-class Manual_payment extends Model {
+
+class Test_Manual_payment extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-	public function manual_payment($purchase_data) {
+
+	public function test_manual_payment($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
@@ -51,9 +55,10 @@ class Manual_payment extends Model {
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		}
 	}
+
 	public function init_action() {
-		add_action('mprm_gateway_manual', array($this, 'manual_payment'));
-		add_action('mprm_manual_cc_form', '__return_false');
+		add_action('mprm_gateway_test_manual', array($this, 'test_manual_payment'));
+		add_action('mprm_test_manual_cc_form', '__return_false');
 	}
 }
 

@@ -117,11 +117,13 @@
 	}
   }
 }
-#mprm_purchase_form{
-  textarea{
+
+#mprm_purchase_form {
+  textarea {
 	width: 100%;
   }
 }
+
 #mprm_checkout_wrap {
   .mprm-required-indicator {
 	color: #b94a48;
@@ -145,6 +147,7 @@
 }
 
 #mprm_checkout_cart {
+  table-layout: auto;
   th {
 	padding: 1.387em;
 	font-weight: 700;
@@ -168,7 +171,9 @@
 	color: #666;
 	padding: .5em 1.387em;
 	&.mprm_cart_actions {
-
+	  .mprm-item-quantity {
+		width: 25%;
+	  }
 	}
   }
 }

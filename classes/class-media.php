@@ -152,7 +152,7 @@ class Media extends Core {
 				case "mprm_order":
 					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
 					$this->enqueue_script('mprm-chosen', 'libs/chosen.jquery.min.js', array("jquery"), '1.1.0');
-
+					wp_enqueue_media();
 					break;
 				case "customize":
 					break;
@@ -715,14 +715,14 @@ class Media extends Core {
 							'name' => __('Payment Gateways', 'mp-restaurant-menu'),
 							'desc' => __('Choose the payment gateways you want to enable.', 'mp-restaurant-menu'),
 							'type' => 'gateways',
-							'options' => $this->get_payment_gateways(),
+							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
 						'default_gateway' => array(
 							'id' => 'default_gateway',
 							'name' => __('Default Gateway', 'mp-restaurant-menu'),
 							'desc' => __('This gateway will be loaded automatically with the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'gateway_select',
-							'options' => $this->get_payment_gateways(),
+							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
 						'accepted_cards' => array(
 							'id' => 'accepted_cards',
@@ -1290,21 +1290,7 @@ class Media extends Core {
 		return $pages_options;
 	}
 
-	public function get_payment_gateways() {
-		// Default, built-in gateways
-		$gateways = array(
-			'paypal' => array(
-				'admin_label' => __('PayPal Standard', 'mp-restaurant-menu'),
-				'checkout_label' => __('PayPal', 'mp-restaurant-menu'),
-				'supports' => array('buy_now')
-			),
-			'manual' => array(
-				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
-				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
-			),
-		);
-		return apply_filters('mprm_payment_gateways', $gateways);
-	}
+//
 
 	public function get_button_styles() {
 		$styles = array(

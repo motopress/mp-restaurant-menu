@@ -26,6 +26,30 @@ class Settings extends Model {
 	public function get_settings($key = false) {
 		$settings = get_option('mprm_settings');
 		if (empty($settings)) {
+			$default_settings =
+				array('currency' => 'USD',
+					'customer_phone' => '1',
+					'gateways' =>
+						array(
+							'paypal' => '1',
+							'manual' => '1',
+						),
+					'currency_position' => 'before',
+					'thousands_separator' => ',',
+					'decimal_separator' => '.',
+					'accepted_cards' =>
+						array(
+							'mastercard' => 'Mastercard',
+							'visa' => 'Visa',
+							'americanexpress' => 'American Express',
+							'discover' => 'Discover',
+							'paypal' => 'PayPal',
+						),
+					'checkout_label' => 'Purchase',
+					'add_to_cart_text' => 'Add to Cart',
+					'buy_now_text' => 'Buy Now'
+				);
+
 			// Update old settings with new single option
 			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
 			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
@@ -35,7 +59,8 @@ class Settings extends Model {
 			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
 			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
 			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
-			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings);
+			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings, $default_settings);
+
 			update_option('mprm_settings', $settings);
 		}
 		if (!empty($settings[$key])) {

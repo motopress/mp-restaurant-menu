@@ -991,7 +991,7 @@ function mprm_currency_decimal_filter() {
 
 function mprm_get_default_sale_notification_email() {
 	$default_email_body = __('Hello', 'mp-restaurant-menu') . "\n\n" . sprintf(__('A %s purchase has been made', 'mp-restaurant-menu'), mprm_get_label_plural()) . ".\n\n";
-	$default_email_body .= sprintf(__('%s sold:', 'mp-restaurant-menu'), edd_get_label_plural()) . "\n\n";
+	$default_email_body .= sprintf(__('%s sold:', 'mp-restaurant-menu'), mprm_get_label_plural()) . "\n\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
 	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . ' {name}' . "\n";
 	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . ' {price}' . "\n";

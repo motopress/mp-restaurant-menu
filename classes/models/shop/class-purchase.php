@@ -98,8 +98,8 @@ class Purchase extends Model {
 		// If the total amount in the cart is 0, send to the manual gateway. This emulates a free menu_item purchase
 		if (!$purchase_data['price']) {
 			// Revert to manual
-			$purchase_data['gateway'] = 'manual';
-			$_POST['mprm-gateway'] = 'manual';
+			$purchase_data['gateway'] = 'test_manual';
+			$_POST['mprm-gateway'] = 'test_manual';
 		}
 		// Allow the purchase data to be modified before it is sent to the gateway
 		$purchase_data = apply_filters('mprm_purchase_data_before_gateway', $purchase_data, $valid_data);
@@ -144,7 +144,7 @@ class Purchase extends Model {
 	 */
 	public function purchase_form_validate_phone() {
 		$number = sanitize_text_field($_POST['phone_number']);
-		$regex = "/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i";
+		$regex = "/(\+?\d[- .]*){7,13}/i";
 		$valid = preg_match($regex, $number) ? true : false;
 		if (!$valid) {
 			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
@@ -204,7 +204,7 @@ class Purchase extends Model {
 		if (!empty($_REQUEST['mprm-gateway'])) {
 			$gateway = sanitize_text_field($_REQUEST['mprm-gateway']);
 			if ('0.00' == $this->get('cart')->get_cart_total()) {
-				$gateway = 'manual';
+				$gateway = 'test_manual';
 			} elseif (!$this->get('gateways')->is_gateway_active($gateway)) {
 				$this->get('errors')->set_error('invalid_gateway', __('The selected payment gateway is not enabled', 'mp-restaurant-menu'));
 			}

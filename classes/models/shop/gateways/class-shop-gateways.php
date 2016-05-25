@@ -1,13 +1,17 @@
 <?php namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+
 class Gateways extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function get_enabled_payment_gateways($sort = false) {
 		$gateways = $this->get_payment_gateways();
 		$enabled = $this->get('settings')->get_option('gateways', false);
@@ -28,6 +32,7 @@ class Gateways extends Model {
 		}
 		return apply_filters('mprm_enabled_payment_gateways', $gateway_list);
 	}
+
 	public function get_payment_gateways() {
 		// Default, built-in gateways
 		$gateways = array(
@@ -36,13 +41,18 @@ class Gateways extends Model {
 				'checkout_label' => __('PayPal', 'mp-restaurant-menu'),
 				'supports' => array('buy_now')
 			),
-			'manual' => array(
+			'test_manual' => array(
 				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
 				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
+			'manual' => array(
+				'admin_label' => __('Manual Payment', 'mp-restaurant-menu'),
+				'checkout_label' => __('Manual Payment', 'mp-restaurant-menu')
+			)
 		);
 		return apply_filters('mprm_payment_gateways', $gateways);
 	}
+
 	public function get_default_gateway() {
 		$default = $this->get('settings')->get_option('default_gateway', 'paypal');
 		if (!$this->is_gateway_active($default)) {
@@ -52,11 +62,13 @@ class Gateways extends Model {
 		}
 		return apply_filters('mprm_default_gateway', $default);
 	}
+
 	public function is_gateway_active($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
 		$ret = array_key_exists($gateway, $gateways);
 		return apply_filters('mprm_is_gateway_active', $ret, $gateway, $gateways);
 	}
+
 	public function shop_supports_buy_now() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$ret = false;
@@ -70,16 +82,19 @@ class Gateways extends Model {
 		}
 		return apply_filters('mprm_shop_supports_buy_now', $ret);
 	}
+
 	public function gateway_supports_buy_now($gateway) {
 		$supports = $this->get_gateway_supports($gateway);
 		$ret = in_array('buy_now', $supports);
 		return apply_filters('mprm_gateway_supports_buy_now', $ret, $gateway);
 	}
+
 	public function get_gateway_supports($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
 		$supports = isset($gateways[$gateway]['supports']) ? $gateways[$gateway]['supports'] : array();
 		return apply_filters('mprm_gateway_supports', $supports, $gateway);
 	}
+
 	public function get_chosen_gateway() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$chosen = isset($_REQUEST['payment-mode']) ? $_REQUEST['payment-mode'] : false;
@@ -92,16 +107,17 @@ class Gateways extends Model {
 			foreach ($gateways as $gateway_id => $gateway):
 				$enabled_gateway = $gateway_id;
 				if ($this->get('cart')->get_cart_subtotal() <= 0) {
-					$enabled_gateway = 'manual'; // This allows a free menu_item by filling in the info
+					$enabled_gateway = 'test_manual'; // This allows a free menu_item by filling in the info
 				}
 			endforeach;
 		} else if ($this->get('cart')->get_cart_subtotal() <= 0) {
-			$enabled_gateway = 'manual';
+			$enabled_gateway = 'test_manual';
 		} else {
 			$enabled_gateway = $this->get_default_gateway();
 		}
 		return apply_filters('mprm_chosen_gateway', $enabled_gateway);
 	}
+
 	public function show_gateways() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$show_gateways = false;
@@ -114,11 +130,13 @@ class Gateways extends Model {
 		}
 		return apply_filters('mprm_show_gateways', $show_gateways);
 	}
+
 	public function send_to_gateway($gateway, $payment_data) {
 		$payment_data['gateway_nonce'] = wp_create_nonce('mprm-gateway');
 		// $gateway must match the ID used when registering the gateway
 		do_action('mprm_gateway_' . $gateway, $payment_data);
 	}
+
 	function build_straight_to_gateway_data($menu_item_id = 0, $options = array(), $quantity = 1) {
 		$price_options = array();
 		if (empty($options) || !$this->get('menu_item')->has_variable_prices($menu_item_id)) {
@@ -197,19 +215,21 @@ class Gateways extends Model {
 		);
 		return apply_filters('mprm_straight_to_gateway_purchase_data', $purchase_data);
 	}
+
 	function get_gateway_checkout_label($gateway) {
 		$gateways = $this->get_payment_gateways();
 		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['checkout_label'] : $gateway;
-		if ($gateway == 'manual') {
+		if ($gateway == 'test_manual') {
 			$label = __('Free Purchase', 'mp-restaurant-menu');
 		}
 		return apply_filters('mprm_gateway_checkout_label', $label, $gateway);
 	}
+
 	function get_gateway_admin_label($gateway) {
 		$gateways = $this->get_payment_gateways();
 		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['admin_label'] : $gateway;
 		$payment = isset($_GET['id']) ? absint($_GET['id']) : false;
-		if ($gateway == 'manual' && $payment) {
+		if ($gateway == 'test_manual' && $payment) {
 			if ($this->get('payments')->get_payment_amount($payment) == 0) {
 				$label = __('Free Purchase', 'mp-restaurant-menu');
 			}

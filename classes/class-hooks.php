@@ -3,6 +3,7 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Emails;
+use mp_restaurant_menu\classes\models\Test_Manual_payment;
 use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\models\Payments;
@@ -69,6 +70,8 @@ class Hooks extends Core {
 		add_filter('query_vars', array($this, 'add_custom_query_var'));
 		add_action('parse_query', array($this, 'mprm_search_custom_fields'));
 
+
+		add_filter('views_edit-mprm_order', array($this, 'clear_admin_filter'));
 		// Bulk / quick edit
 		//add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
 		//add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
@@ -169,6 +172,7 @@ class Hooks extends Core {
 		self::install_tag_actions();
 		self::install_cart_actions();
 		self::install_checkout_actions();
+		Test_Manual_payment::get_instance()->init_action();
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
 		Payments::get_instance()->init_action();
@@ -198,11 +202,8 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
 		add_action('mprm_purchase_form_register_fields', 'mprm_get_register_fields');
 		add_action('mprm_register_account_fields_before', 'mprm_register_account_fields_before');
-		add_action('mprm_register_account_fields_after', 'mprm_register_account_fields_after');
 		add_action('mprm_register_fields_before', 'mprm_user_info_fields');
-		add_action('mprm_register_fields_after', 'mprm_register_fields_after');
 		add_action('mprm_purchase_form_user_info', 'mprm_purchase_form_user_info');
-		add_action('mprm_purchase_form_user_register_fields', 'mprm_purchase_form_user_register_fields');
 		add_action('mprm_purchase_form_before_register_login', 'mprm_purchase_form_before_register_login');
 		add_action('mprm_purchase_form_login_fields', 'mprm_get_login_fields');
 		add_action('mprm_purchase_form_before_cc_form', 'mprm_purchase_form_before_cc_form');
@@ -1049,6 +1050,13 @@ class Hooks extends Core {
 
 
 		return $bulk_messages;
+	}
+
+	public function clear_admin_filter($views) {
+		unset($views['mine']);
+		unset($views['draft']);
+		$views['publish'] = preg_replace('/Published/', 'Complete', $views['publish']);
+		return $views;
 	}
 
 	public function remove_row_actions($actions, $post) {

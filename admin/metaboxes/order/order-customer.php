@@ -9,13 +9,10 @@ $customer = mprm_get_customer($customer_id); ?>
 		<?php echo mprm_customers_dropdown(array('selected' => $customer->id, 'name' => 'customer-id')); ?>
 		<input type="hidden" name="mprm-current-customer" value="<?php echo $customer->id; ?>"/>
 	</div>
-
-
 	<div class="mprm-columns mprm-six">
 		<a href="#new" class="mprm-new-customer"
 		   title="<?php _e('New Customer', 'mp-restaurant-menu'); ?>"><?php _e('New Customer', 'mp-restaurant-menu'); ?></a>
 	</div>
-
 </div>
 
 <div class="column-container new-customer mprm-row" style="display: none">

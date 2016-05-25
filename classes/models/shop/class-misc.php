@@ -1,16 +1,20 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Model;
+
 class Misc extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-	function get_current_page_url($nocache = false) {
+
+	public function get_current_page_url($nocache = false) {
 		global $wp;
 		if (get_option('permalink_structure')) {
 			$base = trailingslashit(home_url($wp->request));
@@ -31,6 +35,7 @@ class Misc extends Model {
 		}
 		return $uri;
 	}
+
 	/**
 	 * Adds the 'nocache' parameter to the provided URL
 	 *
@@ -40,22 +45,25 @@ class Misc extends Model {
 	 *
 	 * @return string      The URL with cache busting added or not
 	 */
-	function add_cache_busting($url = '') {
+	public function add_cache_busting($url = '') {
 		$no_cache_checkout = $this->get('settings')->get_option('no_cache_checkout', false);
 		if (Capabilities::get_instance()->is_caching_plugin_active() || ($this->get('checkout')->is_checkout() && $no_cache_checkout)) {
 			$url = add_query_arg('nocache', 'true', $url);
 		}
 		return $url;
 	}
-	function is_test_mode() {
+
+	public function is_test_mode() {
 		$ret = $this->get('settings')->get_option('test_mode', false);
 		return (bool)apply_filters('mprm_is_test_mode', $ret);
 	}
-	function no_guest_checkout() {
+
+	public function no_guest_checkout() {
 		$ret = $this->get('settings')->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_no_guest_checkout', $ret);
 	}
-	function get_ip() {
+
+	public function get_ip() {
 		$ip = '127.0.0.1';
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			//check ip from share internet
@@ -68,24 +76,29 @@ class Misc extends Model {
 		}
 		return apply_filters('mprm_get_ip', $ip);
 	}
-	function get_currency_name($code = 'USD') {
+
+	public function get_currency_name($code = 'USD') {
 		$currencies = $this->get('settings')->get_currencies();
 		$name = isset($currencies[$code]) ? $currencies[$code] : $code;
 		return apply_filters('mprm_currency_name', $name);
 	}
-	function mprm_die_handler() {
+
+	public function mprm_die_handler() {
 		die();
 	}
-	function mprm_die($message = '', $title = '', $status = 400) {
+
+	public function mprm_die($message = '', $title = '', $status = 400) {
 		add_filter('wp_die_ajax_handler', array($this, 'mprm_die_handler'), 10, 3);
 		add_filter('wp_die_handler', array($this, 'mprm_die_handler'), 10, 3);
 		wp_die($message, $title, array('response' => $status));
 	}
-	function use_skus() {
+
+	public function use_skus() {
 		$ret = $this->get('settings')->get_option('enable_skus', false);
 		return (bool)apply_filters('mprm_use_skus', $ret);
 	}
-	function can_view_receipt($payment_key = '') {
+
+	public function can_view_receipt($payment_key = '') {
 		global $mprm_receipt_args;
 		$return = false;
 		if (empty($payment_key)) {
@@ -111,7 +124,8 @@ class Misc extends Model {
 		}
 		return (bool)apply_filters('mprm_can_view_receipt', $return, $payment_key);
 	}
-	function get_php_arg_separator_output() {
+
+	public function get_php_arg_separator_output() {
 		return ini_get('arg_separator.output');
 	}
 }

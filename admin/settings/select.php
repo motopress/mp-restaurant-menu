@@ -10,12 +10,12 @@ $defaults = array(
 	'multiple' => false,
 	'show_option_all' => _x('All', 'all dropdown items', 'mp-restaurant-menu'),
 	'show_option_none' => _x('None', 'no dropdown items', 'mp-restaurant-menu'),
-	'data' => array(),
+	'data_attr' => array(),
 );
 $args = wp_parse_args($data, $defaults);
 
 $data_elements = '';
-foreach ($args['data'] as $key => $value) {
+foreach ($args['data_attr'] as $key => $value) {
 	$data_elements .= ' data-' . esc_attr($key) . '="' . esc_attr($value) . '"';
 }
 if ($args['multiple']) {
