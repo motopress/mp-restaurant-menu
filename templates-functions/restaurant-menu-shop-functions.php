@@ -853,6 +853,11 @@ function mprm_get_payment_statuses() {
 	return models\Payments::get_instance()->get_payment_statuses();
 }
 
+/**
+ * @param WP_Post $post
+ *
+ * @return models\Order
+ */
 function mprm_get_order_object(\WP_Post $post) {
 	return new models\Order($post->ID);
 }
@@ -969,6 +974,11 @@ function mprm_get_payment_note_html($note, $payment_id = 0) {
 	return models\Payments::get_instance()->get_payment_note_html($note, $payment_id);
 }
 
+/**
+ * @param $customer_id
+ *
+ * @return models\Customer
+ */
 function mprm_get_customer($customer_id) {
 	return new models\Customer(array('field' => 'id', 'value' => $customer_id));
 }

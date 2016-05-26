@@ -18,11 +18,17 @@ class Controller_customer extends Controller {
 
 	public function action_add_customer() {
 
-		$customer = $this->get('customer')->create(array('email' => $_REQUEST['email'], 'name' => $_REQUEST['name']));
+		$customer = $this->get('customer')->create(array(
+				'email' => sanitize_email($_REQUEST['email']),
+				'name' => sanitize_text_field($_REQUEST['name']),
+				'phone' => sanitize_text_field($_REQUEST['phone'])
+			)
+		);
 		$this->date['success'] = $customer;
 		if ($customer) {
 			$customer_object = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $_REQUEST['email']));
 			$this->date['data']['html'] = mprm_customers_dropdown(array('selected' => $customer_object->id));
+			$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
 			$this->date['data']['customer_id'] = $customer_object->id;
 		}
 		$this->send_json($this->date);
@@ -36,6 +42,9 @@ class Controller_customer extends Controller {
 		$this->send_json($this->date);
 	}
 
+	/**
+	 * Ajax login user
+	 */
 	public function action_login_ajax() {
 		$request = $_POST;
 		if (wp_verify_nonce($request['nonce'], 'mprm-login-nonce')) {
@@ -75,11 +84,15 @@ class Controller_customer extends Controller {
 		}
 	}
 
-	public function action_remove_customer() {
 
-	}
-
-	public function action_get_customer_info() {
-
+	public function action_get_customer_information() {
+		$customer_object = $this->get('customer')->get_customer(array('field' => 'id', 'value' => $_REQUEST['customer_id']));
+		if (!empty($customer_object)) {
+			$this->date['success'] = true;
+			$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
+		} else {
+			$this->date['success'] = false;
+		}
+		$this->send_json($this->date);
 	}
 }

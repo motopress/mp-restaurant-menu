@@ -77,6 +77,11 @@ class Checkout extends Model {
 		return apply_filters('mprm_get_checkout_uri', $uri);
 	}
 
+	/**
+	 * Send back to checkout
+	 *
+	 * @param array $args
+	 */
 	public function send_back_to_checkout($args = array()) {
 		$redirect = $this->get_checkout_uri();
 		if (!empty($args)) {

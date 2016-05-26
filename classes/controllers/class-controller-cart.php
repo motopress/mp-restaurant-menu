@@ -68,7 +68,6 @@ class Controller_cart extends Controller {
 	 *  Purchase
 	 */
 	public function action_purchase() {
-
 		if (Core::is_ajax()) {
 			$this->get('purchase')->process_purchase_form();
 		} else {

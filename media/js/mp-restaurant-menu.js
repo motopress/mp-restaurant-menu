@@ -921,7 +921,14 @@ MP_RM_Registry.register("Order", (function($) {
 				state.addMenuItem();
 				state.recalculate_total();
 				state.changeOrderBaseCountry();
+				state.changeCustomer();
+				//state.changeStatus();
 			},
+			//changeStatus: function() {
+			//	$('select[name="mprm-order-status"]').on('change', function() {
+			//		$('#post_status').val($(this).val());
+			//	})
+			//},
 			/**
 			 * Change order Base Country
 			 */
@@ -1149,6 +1156,30 @@ MP_RM_Registry.register("Order", (function($) {
 
 			},
 			/**
+			 * Change customer in dropdown
+			 */
+			changeCustomer: function() {
+
+				$('[name="customer-id"]').on('change', function() {
+					var $params = {
+						action: 'get_customer_information',
+						controller: 'customer',
+						customer_id: $(this).val()
+					};
+
+					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						function(data) {
+							$('.mprm-customer-information').html(data.customer_information);
+						},
+						function(data) {
+							console.warn('Some error!!!');
+							console.warn(data);
+						}
+					);
+				});
+
+			},
+			/**
 			 * Add new customer
 			 */
 			addCustomer: function() {
@@ -1172,7 +1203,8 @@ MP_RM_Registry.register("Order", (function($) {
 						action: 'add_customer',
 						controller: 'customer',
 						name: $('[name="mprm-new-customer-name"]').val(),
-						email: $('[name="mprm-new-customer-email"]').val()
+						email: $('[name="mprm-new-customer-email"]').val(),
+						phone: $('[name="mprm-new-phone-number"]').val()
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
@@ -1180,7 +1212,7 @@ MP_RM_Registry.register("Order", (function($) {
 							$('.customer-info.mprm-row').show();
 							$('.new-customer.mprm-row').hide();
 							$('[name="customer-id"]').replaceWith(data.html);
-
+							$('.mprm-customer-information').html(data.customer_information);
 						},
 						function(data) {
 							$('.customer-info.mprm-row').show();
@@ -1244,6 +1276,8 @@ MP_RM_Registry.register("Order", (function($) {
 				$('#order-log').hide();
 				$('#titlewrap').parents('#post-body-content').hide();
 				$('#commentstatusdiv').parent().hide();
+				$('#post_status').find('option').remove();
+				$('select[name="mprm-order-status"]').find('option').clone().appendTo($('#post_status'));
 			}
 		}
 	}

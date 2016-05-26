@@ -111,6 +111,7 @@ class Customer extends Model {
 				array(
 					'email' => $args['email'],
 					'name' => $args['name'],
+					'telephone' => $args['phone'],
 					'payment_ids' => $args['payment_ids'],
 					'date_created' => date('Y-m-d H:i:s')
 				)

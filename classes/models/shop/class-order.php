@@ -509,14 +509,17 @@ final class Order extends Model {
 			if (did_action('mprm_pre_process_purchase') && is_user_logged_in()) {
 				$customer = new Customer(array('field' => 'user_id', 'value' => get_current_user_id()));
 			}
+
 			if (empty($customer->id)) {
 				$customer = new Customer(array('field' => 'email', 'value' => $this->email));
 			}
+
 			if (empty($customer->id)) {
 				$customer_data = array(
 					'name' => !is_email($payment_title) ? $this->first_name . ' ' . $this->last_name : '',
 					'email' => $this->email,
 					'user_id' => $this->user_id,
+					'phone' => $this->phone_number
 				);
 				$customer->create($customer_data);
 			}
@@ -1101,6 +1104,13 @@ final class Order extends Model {
 		$this->recalculate_total();
 	}
 
+	/**
+	 * Update post status
+	 *
+	 * @param bool $status
+	 *
+	 * @return bool|int|\WP_Error
+	 */
 	public function update_status($status = false) {
 		if ($status == 'mprm-completed' || $status == 'mprm-complete') {
 			$status = 'publish';

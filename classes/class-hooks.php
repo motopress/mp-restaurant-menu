@@ -1059,6 +1059,7 @@ class Hooks extends Core {
 		return $views;
 	}
 
+
 	public function remove_row_actions($actions, $post) {
 		global $current_screen;
 		if ($current_screen->post_type != 'mprm_order') return $actions;

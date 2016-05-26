@@ -318,6 +318,7 @@ class Payments extends Parent_query {
 
 			$email = isset($data['mprm-new-customer-email']) ? sanitize_text_field($data['mprm-new-customer-email']) : '';
 			$names = isset($data['mprm-new-customer-name']) ? sanitize_text_field($data['mprm-new-customer-name']) : '';
+			$phone = isset($data['mprm-new-phone-number']) ? sanitize_text_field($data['mprm-new-phone-number']) : '';
 
 			if (empty($email) || empty($names)) {
 				wp_die(__('New Customers require a name and email address', 'mp-restaurant-menu'));
@@ -325,7 +326,7 @@ class Payments extends Parent_query {
 
 			$customer = new Customer(array('field' => 'email', 'value' => $email));
 			if (empty($customer->id)) {
-				$customer_data = array('name' => $names, 'email' => $email);
+				$customer_data = array('name' => $names, 'email' => $email, 'phone' => $phone);
 				$user_id = email_exists($email);
 				if (false !== $user_id) {
 					$customer_data['user_id'] = $user_id;
