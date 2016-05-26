@@ -23,6 +23,7 @@ class Post extends Module {
 	 */
 	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
+			'show_in_rest' => true,
 			'label' => $params['post_type'],
 			'labels' => $this->get_labels($params, $plugin_name),
 			'public' => true,
