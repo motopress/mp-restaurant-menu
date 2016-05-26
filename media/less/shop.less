@@ -1,140 +1,140 @@
 /*Buy button color*/
-.mprm_purchase_submit_wrapper {
-  .mprm-submit {
-	display: inline-block;
-	padding: 6px 12px;
-	margin: 0;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1.428571429;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: middle;
-	cursor: pointer;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-shadow: none;
-	user-select: none;
-	&:visited,
+
+a.mprm-submit, input.mprm-submit {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  user-select: none;
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+	color: #333333;
+	background: #ebebeb;
+	border-color: #adadad;
+  }
+  &.gray {
+	color: #333333;
+	background: #f0f0f0;
+	border-color: #cccccc;
 	&:hover,
 	&:focus,
 	&:active {
 	  color: #333333;
 	  background: #ebebeb;
 	  border-color: #adadad;
+	  background-image: none;
 	}
-	&.gray {
+  }
+  &.white {
+	color: #333333;
+	background: @white;
+	border-color: #cccccc;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: #333333;
-	  background: #f0f0f0;
-	  border-color: #cccccc;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #333333;
-		background: #ebebeb;
-		border-color: #adadad;
-		background-image: none;
-	  }
+	  background: #ebebeb;
+	  border-color: #adadad;
+	  background-image: none;
 	}
-	&.white {
-	  color: #333333;
-	  background: @white;
-	  border-color: #cccccc;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: #333333;
-		background: #ebebeb;
-		border-color: #adadad;
-		background-image: none;
-	  }
-	}
-	&.blue {
+  }
+  &.blue {
+	color: @white;
+	background: #428bca;
+	border-color: #357ebd;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: @white;
-	  background: #428bca;
-	  border-color: #357ebd;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #3276b1;
-		border-color: #285e8e;
-		background-image: none;
-	  }
+	  background: #3276b1;
+	  border-color: #285e8e;
+	  background-image: none;
 	}
-	&.red {
+  }
+  &.red {
+	color: @white;
+	background: #d9534f;
+	border-color: #d43f3a;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: @white;
-	  background: #d9534f;
-	  border-color: #d43f3a;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #d2322d;
-		border-color: #ac2925;
-		background-image: none;
-	  }
+	  background: #d2322d;
+	  border-color: #ac2925;
+	  background-image: none;
 	}
-	&.green {
+  }
+  &.green {
+	color: @white;
+	background: #5cb85c;
+	border-color: #4cae4c;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: @white;
-	  background: #5cb85c;
-	  border-color: #4cae4c;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #47a447;
-		border-color: #398439;
-		background-image: none;
-	  }
+	  background: #47a447;
+	  border-color: #398439;
+	  background-image: none;
 	}
-	&.yellow {
-	  color: @white;
-	  background: #f0ad4e;
-	  border-color: #eea236;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #ed9c28;
-		border-color: #d58512;
-		background-image: none;
-	  }
-	}
-	&.orange {
+  }
+  &.yellow {
+	color: @white;
+	background: #f0ad4e;
+	border-color: #eea236;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: @white;
 	  background: #ed9c28;
-	  border-color: #e3921e;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #e59016;
-		border-color: #d58512;
-		background-image: none;
-	  }
+	  border-color: #d58512;
+	  background-image: none;
 	}
-	&.dark-gray {
+  }
+  &.orange {
+	color: @white;
+	background: #ed9c28;
+	border-color: #e3921e;
+	&:hover,
+	&:focus,
+	&:active {
 	  color: @white;
-	  background: #363636;
-	  border-color: #222;
-	  &:hover,
-	  &:focus,
-	  &:active {
-		color: @white;
-		background: #333;
-		border-color: #adadad;
-		background-image: none;
-	  }
+	  background: #e59016;
+	  border-color: #d58512;
+	  background-image: none;
 	}
   }
-
-  .mprm-cart-added-alert {
-	color: #567622;
-	display: block;
-	position: absolute;
+  &.dark-gray {
+	color: @white;
+	background: #363636;
+	border-color: #222;
+	&:hover,
+	&:focus,
+	&:active {
+	  color: @white;
+	  background: #333;
+	  border-color: #adadad;
+	  background-image: none;
+	}
   }
+}
 
+.mprm-cart-added-alert {
+  color: #567622;
+  display: block;
+  position: absolute;
 }
 
 #mprm_purchase_form {

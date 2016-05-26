@@ -1164,7 +1164,11 @@ there.
   font-size: 3rem;
 }
 /*Buy button color*/
-.mprm_purchase_submit_wrapper .mprm-submit {
+a.mprm-submit,
+input.mprm-submit {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
   display: inline-block;
   padding: 6px 12px;
   margin: 0;
@@ -1177,122 +1181,157 @@ there.
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: none;
   user-select: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit:visited,
-.mprm_purchase_submit_wrapper .mprm-submit:hover,
-.mprm_purchase_submit_wrapper .mprm-submit:focus,
-.mprm_purchase_submit_wrapper .mprm-submit:active {
+a.mprm-submit:visited,
+input.mprm-submit:visited,
+a.mprm-submit:hover,
+input.mprm-submit:hover,
+a.mprm-submit:focus,
+input.mprm-submit:focus,
+a.mprm-submit:active,
+input.mprm-submit:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.gray {
+a.mprm-submit.gray,
+input.mprm-submit.gray {
   color: #333333;
   background: #f0f0f0;
   border-color: #cccccc;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.gray:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.gray:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.gray:active {
+a.mprm-submit.gray:hover,
+input.mprm-submit.gray:hover,
+a.mprm-submit.gray:focus,
+input.mprm-submit.gray:focus,
+a.mprm-submit.gray:active,
+input.mprm-submit.gray:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.white {
+a.mprm-submit.white,
+input.mprm-submit.white {
   color: #333333;
   background: #ffffff;
   border-color: #cccccc;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.white:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.white:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.white:active {
+a.mprm-submit.white:hover,
+input.mprm-submit.white:hover,
+a.mprm-submit.white:focus,
+input.mprm-submit.white:focus,
+a.mprm-submit.white:active,
+input.mprm-submit.white:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.blue {
+a.mprm-submit.blue,
+input.mprm-submit.blue {
   color: #ffffff;
   background: #428bca;
   border-color: #357ebd;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.blue:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.blue:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.blue:active {
+a.mprm-submit.blue:hover,
+input.mprm-submit.blue:hover,
+a.mprm-submit.blue:focus,
+input.mprm-submit.blue:focus,
+a.mprm-submit.blue:active,
+input.mprm-submit.blue:active {
   color: #ffffff;
   background: #3276b1;
   border-color: #285e8e;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.red {
+a.mprm-submit.red,
+input.mprm-submit.red {
   color: #ffffff;
   background: #d9534f;
   border-color: #d43f3a;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.red:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.red:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.red:active {
+a.mprm-submit.red:hover,
+input.mprm-submit.red:hover,
+a.mprm-submit.red:focus,
+input.mprm-submit.red:focus,
+a.mprm-submit.red:active,
+input.mprm-submit.red:active {
   color: #ffffff;
   background: #d2322d;
   border-color: #ac2925;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.green {
+a.mprm-submit.green,
+input.mprm-submit.green {
   color: #ffffff;
   background: #5cb85c;
   border-color: #4cae4c;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.green:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.green:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.green:active {
+a.mprm-submit.green:hover,
+input.mprm-submit.green:hover,
+a.mprm-submit.green:focus,
+input.mprm-submit.green:focus,
+a.mprm-submit.green:active,
+input.mprm-submit.green:active {
   color: #ffffff;
   background: #47a447;
   border-color: #398439;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.yellow {
+a.mprm-submit.yellow,
+input.mprm-submit.yellow {
   color: #ffffff;
   background: #f0ad4e;
   border-color: #eea236;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.yellow:active {
+a.mprm-submit.yellow:hover,
+input.mprm-submit.yellow:hover,
+a.mprm-submit.yellow:focus,
+input.mprm-submit.yellow:focus,
+a.mprm-submit.yellow:active,
+input.mprm-submit.yellow:active {
   color: #ffffff;
   background: #ed9c28;
   border-color: #d58512;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.orange {
+a.mprm-submit.orange,
+input.mprm-submit.orange {
   color: #ffffff;
   background: #ed9c28;
   border-color: #e3921e;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.orange:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.orange:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.orange:active {
+a.mprm-submit.orange:hover,
+input.mprm-submit.orange:hover,
+a.mprm-submit.orange:focus,
+input.mprm-submit.orange:focus,
+a.mprm-submit.orange:active,
+input.mprm-submit.orange:active {
   color: #ffffff;
   background: #e59016;
   border-color: #d58512;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray {
+a.mprm-submit.dark-gray,
+input.mprm-submit.dark-gray {
   color: #ffffff;
   background: #363636;
   border-color: #222;
 }
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:hover,
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:focus,
-.mprm_purchase_submit_wrapper .mprm-submit.dark-gray:active {
+a.mprm-submit.dark-gray:hover,
+input.mprm-submit.dark-gray:hover,
+a.mprm-submit.dark-gray:focus,
+input.mprm-submit.dark-gray:focus,
+a.mprm-submit.dark-gray:active,
+input.mprm-submit.dark-gray:active {
   color: #ffffff;
   background: #333;
   border-color: #adadad;
   background-image: none;
 }
-.mprm_purchase_submit_wrapper .mprm-cart-added-alert {
+.mprm-cart-added-alert {
   color: #567622;
   display: block;
   position: absolute;

@@ -256,7 +256,7 @@ function mprm_get_register_fields() {
 		<fieldset id="mprm_register_account_fields">
 			<span>
 				<legend><?php _e('Create an account', 'mp-restaurant-menu');
-					if (!models\Misc::get_instance()->no_guest_checkout()) {
+					if (!mprm_is_no_guest_checkout()) {
 						echo ' ' . __('(optional)', 'mp-restaurant-menu');
 					} ?></legend>
 			</span>
@@ -264,38 +264,40 @@ function mprm_get_register_fields() {
 			<p id="mprm-user-login-wrap">
 				<label for="mprm_user_login">
 					<?php _e('Username', 'mp-restaurant-menu'); ?>
-					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
+					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
 				<span class="mprm-description"><?php _e('The username you will use to log into your account.', 'mp-restaurant-menu'); ?></span>
-				<input name="mprm_user_login" id="mprm_user_login" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
-					echo 'required ';
-				} ?>mprm-input" type="text" placeholder="<?php _e('Username', 'mp-restaurant-menu'); ?>" title="<?php _e('Username', 'mp-restaurant-menu'); ?>"/>
+				<input name="mprm_user_login" id="mprm_user_login" class="mprm-input"
+					<?php if (mprm_is_no_guest_checkout()) {
+						echo 'required ';
+					} ?> type="text" placeholder="<?php _e('Username', 'mp-restaurant-menu'); ?>" title="<?php _e('Username', 'mp-restaurant-menu'); ?>"/>
 			</p>
 			<p id="mprm-user-pass-wrap">
 				<label for="mprm_user_pass">
 					<?php _e('Password', 'mp-restaurant-menu'); ?>
-					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
+					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
 				<span class="mprm-description"><?php _e('The password used to access your account.', 'mp-restaurant-menu'); ?></span>
-				<input name="mprm_user_pass" id="mprm_user_pass" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
-					echo 'required ';
-				} ?>mprm-input" placeholder="<?php _e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
+				<input name="mprm_user_pass" id="mprm_user_pass" class="mprm-input"
+					<?php if (mprm_is_no_guest_checkout()) {
+						echo 'required ';
+					} ?> placeholder="<?php _e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
 			<p id="mprm-user-pass-confirm-wrap" class="mprm_register_password">
 				<label for="mprm_user_pass_confirm">
 					<?php _e('Password Again', 'mp-restaurant-menu'); ?>
-					<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
+					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
 				<span class="mprm-description"><?php _e('Confirm your password.', 'mp-restaurant-menu'); ?></span>
-				<input name="mprm_user_pass_confirm" id="mprm_user_pass_confirm" class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
+				<input name="mprm_user_pass_confirm" id="mprm_user_pass_confirm" class="mprm-input" <?php if (mprm_is_no_guest_checkout()) {
 					echo 'required ';
-				} ?>mprm-input" placeholder="<?php _e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
+				} ?> placeholder="<?php _e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
 			<?php do_action('mprm_register_account_fields_after'); ?>
 		</fieldset>
@@ -311,9 +313,14 @@ function mprm_get_register_fields() {
 function mprm_purchase_form_before_cc_form() {
 }
 
+function mprm_is_no_guest_checkout() {
+	return models\Misc::get_instance()->no_guest_checkout();
+}
+
 function mprm_checkout_tax_fields() {
-	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && models\Cart::get_instance()->get_cart_total())
+	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && models\Cart::get_instance()->get_cart_total()) {
 		mprm_default_cc_address_fields();
+	}
 }
 
 function mprm_default_cc_address_fields() {
@@ -540,7 +547,7 @@ function mprm_get_login_fields() {
 				<?php _e('Need to create an account?', 'mp-restaurant-menu'); ?>
 				<a href="<?php echo esc_url(remove_query_arg('login')); ?>" class="mprm_checkout_register_login" data-action="checkout_register">
 					<?php _e('Register', 'mp-restaurant-menu');
-					if (!models\Misc::get_instance()->no_guest_checkout()) {
+					if (!mprm_is_no_guest_checkout()) {
 						echo ' ' . __('or checkout as a guest.', 'mp-restaurant-menu');
 					} ?>
 				</a>
@@ -550,25 +557,25 @@ function mprm_get_login_fields() {
 		<p id="mprm-user-login-wrap">
 			<label class="mprm-label" for="mprm-username">
 				<?php _e('Username', 'mp-restaurant-menu'); ?>
-				<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
+				<?php if (mprm_is_no_guest_checkout()) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<input class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
+			<input class="<?php if (mprm_is_no_guest_checkout()) {
 				echo 'required ';
 			} ?>mprm-input" type="text" name="mprm_user_login" id="mprm_user_login" value="" placeholder="<?php _e('Your username', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<p id="mprm-user-pass-wrap" class="mprm_login_password">
 			<label class="mprm-label" for="mprm-password">
 				<?php _e('Password', 'mp-restaurant-menu'); ?>
-				<?php if (models\Misc::get_instance()->no_guest_checkout()) { ?>
+				<?php if (mprm_is_no_guest_checkout()) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<input class="<?php if (models\Misc::get_instance()->no_guest_checkout()) {
+			<input class="<?php if (mprm_is_no_guest_checkout()) {
 				echo 'required ';
 			} ?>mprm-input" type="password" name="mprm_user_pass" id="mprm_user_pass" placeholder="<?php _e('Your password', 'mp-restaurant-menu'); ?>"/>
-			<?php if (models\Misc::get_instance()->no_guest_checkout()) : ?>
+			<?php if (mprm_is_no_guest_checkout()) : ?>
 				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
 		</p>

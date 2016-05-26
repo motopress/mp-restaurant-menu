@@ -38,7 +38,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	}
 
 
-	$item = View::get_instance()->render_html('widgets\cart\cart-item', array(), false);
+	$item = View::get_instance()->render_html('widgets/cart/cart-item', array(), false);
 
 
 	$item = str_replace('{item_title}', $title, $item);

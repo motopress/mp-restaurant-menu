@@ -78,7 +78,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		user_id bigint(11) NOT NULL,
 		email varchar(50) NOT NULL,
 		name mediumtext NOT NULL,
-		telephone smallint(20) NOT NULL,
+		telephone varchar(15) NOT NULL,
 		purchase_value mediumtext NOT NULL,
 		purchase_count bigint(11) NOT NULL,
 		payment_ids longtext NOT NULL,

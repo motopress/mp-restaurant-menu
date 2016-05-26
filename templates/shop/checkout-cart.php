@@ -28,7 +28,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 					<?php
 					if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) {
 						echo '<div class="mprm_cart_item_image">';
-						echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', array(25, 25)));
+						echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail'));
 						echo '</div>';
 					}
 					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>

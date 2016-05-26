@@ -12,11 +12,11 @@ if (!is_user_logged_in()) : ?>
 			<div class="mprm-login-fields">
 				<p>
 					<label for="mprm_user_login"><?php _e('Username or Email', 'mp-restaurant-menu'); ?></label>
-					<input name="mprm_user_login" id="mprm_user_login" class="required mprm-input" type="text" title="<?php _e('Username or Email', 'mp-restaurant-menu'); ?>"/>
+					<input name="mprm_user_login" id="mprm_user_login" class="required mprm-input" required type="text" title="<?php _e('Username or Email', 'mp-restaurant-menu'); ?>"/>
 				</p>
 				<p>
 					<label for="mprm_user_pass"><?php _e('Password', 'mp-restaurant-menu'); ?></label>
-					<input name="mprm_user_pass" id="mprm_user_pass" class="password required mprm-input" type="password"/>
+					<input name="mprm_user_pass" id="mprm_user_pass" class="password required mprm-input" required type="password"/>
 				</p>
 				<p>
 					<input type="hidden" name="redirect" value="<?php echo esc_url($mprm_login_redirect); ?>"/>
