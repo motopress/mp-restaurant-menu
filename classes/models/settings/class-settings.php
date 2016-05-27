@@ -27,13 +27,16 @@ class Settings extends Model {
 		$settings = get_option('mprm_settings');
 		if (empty($settings)) {
 			$default_settings =
-				array('currency' => 'USD',
+				array(
+					'enable_ecommerce' => '1',
+					'currency' => 'USD',
 					'customer_phone' => '1',
 					'gateways' =>
 						array(
 							'paypal' => '1',
 							'manual' => '1',
 						),
+					'item_quantities' => '1',
 					'currency_position' => 'before',
 					'thousands_separator' => ',',
 					'decimal_separator' => '.',

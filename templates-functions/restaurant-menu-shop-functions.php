@@ -112,7 +112,7 @@ function mprm_checkout_button_purchase() {
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = models\Settings::get_instance()->get_option('button_style', 'button');
 	$label = models\Settings::get_instance()->get_option('checkout_label', '');
-	if (models\Cart::get_instance()->get_cart_total()) {
+	if (mprm_get_cart_total()) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
 		$complete_purchase = !empty($label) ? $label : __('Free Menu item', 'mp-restaurant-menu');
@@ -153,7 +153,7 @@ function mprm_purchase_form() {
 		 * @since 1.4
 		 */
 		do_action('mprm_purchase_form_before_cc_form');
-		if (models\Cart::get_instance()->get_cart_total() > 0) {
+		if (mprm_get_cart_total() > 0) {
 			// Load the credit card form and allow gateways to load their own if they wish
 			if (has_action('mprm_' . $payment_mode . '_cc_form')) {
 				do_action('mprm_' . $payment_mode . '_cc_form');
@@ -318,7 +318,7 @@ function mprm_is_no_guest_checkout() {
 }
 
 function mprm_checkout_tax_fields() {
-	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && models\Cart::get_instance()->get_cart_total()) {
+	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && mprm_get_cart_total()) {
 		mprm_default_cc_address_fields();
 	}
 }
@@ -998,6 +998,14 @@ function mprm_get_currency() {
 	return models\Settings::get_instance()->get_currency();
 }
 
+/**
+ * Get option by key
+ *
+ * @param $key
+ * @param bool $default
+ *
+ * @return mixed|void
+ */
 function mprm_get_option($key, $default = false) {
 	return models\Settings::get_instance()->get_option($key, $default);
 }

@@ -325,6 +325,9 @@ class Media extends Core {
 			'public' => false,
 			'show_ui' => true,
 			'capability_type' => 'shop_payment',
+			'capabilities' => array(
+				'create_posts' => false,
+			),
 			'map_meta_cap' => true,
 			'publicly_queryable' => false,
 			'exclude_from_search' => true,
@@ -553,6 +556,12 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
+						'enable_ecommerce' => array(
+							'id' => 'enable_ecommerce',
+							'name' => __('Enable Ecommerce', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+							'desc' => __('This option will turn your shop to catalog mode. So users will not be able to shop in your site.', 'mp-restaurant-menu'),
+						),
 						'category_view' => array(
 							'id' => 'category_view',
 							'name' => __('Menu Category View', 'mp-restaurant-menu'),

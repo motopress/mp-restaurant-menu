@@ -1822,8 +1822,6 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 
 		if ($('#mprm_purchase_form').length) {
-			//$("form").each(MP_RM_Registry._get('MP_RM_Functions').createAllErrors());
-			//MP_RM_Registry._get('MP_RM_Functions').createAllErrors('#mprm_purchase_form');
 
 			MP_RM_Registry._get('Menu-Shop').loadGateway();
 			MP_RM_Registry._get('Menu-Shop').changeGateway();
