@@ -1062,7 +1062,8 @@ class Settings extends Model {
 			$purchase_page_id = $this->get_option('purchase_page');
 			if (is_page($purchase_page_id)) {
 				$post_data = get_post($purchase_page_id, ARRAY_A);
-				$post_data['post_content'] = empty(preg_match('/[mprm_checkout]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_checkout]' : $post_data['post_content'];
+				$exists_shortcode = preg_match('/[mprm_checkout]/', $post_data['post_content']);
+				$post_data['post_content'] = empty($exists_shortcode) ? $post_data['post_content'] . '[mprm_checkout]' : $post_data['post_content'];
 				wp_update_post($post_data);
 			} else {
 				$purchase_page_id = wp_insert_post(
@@ -1082,7 +1083,8 @@ class Settings extends Model {
 			$success_page_id = $this->get_option('success_page');
 			if (is_page($success_page_id)) {
 				$post_data = get_post($success_page_id, ARRAY_A);
-				$post_data['post_content'] = empty(preg_match('/[mprm_success]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_success]' : $post_data['post_content'];
+				$exists_shortcode = preg_match('/[mprm_success]/', $post_data['post_content']);
+				$post_data['post_content'] = empty($exists_shortcode) ? $post_data['post_content'] . '[mprm_success]' : $post_data['post_content'];
 				wp_update_post($post_data);
 			} else {
 				$success_page_id = wp_insert_post(
@@ -1102,7 +1104,8 @@ class Settings extends Model {
 			$purchase_history_page_id = $this->get_option('purchase_history_page');
 			if (is_page($purchase_history_page_id)) {
 				$post_data = get_post($purchase_history_page_id, ARRAY_A);
-				$post_data['post_content'] = empty(preg_match('/[mprm_purchase_history]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_purchase_history]' : $post_data['post_content'];
+				$exists_shortcode = preg_match('/[mprm_purchase_history]/', $post_data['post_content']);
+				$post_data['post_content'] = empty($exists_shortcode) ? $post_data['post_content'] . '[mprm_purchase_history]' : $post_data['post_content'];
 				wp_update_post($post_data);
 			} else {
 				$purchase_history_page_id = wp_insert_post(
@@ -1122,7 +1125,8 @@ class Settings extends Model {
 			$failure_page_id = $this->get_option('failure_page');
 			if (is_page($failure_page_id)) {
 				$post_data = get_post($failure_page_id, ARRAY_A);
-				$post_data['post_content'] = empty(preg_match('/Your transaction failed/', $post_data['post_content'])) ? $post_data['post_content'] . __('Your transaction failed, please try again or contact site support.', 'mp-restaurant-menu') : $post_data['post_content'];
+				$exists_text = preg_match('/Your transaction failed/', $post_data['post_content']);
+				$post_data['post_content'] = empty($exists_text) ? $post_data['post_content'] . __('Your transaction failed, please try again or contact site support.', 'mp-restaurant-menu') : $post_data['post_content'];
 				wp_update_post($post_data);
 			} else {
 				$failure_page_id = wp_insert_post(
