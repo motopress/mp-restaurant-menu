@@ -64,4 +64,16 @@ class Controller_Settings extends Controller {
 		wp_redirect(remove_query_arg('mprm_action'));
 		exit;
 	}
+
+	public function action_create_pages() {
+		$this->get('settings')->create_settings_pages();
+		update_option('mprm_install_page' . get_current_user_id(), true);
+		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings'));
+	}
+
+	public function action_skip_create_pages() {
+		update_option('mprm_install_page' . get_current_user_id(), true);
+		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings'));
+
+	}
 }

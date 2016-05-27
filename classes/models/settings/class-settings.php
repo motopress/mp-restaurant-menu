@@ -1056,6 +1056,90 @@ class Settings extends Model {
 		}
 	}
 
+	public function create_settings_pages() {
+
+		if ($this->get_option('purchase_page')) {
+			$purchase_page_id = $this->get_option('purchase_page');
+			if (is_page($purchase_page_id)) {
+				$post_data = get_post($purchase_page_id, ARRAY_A);
+				$post_data['post_content'] = empty(preg_match('/[mprm_checkout]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_checkout]' : $post_data['post_content'];
+				wp_update_post($post_data);
+			} else {
+				$purchase_page_id = wp_insert_post(
+					array(
+						'post_title' => 'Checkout',
+						'post_content' => '[mprm_checkout]',
+						'post_status' => 'publish',
+						'post_type' => 'page'
+					)
+				);
+				if ($purchase_page_id) {
+					$this->set_option('purchase_page', $purchase_page_id);
+				}
+			}
+		}
+		if ($this->get_option('success_page')) {
+			$success_page_id = $this->get_option('success_page');
+			if (is_page($success_page_id)) {
+				$post_data = get_post($success_page_id, ARRAY_A);
+				$post_data['post_content'] = empty(preg_match('/[mprm_success]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_success]' : $post_data['post_content'];
+				wp_update_post($post_data);
+			} else {
+				$success_page_id = wp_insert_post(
+					array(
+						'post_title' => 'Success',
+						'post_content' => '[mprm_success]',
+						'post_status' => 'publish',
+						'post_type' => 'page'
+					)
+				);
+				if ($success_page_id) {
+					$this->set_option('success_page', $success_page_id);
+				}
+			}
+		}
+		if ($this->get_option('purchase_history_page')) {
+			$purchase_history_page_id = $this->get_option('purchase_history_page');
+			if (is_page($purchase_history_page_id)) {
+				$post_data = get_post($purchase_history_page_id, ARRAY_A);
+				$post_data['post_content'] = empty(preg_match('/[mprm_purchase_history]/', $post_data['post_content'])) ? $post_data['post_content'] . '[mprm_purchase_history]' : $post_data['post_content'];
+				wp_update_post($post_data);
+			} else {
+				$purchase_history_page_id = wp_insert_post(
+					array(
+						'post_title' => 'Purchase history',
+						'post_content' => '[mprm_purchase_history]',
+						'post_status' => 'publish',
+						'post_type' => 'page'
+					)
+				);
+				if ($purchase_history_page_id) {
+					$this->set_option('purchase_history_page', $purchase_history_page_id);
+				}
+			}
+		}
+		if ($this->get_option('failure_page')) {
+			$failure_page_id = $this->get_option('failure_page');
+			if (is_page($failure_page_id)) {
+				$post_data = get_post($failure_page_id, ARRAY_A);
+				$post_data['post_content'] = empty(preg_match('/Your transaction failed/', $post_data['post_content'])) ? $post_data['post_content'] . __('Your transaction failed, please try again or contact site support.', 'mp-restaurant-menu') : $post_data['post_content'];
+				wp_update_post($post_data);
+			} else {
+				$failure_page_id = wp_insert_post(
+					array(
+						'post_title' => 'Transaction Failed',
+						'post_content' => __('Your transaction failed, please try again or contact site support.', 'mp-restaurant-menu'),
+						'post_status' => 'publish',
+						'post_type' => 'page'
+					)
+				);
+				if ($failure_page_id) {
+					$this->set_option('failure_page', $failure_page_id);
+				}
+			}
+		}
+	}
+
 	public function string_is_image_url($str) {
 		$ext = $this->get_file_extension($str);
 		switch (strtolower($ext)) {
@@ -1176,6 +1260,16 @@ class Settings extends Model {
 		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
 		$value = apply_filters('mprm_get_option', $value, $key, $default);
 		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
+	}
+
+	public function set_option($key = '', $value = false) {
+		global $mprm_options;
+
+		if (empty($mprm_options)) {
+			$mprm_options = Settings::get_instance()->get_settings();
+		}
+		$mprm_options[$key] = apply_filters('mprm_set_option', $value, $key);
+		return update_option('mprm_settings', $mprm_options);
 	}
 
 	public function mprm_settings_sanitize($input = array()) {

@@ -986,25 +986,14 @@ class Hooks extends Core {
 
 	public function show_admin_notices() {
 		global $pagenow;
-		$notices = array(
-			'updated' => array(),
-			'error' => array(),
-		);
 		if ($pagenow == 'plugins.php') {
-			$notice = '<div class="notice is-dismissible notice-warning"> <p>'; ?>
+			if (current_user_can('install_plugins') && current_user_can('manage_options')) {
+				if (!get_option('mprm_install_page' . get_current_user_id())) {
+					View::get_instance()->render_html('../admin/notices/install-plugin');
 
-			<a href="<?php  ?>">This notice only appears on the plugins page.</a>
-
-			<?php $notice .= '</a></p>  </div>';
-
-			if ( current_user_can( 'install_plugins' ) ){
-
+				}
 			}
-				if ( current_user_can( 'manage_options' ) )
-					if ( current_user_can( 'edit_theme_options' ) )
-			echo $notice;
 		}
-
 	}
 
 	public function dismiss_admin_notices() {
