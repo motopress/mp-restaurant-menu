@@ -12,8 +12,8 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<thead>
 	<tr class="mprm_cart_header_row">
 		<?php do_action('mprm_checkout_table_header_first'); ?>
-		<th class="mprm_cart_item_name"><?php _e('Item Name', 'mp-restaurant-menu'); ?></th>
-		<th class="mprm_cart_item_price"><?php _e('Item Price', 'mp-restaurant-menu'); ?></th>
+		<th class="mprm_cart_item_name"><?php _e('Product', 'mp-restaurant-menu'); ?></th>
+		<th class="mprm_cart_item_price"><?php _e('Price', 'mp-restaurant-menu'); ?></th>
 		<th class="mprm_cart_actions"><?php _e('Actions', 'mp-restaurant-menu'); ?></th>
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>

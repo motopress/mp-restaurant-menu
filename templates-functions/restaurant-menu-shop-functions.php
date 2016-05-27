@@ -66,7 +66,7 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></span><br/>
+			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?><legend></span>
 			<?php
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
@@ -1007,14 +1007,15 @@ function mprm_currency_decimal_filter() {
 }
 
 function mprm_get_default_sale_notification_email() {
-	$default_email_body = __('Hello', 'mp-restaurant-menu') . "\n\n" . sprintf(__('A %s purchase has been made', 'mp-restaurant-menu'), mprm_get_label_plural()) . ".\n\n";
-	$default_email_body .= sprintf(__('%s sold:', 'mp-restaurant-menu'), mprm_get_label_plural()) . "\n\n";
+	
+	$default_email_body = __('A new purchase has been made', 'mp-restaurant-menu') . "\n\n";
+	$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
-	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . ' {name}' . "\n";
-	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . ' {price}' . "\n";
-	$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . ' {payment_method}' . "\n\n";
+	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . "{fullname}" . "\n";
+	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . "{price}" . "\n";
+	$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . " " . "{payment_method}" . "\n\n";
 	$default_email_body .= __('Thank you', 'mp-restaurant-menu');
-
+	
 	$message = mprm_get_option('sale_notification', false);
 	$message = !empty($message) ? $message : $default_email_body;
 

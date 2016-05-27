@@ -42,12 +42,12 @@ class Gateways extends Model {
 				'supports' => array('buy_now')
 			),
 			'test_manual' => array(
-				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
+				'admin_label' => __('Test Payment (auto-complete payment)', 'mp-restaurant-menu'),
 				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 			'manual' => array(
-				'admin_label' => __('Manual Payment', 'mp-restaurant-menu'),
-				'checkout_label' => __('Manual Payment', 'mp-restaurant-menu')
+				'admin_label' => __('Manual Payments (process payments manually)', 'mp-restaurant-menu'),
+				'checkout_label' => __('Manual Payments', 'mp-restaurant-menu')
 			)
 		);
 		return apply_filters('mprm_payment_gateways', $gateways);

@@ -26,10 +26,11 @@ class Emails extends Model {
 	 * @return mixed|void
 	 */
 	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
-		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n";
-		$default_email_body .= __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n";
+		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
+		$default_email_body .= __("Thank you for your purchase. Your order details are shown below for your reference:", "mp-restaurant-menu") . "\n";
 		$default_email_body .= "{menu_item_list}\n";
-		$default_email_body .= "{sitename}";
+		$default_email_body .= "Total: {price}\n\n";
+		$default_email_body .= "{receipt_link}";
 		$email = $this->get('settings')->get_option('purchase_receipt', false);
 		$email = $email ? stripslashes($email) : $default_email_body;
 		$email_body = apply_filters('mprm_email_template_wpautop', true) ? wpautop($email) : $email;
@@ -48,7 +49,7 @@ class Emails extends Model {
 		$menu_item_list = '<ul>';
 		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
 		$menu_item_list .= '<div>';
-		$menu_item_list .= '<a href="#">' . __('Sample Menu item File Name', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this menu_item.', 'mp-restaurant-menu') . '</small>';
+		$menu_item_list .= '<a href="#">' . __('Sample Product', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this product.', 'mp-restaurant-menu') . '</small>';
 		$menu_item_list .= '</div>';
 		$menu_item_list .= '</li>';
 		$menu_item_list .= '</ul>';
@@ -282,7 +283,7 @@ class Emails extends Model {
 		$from_name = apply_filters('mprm_purchase_from_name', $from_name, $payment_id, $payment_data);
 		$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
 		$from_email = apply_filters('mprm_admin_sale_from_address', $from_email, $payment_id, $payment_data);
-		$subject = $this->get('settings')->get_option('sale_notification_subject', sprintf(__('New menu_item purchase - Order #%1$s', 'mp-restaurant-menu'), $payment_id));
+		$subject = $this->get('settings')->get_option('sale_notification_subject', sprintf(__('New purchase - Order #%1$s', 'mp-restaurant-menu'), $payment_id));
 		$subject = apply_filters('mprm_admin_sale_notification_subject', wp_strip_all_tags($subject), $payment_id);
 		$subject = mprm_do_email_tags($subject, $payment_id);
 		$headers = "From: " . stripslashes_deep(html_entity_decode($from_name, ENT_COMPAT, 'UTF-8')) . " <$from_email>\r\n";
@@ -338,8 +339,9 @@ class Emails extends Model {
 			}
 		}
 		$gateway = $this->get('gateways')->get_gateway_admin_label(get_post_meta($payment_id, '_mprm_order_gateway', true));
-		$default_email_body = __('Hello', 'mp-restaurant-menu') . "\n\n" . sprintf(__('A %s purchase has been made', 'mp-restaurant-menu'), mprm_get_label_plural()) . ".\n\n";
-		$default_email_body .= sprintf(__('%s sold:', 'mp-restaurant-menu'), mprm_get_label_plural()) . "\n\n";
+		
+		$default_email_body = __('A new purchase has been made\n\n', 'mp-restaurant-menu');
+		$default_email_body .= __('Purchased products:\n', 'mp-restaurant-menu');
 		$default_email_body .= $menu_item_list . "\n\n";
 		$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";
 		$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . html_entity_decode(mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($payment_id))), ENT_COMPAT, 'UTF-8') . "\n";
@@ -488,7 +490,7 @@ class Emails extends Model {
 		$email_tags = array(
 			array(
 				'tag' => 'menu_item_list',
-				'description' => __('A list of menu item links for each menu item purchased', 'mp-restaurant-menu'),
+				'description' => __('A list of purchased products', 'mp-restaurant-menu'),
 				'function' => 'text/html' == $this->get('settings_emails')->get_content_type() ? 'mprm_email_tag_menu_item_list' : 'mprm_email_tag_menu_item_list_plain'
 			),
 			array(
@@ -526,11 +528,11 @@ class Emails extends Model {
 				'description' => __('The price of the purchase before taxes', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_subtotal'
 			),
-			array(
+			/*array(
 				'tag' => 'tax',
 				'description' => __('The taxed amount of the purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_tax'
-			),
+			),*/
 			array(
 				'tag' => 'price',
 				'description' => __('The total price of the purchase', 'mp-restaurant-menu'),
@@ -566,11 +568,11 @@ class Emails extends Model {
 //				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
 //				'function' => 'mprm_email_tag_discount_codes'
 //			),
-			array(
+			/*array(
 				'tag' => 'ip_address',
 				'description' => __('The buyer\'s IP Address', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_ip_address'
-			)
+			)*/
 		);
 
 		$email_tags = apply_filters('mprm_email_tags', $email_tags);

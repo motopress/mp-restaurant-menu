@@ -14,7 +14,7 @@ class Cart_widget extends \WP_Widget {
 	}
 
 	public function __construct() {
-		parent::__construct('mprm_cart_widget', __('Menu items Cart', 'mp-restaurant-menu'), array('description' => __('Display the menu items shopping cart', 'mp-restaurant-menu')));
+		parent::__construct('mprm_cart_widget', __('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => __('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
 	}
 
 	/**

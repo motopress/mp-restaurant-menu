@@ -1,6 +1,6 @@
 <?php use \mp_restaurant_menu\classes\models; ?>
 	<fieldset id="mprm_checkout_user_info">
-		<span><legend><?php echo apply_filters('mprm_checkout_personal_info_text', __('Personal Info', 'mp-restaurant-menu')); ?></legend></span>
+		<span class="mprm-payment-details-label"><legend><?php echo apply_filters('mprm_checkout_personal_info_text', __('Billing Details', 'mp-restaurant-menu')); ?></legend></span>
 		<?php do_action('mprm_purchase_form_before_email'); ?>
 		<p id="mprm-email-wrap">
 			<label class="mprm-label" for="mprm-email">
@@ -9,7 +9,6 @@
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('We will send the purchase receipt to this address.', 'mp-restaurant-menu'); ?></span>
 			<input class="mprm-input mprm-required" type="email" name="mprm_email" placeholder="<?php _e('Email address', 'mp-restaurant-menu'); ?>" id="mprm-email" value="<?php echo esc_attr($customer['email']); ?>"
 				<?php if (models\Checkout::get_instance()->field_is_required('mprm_email')) {
 					echo ' required ';
@@ -23,8 +22,7 @@
 					<span class="mprm-required-indicator">*</span>
 					<span class="phone-type"></span>
 				</label>
-				<span class="mprm-description"><?php _e('This is your primary home phone', 'mp-restaurant-menu'); ?></span>
-				<input type="tel" pattern="(\+?\d[- .]*){7,13}" autocomplete="off" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
+				<input type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
 			</p>
 		<?php endif; ?>
 
@@ -36,7 +34,6 @@
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('We will use this to personalize your account experience.', 'mp-restaurant-menu'); ?></span>
 			<input class="mprm-input mprm-required" type="text" name="mprm_first" placeholder="<?php _e('First name', 'mp-restaurant-menu'); ?>" id="mprm-first" value="<?php echo esc_attr($customer['first_name']); ?>"
 				<?php if (models\Checkout::get_instance()->field_is_required('mprm_first')) {
 					echo ' required ';
@@ -50,7 +47,6 @@
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('We will use this as well to personalize your account experience.', 'mp-restaurant-menu'); ?></span>
 			<input class="mprm-input<?php if (models\Checkout::get_instance()->field_is_required('mprm_last')) {
 				echo ' required';
 			} ?>" type="text" name="mprm_last" id="mprm-last" placeholder="<?php _e('Last name', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr($customer['last_name']); ?>"

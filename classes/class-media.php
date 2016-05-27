@@ -553,15 +553,9 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						'page_settings' => array(
-							'id' => 'page_settings',
-							'name' => '<h3>' . __('Page Settings', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),
 						'category_view' => array(
 							'id' => 'category_view',
-							'name' => __('Menu category view', 'mp-restaurant-menu'),
+							'name' => __('Menu Category View', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
 								'grid' => __('Grid', 'mp-restaurant-menu'),
@@ -570,10 +564,16 @@ class Media extends Core {
 							'chosen' => false,
 							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
 						),
+						'page_settings' => array(
+							'id' => 'page_settings',
+							'name' => '<h3>' . __('Checkout Pages', 'mp-restaurant-menu') . '</h3>',
+							'desc' => '',
+							'type' => 'header',
+						),
 						'purchase_page' => array(
 							'id' => 'purchase_page',
 							'name' => __('Checkout Page', 'mp-restaurant-menu'),
-							'desc' => __('This is the checkout page where buyers will complete their purchases. The [menu_item_checkout] short code must be on this page.', 'mp-restaurant-menu'),
+							'desc' => __('The page where buyers will complete their purchases. Use <i>[mprm_checkout]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -581,8 +581,8 @@ class Media extends Core {
 						),
 						'success_page' => array(
 							'id' => 'success_page',
-							'name' => __('Success Page', 'mp-restaurant-menu'),
-							'desc' => __('This is the page buyers are sent to after completing their purchases. The [mprm_receipt] short code should be on this page.', 'mp-restaurant-menu'),
+							'name' => __('Success Transaction Page', 'mp-restaurant-menu'),
+							'desc' => __('The page buyers are sent to after completing their purchases. Use <i>[mprm_success]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -591,7 +591,7 @@ class Media extends Core {
 						'failure_page' => array(
 							'id' => 'failure_page',
 							'name' => __('Failed Transaction Page', 'mp-restaurant-menu'),
-							'desc' => __('This is the page buyers are sent to if their transaction is cancelled or fails', 'mp-restaurant-menu'),
+							'desc' => __('The page buyers are sent to if their transaction is cancelled or fails', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -600,7 +600,7 @@ class Media extends Core {
 						'purchase_history_page' => array(
 							'id' => 'purchase_history_page',
 							'name' => __('Purchase History Page', 'mp-restaurant-menu'),
-							'desc' => __('This page shows a complete purchase history for the current user, including menu_item links', 'mp-restaurant-menu'),
+							'desc' => __('This page shows a complete purchase history for the current user. Use <i>[mprm_purchase_history]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -637,16 +637,16 @@ class Media extends Core {
 //						)
 					),
 					'currency' => array(
-						'currency_settings' => array(
+						/*'currency_settings' => array(
 							'id' => 'currency_settings',
 							'name' => '<h3>' . __('Currency Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
-						),
+						),*/
 						'currency' => array(
 							'id' => 'currency',
 							'name' => __('Currency', 'mp-restaurant-menu'),
-							'desc' => __('Choose your currency. Note that some payment gateways have currency restrictions.', 'mp-restaurant-menu'),
+							'desc' => __('Choose your currency. <i>Note that some payment gateways have currency restrictions.</i>', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings::get_instance()->get_currencies(),
 							'chosen' => true,
@@ -698,21 +698,15 @@ class Media extends Core {
 			'gateways' => apply_filters('mprm_settings_gateways',
 				array(
 					'main' => array(
-						'gateway_settings' => array(
+						/*'gateway_settings' => array(
 							'id' => 'api_header',
 							'name' => '<h3>' . __('Gateway Settings', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
-						),
-						'test_mode' => array(
-							'id' => 'test_mode',
-							'name' => __('Test Mode', 'mp-restaurant-menu'),
-							'desc' => __('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
+						),*/
 						'gateways' => array(
 							'id' => 'gateways',
-							'name' => __('Payment Gateways', 'mp-restaurant-menu'),
+							'name' => __('Active Payment Gateways', 'mp-restaurant-menu'),
 							'desc' => __('Choose the payment gateways you want to enable.', 'mp-restaurant-menu'),
 							'type' => 'gateways',
 							'options' => $this->get('gateways')->get_payment_gateways(),
@@ -724,10 +718,16 @@ class Media extends Core {
 							'type' => 'gateway_select',
 							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
+						'test_mode' => array(
+							'id' => 'test_mode',
+							'name' => __('Test Mode', 'mp-restaurant-menu'),
+							'desc' => __('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
 						'accepted_cards' => array(
 							'id' => 'accepted_cards',
-							'name' => __('Accepted Payment Method Icons', 'mp-restaurant-menu'),
-							'desc' => __('Display icons for the selected payment methods', 'mp-restaurant-menu') . '<br/>' . __('You will also need to configure your gateway settings if you are accepting credit cards', 'mp-restaurant-menu'),
+							'name' => __('Payment Method Icons', 'mp-restaurant-menu'),
+							'desc' => __('Display these icons on the checkout page', 'mp-restaurant-menu'),
 							'type' => 'payment_icons',
 							'options' => apply_filters('mprm_accepted_payment_icons', array(
 									'mastercard' => 'Mastercard',
@@ -740,11 +740,11 @@ class Media extends Core {
 						),
 					),
 					'paypal' => array(
-						'paypal_settings' => array(
+						/*'paypal_settings' => array(
 							'id' => 'paypal_settings',
-							'name' => '<h3>' . __('PayPal Standard Settings', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . __('PayPal Standard Gateway', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
-						),
+						),*/
 						'paypal_email' => array(
 							'id' => 'paypal_email',
 							'name' => __('PayPal Email', 'mp-restaurant-menu'),
@@ -762,7 +762,7 @@ class Media extends Core {
 						'disable_paypal_verification' => array(
 							'id' => 'disable_paypal_verification',
 							'name' => __('Disable PayPal IPN Verification', 'mp-restaurant-menu'),
-							'desc' => __('If payments are not getting marked as complete, then check this box. This forces the site to use a slightly less secure method of verifying purchases.', 'mp-restaurant-menu'),
+							'desc' => __('If payments via PayPal are not getting marked as complete, then check this box. <a href="https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/" target="_blank">More about IPN</a>', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -772,11 +772,11 @@ class Media extends Core {
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
-						'email_settings_header' => array(
+						/*'email_settings_header' => array(
 							'id' => 'email_settings_header',
 							'name' => '<h3>' . __('Email Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
-						),
+						),*/
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
@@ -800,7 +800,7 @@ class Media extends Core {
 					'purchase_receipts' => array(
 						'purchase_receipt_settings' => array(
 							'id' => 'purchase_receipt_settings',
-							'name' => '<h3>' . __('Purchase Receipts', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . __('Purchase Receipt', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'from_name' => array(
@@ -836,7 +836,7 @@ class Media extends Core {
 							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
 							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
 							'type' => 'rich_editor',
-							'std' => __("Dear", "mp-restaurant-menu") . " {name},\n" . __("Thank you for your purchase. Please click on the link(s) below to menu_item your files.", "mp-restaurant-menu") . "\n{menu_item_list}\n{sitename}",
+							'std' => __("Dear {name},\n\nThank you for your purchase. Your order details are shown below for your reference:\n{menu_item_list}\nTotal: {price}\n\n{receipt_link}", 'mp-restaurant-menu'),
 						),
 					),
 					'sale_notifications' => array(
@@ -850,7 +850,7 @@ class Media extends Core {
 							'name' => __('Sale Notification Subject', 'mp-restaurant-menu'),
 							'desc' => __('Enter the subject line for the sale notification email', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => 'New menu_item purchase - Order #{payment_id}',
+							'std' => 'New purchase - Order #{payment_id}',
 						),
 						'sale_notification' => array(
 							'id' => 'sale_notification',
@@ -868,7 +868,7 @@ class Media extends Core {
 						),
 						'disable_admin_notices' => array(
 							'id' => 'disable_admin_notices',
-							'name' => __('Disable Admin Notifications', 'mp-restaurant-menu'),
+							'name' => __('Disable Sale Notifications', 'mp-restaurant-menu'),
 							'desc' => __('Check this box if you do not want to receive sales notification emails.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
@@ -1240,17 +1240,17 @@ class Media extends Core {
 		}
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
-				'main' => __('General Settings', 'mp-restaurant-menu'),
+				'main' => __('Pages', 'mp-restaurant-menu'),
 				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
 //				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
-				'main' => __('Gateway Settings', 'mp-restaurant-menu'),
+				'main' => __('Gateways', 'mp-restaurant-menu'),
 				'paypal' => __('PayPal Standard', 'mp-restaurant-menu'),
 			)),
 			'emails' => apply_filters('mprm_settings_sections_emails', array(
-				'main' => __('Email Settings', 'mp-restaurant-menu'),
-				'purchase_receipts' => __('Purchase Receipts', 'mp-restaurant-menu'),
+				'main' => __('Email Template', 'mp-restaurant-menu'),
+				'purchase_receipts' => __('Purchase Receipt', 'mp-restaurant-menu'),
 				'sale_notifications' => __('New Sale Notifications', 'mp-restaurant-menu'),
 			)),
 			'styles' => apply_filters('mprm_settings_sections_styles', array(

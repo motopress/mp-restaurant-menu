@@ -45,7 +45,7 @@ $header_content_h1 = "
 	padding: 28px 24px;
 	display:block;
 	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-	font-size:32px;
+	font-size:24px;
 	font-weight: 500;
 	line-height: 1.2;
 ";
@@ -63,7 +63,7 @@ $header_content_h1 = "
 			<td align="center" valign="top">
 				<?php if (!empty($header_img)) : ?>
 					<div id="template_header_image">
-						<?php echo '<p style="margin-top:0;"><img  width="300px" height="300px" src="' . esc_url($header_img) . '" alt="' . get_bloginfo('name') . '" /></p>'; ?>
+						<?php echo '<p style="margin-top:0;"><img src="' . esc_url($header_img) . '" alt="' . get_bloginfo('name') . '" /></p>'; ?>
 					</div>
 				<?php endif; ?>
 				<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_container" style="<?php echo $template_container; ?>">
