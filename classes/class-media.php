@@ -556,11 +556,11 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						'enable_ecommerce' => array(
-							'id' => 'enable_ecommerce',
-							'name' => __('Enable Ecommerce', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-							'desc' => __('This option will turn your shop to catalog mode. So users will not be able to shop in your site.', 'mp-restaurant-menu'),
+						'view_settings' => array(
+							'id' => 'view_settings',
+							'name' => '<h3>' . __('View', 'mp-restaurant-menu') . '</h3>',
+							'desc' => '',
+							'type' => 'header',
 						),
 						'category_view' => array(
 							'id' => 'category_view',
@@ -573,11 +573,17 @@ class Media extends Core {
 							'chosen' => false,
 							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
 						),
-						'page_settings' => array(
-							'id' => 'page_settings',
-							'name' => '<h3>' . __('Checkout Pages', 'mp-restaurant-menu') . '</h3>',
+						'ecommerce_settings' => array(
+							'id' => 'ecommerce_settings',
+							'name' => '<h3>' . __('eCommerce', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
+						),
+						'enable_ecommerce' => array(
+							'id' => 'enable_ecommerce',
+							'name' => __('Enable eCommerce', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+							'desc' => __('Sell food and beverages online', 'mp-restaurant-menu'),
 						),
 						'purchase_page' => array(
 							'id' => 'purchase_page',
@@ -1249,7 +1255,7 @@ class Media extends Core {
 		}
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
-				'main' => __('Pages', 'mp-restaurant-menu'),
+				'main' => __('General', 'mp-restaurant-menu'),
 				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
 //				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
