@@ -85,7 +85,7 @@ class Purchase extends Model {
 			'gateway' => $valid_data['gateway'],
 			'card_info' => $valid_data['cc_info'],
 			'customer_note' => $valid_data['customer_note'],
-			'shipping_adress' => $valid_data['shipping_adress'],
+			'shipping_adress' => !empty($valid_data['shipping_adress']) ? $valid_data['shipping_adress'] : '',
 			'phone_number' => $valid_data['phone_number']
 		);
 
@@ -166,8 +166,8 @@ class Purchase extends Model {
 			'login_user_data' => array(),   // Login user collected data
 			'guest_user_data' => array(),   // Guest user collected data
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
-			'customer_note' => sanitize_text_field($_POST['customer_note']),
-			'shipping_adress' => sanitize_text_field($_POST['shipping_adress']),
+			'customer_note' => empty($_POST['customer_note']) ? sanitize_text_field($_POST['customer_note']) : '',
+			'shipping_adress' => !empty($_POST['shipping_adress']) ? sanitize_text_field($_POST['shipping_adress']) : '',
 			'phone_number' => !empty($_POST['phone_number']) ? $this->purchase_form_validate_phone() : ''
 		);
 
@@ -788,6 +788,12 @@ class Purchase extends Model {
 		return apply_filters('mprm_is_zip_valid', $ret, $zip, $country_code);
 	}
 
+	/**
+	 * Check purchase email
+	 *
+	 * @param $valid_data
+	 * @param $posted
+	 */
 	public function check_purchase_email($valid_data, $posted) {
 		$is_banned = false;
 		$banned = $this->get('emails')->get_banned_emails();

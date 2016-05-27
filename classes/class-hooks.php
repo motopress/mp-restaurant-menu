@@ -71,6 +71,8 @@ class Hooks extends Core {
 		add_action('parse_query', array($this, 'mprm_search_custom_fields'));
 
 
+		add_action('admin_head', array($this, 'edit_screen_title'));
+
 		add_filter('views_edit-mprm_order', array($this, 'clear_admin_filter'));
 		// Bulk / quick edit
 		//add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
@@ -78,7 +80,9 @@ class Hooks extends Core {
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
 		add_action('load-edit.php', array($this, 'bulk_action'));
-		add_action('admin_notices', array($this, 'bulk_admin_notices'));
+
+		add_action('admin_notices', array($this, 'show_admin_notices'));
+		add_action('admin_notices', array($this, 'admin_notices_action'));
 		add_filter('post_row_actions', array($this, 'remove_row_actions'), 10, 2);
 
 		add_action('save_post', array(Post::get_instance(), 'save'));
@@ -113,7 +117,7 @@ class Hooks extends Core {
 		register_importer('mprm-importer', 'Restaurant menu', __('Import menu item with categories data', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
 		//Emails
 		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
-		add_action('admin_notices', array($this, 'admin_notices_action'));
+
 	}
 
 	/**
@@ -214,9 +218,9 @@ class Hooks extends Core {
 		add_action('mprm_cc_billing_top', 'mprm_cc_billing_top');
 
 		add_action('mprm_cc_billing_bottom', 'mprm_cc_billing_bottom');
-		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_additional_information');
 		add_action('mprm_purchase_form_before_submit', 'mprm_terms_agreement');
+		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_final_total', 999);
 
 		add_action('mprm_purchase_form_after_submit', 'mprm_purchase_form_after_submit');
@@ -980,29 +984,33 @@ class Hooks extends Core {
 
 	}
 
-	public function bulk_admin_notices() {
-		global $post_type, $pagenow;
+	public function show_admin_notices() {
+		global $pagenow;
+		$notices = array(
+			'updated' => array(),
+			'error' => array(),
+		);
+		if ($pagenow == 'plugins.php') {
+			$notice = '<div class="notice is-dismissible notice-warning"> <p>'; ?>
 
-		// Bail out if not on shop order list page
-		if ('edit.php' !== $pagenow || 'mprm_order' !== $post_type) {
-			return;
+			<a href="<?php  ?>">This notice only appears on the plugins page.</a>
+
+			<?php $notice .= '</a></p>  </div>';
+
+			if ( current_user_can( 'install_plugins' ) ){
+
+			}
+				if ( current_user_can( 'manage_options' ) )
+					if ( current_user_can( 'edit_theme_options' ) )
+			echo $notice;
 		}
 
-		$order_statuses = mprm_get_payment_statuses();
-
-//		// Check if any status changes happened
-//		foreach ($order_statuses as $slug => $name) {
-//
-//			if (isset($_REQUEST['marked_' . str_replace('mprm-', '', $slug)])) {
-//
-//				$number = isset($_REQUEST['changed']) ? absint($_REQUEST['changed']) : 0;
-//				$message = sprintf(_n('Order status changed.', '%s order statuses changed.', $number, 'mp-restaurant-menu'), number_format_i18n($number));
-//				echo '<div class="updated"><p>' . $message . '</p></div>';
-//
-//				break;
-//			}
-//		}
 	}
+
+	public function dismiss_admin_notices() {
+
+	}
+
 
 	private function quick_edit_save($post_id, $product) {
 
@@ -1057,6 +1065,13 @@ class Hooks extends Core {
 		return $views;
 	}
 
+	function edit_screen_title() {
+		global $post, $title, $action, $current_screen;
+
+		if (isset($current_screen->post_type) && $current_screen->post_type == $this->post_types['order'] && $action == 'edit') {
+			$title = 'Edit Order' . ' #' . $post->ID;
+		}
+	}
 
 	public function remove_row_actions($actions, $post) {
 		global $current_screen;
