@@ -16,6 +16,9 @@ class Controller_customer extends Controller {
 		return self::$instance;
 	}
 
+	/**
+	 * Add customer
+	 */
 	public function action_add_customer() {
 
 		$customer = $this->get('customer')->create(array(
@@ -34,6 +37,9 @@ class Controller_customer extends Controller {
 		$this->send_json($this->date);
 	}
 
+	/**
+	 * Get login form
+	 */
 	public function action_get_login() {
 		global $mprm_login_redirect;
 		$mprm_login_redirect = wp_get_referer();
@@ -84,7 +90,9 @@ class Controller_customer extends Controller {
 		}
 	}
 
-
+	/**
+	 * Get customer information
+	 */
 	public function action_get_customer_information() {
 		$customer_object = $this->get('customer')->get_customer(array('field' => 'id', 'value' => $_REQUEST['customer_id']));
 		if (!empty($customer_object)) {
@@ -95,4 +103,9 @@ class Controller_customer extends Controller {
 		}
 		$this->send_json($this->date);
 	}
+
+	public function action_content() {
+		View::get_instance()->render_html('../admin/customers/index');
+	}
+
 }

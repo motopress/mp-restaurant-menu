@@ -94,6 +94,15 @@ class Media extends Core {
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
+		//Customers
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Customers', 'mp-restaurant-menu'),
+			'menu_slug' => "admin.php?page=mprm-customers",
+			'function' => array($this->get_controller('customer'), 'action_content'),
+			'capability' => 'manage_options',
+		));
+
 		$this->register_settings();
 
 
