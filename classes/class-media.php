@@ -565,15 +565,15 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						'view_settings' => array(
+						/*'view_settings' => array(
 							'id' => 'view_settings',
 							'name' => '<h3>' . __('View', 'mp-restaurant-menu') . '</h3>',
 							'desc' => '',
 							'type' => 'header',
-						),
+						),*/
 						'category_view' => array(
 							'id' => 'category_view',
-							'name' => __('Menu Category View', 'mp-restaurant-menu'),
+							'name' => __('Category Layout', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
 								'grid' => __('Grid', 'mp-restaurant-menu'),
