@@ -74,14 +74,29 @@ class Customer extends Model {
 
 	public function get_customers($args = array()) {
 		global $wpdb;
-		$default_args = array('fields' => array('id', 'user_id', 'email', 'name'));
+		$default_args = array(
+			'number' => 30,
+			'offset' => 0,
+			'order' => 'DESC',
+			'orderby' => 'id',
+			'fields' => array('id', 'user_id', 'email', 'name')
+		);
+
 		$args = wp_parse_args($args, $default_args);
 
 		if (is_array($args['fields']) && !empty($args['fields'])) {
 			$fields = implode(',', $args['fields']);
-
 		}
-		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name;
+		$where = '';
+		$limit = empty($args['number']) ? '' : ' LIMIT ' . $args['number'];
+		$offset = empty($args['offset']) ? '' : ' OFFSET ' . $args['offset'];
+
+		if (!empty($args['search_value']) && !empty($args['search_by'])) {
+			$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'%{$args['search_value']}%'";
+		}
+
+
+		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name . $where . ' ORDER BY ' . $args['orderby'] . ' ' . $args['order'] . $limit . $offset;
 		$customers_data = $wpdb->get_results($sql_reguest);
 
 		return empty($customers_data) ? false : $customers_data;
@@ -503,6 +518,7 @@ class Customer extends Model {
 			'user_id' => 0,
 			'email' => '',
 			'name' => '',
+			'telephone' => '',
 			'payment_ids' => '',
 			'purchase_value' => 0.00,
 			'purchase_count' => 0,
