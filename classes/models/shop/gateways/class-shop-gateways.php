@@ -42,11 +42,11 @@ class Gateways extends Model {
 				'supports' => array('buy_now')
 			),
 			'test_manual' => array(
-				'admin_label' => __('Test Payment (auto-complete payment)', 'mp-restaurant-menu'),
+				'admin_label' => __('Test Payment (auto-complete orders)', 'mp-restaurant-menu'),
 				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 			'manual' => array(
-				'admin_label' => __('Manual Payments (process payments manually)', 'mp-restaurant-menu'),
+				'admin_label' => __('Manual Payments (process orders manually)', 'mp-restaurant-menu'),
 				'checkout_label' => __('Manual Payments', 'mp-restaurant-menu')
 			)
 		);
