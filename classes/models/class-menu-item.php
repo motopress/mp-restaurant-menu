@@ -499,7 +499,7 @@ class Menu_item extends Model {
 		}
 		$purchase_page = $this->get('settings')->get_option('purchase_page', false);
 		if (!$purchase_page || $purchase_page == 0) {
-			$this->get('errors')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'mp-restaurant-menu'), admin_url('edit.php?post_type=mp_menu_item&page=admin.php?page=mprm-settings')));
+			$this->get('errors')->set_error('set_checkout', sprintf(__('No checkout page has been configured. Visit <a href="%s">Settings</a> to set one.', 'mp-restaurant-menu'), admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings')));
 			$this->get('errors')->print_errors();
 			return false;
 		}

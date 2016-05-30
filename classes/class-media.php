@@ -82,7 +82,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Settings', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-settings",
+			'menu_slug' => "mprm-settings",
 			'function' => array($this->get_controller('settings'), 'action_content'),
 			'capability' => 'manage_options',
 		));
@@ -90,7 +90,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Import / Export', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-import",
+			'menu_slug' => "mprm-import",
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
@@ -98,7 +98,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Customers', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-customers",
+			'menu_slug' => "mprm-customers",
 			'function' => array($this->get_controller('customer'), 'action_content'),
 			'capability' => 'manage_options',
 		));
@@ -1302,7 +1302,7 @@ class Media extends Core {
 
 	public function get_pages($force = false) {
 		$pages_options = array('' => ''); // Blank option
-		if ((!isset($_GET['page']) || 'admin.php?page=mprm-settings' != $_GET['page']) && !$force) {
+		if ((!isset($_GET['page']) || 'mprm-settings' != $_GET['page']) && !$force) {
 			return $pages_options;
 		}
 		$pages = get_pages();
@@ -1313,8 +1313,6 @@ class Media extends Core {
 		}
 		return $pages_options;
 	}
-
-//
 
 	public function get_button_styles() {
 		$styles = array(

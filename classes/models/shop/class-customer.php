@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
 
 class Customer extends Model {
+
 	private $table_name = '';
 	protected static $instance;
 	public $id = 0;
@@ -11,11 +12,11 @@ class Customer extends Model {
 	public $purchase_value = 0;
 	public $email;
 	public $name;
+	public $telephone;
 	public $date_created;
 	public $payment_ids;
 	public $user_id;
 	public $notes;
-
 
 	public static function get_instance() {
 		if (null === self::$instance) {
@@ -511,7 +512,6 @@ class Customer extends Model {
 			'date_created' => '%s',
 		);
 	}
-
 
 	public function get_column_defaults() {
 		return array(

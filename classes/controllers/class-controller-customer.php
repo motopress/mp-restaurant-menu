@@ -105,7 +105,12 @@ class Controller_customer extends Controller {
 	}
 
 	public function action_content() {
-		View::get_instance()->render_html('../admin/customers/index');
+		if (!empty($_REQUEST['view'])) {
+			$view = sanitize_text_field($_REQUEST['view']);
+			View::get_instance()->render_html('../admin/customers/' . $view, array('id' => sanitize_text_field($_REQUEST['id'])));
+		} else {
+			View::get_instance()->render_html('../admin/customers/index');
+		}
 	}
 
 }
