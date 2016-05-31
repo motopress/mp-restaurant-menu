@@ -916,7 +916,7 @@ class Media extends Core {
 						),
 						'button_header' => array(
 							'id' => 'button_header',
-							'name' => '<strong>' . __('Buttons', 'mp-restaurant-menu') . '</strong>',
+							'name' => '<strong>' . __('Add to cart button style:', 'mp-restaurant-menu') . '</strong>',
 							'desc' => __('Options for add to cart and purchase buttons', 'mp-restaurant-menu'),
 							'type' => 'header',
 						),

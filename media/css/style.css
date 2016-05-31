@@ -1173,7 +1173,7 @@ input.mprm-submit {
   display: inline-block;
   padding: 6px 12px;
   margin: 0;
-  font-size: 14px;
+  font-size: 1em;
   font-weight: 400;
   line-height: 1.428571429;
   text-align: center;
