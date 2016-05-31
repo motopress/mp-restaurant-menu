@@ -472,9 +472,9 @@ function mprm_checkout_submit() { ?>
 		<?php mprm_checkout_hidden_fields(); ?>
 		<?php echo mprm_checkout_button_purchase(); ?>
 		<?php do_action('mprm_purchase_form_after_submit'); ?>
-		<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
-			<p class="mprm-cancel"><a href="<?php echo models\Checkout::get_instance()->get_checkout_uri(); ?>"><?php _e('Go back', 'mp-restaurant-menu'); ?></a></p>
-		<?php } ?>
+<!--		--><?php //if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
+<!--			<p class="mprm-cancel"><a href="--><?php //echo models\Checkout::get_instance()->get_checkout_uri(); ?><!--">--><?php //_e('Go back', 'mp-restaurant-menu'); ?><!--</a></p>-->
+<!--		--><?php //} ?>
 	</fieldset>
 	<?php
 }

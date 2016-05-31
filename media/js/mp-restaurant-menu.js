@@ -754,8 +754,12 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 								}
 							},
 							function(data) {
-								$('.mprm-cart-ajax').remove();
 								$('.mprm_errors').remove();
+								if (data.error) {
+									$('#mprm_final_total_wrap').before(data.errors);
+								}
+								$('.mprm-cart-ajax').remove();
+
 								//	$('.mprm-error').hide();
 								console.warn('Some error!!!');
 								console.warn(data);
@@ -1262,7 +1266,6 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 				});
 				state.changeBaseCountry();
 				state.settingsUpload();
-				state.delete_checked();
 			},
 
 			/**
@@ -1284,6 +1287,9 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					}
 				);
 			},
+			/**
+			 * Delete customer checked
+			 */
 			delete_checked: function() {
 				$('#mprm-customer-delete-confirm').change(function() {
 					var records_input = $('#mprm-customer-delete-records');
@@ -1781,10 +1787,8 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ($('.mprm-add-to-cart').length) {
 			MP_RM_Registry._get('Menu-Shop').addToCart();
 		}
-		if ($('#mprm_purchase_submit').length) {
-
+		if ($('#mprm_checkout_wrap').length) {
 			MP_RM_Registry._get('Menu-Shop').purchaseForm();
-
 		}
 
 		if ($('#mprm_purchase_form').length) {
