@@ -2,6 +2,8 @@
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
+use mp_restaurant_menu\classes\libs\GUMP;
+use mp_restaurant_menu\classes\models\Customer;
 use mp_restaurant_menu\classes\View;
 
 class Controller_customer extends Controller {
@@ -105,7 +107,7 @@ class Controller_customer extends Controller {
 	}
 
 	public function action_content() {
-		if (!empty($_REQUEST['view'])) {
+		if (!empty($_REQUEST['view']) && !empty($_REQUEST['id'])) {
 			$view = sanitize_text_field($_REQUEST['view']);
 			View::get_instance()->render_html('../admin/customers/' . $view, array('id' => sanitize_text_field($_REQUEST['id'])));
 		} else {
@@ -113,4 +115,111 @@ class Controller_customer extends Controller {
 		}
 	}
 
+	public function action_update_customer() {
+		$result = false;
+		$gump = new GUMP();
+		$request = $gump->sanitize($_REQUEST);
+		$id = $request['id'];
+
+		$data = array(
+			'email' => $request['mprm_email'],
+			'telephone' => $request['mprm-telephone'],
+			'name' => $request['mprm-name']
+		);
+		$gump->validation_rules(array(
+			'name' => 'required|alpha_space|max_len,100|min_len,6',
+			'telephone' => 'required|phone_number',
+			'email' => 'required|valid_email'
+		));
+		$gump->filter_rules(array(
+			'name' => 'trim|sanitize_string',
+			'telephone' => 'trim',
+			'email' => 'trim|sanitize_email'
+
+		));
+		$validated_data = $gump->run($data);
+
+		if ($validated_data) {
+			$result = $this->get('customer')->update($data, $id);
+		} else {
+			mprm_set_error('update_customer_admin', $gump->get_readable_errors(true));
+		}
+
+		if ($result) {
+			if (wp_get_referer()) {
+				wp_safe_redirect(wp_get_referer());
+			} else {
+				wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&message=customer-updated');
+			}
+		} else {
+			wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $id);
+		}
+	}
+
+	public function action_delete() {
+		$customer_edit_role = apply_filters('mprm_edit_customers_role', 'edit_shop_payments');
+
+		if (!is_admin() || !current_user_can($customer_edit_role)) {
+			wp_die(__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));
+		}
+		$gump = new GUMP();
+		$request = $gump->sanitize($_REQUEST);
+		if (empty($request)) {
+			return;
+		}
+
+		$customer_id = (int)$request['customer_id'];
+		$confirm = !empty($request['mprm-customer-delete-confirm']) ? true : false;
+		$remove_data = !empty($request['mprm-customer-delete-records']) ? true : false;
+		$nonce = $request['_wpnonce'];
+
+		if (!wp_verify_nonce($nonce, 'delete-customer')) {
+			wp_die(__('Cheatin\' eh?!', 'mp-restaurant-menu'));
+		}
+
+		if (!$confirm) {
+			mprm_set_error('customer-delete-no-confirm', __('Please confirm you want to delete this customer', 'mp-restaurant-menu'));
+		}
+
+		if ($this->get('errors')->get_errors()) {
+			wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $customer_id));
+			exit;
+		}
+
+		$customer = new Customer(array('field' => 'id', 'value' => $customer_id));
+
+		do_action('mprm_pre_delete_customer', $customer_id, $confirm, $remove_data);
+
+		$success = false;
+
+		if ($customer->id > 0) {
+
+			$payments_array = explode(',', $customer->payment_ids);
+			$success = $this->get('customer')->delete($customer->id);
+
+			if ($success) {
+				if ($remove_data) {
+					// Remove all payments, logs, etc
+					foreach ($payments_array as $payment_id) {
+						$this->get('payments')->delete_purchase($payment_id, false, true);
+					}
+				} else {
+					// Just set the payments to customer_id of 0
+					foreach ($payments_array as $payment_id) {
+						$this->get('payments')->update_payment_meta($payment_id, '_mprm_payment_customer_id', 0);
+					}
+				}
+				$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&message=customer-deleted');
+
+			} else {
+				mprm_set_error('mprm-customer-delete-failed', __('Error deleting customer', 'mp-restaurant-menu'));
+				$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $customer_id);
+			}
+		} else {
+			mprm_set_error('mprm-customer-delete-invalid-id', __('Invalid Customer ID', 'mp-restaurant-menu'));
+			$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers');
+		}
+		wp_redirect($redirect);
+		exit;
+	}
 }

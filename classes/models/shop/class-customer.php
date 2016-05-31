@@ -103,6 +103,26 @@ class Customer extends Model {
 		return empty($customers_data) ? false : $customers_data;
 	}
 
+	public function delete($_id_or_email = false) {
+
+		if (empty($_id_or_email)) {
+			return false;
+		}
+
+		$column = is_email($_id_or_email) ? 'email' : 'id';
+		$customer = $this->get_customer(array('field' => $column, "value" => $_id_or_email));
+
+		if ($customer->id > 0) {
+
+			global $wpdb;
+			return $wpdb->delete($this->table_name, array('id' => $customer->id), array('%d'));
+
+		} else {
+			return false;
+		}
+
+	}
+
 	public function create($data = array()) {
 		global $wpdb;
 		if ($this->id != 0 || empty($data)) {
@@ -274,11 +294,16 @@ class Customer extends Model {
 		return $this->purchase_count;
 	}
 
-	public function update($data = array()) {
+	public function update($data = array(), $id = 0) {
 		global $wpdb;
 		if (empty($data)) {
 			return false;
 		}
+
+		if (!empty($id)) {
+			$this->id = $id;
+		}
+
 		$data = $this->sanitize_columns($data);
 		do_action('mprm_customer_pre_update', $this->id, $data);
 		$updated = false;
@@ -573,9 +598,7 @@ class Customer extends Model {
 				default:
 					$data[$key] = sanitize_text_field($data[$key]);
 					break;
-
 			}
-
 		}
 
 		return $data;

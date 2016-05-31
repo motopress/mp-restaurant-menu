@@ -138,6 +138,7 @@ class Media extends Core {
 				default:
 					break;
 			}
+
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
@@ -147,6 +148,10 @@ class Media extends Core {
 					wp_enqueue_media();
 					wp_enqueue_script('thickbox');
 					wp_enqueue_style('thickbox');
+					break;
+				case"restaurant-menu_page_mprm-customers":
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					break;
 				case "edit-mp_menu_category":
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');

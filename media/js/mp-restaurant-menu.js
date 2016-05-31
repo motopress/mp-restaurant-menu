@@ -326,60 +326,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				}
 				return result;
 			},
-			///**
-			// *
-			// * @param errorList
-			// */
-			//showAllErrorMessages: function(errorList, form) {
-			//	errorList.empty();
-			//	form.find('input').removeClass('mprm-form-error');
-			//	// Find all invalid fields within the form.
-			//	var invalidFields = form.find(":invalid").each(function(index, node) {
-			//
-			//		// Find the field's corresponding label
-			//		var label = $("label[for=" + node.id + "] "),
-			//		// Opera incorrectly does not fill the validationMessage property.
-			//			message = node.validationMessage || 'Invalid value.';
-			//
-			//		errorList
-			//			.show()
-			//			.append("<li><span>" + label.html() + "</span> " + message + "</li>");
-			//	});
-			//},
-			///**
-			// *
-			// */
-			//createAllErrors: function(selector) {
-			//	if (!selector) {
-			//		var form = $(this);
-			//	} else {
-			//		form = $(selector);
-			//	}
-			//	var errorList = $("ul.errorMessages", form);
-			//
-			//	// Support Safari
-			//	form.on("submit", function(event) {
-			//		if (this.checkValidity && !this.checkValidity()) {
-			//			$(this).find(":invalid").first().focus();
-			//
-			//			$(this).find(":invalid").addClass('mprm-form-error');
-			//
-			//			event.preventDefault();
-			//		}
-			//	});
-			//
-			//	$("input[type=submit], button:not([type=button])", form)
-			//		.on("click", state.showAllErrorMessages(errorList, form));
-			//
-			//	$("input", form).on("keypress", function(event) {
-			//		var type = $(this).attr("type");
-			//		if (/date|email|month|number|search|tel|text|time|url|week/.test(type)
-			//			&& event.keyCode == 13) {
-			//			state.showAllErrorMessages(errorList, form);
-			//		}
-			//	});
-			//
-			//},
 
 			validateForm: function(formSelectorByID) {
 				if (formSelectorByID) {
@@ -1316,6 +1262,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 				});
 				state.changeBaseCountry();
 				state.settingsUpload();
+				state.delete_checked();
 			},
 
 			/**
@@ -1336,6 +1283,21 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						console.warn(data);
 					}
 				);
+			},
+			delete_checked: function() {
+				$('#mprm-customer-delete-confirm').change(function() {
+					var records_input = $('#mprm-customer-delete-records');
+					var submit_button = $('#mprm-delete-customer');
+
+					if ($(this).prop('checked')) {
+						records_input.attr('disabled', false);
+						submit_button.attr('disabled', false);
+					} else {
+						records_input.attr('disabled', true);
+						records_input.prop('checked', false);
+						submit_button.attr('disabled', true);
+					}
+				});
 			},
 			settingsUpload: function() {
 				// Settings Upload field JS
@@ -1803,6 +1765,10 @@ MP_RM_Registry.register("Theme", (function($) {
 		// if settings
 		if ('restaurant-menu_page_admin?page=mprm-settings' === window.pagenow) {
 			MP_RM_Registry._get('Menu-Settings').init();
+		}
+
+		if ('restaurant-menu_page_mprm-customers' === window.pagenow) {
+			MP_RM_Registry._get('Menu-Settings').delete_checked();
 		}
 		// if edit and add menu_category
 		if ('edit-mp_menu_category' === window.pagenow) {

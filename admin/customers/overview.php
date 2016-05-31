@@ -20,68 +20,40 @@ endif;
 <div class="wrap">
 	<h1><?php _e('Customer Details', 'mp-restaurant-menu'); ?></h1>
 	<?php do_action('mprm_customers_detail_top'); ?>
-
-	<div class="postbox">
-
-		<div class="mprm-avatar-wrap left" id="mprm-customer-avatar">
-			<?php echo get_avatar($customer->email); ?><br/>
-
-			<?php if (current_user_can($customer_edit_role)): ?>
-				<span class="info-item editable customer-edit-link"><a title="<?php _e('Edit Customer', 'mp-restaurant-menu'); ?>" href="#" id="edit-customer"><?php _e('Edit Customer', 'mp-restaurant-menu'); ?></a></span>
-			<?php endif; ?>
-		</div>
-		<div class="mprm-details-wrap left" id="mprm-customer-details">
-			<p class="mprm-class-id">
-				<label for="mprm-customer-id">
-					<b><?php echo '# ' . $customer->id ?></b>
-				</label>
-			</p>
-			<p class="mprm-class-">
-				<label for="mprm-customer-email">
-					<?php _e('Email:', 'mp-restaurant-menu'); ?>
-					<span><b><?php echo $customer->email; ?></b></span>
-				</label>
-			</p>
-			<p class="mprm-class-name">
-				<label for="">
-					<?php _e('Name:', 'mp-restaurant-menu'); ?>
-					<span><b><?php echo $customer->name; ?></b></span>
-				</label>
-
-			</p>
-			<p class="mprm-class-telephone">
-				<label for="">
-					<?php _e('Name:', 'mp-restaurant-menu'); ?>
-					<span><b><?php echo $customer->telephone; ?></b></span>
-				</label>
-			</p>
-			<p class="mprm-class-user-id">
-				<label for="">
-					<?php _e('User ID:', 'mp-restaurant-menu'); ?>
-					<span><b><?php echo $customer->user_id; ?></b></span>
-				</label>
-			</p>
-			<p class="mprm-class-user-id">
-				<label for="">
-					<?php _e('Customer since:', 'mp-restaurant-menu'); ?>
-					<span><b><?php echo date_i18n(get_option('date_format'), strtotime($customer->date_created)) ?></b></span>
-				</label>
-			</p>
-		</div>
-
-		<form id="mprm-customers-details-form" method="post" style="display: none">
-			<?php
-			if (!empty($customer)):
-				foreach ($customer as $key => $value): ?>
-					<p class="mprm-class-<?php echo $key ?>">
-						<label for="">
-
+	<div id="mprm-customers-details-wrap" class="postbox ">
+		<form id="mprm-customers-details-form" method="post">
+			<div class="mprm-row">
+				<div class="mprm-columns mprm-four">
+					<p class="mprm-class-email"><label for="mprm_email">
+							<?php _e('Email:', 'mp-restaurant-menu'); ?>
 						</label>
-						<input name="">
+						<input type="email" class="mprm-input" required name="mprm_email" value="<?php echo $customer->email; ?>">
 					</p>
-					<?php
-				endforeach;
-			endif; ?>
+
+					<p class="mprm-class-telephone"><label for="mprm-telephone">
+							<?php _e('Telephone:', 'mp-restaurant-menu'); ?>
+						</label>
+						<input type="tel" pattern="(\+?\d[- .]*){7,13}" class="mprm-input" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
+					</p>
+					<p class="mprm-class-name">
+						<label for="mprm-name">
+							<?php _e('Full name:', 'mp-restaurant-menu'); ?>
+						</label>
+						<input type="text" class="mprm-input" required name="mprm-name" value="<?php echo $customer->name; ?>">
+					</p>
+
+				</div>
+			</div>
+
+			<div class="mprm-row">
+				<?php mprm_get_error_html() ?>
+				<div class="mprm-columns mprm-four">
+					<?php submit_button(__('Update customer', 'mp-restaurant-menu'), 'primary', 'mprm-submit') ?>
+					<a href="/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers"><?php _e('Cancel', 'mp-restaurant-menu'); ?></a>
+				</div>
+			</div>
+			<input type="hidden" name="controller" value="customer">
+			<input type="hidden" name="mprm_action" value="update_customer">
 		</form>
 		<div class="mprm-clear"></div>
 	</div>

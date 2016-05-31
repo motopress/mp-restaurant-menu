@@ -994,6 +994,13 @@ class Hooks extends Core {
 				}
 			}
 		}
+		if (isset($_REQUEST['page'])) {
+			if ($pagenow == 'edit.php' && $_REQUEST['page'] == 'mprm-customers') {
+				if (!empty($_REQUEST['message'])) {
+					View::get_instance()->render_html('../admin/notices/' . $_REQUEST['message']);
+				}
+			}
+		}
 	}
 
 	public function dismiss_admin_notices() {
