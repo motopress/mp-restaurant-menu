@@ -90,7 +90,7 @@ function mprm_payment_mode_select() {
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		</form>
 	<?php } ?>
-	<div id="mprm_purchase_form_wrap"></div>
+	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
