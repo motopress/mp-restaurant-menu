@@ -1390,3 +1390,7 @@ function mprm_get_attachment_url($size) {
 function mprm_set_error($error_id, $error_message) {
 	models\Errors::get_instance()->set_error($error_id, $error_message);
 }
+
+function mprm_get_error_html() {
+	models\Errors::get_instance()->get_error_html();
+}

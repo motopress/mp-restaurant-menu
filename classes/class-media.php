@@ -82,7 +82,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Settings', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-settings",
+			'menu_slug' => "mprm-settings",
 			'function' => array($this->get_controller('settings'), 'action_content'),
 			'capability' => 'manage_options',
 		));
@@ -90,7 +90,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Import / Export', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-import",
+			'menu_slug' => "mprm-import",
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
@@ -98,7 +98,7 @@ class Media extends Core {
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Customers', 'mp-restaurant-menu'),
-			'menu_slug' => "admin.php?page=mprm-customers",
+			'menu_slug' => "mprm-customers",
 			'function' => array($this->get_controller('customer'), 'action_content'),
 			'capability' => 'manage_options',
 		));
@@ -138,6 +138,7 @@ class Media extends Core {
 				default:
 					break;
 			}
+
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
@@ -147,6 +148,10 @@ class Media extends Core {
 					wp_enqueue_media();
 					wp_enqueue_script('thickbox');
 					wp_enqueue_style('thickbox');
+					break;
+				case"restaurant-menu_page_mprm-customers":
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					break;
 				case "edit-mp_menu_category":
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
@@ -1302,7 +1307,7 @@ class Media extends Core {
 
 	public function get_pages($force = false) {
 		$pages_options = array('' => ''); // Blank option
-		if ((!isset($_GET['page']) || 'admin.php?page=mprm-settings' != $_GET['page']) && !$force) {
+		if ((!isset($_GET['page']) || 'mprm-settings' != $_GET['page']) && !$force) {
 			return $pages_options;
 		}
 		$pages = get_pages();
@@ -1313,8 +1318,6 @@ class Media extends Core {
 		}
 		return $pages_options;
 	}
-
-//
 
 	public function get_button_styles() {
 		$styles = array(

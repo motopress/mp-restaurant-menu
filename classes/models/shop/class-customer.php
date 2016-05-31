@@ -4,6 +4,7 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
 
 class Customer extends Model {
+
 	private $table_name = '';
 	protected static $instance;
 	public $id = 0;
@@ -11,11 +12,11 @@ class Customer extends Model {
 	public $purchase_value = 0;
 	public $email;
 	public $name;
+	public $telephone;
 	public $date_created;
 	public $payment_ids;
 	public $user_id;
 	public $notes;
-
 
 	public static function get_instance() {
 		if (null === self::$instance) {
@@ -100,6 +101,26 @@ class Customer extends Model {
 		$customers_data = $wpdb->get_results($sql_reguest);
 
 		return empty($customers_data) ? false : $customers_data;
+	}
+
+	public function delete($_id_or_email = false) {
+
+		if (empty($_id_or_email)) {
+			return false;
+		}
+
+		$column = is_email($_id_or_email) ? 'email' : 'id';
+		$customer = $this->get_customer(array('field' => $column, "value" => $_id_or_email));
+
+		if ($customer->id > 0) {
+
+			global $wpdb;
+			return $wpdb->delete($this->table_name, array('id' => $customer->id), array('%d'));
+
+		} else {
+			return false;
+		}
+
 	}
 
 	public function create($data = array()) {
@@ -273,11 +294,16 @@ class Customer extends Model {
 		return $this->purchase_count;
 	}
 
-	public function update($data = array()) {
+	public function update($data = array(), $id = 0) {
 		global $wpdb;
 		if (empty($data)) {
 			return false;
 		}
+
+		if (!empty($id)) {
+			$this->id = $id;
+		}
+
 		$data = $this->sanitize_columns($data);
 		do_action('mprm_customer_pre_update', $this->id, $data);
 		$updated = false;
@@ -512,7 +538,6 @@ class Customer extends Model {
 		);
 	}
 
-
 	public function get_column_defaults() {
 		return array(
 			'user_id' => 0,
@@ -573,9 +598,7 @@ class Customer extends Model {
 				default:
 					$data[$key] = sanitize_text_field($data[$key]);
 					break;
-
 			}
-
 		}
 
 		return $data;
