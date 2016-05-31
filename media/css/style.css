@@ -1165,8 +1165,11 @@ there.
   font-size: 3rem;
 }
 /*Buy button color*/
-a.mprm-submit,
-input.mprm-submit {
+.mprm-submit.plain {
+  padding: 0;
+}
+.mprm-plugin-styles a.mprm-submit,
+.mprm-plugin-styles input.mprm-submit {
   text-decoration: none;
   outline: none;
   box-shadow: none;
@@ -1184,149 +1187,149 @@ input.mprm-submit {
   border-radius: 4px;
   user-select: none;
 }
-a.mprm-submit:visited,
-input.mprm-submit:visited,
-a.mprm-submit:hover,
-input.mprm-submit:hover,
-a.mprm-submit:focus,
-input.mprm-submit:focus,
-a.mprm-submit:active,
-input.mprm-submit:active {
+.mprm-plugin-styles a.mprm-submit:visited,
+.mprm-plugin-styles input.mprm-submit:visited,
+.mprm-plugin-styles a.mprm-submit:hover,
+.mprm-plugin-styles input.mprm-submit:hover,
+.mprm-plugin-styles a.mprm-submit:focus,
+.mprm-plugin-styles input.mprm-submit:focus,
+.mprm-plugin-styles a.mprm-submit:active,
+.mprm-plugin-styles input.mprm-submit:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
 }
-a.mprm-submit.gray,
-input.mprm-submit.gray {
+.mprm-plugin-styles a.mprm-submit.gray,
+.mprm-plugin-styles input.mprm-submit.gray {
   color: #333333;
   background: #f0f0f0;
   border-color: #cccccc;
 }
-a.mprm-submit.gray:hover,
-input.mprm-submit.gray:hover,
-a.mprm-submit.gray:focus,
-input.mprm-submit.gray:focus,
-a.mprm-submit.gray:active,
-input.mprm-submit.gray:active {
+.mprm-plugin-styles a.mprm-submit.gray:hover,
+.mprm-plugin-styles input.mprm-submit.gray:hover,
+.mprm-plugin-styles a.mprm-submit.gray:focus,
+.mprm-plugin-styles input.mprm-submit.gray:focus,
+.mprm-plugin-styles a.mprm-submit.gray:active,
+.mprm-plugin-styles input.mprm-submit.gray:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-a.mprm-submit.white,
-input.mprm-submit.white {
+.mprm-plugin-styles a.mprm-submit.white,
+.mprm-plugin-styles input.mprm-submit.white {
   color: #333333;
   background: #ffffff;
   border-color: #cccccc;
 }
-a.mprm-submit.white:hover,
-input.mprm-submit.white:hover,
-a.mprm-submit.white:focus,
-input.mprm-submit.white:focus,
-a.mprm-submit.white:active,
-input.mprm-submit.white:active {
+.mprm-plugin-styles a.mprm-submit.white:hover,
+.mprm-plugin-styles input.mprm-submit.white:hover,
+.mprm-plugin-styles a.mprm-submit.white:focus,
+.mprm-plugin-styles input.mprm-submit.white:focus,
+.mprm-plugin-styles a.mprm-submit.white:active,
+.mprm-plugin-styles input.mprm-submit.white:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-a.mprm-submit.blue,
-input.mprm-submit.blue {
+.mprm-plugin-styles a.mprm-submit.blue,
+.mprm-plugin-styles input.mprm-submit.blue {
   color: #ffffff;
   background: #428bca;
   border-color: #357ebd;
 }
-a.mprm-submit.blue:hover,
-input.mprm-submit.blue:hover,
-a.mprm-submit.blue:focus,
-input.mprm-submit.blue:focus,
-a.mprm-submit.blue:active,
-input.mprm-submit.blue:active {
+.mprm-plugin-styles a.mprm-submit.blue:hover,
+.mprm-plugin-styles input.mprm-submit.blue:hover,
+.mprm-plugin-styles a.mprm-submit.blue:focus,
+.mprm-plugin-styles input.mprm-submit.blue:focus,
+.mprm-plugin-styles a.mprm-submit.blue:active,
+.mprm-plugin-styles input.mprm-submit.blue:active {
   color: #ffffff;
   background: #3276b1;
   border-color: #285e8e;
   background-image: none;
 }
-a.mprm-submit.red,
-input.mprm-submit.red {
+.mprm-plugin-styles a.mprm-submit.red,
+.mprm-plugin-styles input.mprm-submit.red {
   color: #ffffff;
   background: #d9534f;
   border-color: #d43f3a;
 }
-a.mprm-submit.red:hover,
-input.mprm-submit.red:hover,
-a.mprm-submit.red:focus,
-input.mprm-submit.red:focus,
-a.mprm-submit.red:active,
-input.mprm-submit.red:active {
+.mprm-plugin-styles a.mprm-submit.red:hover,
+.mprm-plugin-styles input.mprm-submit.red:hover,
+.mprm-plugin-styles a.mprm-submit.red:focus,
+.mprm-plugin-styles input.mprm-submit.red:focus,
+.mprm-plugin-styles a.mprm-submit.red:active,
+.mprm-plugin-styles input.mprm-submit.red:active {
   color: #ffffff;
   background: #d2322d;
   border-color: #ac2925;
   background-image: none;
 }
-a.mprm-submit.green,
-input.mprm-submit.green {
+.mprm-plugin-styles a.mprm-submit.green,
+.mprm-plugin-styles input.mprm-submit.green {
   color: #ffffff;
   background: #5cb85c;
   border-color: #4cae4c;
 }
-a.mprm-submit.green:hover,
-input.mprm-submit.green:hover,
-a.mprm-submit.green:focus,
-input.mprm-submit.green:focus,
-a.mprm-submit.green:active,
-input.mprm-submit.green:active {
+.mprm-plugin-styles a.mprm-submit.green:hover,
+.mprm-plugin-styles input.mprm-submit.green:hover,
+.mprm-plugin-styles a.mprm-submit.green:focus,
+.mprm-plugin-styles input.mprm-submit.green:focus,
+.mprm-plugin-styles a.mprm-submit.green:active,
+.mprm-plugin-styles input.mprm-submit.green:active {
   color: #ffffff;
   background: #47a447;
   border-color: #398439;
   background-image: none;
 }
-a.mprm-submit.yellow,
-input.mprm-submit.yellow {
+.mprm-plugin-styles a.mprm-submit.yellow,
+.mprm-plugin-styles input.mprm-submit.yellow {
   color: #ffffff;
   background: #f0ad4e;
   border-color: #eea236;
 }
-a.mprm-submit.yellow:hover,
-input.mprm-submit.yellow:hover,
-a.mprm-submit.yellow:focus,
-input.mprm-submit.yellow:focus,
-a.mprm-submit.yellow:active,
-input.mprm-submit.yellow:active {
+.mprm-plugin-styles a.mprm-submit.yellow:hover,
+.mprm-plugin-styles input.mprm-submit.yellow:hover,
+.mprm-plugin-styles a.mprm-submit.yellow:focus,
+.mprm-plugin-styles input.mprm-submit.yellow:focus,
+.mprm-plugin-styles a.mprm-submit.yellow:active,
+.mprm-plugin-styles input.mprm-submit.yellow:active {
   color: #ffffff;
   background: #ed9c28;
   border-color: #d58512;
   background-image: none;
 }
-a.mprm-submit.orange,
-input.mprm-submit.orange {
+.mprm-plugin-styles a.mprm-submit.orange,
+.mprm-plugin-styles input.mprm-submit.orange {
   color: #ffffff;
   background: #ed9c28;
   border-color: #e3921e;
 }
-a.mprm-submit.orange:hover,
-input.mprm-submit.orange:hover,
-a.mprm-submit.orange:focus,
-input.mprm-submit.orange:focus,
-a.mprm-submit.orange:active,
-input.mprm-submit.orange:active {
+.mprm-plugin-styles a.mprm-submit.orange:hover,
+.mprm-plugin-styles input.mprm-submit.orange:hover,
+.mprm-plugin-styles a.mprm-submit.orange:focus,
+.mprm-plugin-styles input.mprm-submit.orange:focus,
+.mprm-plugin-styles a.mprm-submit.orange:active,
+.mprm-plugin-styles input.mprm-submit.orange:active {
   color: #ffffff;
   background: #e59016;
   border-color: #d58512;
   background-image: none;
 }
-a.mprm-submit.dark-gray,
-input.mprm-submit.dark-gray {
+.mprm-plugin-styles a.mprm-submit.dark-gray,
+.mprm-plugin-styles input.mprm-submit.dark-gray {
   color: #ffffff;
   background: #363636;
   border-color: #222;
 }
-a.mprm-submit.dark-gray:hover,
-input.mprm-submit.dark-gray:hover,
-a.mprm-submit.dark-gray:focus,
-input.mprm-submit.dark-gray:focus,
-a.mprm-submit.dark-gray:active,
-input.mprm-submit.dark-gray:active {
+.mprm-plugin-styles a.mprm-submit.dark-gray:hover,
+.mprm-plugin-styles input.mprm-submit.dark-gray:hover,
+.mprm-plugin-styles a.mprm-submit.dark-gray:focus,
+.mprm-plugin-styles input.mprm-submit.dark-gray:focus,
+.mprm-plugin-styles a.mprm-submit.dark-gray:active,
+.mprm-plugin-styles input.mprm-submit.dark-gray:active {
   color: #ffffff;
   background: #333;
   border-color: #adadad;
@@ -1466,3 +1469,72 @@ input.mprm-submit.dark-gray:active {
 .mprm-container .mprm-row {
   padding-bottom: 4%;
 }
+/*
+.mprm-main-wrapper {
+  padding: 2rem 0;
+
+  // Single Menu Item
+  
+  .mprm-container.content-wrapper {
+	&.mprm-shortcode-category {
+	  margin: 0;
+	  padding: 0;
+	  position: relative;
+	  .mprm-grid {
+		&::before {
+		  content: "";
+		  position: absolute;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: #484f54;
+		  background-image: inherit;
+		  background-position: center;
+		  background-repeat: no-repeat;
+		  background-size: cover;
+		  transition: 0.6s;
+		}
+		display: inline-block;
+		position: relative;
+		transition: 0.6s;
+		padding: 0;
+		overflow: hidden;
+		background-size: 0 0;
+		&:hover {
+		  &::before {
+			transform: scale(1.2, 1.2);
+		  }
+		}
+		a:hover, a:active, a:focus {
+		  text-decoration: none;
+		  border: 0;
+		  box-shadow: 0 0 0;
+		}
+		.mprm-icon {
+		  display: inline-block;
+		  font-size: 50px;
+		  height: auto;
+		  padding-left: 0px;
+		  padding-top: 0px;
+		  text-align: center;
+		  vertical-align: baseline;
+		}
+	  }
+	}
+	&.mprm-shortcode-items {
+	  .mprm-image {
+		float: left;
+		padding-right: @padding-default;
+	  }
+	  .mprm-right-side {
+		overflow: hidden;
+		min-width: 50px;
+		.mprm-title {
+		  margin: 0 0 1rem 0;
+		}
+	  }
+	}
+  }
+}
+*/

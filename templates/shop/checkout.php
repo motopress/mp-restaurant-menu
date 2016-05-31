@@ -1,4 +1,4 @@
-<div id="mprm_checkout_wrap">
+<div id="mprm_checkout_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>">
 	<?php if ($cart_contents || $cart_has_fees) :
 		mprm_get_checkout_cart_template();
 		?>

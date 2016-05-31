@@ -1,132 +1,137 @@
 /*Buy button color*/
+.mprm-submit.plain {
+  padding: 0;
+}
 
-a.mprm-submit, input.mprm-submit {
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 0;
-  font-size: 1em;
-  font-weight: 400;
-  line-height: 1.428571429;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  user-select: none;
-  &:visited,
-  &:hover,
-  &:focus,
-  &:active {
-	color: #333333;
-	background: #ebebeb;
-	border-color: #adadad;
-  }
-  &.gray {
-	color: #333333;
-	background: #f0f0f0;
-	border-color: #cccccc;
+.mprm-plugin-styles {
+  a.mprm-submit, input.mprm-submit {
+	text-decoration: none;
+	outline: none;
+	box-shadow: none;
+	display: inline-block;
+	padding: 6px 12px;
+	margin: 0;
+	font-size: 1em;
+	font-weight: 400;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	user-select: none;
+	&:visited,
 	&:hover,
 	&:focus,
 	&:active {
 	  color: #333333;
 	  background: #ebebeb;
 	  border-color: #adadad;
-	  background-image: none;
 	}
-  }
-  &.white {
-	color: #333333;
-	background: @white;
-	border-color: #cccccc;
-	&:hover,
-	&:focus,
-	&:active {
+	&.gray {
 	  color: #333333;
-	  background: #ebebeb;
-	  border-color: #adadad;
-	  background-image: none;
+	  background: #f0f0f0;
+	  border-color: #cccccc;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: #333333;
+		background: #ebebeb;
+		border-color: #adadad;
+		background-image: none;
+	  }
 	}
-  }
-  &.blue {
-	color: @white;
-	background: #428bca;
-	border-color: #357ebd;
-	&:hover,
-	&:focus,
-	&:active {
+	&.white {
+	  color: #333333;
+	  background: @white;
+	  border-color: #cccccc;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: #333333;
+		background: #ebebeb;
+		border-color: #adadad;
+		background-image: none;
+	  }
+	}
+	&.blue {
 	  color: @white;
-	  background: #3276b1;
-	  border-color: #285e8e;
-	  background-image: none;
+	  background: #428bca;
+	  border-color: #357ebd;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #3276b1;
+		border-color: #285e8e;
+		background-image: none;
+	  }
 	}
-  }
-  &.red {
-	color: @white;
-	background: #d9534f;
-	border-color: #d43f3a;
-	&:hover,
-	&:focus,
-	&:active {
+	&.red {
 	  color: @white;
-	  background: #d2322d;
-	  border-color: #ac2925;
-	  background-image: none;
+	  background: #d9534f;
+	  border-color: #d43f3a;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #d2322d;
+		border-color: #ac2925;
+		background-image: none;
+	  }
 	}
-  }
-  &.green {
-	color: @white;
-	background: #5cb85c;
-	border-color: #4cae4c;
-	&:hover,
-	&:focus,
-	&:active {
+	&.green {
 	  color: @white;
-	  background: #47a447;
-	  border-color: #398439;
-	  background-image: none;
+	  background: #5cb85c;
+	  border-color: #4cae4c;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #47a447;
+		border-color: #398439;
+		background-image: none;
+	  }
 	}
-  }
-  &.yellow {
-	color: @white;
-	background: #f0ad4e;
-	border-color: #eea236;
-	&:hover,
-	&:focus,
-	&:active {
+	&.yellow {
+	  color: @white;
+	  background: #f0ad4e;
+	  border-color: #eea236;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #ed9c28;
+		border-color: #d58512;
+		background-image: none;
+	  }
+	}
+	&.orange {
 	  color: @white;
 	  background: #ed9c28;
-	  border-color: #d58512;
-	  background-image: none;
+	  border-color: #e3921e;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #e59016;
+		border-color: #d58512;
+		background-image: none;
+	  }
 	}
-  }
-  &.orange {
-	color: @white;
-	background: #ed9c28;
-	border-color: #e3921e;
-	&:hover,
-	&:focus,
-	&:active {
+	&.dark-gray {
 	  color: @white;
-	  background: #e59016;
-	  border-color: #d58512;
-	  background-image: none;
-	}
-  }
-  &.dark-gray {
-	color: @white;
-	background: #363636;
-	border-color: #222;
-	&:hover,
-	&:focus,
-	&:active {
-	  color: @white;
-	  background: #333;
-	  border-color: #adadad;
-	  background-image: none;
+	  background: #363636;
+	  border-color: #222;
+	  &:hover,
+	  &:focus,
+	  &:active {
+		color: @white;
+		background: #333;
+		border-color: #adadad;
+		background-image: none;
+	  }
 	}
   }
 }
@@ -240,16 +245,16 @@ a.mprm-submit, input.mprm-submit {
 .mprm-payment-mode-label,
 .mprm-payment-details-label,
 .mprm-order-details-label {
-	font-weight: bold;
-	display: block;
-	position: relative;
-	margin-bottom: 15px;
+  font-weight: bold;
+  display: block;
+  position: relative;
+  margin-bottom: 15px;
 }
 
 .mprm_cart_item_image {
-	display: inline;
-	img {
-		margin-right: 10px;
-		max-width: 75px;
-	}
+  display: inline;
+  img {
+	margin-right: 10px;
+	max-width: 75px;
+  }
 }
