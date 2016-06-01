@@ -1174,30 +1174,14 @@ there.
   outline: none;
   box-shadow: none;
   display: inline-block;
-  padding: 6px 12px;
   margin: 0;
-  font-size: 1em;
-  font-weight: 400;
-  line-height: 1.428571429;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #ccc;
   border-radius: 4px;
   user-select: none;
-}
-.mprm-plugin-styles a.mprm-submit:visited,
-.mprm-plugin-styles input.mprm-submit:visited,
-.mprm-plugin-styles a.mprm-submit:hover,
-.mprm-plugin-styles input.mprm-submit:hover,
-.mprm-plugin-styles a.mprm-submit:focus,
-.mprm-plugin-styles input.mprm-submit:focus,
-.mprm-plugin-styles a.mprm-submit:active,
-.mprm-plugin-styles input.mprm-submit:active {
-  color: #333333;
-  background: #ebebeb;
-  border-color: #adadad;
+  min-height: auto;
 }
 .mprm-plugin-styles a.mprm-submit.gray,
 .mprm-plugin-styles input.mprm-submit.gray {
@@ -1469,72 +1453,3 @@ there.
 .mprm-container .mprm-row {
   padding-bottom: 4%;
 }
-/*
-.mprm-main-wrapper {
-  padding: 2rem 0;
-
-  // Single Menu Item
-  
-  .mprm-container.content-wrapper {
-	&.mprm-shortcode-category {
-	  margin: 0;
-	  padding: 0;
-	  position: relative;
-	  .mprm-grid {
-		&::before {
-		  content: "";
-		  position: absolute;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-color: #484f54;
-		  background-image: inherit;
-		  background-position: center;
-		  background-repeat: no-repeat;
-		  background-size: cover;
-		  transition: 0.6s;
-		}
-		display: inline-block;
-		position: relative;
-		transition: 0.6s;
-		padding: 0;
-		overflow: hidden;
-		background-size: 0 0;
-		&:hover {
-		  &::before {
-			transform: scale(1.2, 1.2);
-		  }
-		}
-		a:hover, a:active, a:focus {
-		  text-decoration: none;
-		  border: 0;
-		  box-shadow: 0 0 0;
-		}
-		.mprm-icon {
-		  display: inline-block;
-		  font-size: 50px;
-		  height: auto;
-		  padding-left: 0px;
-		  padding-top: 0px;
-		  text-align: center;
-		  vertical-align: baseline;
-		}
-	  }
-	}
-	&.mprm-shortcode-items {
-	  .mprm-image {
-		float: left;
-		padding-right: @padding-default;
-	  }
-	  .mprm-right-side {
-		overflow: hidden;
-		min-width: 50px;
-		.mprm-title {
-		  margin: 0 0 1rem 0;
-		}
-	  }
-	}
-  }
-}
-*/
