@@ -523,7 +523,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Add to cart
 			 */
 			addToCart: function() {
-				$('.mprm-add-to-cart').on('click', function(e) {
+
+				$('.mprm-add-to-cart.mprm-has-js').on('click', function(e) {
 					e.preventDefault();
 					var $this = $(this), form = $this.closest('form');
 					var $params = form.serializeArray();

@@ -36,6 +36,7 @@ class Settings extends Model {
 							'paypal' => '1',
 							'manual' => '1',
 						),
+
 					'item_quantities' => '1',
 					'currency_position' => 'before',
 					'thousands_separator' => ',',

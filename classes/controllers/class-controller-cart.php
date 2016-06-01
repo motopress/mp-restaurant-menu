@@ -24,7 +24,7 @@ class Controller_cart extends Controller {
 	public function action_add_to_cart() {
 		$request = $_REQUEST;
 		$cartCount = $this->get('cart')->add_to_cart($request['menu_item_id']);
-		if ((bool)$request['is_ajax']) {
+		if (isset($request['is_ajax']) && (bool)$request['is_ajax']) {
 			$this->date['success'] = (is_numeric($cartCount)) ? true : false;
 			$this->date['data']['cart'] = View::get_instance()->render_html('widgets/cart/index', array(), false);
 			$this->send_json($this->date);

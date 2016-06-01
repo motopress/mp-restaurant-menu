@@ -1012,38 +1012,6 @@ class Media extends Core {
 			'misc' => apply_filters('mprm_settings_misc',
 				array(
 					'main' => array(
-						'misc_settings' => array(
-							'id' => 'misc_settings',
-							'name' => '<h3>' . __('Misc Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'enable_ajax_cart' => array(
-							'id' => 'enable_ajax_cart',
-							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-							'std' => '1',
-						),
-						'redirect_on_add' => array(
-							'id' => 'redirect_on_add',
-							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'item_quantities' => array(
-							'id' => 'item_quantities',
-							'name' => __('Item Quantities', 'mp-restaurant-menu'),
-							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'uninstall_on_delete' => array(
-							'id' => 'uninstall_on_delete',
-							'name' => __('Remove Data on Uninstall?', 'mp-restaurant-menu'),
-							'desc' => __('Check this box if you would like Restaurant menu to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-					),
-					'checkout' => array(
 						'checkout_settings' => array(
 							'id' => 'checkout_settings',
 							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
@@ -1086,19 +1054,94 @@ class Media extends Core {
 								'none' => __('None', 'mp-restaurant-menu'),
 							),
 						),
-//						'allow_multiple_discounts' => array(
-//							'id' => 'allow_multiple_discounts',
-//							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
-//							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
+						'misc_settings' => array(
+							'id' => 'misc_settings',
+							'name' => '<h3>' . __('Misc Settings', 'mp-restaurant-menu') . '</h3>',
+							'type' => 'header',
+						),
+						'enable_ajax_cart' => array(
+							'id' => 'enable_ajax_cart',
+							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+							'std' => '1',
+						),
+						'redirect_on_add' => array(
+							'id' => 'redirect_on_add',
+							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'item_quantities' => array(
+							'id' => 'item_quantities',
+							'name' => __('Item Quantities', 'mp-restaurant-menu'),
+							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+//						'uninstall_on_delete' => array(
+//							'id' => 'uninstall_on_delete',
+//							'name' => __('Remove Data on Uninstall?', 'mp-restaurant-menu'),
+//							'desc' => __('Check this box if you would like Restaurant menu to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
 //							'type' => 'checkbox',
 //						),
-//						'enable_cart_saving' => array(
-//							'id' => 'enable_cart_saving',
-//							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
+
 					),
+//					'checkout' => array(
+//						'checkout_settings' => array(
+//							'id' => 'checkout_settings',
+//							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
+//							'type' => 'header',
+//						),
+//						'customer_phone' => array(
+//							'id' => 'customer_phone',
+//							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
+//							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'shipping_adress' => array(
+//							'id' => 'shipping_adress',
+//							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
+//							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'enforce_ssl' => array(
+//							'id' => 'enforce_ssl',
+//							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
+//							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'logged_in_only' => array(
+//							'id' => 'logged_in_only',
+//							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
+//							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
+//							'type' => 'checkbox',
+//						),
+//						'show_register_form' => array(
+//							'id' => 'show_register_form',
+//							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
+//							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
+//							'type' => 'select',
+//							'std' => 'none',
+//							'options' => array(
+//								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
+//								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
+//								'login' => __('Login Form Only', 'mp-restaurant-menu'),
+//								'none' => __('None', 'mp-restaurant-menu'),
+//							),
+//						),
+////						'allow_multiple_discounts' => array(
+////							'id' => 'allow_multiple_discounts',
+////							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
+////							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
+////							'type' => 'checkbox',
+////						),
+////						'enable_cart_saving' => array(
+////							'id' => 'enable_cart_saving',
+////							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
+////							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
+////							'type' => 'checkbox',
+////						),
+//					),
 					'button_text' => array(
 						'button_settings' => array(
 							'id' => 'button_settings',
@@ -1294,7 +1337,7 @@ class Media extends Core {
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
 				'main' => __('Misc Settings', 'mp-restaurant-menu'),
-				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
+//				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
 				'button_text' => __('Button Text', 'mp-restaurant-menu'),
 //				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
 //				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
