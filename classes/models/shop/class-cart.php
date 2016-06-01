@@ -354,6 +354,7 @@ class Cart extends Model {
 			'text' => __('Purchase', 'mp-restaurant-menu'),
 			'style' => $this->get('settings')->get_option('mprm_button_style', 'button'),
 			'color' => $this->get('settings')->get_option('mprm_checkout_color', 'blue'),
+			'padding' => $this->get('settings')->get_option('checkout_padding', 'mprm-inherit'),
 			'class' => 'mprm-submit'
 		);
 		$purchase_page = $this->get('settings')->get_option('purchase_page', false);

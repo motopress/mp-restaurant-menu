@@ -514,6 +514,7 @@ class Menu_item extends Model {
 			'text' => ($button_behavior == 'direct') ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', __('Add to Cart', 'mp-restaurant-menu')),
 			'style' => $this->get('settings')->get_option('button_style', 'button'),
 			'color' => $this->get('settings')->get_option('checkout_color', 'blue'),
+			'padding' => $this->get('settings')->get_option('checkout_padding', 'mprm-inherit'),
 			'class' => 'mprm-submit'
 		));
 

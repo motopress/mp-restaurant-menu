@@ -2,7 +2,7 @@
 	<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 	<div class="mprm_purchase_submit_wrapper">
 		<?php
-		$class = implode(' ', array($args['style'], $args['color'], trim($args['class'])));
+		$class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));
 		if (!$is_ajax_disabled) { ?>
 			<a href="#" class="mprm-add-to-cart mprm-has-js <?php echo esc_attr($class) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?>>
 				<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>

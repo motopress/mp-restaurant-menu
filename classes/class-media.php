@@ -44,12 +44,7 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'edit_posts',
 		));
-		Menu::add_submenu_page(array(
-			'parent_slug' => $menu_slug,
-			'title' => __('Orders', 'mp-restaurant-menu'),
-			'menu_slug' => "edit.php?post_type=$order",
-			'capability' => 'edit_posts',
-		));
+
 		// Add new
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
@@ -78,6 +73,21 @@ class Media extends Core {
 			'menu_slug' => "edit-tags.php?taxonomy={$ingredient_name}&amp;post_type={$menu_item}",
 			'capability' => 'manage_categories',
 		));
+		// Orders
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Orders', 'mp-restaurant-menu'),
+			'menu_slug' => "edit.php?post_type=$order",
+			'capability' => 'edit_posts',
+		));
+		//Customers
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Customers', 'mp-restaurant-menu'),
+			'menu_slug' => "mprm-customers",
+			'function' => array($this->get_controller('customer'), 'action_content'),
+			'capability' => 'manage_options',
+		));
 		// Settings	
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
@@ -94,14 +104,7 @@ class Media extends Core {
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
-		//Customers
-		Menu::add_submenu_page(array(
-			'parent_slug' => $menu_slug,
-			'title' => __('Customers', 'mp-restaurant-menu'),
-			'menu_slug' => "mprm-customers",
-			'function' => array($this->get_controller('customer'), 'action_content'),
-			'capability' => 'manage_options',
-		));
+
 
 		$this->register_settings();
 
@@ -197,54 +200,7 @@ class Media extends Core {
 	public function wp_footer() {
 		$this->add_theme_js();
 	}
-//
-//	/**
-//	 * Add admin js
-//	 *
-//	 * @param \WP_Screen $current_screen
-//	 */
-//	private function add_admin_js(\WP_Screen $current_screen) {
-//		wp_enqueue_script('underscore');
-//		$this->enqueue_script('registry-factory', 'registry-factory.js');
-//		$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-//		$this->enqueue_script('jBox', 'libs/jBox.min.js');
-//		//$this->enqueue_script('html-builder', 'html-builder.js');
-//		$this->enqueue_script('admin-functions', 'admin-functions.js');
-//		wp_localize_script("admin-functions", 'mprm_admin_vars', $this->get_config('language-admin-js'));
-//		switch ($current_screen->id) {
-//			case 'mp_menu_item':
-//				//$this->enqueue_script('menu-item', 'menu-item.js');
-//				break;
-//			case 'edit-mp_menu_category':
-//				wp_enqueue_media();
-//				$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
-//				$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
-//				//$this->enqueue_script('menu-category', 'menu-category.js');
-//				break;
-//			case 'restaurant-menu_page_admin?page=mprm-settings':
-//				wp_enqueue_media();
-//				//$this->enqueue_script('menu-settings', 'menu-settings.js');
-//				break;
-//		}
-//	}
-//
-//	/**
-//	 * Add admin css
-//	 *
-//	 * @param \WP_Screen $current_screen
-//	 */
-//	private function add_admin_css(\WP_Screen $current_screen) {
-//		$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
-//		$this->enqueue_style('notice-border', 'lib/jbox/themes/NoticeBorder.css');
-//		$this->enqueue_style('admin-styles', 'admin-styles.css');
-//		switch ($current_screen->id) {
-//			case 'edit-mp_menu_category':
-//				$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
-//				$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
-//				$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
-//				break;
-//		}
-//	}
+
 	/**
 	 * Add theme css
 	 */
@@ -798,6 +754,68 @@ class Media extends Core {
 				)
 			),
 			/** Emails Settings */
+			'checkout' => apply_filters('mprm_settings_misc',
+				array(
+					'main' => array(
+						'customer_phone' => array(
+							'id' => 'customer_phone',
+							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'shipping_adress' => array(
+							'id' => 'shipping_adress',
+							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'enforce_ssl' => array(
+							'id' => 'enforce_ssl',
+							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'logged_in_only' => array(
+							'id' => 'logged_in_only',
+							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'show_register_form' => array(
+							'id' => 'show_register_form',
+							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
+							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
+							'type' => 'select',
+							'std' => 'none',
+							'options' => array(
+								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
+								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
+								'login' => __('Login Form Only', 'mp-restaurant-menu'),
+								'none' => __('None', 'mp-restaurant-menu'),
+							),
+						),
+						'enable_ajax_cart' => array(
+							'id' => 'enable_ajax_cart',
+							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+							'std' => '1',
+						),
+						'redirect_on_add' => array(
+							'id' => 'redirect_on_add',
+							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
+							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'item_quantities' => array(
+							'id' => 'item_quantities',
+							'name' => __('Item Quantities', 'mp-restaurant-menu'),
+							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+					)
+				)
+			),
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
@@ -939,6 +957,13 @@ class Media extends Core {
 							'type' => 'color_select',
 							'options' => $this->get_button_colors(),
 						),
+						'checkout_padding' => array(
+							'id' => 'checkout_padding',
+							'name' => __('Padding Button settings', 'mp-restaurant-menu'),
+							'desc' => __('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
+							'type' => 'select',
+							'options' => $this->get_padding_styles(),
+						),
 					),
 				)
 			),
@@ -1012,137 +1037,6 @@ class Media extends Core {
 			'misc' => apply_filters('mprm_settings_misc',
 				array(
 					'main' => array(
-						'checkout_settings' => array(
-							'id' => 'checkout_settings',
-							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'customer_phone' => array(
-							'id' => 'customer_phone',
-							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'shipping_adress' => array(
-							'id' => 'shipping_adress',
-							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'enforce_ssl' => array(
-							'id' => 'enforce_ssl',
-							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'logged_in_only' => array(
-							'id' => 'logged_in_only',
-							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'show_register_form' => array(
-							'id' => 'show_register_form',
-							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
-							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
-							'type' => 'select',
-							'std' => 'none',
-							'options' => array(
-								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
-								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
-								'login' => __('Login Form Only', 'mp-restaurant-menu'),
-								'none' => __('None', 'mp-restaurant-menu'),
-							),
-						),
-						'misc_settings' => array(
-							'id' => 'misc_settings',
-							'name' => '<h3>' . __('Misc Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'enable_ajax_cart' => array(
-							'id' => 'enable_ajax_cart',
-							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-							'std' => '1',
-						),
-						'redirect_on_add' => array(
-							'id' => 'redirect_on_add',
-							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-						'item_quantities' => array(
-							'id' => 'item_quantities',
-							'name' => __('Item Quantities', 'mp-restaurant-menu'),
-							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-//						'uninstall_on_delete' => array(
-//							'id' => 'uninstall_on_delete',
-//							'name' => __('Remove Data on Uninstall?', 'mp-restaurant-menu'),
-//							'desc' => __('Check this box if you would like Restaurant menu to completely remove all of its data when the plugin is deleted.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-
-					),
-//					'checkout' => array(
-//						'checkout_settings' => array(
-//							'id' => 'checkout_settings',
-//							'name' => '<h3>' . __('Checkout Settings', 'mp-restaurant-menu') . '</h3>',
-//							'type' => 'header',
-//						),
-//						'customer_phone' => array(
-//							'id' => 'customer_phone',
-//							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'shipping_adress' => array(
-//							'id' => 'shipping_adress',
-//							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'enforce_ssl' => array(
-//							'id' => 'enforce_ssl',
-//							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'logged_in_only' => array(
-//							'id' => 'logged_in_only',
-//							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-//							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'show_register_form' => array(
-//							'id' => 'show_register_form',
-//							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
-//							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
-//							'type' => 'select',
-//							'std' => 'none',
-//							'options' => array(
-//								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
-//								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
-//								'login' => __('Login Form Only', 'mp-restaurant-menu'),
-//								'none' => __('None', 'mp-restaurant-menu'),
-//							),
-//						),
-////						'allow_multiple_discounts' => array(
-////							'id' => 'allow_multiple_discounts',
-////							'name' => __('Multiple Discounts', 'mp-restaurant-menu'),
-////							'desc' => __('Allow customers to use multiple discounts on the same purchase?', 'mp-restaurant-menu'),
-////							'type' => 'checkbox',
-////						),
-////						'enable_cart_saving' => array(
-////							'id' => 'enable_cart_saving',
-////							'name' => __('Enable Cart Saving', 'mp-restaurant-menu'),
-////							'desc' => __('Check this to enable cart saving on the checkout.', 'mp-restaurant-menu'),
-////							'type' => 'checkbox',
-////						),
-//					),
-					'button_text' => array(
 						'button_settings' => array(
 							'id' => 'button_settings',
 							'name' => '<h3>' . __('Button Text', 'mp-restaurant-menu') . '</h3>',
@@ -1328,6 +1222,9 @@ class Media extends Core {
 			'styles' => apply_filters('mprm_settings_sections_styles', array(
 				'main' => __('Style Settings', 'mp-restaurant-menu'),
 			)),
+			'checkout' => apply_filters('mprm_settings_sections_styles', array(
+				'main' => __('Checkout Settings', 'mp-restaurant-menu'),
+			)),
 //			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
 //				'main' => __('Tax Settings', 'mp-restaurant-menu'),
 //			)),
@@ -1336,9 +1233,9 @@ class Media extends Core {
 			)),
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
-				'main' => __('Misc Settings', 'mp-restaurant-menu'),
+				'main' => __('Button Text', 'mp-restaurant-menu'),
 //				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
-				'button_text' => __('Button Text', 'mp-restaurant-menu'),
+//				'button_text' => __('Button Text', 'mp-restaurant-menu'),
 //				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
 //				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
 				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
@@ -1370,8 +1267,22 @@ class Media extends Core {
 		return apply_filters('mprm_button_styles', $styles);
 	}
 
+	public function get_padding_styles() {
+		$styles = array(
+			'mprm-inherit' => __('Inherit', 'mp-restaurant-menu'),
+			'mprm-small' => __('Small', 'mp-restaurant-menu'),
+			'mprm-middle' => __('Middle', 'mp-restaurant-menu'),
+			'mprm-big' => __('Big', 'mp-restaurant-menu')
+		);
+		return apply_filters('mprm_padding_styles', $styles);
+	}
+
 	public function get_button_colors() {
 		$colors = array(
+			'inherit' => array(
+				'label' => __('Inherit', 'mp-restaurant-menu'),
+				'hex' => ''
+			),
 			'white' => array(
 				'label' => __('White', 'mp-restaurant-menu'),
 				'hex' => '#ffffff'
@@ -1403,10 +1314,6 @@ class Media extends Core {
 			'dark-gray' => array(
 				'label' => __('Dark Gray', 'mp-restaurant-menu'),
 				'hex' => '#363636'
-			),
-			'inherit' => array(
-				'label' => __('Inherit', 'mp-restaurant-menu'),
-				'hex' => ''
 			)
 		);
 		return apply_filters('mprm_button_colors', $colors);
@@ -1430,6 +1337,7 @@ class Media extends Core {
 		$tabs = array();
 		$tabs['general'] = __('General', 'mp-restaurant-menu');
 		$tabs['gateways'] = __('Payment Gateways', 'mp-restaurant-menu');
+		$tabs['checkout'] = __('Checkout Settings', 'mp-restaurant-menu');
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
 //		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');

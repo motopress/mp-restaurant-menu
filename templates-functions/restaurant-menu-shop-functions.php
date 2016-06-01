@@ -97,13 +97,14 @@ function mprm_payment_mode_select() {
 function mprm_checkout_button_next() {
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
 	$color = ($color == 'inherit') ? '' : $color;
+	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
 	$style = models\Settings::get_instance()->get_option('button_style', 'button');
 	$purchase_page = models\Settings::get_instance()->get_option('purchase_page', '0');
 	ob_start();
 	?>
 	<input type="hidden" name="mprm_action" value="gateway_select"/>
 	<input type="hidden" name="page_id" value="<?php echo absint($purchase_page); ?>"/>
-	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
+	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_next', ob_get_clean());
 }
@@ -113,6 +114,7 @@ function mprm_checkout_button_purchase() {
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = models\Settings::get_instance()->get_option('button_style', 'button');
 	$label = models\Settings::get_instance()->get_option('checkout_label', '');
+	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
 	if (mprm_get_cart_total()) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
@@ -120,7 +122,7 @@ function mprm_checkout_button_purchase() {
 	}
 	ob_start();
 	?>
-	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
+	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
 }
@@ -472,9 +474,9 @@ function mprm_checkout_submit() { ?>
 		<?php mprm_checkout_hidden_fields(); ?>
 		<?php echo mprm_checkout_button_purchase(); ?>
 		<?php do_action('mprm_purchase_form_after_submit'); ?>
-<!--		--><?php //if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
-<!--			<p class="mprm-cancel"><a href="--><?php //echo models\Checkout::get_instance()->get_checkout_uri(); ?><!--">--><?php //_e('Go back', 'mp-restaurant-menu'); ?><!--</a></p>-->
-<!--		--><?php //} ?>
+		<!--		--><?php //if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
+		<!--			<p class="mprm-cancel"><a href="--><?php //echo models\Checkout::get_instance()->get_checkout_uri(); ?><!--">--><?php //_e('Go back', 'mp-restaurant-menu'); ?><!--</a></p>-->
+		<!--		--><?php //} ?>
 	</fieldset>
 	<?php
 }
@@ -540,6 +542,7 @@ function mprm_get_login_fields() {
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'gray');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = models\Settings::get_instance()->get_option('button_style', 'button');
+	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
 	$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
 	ob_start(); ?>
 	<fieldset id="mprm_login_fields">
@@ -581,7 +584,7 @@ function mprm_get_login_fields() {
 			<?php endif; ?>
 		</p>
 		<p id="mprm-user-login-submit">
-			<input type="submit" class="mprm-submit button <?php echo $color; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
+			<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?> <?php echo $padding; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_checkout_login_fields_after'); ?>
 	</fieldset>
@@ -700,9 +703,10 @@ function mprm_update_cart_button() {
 	if (!models\Cart::get_instance()->item_quantities_enabled())
 		return;
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
-	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
 	<input type="hidden" name="mprm_action" value="update_cart"/>
 	<?php
 }
@@ -711,11 +715,12 @@ function mprm_save_cart_button() {
 	if (mprm_is_cart_saving_disabled())
 		return;
 	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
-		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
 	<?php endif; ?>
-	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
 	<?php
 }
 

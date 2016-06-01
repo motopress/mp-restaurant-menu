@@ -38,6 +38,11 @@ class Settings extends Model {
 						),
 
 					'item_quantities' => '1',
+					'shipping_adress' => '1',
+					'enable_ajax_cart' => '1',
+					'default_gateway' => 'manual',
+					'checkout_color' => 'inherit',
+					'checkout_padding' => 'mprm-inherit',
 					'currency_position' => 'before',
 					'thousands_separator' => ',',
 					'decimal_separator' => '.',

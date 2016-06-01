@@ -63,6 +63,10 @@
 			return params;
 		}
 
+		if (window.adminpage == 'restaurant-menu_page_mprm-settings') {
+			return;
+		}
+
 		//Gallery Button
 		editor.addButton('mp_add_menu', {
 			title: window.mprm_admin_vars.shortcode_title,

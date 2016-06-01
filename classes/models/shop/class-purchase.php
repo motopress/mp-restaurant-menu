@@ -39,14 +39,16 @@ class Purchase extends Model {
 
 		// Validate the user
 		$user = $this->get_purchase_form_user($valid_data);
-		if (false === $valid_data || $this->get('errors')->get_errors() || !$user || true) {
+		if (false === $valid_data || $this->get('errors')->get_errors() || !$user) {
 			if ($is_ajax) {
 				do_action('mprm_ajax_checkout_errors');
 				$errors = $this->get('errors')->get_error_html();
-				wp_send_json_error(array(
-					'errors' => $errors,
-					'error' => !empty($errors) ? true : false,
-				));
+				if (!empty($errors)) {
+					wp_send_json_error(array(
+						'errors' => $errors,
+						'error' => !empty($errors) ? true : false,
+					));
+				}
 				$this->get('misc')->mprm_die();
 			} else {
 				return false;
