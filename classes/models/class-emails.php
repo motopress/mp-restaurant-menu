@@ -346,7 +346,7 @@ class Emails extends Model {
 		}
 		$gateway = $this->get('gateways')->get_gateway_admin_label(get_post_meta($payment_id, '_mprm_order_gateway', true));
 
-		$default_email_body = __('A new purchase has been made', 'mp-restaurant-menu') . "\n\n";
+		$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
 		$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
 		$default_email_body .= $menu_item_list . "\n\n";
 		$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";

@@ -1022,7 +1022,7 @@ function mprm_currency_decimal_filter() {
 
 function mprm_get_default_sale_notification_email() {
 
-	$default_email_body = __('A new purchase has been made', 'mp-restaurant-menu') . "\n\n";
+	$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
 	$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
 	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . "{fullname}" . "\n";

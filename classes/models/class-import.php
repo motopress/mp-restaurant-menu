@@ -112,7 +112,7 @@ class Import extends Core {
 				<h3><?php _e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
 				<p>
 					<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments"/>
-					<label for="import-attachments"><?php _e('Menu item and import file attachments', 'mp-restaurant-menu'); ?></label>
+					<label for="import-attachments"><?php _e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
 				</p>
 			<?php endif; ?>
 			<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e('Submit', 'mp-restaurant-menu'); ?>"/></p>

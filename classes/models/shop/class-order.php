@@ -63,7 +63,7 @@ final class Order extends Model {
 
 	protected $customer_note = '';
 
-	protected $shipping_adress = '';
+	protected $shipping_address = '';
 
 	protected $phone_number = '';
 
@@ -242,7 +242,7 @@ final class Order extends Model {
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 //		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
-		$columns['order_customer_note'] = __('Customer note', 'mp-restaurant-menu');
+		$columns['order_customer_note'] = __('Order note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
@@ -299,7 +299,7 @@ final class Order extends Model {
 
 				break;
 //			case 'order_ship_to':
-//				echo $order->shipping_adress;
+//				echo $order->shipping_address;
 //				break;
 			case 'order_customer_note':
 				echo $order->customer_note;
@@ -435,7 +435,7 @@ final class Order extends Model {
 		$this->last_name = $this->user_info['last_name'];
 		//additional information
 		$this->phone_number = $this->setup_phone_number();
-		$this->shipping_adress = $this->setup_shipping_adress();
+		$this->shipping_address = $this->setup_shipping_address();
 		$this->customer_note = $this->setup_customer_note();
 		// Other Identifiers
 		$this->key = $this->setup_payment_key();
@@ -672,8 +672,8 @@ final class Order extends Model {
 					case 'customer_note':
 						$this->update_meta('_mprm_order_customer_note', $this->customer_note);
 						break;
-					case 'shipping_adress':
-						$this->update_meta('_mprm_order_shipping_adress', $this->shipping_adress);
+					case 'shipping_address':
+						$this->update_meta('_mprm_order_shipping_address', $this->shipping_address);
 						break;
 					case 'phone_number':
 						$this->update_meta('_mprm_order_phone_number', $this->phone_number);
@@ -1394,9 +1394,9 @@ final class Order extends Model {
 		return $phone_number;
 	}
 
-	private function setup_shipping_adress() {
-		$shipping_adress = $this->get_meta('_mprm_order_shipping_adress', true);
-		return $shipping_adress;
+	private function setup_shipping_address() {
+		$shipping_address = $this->get_meta('_mprm_order_shipping_address', true);
+		return $shipping_address;
 	}
 
 	private function setup_customer_note() {
@@ -1508,8 +1508,8 @@ final class Order extends Model {
 		return apply_filters('mprm_payment_phone_number', $this->phone_number, $this->ID, $this);
 	}
 
-	private function get_shipping_adress() {
-		return apply_filters('mprm_payment_shipping_adress', $this->shipping_adress, $this->ID, $this);
+	private function get_shipping_address() {
+		return apply_filters('mprm_payment_shipping_address', $this->shipping_address, $this->ID, $this);
 	}
 
 	private function get_customer_note() {
