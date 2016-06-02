@@ -241,7 +241,7 @@ final class Order extends Model {
 		$columns['cb'] = $existing_columns['cb'];
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
-//		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
+		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
 		$columns['order_customer_note'] = __('Customer note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
@@ -298,9 +298,9 @@ final class Order extends Model {
 				}
 
 				break;
-//			case 'order_ship_to':
-//				echo $order->shipping_adress;
-//				break;
+			case 'order_ship_to':
+				echo $order->shipping_adress;
+				break;
 			case 'order_customer_note':
 				echo $order->customer_note;
 				break;

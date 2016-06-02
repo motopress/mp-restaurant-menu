@@ -116,7 +116,7 @@ class Customer_Reports extends \WP_List_Table {
 		switch ($column_name) {
 			case 'num_purchases' :
 				$value = '<a href="' .
-					admin_url('/edit.php?post_type=mp_menu_item&page=mprm-payment-history&user=' . urlencode($item['email'])
+					admin_url('/edit.php?post_type=mprm_order&s=' . urlencode($item['email'])
 					) . '">' . esc_html($item['num_purchases']) . '</a>';
 				break;
 			case 'amount_spent' :

@@ -582,6 +582,9 @@ function mprm_get_login_fields() {
 			<?php if (mprm_is_no_guest_checkout()) : ?>
 				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
+			<input type="hidden" name="redirect" value="<?php echo mprm_get_checkout_uri(); ?>"/>
+			<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); ?>"/>
+
 		</p>
 		<p id="mprm-user-login-submit">
 			<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?> <?php echo $padding; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
@@ -1018,6 +1021,11 @@ function mprm_get_option($key, $default = false) {
 
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
+}
+
+function mprm_get_purchase_history_page() {
+	$history_page_url = get_permalink(models\Settings::get_instance()->get_option('purchase_history_page'));
+	return empty($history_page_url) ? '' : $history_page_url;
 }
 
 function mprm_get_default_sale_notification_email() {

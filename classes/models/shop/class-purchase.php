@@ -41,7 +41,7 @@ class Purchase extends Model {
 		$user = $this->get_purchase_form_user($valid_data);
 		if (false === $valid_data || $this->get('errors')->get_errors() || !$user) {
 			if ($is_ajax) {
-				do_action('mprm_ajax_checkout_errors');
+
 				$errors = $this->get('errors')->get_error_html();
 				if (!empty($errors)) {
 					wp_send_json_error(array(
@@ -49,8 +49,10 @@ class Purchase extends Model {
 						'error' => !empty($errors) ? true : false,
 					));
 				}
+				do_action('mprm_ajax_checkout_errors');
 				$this->get('misc')->mprm_die();
 			} else {
+
 				return false;
 			}
 		}

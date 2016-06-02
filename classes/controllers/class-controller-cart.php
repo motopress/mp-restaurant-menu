@@ -71,7 +71,13 @@ class Controller_cart extends Controller {
 		if (Core::is_ajax()) {
 			$this->get('purchase')->process_purchase_form();
 		} else {
-			$this->get('purchase')->process_purchase_form();
+			if (!$this->get('purchase')->process_purchase_form()) {
+				if (wp_get_referer()) {
+					wp_safe_redirect(wp_get_referer());
+				} else {
+					wp_safe_redirect($this->get('checkout')->get_checkout_uri());
+				}
+			};
 		}
 	}
 

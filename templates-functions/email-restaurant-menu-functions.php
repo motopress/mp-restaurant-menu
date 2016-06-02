@@ -90,10 +90,10 @@ function mprm_email_tag_menu_item_list($order_id) {
 				if (!empty($sku)) {
 					$title .= "&nbsp;&ndash;&nbsp;" . __('SKU', 'mp-restaurant-menu') . ': ' . $sku;
 				}
-
-				if ($price_id !== null) {
-					$title .= "&nbsp;&ndash;&nbsp;" . mprm_item_quantities_enabled();
-				}
+//
+//				if ($price_id !== null) {
+//					$title .= "&nbsp;&ndash;&nbsp;" . mprm_item_quantities_enabled();
+//				}
 
 				$menu_item_list .= '<li>' . apply_filters('mprm_email_receipt_menu_item_title', $title, $item, $price_id, $order_id) . '<br/>';
 			}

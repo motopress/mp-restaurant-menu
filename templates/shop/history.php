@@ -1,8 +1,8 @@
 <?php
-if (!mprm_user_pending_verification()) {
-	if (is_user_logged_in()):
+if (!mprm_user_pending_verification()) { ?>
+	<?php if (is_user_logged_in()) {
 		$purchases = mprm_get_users_purchases(get_current_user_id(), 20, true, 'any');
-		if ($purchases) :
+		if ($purchases) {
 			do_action('mprm_before_purchase_history'); ?>
 			<table id="mprm_user_history">
 				<thead>
@@ -49,10 +49,18 @@ if (!mprm_user_pending_verification()) {
 			</div>
 			<?php do_action('mprm_after_purchase_history'); ?>
 			<?php wp_reset_postdata(); ?>
-		<?php else : ?>
+		<?php } else { ?>
+			<p class="mprm-account-pending mprm_success">
+				<?php _e('An email with an activation link has been sent.', 'mp-restaurant-menu'); ?>
+			</p>
 			<p class="mprm-no-purchases"><?php _e('You have not made any purchases', 'mp-restaurant-menu'); ?></p>
-		<?php endif;
-	endif;
+		<?php }
+	} else { ?>
+		<p class="mprm-account-pending mprm_success">
+			<?php _e('You must login to view purchases.', 'mp-restaurant-menu'); ?>
+			<a href="<?php echo wp_login_url(mprm_get_purchase_history_page()); ?>" title="Login"><?php _e('Login', 'mp-restaurant-menu'); ?></a>
+		</p>
+	<?php }
 } else {
 	if (!empty($_GET['mprm-verify-request'])) : ?>
 		<p class="mprm-account-pending mprm_success">

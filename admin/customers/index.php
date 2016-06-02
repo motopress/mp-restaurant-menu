@@ -1,8 +1,8 @@
-<?php
-use mp_restaurant_menu\classes\models;
+<?php use mp_restaurant_menu\classes\models;
 
 $customers_table = new models\Customer_Reports();
 $customers_table->prepare_items();
+
 ?>
 <div class="wrap">
 	<h1><?php _e('Customers', 'mp-restaurant-menu'); ?></h1>

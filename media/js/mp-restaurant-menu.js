@@ -805,7 +805,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				});
 			},
 			loginAjax: function() {
-				$('#mprm_checkout_form_wrap').on('click', '#mprm_login_submit', function(e) {
+				$('#mprm_checkout_form_wrap').on('click', '#mprm_login_submit,[name="mprm_login_submit"]', function(e) {
 					e.preventDefault();
 					$('.mprm-errors').remove();
 					var $params = {
