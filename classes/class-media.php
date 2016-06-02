@@ -576,7 +576,7 @@ class Media extends Core {
 						'failure_page' => array(
 							'id' => 'failure_page',
 							'name' => __('Failed Transaction Page', 'mp-restaurant-menu'),
-							'desc' => __('The page buyers are sent to if their transaction is cancelled or fails', 'mp-restaurant-menu'),
+							'desc' => __('The page buyers are sent to if their transaction is cancelled or fails.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
@@ -699,7 +699,7 @@ class Media extends Core {
 						'default_gateway' => array(
 							'id' => 'default_gateway',
 							'name' => __('Default Gateway', 'mp-restaurant-menu'),
-							'desc' => __('This gateway will be loaded automatically with the checkout page.', 'mp-restaurant-menu'),
+							'desc' => __('This gateway will be loaded automatically on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'gateway_select',
 							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
@@ -759,14 +759,14 @@ class Media extends Core {
 					'main' => array(
 						'customer_phone' => array(
 							'id' => 'customer_phone',
-							'name' => __('Customer telephone number', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable telephone for the checkout.', 'mp-restaurant-menu'),
+							'name' => __('Telephone Number Required', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to display telephone field on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
-						'shipping_adress' => array(
-							'id' => 'shipping_adress',
-							'name' => __('Enable shipping adress', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable shipping adress for the checkout.', 'mp-restaurant-menu'),
+						'shipping_address' => array(
+							'id' => 'shipping_address',
+							'name' => __('Enable Shipping', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to display shipping address field on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'enforce_ssl' => array(
@@ -778,7 +778,7 @@ class Media extends Core {
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
 							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Require that users be logged-in to purchase menu items.', 'mp-restaurant-menu'),
+							'desc' => __('Users must be logged-in to purchase menu items.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'show_register_form' => array(
@@ -797,20 +797,20 @@ class Media extends Core {
 						'enable_ajax_cart' => array(
 							'id' => 'enable_ajax_cart',
 							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 							'std' => '1',
 						),
 						'redirect_on_add' => array(
 							'id' => 'redirect_on_add',
 							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Immediately redirect to checkout after adding an item to the cart?', 'mp-restaurant-menu'),
+							'desc' => __('Immediately redirect to checkout after adding an item to the cart.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'item_quantities' => array(
 							'id' => 'item_quantities',
-							'name' => __('Item Quantities', 'mp-restaurant-menu'),
-							'desc' => __('Allow item quantities to be changed.', 'mp-restaurant-menu'),
+							'name' => __('Items Amount', 'mp-restaurant-menu'),
+							'desc' => __('Allow items amount to be changed on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					)
@@ -827,14 +827,14 @@ class Media extends Core {
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
-							'desc' => __('Choose a template. Click "Save Changes" then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
+							'desc' => __('Choose a template. Click "Save Changes", then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings_emails::get_instance()->get_email_templates()
 						),
 						'email_logo' => array(
 							'id' => 'email_logo',
 							'name' => __('Logo', 'mp-restaurant-menu'),
-							'desc' => __('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed on HTML emails only.', 'mp-restaurant-menu'),
+							'desc' => __('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed in HTML emails only.', 'mp-restaurant-menu'),
 							'type' => 'upload',
 						),
 						'email_settings' => array(
@@ -853,7 +853,7 @@ class Media extends Core {
 						'from_name' => array(
 							'id' => 'from_name',
 							'name' => __('From Name', 'mp-restaurant-menu'),
-							'desc' => __('The name purchase receipts are said to come from. This should probably be your site or shop name.', 'mp-restaurant-menu'),
+							'desc' => __('The name purchase receipts are said to come from. Use your site or shop name.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => get_bloginfo('name'),
 						),
@@ -867,14 +867,14 @@ class Media extends Core {
 						'purchase_subject' => array(
 							'id' => 'purchase_subject',
 							'name' => __('Purchase Email Subject', 'mp-restaurant-menu'),
-							'desc' => __('Enter the subject line for the purchase receipt email', 'mp-restaurant-menu'),
+							'desc' => __('Enter the subject line for the purchase receipt email.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
 						),
 						'purchase_heading' => array(
 							'id' => 'purchase_heading',
 							'name' => __('Purchase Email Heading', 'mp-restaurant-menu'),
-							'desc' => __('Enter the heading for the purchase receipt email', 'mp-restaurant-menu'),
+							'desc' => __('Enter the heading for the purchase receipt email.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
 						),
@@ -889,13 +889,13 @@ class Media extends Core {
 					'sale_notifications' => array(
 						'sale_notification_settings' => array(
 							'id' => 'sale_notification_settings',
-							'name' => '<h3>' . __('Sale Notifications', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . __('Sale Notifications for shop owner', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'sale_notification_subject' => array(
 							'id' => 'sale_notification_subject',
 							'name' => __('Sale Notification Subject', 'mp-restaurant-menu'),
-							'desc' => __('Enter the subject line for the sale notification email', 'mp-restaurant-menu'),
+							'desc' => __('Enter the subject line for the sale notification email.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => 'New purchase - Order #{payment_id}',
 						),
@@ -934,7 +934,7 @@ class Media extends Core {
 						'disable_styles' => array(
 							'id' => 'disable_styles',
 							'name' => __('Disable Styles', 'mp-restaurant-menu'),
-							'desc' => __('Check this to disable all included styling of buttons, checkout fields, and all other elements.', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to disable all included styling of buttons, checkout fields, and all other elements.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'button_header' => array(
@@ -945,22 +945,22 @@ class Media extends Core {
 						),
 						'button_style' => array(
 							'id' => 'button_style',
-							'name' => __('Default Button Style', 'mp-restaurant-menu'),
+							'name' => __('Button Style', 'mp-restaurant-menu'),
 							'desc' => __('Choose the style you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_button_styles(),
 						),
 						'checkout_color' => array(
 							'id' => 'checkout_color',
-							'name' => __('Default Button Color', 'mp-restaurant-menu'),
+							'name' => __('Button Color', 'mp-restaurant-menu'),
 							'desc' => __('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'color_select',
 							'options' => $this->get_button_colors(),
 						),
 						'checkout_padding' => array(
 							'id' => 'checkout_padding',
-							'name' => __('Padding Button settings', 'mp-restaurant-menu'),
-							'desc' => __('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
+							'name' => __('Button Size', 'mp-restaurant-menu'),
+							'desc' => __('Choose the size you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_padding_styles(),
 						),
@@ -1158,7 +1158,7 @@ class Media extends Core {
 						'show_agree_to_terms' => array(
 							'id' => 'show_agree_to_terms',
 							'name' => __('Agree to Terms', 'mp-restaurant-menu'),
-							'desc' => __('Check this to show an agree to terms on the checkout that users must agree to before purchasing.', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to show an Agree To Terms checkbox on the checkout page that users must agree to before purchasing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'agree_label' => array(
@@ -1269,10 +1269,10 @@ class Media extends Core {
 
 	public function get_padding_styles() {
 		$styles = array(
-			'mprm-inherit' => __('Inherit', 'mp-restaurant-menu'),
+			'mprm-inherit' => __('Default', 'mp-restaurant-menu'),
 			'mprm-small' => __('Small', 'mp-restaurant-menu'),
 			'mprm-middle' => __('Middle', 'mp-restaurant-menu'),
-			'mprm-big' => __('Big', 'mp-restaurant-menu')
+			'mprm-big' => __('Large', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_padding_styles', $styles);
 	}
@@ -1280,7 +1280,7 @@ class Media extends Core {
 	public function get_button_colors() {
 		$colors = array(
 			'inherit' => array(
-				'label' => __('Inherit', 'mp-restaurant-menu'),
+				'label' => __('Default', 'mp-restaurant-menu'),
 				'hex' => ''
 			),
 			'white' => array(

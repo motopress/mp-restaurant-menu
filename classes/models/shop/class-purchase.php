@@ -94,7 +94,7 @@ class Purchase extends Model {
 			'gateway' => $valid_data['gateway'],
 			'card_info' => $valid_data['cc_info'],
 			'customer_note' => $valid_data['customer_note'],
-			'shipping_adress' => !empty($valid_data['shipping_adress']) ? $valid_data['shipping_adress'] : '',
+			'shipping_address' => !empty($valid_data['shipping_address']) ? $valid_data['shipping_address'] : '',
 			'phone_number' => $valid_data['phone_number']
 		);
 
@@ -176,7 +176,7 @@ class Purchase extends Model {
 			'guest_user_data' => array(),   // Guest user collected data
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
 			'customer_note' => !empty($_POST['customer_note']) ? sanitize_text_field($_POST['customer_note']) : '',
-			'shipping_adress' => !empty($_POST['shipping_adress']) ? sanitize_text_field($_POST['shipping_adress']) : '',
+			'shipping_address' => !empty($_POST['shipping_address']) ? sanitize_text_field($_POST['shipping_address']) : '',
 			'phone_number' => !empty($_POST['phone_number']) ? $this->purchase_form_validate_phone() : ''
 		);
 

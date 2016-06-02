@@ -170,7 +170,7 @@ class Payments extends Parent_query {
 		$payment->discounts = !empty($payment_data['user_info']['discount']) ? $payment_data['user_info']['discount'] : array();
 
 		$payment->customer_note = !empty($session['customer_note']) ? $session['customer_note'] : '';
-		$payment->shipping_adress = !empty($session['shipping_adress']) ? $session['shipping_adress'] : '';
+		$payment->shipping_address = !empty($session['shipping_address']) ? $session['shipping_address'] : '';
 		$payment->phone_number = !empty($session['phone_number']) ? $session['phone_number'] : '';
 
 

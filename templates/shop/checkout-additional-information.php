@@ -1,15 +1,15 @@
 <?php do_action('mprm_before_additional_information'); ?>
 	<fieldset id="mprm_additional_information_fields" class="mprm-do-validate">
 		<span class="mprm-order-details-label"><legend><?php _e('Additional information', 'mp-restaurant-menu'); ?></legend></span>
-		<?php $temp = mprm_get_option('shipping_adress', false); ?>
-		<?php if (mprm_get_option('shipping_adress')): ?>
-			<p id="mprm-adress-wrap">
+		<?php $temp = mprm_get_option('shipping_address', false); ?>
+		<?php if (mprm_get_option('shipping_address')): ?>
+			<p id="mprm-address-wrap">
 				<label for="phone_number" class="mprm-label">
-					<?php _e('Shipping adress:', 'mp-restaurant-menu'); ?>
+					<?php _e('Shipping address:', 'mp-restaurant-menu'); ?>
 					<span class="mprm-required-indicator">*</span>
 					<span class="phone-type"></span>
 				</label>
-				<input type="text" name="shipping_adress" value="" class="medium-text" required placeholder="<?php _e('Enter your adress.', 'mp-restaurant-menu'); ?>"/>
+				<input type="text" name="shipping_address" value="" class="medium-text" required placeholder="<?php _e('Enter your address.', 'mp-restaurant-menu'); ?>"/>
 			</p>
 		<?php endif; ?>
 

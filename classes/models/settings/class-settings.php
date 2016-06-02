@@ -38,7 +38,7 @@ class Settings extends Model {
 						),
 
 					'item_quantities' => '1',
-					'shipping_adress' => '1',
+					'shipping_address' => '1',
 					'enable_ajax_cart' => '1',
 					'default_gateway' => 'manual',
 					'checkout_color' => 'inherit',

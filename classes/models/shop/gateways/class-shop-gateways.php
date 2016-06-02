@@ -46,8 +46,8 @@ class Gateways extends Model {
 				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
 			),
 			'manual' => array(
-				'admin_label' => __('Manual Payments (process orders manually)', 'mp-restaurant-menu'),
-				'checkout_label' => __('Manual Payments', 'mp-restaurant-menu')
+				'admin_label' => __('Cash on delivery (process orders manually)', 'mp-restaurant-menu'),
+				'checkout_label' => __('Cash on delivery', 'mp-restaurant-menu')
 			)
 		);
 		return apply_filters('mprm_payment_gateways', $gateways);
