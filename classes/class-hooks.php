@@ -881,7 +881,7 @@ class Hooks extends Core {
 						WHERE		( p1.meta_key IN ('" . implode("','", array_map('esc_sql', $search_fields)) . "') AND p1.meta_value LIKE '%%%s%%' )	",
 						mprm_clean($_GET['s']), mprm_clean($_GET['s']), mprm_clean($_GET['s'])
 					)
-				), $wpdb->get_col($wpdb->prepare("SELECT *  FROM {$wpdb->postmeta} WHERE `post_title` LIKE '%%%s%%'"), mprm_clean($_GET['s']))
+				), $wpdb->get_col($wpdb->prepare("SELECT *  FROM {$wpdb->posts} WHERE `post_title` LIKE '%%%s%%'", mprm_clean($_GET['s'])))
 			));
 		}
 
@@ -892,7 +892,7 @@ class Hooks extends Core {
 		$wp->query_vars['mprm_order_search'] = true;
 
 		// Search by found posts
-		$wp->query_vars['post__in'] = $post_ids;
+		$wp->query_vars['post__in'] = array_filter($post_ids);
 	}
 
 	public function bulk_action() {

@@ -112,7 +112,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 			</div>
 
 			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-menu-items-changed" value=""/>
-			<input type="hidden" name="mprm-payment-removed" id="mprm-payment-removed" value="{}"/>
+			<input type="hidden" name="mprm-order-removed" id="mprm-order-removed" value="{}"/>
 
 		<?php else : $key = 0; ?>
 			<div class="mprm-row">

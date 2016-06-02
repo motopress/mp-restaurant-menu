@@ -112,9 +112,9 @@ class Media extends Core {
 		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids')));
 		global $submenu;
 		foreach ($submenu as $key => $value) {
-			if (isset($submenu[$key][1])) {
-				if ($submenu[$key][1][2] == 'edit.php?post_type=mprm_order') {
-					$submenu[$key][1][0] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
+			if (isset($submenu[$key][5])) {
+				if ($submenu[$key][5][2] == 'edit.php?post_type=mprm_order') {
+					$submenu[$key][5][0] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
 					return;
 				}
 			}

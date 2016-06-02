@@ -322,26 +322,32 @@ class Emails extends Model {
 		} else {
 			$name = $email;
 		}
-
+		$cart_details = $payment_data['cart_details'];
 		$menu_item_list = '';
 		$menu_items = maybe_unserialize($payment_data['menu_items']);
 
 		if (is_array($menu_items)) {
-			foreach ($menu_items as $menu_item) {
+			foreach ($menu_items as $key => $menu_item) {
+				foreach ($cart_details as $cart_item) {
+					if ($menu_item['id'] == $cart_item['id']) {
+						$price = $cart_item['price'];
+					}
+				}
+
 				$id = isset($payment_data['cart_details']) ? $menu_item['id'] : $menu_item;
 				$title = get_the_title($id);
 				if (isset($menu_item['options'])) {
 					if (isset($menu_item['options']['price_id'])) {
-						$title .= ' - ' . $this->get('menu_item')->get_price_option_name($id, $menu_item['options']['price_id'], $payment_id);
+						$title .= ' ' . $menu_item['quantity'] . ' x ' . mprm_currency_filter(mprm_format_amount($price));
 					}
 				}
 				$menu_item_list .= html_entity_decode($title, ENT_COMPAT, 'UTF-8') . "\n";
 			}
 		}
 		$gateway = $this->get('gateways')->get_gateway_admin_label(get_post_meta($payment_id, '_mprm_order_gateway', true));
-		
-		$default_email_body = __('A new purchase has been made\n\n', 'mp-restaurant-menu');
-		$default_email_body .= __('Purchased products:\n', 'mp-restaurant-menu');
+
+		$default_email_body = __('A new purchase has been made', 'mp-restaurant-menu') . "\n\n";
+		$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
 		$default_email_body .= $menu_item_list . "\n\n";
 		$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";
 		$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . html_entity_decode(mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($payment_id))), ENT_COMPAT, 'UTF-8') . "\n";

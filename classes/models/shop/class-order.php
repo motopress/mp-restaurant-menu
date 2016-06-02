@@ -371,13 +371,7 @@ final class Order extends Model {
 
 	public function get_search_params() {
 		$search_params = array(
-			'_mprm_order_gateway',
-			'_mprm_order_user_id',
 			'_mprm_order_user_email',
-			'_mprm_order_purchase_key',
-			'_mprm_order_customer_note',
-			'_mprm_order_shipping_adress',
-			'_mprm_order_phone_number',
 			'_mprm_order_customer_id',
 			'_mprm_order_total',
 			'_mprm_completed_date'
@@ -852,7 +846,7 @@ final class Order extends Model {
 		$args = wp_parse_args($args, $defaults);
 		$menu_item = new Menu_item($menu_item_id);
 		// Bail if this post isn't a menu_item
-		if (!$menu_item || $menu_item->post_type !== 'menu_item') {
+		if (!$menu_item || $menu_item->post_type !== 'mp_menu_item') {
 			return false;
 		}
 		foreach ($this->menu_items as $key => $item) {

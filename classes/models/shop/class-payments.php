@@ -271,7 +271,7 @@ class Payments extends Parent_query {
 				$args = array(
 					'quantity' => $quantity,
 					'item_price' => $item_price,
-					'price_id' => $price_id,
+					'price_id' => empty($price_id) ? 0 : $price_id,
 				);
 
 				$payment->add_menu_item($menu_item_id, $args);

@@ -1093,15 +1093,46 @@ MP_RM_Registry.register("Order", (function($) {
 
 				$('.mprm-order-remove-menu-item.mprm-delete').on('click', function(e) {
 					e.preventDefault();
-					if ($('.mprm-row.item').length > 1) {
-						var menuItem = $(this);
-						menuItem.parents('.mprm-row').remove();
 
-						$('.mprm-order-recalc-totals').show();
-					} else {
+					var count = $(document.body).find('#mprm-purchased-wrapper > .mprm-row').length;
+
+					if (count === 1) {
 						alert(mprm_admin_vars.one_menu_item_min);
 						return false;
 					}
+
+					if (confirm(mprm_admin_vars.delete_payment_menu_item)) {
+						var key = $(this).data('key');
+
+						//var purchase_id = $('.edd-payment-id').val();
+						var menu_item_id = $('input[name="mprm-order-details[' + key + '][id]"]').val();
+						var price_id = $('input[name="mprm-order-details[' + key + '][price_id]"]').val();
+						var quantity = $('input[name="mprm-order-details[' + key + '][quantity]"]').val();
+						var amount = $('input[name="mprm-order-details[' + key + '][amount]"]').val();
+
+						var currently_removed = $('input[name="mprm-order-removed"]').val();
+						currently_removed = $.parseJSON(currently_removed);
+						if (currently_removed.length < 1) {
+							currently_removed = {};
+						}
+
+						var removed_item = [{'id': menu_item_id, 'price_id': price_id, 'quantity': quantity, 'amount': amount, 'cart_index': key}];
+						currently_removed[key] = removed_item;
+
+						$('input[name="mprm-order-removed"]').val(JSON.stringify(currently_removed));
+
+						$(this).parents('.mprm-row').remove();
+
+						// Flag the Downloads section as changed
+						$('#mprm-order-menu-items-changed').val(1);
+						$('.mprm-order-recalc-totals').show();
+					}
+					return false;
+
+				});
+
+				$('#mprm-purchased-wrapper').on('click', '.mprm-order-remove-menu-item', function() {
+					console.log('X');
 
 				});
 
