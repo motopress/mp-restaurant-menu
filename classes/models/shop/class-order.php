@@ -299,7 +299,7 @@ final class Order extends Model {
 
 				break;
 			case 'order_ship_to':
-				echo $order->shipping_adress;
+				echo $order->shipping_address;
 				break;
 			case 'order_customer_note':
 				echo $order->customer_note;

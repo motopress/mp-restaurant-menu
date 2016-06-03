@@ -1,15 +1,19 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
+
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
+
 class Shortcode_success extends Shortcodes {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Render shortcode
 	 *
@@ -43,7 +47,7 @@ class Shortcode_success extends Shortcodes {
 		$user_can_view = $this->get('misc')->can_view_receipt($payment_key);
 		$payment_id = $this->get('payments')->get_payment_id(array('search_key' => 'payment_key', 'value' => $payment_key));
 		// Key was provided, but user is logged out. Offer them the ability to login and view the receipt
-		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('misc')->is_guest_payment($payment_id)) {
+		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('payments')->is_guest_payment($payment_id)) {
 			$mprm_login_redirect = $this->get('misc')->get_current_page_url();
 			$data['need_login'] = true;
 			$data['login_from'] = View::get_instance()->render_html("shop/login", array(), false);
@@ -53,6 +57,7 @@ class Shortcode_success extends Shortcodes {
 		}
 
 		$data['payment'] = get_post($payment_id);
+
 		if (is_a($data['payment'], 'WP_Post') && 'mprm_order' == $data['payment']->post_type) {
 			$data['payment_id'] = $payment_id;
 			$data['receipt_args'] = $mprm_receipt_args;
@@ -62,6 +67,7 @@ class Shortcode_success extends Shortcodes {
 			$data['email'] = $this->get('payments')->get_payment_user_email($payment_id);
 			$data['status'] = $this->get('payments')->get_payment_status($data['payment'], true);
 		}
+
 		return View::get_instance()->render_html("shop/success", $data, false);
 	}
 }

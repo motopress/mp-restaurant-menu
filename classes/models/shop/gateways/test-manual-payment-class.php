@@ -48,7 +48,7 @@ class Test_Manual_payment extends Model {
 			$this->get('payments')->update_payment_status($payment, 'publish');
 			// Empty the shopping cart
 			$this->get('cart')->empty_cart();
-			$this->get('checkout')->send_to_success_page();
+			$this->get('checkout')->send_to_success_page('?payment_key=' . $this->get('payments')->get_payment_key($payment));
 		} else {
 			// mprm_record_gateway_error(__('Payment Error', 'mp-restaurant-menu'), sprintf(__('Payment creation failed while processing a manual (free or test) purchase. Payment data: %s', 'mp-restaurant-menu'), json_encode($payment_data)), $payment);
 			// If errors are present, send the user back to the purchase page so they can be corrected

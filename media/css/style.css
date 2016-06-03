@@ -1211,7 +1211,7 @@ there.
   cursor: pointer;
   border-radius: 4px;
   user-select: none;
-  min-height: auto;
+  min-height: initial;
 }
 .mprm-plugin-styles a.mprm-submit.mprm-small,
 .mprm-plugin-styles input.mprm-submit.mprm-small {

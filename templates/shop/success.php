@@ -1,4 +1,5 @@
 <?php
+global $mprm_receipt_args;
 use \mp_restaurant_menu\classes\models\Payments as Payments;
 use \mp_restaurant_menu\classes\models\Gateways as Gateways;
 use \mp_restaurant_menu\classes\models\Taxes as Taxes;
@@ -7,14 +8,14 @@ use \mp_restaurant_menu\classes\models\Misc as Misc;
 use \mp_restaurant_menu\classes\models\Menu_item as Menu_item;
 
 // No key found
-if (!isset($payment_key)) { ?>
+if (empty($payment_key)) { ?>
 	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
 	<?php
 	return;
 }
-if (isset($can_view) && $can_view) {
+if (isset($can_view) && $can_view && !empty($mprm_receipt_args['error'])) {
 	?>
-	<p class="mprm-alert mprm-alert-error">' . $mprm_receipt_args['error'] . '</p>';
+	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
 	<?php
 	return;
 }
@@ -25,6 +26,7 @@ if (empty($payment)) : ?>
 	<?php
 	return;
 endif;
+
 if (isset($need_login) && $need_login) {
 	echo empty($login_from) ? '' : $login_from;
 }

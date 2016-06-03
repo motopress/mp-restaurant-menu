@@ -1,6 +1,7 @@
 <?php
 $customer = mprm_get_customer($id);
 $customer_edit_role = apply_filters('mprm_edit_customers_role', 'edit_shop_payments');
+$users = apply_filters('mprm_edit_users', get_users());;
 
 if (isset($customer->user_id) && $customer->user_id > 0) :
 	$address = get_user_meta($customer->user_id, '_mprm_user_address', true);
@@ -23,30 +24,48 @@ endif;
 	<div id="mprm-customers-details-wrap" class="postbox ">
 		<form id="mprm-customers-details-form" method="post">
 			<div class="mprm-row">
-				<div class="mprm-columns mprm-four">
-					<p class="mprm-class-email"><label for="mprm_email">
+				<div class="mprm-columns mprm-six">
+
+					<p class="mprm-class-email"><label for="mprm-email">
 							<?php _e('Email:', 'mp-restaurant-menu'); ?>
 						</label>
-						<input type="email" class="mprm-input" required name="mprm_email" value="<?php echo $customer->email; ?>">
+						<input class="mprm-input large-text" type="email" required name="mprm-email" value="<?php echo $customer->email; ?>">
 					</p>
+					<p class="mprm-class-wp-user">
+						<label for="mprm-user">
+							<?php _e('User:', 'mp-restaurant-menu'); ?>
+						</label>
+
+						<select class="mprm-select large-text" required name="mprm-user">
+							<?php if (empty($users)) { ?>
+								<option value="0"><?php _e('No available users', 'mp-restaurant-menu') ?></option>
+							<?php } else { ?>
+								<option value="0"><?php _e('No user selected', 'mp-restaurant-menu') ?></option>
+								<?php foreach ($users as $user) { ?>
+									<option value="<?php echo $user->ID ?>" <?php selected($user->ID, $customer->user_id); ?> ><?php echo $user->user_nicename ?></option>
+								<?php }
+							} ?>
+						</select>
+					</p>
+
 
 					<p class="mprm-class-telephone"><label for="mprm-telephone">
 							<?php _e('Telephone:', 'mp-restaurant-menu'); ?>
 						</label>
-						<input type="tel" pattern="(\+?\d[- .]*){7,13}" class="mprm-input" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
+						<input class="mprm-input large-text" type="tel" pattern="(\+?\d[- .]*){7,13}" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
 					</p>
 					<p class="mprm-class-name">
 						<label for="mprm-name">
 							<?php _e('Full name:', 'mp-restaurant-menu'); ?>
 						</label>
-						<input type="text" class="mprm-input" required name="mprm-name" value="<?php echo $customer->name; ?>">
+						<input type="text" class="mprm-input large-text" required name="mprm-name" value="<?php echo $customer->name; ?>">
 					</p>
 
 				</div>
 			</div>
 
 			<div class="mprm-row">
-				<?php mprm_get_error_html() ?>
+				<?php echo mprm_get_error_html() ?>
 				<div class="mprm-columns mprm-four">
 					<?php submit_button(__('Update customer', 'mp-restaurant-menu'), 'primary', 'mprm-submit') ?>
 					<a href="/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers"><?php _e('Cancel', 'mp-restaurant-menu'); ?></a>

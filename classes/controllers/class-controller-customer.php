@@ -122,34 +122,41 @@ class Controller_customer extends Controller {
 		$id = $request['id'];
 
 		$data = array(
-			'email' => $request['mprm_email'],
+			'email' => $request['mprm-email'],
 			'telephone' => $request['mprm-telephone'],
-			'name' => $request['mprm-name']
+			'name' => $request['mprm-name'],
+			'user_id' => $request['mprm-user']
 		);
 		$gump->validation_rules(array(
-			'name' => 'required|alpha_space|max_len,100|min_len,6',
+			'name' => 'required|max_len,100|min_len,6',
 			'telephone' => 'required|phone_number',
 			'email' => 'required|valid_email'
+
 		));
 		$gump->filter_rules(array(
 			'name' => 'trim|sanitize_string',
 			'telephone' => 'trim',
 			'email' => 'trim|sanitize_email'
-
 		));
+
 		$validated_data = $gump->run($data);
 
 		if ($validated_data) {
 			$result = $this->get('customer')->update($data, $id);
 		} else {
-			mprm_set_error('update_customer_admin', $gump->get_readable_errors(true));
-		}
+			$errors = $gump->get_errors_array(true);
+			if (!empty($errors)) {
+				foreach ($errors as $key => $error) {
+					mprm_set_error('mprm_' . $key, $error);
+				}
+			}
 
+		}
 		if ($result) {
 			if (wp_get_referer()) {
 				wp_safe_redirect(wp_get_referer());
 			} else {
-				wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&message=customer-updated');
+				wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&message=customer-updated' . '&s=' . $id);
 			}
 		} else {
 			wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $id);

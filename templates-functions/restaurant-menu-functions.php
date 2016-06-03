@@ -1392,5 +1392,5 @@ function mprm_set_error($error_id, $error_message) {
 }
 
 function mprm_get_error_html() {
-	models\Errors::get_instance()->get_error_html();
+	return models\Errors::get_instance()->get_error_html();
 }

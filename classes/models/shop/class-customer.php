@@ -123,6 +123,13 @@ class Customer extends Model {
 
 	}
 
+	/**
+	 * Create restaurant menu customer
+	 *
+	 * @param array $data
+	 *
+	 * @return bool|false|int
+	 */
 	public function create($data = array()) {
 		global $wpdb;
 		if ($this->id != 0 || empty($data)) {
@@ -149,7 +156,8 @@ class Customer extends Model {
 					'name' => $args['name'],
 					'telephone' => $args['phone'],
 					'payment_ids' => $args['payment_ids'],
-					'date_created' => date('Y-m-d H:i:s')
+					'date_created' => date('Y-m-d H:i:s'),
+					'user_id' => empty($args['user_id']) ? 0 : $args['user_id']
 				)
 			);
 			$customer = $this->get_customer(array('field' => 'email', 'value' => $args['email']));

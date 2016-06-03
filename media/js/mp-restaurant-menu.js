@@ -545,11 +545,14 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							form.find('.mprm_go_to_checkout').show();
 							form.find('.mprm-add-to-cart').hide();
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
-
-							$('.mprm-cart-added-alert', form).fadeIn();
-							setTimeout(function() {
-								$('.mprm-cart-added-alert', form).fadeOut();
-							}, 3000);
+							if (!data.redirect) {
+								$('.mprm-cart-added-alert', form).fadeIn();
+								setTimeout(function() {
+									$('.mprm-cart-added-alert', form).fadeOut();
+								}, 3000);
+							} else {
+								window.location = data.redirect;
+							}
 						},
 						function(data) {
 							console.warn('Some error!!!');
@@ -592,7 +595,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							$('.mprm-no-js').hide();
+							$('.mprm-no-js:not(.mprm-add-to-cart)').hide();
 							$('#mprm_purchase_form_wrap').html(data.html);
 							state.showTerms();
 

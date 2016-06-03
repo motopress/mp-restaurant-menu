@@ -75,10 +75,10 @@ class Cart extends Model {
 	public function add_to_cart($item_id, $options = array()) {
 		$menu_item = get_post($item_id);
 		if (!$this->get('menu_item')->is_menu_item($menu_item)) {
-			return;
+			return false;
 		}
 		if (!current_user_can('edit_post', $menu_item->ID) && $menu_item->post_status != 'publish') {
-			return; // Do not allow draft/pending to be purchased if can't edit. Fixes #1056
+			return false;
 		}
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
 		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
@@ -128,21 +128,23 @@ class Cart extends Model {
 				'quantity' => $quantity
 			);
 		}
-		foreach ($items as $item) {
-			$to_add = apply_filters('mprm_add_to_cart_item', $item);
-			if (!is_array($to_add))
-				return;
-			if (!isset($to_add['id']) || empty($to_add['id']))
-				return;
-			if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled()) {
-				$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
-				if (is_array($quantity)) {
-					$cart[$key]['quantity'] += $quantity[$key];
+		if (!empty($items)) {
+			foreach ($items as $item) {
+				$to_add = apply_filters('mprm_add_to_cart_item', $item);
+				if (!is_array($to_add))
+					return false;
+				if (!isset($to_add['id']) || empty($to_add['id']))
+					return false;
+				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled()) {
+					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
+					if (is_array($quantity)) {
+						$cart[$key]['quantity'] += $quantity[$key];
+					} else {
+						$cart[$key]['quantity'] += $quantity;
+					}
 				} else {
-					$cart[$key]['quantity'] += $quantity;
+					$cart[] = $to_add;
 				}
-			} else {
-				$cart[] = $to_add;
 			}
 		}
 		$this->get('session')->set('mprm_cart', $cart);

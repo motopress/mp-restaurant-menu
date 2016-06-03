@@ -256,7 +256,7 @@ class Post extends Module {
 				break;
 			case 'mptt-price':
 				if (!empty($post->price)) {
-					echo $post->price;
+					echo mprm_currency_filter(mprm_format_amount($post->price));
 				} else {
 					echo '—';
 				}
