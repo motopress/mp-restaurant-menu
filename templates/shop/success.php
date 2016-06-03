@@ -31,6 +31,7 @@ if (isset($need_login) && $need_login) {
 	echo empty($login_from) ? '' : $login_from;
 }
 ?>
+
 <table id="mprm_purchase_receipt">
 	<thead>
 	<?php do_action('mprm_payment_receipt_before', $payment, $receipt_args); ?>

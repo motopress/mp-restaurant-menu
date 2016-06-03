@@ -156,6 +156,14 @@ class Media extends Core {
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					break;
+				case"restaurant-menu_page_mprm-settings":
+					wp_enqueue_script('wp-util');
+					wp_enqueue_media();
+
+					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+
+					break;
 				case "edit-mp_menu_category":
 					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
 					$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');

@@ -55,12 +55,15 @@ class Shortcode_success extends Shortcodes {
 		if (!apply_filters('mprm_user_can_view_receipt', $user_can_view, $mprm_receipt_args)) {
 			$data['can_view'] = true;
 		}
-
-		$data['payment'] = get_post($payment_id);
+		$data['receipt_args'] = $mprm_receipt_args;
+		if (!empty($payment_id)) {
+			$data['payment'] = get_post($payment_id);
+		} else {
+			$data['payment'] = false;
+		}
 
 		if (is_a($data['payment'], 'WP_Post') && 'mprm_order' == $data['payment']->post_type) {
 			$data['payment_id'] = $payment_id;
-			$data['receipt_args'] = $mprm_receipt_args;
 			$data['meta'] = $this->get('payments')->get_payment_meta($payment_id);
 			$data['cart'] = $this->get('payments')->get_payment_meta_cart_details($payment_id, true);
 			$data['user'] = $this->get('payments')->get_payment_meta_user_info($payment_id);

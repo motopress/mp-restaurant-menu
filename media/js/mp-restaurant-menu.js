@@ -1804,7 +1804,7 @@ MP_RM_Registry.register("Theme", (function($) {
 			MP_RM_Registry._get("Menu-Item").init();
 		}
 		// if settings
-		if ('restaurant-menu_page_admin?page=mprm-settings' === window.pagenow) {
+		if ('restaurant-menu_page_mprm-settings' === window.pagenow) {
 			MP_RM_Registry._get('Menu-Settings').init();
 		}
 
