@@ -1056,7 +1056,9 @@ class Hooks extends Core {
 	public function clear_admin_filter($views) {
 		unset($views['mine']);
 		unset($views['draft']);
-		$views['publish'] = preg_replace('/Published/', 'Complete', $views['publish']);
+		if (!empty($views['publish'])) {
+			$views['publish'] = preg_replace('/Published/', 'Complete', $views['publish']);
+		}
 		return $views;
 	}
 

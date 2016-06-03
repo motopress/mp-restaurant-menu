@@ -374,8 +374,11 @@ class Media extends Core {
 	 * @return mixed
 	 */
 	public function mce_external_plugins($plugin_array) {
-		$path = MP_RM_MEDIA_URL . 'js/mce-mp-restaurant-menu-plugin.js';
-		$plugin_array['mp_restaurant_menu'] = $path;
+		global $typenow, $pagenow;
+		if ($pagenow == 'post.php') {
+			$path = MP_RM_MEDIA_URL . 'js/mce-mp-restaurant-menu-plugin.js';
+			$plugin_array['mp_restaurant_menu'] = $path;
+		}
 		return $plugin_array;
 	}
 
