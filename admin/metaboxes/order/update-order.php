@@ -20,7 +20,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 			<span class="label"><?php _e('Status:', 'mp-restaurant-menu') ?></span>&nbsp;
 			<select name="mprm-order-status" class="">
 				<?php foreach (mprm_get_payment_statuses() as $key => $status) : ?>
-					<option value="<?php echo esc_attr($key); ?>"<?php selected($order->status, $key, true); ?>><?php echo esc_html($status); ?></option>
+					<option value="<?php echo esc_attr($key); ?>" <?php selected($order->status, $key); ?>><?php echo esc_html($status); ?></option>
 				<?php endforeach; ?>
 			</select>
 		</p>

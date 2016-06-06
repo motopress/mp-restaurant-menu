@@ -104,9 +104,9 @@ class Post extends Module {
 //			'show_in_admin_status_list' => true,
 //			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
 //		));
-		register_post_status('mprm-сooking', array(
+		register_post_status('mprm-cooking', array(
 			'label' => _x('Cooking', 'Order status', 'mp-restaurant-menu'),
-			'public' => false,
+			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
@@ -115,7 +115,7 @@ class Post extends Module {
 
 		register_post_status('mprm-shipping', array(
 			'label' => _x('Shipping', 'Order status', 'mp-restaurant-menu'),
-			'public' => false,
+			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
@@ -124,7 +124,7 @@ class Post extends Module {
 
 		register_post_status('mprm-shipped', array(
 			'label' => _x('Shipped', 'Order status', 'mp-restaurant-menu'),
-			'public' => false,
+			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,

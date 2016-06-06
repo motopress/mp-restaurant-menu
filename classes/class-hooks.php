@@ -907,7 +907,7 @@ class Hooks extends Core {
 
 		$new_status = substr($action, 10); // get the status name from action
 
-		if (!isset($order_statuses['mprm-' . $new_status]) && $new_status != 'publish') {
+		if (!isset($order_statuses[$new_status]) && $new_status != 'publish') {
 			return;
 		}
 

@@ -737,7 +737,7 @@ class Payments extends Parent_query {
 			'publish' => __('Complete', 'mp-restaurant-menu'),
 			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
 			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
-			'mprm-сooking' => __('Cooking', 'mp-restaurant-menu'),
+			'mprm-cooking' => __('Cooking', 'mp-restaurant-menu'),
 			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
 			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
 		);
