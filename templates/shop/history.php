@@ -29,7 +29,7 @@ if (!mprm_user_pending_verification()) { ?>
 								<span class="mprm_purchase_status <?php echo $post->post_status; ?>"><?php echo mprm_get_payment_status($post, true); ?></span>
 								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>">&raquo;</a>
 							<?php else: ?>
-								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details and Menu items', 'mp-restaurant-menu'); ?></a>
+								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details', 'mp-restaurant-menu'); ?></a>
 							<?php endif; ?>
 						</td>
 						<?php do_action('mprm_purchase_history_row_end', $post->ID, $purchase_data); ?>
@@ -57,8 +57,8 @@ if (!mprm_user_pending_verification()) { ?>
 		<?php }
 	} else { ?>
 		<p class="mprm-account-pending mprm_success">
-			<?php _e('You must login to view purchases.', 'mp-restaurant-menu'); ?>
-			<a href="<?php echo wp_login_url(mprm_get_purchase_history_page()); ?>" title="Login"><?php _e('Login', 'mp-restaurant-menu'); ?></a>
+			<?php _e('You must be logged in to view your purchases.', 'mp-restaurant-menu'); ?>
+			<a href="<?php echo wp_login_url(mprm_get_purchase_history_page()); ?>" title="<?php _e('Login.', 'mp-restaurant-menu'); ?>"><?php _e('Login.', 'mp-restaurant-menu'); ?></a>
 		</p>
 	<?php }
 } else {
