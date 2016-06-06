@@ -150,16 +150,15 @@ class Controller_customer extends Controller {
 					mprm_set_error('mprm_' . $key, $error);
 				}
 			}
-
 		}
 		if ($result) {
 			if (wp_get_referer()) {
 				wp_safe_redirect(wp_get_referer());
 			} else {
-				wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&message=customer-updated' . '&s=' . $id);
+				wp_safe_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&message=customer-updated' . '&s=' . $id));
 			}
 		} else {
-			wp_safe_redirect('/wp-admin/edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $id);
+			wp_safe_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $id));
 		}
 	}
 

@@ -264,10 +264,7 @@ final class Order extends Model {
 				echo ucfirst($this->get('payments')->get_payment_status($post));
 				break;
 			case  'order_title':
-				;
-
 				$order_user = $this->get_user($post);
-
 				if (!empty($order_user)) {
 					$user_info = get_userdata($order_user);
 				}
@@ -311,7 +308,7 @@ final class Order extends Model {
 				break;
 			case 'order_date' :
 				$date = strtotime($order->date);
-				$value = date_i18n(get_option('date_format'), $date);
+				$value = date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date);
 				echo $value;
 				break;
 			case 'order_total' :

@@ -1,15 +1,19 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
+
 use mp_restaurant_menu\classes\Module;
 use mp_restaurant_menu\classes\View;
+
 class Taxonomy extends Module {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Register taxonomy
 	 *
@@ -41,6 +45,7 @@ class Taxonomy extends Module {
 		);
 		register_taxonomy($params['taxonomy'], $params['object_type'], $args);
 	}
+
 	/**
 	 * Render html for filter taxonomy link
 	 *
@@ -54,11 +59,12 @@ class Taxonomy extends Module {
 		$taxonomies_html = "";
 		foreach ($taxonomies as $tax) {
 			$data["wp"] = $tax;
-			$data["filter_link"] = '/wp-admin/edit.php?post_type=' . $post->post_type . '&' . $tax->taxonomy . '=' . $tax->slug;
+			$data["filter_link"] = admin_url('edit.php?post_type=' . $post->post_type . '&' . $tax->taxonomy . '=' . $tax->slug);
 			$taxonomies_html .= View::get_instance()->render_html("../admin/taxonomies/taxonomy-link", $data, false);
 		}
 		return (!empty($taxonomies_html)) ? $taxonomies_html : "—";
 	}
+
 	public function get_terms($name) {
 		return get_terms($name);
 	}

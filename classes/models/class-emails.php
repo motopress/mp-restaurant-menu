@@ -591,14 +591,11 @@ class Emails extends Model {
 
 	public function init_action() {
 		add_action('init', 'mprm_load_email_tags', -999);
-
 		add_action('mprm_add_email_tags', array($this, 'mprm_setup_email_tags'));
 		add_action('mprm_admin_sale_notice', array($this, 'admin_email_notice'), 10, 2);
-
 		add_action('mprm_complete_purchase', array($this, 'trigger_purchase_receipt'), 999, 1);
 		add_action('mprm_send_test_email', array($this, 'send_test_email'));
 		add_action('mprm_email_links', array($this, 'resend_purchase_receipt'));
-
 		add_action('mprm_insert_user', array($this, 'new_user_notification'), 10, 2);
 	}
 }

@@ -144,61 +144,6 @@ if (isset($need_login) && $need_login) {
 							<?php if ($receipt_args['notes']) : ?>
 								<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop(mprm_get_menu_item_notes($item['id'])); ?></div>
 							<?php endif; ?>
-							<?php
-							//							if (mprm_is_payment_complete($payment->ID) && mprm_receipt_show_menu_item_files($item['id'], $receipt_args, $item)) : ?>
-							<!--								<ul class="mprm_purchase_receipt_files">-->
-							<!--									--><?php
-							//									if (!empty($menu_item_files) && is_array($menu_item_files)) :
-							//
-							//										foreach ($menu_item_files as $filekey => $file) :
-							//
-							//											$menu_item_url = mprm_get_menu_item_file_url($meta['key'], $email, $filekey, $item['id'], $price_id);
-							//											?>
-							<!--											<li class="mprm_menu_item_file">-->
-							<!--												<a href="--><?php //echo esc_url($menu_item_url); ?><!--" class="mprm_menu_item_file_link">--><?php //echo mprm_get_file_name($file); ?><!--</a>-->
-							<!--											</li>-->
-							<!--											--><?php
-							//											do_action('mprm_receipt_files', $filekey, $file, $item['id'], $payment->ID, $meta);
-							//										endforeach;
-							//
-							//									elseif (mprm_is_bundled_product($item['id'])) :
-							//
-							//										$bundled_products = mprm_get_bundled_products($item['id']);
-							//
-							//										foreach ($bundled_products as $bundle_item) : ?>
-							<!--											<li class="mprm_bundled_product">-->
-							<!--												<span class="mprm_bundled_product_name">--><?php //echo get_the_title($bundle_item); ?><!--</span>-->
-							<!--												<ul class="mprm_bundled_product_files">-->
-							<!--													--><?php
-							//													$menu_item_files = mprm_get_menu_item_files($bundle_item);
-							//
-							//													if ($menu_item_files && is_array($menu_item_files)) :
-							//
-							//														foreach ($menu_item_files as $filekey => $file) :
-							//
-							//															$menu_item_url = mprm_get_menu_item_file_url($meta['key'], $email, $filekey, $bundle_item, $price_id); ?>
-							<!--															<li class="mprm_menu_item_file">-->
-							<!--																<a href="--><?php //echo esc_url($menu_item_url); ?><!--" class="mprm_menu_item_file_link">--><?php //echo esc_html($file['name']); ?><!--</a>-->
-							<!--															</li>-->
-							<!--															--><?php
-							//															do_action('mprm_receipt_bundle_files', $filekey, $file, $item['id'], $bundle_item, $payment->ID, $meta);
-							//
-							//														endforeach;
-							//													else :
-							//														echo '<li>' . __('No menu_itemable files found for this bundled item.', 'mp-restaurant-menu') . '</li>';
-							//													endif;
-							//													?>
-							<!--												</ul>-->
-							<!--											</li>-->
-							<!--											--><?php
-							//										endforeach;
-							//
-							//									else :
-							//										echo '<li>' . apply_filters('mprm_receipt_no_files_found_text', __('No menu_itemable files found.', 'mp-restaurant-menu'), $item['id']) . '</li>';
-							//									endif; ?>
-							<!--								</ul>-->
-							<!--							--><?php //endif;
-							?>
 						</td>
 						<?php if (Misc::get_instance()->use_skus()) : ?>
 							<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
