@@ -386,7 +386,8 @@ class Media extends Core {
 	 */
 	public function mce_external_plugins($plugin_array) {
 		global $typenow, $pagenow;
-		if ($pagenow == 'post.php') {
+		$default_array = array('post-new.php', 'post.php');
+		if (in_array($pagenow, $default_array)) {
 			$path = MP_RM_MEDIA_URL . 'js/mce-mp-restaurant-menu-plugin.js';
 			$plugin_array['mp_restaurant_menu'] = $path;
 		}
