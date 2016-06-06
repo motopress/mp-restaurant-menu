@@ -1230,11 +1230,11 @@ there.
 }
 .mprm-plugin-styles a.mprm-submit.mprm-middle,
 .mprm-plugin-styles input.mprm-submit.mprm-middle {
-  padding: 0.75em 1em;
+  padding: 0.5em 1em;
 }
 .mprm-plugin-styles a.mprm-submit.mprm-big,
 .mprm-plugin-styles input.mprm-submit.mprm-big {
-  padding: 1.2em 1.7em;
+  padding: 0.85em 1.7em;
 }
 .mprm-plugin-styles a.mprm-submit.gray,
 .mprm-plugin-styles input.mprm-submit.gray {
