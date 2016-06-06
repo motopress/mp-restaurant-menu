@@ -361,13 +361,10 @@ there.
   overflow: hidden;
   padding: 0;
   position: relative;
-  -webkit-transition: all 0.6s ease 0s;
-          transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
 }
 .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-menu-category:hover:before {
-  -webkit-transform: scale(1.2, 1.2);
-      -ms-transform: scale(1.2, 1.2);
-          transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
 }
 .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-menu-category:before {
   background-color: rgba(70, 70, 70, 0.7);
@@ -380,8 +377,7 @@ there.
   left: 0;
   position: absolute;
   top: 0;
-  -webkit-transition: all 0.6s ease 0s;
-          transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
   width: 100%;
 }
 .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-menu-category .mprm-effect-hover {
@@ -629,13 +625,10 @@ there.
   overflow: hidden;
   padding: 0;
   position: relative;
-  -webkit-transition: all 0.6s ease 0s;
-          transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category:hover:before {
-  -webkit-transform: scale(1.2, 1.2);
-      -ms-transform: scale(1.2, 1.2);
-          transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category:before {
   background-color: rgba(70, 70, 70, 0.7);
@@ -648,8 +641,7 @@ there.
   left: 0;
   position: absolute;
   top: 0;
-  -webkit-transition: all 0.6s ease 0s;
-          transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
   width: 100%;
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category .mprm-effect-hover {
@@ -1218,10 +1210,7 @@ there.
   vertical-align: middle;
   cursor: pointer;
   border-radius: 4px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
   min-height: initial;
 }
 .mprm-plugin-styles a.mprm-submit.mprm-small,
@@ -1506,72 +1495,3 @@ there.
 .mprm-container .mprm-row {
   padding-bottom: 4%;
 }
-/*
-.mprm-main-wrapper {
-  padding: 2rem 0;
-
-  // Single Menu Item
-  
-  .mprm-container.content-wrapper {
-	&.mprm-shortcode-category {
-	  margin: 0;
-	  padding: 0;
-	  position: relative;
-	  .mprm-grid {
-		&::before {
-		  content: "";
-		  position: absolute;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-color: #484f54;
-		  background-image: inherit;
-		  background-position: center;
-		  background-repeat: no-repeat;
-		  background-size: cover;
-		  transition: 0.6s;
-		}
-		display: inline-block;
-		position: relative;
-		transition: 0.6s;
-		padding: 0;
-		overflow: hidden;
-		background-size: 0 0;
-		&:hover {
-		  &::before {
-			transform: scale(1.2, 1.2);
-		  }
-		}
-		a:hover, a:active, a:focus {
-		  text-decoration: none;
-		  border: 0;
-		  box-shadow: 0 0 0;
-		}
-		.mprm-icon {
-		  display: inline-block;
-		  font-size: 50px;
-		  height: auto;
-		  padding-left: 0px;
-		  padding-top: 0px;
-		  text-align: center;
-		  vertical-align: baseline;
-		}
-	  }
-	}
-	&.mprm-shortcode-items {
-	  .mprm-image {
-		float: left;
-		padding-right: @padding-default;
-	  }
-	  .mprm-right-side {
-		overflow: hidden;
-		min-width: 50px;
-		.mprm-title {
-		  margin: 0 0 1rem 0;
-		}
-	  }
-	}
-  }
-}
-*/
