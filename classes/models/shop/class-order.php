@@ -516,7 +516,7 @@ final class Order extends Model {
 			}
 			$this->customer_id = $customer->id;
 			$this->pending['customer_id'] = $this->customer_id;
-			//$customer->attach_payment($this->ID, false);
+			$customer->attach_payment($this->ID, false);
 			$this->payment_meta = apply_filters('mprm_payment_meta', $this->payment_meta, $payment_data);
 			if (!empty($this->payment_meta['fees'])) {
 				$this->fees = array_merge($this->fees, $this->payment_meta['fees']);

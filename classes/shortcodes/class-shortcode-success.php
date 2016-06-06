@@ -1,6 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
 
+use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 
@@ -64,6 +65,7 @@ class Shortcode_success extends Shortcodes {
 
 		if (is_a($data['payment'], 'WP_Post') && 'mprm_order' == $data['payment']->post_type) {
 			$data['payment_id'] = $payment_id;
+			$data['order'] = new Order($payment_id);
 			$data['meta'] = $this->get('payments')->get_payment_meta($payment_id);
 			$data['cart'] = $this->get('payments')->get_payment_meta_cart_details($payment_id, true);
 			$data['user'] = $this->get('payments')->get_payment_meta_user_info($payment_id);

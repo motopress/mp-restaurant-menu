@@ -84,7 +84,8 @@ function mprm_email_tag_menu_item_list($order_id) {
 				$title = '<strong>' . get_the_title($item['id']) . '</strong>';
 
 				if (!empty($quantity) && $quantity > 1) {
-					$title .= "&nbsp;&ndash;&nbsp;" . __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
+					$title .= "&nbsp;&ndash;&nbsp;" . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));
+//					$title .= "&nbsp;&ndash;&nbsp;" . __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
 				}
 
 				if (!empty($sku)) {
@@ -143,7 +144,8 @@ function mprm_email_tag_menu_item_list_plain($order_id) {
 				$title = get_the_title($item['id']);
 
 				if (!empty($quantity) && $quantity > 1) {
-					$title .= __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
+//					$title .= __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
+					$title .= ' ' . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));
 				}
 
 				if (!empty($sku)) {
