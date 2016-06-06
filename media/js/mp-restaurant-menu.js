@@ -1107,7 +1107,7 @@ MP_RM_Registry.register("Order", (function($) {
 					if (confirm(mprm_admin_vars.delete_payment_menu_item)) {
 						var key = $(this).data('key');
 
-						//var purchase_id = $('.edd-payment-id').val();
+						//var purchase_id = $('.mprm-order-id').val();
 						var menu_item_id = $('input[name="mprm-order-details[' + key + '][id]"]').val();
 						var price_id = $('input[name="mprm-order-details[' + key + '][price_id]"]').val();
 						var quantity = $('input[name="mprm-order-details[' + key + '][quantity]"]').val();

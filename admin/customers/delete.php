@@ -10,10 +10,9 @@ $customer = mprm_get_customer($id);
 
 		<form id="delete-customer" method="post" action="<?php echo admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $customer->id); ?>">
 
-			<div class="edd-item-notes-header">
+			<div class="mprm-item-notes-header">
 				<?php echo get_avatar($customer->email, 30); ?> <span><?php echo $customer->name; ?></span>
 			</div>
-
 
 			<div class="customer-info delete-customer">
 

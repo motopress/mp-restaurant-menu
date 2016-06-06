@@ -128,13 +128,14 @@ class Media extends Core {
 	 */
 	public function current_screen(\WP_Screen $current_screen) {
 		$this->enqueue_style('admin-styles', 'admin-styles.css');
+		$prefix = $this->get_prefix();
 		if (!empty($current_screen)) {
 			switch ($current_screen->base) {
 				case"post":
 				case"page":
 					wp_enqueue_script('underscore');
-					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-					$this->enqueue_script('jBox', 'libs/jBox.min.js');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					$this->enqueue_script('jBox', "libs/jBox{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
 					break;
@@ -145,7 +146,7 @@ class Media extends Core {
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
-					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					wp_enqueue_script('wp-util');
 					wp_enqueue_media();
@@ -153,21 +154,21 @@ class Media extends Core {
 					wp_enqueue_style('thickbox');
 					break;
 				case"restaurant-menu_page_mprm-customers":
-					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					break;
 				case"restaurant-menu_page_mprm-settings":
 					wp_enqueue_script('wp-util');
 					wp_enqueue_media();
 
-					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 
 					break;
 				case "edit-mp_menu_category":
-					$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-					$this->enqueue_script('iconset-mprm-icon', 'libs/iconset-mprm-icon.js');
-					$this->enqueue_script('fonticonpicker', 'libs/jquery.fonticonpicker.min.js', array("jquery"), '2.0.0');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					$this->enqueue_script('iconset-mprm-icon', "libs/iconset-mprm-icon{$prefix}.js");
+					$this->enqueue_script('fonticonpicker', "libs/jquery.fonticonpicker{$prefix}.js", array("jquery"), '2.0.0');
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
@@ -176,7 +177,7 @@ class Media extends Core {
 					break;
 				case "mprm_order":
 					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
-					$this->enqueue_script('mprm-chosen', 'libs/chosen.jquery.min.js', array("jquery"), '1.1.0');
+					$this->enqueue_script('mprm-chosen', "libs/chosen.jquery{$prefix}.js", array("jquery"), '1.1.0');
 					wp_enqueue_media();
 					break;
 				case "customize":
@@ -231,11 +232,12 @@ class Media extends Core {
 	 */
 	private function add_theme_js() {
 		global $post_type, $taxonomy;
+		$prefix = $this->get_prefix();
 		switch ($post_type) {
 			case "mp_menu_item":
 				wp_enqueue_script('underscore');
-				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
-				$this->enqueue_script('magnific-popup', 'libs/jquery.magnific-popup.min.js', array("jquery"), '1.0.1');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+				$this->enqueue_script('magnific-popup', "libs/jquery.magnific-popup{$prefix}.js", array("jquery"), '1.0.1');
 				break;
 
 			default:
@@ -246,7 +248,7 @@ class Media extends Core {
 			case "mp_menu_category":
 			case "mp_menu_tag":
 				wp_enqueue_script('underscore');
-				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 				break;
 			default:
 				break;
@@ -255,11 +257,12 @@ class Media extends Core {
 	}
 
 	public function add_plugin_js($type = false) {
+		$prefix = $this->get_prefix();
 		switch ($type) {
 			case"shortcode":
 			case"widget":
 				wp_enqueue_script('underscore');
-				$this->enqueue_script('mp-restaurant-menu', 'mp-restaurant-menu.js');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 				break;
 		}
 	}
@@ -1360,5 +1363,13 @@ class Media extends Core {
 		}
 		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
 		return apply_filters('mprm_settings_tabs', $tabs);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_prefix() {
+		$prefix = MP_RM_DEBUG ? '.min' : '';
+		return $prefix;
 	}
 }
