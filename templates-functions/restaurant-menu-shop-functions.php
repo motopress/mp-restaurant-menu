@@ -95,7 +95,7 @@ function mprm_payment_mode_select() {
 }
 
 function mprm_checkout_button_next() {
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$style = mprm_get_option('button_style', 'button');
@@ -110,7 +110,7 @@ function mprm_checkout_button_next() {
 }
 
 function mprm_checkout_button_purchase() {
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$label = mprm_get_option('checkout_label', '');
@@ -539,7 +539,7 @@ function mprm_checkout_hidden_fields() {
 }
 
 function mprm_get_login_fields() {
-	$color = mprm_get_option('checkout_color', 'gray');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
@@ -705,7 +705,7 @@ function mprm_add_body_classes($class) {
 function mprm_update_cart_button() {
 	if (!models\Cart::get_instance()->item_quantities_enabled())
 		return;
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
@@ -717,7 +717,7 @@ function mprm_update_cart_button() {
 function mprm_save_cart_button() {
 	if (mprm_is_cart_saving_disabled())
 		return;
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>

@@ -1,14 +1,18 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+
 class Settings_countries extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function get_states_list() {
 		$states = array(
 			'' => '',
@@ -81,6 +85,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_us_states', $states);
 	}
+
 	/**
 	 * Get Provinces List
 	 *
@@ -107,6 +112,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_canada_provinces', $provinces);
 	}
+
 	/**
 	 * Get Australian States
 	 *
@@ -127,6 +133,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_australian_states', $states);
 	}
+
 	/**
 	 * Get Bangladeshi States (districts)
 	 *
@@ -203,6 +210,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_bangladeshi_states', $states);
 	}
+
 	/**
 	 * Get Brazil States
 	 *
@@ -242,6 +250,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_brazil_states', $states);
 	}
+
 	/**
 	 * Get Bulgarian States
 	 *
@@ -282,6 +291,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_bulgarian_states', $states);
 	}
+
 	/**
 	 * Get Hong Kong States
 	 *
@@ -297,6 +307,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_hong_kong_states', $states);
 	}
+
 	/**
 	 * Get Hungary States
 	 *
@@ -329,6 +340,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_hungary_states', $states);
 	}
+
 	/**
 	 * Get Japanese States
 	 *
@@ -388,6 +400,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_japanese_states', $states);
 	}
+
 	/**
 	 * Get Chinese States
 	 *
@@ -432,6 +445,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_chinese_states', $states);
 	}
+
 	/**
 	 * Get New Zealand States
 	 *
@@ -460,6 +474,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_new_zealand_states', $states);
 	}
+
 	/**
 	 * Get Peruvian States
 	 *
@@ -498,6 +513,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_peruvian_states', $states);
 	}
+
 	/**
 	 * Get Indonesian States
 	 *
@@ -544,6 +560,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_indonesia_states', $states);
 	}
+
 	/**
 	 * Get Indian States
 	 *
@@ -592,6 +609,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_indian_states', $states);
 	}
+
 	/**
 	 * Get Iranian States
 	 *
@@ -635,6 +653,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_iranian_states', $states);
 	}
+
 	/**
 	 * Get Italian Provinces
 	 *
@@ -757,6 +776,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_italian_states', $states);
 	}
+
 	/**
 	 * Get Malaysian States
 	 *
@@ -785,6 +805,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_malaysian_states', $states);
 	}
+
 	/**
 	 * Get Mexican States
 	 *
@@ -829,6 +850,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_mexican_states', $states);
 	}
+
 	/**
 	 * Get Nepalese States (Districts)
 	 *
@@ -916,6 +938,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_nepalese_states', $states);
 	}
+
 	/**
 	 * Get South African States
 	 *
@@ -937,6 +960,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_south_african_states', $states);
 	}
+
 	/**
 	 * Get Thailand States
 	 *
@@ -1026,6 +1050,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_thailand_states', $states);
 	}
+
 	/**
 	 * Get Turkey States
 	 *
@@ -1119,6 +1144,7 @@ class Settings_countries extends Model {
 		);
 		return apply_filters('mprm_turkey_states', $states);
 	}
+
 	/**
 	 * Get Spain States
 	 *

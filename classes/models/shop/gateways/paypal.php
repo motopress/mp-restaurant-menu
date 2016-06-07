@@ -1,14 +1,18 @@
 <?php namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\libs\IpnListener;
 use mp_restaurant_menu\classes\Model;
+
 class Paypal extends Model {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function paypal_remove_cc_form() {
 		// we only register the action so that the default CC form is not shown
 	}
@@ -203,6 +207,7 @@ class Paypal extends Model {
 			wp_mail(get_bloginfo('admin_email'), __('Invalid IPN', 'mprm'), $listener->getTextReport());
 		}
 	}
+
 	public function init_action() {
 		add_action('init', array($this, 'listen_for_paypal_ipn'));
 		add_action('mprm_verify_paypal_ipn', array($this, 'process_paypal_ipn'));

@@ -671,7 +671,6 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 65);
 
 
-
 		/**
 		 * Menu item grid
 		 *

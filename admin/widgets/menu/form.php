@@ -1,4 +1,3 @@
-
 <p>
 	<label for="<?php echo $widget_object->get_field_id('title') ?>"><?php _e('Title', 'mp-restaurant-menu'); ?></label>
 	<input type="text" id="<?php echo $widget_object->get_field_id('title') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('title') ?>" placeholder="" value="<?php echo !empty($title) ? $title : '' ?>">

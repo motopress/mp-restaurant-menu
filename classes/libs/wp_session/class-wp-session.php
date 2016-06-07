@@ -41,6 +41,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 * @var bool|WP_Session
 	 */
 	private static $instance = false;
+
 	/**
 	 * Retrieve the current session instance.
 	 *
@@ -54,6 +55,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Default constructor.
 	 * Will rebuild the session collection from the given session ID if it exists. Otherwise, will
@@ -87,6 +89,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		$this->read_data();
 		$this->set_cookie();
 	}
+
 	/**
 	 * Set both the expiration time and the expiration variant.
 	 *
@@ -109,12 +112,14 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		$this->exp_variant = time() + (int)apply_filters('wp_session_expiration_variant', 24 * 60);
 		$this->expires = time() + (int)apply_filters('wp_session_expiration', 30 * 60);
 	}
+
 	/**
 	 * Set the session cookie
 	 */
 	protected function set_cookie() {
 		@setcookie(WP_SESSION_COOKIE, $this->session_id . '||' . $this->expires . '||' . $this->exp_variant, $this->expires, COOKIEPATH, COOKIE_DOMAIN);
 	}
+
 	/**
 	 * Generate a cryptographically strong unique ID for the session token.
 	 *
@@ -125,6 +130,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		$hasher = new \PasswordHash(8, false);
 		return md5($hasher->get_random_bytes(32));
 	}
+
 	/**
 	 * Checks if is valid md5 string
 	 *
@@ -135,6 +141,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	protected function is_valid_md5($md5 = '') {
 		return preg_match('/^[a-f0-9]{32}$/', $md5);
 	}
+
 	/**
 	 * Read data from a transient for the current session.
 	 *
@@ -146,6 +153,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		$this->container = get_option("_wp_session_{$this->session_id}", array());
 		return $this->container;
 	}
+
 	/**
 	 * Write the data from the current session to the data storage system.
 	 */
@@ -162,6 +170,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 			}
 		}
 	}
+
 	/**
 	 * Output the current container contents as a JSON-encoded string.
 	 *
@@ -170,6 +179,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function json_out() {
 		return json_encode($this->container);
 	}
+
 	/**
 	 * Decodes a JSON string and, if the object is an array, overwrites the session container with its contents.
 	 *
@@ -185,6 +195,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		}
 		return false;
 	}
+
 	/**
 	 * Regenerate the current session's ID.
 	 *
@@ -197,6 +208,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		$this->session_id = $this->generate_id();
 		$this->set_cookie();
 	}
+
 	/**
 	 * Check if a session has been initialized.
 	 *
@@ -205,6 +217,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function session_started() {
 		return !!self::$instance;
 	}
+
 	/**
 	 * Return the read-only cache expiration value.
 	 *
@@ -213,6 +226,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function cache_expiration() {
 		return $this->expires;
 	}
+
 	/**
 	 * Flushes all session variables.
 	 */
@@ -232,6 +246,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function current() {
 		return current($this->container);
 	}
+
 	/**
 	 * Key of the current element.
 	 *
@@ -242,6 +257,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function key() {
 		return key($this->container);
 	}
+
 	/**
 	 * Move the internal point of the container array to the next item
 	 *
@@ -252,6 +268,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function next() {
 		next($this->container);
 	}
+
 	/**
 	 * Rewind the internal point of the container array.
 	 *
@@ -262,6 +279,7 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	public function rewind() {
 		reset($this->container);
 	}
+
 	/**
 	 * Is the current key valid?
 	 *

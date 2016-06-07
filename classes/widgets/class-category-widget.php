@@ -1,15 +1,19 @@
 <?php
 namespace mp_restaurant_menu\classes\widgets;
+
 use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
+
 class Category_widget extends \WP_Widget {
 	protected static $instance;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function __construct() {
 		$this->widget_cssclass = 'mprm_widget';
 		$this->widget_description = __('Display categories.', 'mp-restaurant-menu');
@@ -21,6 +25,7 @@ class Category_widget extends \WP_Widget {
 		);
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
 	}
+
 	/**
 	 * Get default data
 	 *
@@ -45,6 +50,7 @@ class Category_widget extends \WP_Widget {
 		}
 		return $data;
 	}
+
 	/**
 	 *
 	 * @param array $instance
@@ -57,6 +63,7 @@ class Category_widget extends \WP_Widget {
 		$data['widget_object'] = $this;
 		View::get_instance()->render_html('../admin/widgets/category/form', $data, true);
 	}
+
 	/**
 	 * Display widget
 	 *

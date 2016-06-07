@@ -90,9 +90,9 @@ class Core {
 	 * Init current plugin
 	 */
 	public function init_plugin($name) {
-		
-		load_plugin_textdomain( 'mp-restaurant-menu', FALSE, MP_RM_LANG_PATH );
-		
+
+		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
+
 		// Include plugin models files
 		Model::install();
 		// Include plugin controllers files

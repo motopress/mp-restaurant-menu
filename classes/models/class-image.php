@@ -1,19 +1,24 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+
 class Image extends Model {
 	protected static $instance;
 	private $sizes;
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
 	public function __construct() {
 		parent::__construct();
 		$this->sizes = include(MP_RM_CONFIGS_PATH . 'img-sizes.php');
 	}
+
 	/**
 	 * Get all image sizes
 	 *
@@ -28,6 +33,7 @@ class Image extends Model {
 		}
 		return $sizes;
 	}
+
 	/**
 	 * Get image size
 	 *
@@ -45,6 +51,7 @@ class Image extends Model {
 			return $sizes[$size];
 		}
 	}
+
 	/**
 	 * Add image sizes
 	 */
@@ -57,6 +64,7 @@ class Image extends Model {
 			}
 		}
 	}
+
 	/**
 	 * Get thumbnail path
 	 *
@@ -83,6 +91,7 @@ class Image extends Model {
 		$path = "$dir/$file_name";
 		return $path;
 	}
+
 	/**
 	 * Hook Get image thumbnail
 	 *
@@ -128,6 +137,7 @@ class Image extends Model {
 		}
 		return $return;
 	}
+
 	/**
 	 * Crop image
 	 *

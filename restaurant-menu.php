@@ -11,7 +11,7 @@
  * Domain Path: /languages
  */
 use mp_restaurant_menu\classes\Core;
-use mp_restaurant_menu\classes\Media; 
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Capabilities;
 
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));

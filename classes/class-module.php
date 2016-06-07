@@ -1,6 +1,8 @@
 <?php
 namespace mp_restaurant_menu\classes;
+
 use mp_restaurant_menu\classes\Core;
+
 class Module extends Core {
 	/**
 	 * Get lables
@@ -33,6 +35,7 @@ class Module extends Core {
 		}
 		return $labels;
 	}
+
 	/**
 	 * Install controllers
 	 */

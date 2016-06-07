@@ -39,7 +39,7 @@ class Cart_widget extends \WP_Widget {
 
 		do_action('mprm_before_cart_widget');
 
-		View::get_instance()->render_html('widgets/cart/index',array());
+		View::get_instance()->render_html('widgets/cart/index', array());
 
 		do_action('mprm_after_cart_widget');
 

@@ -213,6 +213,12 @@ there.
   .mprm-column .mprm-columns {
     margin-bottom: 1rem;
   }
+  .mprm-columns {
+    margin-bottom: 4%;
+  }
+  .mprm-columns:last-child {
+    margin-bottom: 0;
+  }
 }
 #mprm-customers-details-wrap #mprm-customers-details-form {
   padding: 10px;
