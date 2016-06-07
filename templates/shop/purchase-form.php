@@ -10,7 +10,7 @@ $payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
 do_action('mprm_purchase_form_top');
 if (models\Checkout::get_instance()->can_checkout()) {
 	do_action('mprm_purchase_form_before_register_login');
-	$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
+	$show_register_form = mprm_get_option('show_register_form', 'none');
 	if (($show_register_form === 'registration' || ($show_register_form === 'both' && !isset($_GET['login']))) && !is_user_logged_in()) : ?>
 		<div id="mprm_checkout_login_register">
 			<?php do_action('mprm_purchase_form_register_fields'); ?>

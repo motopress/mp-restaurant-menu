@@ -5,7 +5,6 @@ use \mp_restaurant_menu\classes\models\Gateways as Gateways;
 use \mp_restaurant_menu\classes\models\Taxes as Taxes;
 use \mp_restaurant_menu\classes\models\Cart as Cart;
 use \mp_restaurant_menu\classes\models\Misc as Misc;
-use \mp_restaurant_menu\classes\models\Menu_item as Menu_item;
 
 // No key found
 if (empty($payment_key)) { ?>
@@ -119,8 +118,6 @@ if (isset($need_login) && $need_login) {
 		</tr>
 	<?php endif; ?>
 
-
-
 	<?php do_action('mprm_payment_receipt_after', $order, $receipt_args); ?>
 	</tbody>
 </table>
@@ -153,8 +150,8 @@ if (isset($need_login) && $need_login) {
 							?>
 							<div class="mprm_purchase_receipt_product_name">
 								<?php echo esc_html($item['name']); ?>
-								<?php if (Menu_item::get_instance()->has_variable_prices($item['id']) && !is_null($price_id)) : ?>
-									<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo Menu_item::get_instance()->get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+								<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
+									<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
 								<?php endif; ?>
 							</div>
 							<?php if ($receipt_args['notes']) : ?>

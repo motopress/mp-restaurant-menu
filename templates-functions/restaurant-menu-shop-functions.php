@@ -32,7 +32,7 @@ function mprm_get_purchase_session() {
 }
 
 function mprm_use_skus() {
-	$ret = models\Settings::get_instance()->get_option('enable_skus', false);
+	$ret = mprm_get_option('enable_skus', false);
 	return (bool)apply_filters('mprm_use_skus', $ret);
 }
 
@@ -95,11 +95,11 @@ function mprm_payment_mode_select() {
 }
 
 function mprm_checkout_button_next() {
-	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'blue');
 	$color = ($color == 'inherit') ? '' : $color;
-	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
-	$style = models\Settings::get_instance()->get_option('button_style', 'button');
-	$purchase_page = models\Settings::get_instance()->get_option('purchase_page', '0');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$style = mprm_get_option('button_style', 'button');
+	$purchase_page = mprm_get_option('purchase_page', '0');
 	ob_start();
 	?>
 	<input type="hidden" name="mprm_action" value="gateway_select"/>
@@ -110,11 +110,11 @@ function mprm_checkout_button_next() {
 }
 
 function mprm_checkout_button_purchase() {
-	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'blue');
 	$color = ($color == 'inherit') ? '' : $color;
-	$style = models\Settings::get_instance()->get_option('button_style', 'button');
-	$label = models\Settings::get_instance()->get_option('checkout_label', '');
-	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
+	$style = mprm_get_option('button_style', 'button');
+	$label = mprm_get_option('checkout_label', '');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	if (mprm_get_cart_total()) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
@@ -137,7 +137,7 @@ function mprm_purchase_form() {
 	do_action('mprm_purchase_form_top');
 	if (models\Checkout::get_instance()->can_checkout()) {
 		do_action('mprm_purchase_form_before_register_login');
-		$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
+		$show_register_form = mprm_get_option('show_register_form', 'none');
 		if (($show_register_form === 'registration' || ($show_register_form === 'both' && !isset($_GET['login']))) && !is_user_logged_in()) : ?>
 			<div id="mprm_checkout_login_register">
 				<?php do_action('mprm_purchase_form_register_fields'); ?>
@@ -249,7 +249,7 @@ function mprm_get_cc_form() {
 }
 
 function mprm_get_register_fields() {
-	$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
+	$show_register_form = mprm_get_option('show_register_form', 'none');
 	ob_start(); ?>
 	<fieldset id="mprm_register_fields">
 		<?php if ($show_register_form == 'both') { ?>
@@ -482,9 +482,9 @@ function mprm_checkout_submit() { ?>
 }
 
 function mprm_terms_agreement() {
-	if (models\Settings::get_instance()->get_option('show_agree_to_terms', false)) {
-		$agree_text = models\Settings::get_instance()->get_option('agree_text', '');
-		$agree_label = models\Settings::get_instance()->get_option('agree_label', __('Agree to Terms?', 'mp-restaurant-menu'));
+	if (mprm_get_option('show_agree_to_terms', false)) {
+		$agree_text = mprm_get_option('agree_text', '');
+		$agree_label = mprm_get_option('agree_label', __('Agree to Terms?', 'mp-restaurant-menu'));
 		?>
 		<fieldset id="mprm_terms_agreement">
 			<div id="mprm_terms" style="display:none;">
@@ -539,11 +539,11 @@ function mprm_checkout_hidden_fields() {
 }
 
 function mprm_get_login_fields() {
-	$color = models\Settings::get_instance()->get_option('checkout_color', 'gray');
+	$color = mprm_get_option('checkout_color', 'gray');
 	$color = ($color == 'inherit') ? '' : $color;
-	$style = models\Settings::get_instance()->get_option('button_style', 'button');
-	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
-	$show_register_form = models\Settings::get_instance()->get_option('show_register_form', 'none');
+	$style = mprm_get_option('button_style', 'button');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$show_register_form = mprm_get_option('show_register_form', 'none');
 	ob_start(); ?>
 	<fieldset id="mprm_login_fields">
 		<?php if ($show_register_form == 'both') { ?>
@@ -651,7 +651,7 @@ function mprm_payment_mode_top() {
 	if (models\Gateways::get_instance()->show_gateways() && did_action('mprm_payment_mode_top') > 1) {
 		return;
 	}
-	$payment_methods = models\Settings::get_instance()->get_option('accepted_cards', array());
+	$payment_methods = mprm_get_option('accepted_cards', array());
 	if (empty($payment_methods)) {
 		return;
 	}
@@ -705,8 +705,8 @@ function mprm_add_body_classes($class) {
 function mprm_update_cart_button() {
 	if (!models\Cart::get_instance()->item_quantities_enabled())
 		return;
-	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
-	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
+	$color = mprm_get_option('checkout_color', 'blue');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
 	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
@@ -717,8 +717,8 @@ function mprm_update_cart_button() {
 function mprm_save_cart_button() {
 	if (mprm_is_cart_saving_disabled())
 		return;
-	$color = models\Settings::get_instance()->get_option('checkout_color', 'blue');
-	$padding = models\Settings::get_instance()->get_option('checkout_padding', 'mprm-inherit');
+	$color = mprm_get_option('checkout_color', 'blue');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
 		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
@@ -815,7 +815,7 @@ function mprm_get_plugin_version() {
 }
 
 function mprm_get_success_page_uri() {
-	$page_id = models\Settings::get_instance()->get_option('success_page', 0);
+	$page_id = mprm_get_option('success_page', 0);
 	$page_id = absint($page_id);
 	return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 }
@@ -1024,7 +1024,7 @@ function mprm_currency_decimal_filter() {
 }
 
 function mprm_get_purchase_history_page() {
-	$history_page_url = get_permalink(models\Settings::get_instance()->get_option('purchase_history_page'));
+	$history_page_url = get_permalink(mprm_get_option('purchase_history_page'));
 	return empty($history_page_url) ? '' : $history_page_url;
 }
 
