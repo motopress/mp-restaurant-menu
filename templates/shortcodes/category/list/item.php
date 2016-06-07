@@ -6,7 +6,6 @@ $icon = mprm_get_category_icon()
 		<?php if (mprm_has_category_image() && !empty($mprm_view_args['feat_img'])): ?>
 			<img class="mprm-category-list-image" src="<?php echo mprm_get_category_image('thumbnail') ?>">
 		<?php endif; ?>
-
 		<div class="mprm-category-content">
 
 			<h2 class="mprm-title">

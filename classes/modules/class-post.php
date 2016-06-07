@@ -1,11 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes\modules;
 
+use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Module;
 
 class Post extends Module {
-
 	protected static $instance;
 	private $metaboxes;
 
@@ -19,7 +18,10 @@ class Post extends Module {
 	/**
 	 * Register custom post
 	 *
-	 * @param  $params
+	 * @param array $params
+	 * @param string $plugin_name
+	 *
+	 * @return bool
 	 */
 	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
@@ -29,11 +31,11 @@ class Post extends Module {
 			'public' => true,
 			'show_ui' => true,
 			'show_in_menu' => false,
-			'show_in_nav_menus' => true,
-			'capability_type' => 'post',
-			'menu_position' => 21,
-			'hierarchical' => false,
-			'rewrite' => (!empty($params['slug'])) ? array(
+			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
+			"menu_position" => 21,
+			"hierarchical" => false,
+			"map_meta_cap" => empty($params['map_meta_cap']) ? false : $params['map_meta_cap'],
+			"rewrite" => (!empty($params['slug'])) ? array(
 				'slug' => $params['slug'],
 				'with_front' => true,
 				'hierarchical' => true
@@ -48,6 +50,90 @@ class Post extends Module {
 	}
 
 	/**
+	 * Register our custom post statuses, used for order status.
+	 */
+	public static function register_post_status() {
+
+		register_post_status('mprm-pending', array(
+			'label' => _x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending<span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-completed', array(
+			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-refunded', array(
+			'label' => _x('Refunded', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-failed', array(
+			'label' => _x('Failed', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+//		register_post_status('mprm-processing', array(
+//			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
+//			'public' => false,
+//			'exclude_from_search' => false,
+//			'show_in_admin_all_list' => true,
+//			'show_in_admin_status_list' => true,
+//			'label_count' => _n_noop('Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'mp-restaurant-menu')
+//		));
+//		register_post_status('mprm-cancelled', array(
+//			'label' => _x('Cancelled', 'Order status', 'mp-restaurant-menu'),
+//			'public' => true,
+//			'exclude_from_search' => false,
+//			'show_in_admin_all_list' => true,
+//			'show_in_admin_status_list' => true,
+//			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
+//		));
+		register_post_status('mprm-cooking', array(
+			'label' => _x('Cooking', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Cooking <span class="count">(%s)</span>', 'Cooking <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-shipping', array(
+			'label' => _x('Shipping', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Shipping <span class="count">(%s)</span>', 'Shipping <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+
+		register_post_status('mprm-shipped', array(
+			'label' => _x('Shipped', 'Order status', 'mp-restaurant-menu'),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop('Shipped <span class="count">(%s)</span>', 'Shipped <span class="count">(%s)</span>', 'mp-restaurant-menu')
+		));
+	}
+
+	/**
 	 * Set metabox params
 	 *
 	 * @param array $params
@@ -59,9 +145,9 @@ class Post extends Module {
 	/**
 	 * Hook Add meta boxes
 	 *
-	 * @param type $post_type
+	 * @param string $post_type
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes($post_type = '') {
 		if (!empty($this->metaboxes) && is_array($this->metaboxes)) {
 			foreach ($this->metaboxes as $metabox) {
 				// add metabox to current post type
@@ -73,6 +159,7 @@ class Post extends Module {
 				add_meta_box($metabox['name'], $metabox['title'], $callback, $metabox['post_type'], $context, $priority, $callback_args);
 			}
 		}
+		Order::get_instance()->init_metaboxes();
 	}
 
 	/**
@@ -88,12 +175,10 @@ class Post extends Module {
 			return $post_id;
 		}
 		$nonce = $_POST['mp-restaurant-menu' . '_nonce_box'];
-
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
 			return $post_id;
 		}
-
 		// Check autosave
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post_id;
@@ -109,7 +194,11 @@ class Post extends Module {
 				return $post_id;
 			}
 		}
-
+		if (isset($_POST['mprm_update'])) {
+			if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
+				$this->get('payments')->update_payment_details($_POST);
+			}
+		}
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
@@ -153,7 +242,6 @@ class Post extends Module {
 	 * @param $column
 	 */
 	public function show_menu_columns($column, $post_ID) {
-
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
 		global $post;
@@ -165,17 +253,15 @@ class Post extends Module {
 				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
 				break;
 			case 'mptt-thumb':
-
 				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>';
 				break;
 			case 'mptt-price':
 				if (!empty($post->price)) {
-					echo $post->price;
+					echo mprm_currency_filter(mprm_format_amount($post->price));
 				} else {
 					echo '—';
 				}
 				break;
 		}
 	}
-
 }

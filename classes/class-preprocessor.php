@@ -1,29 +1,22 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
-
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\libs\FB;
-
 class Preprocessor extends GUMP {
-
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Install Preprocessors
 	 */
 	static function install() {
 		Core::include_all(MP_RM_PREPROCESSORS_PATH);
 	}
-
 	/**
 	 * Check for fatal
 	 *
@@ -56,13 +49,13 @@ class Preprocessor extends GUMP {
 		}
 		return $buffer;
 	}
-
 	/**
 	 * Call controller
 	 *
-	 * @param type $page
+	 * @param string $action
+	 * @param bool $page
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function call_controller($action = 'content', $page = false) {
 		if (empty($page)) {
@@ -85,14 +78,13 @@ class Preprocessor extends GUMP {
 			trigger_error("Wrong {$action} in {$path}class-controller-{$page}.php");
 		}
 	}
-
 	/**
 	 * Progress
 	 *
-	 * @param type $params
-	 * @param type $name
+	 * @param array $params
+	 * @param string $name
 	 *
-	 * @return type
+	 * @return array
 	 */
 	protected function progress($params, $name, $type) {
 		$success = $this->run($params);
@@ -106,7 +98,6 @@ class Preprocessor extends GUMP {
 			return array('success' => $success, 'data' => $this->$name());
 		}
 	}
-
 	/**
 	 * Process the validation errors and return an array of errors with field names as keys.
 	 *
@@ -118,18 +109,14 @@ class Preprocessor extends GUMP {
 		if (empty($this->errors)) {
 			return ($convert_to_string) ? null : array();
 		}
-
 		$resp = array();
-
 		foreach ($this->errors as $e) {
 			$field = ucwords(str_replace(array('_', '-'), chr(32), $e['field']));
 			$param = $e['param'];
-
 			// Let's fetch explicit field names if they exist
 			if (array_key_exists($e['field'], self::$fields)) {
 				$field = self::$fields[$e['field']];
 			}
-
 			switch ($e['rule']) {
 				case 'mismatch' :
 					$resp[$e['field']] = "There is no validation rule for $field";
@@ -207,8 +194,6 @@ class Preprocessor extends GUMP {
 					$resp[$e['field']] = "The $field field is invalid";
 			}
 		}
-
 		return $resp;
 	}
-
 }

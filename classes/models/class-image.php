@@ -1,26 +1,19 @@
 <?php
-
 namespace mp_restaurant_menu\classes\models;
-
 use mp_restaurant_menu\classes\Model;
-
 class Image extends Model {
-
 	protected static $instance;
 	private $sizes;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	public function __construct() {
 		parent::__construct();
 		$this->sizes = include(MP_RM_CONFIGS_PATH . 'img-sizes.php');
 	}
-
 	/**
 	 * Get all image sizes
 	 *
@@ -35,7 +28,6 @@ class Image extends Model {
 		}
 		return $sizes;
 	}
-
 	/**
 	 * Get image size
 	 *
@@ -53,7 +45,6 @@ class Image extends Model {
 			return $sizes[$size];
 		}
 	}
-
 	/**
 	 * Add image sizes
 	 */
@@ -66,7 +57,6 @@ class Image extends Model {
 			}
 		}
 	}
-
 	/**
 	 * Get thumbnail path
 	 *
@@ -78,7 +68,6 @@ class Image extends Model {
 	public function get_thumbnail_path($id, $size = 'medium') {
 		$metadata = wp_get_attachment_metadata($id);
 		$file = get_attached_file($id);
-
 		if (!is_array($size) && !empty($metadata) && !empty($metadata['sizes']) && !empty($metadata['sizes'][$size]) && !empty($metadata['sizes'][$size]['file'])) {
 			$file_name = $metadata['sizes'][$size]['file'];
 		} else {
@@ -94,7 +83,6 @@ class Image extends Model {
 		$path = "$dir/$file_name";
 		return $path;
 	}
-
 	/**
 	 * Hook Get image thumbnail
 	 *
@@ -140,7 +128,6 @@ class Image extends Model {
 		}
 		return $return;
 	}
-
 	/**
 	 * Crop image
 	 *
@@ -175,5 +162,4 @@ class Image extends Model {
 		}
 		return wp_update_attachment_metadata($id, $metadata);
 	}
-
 }

@@ -2,6 +2,8 @@
 (function($) {
 	"use strict";
 	tinymce.PluginManager.add('mp_restaurant_menu', function(editor, url) {
+		var mprmTitle = 'Insert Restaurant Menu Shortcode';
+
 		/**
 		 * init change shortcode type
 		 */
@@ -63,9 +65,10 @@
 			return params;
 		}
 
+
 		//Gallery Button
 		editor.addButton('mp_add_menu', {
-			title: window.admin_lang.shortcode_title,
+			title: mprmTitle,
 			image: url + '/../img/shortcode-icon.png',
 			//icon: 'dashicons-carrot',
 			onclick: function() {
@@ -94,8 +97,8 @@
 								//if ($(".spectrum").length) {
 								//	$(".spectrum").each(function(key, value) {
 								//		$(value).spectrum({
-								//			cancelText: window.admin_lang.cancel,
-								//			chooseText: window.admin_lang.choose,
+								//			cancelText: window.mprm_admin_vars.cancel,
+								//			chooseText: window.mprm_admin_vars.choose,
 								//			showAlpha: true,
 								//			change: function(color) {
 								//				$(value).val(color.toRgbString());
@@ -109,7 +112,7 @@
 							}
 						);
 					}, {
-						title: window.admin_lang.shortcode_title,
+						title: mprmTitle,
 						width: 500,
 						height: 600
 					}

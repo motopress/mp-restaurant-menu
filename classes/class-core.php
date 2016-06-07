@@ -1,17 +1,10 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
 
-//use mp_restaurant_menu\classes\View;
-//use mp_restaurant_menu\classes\Model;
-//use mp_restaurant_menu\classes\Controller;
-//use mp_restaurant_menu\classes\Preprocessor;
-//use mp_restaurant_menu\classes\State_Factory;
-//use mp_restaurant_menu\classes\Module;
-//use mp_restaurant_menu\classes\Hooks;
+use mp_restaurant_menu\classes\models\Session;
+use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\Shortcodes;
-use mp_restaurant_menu\classes\modules\Widget;
-
+use mp_restaurant_menu\classes\modules\MPRM_Widget;
 
 /**
  * Class main state
@@ -21,10 +14,15 @@ class Core {
 	 * Current state
 	 */
 	private $state;
+
 	private $version;
+
 	protected $taxonomy_names;
+
 	protected $post_types;
+
 	protected $posts = array();
+
 	protected static $instance;
 
 	public function __construct() {
@@ -35,7 +33,8 @@ class Core {
 			'ingredient' => 'mp_ingredient'
 		);
 		$this->post_types = array(
-			'menu_item' => 'mp_menu_item'
+			'menu_item' => 'mp_menu_item',
+			'order' => 'mprm_order'
 		);
 		$this->init_plugin_version();
 	}
@@ -51,12 +50,22 @@ class Core {
 		return $this->version;
 	}
 
+	public function get_post_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->post_types);
+		} elseif ($output == 'value') {
+			return array_values($this->post_types);
+		} else {
+			return $this->post_types;
+		}
+	}
+
 	/**
 	 * Get taxonomy name
 	 *
 	 * @param string $value
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function get_tax_name($value) {
 		if (isset($this->taxonomy_names[$value])) {
@@ -67,9 +76,9 @@ class Core {
 	/**
 	 * Get post type
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return string
 	 */
 	public function get_post_type($value) {
 		if (isset($this->post_types[$value])) {
@@ -84,28 +93,31 @@ class Core {
 		
 		load_plugin_textdomain( 'mp-restaurant-menu', FALSE, MP_RM_LANG_PATH );
 		
-		// include plugin models files
+		// Include plugin models files
 		Model::install();
-		// include plugin controllers files
+		// Include plugin controllers files
 		Controller::get_instance()->install();
-		// include plugin Preprocessors files
+		// Include plugin Preprocessors files
 		Preprocessor::install();
-		// include plugin Modules files 
+		// Include plugin Modules files 
 		Module::install();
-		//include shortcodes
+		// Include shortcodes
 		Shortcodes::install();
 		// inclide all widgets
-		Widget::install();
+		MPRM_Widget::install();
 		// install state
 		$this->install_state($name);
-		// include templates functions
+		// Include templates functions
 		$this->include_all(MP_RM_TEMPLATES_FUNCTIONS);
-		// include templates actions
+		// Include templates actions
 		$this->include_all(MP_RM_TEMPLATES_ACTIONS);
 		// init all hooks
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
+		$mprm_options = Settings::get_instance()->get_settings();
+		Session::get_instance()->maybe_start_session();
+		Session::get_instance()->init();
 	}
 
 	/**
@@ -135,10 +147,10 @@ class Core {
 	}
 
 	/**
-	 * install current state
+	 * Install current state
 	 */
 	public function install_state($name) {
-		// include plugin state
+		// Include plugin state
 		Core::get_instance()->set_state(new State_Factory($name));
 	}
 
@@ -159,7 +171,7 @@ class Core {
 	/**
 	 * Check for ajax post
 	 *
-	 * @return type
+	 * @return bool
 	 */
 	static function is_ajax() {
 		if (defined('DOING_AJAX') && DOING_AJAX) {
@@ -172,7 +184,7 @@ class Core {
 	/**
 	 * Get State
 	 *
-	 * @return State
+	 * @return object/bool State
 	 */
 	public function get_state() {
 		if ($this->state) {
@@ -185,7 +197,7 @@ class Core {
 	/**
 	 * Get controller
 	 *
-	 * @param type $type
+	 * @param string $type
 	 *
 	 * @return boolean
 	 */
@@ -196,7 +208,7 @@ class Core {
 	/**
 	 * Get view
 	 *
-	 * @return type
+	 * @return object
 	 */
 	public function get_view() {
 		return View::get_instance();
@@ -227,7 +239,7 @@ class Core {
 	/**
 	 * Set state
 	 *
-	 * @param State $state
+	 * @param object $state
 	 */
 	public function set_state($state) {
 		$this->state = $state;

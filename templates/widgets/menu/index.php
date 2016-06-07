@@ -16,10 +16,8 @@
 					<div class="mprm-row">
 					<?php
 				}
-
 				mprm_set_menu_item($post->ID);
 				render_current_html();
-
 				if (($i % $col) === 0 || $last_key === $key) {
 					?>
 					</div>
@@ -27,7 +25,6 @@
 				$i++;
 				wp_reset_postdata();
 			endforeach;
-
 		} ?>
 		<div class="mprm-clear"></div>
 	</div>

@@ -1,22 +1,18 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
-
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\models\Menu_category;
-
 class Shortcode_Item extends Shortcodes {
-
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Init shortode item
 	 *
@@ -26,11 +22,11 @@ class Shortcode_Item extends Shortcodes {
 	 */
 	public function render_shortcode(array $args) {
 		global $mprm_view_args;
+		Media::get_instance()->add_plugin_js('shortcode');
 		$mprm_view_args = $args;
 		$mprm_view_args['action_path'] = "shortcodes/menu/{$args['view']}/item";
 		return View::get_instance()->render_html("shortcodes/menu/index", $args, false);
 	}
-
 	/**
 	 * Integration in motopress
 	 *
@@ -39,7 +35,6 @@ class Shortcode_Item extends Shortcodes {
 	public function integration_motopress($motopressCELibrary) {
 		$categories = $this->create_list_motopress(Menu_category::get_instance()->get_categories_by_ids(), 'term');
 		$tags = $this->create_list_motopress(Menu_tag::get_instance()->get_tags_by_ids(), 'term');
-
 		$attributes = array(
 			'view' => array(
 				'type' => 'select',

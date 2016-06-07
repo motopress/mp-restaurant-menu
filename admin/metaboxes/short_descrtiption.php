@@ -1,5 +1,4 @@
 <?php
-
 $args = array(
 	'tinymce' => false,
 	'quicktags' => false,
@@ -7,4 +6,3 @@ $args = array(
 );
 wp_editor($value, $name, $args);
 ?>
-

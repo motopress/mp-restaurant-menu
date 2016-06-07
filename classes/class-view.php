@@ -1,22 +1,17 @@
 <?php
-
 namespace mp_restaurant_menu\classes;
-
 /**
  * View class
  */
 class View {
-
 	private $data;
 	protected static $instance;
-
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-
 	/**
 	 * Render template
 	 *
@@ -31,7 +26,6 @@ class View {
 		$this->data = $data;
 		include_once MP_RM_TEMPLATES_PATH . 'index.php';
 	}
-
 	/**
 	 * Render html
 	 *
@@ -39,7 +33,7 @@ class View {
 	 * @param array $data
 	 * @param bool $output : true - echo , false - return
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function render_html($template, $data = null, $output = true) {
 		$includeFile = MP_RM_TEMPLATES_PATH . $template . '.php';
