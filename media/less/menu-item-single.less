@@ -157,3 +157,20 @@
 	}
   }
 }
+
+@media (max-width: 480px) {
+  .mprm-main-wrapper.mp_menu_item {
+	.mprm-container {
+	  .mprm-row {
+		display: flex;
+		flex-flow: column;
+		.mprm-content {
+		  order: 2;
+		}
+		.mprm-sidebar {
+		  order: 1;
+		}
+	  }
+	}
+  }
+}
