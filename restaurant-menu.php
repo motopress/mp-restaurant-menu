@@ -31,7 +31,7 @@ define('MP_RM_LIBS_PATH', MP_RM_CLASSES_PATH . 'libs/');
 define('MP_RM_CONFIGS_PATH', MP_RM_PLUGIN_PATH . 'configs/');
 define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
-define('MP_RM_DEBUG', TRUE);
+define('MP_RM_DEBUG', false);
 
 
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));

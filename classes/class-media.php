@@ -1379,7 +1379,7 @@ class Media extends Core {
 	 * @return string
 	 */
 	public function get_prefix() {
-		$prefix = MP_RM_DEBUG ? '.min' : '';
+		$prefix = MP_RM_DEBUG ? '' : '.min';
 		return $prefix;
 	}
 }
