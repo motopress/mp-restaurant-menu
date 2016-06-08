@@ -3,7 +3,7 @@
  * Plugin Name: Restaurant Menu
  * Plugin URI: http://www.getmotopress.com
  * Description: This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
- * Version: 1.1.0
+ * Version: 1.1.15
  * Author: MotoPress
  * Author URI: http://www.getmotopress.com
  * License: GPLv2 or later
@@ -57,7 +57,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		if (!current_user_can('activate_plugins')) {
 			return;
 		}
-		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
@@ -65,12 +64,9 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		// User capability
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
-		if (!empty($plugin)) {
-			check_admin_referer("activate-plugin_{$plugin}");
-		}
+
+		// Create table 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . "mprm_customer";
 
