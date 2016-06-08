@@ -28,7 +28,6 @@ class Settings extends Model {
 		if (empty($settings)) {
 			$default_settings =
 				array(
-					'enable_ecommerce' => '1',
 					'currency' => 'USD',
 					'customer_phone' => '1',
 					'gateways' =>

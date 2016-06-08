@@ -67,12 +67,13 @@ class Controller_Settings extends Controller {
 
 	public function action_create_pages() {
 		$this->get('settings')->create_settings_pages();
-		update_option('mprm_install_page' . get_current_user_id(), true);
+		$this->get('settings')->set_option('enable_ecommerce', true);
+		update_option('mprm_install_page', true);
 		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
 	}
 
 	public function action_skip_create_pages() {
-		update_option('mprm_install_page' . get_current_user_id(), true);
+		update_option('mprm_install_page', true);
 		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
 
 	}
