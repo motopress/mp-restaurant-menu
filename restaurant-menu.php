@@ -50,7 +50,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	}
 
 	/**
-	 * On activation defrozo plugin
+	 * On activation plugin
 	 */
 	public static function on_activation() {
 		global $wpdb;
@@ -92,7 +92,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	}
 
 	/**
-	 * On deactivation defrozo plugin
+	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
 		if (!current_user_can('activate_plugins')) {

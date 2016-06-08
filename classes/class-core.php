@@ -160,7 +160,6 @@ class Core {
 	public function wp_ajax_route_url() {
 		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
 		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
-		//$type = "defrozo";
 		if (!empty($action)) {
 			// call controller
 			Preprocessor::get_instance()->call_controller($action, $controller);
