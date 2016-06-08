@@ -6,6 +6,10 @@ namespace mp_restaurant_menu\classes;
 class View {
 	private $data;
 	protected static $instance;
+
+	/**
+	 * @return View
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -15,8 +19,8 @@ class View {
 	/**
 	 * Render template
 	 *
-	 * @param type $template
-	 * @param type $data
+	 * @param string $template
+	 * @param array $data
 	 */
 	function render_template($template = null, $data = null) {
 		$this->template = $template;

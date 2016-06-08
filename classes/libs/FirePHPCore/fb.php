@@ -50,17 +50,20 @@ if (!class_exists('FirePHP')) {
  * "Server" request tab.
  *
  * @see http://www.firephp.org/Wiki/Reference/Fb
- *
- * @param mixed $Object
- *
  * @return true
- * @throws Exception
+ * @internal param mixed $Object
+ *
  */
 function fb() {
 	$instance = FirePHP::getInstance(true);
 	$args = func_get_args();
 	return call_user_func_array(array($instance, 'fb'), $args);
 }
+
+/**
+ * Class FB
+ * @package mp_restaurant_menu\classes\libs
+ */
 class FB {
 	/**
 	 * Enable and disable logging to Firebug
@@ -124,15 +127,14 @@ class FB {
 		$instance = FirePHP::getInstance(true);
 		return $instance->getOptions();
 	}
+
 	/**
 	 * Log object to firebug
 	 *
 	 * @see http://www.firephp.org/Wiki/Reference/Fb
-	 *
-	 * @param mixed $Object
-	 *
 	 * @return true
-	 * @throws Exception
+	 * @internal param mixed $Object
+	 *
 	 */
 	public static function send() {
 		$instance = FirePHP::getInstance(true);
@@ -159,7 +161,7 @@ class FB {
 	 * Ends a group you have started before
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function groupEnd() {
 		return self::send(null, null, FirePHP::GROUP_END);
@@ -173,7 +175,7 @@ class FB {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function log($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::LOG);
@@ -187,7 +189,7 @@ class FB {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function info($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::INFO);
@@ -201,7 +203,7 @@ class FB {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function warn($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::WARN);
@@ -215,7 +217,7 @@ class FB {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function error($Object, $Label = null) {
 		return self::send($Object, $Label, FirePHP::ERROR);
@@ -229,7 +231,7 @@ class FB {
 	 * @param mixed $Variable
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function dump($Key, $Variable) {
 		return self::send($Variable, $Key, FirePHP::DUMP);
@@ -242,7 +244,7 @@ class FB {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function trace($Label) {
 		return self::send($Label, FirePHP::TRACE);
@@ -256,7 +258,7 @@ class FB {
 	 * @param string $Table
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function table($Label, $Table) {
 		return self::send($Table, $Label, FirePHP::TABLE);

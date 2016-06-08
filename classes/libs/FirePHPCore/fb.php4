@@ -51,11 +51,9 @@ require_once dirname(__FILE__) . '/FirePHP.class.php4';
  * "Server" request tab.
  *
  * @see http://www.firephp.org/Wiki/Reference/Fb
- *
- * @param mixed $Object
- *
  * @return true
- * @throws Exception
+ * @internal param mixed $Object
+ *
  */
 function fb() {
 	$instance =& FirePHP::getInstance(true);
@@ -65,6 +63,9 @@ function fb() {
 }
 
 
+/**
+ * Class FB
+ */
 class FB {
 	/**
 	 * Enable and disable logging to Firebug
@@ -137,10 +138,9 @@ class FB {
 	 * Log object to firebug
 	 *
 	 * @see http://www.firephp.org/Wiki/Reference/Fb
-	 *
-	 * @param mixed $Object
-	 *
 	 * @return true
+	 * @internal param mixed $Object
+	 *
 	 */
 	function send() {
 		$instance =& FirePHP::getInstance(true);

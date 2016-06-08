@@ -1,33 +1,34 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
+
+/**
+ * Class Image
+ * @package mp_restaurant_menu\classes\models
+ */
 class Image extends Model {
 	protected static $instance;
 	private $sizes;
+
+	/**
+	 * Image constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		$this->sizes = include(MP_RM_CONFIGS_PATH . 'img-sizes.php');
+	}
+
+	/**
+	 * @return Image
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
-	public function __construct() {
-		parent::__construct();
-		$this->sizes = include(MP_RM_CONFIGS_PATH . 'img-sizes.php');
-	}
-	/**
-	 * Get all image sizes
-	 *
-	 * @return type
-	 */
-	public function get_sizes() {
-		$sizes = array();
-		if (!empty($this->sizes)) {
-			foreach ($this->sizes as $key => $size) {
-				$sizes["mprm-$key"] = $size;
-			}
-		}
-		return $sizes;
-	}
+
 	/**
 	 * Get image size
 	 *
@@ -45,6 +46,22 @@ class Image extends Model {
 			return $sizes[$size];
 		}
 	}
+
+	/**
+	 * Get all image sizes
+	 *
+	 * @return array
+	 */
+	public function get_sizes() {
+		$sizes = array();
+		if (!empty($this->sizes)) {
+			foreach ($this->sizes as $key => $size) {
+				$sizes["mprm-$key"] = $size;
+			}
+		}
+		return $sizes;
+	}
+
 	/**
 	 * Add image sizes
 	 */
@@ -57,32 +74,7 @@ class Image extends Model {
 			}
 		}
 	}
-	/**
-	 * Get thumbnail path
-	 *
-	 * @param $id
-	 * @param string $size
-	 *
-	 * @return string
-	 */
-	public function get_thumbnail_path($id, $size = 'medium') {
-		$metadata = wp_get_attachment_metadata($id);
-		$file = get_attached_file($id);
-		if (!is_array($size) && !empty($metadata) && !empty($metadata['sizes']) && !empty($metadata['sizes'][$size]) && !empty($metadata['sizes'][$size]['file'])) {
-			$file_name = $metadata['sizes'][$size]['file'];
-		} else {
-			// get global img sizes
-			global $_wp_additional_image_sizes;
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			$name = basename($file, "." . $ext);
-			$width = $_wp_additional_image_sizes[$size]['width'];
-			$height = $_wp_additional_image_sizes[$size]['height'];
-			$file_name = "$name-{$width}x{$height}.$ext";
-		}
-		$dir = pathinfo($file, PATHINFO_DIRNAME);
-		$path = "$dir/$file_name";
-		return $path;
-	}
+
 	/**
 	 * Hook Get image thumbnail
 	 *
@@ -128,14 +120,15 @@ class Image extends Model {
 		}
 		return $return;
 	}
+
 	/**
 	 * Crop image
 	 *
-	 * @global type $_wp_additional_image_sizes
+	 * @global array $_wp_additional_image_sizes
 	 *
-	 * @param type $id
-	 * @param type $size
-	 * @param type $filePath
+	 * @param int $id
+	 * @param string $size
+	 * @param string $filePath
 	 *
 	 * @return boolean
 	 */
@@ -161,5 +154,32 @@ class Image extends Model {
 			$metadata['sizes'][$size] = $save_data;
 		}
 		return wp_update_attachment_metadata($id, $metadata);
+	}
+
+	/**
+	 * Get thumbnail path
+	 *
+	 * @param $id
+	 * @param string $size
+	 *
+	 * @return string
+	 */
+	public function get_thumbnail_path($id, $size = 'medium') {
+		$metadata = wp_get_attachment_metadata($id);
+		$file = get_attached_file($id);
+		if (!is_array($size) && !empty($metadata) && !empty($metadata['sizes']) && !empty($metadata['sizes'][$size]) && !empty($metadata['sizes'][$size]['file'])) {
+			$file_name = $metadata['sizes'][$size]['file'];
+		} else {
+			// get global img sizes
+			global $_wp_additional_image_sizes;
+			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			$name = basename($file, "." . $ext);
+			$width = $_wp_additional_image_sizes[$size]['width'];
+			$height = $_wp_additional_image_sizes[$size]['height'];
+			$file_name = "$name-{$width}x{$height}.$ext";
+		}
+		$dir = pathinfo($file, PATHINFO_DIRNAME);
+		$path = "$dir/$file_name";
+		return $path;
 	}
 }

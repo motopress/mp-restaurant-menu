@@ -2,8 +2,17 @@
 namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\models\parents\Term;
 use mp_restaurant_menu\classes\View;
+
+/**
+ * Class Menu_category
+ * @package mp_restaurant_menu\classes\models
+ */
 class Menu_category extends Term {
 	protected static $instance;
+
+	/**
+	 * @return Menu_category
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -70,6 +79,13 @@ class Menu_category extends Term {
 			return $term_meta;
 		}
 	}
+
+	/**
+	 * @param $mprm_term
+	 * @param string $size
+	 *
+	 * @return bool
+	 */
 	public function get_term_image($mprm_term, $size = 'mprm-big') {
 		if (!empty($mprm_term->term_id)) {
 			$term_meta = $this->get_term_params($mprm_term->term_id);
@@ -84,6 +100,12 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
+
+	/**
+	 * @param $mprm_term
+	 *
+	 * @return mixed|string|void
+	 */
 	public function get_term_icon($mprm_term) {
 		if (!empty($mprm_term)) {
 			$icon = $this->get_term_params($mprm_term->term_id, 'iconname');
@@ -92,6 +114,12 @@ class Menu_category extends Term {
 			return '';
 		}
 	}
+
+	/**
+	 * @param $mprm_term
+	 *
+	 * @return bool
+	 */
 	public function has_category_image($mprm_term) {
 		if (!empty($mprm_term->term_id)) {
 			$thumbnail_id = $this->get_term_params($mprm_term->term_id, 'thumbnail_id');

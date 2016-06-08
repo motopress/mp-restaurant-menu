@@ -210,11 +210,12 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Sanitize the input data.
 	 *
 	 * @param array $input
-	 * @param null $fields
+	 * @param array|null $fields
 	 * @param bool $utf8_encode
 	 *
 	 * @return array
@@ -817,6 +818,7 @@ class GUMP {
 			'param' => $param,
 		);
 	}
+
 	/**
 	 * Verify that a value is contained within the pre-defined value set.
 	 * OUTPUT: will NOT show the list of values.
@@ -825,6 +827,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -844,6 +848,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Verify that a value is NOT contained within the pre-defined value set.
 	 * OUTPUT: will NOT show the list of values.
@@ -852,6 +857,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1265,6 +1272,7 @@ class GUMP {
 			}
 		}
 	}
+
 	/**
 	 * Determine if the provided value is a valid IP address.
 	 *
@@ -1272,6 +1280,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1296,8 +1306,9 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
-	 * @return mixed
+	 * @param null $param
 	 *
+	 * @return mixed
 	 * @see http://pastebin.com/UvUPPYK0
 	 */
 	/*
@@ -1318,6 +1329,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Determine if the provided value is a valid IPv6 address.
 	 *
@@ -1325,6 +1337,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1341,6 +1355,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Determine if the input is a valid credit card number.
 	 *
@@ -1349,6 +1364,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1384,6 +1401,7 @@ class GUMP {
 			'param' => $param,
 		);
 	}
+
 	/**
 	 * Determine if the input is a valid human name [Credits to http://github.com/ben-s].
 	 *
@@ -1392,6 +1410,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1408,6 +1428,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Determine if the provided input is likely to be a street address using weak detection.
 	 *
@@ -1415,6 +1436,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1436,6 +1459,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Determine if the provided value is a valid IBAN.
 	 *
@@ -1443,6 +1467,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1581,6 +1607,7 @@ class GUMP {
 			'param' => $param,
 		);
 	}
+
 	/**
 	 * Determine if the provided value starts with param.
 	 *
@@ -1588,6 +1615,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1604,6 +1633,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * checks if a file was uploaded.
 	 *
@@ -1611,6 +1641,8 @@ class GUMP {
 	 *
 	 * @param  string $field
 	 * @param  array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1625,6 +1657,7 @@ class GUMP {
 			'param' => $param,
 		);
 	}
+
 	/**
 	 * check the uploaded file for extension
 	 * for now checks onlt the ext should add mime type check.
@@ -1633,6 +1666,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1716,6 +1751,7 @@ class GUMP {
 		}
 		return $value;
 	}
+
 	/**
 	 * Determine if the provided value is a valid phone number.
 	 *
@@ -1724,17 +1760,19 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
-	 * @return mixed
+	 * @param null $param
+	 *
+	 * @return mixed Examples:
 	 *
 	 * Examples:
 	 *
-	 *  555-555-5555: valid
-	 *    5555425555: valid
-	 *    555 555 5555: valid
-	 *    1(519) 555-4444: valid
-	 *    1 (519) 555-4422: valid
-	 *    1-555-555-5555: valid
-	 *    1-(555)-555-5555: valid
+	 * 555-555-5555: valid
+	 * 5555425555: valid
+	 * 555 555 5555: valid
+	 * 1(519) 555-4444: valid
+	 * 1 (519) 555-4422: valid
+	 * 1-555-555-5555: valid
+	 * 1-(555)-555-5555: valid
 	 */
 	protected function validate_phone_number($field, $input, $param = null) {
 		if (!isset($input[$field]) || empty($input[$field])) {
@@ -1750,6 +1788,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Custom regex validator.
 	 *
@@ -1757,6 +1796,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1774,6 +1815,7 @@ class GUMP {
 			);
 		}
 	}
+
 	/**
 	 * Json validatior.
 	 *
@@ -1781,6 +1823,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */

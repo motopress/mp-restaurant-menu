@@ -6,15 +6,27 @@ use mp_restaurant_menu\classes\models\Menu_category;
  */
 class Export extends Core {
 	protected static $instance;
+
+	/**
+	 * @return Export
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
+	/**
+	 * Export constructor.
+	 */
 	function __construct() {
 		parent::__construct();
 	}
+
+	/**
+	 * @param array $args
+	 */
 	public function export_wp($args = array()) {
 		if (in_array($args['content'], $this->post_types)) {
 			$this->export($args);

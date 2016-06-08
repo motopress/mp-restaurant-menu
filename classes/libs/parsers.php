@@ -10,6 +10,11 @@ namespace mp_restaurant_menu\classes\libs;
  * WordPress Importer class for managing parsing of WXR files.
  */
 class WXR_Parser {
+	/**
+	 * @param $file
+	 *
+	 * @return array|\WP_Error
+	 */
 	function parse($file) {
 		// Attempt to use proper XML parsers first
 		if (extension_loaded('simplexml')) {
@@ -48,6 +53,11 @@ class WXR_Parser {
  * WXR Parser that makes use of the SimpleXML PHP extension.
  */
 class WXR_Parser_SimpleXML {
+	/**
+	 * @param $file
+	 *
+	 * @return array
+	 */
 	function parse($file) {
 		$authors = $posts = $categories = $tags = $terms = array();
 		$internal_errors = libxml_use_internal_errors(true);
@@ -225,6 +235,12 @@ class WXR_Parser_XML {
 		'wp:comment_author_IP', 'wp:comment_date', 'wp:comment_date_gmt', 'wp:comment_content',
 		'wp:comment_approved', 'wp:comment_type', 'wp:comment_parent', 'wp:comment_user_id',
 	);
+
+	/**
+	 * @param $file
+	 *
+	 * @return array|\WP_Error
+	 */
 	function parse($file) {
 		$this->wxr_version = $this->in_post = $this->cdata = $this->data = $this->sub_data = $this->in_tag = $this->in_sub_tag = false;
 		$this->authors = $this->posts = $this->term = $this->category = $this->tag = array();
@@ -254,6 +270,12 @@ class WXR_Parser_XML {
 			'version' => $this->wxr_version
 		);
 	}
+
+	/**
+	 * @param $parse
+	 * @param $tag
+	 * @param $attr
+	 */
 	function tag_open($parse, $tag, $attr) {
 		if (in_array($tag, $this->wp_tags)) {
 			$this->in_tag = substr($tag, 3);
@@ -298,11 +320,21 @@ class WXR_Parser_XML {
 				break;
 		}
 	}
+
+	/**
+	 * @param $parser
+	 * @param $cdata
+	 */
 	function cdata($parser, $cdata) {
 		if (!trim($cdata))
 			return;
 		$this->cdata .= trim($cdata);
 	}
+
+	/**
+	 * @param $parser
+	 * @param $tag
+	 */
 	function tag_close($parser, $tag) {
 		switch ($tag) {
 			case 'wp:comment':
@@ -376,9 +408,18 @@ class WXR_Parser_Regex {
 //	function WXR_Parser_Regex() {
 //		$this->__construct();
 //	}
+	/**
+	 * WXR_Parser_Regex constructor.
+	 */
 	function __construct() {
 		$this->has_gzip = is_callable('gzopen');
 	}
+
+	/**
+	 * @param $file
+	 *
+	 * @return array|\WP_Error
+	 */
 	function parse($file) {
 		$wxr_version = $in_post = false;
 		$fp = $this->fopen($file, 'r');
@@ -441,6 +482,13 @@ class WXR_Parser_Regex {
 			'version' => $wxr_version
 		);
 	}
+
+	/**
+	 * @param $string
+	 * @param $tag
+	 *
+	 * @return mixed|string
+	 */
 	function get_tag($string, $tag) {
 		preg_match("|<$tag.*?>(.*?)</$tag>|is", $string, $return);
 		if (isset($return[1])) {
@@ -461,6 +509,12 @@ class WXR_Parser_Regex {
 		}
 		return $return;
 	}
+
+	/**
+	 * @param $c
+	 *
+	 * @return array
+	 */
 	function process_category($c) {
 		return array(
 			'term_id' => $this->get_tag($c, 'wp:term_id'),
@@ -470,6 +524,12 @@ class WXR_Parser_Regex {
 			'category_description' => $this->get_tag($c, 'wp:category_description'),
 		);
 	}
+
+	/**
+	 * @param $t
+	 *
+	 * @return array
+	 */
 	function process_tag($t) {
 		return array(
 			'term_id' => $this->get_tag($t, 'wp:term_id'),
@@ -478,6 +538,12 @@ class WXR_Parser_Regex {
 			'tag_description' => $this->get_tag($t, 'wp:tag_description'),
 		);
 	}
+
+	/**
+	 * @param $t
+	 *
+	 * @return array
+	 */
 	function process_term($t) {
 		return array(
 			'term_id' => $this->get_tag($t, 'wp:term_id'),
@@ -489,6 +555,12 @@ class WXR_Parser_Regex {
 			'term_description' => $this->get_tag($t, 'wp:term_description'),
 		);
 	}
+
+	/**
+	 * @param $a
+	 *
+	 * @return array
+	 */
 	function process_author($a) {
 		return array(
 			'author_id' => $this->get_tag($a, 'wp:author_id'),
@@ -499,6 +571,12 @@ class WXR_Parser_Regex {
 			'author_last_name' => $this->get_tag($a, 'wp:author_last_name'),
 		);
 	}
+
+	/**
+	 * @param $post
+	 *
+	 * @return array
+	 */
 	function process_post($post) {
 		$post_id = $this->get_tag($post, 'wp:post_id');
 		$post_title = $this->get_tag($post, 'title');
@@ -583,24 +661,56 @@ class WXR_Parser_Regex {
 		if (!empty($post_postmeta)) $postdata['postmeta'] = $post_postmeta;
 		return $postdata;
 	}
+
+	/**
+	 * @param $matches
+	 *
+	 * @return string
+	 */
 	function _normalize_tag($matches) {
 		return '<' . strtolower($matches[1]);
 	}
+
+	/**
+	 * @param $filename
+	 * @param string $mode
+	 *
+	 * @return resource
+	 */
 	function fopen($filename, $mode = 'r') {
 		if ($this->has_gzip)
 			return gzopen($filename, $mode);
 		return fopen($filename, $mode);
 	}
+
+	/**
+	 * @param $fp
+	 *
+	 * @return bool|int
+	 */
 	function feof($fp) {
 		if ($this->has_gzip)
 			return gzeof($fp);
 		return feof($fp);
 	}
+
+	/**
+	 * @param $fp
+	 * @param int $len
+	 *
+	 * @return string
+	 */
 	function fgets($fp, $len = 8192) {
 		if ($this->has_gzip)
 			return gzgets($fp, $len);
 		return fgets($fp, $len);
 	}
+
+	/**
+	 * @param $fp
+	 *
+	 * @return bool
+	 */
 	function fclose($fp) {
 		if ($this->has_gzip)
 			return gzclose($fp);

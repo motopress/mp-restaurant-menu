@@ -4,9 +4,16 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Settings_emails
+ * @package mp_restaurant_menu\classes\models
+ */
 class Settings_emails extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Settings_emails
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -80,6 +87,9 @@ class Settings_emails extends Model {
 		$this->$key = $value;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_email_templates() {
 		$templates = array(
 			'default' => __('Default Template', 'mp-restaurant-menu'),

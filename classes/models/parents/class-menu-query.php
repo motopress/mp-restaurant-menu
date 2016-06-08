@@ -4,6 +4,10 @@ namespace mp_restaurant_menu\classes\models\parents;
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\models\Order;
 
+/**
+ * Class Parent_query
+ * @package mp_restaurant_menu\classes\models\parents
+ */
 class Parent_query extends Model {
 
 	protected static $instance;
@@ -19,6 +23,9 @@ class Parent_query extends Model {
 	public $timestamp;
 
 
+	/**
+	 * @return Parent_query
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -26,12 +33,20 @@ class Parent_query extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * Parent_query constructor.
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		parent::__construct();
 //		$this->setup_args($args);
 //		$this->init_actions();
 	}
 
+	/**
+	 * @param array $args
+	 */
 	public function setup_args($args = array()) {
 		$defaults = array(
 			'post_type' => $this->get_post_types('value'),
@@ -55,6 +70,10 @@ class Parent_query extends Model {
 		$this->args = wp_parse_args($args, $defaults);
 	}
 
+	/**
+	 * @param $query_var
+	 * @param $value
+	 */
 	public function __set($query_var, $value) {
 		if (in_array($query_var, array('meta_query', 'tax_query')))
 			$this->args[$query_var][] = $value;
@@ -62,10 +81,18 @@ class Parent_query extends Model {
 			$this->args[$query_var] = $value;
 	}
 
+	/**
+	 * @param $query_var
+	 */
 	public function __unset($query_var) {
 		unset($this->args[$query_var]);
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
 	public function get_posts($params = array()) {
 
 		do_action('mprm_pre_get_payments', $this);
@@ -345,6 +372,9 @@ class Parent_query extends Model {
 	}
 
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_predefined_dates() {
 		$predefined = array(
 			'today' => __('Today', 'mp-restaurant-menu'),
@@ -362,6 +392,10 @@ class Parent_query extends Model {
 	}
 
 
+	/**
+	 * @param string $_start_date
+	 * @param bool $_end_date
+	 */
 	public function setup_dates($_start_date = 'this_month', $_end_date = false) {
 
 		if (empty($_start_date)) {
@@ -378,6 +412,12 @@ class Parent_query extends Model {
 	}
 
 
+	/**
+	 * @param $date
+	 * @param bool $end_date
+	 *
+	 * @return mixed|void|\WP_Error
+	 */
 	public function convert_date($date, $end_date = false) {
 
 		$this->timestamp = false;
@@ -701,6 +741,11 @@ class Parent_query extends Model {
 
 	}
 
+	/**
+	 * @param string $where
+	 *
+	 * @return string
+	 */
 	public function count_where($where = '') {
 		// Only get payments in our date range
 
@@ -737,6 +782,11 @@ class Parent_query extends Model {
 		return $where;
 	}
 
+	/**
+	 * @param string $where
+	 *
+	 * @return string
+	 */
 	public function payments_where($where = '') {
 
 		global $wpdb;

@@ -8,9 +8,19 @@ use mp_restaurant_menu\classes\Model;
 class State_Factory {
 	protected static $instance;
 	protected $namespace;
+
+	/**
+	 * State_Factory constructor.
+	 *
+	 * @param string $namespace
+	 */
 	public function __construct($namespace = 'mp_restaurant_menu') {
 		$this->namespace = $namespace;
 	}
+
+	/**
+	 * @return State_Factory
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -20,9 +30,9 @@ class State_Factory {
 	/**
 	 * Get register instance object
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return model
 	 */
 	public function get_model($value = null) {
 		$model = false;
@@ -39,9 +49,10 @@ class State_Factory {
 	/**
 	 * Get controller instance object
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return object
+	 *
 	 */
 	public function get_controller($value = null) {
 		$controller = false;
@@ -54,9 +65,9 @@ class State_Factory {
 	/**
 	 *  Get Preprocessor instance object
 	 *
-	 * @param type $value
+	 * @param string $value
 	 *
-	 * @return type
+	 * @return object
 	 */
 	public function get_preprocessor($value = null) {
 		$preprocessor = false;

@@ -2,19 +2,19 @@
 namespace mp_restaurant_menu\classes\widgets;
 
 use mp_restaurant_menu\classes\Media;
-use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
+use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Menu_item_widget
+ * @package mp_restaurant_menu\classes\widgets
+ */
 class Menu_item_widget extends \WP_Widget {
 	protected static $instance;
 
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
+	/**
+	 * Menu_item_widget constructor.
+	 */
 	public function __construct() {
 		$this->widget_cssclass = 'mprm_widget';
 		$this->widget_description = __('Display menu items.', 'mp-restaurant-menu');
@@ -28,9 +28,35 @@ class Menu_item_widget extends \WP_Widget {
 	}
 
 	/**
+	 * @return Menu_item_widget
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 *
+	 * @param array $instance
+	 *
+	 * @return string|void
+	 */
+	public function form($instance) {
+		$data = $this->get_data($instance);
+		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
+		$data['menu_tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
+		$data['widget_object'] = $this;
+		$data['categ'] = !empty($instance['categ']) ? $instance['categ'] : array();
+		$data['tags_list'] = !empty($instance['tags_list']) ? $instance['tags_list'] : array();
+		View::get_instance()->render_html('../admin/widgets/menu/form', $data, true);
+	}
+
+	/**
 	 * Get default data
 	 *
-	 * @param type $instance
+	 * @param array $instance
 	 *
 	 * @return string
 	 */
@@ -54,20 +80,6 @@ class Menu_item_widget extends \WP_Widget {
 			);
 		}
 		return $data;
-	}
-
-	/**
-	 *
-	 * @param array $instance
-	 */
-	public function form($instance) {
-		$data = $this->get_data($instance);
-		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
-		$data['menu_tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
-		$data['widget_object'] = $this;
-		$data['categ'] = !empty($instance['categ']) ? $instance['categ'] : array();
-		$data['tags_list'] = !empty($instance['tags_list']) ? $instance['tags_list'] : array();
-		View::get_instance()->render_html('../admin/widgets/menu/form', $data, true);
 	}
 
 	/**

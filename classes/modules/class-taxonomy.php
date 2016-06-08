@@ -4,9 +4,16 @@ namespace mp_restaurant_menu\classes\modules;
 use mp_restaurant_menu\classes\Module;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Taxonomy
+ * @package mp_restaurant_menu\classes\modules
+ */
 class Taxonomy extends Module {
 	protected static $instance;
 
+	/**
+	 * @return Taxonomy
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -17,7 +24,8 @@ class Taxonomy extends Module {
 	/**
 	 * Register taxonomy
 	 *
-	 * @param $params
+	 * @param array $params
+	 * @param string $plugin_name
 	 */
 	public function register(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
@@ -65,6 +73,11 @@ class Taxonomy extends Module {
 		return (!empty($taxonomies_html)) ? $taxonomies_html : "—";
 	}
 
+	/**
+	 * @param $name
+	 *
+	 * @return array|int|\WP_Error
+	 */
 	public function get_terms($name) {
 		return get_terms($name);
 	}

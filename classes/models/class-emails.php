@@ -3,6 +3,10 @@ namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Emails
+ * @package mp_restaurant_menu\classes\models
+ */
 class Emails extends Model {
 	protected static $instance;
 
@@ -10,6 +14,9 @@ class Emails extends Model {
 
 	private $payment_id;
 
+	/**
+	 * @return Emails
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -443,6 +450,9 @@ class Emails extends Model {
 		return array_key_exists($tag, $this->tags);
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function get_tags() {
 		return $this->tags;
 	}

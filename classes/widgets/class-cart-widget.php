@@ -3,9 +3,16 @@ namespace mp_restaurant_menu\classes\widgets;
 
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Cart_widget
+ * @package mp_restaurant_menu\classes\widgets
+ */
 class Cart_widget extends \WP_Widget {
 	protected static $instance;
 
+	/**
+	 * @return Cart_widget
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -13,12 +20,18 @@ class Cart_widget extends \WP_Widget {
 		return self::$instance;
 	}
 
+	/**
+	 * Cart_widget constructor.
+	 */
 	public function __construct() {
 		parent::__construct('mprm_cart_widget', __('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => __('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
 	}
 
 	/**
 	 * @see WP_Widget::widget
+	 *
+	 * @param array $args
+	 * @param array $instance
 	 */
 	function widget($args, $instance) {
 
@@ -48,6 +61,11 @@ class Cart_widget extends \WP_Widget {
 
 	/**
 	 * @see WP_Widget::update
+	 *
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 *
+	 * @return array
 	 */
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
@@ -58,7 +76,11 @@ class Cart_widget extends \WP_Widget {
 		return $instance;
 	}
 
-	/** @see WP_Widget::form */
+	/** @see WP_Widget::form
+	 * @param array $instance
+	 *
+	 * @return string|void
+	 */
 	function form($instance) {
 
 		$defaults = array(

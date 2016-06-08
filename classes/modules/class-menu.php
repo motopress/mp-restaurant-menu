@@ -1,7 +1,15 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
+/**
+ * Class Menu
+ * @package mp_restaurant_menu\classes\modules
+ */
 class Menu {
 	protected static $instance;
+
+	/**
+	 * @return Menu
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

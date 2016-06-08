@@ -21,9 +21,16 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_history;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
 
+/**
+ * Class Hooks
+ * @package mp_restaurant_menu\classes
+ */
 class Hooks extends Core {
 	protected static $instance;
 
+	/**
+	 * @return Hooks
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -47,6 +54,9 @@ class Hooks extends Core {
 		add_action('widgets_init', array(MPRM_Widget::get_instance(), 'register'));
 	}
 
+	/**
+	 * Hooks constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 	}
@@ -816,6 +826,11 @@ class Hooks extends Core {
 		curl_setopt($handle, CURLOPT_SSLVERSION, 6);
 	}
 
+	/**
+	 * @param $query
+	 *
+	 * @return array|string
+	 */
 	public function mprm_order_search_label($query) {
 		global $pagenow, $typenow;
 
@@ -834,6 +849,11 @@ class Hooks extends Core {
 		return wp_unslash($_GET['s']);
 	}
 
+	/**
+	 * @param $public_query_vars
+	 *
+	 * @return array
+	 */
 	public function add_custom_query_var($public_query_vars) {
 		$public_query_vars[] = 'sku';
 		$public_query_vars[] = 'mprm_order_search';
@@ -841,6 +861,9 @@ class Hooks extends Core {
 		return $public_query_vars;
 	}
 
+	/**
+	 * @param $wp
+	 */
 	public function mprm_search_custom_fields($wp) {
 		global $pagenow, $wpdb;
 
@@ -948,11 +971,21 @@ class Hooks extends Core {
 		}
 	}
 
+	/**
+	 * @param $column_name
+	 * @param $post_type
+	 */
 	public function quick_edit($column_name, $post_type) {
 
 
 	}
 
+	/**
+	 * @param $post_id
+	 * @param $post
+	 *
+	 * @return mixed
+	 */
 	public function bulk_and_quick_edit_save_post($post_id, $post) {
 
 		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
@@ -979,6 +1012,10 @@ class Hooks extends Core {
 		return $post_id;
 	}
 
+	/**
+	 * @param $column_name
+	 * @param $post_type
+	 */
 	public function bulk_edit($column_name, $post_type) {
 
 	}
@@ -1007,10 +1044,19 @@ class Hooks extends Core {
 	}
 
 
+	/**
+	 * @param $post_id
+	 * @param $product
+	 */
 	private function quick_edit_save($post_id, $product) {
 
 	}
 
+	/**
+	 * @param $messages
+	 *
+	 * @return mixed
+	 */
 	public function post_updated_messages($messages) {
 		global $post, $post_ID;
 		$messages['mprm_order'] = array(
@@ -1031,6 +1077,12 @@ class Hooks extends Core {
 		return $messages;
 	}
 
+	/**
+	 * @param $bulk_messages
+	 * @param $bulk_counts
+	 *
+	 * @return mixed
+	 */
 	public function bulk_post_updated_messages($bulk_messages, $bulk_counts) {
 
 		$bulk_messages['mprm_menu_item'] = array(
@@ -1053,6 +1105,11 @@ class Hooks extends Core {
 		return $bulk_messages;
 	}
 
+	/**
+	 * @param $views
+	 *
+	 * @return mixed
+	 */
 	public function clear_admin_filter($views) {
 		unset($views['mine']);
 		unset($views['draft']);
@@ -1070,6 +1127,12 @@ class Hooks extends Core {
 		}
 	}
 
+	/**
+	 * @param $actions
+	 * @param $post
+	 *
+	 * @return mixed
+	 */
 	public function remove_row_actions($actions, $post) {
 		global $current_screen;
 		if ($current_screen->post_type != 'mprm_order') return $actions;

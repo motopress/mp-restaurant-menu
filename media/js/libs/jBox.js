@@ -1306,6 +1306,7 @@ jBox.prototype.open = function(options) {
 	var open = function() {
 		
 		// Set title from source element
+		//noinspection
 		this.source && this.options.getTitle && (this.source.attr(this.options.getTitle) && this.setTitle(this.source.attr(this.options.getTitle)), true);
 		
 		// Set content from source element

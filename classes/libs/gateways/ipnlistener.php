@@ -140,6 +140,10 @@ class IpnListener {
 		}
 		fclose($fp);
 	}
+
+	/**
+	 * @return string
+	 */
 	private function getPaypalHost() {
 		if ($this->use_sandbox) return IpnListener::SANDBOX_HOST;
 		else return IpnListener::PAYPAL_HOST;

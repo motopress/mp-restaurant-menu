@@ -3,9 +3,16 @@ namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Checkout
+ * @package mp_restaurant_menu\classes\models
+ */
 class Checkout extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Checkout
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -13,6 +20,9 @@ class Checkout extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_checkout() {
 		global $wp_query;
 		$is_object_set = isset($wp_query->queried_object);
@@ -27,23 +37,35 @@ class Checkout extends Model {
 		return apply_filters('mprm_is_checkout', $is_checkout);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function can_checkout() {
 		$can_checkout = true;
 		return (bool)apply_filters('mprm_can_checkout', $can_checkout);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_success_page_uri() {
 		$page_id = $this->get('settings')->get_option('success_page', 0);
 		$page_id = absint($page_id);
 		return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_success_page() {
 		$is_success_page = $this->get('settings')->get_option('success_page', false);
 		$is_success_page = isset($is_success_page) ? is_page($is_success_page) : false;
 		return apply_filters('mprm_is_success_page', $is_success_page);
 	}
 
+	/**
+	 * @param null $query_string
+	 */
 	public function send_to_success_page($query_string = null) {
 		$redirect = $this->get_success_page_uri();
 		if ($query_string) {
@@ -56,6 +78,9 @@ class Checkout extends Model {
 		}
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_checkout_uri() {
 		$uri = $this->get('settings')->get_option('purchase_page', false);
 		$uri = isset($uri) ? get_permalink($uri) : NULL;
@@ -94,6 +119,11 @@ class Checkout extends Model {
 		wp_redirect(apply_filters('mprm_send_back_to_checkout', $redirect, $args));
 	}
 
+	/**
+	 * @param null $query_string
+	 *
+	 * @return mixed|void
+	 */
 	public function get_success_page_url($query_string = null) {
 		$success_page = $this->get('settings')->get_option('success_page', 0);
 		$success_page = get_permalink($success_page);
@@ -102,6 +132,11 @@ class Checkout extends Model {
 		return apply_filters('mprm_success_page_url', $success_page);
 	}
 
+	/**
+	 * @param bool $extras
+	 *
+	 * @return mixed|void
+	 */
 	public function get_failed_transaction_uri($extras = false) {
 		$uri = $this->get('settings')->get_option('failure_page', '');
 		$uri = !empty($uri) ? trailingslashit(get_permalink($uri)) : home_url();
@@ -110,6 +145,9 @@ class Checkout extends Model {
 		return apply_filters('mprm_get_failed_transaction_uri', $uri);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_failed_transaction_page() {
 		$ret = $this->get('settings')->get_option('failure_page', false);
 		$ret = isset($ret) ? is_page($ret) : false;
@@ -128,6 +166,11 @@ class Checkout extends Model {
 		}
 	}
 
+	/**
+	 * @param int $number
+	 *
+	 * @return bool|mixed|void
+	 */
 	public function validate_card_number_format($number = 0) {
 		$number = trim($number);
 		if (empty($number)) {
@@ -278,11 +321,19 @@ class Checkout extends Model {
 		return $expiration >= time();
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function straight_to_checkout() {
 		$ret = $this->get('settings')->get_option('redirect_on_add', false);
 		return (bool)apply_filters('mprm_straight_to_checkout', $ret);
 	}
 
+	/**
+	 * @param $content
+	 *
+	 * @return array|mixed
+	 */
 	public function enforced_ssl_asset_filter($content) {
 		if (is_array($content)) {
 			$content = array_map(array($this, 'enforced_ssl_asset_filter'), $content);
@@ -297,17 +348,28 @@ class Checkout extends Model {
 		return $content;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_purchase_history_page() {
 		$ret = $this->get('settings')->get_option('purchase_history_page', false);
 		$ret = $ret ? is_page($ret) : false;
 		return apply_filters('mprm_is_purchase_history_page', $ret);
 	}
 
+	/**
+	 * @param string $field
+	 *
+	 * @return bool
+	 */
 	public function field_is_required($field = '') {
 		$required_fields = $this->purchase_form_required_fields();
 		return array_key_exists($field, $required_fields);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function purchase_form_required_fields() {
 		$required_fields = array(
 			'mprm_email' => array(

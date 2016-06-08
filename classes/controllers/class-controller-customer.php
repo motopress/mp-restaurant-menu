@@ -6,10 +6,17 @@ use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\models\Customer;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Controller_customer
+ * @package mp_restaurant_menu\classes\controllers
+ */
 class Controller_customer extends Controller {
 	protected static $instance;
 	private $date;
 
+	/**
+	 * @return Controller_customer
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -195,8 +202,6 @@ class Controller_customer extends Controller {
 		$customer = new Customer(array('field' => 'id', 'value' => $customer_id));
 
 		do_action('mprm_pre_delete_customer', $customer_id, $confirm, $remove_data);
-
-		$success = false;
 
 		if ($customer->id > 0) {
 

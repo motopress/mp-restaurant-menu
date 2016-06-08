@@ -5,8 +5,17 @@ use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\models\Menu_category;
+
+/**
+ * Class Shortcode_Item
+ * @package mp_restaurant_menu\classes\shortcodes
+ */
 class Shortcode_Item extends Shortcodes {
 	protected static $instance;
+
+	/**
+	 * @return Shortcode_Item
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -18,7 +27,7 @@ class Shortcode_Item extends Shortcodes {
 	 *
 	 * @param array $args
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function render_shortcode(array $args) {
 		global $mprm_view_args;

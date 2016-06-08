@@ -2,26 +2,48 @@
 use \mp_restaurant_menu\classes\models;
 use \mp_restaurant_menu\classes\View as View;
 
+/**
+ * @return mixed|void
+ */
 function mprm_is_cart_saving_disabled() {
 	return models\Cart::get_instance()->is_cart_saving_disabled();
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_cart_quantity() {
 	return models\Cart::get_instance()->get_cart_quantity();
 }
 
+/**
+ * @return float
+ */
 function mprm_get_cart_total() {
 	return models\Cart::get_instance()->get_cart_total();
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_cart_tax() {
 	return models\Cart::get_instance()->get_cart_tax();
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_cart_subtotal() {
 	return models\Cart::get_instance()->get_cart_subtotal();
 }
 
+/**
+ * @param $cart_key
+ * @param $item
+ * @param bool $ajax
+ *
+ * @return mixed|void
+ */
 function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	global $post;
 
@@ -37,9 +59,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 		$title .= (mprm_has_variable_prices($item['id'])) ? ' <span class="mprm-cart-item-separator">-</span> ' . mprm_get_price_name($id, $item['options']) : mprm_get_price_name($id, $item['options']);
 	}
 
-
 	$item = View::get_instance()->render_html('widgets/cart/cart-item', array(), false);
-
 
 	$item = str_replace('{item_title}', $title, $item);
 	$item = str_replace('{item_amount}', mprm_currency_filter(mprm_format_amount($price)), $item);
@@ -56,18 +76,42 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	return apply_filters('mprm_cart_item', $item, $id);
 }
 
+/**
+ * @param int $menu_item_id
+ * @param array $options
+ *
+ * @return mixed|void
+ */
 function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array()) {
 	return models\Cart::get_instance()->get_cart_item_quantity($menu_item_id, $options);
 }
 
+/**
+ * @param int $menu_item_id
+ * @param array $options
+ * @param bool $remove_tax_from_inclusive
+ *
+ * @return mixed|void
+ */
 function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
 	return models\Cart::get_instance()->get_cart_item_price($menu_item_id, $options, $remove_tax_from_inclusive);
 }
 
+/**
+ * @param $cart_key
+ *
+ * @return mixed|void
+ */
 function mprm_remove_item_url($cart_key) {
 	return models\Cart::get_instance()->remove_item_url($cart_key);
 }
 
+/**
+ * @param int $menu_item_id
+ * @param array $options
+ *
+ * @return mixed|void
+ */
 function mprm_get_price_name($menu_item_id = 0, $options = array()) {
 	$return = false;
 	if (mprm_has_variable_prices($menu_item_id) && !empty($options)) {
@@ -82,6 +126,11 @@ function mprm_get_price_name($menu_item_id = 0, $options = array()) {
 	return apply_filters('mprm_get_price_name', $return, $menu_item_id, $options);
 }
 
+/**
+ * @param int $menu_item_id
+ *
+ * @return bool|mixed|void
+ */
 function mprm_get_variable_prices($menu_item_id = 0) {
 
 	if (empty($menu_item_id)) {
@@ -90,4 +139,54 @@ function mprm_get_variable_prices($menu_item_id = 0) {
 
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->get_prices($menu_item_id);
+}
+
+/**
+ * @return mixed|void
+ */
+function mprm_get_cart_items() {
+	return models\Cart::get_instance()->get_cart_contents();
+}
+
+/**
+ * @param array $item
+ *
+ * @return null
+ */
+function mprm_get_cart_item_price_id($item = array()) {
+	if (isset($item['item_number'])) {
+		$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
+	} else {
+		$price_id = isset($item['options']['price_id']) ? $item['options']['price_id'] : null;
+	}
+	return $price_id;
+}
+
+function mprm_cart_empty() {
+	echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
+}
+
+function mprm_update_cart_button() {
+	if (!models\Cart::get_instance()->item_quantities_enabled())
+		return;
+	$color = mprm_get_option('checkout_color', 'blue');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	?>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="hidden" name="mprm_action" value="update_cart"/>
+	<?php
+}
+
+function mprm_save_cart_button() {
+	if (mprm_is_cart_saving_disabled())
+		return;
+	$color = mprm_get_option('checkout_color', 'blue');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	if (models\Cart::get_instance()->is_cart_saved()) : ?>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+	<?php endif; ?>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<?php
 }

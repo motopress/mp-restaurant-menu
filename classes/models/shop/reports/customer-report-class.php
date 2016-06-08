@@ -10,9 +10,16 @@ if (!class_exists('WP_List_Table')) {
 }
 
 
+/**
+ * Class Customer_Reports
+ * @package mp_restaurant_menu\classes\models
+ */
 class Customer_Reports extends \WP_List_Table {
 	protected static $instance;
 
+	/**
+	 * @return Customer_Reports
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -135,6 +142,11 @@ class Customer_Reports extends \WP_List_Table {
 		return apply_filters('mprm_customers_column_' . $column_name, $value, $item['id']);
 	}
 
+	/**
+	 * @param $item
+	 *
+	 * @return string
+	 */
 	public function column_name($item) {
 		$name = '#' . $item['id'] . ' ';
 		$name .= !empty($item['name']) ? $item['name'] : '<em>' . __('Unnamed Customer', 'mp-restaurant-menu') . '</em>';
@@ -194,7 +206,8 @@ class Customer_Reports extends \WP_List_Table {
 	 *
 	 * @access public
 	 * @since 1.5
-	 * @return void
+	 *
+	 * @param string $which
 	 */
 	public function bulk_actions($which = '') {
 		// These aren't really bulk actions but this outputs the markup in the right place

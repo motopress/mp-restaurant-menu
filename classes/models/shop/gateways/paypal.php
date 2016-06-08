@@ -1,8 +1,17 @@
 <?php namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\libs\IpnListener;
 use mp_restaurant_menu\classes\Model;
+
+/**
+ * Class Paypal
+ * @package mp_restaurant_menu\classes\models
+ */
 class Paypal extends Model {
 	protected static $instance;
+
+	/**
+	 * @return Paypal
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -18,7 +27,8 @@ class Paypal extends Model {
 	 *
 	 * @access      private
 	 * @since       1.0
-	 * @return      void
+	 *
+	 * @param $purchase_data
 	 */
 	public function process_paypal_purchase($purchase_data) {
 		global $mprm_options;

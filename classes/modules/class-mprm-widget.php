@@ -3,9 +3,16 @@ namespace mp_restaurant_menu\classes\modules;
 
 use mp_restaurant_menu\classes\Module;
 
+/**
+ * Class MPRM_Widget
+ * @package mp_restaurant_menu\classes\modules
+ */
 class MPRM_Widget extends Module {
 	protected static $instance;
 
+	/**
+	 * @return MPRM_Widget
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

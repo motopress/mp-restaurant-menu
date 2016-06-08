@@ -25,6 +25,9 @@ class Core {
 
 	protected static $instance;
 
+	/**
+	 * Core constructor.
+	 */
 	public function __construct() {
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$this->taxonomy_names = array(
@@ -39,6 +42,9 @@ class Core {
 		$this->init_plugin_version();
 	}
 
+	/**
+	 * @return Core
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -50,6 +56,11 @@ class Core {
 		return $this->version;
 	}
 
+	/**
+	 * @param string $output
+	 *
+	 * @return array
+	 */
 	public function get_post_types($output = '') {
 		if ($output == 'key') {
 			return array_keys($this->post_types);
@@ -88,6 +99,8 @@ class Core {
 
 	/**
 	 * Init current plugin
+	 *
+	 * @param $name
 	 */
 	public function init_plugin($name) {
 		global $mprm_options;
@@ -168,6 +181,8 @@ class Core {
 
 	/**
 	 * Install current state
+	 *
+	 * @param $name
 	 */
 	public function install_state($name) {
 		// Include plugin state

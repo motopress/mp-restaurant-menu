@@ -4,10 +4,17 @@ namespace mp_restaurant_menu\classes\modules;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Module;
 
+/**
+ * Class Post
+ * @package mp_restaurant_menu\classes\modules
+ */
 class Post extends Module {
 	protected static $instance;
 	private $metaboxes;
 
+	/**
+	 * @return Post
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -239,6 +246,7 @@ class Post extends Module {
 	 * Add content to custom column
 	 *
 	 * @param $column
+	 * @param $post_ID
 	 */
 	public function show_menu_columns($column, $post_ID) {
 		$category_name = $this->get_tax_name('menu_category');

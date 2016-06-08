@@ -6,9 +6,16 @@ use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Settings
+ * @package mp_restaurant_menu\classes\models
+ */
 class Settings extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Settings
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -78,6 +85,9 @@ class Settings extends Model {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_config_settings() {
 		$settings = array('tabs' => array());
 		$config_settings = $this->get_config('settings');
@@ -88,6 +98,11 @@ class Settings extends Model {
 		return $settings;
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
 	public function save_settings(array $params) {
 		unset($params['controller']);
 		unset($params['mprm_action']);
@@ -293,6 +308,9 @@ class Settings extends Model {
 		return apply_filters('mprm_currencies', $currencies);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_country_list() {
 		$countries = array(
 			'' => '',
@@ -552,10 +570,16 @@ class Settings extends Model {
 		return apply_filters('mprm_countries', $countries);
 	}
 
+	/**
+	 * @param array $args
+	 */
 	public function header_callback($args = array()) {
 		echo '';
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function checkbox_callback($args) {
 		global $mprm_options;
 		if (isset($args['faux']) && true === $args['faux']) {
@@ -569,6 +593,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function multicheck_callback($args) {
 		global $mprm_options;
 		if (!empty($args['options'])) {
@@ -585,6 +612,9 @@ class Settings extends Model {
 		}
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function payment_icons_callback($args) {
 		global $mprm_options;
 		if (!empty($args['options'])) {
@@ -620,6 +650,9 @@ class Settings extends Model {
 		}
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function radio_callback($args) {
 		global $mprm_options;
 		foreach ($args['options'] as $key => $option) :
@@ -634,6 +667,9 @@ class Settings extends Model {
 		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function gateways_callback($args) {
 		global $mprm_options;
 		foreach ($args['options'] as $key => $option) :
@@ -646,6 +682,9 @@ class Settings extends Model {
 		endforeach;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function gateway_select_callback($args) {
 		global $mprm_options;
 		echo '<select name="mprm_settings[' . sanitize_key($args['id']) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . ']">';
@@ -657,6 +696,9 @@ class Settings extends Model {
 		echo '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function text_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -678,6 +720,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function number_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -701,6 +746,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function textarea_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -713,6 +761,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function password_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -726,6 +777,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function missing_callback($args) {
 		printf(
 			__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
@@ -733,6 +787,9 @@ class Settings extends Model {
 		);
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function select_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -760,6 +817,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function color_select_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -777,6 +837,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function rich_editor_callback($args) {
 		global $mprm_options, $wp_version;
 		if (isset($mprm_options[$args['id']])) {
@@ -799,6 +862,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function upload_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -813,6 +879,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function color_callback($args) {
 		global $mprm_options;
 		if (isset($mprm_options[$args['id']])) {
@@ -826,6 +895,9 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function shop_states_callback($args) {
 		global $mprm_options;
 		if (isset($args['placeholder'])) {
@@ -846,10 +918,16 @@ class Settings extends Model {
 		echo $html;
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function hook_callback($args) {
 		do_action('mprm_' . $args['id'], $args);
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function tax_rates_callback($args) {
 		global $mprm_options;
 		$rates = $this->get_tax_rates();
@@ -955,10 +1033,16 @@ class Settings extends Model {
 		echo ob_get_clean();
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function descriptive_text_callback($args) {
 		echo wp_kses_post($args['desc']);
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function license_key_callback($args) {
 		global $mprm_options;
 		$messages = array();
@@ -1119,6 +1203,11 @@ class Settings extends Model {
 
 	}
 
+	/**
+	 * @param $str
+	 *
+	 * @return bool
+	 */
 	public function string_is_image_url($str) {
 		$ext = $this->get_file_extension($str);
 		switch (strtolower($ext)) {
@@ -1138,14 +1227,24 @@ class Settings extends Model {
 		return (bool)apply_filters('mprm_string_is_image', $return, $str);
 	}
 
+	/**
+	 * @param $str
+	 *
+	 * @return mixed
+	 */
 	public function get_file_extension($str) {
 		$parts = explode('.', $str);
 		return end($parts);
 	}
 
+	/**
+	 * @param null $country
+	 *
+	 * @return mixed|void
+	 */
 	public function get_shop_states($country = null) {
 		if (empty($country)) {
-			$country = $this->get_shop_country($country);
+			$country = $this->get_shop_country();
 		}
 		switch ($country) :
 			case 'US' :
@@ -1224,11 +1323,20 @@ class Settings extends Model {
 		return apply_filters('mprm_shop_states', $states, $country);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_tax_rates() {
 		$rates = $this->get_option('mprm_tax_rates', array());
 		return apply_filters('mprm_get_tax_rates', $rates);
 	}
 
+	/**
+	 * @param string $key
+	 * @param bool $default
+	 *
+	 * @return mixed|void
+	 */
 	public function get_option($key = '', $default = false) {
 		global $mprm_options;
 
@@ -1241,6 +1349,12 @@ class Settings extends Model {
 		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
 	}
 
+	/**
+	 * @param string $key
+	 * @param bool $value
+	 *
+	 * @return bool
+	 */
 	public function set_option($key = '', $value = false) {
 		global $mprm_options;
 
@@ -1251,6 +1365,11 @@ class Settings extends Model {
 		return update_option('mprm_settings', $mprm_options);
 	}
 
+	/**
+	 * @param array $input
+	 *
+	 * @return array|mixed|void
+	 */
 	public function mprm_settings_sanitize($input = array()) {
 		global $mprm_options;
 		if (empty($_POST['_wp_http_referer'])) {
@@ -1298,16 +1417,27 @@ class Settings extends Model {
 		return $output;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_ajax_disabled() {
 		$retval = !$this->get_option('enable_ajax_cart');
 		return apply_filters('mprm_is_ajax_disabled', $retval);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_ssl_enforced() {
 		$ssl_enforced = $this->get_option('enforce_ssl', false);
 		return (bool)apply_filters('mprm_is_ssl_enforced', $ssl_enforced);
 	}
 
+	/**
+	 * @param string $url
+	 *
+	 * @return string
+	 */
 	public function add_cache_busting($url = '') {
 		$no_cache_checkout = $this->get_option('no_cache_checkout', false);
 		if (Capabilities::get_instance()->is_caching_plugin_active() || ($this->get('checkout')->is_checkout() && $no_cache_checkout)) {
@@ -1316,17 +1446,26 @@ class Settings extends Model {
 		return $url;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_shop_country() {
 		$country = $this->get_option('base_country', 'US');
 		$country = apply_filters('mprm_shop_country', $country);
 		return $country;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_shop_state() {
 		$state = $this->get_option('base_state', false);
 		return apply_filters('mprm_shop_state', $state);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function logged_in_only() {
 		$ret = $this->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_logged_in_only', $ret);

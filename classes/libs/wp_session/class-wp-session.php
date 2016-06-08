@@ -41,12 +41,12 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 	 * @var bool|WP_Session
 	 */
 	private static $instance = false;
+
 	/**
 	 * Retrieve the current session instance.
-	 *
-	 * @param bool $session_id Session ID from which to populate data.
-	 *
 	 * @return bool|WP_Session
+	 * @internal param bool $session_id Session ID from which to populate data.
+	 *
 	 */
 	public static function get_instance() {
 		if (!self::$instance) {
@@ -54,12 +54,13 @@ final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Coun
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Default constructor.
 	 * Will rebuild the session collection from the given session ID if it exists. Otherwise, will
 	 * create a new session with that ID.
 	 *
-	 * @param $session_id
+	 * @internal param $session_id
 	 *
 	 * @uses apply_filters Calls `wp_session_expiration` to determine how long until sessions expire.
 	 */

@@ -5,4 +5,3 @@ $args = array(
 	'media_buttons' => false,
 );
 wp_editor($value, $name, $args);
-?>

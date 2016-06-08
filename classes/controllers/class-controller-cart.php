@@ -6,11 +6,18 @@ use mp_restaurant_menu\classes\Core;
 
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Controller_cart
+ * @package mp_restaurant_menu\classes\controllers
+ */
 class Controller_cart extends Controller {
 	protected static $instance;
 
 	private $date = array('data' => array());
 
+	/**
+	 * @return Controller_cart
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

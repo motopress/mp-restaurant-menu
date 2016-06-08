@@ -3,8 +3,17 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\libs\FB;
+
+/**
+ * Class Preprocessor
+ * @package mp_restaurant_menu\classes
+ */
 class Preprocessor extends GUMP {
 	protected static $instance;
+
+	/**
+	 * @return Preprocessor
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -20,9 +29,9 @@ class Preprocessor extends GUMP {
 	/**
 	 * Check for fatal
 	 *
-	 * @param type $buffer
+	 * @param mixed $buffer
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	static function fatal_error_handler($buffer) {
 		$error = error_get_last();
@@ -78,11 +87,14 @@ class Preprocessor extends GUMP {
 			trigger_error("Wrong {$action} in {$path}class-controller-{$page}.php");
 		}
 	}
+
 	/**
 	 * Progress
 	 *
 	 * @param array $params
 	 * @param string $name
+	 *
+	 * @param $type
 	 *
 	 * @return array
 	 */

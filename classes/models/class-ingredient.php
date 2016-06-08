@@ -1,8 +1,17 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
+
+/**
+ * Class Ingredient
+ * @package mp_restaurant_menu\classes\models
+ */
 class Ingredient extends Model {
 	protected static $instance;
+
+	/**
+	 * @return Ingredient
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

@@ -1,14 +1,27 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
+
+/**
+ * Class Settings_countries
+ * @package mp_restaurant_menu\classes\models
+ */
 class Settings_countries extends Model {
 	protected static $instance;
+
+	/**
+	 * @return Settings_countries
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
+
+	/**
+	 * @return mixed|void
+	 */
 	public function get_states_list() {
 		$states = array(
 			'' => '',

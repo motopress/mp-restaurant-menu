@@ -12,6 +12,9 @@ class Controller_menu_item extends Controller {
 	protected static $instance;
 	private $date;
 
+	/**
+	 * @return Controller_menu_item
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

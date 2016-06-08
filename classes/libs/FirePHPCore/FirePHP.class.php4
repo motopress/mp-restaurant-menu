@@ -361,7 +361,7 @@ class FirePHP {
 	 * @param array $Options OPTIONAL Instructions on how to log the group
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function group($Name, $Options = null) {
 
@@ -385,7 +385,7 @@ class FirePHP {
 	 * Ends a group you have started before
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function groupEnd() {
 		return $this->fb(null, null, FirePHP_GROUP_END);
@@ -400,7 +400,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function log($Object, $Label = null) {
 		return $this->fb($Object, $Label, FirePHP_LOG);
@@ -415,7 +415,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function info($Object, $Label = null) {
 		return $this->fb($Object, $Label, FirePHP_INFO);
@@ -430,7 +430,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function warn($Object, $Label = null) {
 		return $this->fb($Object, $Label, FirePHP_WARN);
@@ -445,7 +445,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function error($Object, $Label = null) {
 		return $this->fb($Object, $Label, FirePHP_ERROR);
@@ -460,7 +460,7 @@ class FirePHP {
 	 * @param mixed $Variable
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function dump($Key, $Variable) {
 		return $this->fb($Variable, $Key, FirePHP_DUMP);
@@ -474,7 +474,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function trace($Label) {
 		return $this->fb($Label, FirePHP_TRACE);
@@ -489,7 +489,7 @@ class FirePHP {
 	 * @param string $Table
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function table($Label, $Table) {
 		return $this->fb($Table, $Label, FirePHP_TABLE);
@@ -524,7 +524,7 @@ class FirePHP {
 	 * @param mixed $Object The variable to be logged
 	 *
 	 * @return true Return TRUE if message was added to headers, FALSE otherwise
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function fb($Object) {
 
@@ -838,7 +838,9 @@ class FirePHP {
 	/**
 	 * Get a request header
 	 *
-	 * @return string|false
+	 * @param $Name
+	 *
+	 * @return false|string
 	 */
 	function getRequestHeader($Name) {
 		$headers = $this->getAllRequestHeaders();
@@ -854,6 +856,8 @@ class FirePHP {
 	 * Uses PHP's jeson_encode() if available
 	 *
 	 * @param object $Object The object to be encoded
+	 *
+	 * @param bool $skipObjectEncode
 	 *
 	 * @return string The JSON string
 	 */
@@ -904,9 +908,11 @@ class FirePHP {
 	 * Encodes an object
 	 *
 	 * @param Object $Object The object to be encoded
-	 * @param int $Depth The current traversal depth
+	 * @param int $ObjectDepth
+	 * @param int $ArrayDepth
 	 *
 	 * @return array All members of the object
+	 * @internal param int $Depth The current traversal depth
 	 */
 	function encodeObject($Object, $ObjectDepth = 1, $ArrayDepth = 1) {
 		$return = array();
