@@ -1040,7 +1040,7 @@ class Hooks extends Core {
 		global $pagenow;
 		if ($pagenow == 'plugins.php') {
 			if (current_user_can('install_plugins') && current_user_can('manage_options')) {
-				if (!get_option('mprm_install_page' . get_current_user_id())) {
+				if (!get_option('mprm_install_page')) {
 					View::get_instance()->render_html('../admin/notices/install-plugin');
 
 				}
