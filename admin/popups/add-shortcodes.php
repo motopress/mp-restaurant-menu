@@ -1,4 +1,4 @@
-<form data-selector="shortcode-form">
+<form id="mprm-shortcode-form" data-selector="shortcode-form">
 	<div class="mprm-line" data-selector="data-line">
 		<div class="mprm-left-side"><?php _e('Shortcode type', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">
@@ -8,6 +8,8 @@
 			</select>
 		</div>
 	</div>
+
+
 	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
 		<div class="mprm-left-side"><?php _e('View mode', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">
@@ -23,7 +25,7 @@
 			<select name="view" data-selector="form_data">
 				<option value="grid"><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
 				<option value="list"><?php _e('List', 'mp-restaurant-menu'); ?></option>
-				<!--<option value="tab"><?php /*_e('Tab', 'mp-restaurant-menu'); */ ?></option>-->
+				<option value="flat-list"><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
 			</select>
 		</div>
 	</div>
@@ -69,6 +71,19 @@
 			</select>
 		</div>
 	</div>
+
+	<div class="mprm-line hidden" data-display="mprm_items" data-selector="data-line">
+		<div class="mprm-left-side"><?php _e('Price position:', 'mp-restaurant-menu'); ?></div>
+		<div class="mprm-right-side">
+			<select name="price_pos" data-selector="form_data">
+				<option value="points"> <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
+				<option value="right"> <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
+				<option value="after_title"> <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
+			</select>
+		</div>
+	</div>
+
+
 	<div class="mprm-line" data-display="mprm_items" data-selector="data-line">
 		<div class="mprm-left-side"><?php _e('Show category name', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">
@@ -77,18 +92,6 @@
 				<option value="with_img"><?php _e('Title with image', 'mp-restaurant-menu'); ?></option>
 				<option value="none"><?php _e('Don`t show', 'mp-restaurant-menu'); ?></option>
 			</select>
-		</div>
-	</div>
-	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
-		<div class="mprm-left-side"><?php _e('Show category name', 'mp-restaurant-menu'); ?></div>
-		<div class="mprm-right-side">
-			<input type="checkbox" name="categ_name" checked value="1" data-selector="form_data"/>
-		</div>
-	</div>
-	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
-		<div class="mprm-left-side"><?php _e('Show category featured image', 'mp-restaurant-menu'); ?></div>
-		<div class="mprm-right-side">
-			<input type="checkbox" name="feat_img" checked value="1" data-selector="form_data"/>
 		</div>
 	</div>
 	<div class="mprm-line" data-display="mprm_items" data-selector="data-line">
@@ -140,6 +143,18 @@
 		</div>
 	</div>
 	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
+		<div class="mprm-left-side"><?php _e('Show category name', 'mp-restaurant-menu'); ?></div>
+		<div class="mprm-right-side">
+			<input type="checkbox" name="categ_name" checked value="1" data-selector="form_data"/>
+		</div>
+	</div>
+	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
+		<div class="mprm-left-side"><?php _e('Show category featured image', 'mp-restaurant-menu'); ?></div>
+		<div class="mprm-right-side">
+			<input type="checkbox" name="feat_img" checked value="1" data-selector="form_data"/>
+		</div>
+	</div>
+	<div class="mprm-line" data-display="mprm_categories" data-selector="data-line">
 		<div class="mprm-left-side"><?php _e('Show category icon', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">
 			<input type="checkbox" name="categ_icon" checked value="1" data-selector="form_data"/>
@@ -175,6 +190,8 @@
 			<input type="text" name="desc_length" data-selector="form_data" placeholder="">
 		</div>
 	</div>
+
+
 	<div class="mprm-line stick" data-selector="data-line">
 		<input class="button button-primary button-large" type="button" data-selector="insert_shortcode" value="<?php _e('Insert shortcode', 'mp-restaurant-menu'); ?>"/>
 	</div>

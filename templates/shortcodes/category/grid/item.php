@@ -1,8 +1,9 @@
 <?php
 global $mprm_view_args, $mprm_term;
 $icon = mprm_get_category_icon();
+$featured_image = mprm_get_feat_image();
 ?>
-<div class="mprm-menu-category mprm-effect-hover <?php echo get_column_class($mprm_view_args['col']); ?> " style="background-image: <?php echo (mprm_has_category_image() && $mprm_view_args['feat_img']) ? "url('" . mprm_get_category_image('large') . "')" : 'none'; ?>">
+<div class="mprm-menu-category mprm-effect-hover <?php echo get_column_class($mprm_view_args['col']); ?> " style="background-image: <?php echo (mprm_has_category_image() && $featured_image) ? "url('" . mprm_get_category_image('large') . "')" : 'none'; ?>">
 	<a class="mprm-link" href="<?php echo get_term_link($mprm_term); ?>">
 		<div class="mprm-effect-hover"></div>
 		<div class="mprm-category-content">

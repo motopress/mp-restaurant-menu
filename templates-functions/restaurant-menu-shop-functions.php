@@ -1,7 +1,7 @@
 <?php
-use \mp_restaurant_menu\classes\models;
-use \mp_restaurant_menu\classes\Core as Core;
-use \mp_restaurant_menu\classes\View as View;
+use mp_restaurant_menu\classes\Core as Core;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\View as View;
 
 function mprm_before_purchase_form() {
 }
@@ -1155,5 +1155,13 @@ function mprm_get_purchase_history_page() {
 	return empty($history_page_url) ? '' : $history_page_url;
 }
 
+/**
+ * @return string
+ */
+function mprm_get_view_price_position() {
+	global $mprm_view_args;
+	$price_position = empty($mprm_view_args['price_pos']) ? 'points' : $mprm_view_args['price_pos'];
+	return $price_position;
+}
 
 

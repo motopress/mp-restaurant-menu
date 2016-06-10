@@ -1,7 +1,7 @@
 <?php global $mprm_view_args, $mprm_term;
 $title = !empty($mprm_term) ? $mprm_term->name : '';
 $icon = mprm_get_category_icon();
-if ('none' !== $mprm_view_args['categ_name']) {
+if (!empty($mprm_view_args['categ_name']) && 'none' !== $mprm_view_args['categ_name']) {
 	if (mprm_has_category_image() && ('with_img' == $mprm_view_args['categ_name'])) {
 		?>
 		<div class="mprm-header with-image" style="background-image: url('<?php echo (mprm_has_category_image()) ? mprm_get_category_image('large') : 'none'; ?>')">
