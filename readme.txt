@@ -55,6 +55,9 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 == Changelog ==
 
+= 1.1.2 =
+* Minor bugfixes
+
 = 1.1.1 =
 * Bug fix: fixed an issue with TGM Plugin Activation
 
