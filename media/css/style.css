@@ -1301,14 +1301,20 @@ there.
 .mprm-plugin-styles a.mprm-submit.mprm-small,
 .mprm-plugin-styles input.mprm-submit.mprm-small {
   padding: 0.25em 0.5em;
+  font-size: 0.75em;
+  line-height: 1.2;
 }
 .mprm-plugin-styles a.mprm-submit.mprm-middle,
 .mprm-plugin-styles input.mprm-submit.mprm-middle {
   padding: 0.5em 1em;
+  font-size: 0.9em;
+  line-height: 1.2;
 }
 .mprm-plugin-styles a.mprm-submit.mprm-big,
 .mprm-plugin-styles input.mprm-submit.mprm-big {
   padding: 0.85em 1.7em;
+  font-size: 1.1em;
+  line-height: 1.2;
 }
 .mprm-plugin-styles a.mprm-submit.gray,
 .mprm-plugin-styles input.mprm-submit.gray {
