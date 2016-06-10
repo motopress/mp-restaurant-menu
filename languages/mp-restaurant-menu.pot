@@ -1,4 +1,4 @@
-#, fuzzy
+﻿#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Restaurant Menu\n"
@@ -352,15 +352,15 @@ msgid "Customer successfully updated."
 msgstr ""
 
 #: admin/notices/install-plugin.php:2
-msgid "Restaurant Menu plugin"
+msgid "Restaurant Menu Plugin - eCommerce Setup"
 msgstr ""
 
 #: admin/notices/install-plugin.php:3
-msgid "Checkout, Purchase History, Success and Fail pages are required to sell food and beverages online. Press \"Install Pages\" button to create these pages. Dismiss this notice if you already have them installed."
+msgid "Press \"Activate eCommerce\" button to activate eCommerce option and create Checkout pages. Press \"Skip\" if you do not want to sell food and beverages online."
 msgstr ""
 
 #: admin/notices/install-plugin.php:5
-msgid "Install Pages"
+msgid "Activate eCommerce"
 msgstr ""
 
 #: admin/notices/install-plugin.php:6

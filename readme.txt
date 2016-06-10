@@ -3,15 +3,15 @@ Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
 Tags: restaurant, menu
 Requires at least: 3.6
-Tested up to: 4.4.2
+Tested up to: 4.5.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create and maintain modern online menus for almost any kind of restaurant.
+Create and maintain modern online menus for almost any kind of restaurant. Sell food and beverages online. All in one plugin.
 
 == Description ==
-MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for building online menus of restaurants, cafes and other typical food establishments on any WordPress website. Menus can be displayed in pages, posts, and sidebars using shortcodes which are a perfect tool for creating complex content with minimum efforts. Non-tech WordPress users will value the intuitive system of both shortcode settings and the entire menu instruments. Applying a simple set of operations you will be able to customize menu design, add and categorize unlimited menu items, create and feature/hide all needed tags and ingredients, choose whether to display particular items, switch on/off all needed settings for individual items and categories any time and much more.
+MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for building online menus of restaurants, cafes and other typical food establishments on any WordPress website. One great advantage of the plugin is a powerful eCommerce tool to help you sell food and drinks online without any technical help. Menus can be displayed in pages, posts, and sidebars using shortcodes which are a perfect tool for creating complex content with minimum efforts. Non-tech WordPress users will value the intuitive system of both shortcode settings and the entire menu instruments. Applying a simple set of operations you will be able to customize menu design, add and categorize unlimited menu items, create and feature/hide all needed tags and ingredients, choose whether to display particular items, switch on/off all needed settings for individual items and categories any time and much more.
 
 * Check [Restaurant Menu Plugin Demo](http://mprmdemo.getmotopress.com)
 * Please find the step-by-step instructions of working with the plugin [here](http://www.getmotopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
@@ -31,6 +31,14 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 * Setting subtitle for individual menu item
 * Options for setting currency
 
+= eCommerce possibilities =
+* PayPal and Cash on Delivery payment methods
+* Test payments to check how the system works for your particular website
+* Payments made by registered and unregistered website users
+* Shopping cart software and quick checkout process
+* Order statuses for shoppers to enhance their experience of tracking the purchase (cooking, shipping, shipped)
+* Customizable email templates (confirmation, payments, notifications) to send both website administrator and shoppers
+
 == Installation ==
 
 1. Upload the plugin files to the /wp-content/plugins/ directory
@@ -46,6 +54,9 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 6. Lightbox of Menu item' Gallery Images
 
 == Changelog ==
+
+= 1.1.1 =
+* Bug fix: fixed an issue with TGM Plugin Activation
 
 = 1.1.0 =
 * Added the ability to sell online
