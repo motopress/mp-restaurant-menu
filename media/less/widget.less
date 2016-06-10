@@ -300,6 +300,111 @@
 		margin-bottom: 1rem;
 	  }
 	}
+	&.mprm-view-flat-list {
+
+	  .type-mp_menu_item {
+		.mprm-title {
+		  &.mprm-price-wrapper-flat-view-class {
+			position: relative;
+			display: table;
+			width: 100%;
+			&.mprm-points {
+			  .mprm-background-flat-view {
+				background: #fff;
+			  }
+			  &:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 1rem;
+				border-bottom: 1px dotted #000;
+			  }
+			}
+			&.mprm-after_title {
+			  display: initial;
+			  .cell-left {
+				max-width: 75%;
+				float: left;
+				display: inline-block;
+			  }
+			  .cell-right {
+				float: left;
+				display: inline-block;
+				width: auto;
+			  }
+
+			}
+			.cell-left {
+			  span {
+				padding-right: 5px;
+				white-space: pre-wrap;
+			  }
+			  position: relative;
+			  display: table-cell;
+			  vertical-align: top;
+			}
+			.cell-right {
+			  position: relative;
+			  display: table-cell;
+			  vertical-align: top;
+			  width: 1px;
+			  padding-left: 5px;
+			}
+		  }
+
+		}
+	  }
+	  .mprm-ingredients {
+		.mprm-list {
+		  list-style: outside none none;
+		  margin: 0;
+		  padding: 0;
+		  font-size: 80%;
+		  line-height: 1.1;
+		  .mprm-ingredient, .mprm-ingredients-delimiter {
+			float: left;
+			margin: 0;
+		  }
+		  .mprm-ingredients-delimiter {
+			margin: 0;
+			font-size: 0;
+			&:last-child {
+			  display: none;
+			}
+			&:before {
+			  display: inline-block;
+			  content: ",";
+			  font-size: 1rem;
+			}
+
+		  }
+		}
+	  }
+	  .mprm-proportions {
+		.mprm-list {
+		  list-style: outside none none;
+		  margin: 0;
+		  padding: 0;
+		  font-size: 0.8em;
+		  line-height: 1.2;
+		  .mprm-proportion {
+			font-style: italic;
+			margin: 0;
+		  }
+		}
+	  }
+
+	  .mprm-tags {
+		.mprm-tag {
+		  font-size: 0.75em;
+		  line-height: 1;
+		  border: 1px solid #606060;
+		  padding: 0 0.5rem;
+		}
+	  }
+
+	}
 
   }
 }

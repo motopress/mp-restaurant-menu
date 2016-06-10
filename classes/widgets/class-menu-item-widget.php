@@ -72,6 +72,7 @@ class Menu_item_widget extends \WP_Widget {
 				'categ_name' => 'only_text',
 				'feat_img' => '1',
 				'excerpt' => '1',
+				'price_pos' => 'points',
 				'price' => '1',
 				'tags' => '1',
 				'ingredients' => '1',

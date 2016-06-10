@@ -8,23 +8,7 @@
 				mprm_set_current_term($data['term']);
 				mprm_get_template('common/item-taxonomy-header');
 			}
-			foreach ($data['posts'] as $key => $post) :
-				setup_postdata($post);
-				if (($key % $col) === 0) {
-					$i = 1;
-					?>
-					<div class="mprm-row">
-					<?php
-				}
-				mprm_set_menu_item($post->ID);
-				render_current_html();
-				if (($i % $col) === 0 || $last_key === $key) {
-					?>
-					</div>
-				<?php }
-				$i++;
-				wp_reset_postdata();
-			endforeach;
+			list($post, $i) = create_grid_by_posts($data, $col);
 		} ?>
 		<div class="mprm-clear"></div>
 	</div>

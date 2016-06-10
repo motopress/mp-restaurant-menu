@@ -5,8 +5,9 @@
 <p>
 	<label for="<?php echo $widget_object->get_field_id('view') ?>"><?php _e('View mode', 'mp-restaurant-menu'); ?></label>
 	<select class="widefat" id="<?php echo $widget_object->get_field_id('view') ?>" name="<?php echo $widget_object->get_field_name('view') ?>">
-		<option value="grid" <?php echo !empty($view) && $view == 'grid' ? 'selected=""' : '' ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
-		<option value="list" <?php echo !empty($view) && $view == 'list' ? 'selected=""' : '' ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
+		<option value="grid" <?php selected($view, 'grid'); ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
+		<option value="list" <?php selected($view, 'list'); ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
+		<option value="flat-list" <?php selected($view, 'flat-list'); ?>><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
 <p>
@@ -46,6 +47,14 @@
 	</select>
 </p>
 <p>
+	<label for="<?php echo $widget_object->get_field_id('price_pos') ?>"><?php _e('Price position', 'mp-restaurant-menu'); ?></label>
+	<select id="<?php echo $widget_object->get_field_id('price_pos') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('price_pos') ?>">
+		<option value="points"> <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
+		<option value="right"> <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
+		<option value="after_title"> <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
+	</select>
+</p>
+<p>
 	<label for="<?php echo $widget_object->get_field_id('categ_name') ?>"><?php _e('Show category name', 'mp-restaurant-menu'); ?></label>
 	<select id="<?php echo $widget_object->get_field_id('categ_name') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('categ_name') ?>">
 		<option value="only_text" <?php echo !empty($categ_name) && $categ_name == 'only_text' ? 'selected=""' : '' ?>><?php _e('Only text', 'mp-restaurant-menu'); ?></option>
@@ -65,6 +74,7 @@
 	<input id="<?php echo $widget_object->get_field_id('excerpt') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('excerpt') ?>" <?php echo isset($excerpt) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('excerpt') ?>"><?php _e('Show excerpt', 'mp-restaurant-menu'); ?></label>
 </p>
+
 <p>
 	<input id="<?php echo $widget_object->get_field_id('price') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('price') ?>" <?php echo isset($price) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('price') ?>"><?php _e('Show price', 'mp-restaurant-menu'); ?></label>
@@ -85,3 +95,8 @@
 	<label for="<?php echo $widget_object->get_field_id('desc_length') ?>"><?php _e('Description length', 'mp-restaurant-menu'); ?></label>
 	<input id="<?php echo $widget_object->get_field_id('desc_length') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('desc_length') ?>" value="<?php echo !empty($desc_length) ? $desc_length : '' ?>">
 </p>
+
+<!--<p>-->
+<!--	<label for="--><?php //echo $widget_object->get_field_id('categ_name') ?><!--">--><?php //_e('Description length', 'mp-restaurant-menu'); ?><!--</label>-->
+<!--	<input id="--><?php //echo $widget_object->get_field_id('categ_name') ?><!--" type="text" class="widefat" name="--><?php //echo $widget_object->get_field_name('categ_name') ?><!--"--><?php //echo isset($categ_name) ? 'checked=""' : '' ?><!-- value="">-->
+<!--</p>-->
