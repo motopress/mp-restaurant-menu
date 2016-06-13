@@ -1486,7 +1486,6 @@ function create_grid_by_posts($data, $col) {
 	$last_key = array_search(end($data['posts']), $data['posts']);
 
 	foreach ($data['posts'] as $key => $post) :
-
 		setup_postdata($post);
 		if (($key % $col) === 0) {
 			$i = 1; ?>

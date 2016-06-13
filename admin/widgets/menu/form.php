@@ -4,7 +4,8 @@
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('view') ?>"><?php _e('View mode', 'mp-restaurant-menu'); ?></label>
-	<select class="widefat" id="<?php echo $widget_object->get_field_id('view') ?>" name="<?php echo $widget_object->get_field_name('view') ?>">
+
+	<select class="widefat mprm-widget-view" id="<?php echo $widget_object->get_field_id('view') ?>" name="<?php echo $widget_object->get_field_name('view') ?>">
 		<option value="grid" <?php selected($view, 'grid'); ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
 		<option value="list" <?php selected($view, 'list'); ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
 		<option value="flat-list" <?php selected($view, 'flat-list'); ?>><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
@@ -46,19 +47,19 @@
 		<option value="6" class="event-column-6">6 <?php _e('columns', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
-<p>
+<p class="mprm-widget-price_pos <?php echo ($view === 'flat-list') ? '' : 'hidden' ?>">
 	<label for="<?php echo $widget_object->get_field_id('price_pos') ?>"><?php _e('Price position', 'mp-restaurant-menu'); ?></label>
-	<select id="<?php echo $widget_object->get_field_id('price_pos') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('price_pos') ?>">
-		<option value="points"> <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
-		<option value="right"> <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
-		<option value="after_title"> <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
+	<select id="<?php echo $widget_object->get_field_id('price_pos') ?>" class="widefat mprm-widget-price_pos hidden" name="<?php echo $widget_object->get_field_name('price_pos') ?>">
+		<option value="points" <?php selected($price_pos, 'points') ?>>  <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
+		<option value="right" <?php selected($price_pos, 'right') ?>>  <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
+		<option value="after_title" <?php selected($price_pos, 'after_title') ?>>  <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
 <p>
 	<label for="<?php echo $widget_object->get_field_id('categ_name') ?>"><?php _e('Show category name', 'mp-restaurant-menu'); ?></label>
-	<select id="<?php echo $widget_object->get_field_id('categ_name') ?>" class="widefat" name="<?php echo $widget_object->get_field_name('categ_name') ?>">
+	<select id="<?php echo $widget_object->get_field_id('categ_name') ?>" class="widefat mprm-widget-categ_name" name="<?php echo $widget_object->get_field_name('categ_name') ?>">
 		<option value="only_text" <?php echo !empty($categ_name) && $categ_name == 'only_text' ? 'selected=""' : '' ?>><?php _e('Only text', 'mp-restaurant-menu'); ?></option>
-		<option value="with_img" <?php echo !empty($categ_name) && $categ_name == 'with_img' ? 'selected=""' : '' ?>><?php _e('Title with image', 'mp-restaurant-menu'); ?></option>
+		<option class="<?php echo ($view !== 'flat-list') ? '' : 'hidden' ?>" value="with_img" <?php echo !empty($categ_name) && $categ_name == 'with_img' ? 'selected=""' : '' ?>><?php _e('Title with image', 'mp-restaurant-menu'); ?></option>
 		<option value="none" <?php echo !empty($categ_name) && $categ_name == 'none' ? 'selected=""' : '' ?>><?php _e('Don`t show', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
@@ -66,8 +67,8 @@
 	<input id="<?php echo $widget_object->get_field_id('show_attributes') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('show_attributes') ?>" <?php echo isset($show_attributes) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('show_attributes') ?>"><?php _e('Show attributes', 'mp-restaurant-menu'); ?></label>
 </p>
-<p>
-	<input id="<?php echo $widget_object->get_field_id('feat_img') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('feat_img') ?>" <?php echo isset($feat_img) ? 'checked=""' : '' ?> />
+<p class="mprm-widget-feat_img <?php echo ($view !== 'flat-list') ? '' : 'hidden' ?>">
+	<input id="<?php echo $widget_object->get_field_id('feat_img') ?>" class="checkbox mprm-widget-feat_img" type="checkbox" name="<?php echo $widget_object->get_field_name('feat_img') ?>" <?php echo isset($feat_img) ? 'checked=""' : '' ?>/>
 	<label for="<?php echo $widget_object->get_field_id('feat_img') ?>"><?php _e('Show featured image', 'mp-restaurant-menu'); ?></label>
 </p>
 <p>
@@ -95,8 +96,3 @@
 	<label for="<?php echo $widget_object->get_field_id('desc_length') ?>"><?php _e('Description length', 'mp-restaurant-menu'); ?></label>
 	<input id="<?php echo $widget_object->get_field_id('desc_length') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('desc_length') ?>" value="<?php echo !empty($desc_length) ? $desc_length : '' ?>">
 </p>
-
-<!--<p>-->
-<!--	<label for="--><?php //echo $widget_object->get_field_id('categ_name') ?><!--">--><?php //_e('Description length', 'mp-restaurant-menu'); ?><!--</label>-->
-<!--	<input id="--><?php //echo $widget_object->get_field_id('categ_name') ?><!--" type="text" class="widefat" name="--><?php //echo $widget_object->get_field_name('categ_name') ?><!--"--><?php //echo isset($categ_name) ? 'checked=""' : '' ?><!-- value="">-->
-<!--</p>-->

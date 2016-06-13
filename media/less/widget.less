@@ -301,58 +301,89 @@
 	  }
 	}
 	&.mprm-view-flat-list {
+	  .mprm-header {
+		position: relative;
+		width: 100%;
+		&.with-image {
+		  color: @white;
+		  margin-bottom: 2rem;
+		  background-position: center center;
+		  background-size: cover;
 
-	  .type-mp_menu_item {
-		.mprm-title {
-		  &.mprm-price-wrapper-flat-view-class {
+		  .mprm-header-content {
+			padding: 6rem 2rem;
 			position: relative;
-			display: table;
-			width: 100%;
-			&.mprm-points {
-			  .mprm-background-flat-view {
-				background: #fff;
+			text-align: center;
+			.mprm-title {
+			  .mprm-icon {
+				margin: 0 1rem 0 0;
+				font-size: 1.2em;
 			  }
-			  &:before {
-				content: '';
-				position: absolute;
-				left: 0;
-				right: 0;
-				top: 1rem;
-				border-bottom: 1px dotted #000;
-			  }
-			}
-			&.mprm-after_title {
-			  display: initial;
-			  .cell-left {
-				max-width: 75%;
-				float: left;
-				display: inline-block;
-			  }
-			  .cell-right {
-				float: left;
-				display: inline-block;
-				width: auto;
-			  }
-
-			}
-			.cell-left {
-			  span {
-				padding-right: 5px;
-				white-space: pre-wrap;
-			  }
-			  position: relative;
-			  display: table-cell;
-			  vertical-align: top;
-			}
-			.cell-right {
-			  position: relative;
-			  display: table-cell;
-			  vertical-align: top;
-			  width: 1px;
-			  padding-left: 5px;
 			}
 		  }
 
+		}
+		&.only-text {
+		  padding: 0 0 2rem;
+		}
+	  }
+
+	  .mprm-title, .mprm-ingredients, .mprm-proportions, .mprm-tags, .mprm-excerpt, .mprm_menu_item_buy_button {
+		margin-bottom: 1rem;
+	  }
+	  .type-mp_menu_item {
+		.mprm-flex-container-flat-view {
+		  margin: 0 0 1em 0;
+		  padding: 0;
+		  list-style: none;
+		  width: 100%;
+		  display: flex;
+		  flex-flow: row wrap;
+
+		  .mprm-flex-item {
+			&.mprm-dots {
+			  border-bottom: 1px dotted #0a0a0a;
+			  flex: 1;
+			  align-self: flex-end;
+			  flex-basis: 5%;
+			  margin-bottom: 0.5em;
+			}
+			&.mprm-price {
+			  align-self: flex-end;
+			}
+
+		  }
+		  &.mprm-right {
+			.mprm-flex-item {
+			  &.mprm-dots {
+				border: none;
+				margin-bottom: 0;
+			  }
+			}
+		  }
+
+		  &.mprm-after_title {
+			.mprm-flex-item {
+			  &.mprm-dots {
+				display: none;
+			  }
+			  &.mprm-price {
+				margin-left: 0.5em;;
+			  }
+			}
+		  }
+		}
+		@media (max-width: @bp-larger-than-phablet) {
+		  .mprm-flex-container-flat-view {
+			&.mprm-after_title {
+			  .mprm-flex-item {
+				flex: 2 0 0;
+				&.mprm-price {
+				  flex: 1 0 0;
+				}
+			  }
+			}
+		  }
 		}
 	  }
 	  .mprm-ingredients {
@@ -367,17 +398,10 @@
 			margin: 0;
 		  }
 		  .mprm-ingredients-delimiter {
-			margin: 0;
-			font-size: 0;
+			margin: 0 0.25rem;
 			&:last-child {
 			  display: none;
 			}
-			&:before {
-			  display: inline-block;
-			  content: ",";
-			  font-size: 1rem;
-			}
-
 		  }
 		}
 	  }

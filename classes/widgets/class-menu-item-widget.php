@@ -45,8 +45,13 @@ class Menu_item_widget extends \WP_Widget {
 	 */
 	public function form($instance) {
 		$data = $this->get_data($instance);
+		if ($data['view'] == 'flat-list') {
+			$data['feat_img'] = '';
+			$data['categ_name'] = (empty($data['categ_name']) || $data['with_img']) ? 'only_text' : $data['categ_name'];
+		}
 		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
 		$data['menu_tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
+		$data['price_pos'] = empty($data['price_pos']) ? 'points' : $data['price_pos'];
 		$data['widget_object'] = $this;
 		$data['categ'] = !empty($instance['categ']) ? $instance['categ'] : array();
 		$data['tags_list'] = !empty($instance['tags_list']) ? $instance['tags_list'] : array();
@@ -90,9 +95,13 @@ class Menu_item_widget extends \WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget($args, $instance) {
+		global $mprm_view_args, $mprm_widget_args;
 		Media::get_instance()->add_plugin_js('widget');
 		$data = $this->get_data($instance);
-		global $mprm_view_args, $mprm_widget_args;
+		if ($data['view'] == 'flat-list') {
+			$data['feat_img'] = '';
+			$data['categ_name'] = (empty($data['categ_name']) || $data['with_img']) ? 'only_text' : $data['categ_name'];
+		}
 		$mprm_view_args = $data;
 		$mprm_view_args['action_path'] = "widgets/menu/{$data['view']}/item";
 		$mprm_widget_args = $args;

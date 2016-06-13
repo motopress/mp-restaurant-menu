@@ -1125,6 +1125,8 @@ class Media extends Core {
 					wp_enqueue_media();
 					break;
 				case "customize":
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
 					break;
 				default:
 					break;

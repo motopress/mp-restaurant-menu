@@ -1747,7 +1747,6 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Theme module
  */
@@ -1781,6 +1780,35 @@ MP_RM_Registry.register("Theme", (function($) {
 					}
 				});
 
+
+			},
+			viewParams: function(parent, view) {
+				switch (view) {
+					case "flat-list" :
+						parent.find('.mprm-widget-feat_img').addClass('hidden');
+						parent.find(' select.mprm-widget-categ_name option[value="with_img"]').change('only_text').addClass('hidden');
+						parent.find('.mprm-widget-price_pos').removeClass('hidden');
+						break;
+					case "grid" :
+					case "list" :
+					default:
+						parent.find('.mprm-widget-feat_img').removeClass('hidden');
+						parent.find(' select.mprm-widget-categ_name option[value="with_img"]').change('only_text').removeClass('hidden');
+						parent.find('.mprm-widget-price_pos').addClass('hidden');
+						break;
+				}
+			},
+			customizeWidget: function() {
+				$.each($('.mprm-widget-view'), function(index, element) {
+					var parent = $(this).parents('.widget-content');
+					var view = $(this).val();
+					state.viewParams(parent, view);
+				});
+				$(document.body).on('change', '.mprm-widget-view', function() {
+					var parent = $(this).parents('.widget-content');
+					var view = $(this).val();
+					state.viewParams(parent, view);
+				});
 			}
 
 		};
@@ -1838,7 +1866,9 @@ MP_RM_Registry.register("Theme", (function($) {
 
 		MP_RM_Registry._get('Menu-Shop').removeFromCart();
 
-
+		if ($('.mprm-widget-view').length) {
+			MP_RM_Registry._get("Theme").customizeWidget();
+		}
 		if ($('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();
 		}
