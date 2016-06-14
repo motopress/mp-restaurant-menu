@@ -12,7 +12,7 @@
 					mprm_get_template('common/item-taxonomy-header');
 				}
 				list($post, $i) = create_grid_by_posts($data, $col);
-			} elseif ($view == 'flat-list') {
+			} elseif ($view == 'simple-list') {
 				$last_key = array_search(end($term_data), $term_data);
 				if (($term % $col) === 0 && !empty($data['term'])) {
 					$i = 1;

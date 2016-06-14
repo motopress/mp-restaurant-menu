@@ -25,7 +25,7 @@
 			<select name="view" data-selector="form_data">
 				<option value="grid"><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
 				<option value="list"><?php _e('List', 'mp-restaurant-menu'); ?></option>
-				<option value="flat-list"><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
+				<option value="simple-list"><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
 			</select>
 		</div>
 	</div>

@@ -918,7 +918,7 @@ function mprm_menu_item_list_header() {
 /**
 * Shortcode Flat view header
  */
-function mprm_menu_item_flat_list_header() {
+function mprm_menu_item_simple_list_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		 if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
@@ -992,10 +992,10 @@ function mprm_menu_item_list_title() {
 	mprm_get_template('common/item-shortcode-title', array('mprm_menu_item' => $mprm_menu_item, 'mprm_view_args' => $mprm_view_args));
 }
 
-function mprm_menu_item_list_title_flat() {
+function mprm_menu_item_list_title_simple() {
 	global $mprm_view_args;
 	global $mprm_menu_item;
-	mprm_get_template('common/item-shortcode-title-flat', array('mprm_menu_item' => $mprm_menu_item, 'mprm_view_args' => $mprm_view_args));
+	mprm_get_template('common/item-shortcode-title-simple', array('mprm_menu_item' => $mprm_menu_item, 'mprm_view_args' => $mprm_view_args));
 }
 
 /**
@@ -1067,9 +1067,9 @@ function mprm_menu_item_list_footer() {
 	<?php
 }
 /**
- *Menu item flat list footer
+ *Menu item simple list footer
  */
-function mprm_menu_item_flat_list_footer() {
+function mprm_menu_item_simple_list_footer() {
 	?>
 	</div>
 	<?php

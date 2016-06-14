@@ -17,7 +17,7 @@
 			$('#mprm-shortcode-form').on('change', 'select[name="view"]', function() {
 
 				switch ($(this).val()) {
-					case"flat-list" :
+					case"simple-list" :
 						$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');
 						$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').removeClass('hidden');
 						break;

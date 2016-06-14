@@ -1,10 +1,11 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
+
 use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\models\Menu_category;
 use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
-use mp_restaurant_menu\classes\models\Menu_category;
 
 /**
  * Class Shortcode_Item
@@ -22,6 +23,7 @@ class Shortcode_Item extends Shortcodes {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Init shortode item
 	 *
@@ -36,6 +38,7 @@ class Shortcode_Item extends Shortcodes {
 		$mprm_view_args['action_path'] = "shortcodes/menu/{$args['view']}/item";
 		return View::get_instance()->render_html("shortcodes/menu/index", $args, false);
 	}
+
 	/**
 	 * Integration in motopress
 	 *
@@ -48,7 +51,7 @@ class Shortcode_Item extends Shortcodes {
 			'view' => array(
 				'type' => 'select',
 				'label' => __('View mode', 'mp-restaurant-menu'),
-				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu')),
+				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu'),'simple_list' => __('Simple list', 'mp-restaurant-menu')),
 				'default' => 'grid'
 			),
 			'categ' => array(
@@ -83,6 +86,16 @@ class Shortcode_Item extends Shortcodes {
 					'none' => __('Don`t show', 'mp-restaurant-menu'),
 				),
 				'default' => 'only_text'
+			),
+			'price_pos' => array(
+				'type' => 'select',
+				'label' => __('Price position', 'mp-restaurant-menu'),
+				'list' => array(
+					'points' => __('Dotted line', 'mp-restaurant-menu'),
+					'right' => __('Price from the left', 'mp-restaurant-menu'),
+					'after_title' => __('Price next to the title', 'mp-restaurant-menu'),
+				),
+				'default' => 'right'
 			),
 			'show_attributes' => array(
 				'type' => 'radio-buttons',

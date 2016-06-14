@@ -1784,7 +1784,7 @@ MP_RM_Registry.register("Theme", (function($) {
 			},
 			viewParams: function(parent, view) {
 				switch (view) {
-					case "flat-list" :
+					case "simple-list" :
 						parent.find('.mprm-widget-feat_img').addClass('hidden');
 						parent.find(' select.mprm-widget-categ_name option[value="with_img"]').change('only_text').addClass('hidden');
 						parent.find('.mprm-widget-price_pos').removeClass('hidden');
