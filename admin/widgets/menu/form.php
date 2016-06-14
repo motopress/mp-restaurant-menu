@@ -50,8 +50,8 @@
 <p class="mprm-widget-price_pos <?php echo ($view === 'simple-list') ? '' : 'hidden' ?>">
 	<label for="<?php echo $widget_object->get_field_id('price_pos') ?>"><?php _e('Price position', 'mp-restaurant-menu'); ?></label>
 	<select id="<?php echo $widget_object->get_field_id('price_pos') ?>" class="widefat mprm-widget-price_pos" name="<?php echo $widget_object->get_field_name('price_pos') ?>">
-		<option value="points" <?php selected($price_pos, 'points') ?>>  <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
-		<option value="right" <?php selected($price_pos, 'right') ?>>  <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
+		<option value="points" <?php selected($price_pos, 'points') ?>><?php _e('Dotted line and price on the right', 'mp-restaurant-menu'); ?></option>
+		<option value="right" <?php selected($price_pos, 'right') ?>><?php _e('Price on the right', 'mp-restaurant-menu'); ?></option>
 		<option value="after_title" <?php selected($price_pos, 'after_title') ?>>  <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>

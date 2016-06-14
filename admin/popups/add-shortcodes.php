@@ -76,9 +76,9 @@
 		<div class="mprm-left-side"><?php _e('Price position:', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">
 			<select name="price_pos" data-selector="form_data">
-				<option value="points"> <?php _e('Dotted line', 'mp-restaurant-menu'); ?></option>
-				<option value="right"> <?php _e('Price from the left', 'mp-restaurant-menu'); ?></option>
-				<option value="after_title"> <?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
+				<option value="points"><?php _e('Dotted line and price on the right', 'mp-restaurant-menu'); ?></option>
+				<option value="right"><?php _e('Price on the right', 'mp-restaurant-menu'); ?></option>
+				<option value="after_title"><?php _e('Price next to the title', 'mp-restaurant-menu'); ?></option>
 			</select>
 		</div>
 	</div>

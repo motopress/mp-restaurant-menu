@@ -91,8 +91,8 @@ class Shortcode_Item extends Shortcodes {
 				'type' => 'select',
 				'label' => __('Price position', 'mp-restaurant-menu'),
 				'list' => array(
-					'points' => __('Dotted line', 'mp-restaurant-menu'),
-					'right' => __('Price from the left', 'mp-restaurant-menu'),
+					'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
+					'right' => __('Price on the right', 'mp-restaurant-menu'),
 					'after_title' => __('Price next to the title', 'mp-restaurant-menu'),
 				),
 				'dependency' => array(
