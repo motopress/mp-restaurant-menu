@@ -1502,3 +1502,12 @@ function create_grid_by_posts($data, $col) {
 
 	return array($post, $i);
 }
+/**
+* @param $data
+ */
+function render_term_header($data) {
+	if (!empty($data['posts']) && !empty($data['term'])) {
+		mprm_set_current_term($data['term']);
+		mprm_get_template('common/item-taxonomy-header');
+	}
+}
