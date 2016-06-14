@@ -341,6 +341,7 @@
 		  flex-flow: row wrap;
 
 		  .mprm-flex-item {
+			white-space: pre-wrap;
 			&.mprm-dots {
 			  border-bottom: 1px dotted #0a0a0a;
 			  flex: 1;
@@ -377,10 +378,14 @@
 		  .mprm-flex-container-flat-view {
 			&.mprm-after_title {
 			  .mprm-flex-item {
-				flex: 2 0 0;
-				&.mprm-price {
-				  flex: 1 0 0;
+				&:first-child {
+				  flex-basis: auto;
+				  max-width: 75%;
 				}
+				&.mprm-dots {
+				  display: none;
+				}
+
 			  }
 			}
 		  }

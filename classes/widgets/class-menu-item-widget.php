@@ -47,7 +47,7 @@ class Menu_item_widget extends \WP_Widget {
 		$data = $this->get_data($instance);
 		if ($data['view'] == 'flat-list') {
 			$data['feat_img'] = '';
-			$data['categ_name'] = (empty($data['categ_name']) || $data['with_img']) ? 'only_text' : $data['categ_name'];
+			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
 		}
 		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
 		$data['menu_tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
@@ -100,7 +100,7 @@ class Menu_item_widget extends \WP_Widget {
 		$data = $this->get_data($instance);
 		if ($data['view'] == 'flat-list') {
 			$data['feat_img'] = '';
-			$data['categ_name'] = (empty($data['categ_name']) || $data['with_img']) ? 'only_text' : $data['categ_name'];
+			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
 		}
 		$mprm_view_args = $data;
 		$mprm_view_args['action_path'] = "widgets/menu/{$data['view']}/item";
