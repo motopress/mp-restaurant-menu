@@ -51,7 +51,7 @@ class Shortcode_Item extends Shortcodes {
 			'view' => array(
 				'type' => 'select',
 				'label' => __('View mode', 'mp-restaurant-menu'),
-				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu'),'simple_list' => __('Simple list', 'mp-restaurant-menu')),
+				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu'), 'simple-list' => __('Simple list', 'mp-restaurant-menu')),
 				'default' => 'grid'
 			),
 			'categ' => array(
@@ -94,6 +94,10 @@ class Shortcode_Item extends Shortcodes {
 					'points' => __('Dotted line', 'mp-restaurant-menu'),
 					'right' => __('Price from the left', 'mp-restaurant-menu'),
 					'after_title' => __('Price next to the title', 'mp-restaurant-menu'),
+				),
+				'dependency' => array(
+					'parameter' => 'view',
+					'value' => 'simple-list'
 				),
 				'default' => 'right'
 			),
