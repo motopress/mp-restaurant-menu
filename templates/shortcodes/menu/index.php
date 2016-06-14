@@ -3,12 +3,21 @@ $term_data = mprm_get_term_menu_items();
 ?>
 <div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 
-	<?php foreach ($term_data as $term => $data) {
+	<?php /**
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	function term_header($data) {
+		if (!empty($data['posts']) && !empty($data['term'])) {
+			mprm_set_current_term($data['term']);
+			mprm_get_template('common/item-taxonomy-header');
+			return $data;
+		}
+		return $data;
+	}foreach ($term_data as $term => $data) {
 		if (in_array($view, array('list', 'grid'))) {
-			if (!empty($data['posts']) && !empty($data['term'])) {
-				mprm_set_current_term($data['term']);
-				mprm_get_template('common/item-taxonomy-header');
-			}
+			$data = term_header($data);
 			list($post, $i) = create_grid_by_posts($data, $col);
 		} elseif ($view == 'simple-list') {
 			$last_key = array_search(end($term_data), $term_data);
@@ -20,12 +29,11 @@ $term_data = mprm_get_term_menu_items();
 
 		if ((empty($current_term) || $current_term != $data['term']) && !empty($data['term'])) { ?>
 			<div class=" <?php echo get_column_class($col); ?>">
-		<?php }
+			<?php
+		}
 
-			if (!empty($data['posts']) && !empty($data['term'])) {
-				mprm_set_current_term($data['term']);
-				mprm_get_template('common/item-taxonomy-header');
-			}
+			$data = term_header($data);
+
 			if (empty($data['term'])) {
 				list($post, $i) = create_grid_by_posts($data, $col);
 			} else {
@@ -48,7 +56,8 @@ $term_data = mprm_get_term_menu_items();
 			if ((($i % $col) === 0 || $last_key === $term) && !empty($data['term'])) {
 				?>
 				</div>
-			<?php }
+				<?php
+			}
 			$i++;
 		}
 	} ?>
