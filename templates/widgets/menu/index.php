@@ -1,6 +1,6 @@
 <?php before_mprm_widget() ?>
 <?php the_mprm_widget_title(); ?>
-<?php $term_data = array_values(mprm_get_term_menu_items());; ?>
+<?php $term_data = mprm_get_term_menu_items();; ?>
 
 <?php global $post; ?>
 	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">

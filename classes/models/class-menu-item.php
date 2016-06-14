@@ -368,6 +368,7 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_category')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		}
 
@@ -385,6 +386,7 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_tag')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		}
 
@@ -409,13 +411,15 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_category')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		} elseif (empty($category_ids) && empty($tags_ids) && !empty($args['item_ids'])) {
 			$items[0] = array('term' => '', 'posts' => get_posts($params));
 		} elseif (empty($category_ids) && empty($tags_ids) && empty($args['item_ids'])) {
 			$items[0] = array('term' => '', 'posts' => get_posts($params));
 		}
-		return $items;
+
+		return $this->get('menu_category')->sort_category_order($items);
 	}
 
 	/**

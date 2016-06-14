@@ -1,4 +1,8 @@
 <div class="form-field" id='fp_icon_field'>
+	<label for="category-order"><?php _e('Order', 'mp-restaurant-menu'); ?></label>
+	<input type="text" id="category-order" name="term_meta[order]"/>
+</div>
+<div class="form-field" id='fp_icon_field'>
 	<label for="IconPicker"><?php _e('Icon', 'mp-restaurant-menu'); ?>
 	</label>
 	<input type="text" id="IconPicker" name="term_meta[iconname]"/>

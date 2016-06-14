@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\models\parents\Term;
 use mp_restaurant_menu\classes\View;
 
@@ -19,6 +20,7 @@ class Menu_category extends Term {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Add form field hook
 	 *
@@ -29,6 +31,7 @@ class Menu_category extends Term {
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/add_form_fields", $data);
 	}
+
 	/**
 	 * Edit form field
 	 *
@@ -41,12 +44,15 @@ class Menu_category extends Term {
 			$data = array(
 				'iconname' => '',
 				'thumbnail_id' => '',
+				'order' => '0',
 			);
 		}
 		$data['placeholder'] = MP_RM_MEDIA_URL . 'img/placeholder.png';
+		$data['order'] = empty($data['order']) ? '0' : $data['order'];
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/edit_form_fields", $data);
 	}
+
 	/**
 	 * Get term params
 	 *
@@ -66,6 +72,12 @@ class Menu_category extends Term {
 		if ($wp_version >= 4.4 && empty($term_meta)) {
 			$term_meta = get_option("mprm_taxonomy_{$term_id}");
 		}
+		$defaults = array(
+			'iconname' => '',
+			'thumbnail_id' => '',
+			'order' => '0'
+		);
+		$term_meta = wp_parse_args($term_meta, $defaults);
 		// thumbnail value
 		if (!empty($term_meta['thumbnail_id'])) {
 			$term_meta['thumb_url'] = wp_get_attachment_thumb_url($term_meta['thumbnail_id']);
@@ -74,7 +86,7 @@ class Menu_category extends Term {
 			$term_meta['image'] = $attachment_image_src[0];
 		}
 		if (!empty($field)) {
-			return empty($term_meta) ? false : $term_meta[$field];
+			return empty($term_meta) ? false : (isset($term_meta[$field]) ? $term_meta[$field] : $term_meta[$field]);
 		} else {
 			return $term_meta;
 		}
@@ -87,7 +99,7 @@ class Menu_category extends Term {
 	 * @return bool
 	 */
 	public function get_term_image($mprm_term, $size = 'mprm-big') {
-		if (!empty($mprm_term->term_id)) {
+		if (!empty($mprm_term) && is_object($mprm_term)) {
 			$term_meta = $this->get_term_params($mprm_term->term_id);
 			if (!empty($term_meta['thumbnail_id'])) {
 				$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
@@ -107,7 +119,7 @@ class Menu_category extends Term {
 	 * @return mixed|string|void
 	 */
 	public function get_term_icon($mprm_term) {
-		if (!empty($mprm_term)) {
+		if (!empty($mprm_term) && is_object($mprm_term)) {
 			$icon = $this->get_term_params($mprm_term->term_id, 'iconname');
 			return (empty($icon) ? '' : $icon);
 		} else {
@@ -116,6 +128,8 @@ class Menu_category extends Term {
 	}
 
 	/**
+	 * Get term order
+	 *
 	 * @param $mprm_term
 	 *
 	 * @return bool
@@ -132,6 +146,7 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
+
 	/**
 	 * Save menu category
 	 *
@@ -151,6 +166,7 @@ class Menu_category extends Term {
 			}
 		}
 	}
+
 	/**
 	 * Get categories by ids
 	 *
@@ -159,10 +175,59 @@ class Menu_category extends Term {
 	 * @return array
 	 */
 	public function get_categories_by_ids($ids = array()) {
+		$temp_terms = $sort_terms = array();
 		$taxonomy = $this->get_tax_name('menu_category');
 		$terms = $this->get_terms($taxonomy, $ids);
+		if (!empty($terms)) {
+			foreach ($terms as $key => $term) {
+				$temp_terms[$key] = array('order' => $this->get_term_order($term), 'term' => $term);
+			}
+			$temp_terms = $this->sort_category_order($temp_terms);
+			foreach ($temp_terms as $key_temp => $temp_term) {
+				$sort_terms[$key_temp] = $temp_term['term'];
+			}
+			return $sort_terms;
+
+		}
 		return $terms;
 	}
+
+	/**
+	 * Get term order
+	 *
+	 * @param $mprm_term
+	 *
+	 * @return mixed|string|void
+	 */
+	public function get_term_order($mprm_term) {
+		if (!empty($mprm_term) && is_object($mprm_term)) {
+			$order = $this->get_term_params($mprm_term->term_id, 'order');
+			return (empty($order) ? '0' : $order);
+		} elseif (!empty($mprm_term) && is_numeric($mprm_term)) {
+			$order = $this->get_term_params($mprm_term, 'order');
+			return (empty($order) ? '0' : $order);
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Sort category by order
+	 *
+	 * @param $items
+	 *
+	 * @return mixed
+	 */
+	public function sort_category_order($items) {
+		usort($items, function ($a, $b) {
+			if ($a['order'] == $b['order']) {
+				return 0;
+			}
+			return ($a['order'] < $b['order']) ? -1 : 1;
+		});
+		return $items;
+	}
+
 	/**
 	 * Get category options
 	 *

@@ -1,6 +1,5 @@
 <?php global $post;
-$term_data = array_values(mprm_get_term_menu_items());
-
+$term_data = mprm_get_term_menu_items();
 ?>
 <div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 
@@ -46,7 +45,6 @@ $term_data = array_values(mprm_get_term_menu_items());
 			</div>
 			<?php $current_term = $data['term'];
 		}
-
 			if ((($i % $col) === 0 || $last_key === $term) && !empty($data['term'])) {
 				?>
 				</div>
