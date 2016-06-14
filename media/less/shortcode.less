@@ -371,14 +371,31 @@
 		  .mprm-flex-container-simple-view {
 			&.mprm-after_title {
 			  .mprm-flex-item {
-				flex: 2 0 0;
+				&:first-child {
+				  flex-basis: auto;
+				  max-width: 75%;
+				}
+				&.mprm-dots {
+				  display: none;
+				}
 				&.mprm-price {
-				  flex: 1 0 0;
+				  margin-left: 0.5em;;
+				}
+			  }
+			}
+			&.mprm-right {
+			  .mprm-flex-item {
+				&:first-child {
+				  flex-basis: 75%;
+				}
+				&.mprm-dots {
+				  display: none;
 				}
 			  }
 			}
 		  }
 		}
+
 	  }
 	  .mprm-ingredients {
 		.mprm-list {
