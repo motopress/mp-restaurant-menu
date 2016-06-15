@@ -1810,7 +1810,6 @@ MP_RM_Registry.register("Theme", (function($) {
 					state.viewParams(parent, view);
 				});
 			}
-
 		};
 	}
 

@@ -1727,6 +1727,33 @@ there.
 .mprm-clear:after {
   clear: both;
 }
+.mprm-main-wrapper a,
+.mprm-container a,
+.mprm-main-wrapper a.mprm-link,
+.mprm-container a.mprm-link {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.mprm-main-wrapper a:focus,
+.mprm-container a:focus,
+.mprm-main-wrapper a.mprm-link:focus,
+.mprm-container a.mprm-link:focus,
+.mprm-main-wrapper a:visited,
+.mprm-container a:visited,
+.mprm-main-wrapper a.mprm-link:visited,
+.mprm-container a.mprm-link:visited,
+.mprm-main-wrapper a:hover,
+.mprm-container a:hover,
+.mprm-main-wrapper a.mprm-link:hover,
+.mprm-container a.mprm-link:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: initial;
+}
 .mprm-form-error {
   border-color: #a94442;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);

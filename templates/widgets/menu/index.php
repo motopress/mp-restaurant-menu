@@ -23,7 +23,7 @@ $term_data = mprm_get_term_menu_items(); ?>
 				if (($term % $col) === 0 && !empty($data['term'])) {
 					$i = 1;
 					?>
-					<div class="mprm-row">
+					<div class="<?php echo mprm_grid_container_class() ?>">
 				<?php }
 
 			if ((empty($current_term) || $current_term != $data['term']) && !empty($data['term'])) { ?>

@@ -539,24 +539,26 @@ function get_mprm_menu_item_ID() {
  * @return string
  */
 function get_column_class($type) {
+	$column_class = apply_filters('mprm-grid-column-class','mprm-columns');
+
 	switch ($type) {
 		case '1':
-			$class = 'mprm-columns mprm-twelve';
+			$class = $column_class.' mprm-twelve';
 			break;
 		case '2':
-			$class = 'mprm-columns mprm-six';
+			$class = $column_class.' mprm-six';
 			break;
 		case '3':
-			$class = ' mprm-columns mprm-four';
+			$class = $column_class.' mprm-four';
 			break;
 		case '4':
-			$class = 'mprm-columns mprm-three';
+			$class = $column_class.' mprm-three';
 			break;
 		case '6':
-			$class = 'mprm-columns mprm-two';
+			$class = $column_class.' mprm-two';
 			break;
 		default :
-			$class = 'mprm-columns mprm-twelve';
+			$class = $column_class.' mprm-twelve';
 			break;
 	}
 	return $class;
@@ -1489,7 +1491,7 @@ function create_grid_by_posts($data, $col) {
 		setup_postdata($post);
 		if (($key % $col) === 0) {
 			$i = 1; ?>
-			<div class="mprm-row">
+			<div class="<?php echo mprm_grid_container_class() ?>">
 		<?php }
 		mprm_set_menu_item($post->ID);
 		render_current_html();
@@ -1523,4 +1525,11 @@ function mprm_menu_item_after_content(){
 if (!empty($mprm_view_args['link_item'])) { ?>
 	</a>
 <?php }
+}
+
+/**
+* @return mixed|void
+ */
+function mprm_grid_container_class(){
+	return apply_filters('mprm-row-class','mprm-row');
 }

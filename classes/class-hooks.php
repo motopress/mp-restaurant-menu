@@ -754,8 +754,16 @@ class Hooks extends Core {
 
 		add_filter('views_edit-mprm_order', array($this, 'clear_admin_filter'));
 		// Bulk / quick edit
-		//add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
-		//add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
+		add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
+		add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
+		// Edit
+		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
+		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
+
+		add_filter('manage_edit-mp_menu_item_columns', array($this, 'remove_posts_column'));
+		add_filter('manage_edit-mprm_order_columns', array($this, 'remove_posts_column'));
+
+
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
 		add_action('load-edit.php', array($this, 'bulk_action'));
@@ -766,16 +774,17 @@ class Hooks extends Core {
 
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
-		// List posts
+		// Menu item List posts
 		add_filter("manage_{$this->get_post_type('menu_item')}_posts_columns", array(Post::get_instance(), "init_menu_columns"), 10);
 		add_action("manage_{$this->get_post_type('menu_item')}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
 		// Disable Auto Save
 		add_action('admin_print_scripts', array(Media::get_instance(), 'disable_autosave'));
+
 		// Manage and sortable order
 		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
 		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
 		add_action("manage_edit-{$this->get_post_type('order')}_sortable_columns", array(Order::get_instance(), "order_sortable_columns"), 10, 2);
-		add_filter('request', array($this, 'order_order_total_orderby'));
+		add_filter('request', array($this, 'order_total_orderby'));
 
 		// ajax redirect
 		add_action('wp_ajax_route_url', array(Core::get_instance(), "wp_ajax_route_url"));
@@ -848,7 +857,7 @@ class Hooks extends Core {
 	 *
 	 * @return array
 	 */
-	public function order_order_total_orderby($vars) {
+	public function order_total_orderby($vars) {
 		if (isset($vars['orderby']) && 'order_total' == $vars['orderby'] && $vars['post_type'] == 'mprm_order') {
 			$vars = array_merge($vars, array(
 				'meta_key' => '_mprm_order_total',
@@ -965,6 +974,62 @@ class Hooks extends Core {
 		$wp->query_vars['post__in'] = array_filter($post_ids);
 	}
 
+	/**
+	 * Add advanced post_status
+	 */
+	public function bulk_admin_footer() {
+		global $post_type;
+		$order_statuses = mprm_get_payment_statuses();
+		if ('mprm_order' == $post_type) {
+			?>
+			<script type="text/javascript">
+				jQuery(function() {
+					<?php foreach($order_statuses as $key => $value): ?>
+					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
+					<?php endforeach;?>
+				});
+			</script>
+			<?php
+		}
+	}
+
+	/**
+	 * @param $column_name
+	 * @param $post_type
+	 */
+	public function quick_edit($column_name, $post_type) {
+//
+//static $printNonce = TRUE;
+//		if ( $printNonce ) {
+//			$printNonce = FALSE;
+//			wp_nonce_field( plugin_basename( __FILE__ ), 'book_edit_nonce' );
+//		}
+		switch ($post_type) {
+			case "{$this->post_types['menu_item']}":
+				$this->get_view()->render_html('../admin/quick-edit/menu-item', array('column_name' => $column_name), true);
+				break;
+			case "{$this->post_types['order']}":
+				break;
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * @param $column_name
+	 * @param $post_type
+	 */
+	public function bulk_edit($column_name, $post_type) {
+
+		if ('mprm_info' == $column_name && ($this->post_types['menu_item'] == $post_type)) {
+			$this->get_view()->render_html('../admin/metaboxes/sku');
+		}
+	}
+
+	/**
+	 * Bulk action
+	 */
 	public function bulk_action() {
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
 		$action = $wp_list_table->current_action();
@@ -1002,30 +1067,47 @@ class Hooks extends Core {
 		exit();
 	}
 
-	public function bulk_admin_footer() {
-		global $post_type;
-		$order_statuses = mprm_get_payment_statuses();
-		if ('mprm_order' == $post_type) {
-			?>
-			<script type="text/javascript">
-				jQuery(function() {
-					<?php foreach($order_statuses as $key => $value): ?>
-					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
-					<?php endforeach;?>
-				});
-			</script>
-			<?php
+	/**
+	 * Add posts column by post type
+	 *
+	 * @param $posts_columns
+	 * @param $post_type
+	 *
+	 * @return mixed
+	 */
+	public function add_posts_column($posts_columns, $post_type) {
+		switch ($post_type) {
+			case "{$this->post_types['menu_item']}":
+				$posts_columns['mprm_info'] = __('Additional information', 'mp-restaurant-menu');
+				break;
+			case "{$this->post_types['order']}":
+				break;
+			default:
+				break;
 		}
+
+		return $posts_columns;
+
 	}
 
 	/**
-	 * @param $column_name
-	 * @param $post_type
+	 * @param $posts_columns
+	 *
+	 * @return mixed
 	 */
-	public function quick_edit($column_name, $post_type) {
+	public function remove_posts_column($posts_columns) {
+		global $post_type;
 
-
+		switch ($post_type) {
+			case "{$this->post_types['menu_item']}":
+				unset($posts_columns['mprm_info']);
+				break;
+			case "{$this->post_types['order']}":
+				break;
+			default:
+				break;
+		}
+		return $posts_columns;
 	}
 
 	/**
@@ -1061,13 +1143,8 @@ class Hooks extends Core {
 	}
 
 	/**
-	 * @param $column_name
-	 * @param $post_type
+	 * Show admin notices
 	 */
-	public function bulk_edit($column_name, $post_type) {
-
-	}
-
 	public function show_admin_notices() {
 		global $pagenow;
 		if ($pagenow == 'plugins.php') {
@@ -1087,6 +1164,9 @@ class Hooks extends Core {
 		}
 	}
 
+	/**
+	 * Dismiss admin notice
+	 */
 	public function dismiss_admin_notices() {
 
 	}
