@@ -6,7 +6,9 @@ the_mprm_widget_title();
 $term_data = mprm_get_term_menu_items(); ?>
 
 <?php global $post; ?>
+
 	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
+
 		<?php foreach ($term_data as $term => $data) {
 
 			if (in_array($view, array('list', 'grid'))) {
@@ -28,10 +30,8 @@ $term_data = mprm_get_term_menu_items(); ?>
 				<div class=" <?php echo get_column_class($col); ?>">
 			<?php }
 
-				if (!empty($data['posts']) && !empty($data['term'])) {
-					mprm_set_current_term($data['term']);
-					mprm_get_template('common/item-taxonomy-header');
-				}
+				render_term_header($data);
+
 				if (empty($data['term'])) {
 					list($post, $i) = create_grid_by_posts($data, $col);
 				} else {
@@ -51,7 +51,6 @@ $term_data = mprm_get_term_menu_items(); ?>
 				</div>
 				<?php $current_term = $data['term'];
 			}
-
 				if ((($i % $col) === 0 || $last_key === $term) && !empty($data['term'])) {
 					?>
 					</div>
@@ -59,6 +58,8 @@ $term_data = mprm_get_term_menu_items(); ?>
 				$i++;
 			}
 		} ?>
+
 		<div class="mprm-clear"></div>
 	</div>
+
 <?php after_mprm_widget() ?>
