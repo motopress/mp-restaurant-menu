@@ -265,15 +265,17 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_attributes()
 		 * @see mprm_menu_item_list_excerpt()
 		 */
-		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_header', 5);
-//		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_right_header', 15);
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_before_content', 5);
+
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_header', 10);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_title_simple', 20);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_ingredients', 25);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_attributes', 30);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_excerpt', 35);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_tags', 40);
-//		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_right_footer', 55);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 60);
+
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 50);
 
 		/**
 		 * Menu item list

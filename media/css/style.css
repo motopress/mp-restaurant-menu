@@ -416,6 +416,9 @@ there.
 .mprm-container.mprm-shortcode-items {
   margin: 2rem 0;
 }
+.mprm-container.mprm-shortcode-items .mprm-link {
+  outline: none;
+}
 .mprm-container.mprm-shortcode-items .mprm-title,
 .mprm-container.mprm-shortcode-items .mprm-ingredients,
 .mprm-container.mprm-shortcode-items .mprm-proportions,
@@ -455,9 +458,6 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-image {
   height: auto;
   width: 100%;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-link {
-  outline: none;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-title {
   margin: 1rem 0;
@@ -535,9 +535,6 @@ there.
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-image {
   margin: 0 2rem 2rem 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-link {
-  outline: none;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-title {
   margin: 1rem 0;
