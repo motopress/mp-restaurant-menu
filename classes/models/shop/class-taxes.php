@@ -1,4 +1,5 @@
 <?php namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\Model;
 
 /**
@@ -143,12 +144,6 @@ class Taxes extends Model {
 		return apply_filters('mprm_taxes_on_prices_on_checkout', $ret);
 	}
 
-	/**
-	 * @param bool $country
-	 * @param bool $state
-	 *
-	 * @return mixed|void
-	 */
 	function get_formatted_tax_rate($country = false, $state = false) {
 		$rate = $this->get_tax_rate($country, $state);
 		$rate = round($rate * 100, 4);
@@ -156,16 +151,10 @@ class Taxes extends Model {
 		return apply_filters('mprm_formatted_tax_rate', $formatted, $rate, $country, $state);
 	}
 
-	/**
-	 * @return bool
-	 */
 	function is_cart_taxed() {
 		return $this->use_taxes();
 	}
 
-	/**
-	 * @return bool
-	 */
 	function cart_needs_tax_address_fields() {
 		if (!$this->is_cart_taxed())
 			return false;

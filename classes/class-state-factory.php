@@ -1,7 +1,9 @@
 <?php
 namespace mp_restaurant_menu\classes;
+
 //model
 use mp_restaurant_menu\classes\Model;
+
 /**
  * Singleton factory
  */
@@ -27,6 +29,7 @@ class State_Factory {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Get register instance object
 	 *
@@ -46,6 +49,7 @@ class State_Factory {
 		}
 		return $model;
 	}
+
 	/**
 	 * Get controller instance object
 	 *
@@ -62,6 +66,7 @@ class State_Factory {
 		}
 		return $controller;
 	}
+
 	/**
 	 *  Get Preprocessor instance object
 	 *

@@ -14,6 +14,7 @@ class Image extends Model {
 	/**
 	 * Image constructor.
 	 */
+
 	public function __construct() {
 		parent::__construct();
 		$this->sizes = include(MP_RM_CONFIGS_PATH . 'img-sizes.php');

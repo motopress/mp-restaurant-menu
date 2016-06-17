@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\shortcodes;
+
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
@@ -20,6 +21,7 @@ class Shortcode_Checkout extends Shortcodes {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Render shortcode
 	 *

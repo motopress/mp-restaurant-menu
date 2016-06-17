@@ -103,12 +103,9 @@ class Core {
 	 * @param $name
 	 */
 	public function init_plugin($name) {
-		global $mprm_options;
-		ob_start('mp_restaurant_menu\classes\Preprocessor::fatal_error_handler');
-		// run session
-		if (!session_id()) {
-			session_start();
-		}
+
+		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
+
 		// Include plugin models files
 		Model::install();
 		// Include plugin controllers files
@@ -163,23 +160,6 @@ class Core {
 	}
 
 	/**
-	 * Load language file
-	 *
-	 * @param bool $domain
-	 *
-	 * @return bool
-	 */
-	public function load_language($domain = false) {
-		if (empty($domain)) {
-			return false;
-		}
-		$locale = get_option("locate", true);
-		$moFile = MP_RM_LANG_PATH . "{$domain}-{$locale}.mo";
-		$result = load_textdomain($domain, $moFile);
-		return $result;
-	}
-
-	/**
 	 * Install current state
 	 *
 	 * @param $name
@@ -195,7 +175,6 @@ class Core {
 	public function wp_ajax_route_url() {
 		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
 		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
-		//$type = "defrozo";
 		if (!empty($action)) {
 			// call controller
 			Preprocessor::get_instance()->call_controller($action, $controller);

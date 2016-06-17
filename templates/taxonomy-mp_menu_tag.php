@@ -1,27 +1,27 @@
 <?php get_header(); ?>
 <?php mprm_get_taxonomy(); ?>
-<?php do_action('mprm-single-category-before-wrapper'); ?>
+<?php do_action('mprm_tag_before_wrapper'); ?>
 <div <?php post_class(apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
 	<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-tag-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-tag') ?> ">
 		<?php
 		/**
-		 * mprm_before_category_header hook
+		 * mprm_before_tag_header hook
 		 *
-		 * @hooked mprm_before_category_header - 10
+		 * @hooked mprm_before_tag_header - 10
 		 */
-		do_action('mprm_before_category_header');
+		do_action('mprm_before_tag_header');
 		/**
-		 * mprm_category_header hook
+		 * mprm_tag_header hook
 		 *
-		 * @hooked mprm_category_header - 5
+		 * @hooked mprm_tag_header - 5
 		 */
-		do_action('mprm_category_header');
+		do_action('mprm_tag_header');
 		/**
-		 * mprm_after_category_header hook
+		 * mprm_after_tag_header hook
 		 *
-		 * @hooked mprm_after_category_header - 10
+		 * @hooked mprm_after_tag_header - 10
 		 */
-		do_action('mprm_after_category_header');
+		do_action('mprm_after_tag_header');
 		?>
 		<?php if (is_mprm_taxonomy_grid()): ?>
 			<?php foreach (mprm_get_menu_items_by_term() as $term => $data) {
@@ -53,11 +53,11 @@
 						do_action('mprm_taxonomy_list');
 						do_action('mprm_after_taxonomy_list');
 						/**
-						 * mprm_after_category_list hook
+						 * mprm_after_tag_list hook
 						 *
-						 * @hooked mprm_after_category_list - 10
+						 * @hooked mprm_after_tag_list - 10
 						 */
-						do_action('mprm_after_category_list'); ?>
+						do_action('mprm_after_tag_list'); ?>
 					</div>
 					<?php
 				endforeach;
@@ -65,5 +65,8 @@
 		<?php endif; ?>
 	</div>
 </div>
-<?php do_action('mprm-single-category-after-wrapper'); ?>
-<?php get_footer(); ?>
+<?php
+do_action('mprm_tag_after_wrapper');
+get_footer();
+
+?>

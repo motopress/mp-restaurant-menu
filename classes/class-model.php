@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes;
+
 /**
  * Model class
  */

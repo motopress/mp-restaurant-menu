@@ -62,7 +62,7 @@ $header_content_h1 = "
 		<tr>
 			<td align="center" valign="top">
 				<?php if (!empty($header_img)) : ?>
-					<div id="template_header_image" >
+					<div id="template_header_image">
 						<?php echo '<p style="margin-top:0;"><img style="max-width: 520px" src="' . esc_url($header_img) . '" alt="' . get_bloginfo('name') . '" /></p>'; ?>
 					</div>
 				<?php endif; ?>

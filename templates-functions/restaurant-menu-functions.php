@@ -1,5 +1,9 @@
 <?php
-use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes;
+use mp_restaurant_menu\classes\Core;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\modules\Breadcrumbs;
+use mp_restaurant_menu\classes\View;
 
 /**
  * Add class wrapper
@@ -30,6 +34,7 @@ function mprm_theme_wrapper_before() {
 			break;
 	}
 }
+
 
 /**
  * Add class shortocode/widget wrapper class
@@ -1114,6 +1119,31 @@ function mprm_menu_item_grid_header() {
 	}
 }
 
+function mprm_menu_item_before_content(){
+	global $mprm_view_args;
+if (!empty($mprm_view_args['link_item'])) { ?>
+	<a class="mprm-link" href="<?php the_permalink() ?>">
+<?php }
+}
+
+function mprm_menu_item_after_content(){
+	global $mprm_view_args;
+if (!empty($mprm_view_args['link_item'])) { ?>
+	</a>
+<?php }
+}
+
+function mprm_category_menu_item_before_content(){
+	?>
+	<a class="mprm-link" href="<?php the_permalink() ?>">
+<?php }
+
+function mprm_category_menu_item_after_content(){
+	?>
+	</a>
+<?php }
+
+
 /**
  * Menu item Grid image
  *
@@ -1311,7 +1341,11 @@ function mprm_menu_item_price() {
  * Menu item content
  */
 function mprm_menu_item_content() {
-	the_content();
+	?>
+	<div class="mprm-post-content">
+		<?php the_content(); ?>
+	</div>
+	<?php
 }
 
 /**

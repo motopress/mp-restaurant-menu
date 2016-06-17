@@ -1,5 +1,18 @@
 .mprm-main-wrapper.mp_menu_item {
 
+  .mprm-post-content {
+	margin-bottom: 2rem;
+	*zoom: 1;
+	&:before,
+	&:after {
+	  display: table;
+	  content: "";
+	  line-height: 0;
+	}
+	&:after {
+	  clear: both;
+	}
+  }
   .mprm-header {
 	position: relative;
 
@@ -139,6 +152,23 @@
 			  padding: 0;
 			}
 		  }
+		}
+	  }
+	}
+  }
+}
+
+@media (max-width: 480px) {
+  .mprm-main-wrapper.mp_menu_item {
+	.mprm-container {
+	  .mprm-row {
+		display: flex;
+		flex-flow: column;
+		.mprm-content {
+		  order: 2;
+		}
+		.mprm-sidebar {
+		  order: 1;
 		}
 	  }
 	}

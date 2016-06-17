@@ -91,6 +91,7 @@
   .mprm-container {
 	width: @container-width-larger-than-mobile;
 	padding: 0;
+
   }
 }
 
@@ -297,6 +298,7 @@ there.
 
 /* Larger than mobile */
 @media (min-width: @bp-larger-than-mobile) {
+
 }
 
 /* Larger than phablet (also point when grid becomes active) */
@@ -319,6 +321,13 @@ there.
   .mprm-column {
 	.mprm-columns {
 	  margin-bottom: 1rem;
+	}
+  }
+
+  .mprm-columns {
+	margin-bottom: @column-margin;
+	&:last-child {
+	  margin-bottom: 0;
 	}
   }
 }

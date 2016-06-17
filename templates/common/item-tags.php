@@ -7,7 +7,7 @@ if (empty($tags)) {
 		<?php if (!empty($tags)):
 			foreach ($tags as $tag) {
 				?>
-				<span class="mprm-tag"><?php echo $tag->name ?></span>
+				<span class="mprm-tag <?php echo 'mprm-tag-' . $tag->slug; ?>"><?php echo $tag->name ?></span>
 			<?php } endif; ?>
 	</p>
 <?php endif; ?>

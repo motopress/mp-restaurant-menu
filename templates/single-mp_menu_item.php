@@ -1,5 +1,5 @@
 <?php get_header();
-do_action('mprm-before-main-wrapper');
+do_action('mprm_single_before_wrapper');
 while (have_posts()) : the_post(); ?>
 	<div <?php post_class(apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
 		<?php
@@ -26,5 +26,5 @@ while (have_posts()) : the_post(); ?>
 	</div>
 	<?php
 endwhile;
-do_action('mprm-after-main-wrapper');
+do_action('mprm_single_after_wrapper');
 get_footer(); ?>

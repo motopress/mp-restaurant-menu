@@ -295,7 +295,13 @@ final class Order extends Model {
 						}
 						$username .= '</a>';
 					} else {
-						$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $order->user_info['id']) . '">' . $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . '<br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
+						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $order->user_info['email']));
+						if (!empty($customer)) {
+							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . ' </a><br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
+						} else {
+							$username = $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . '<br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
+						}
+
 					}
 				} else {
 					if ($post->billing_first_name || $post->billing_last_name) {

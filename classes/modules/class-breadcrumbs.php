@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
+
 use mp_restaurant_menu\classes\Module;
 
 /**
@@ -18,6 +19,7 @@ class Breadcrumbs extends Module {
 		}
 		return self::$instance;
 	}
+
 	// Breadcrumbs
 	/**
 	 * @param array $params

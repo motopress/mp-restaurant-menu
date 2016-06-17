@@ -16,6 +16,7 @@ class Shortcodes extends Core {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Install shortcodes
 	 */
@@ -23,6 +24,7 @@ class Shortcodes extends Core {
 		// include all core controllers
 		Core::include_all(MP_RM_CLASSES_PATH . 'shortcodes/');
 	}
+
 	/**
 	 * Create list for Motopress
 	 *

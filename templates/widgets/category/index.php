@@ -2,8 +2,9 @@
 <?php the_mprm_widget_title() ?>
 <div class="<?php echo apply_filters('mprm-widget-category-wrapper-class', 'mprm-container mprm-widget-categories mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 	<?php $categories = mprm_get_categories();
+	$categories = array_values($categories);
 	$last_key = array_search(end($categories), $categories);
-	foreach (array_values($categories) as $key => $term):
+	foreach ($categories as $key => $term):
 		if (($key % $col) === 0) {
 			$i = 1; ?>
 			<div class="<?php echo mprm_grid_container_class() ?>">

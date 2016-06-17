@@ -1,5 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
+
 use mp_restaurant_menu\classes\models\parents\Term;
 
 /**
@@ -18,6 +19,7 @@ class Menu_tag extends Term {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Get tags by ids
 	 *

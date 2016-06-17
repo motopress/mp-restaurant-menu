@@ -6,20 +6,18 @@
 	margin: 2rem 0;
 
 	&.mprm-view-list {
-
 	  .mprm-menu-category {
 		.mprm-category-list-image {
 		  float: left;
 		  margin: 0 2rem 2rem 0;
 		}
-		.mprm-category-content {
-		  overflow: hidden;
-		  min-width: 1rem;
-
-		  .mprm-link {
-			outline: none;
-			margin: 0;
-			padding: 0;
+		.mprm-link {
+		  outline: none;
+		  margin: 0;
+		  padding: 0;
+		  .mprm-category-content {
+			overflow: hidden;
+			min-width: 1rem;
 			.mprm-title {
 			  margin: 0;
 			  padding: 0;
@@ -84,6 +82,7 @@
 			padding: 4rem;
 
 			.mprm-title {
+			  color: inherit;
 			  margin: 0;
 			  padding: 0;
 			}
@@ -130,7 +129,7 @@
 			position: relative;
 			text-align: center;
 			.mprm-title {
-
+			  color: inherit;
 			  .mprm-icon {
 				margin: 0 1rem 0 0;
 				font-size: 1.2em;
@@ -174,6 +173,9 @@
 		  }
 		}
 	  }
+	  .mprm-excerpt {
+		line-height: 1.1;
+	  }
 	  .mprm-proportions {
 		.mprm-list {
 		  list-style: outside none none;
@@ -216,6 +218,7 @@
 			position: relative;
 			text-align: center;
 			.mprm-title {
+			  color: inherit;
 			  .mprm-icon {
 				margin: 0 1rem 0 0;
 				font-size: 1.2em;
@@ -244,7 +247,7 @@
 	  }
 
 	  .mprm-title {
-		margin: 1rem 0;
+		margin: 0 0 1rem 0;
 		padding: 0;
 	  }
 	  .mprm-ingredients {
@@ -265,6 +268,9 @@
 			}
 		  }
 		}
+	  }
+	  .mprm-excerpt {
+		line-height: 1.1;
 	  }
 	  .mprm-proportions {
 		.mprm-list {

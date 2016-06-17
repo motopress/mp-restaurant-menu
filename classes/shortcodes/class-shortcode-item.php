@@ -11,6 +11,7 @@ use mp_restaurant_menu\classes\View;
  * Class Shortcode_Item
  * @package mp_restaurant_menu\classes\shortcodes
  */
+
 class Shortcode_Item extends Shortcodes {
 	protected static $instance;
 

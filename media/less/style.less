@@ -9,7 +9,6 @@
 @import 'widget.less';
 @import 'menu-item-single.less';
 @import 'mp-menu-taxonomy.less';
-@import 'thems.less';
 @import 'shop.less';
 
 .mprm-clear {
@@ -49,96 +48,43 @@
 }
 
 .mprm-main-wrapper {
-  a {
+  a, a.mprm-link {
 	text-decoration: none;
 	outline: none;
 	box-shadow: none;
 	border: none;
+	&:focus,
+	&:visited,
+	&:hover {
+	  text-decoration: none;
+	  outline: none;
+	  box-shadow: none;
+	  border: none;
+	  color: initial;
+	}
   }
 }
 
 .mprm-container {
-
   margin: 0;
   padding: 0;
   position: relative;
-  a {
+  a, a.mprm-link {
 	text-decoration: none;
 	outline: none;
 	box-shadow: none;
 	border: none;
+	&:focus,
+	&:visited,
+	&:hover {
+	  text-decoration: none;
+	  outline: none;
+	  box-shadow: none;
+	  border: none;
+	  color: initial;
+	}
   }
   .mprm-row {
 	padding-bottom: @padding-default;
   }
 }
-
-/*
-.mprm-main-wrapper {
-  padding: 2rem 0;
-
-  // Single Menu Item
-  
-  .mprm-container.content-wrapper {
-	&.mprm-shortcode-category {
-	  margin: 0;
-	  padding: 0;
-	  position: relative;
-	  .mprm-grid {
-		&::before {
-		  content: "";
-		  position: absolute;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-color: #484f54;
-		  background-image: inherit;
-		  background-position: center;
-		  background-repeat: no-repeat;
-		  background-size: cover;
-		  transition: 0.6s;
-		}
-		display: inline-block;
-		position: relative;
-		transition: 0.6s;
-		padding: 0;
-		overflow: hidden;
-		background-size: 0 0;
-		&:hover {
-		  &::before {
-			transform: scale(1.2, 1.2);
-		  }
-		}
-		a:hover, a:active, a:focus {
-		  text-decoration: none;
-		  border: 0;
-		  box-shadow: 0 0 0;
-		}
-		.mprm-icon {
-		  display: inline-block;
-		  font-size: 50px;
-		  height: auto;
-		  padding-left: 0px;
-		  padding-top: 0px;
-		  text-align: center;
-		  vertical-align: baseline;
-		}
-	  }
-	}
-	&.mprm-shortcode-items {
-	  .mprm-image {
-		float: left;
-		padding-right: @padding-default;
-	  }
-	  .mprm-right-side {
-		overflow: hidden;
-		min-width: 50px;
-		.mprm-title {
-		  margin: 0 0 1rem 0;
-		}
-	  }
-	}
-  }
-}
-*/

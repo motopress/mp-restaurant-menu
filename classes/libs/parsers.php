@@ -49,6 +49,7 @@ class WXR_Parser {
 		return $parser->parse($file);
 	}
 }
+
 /**
  * WXR Parser that makes use of the SimpleXML PHP extension.
  */
@@ -218,6 +219,7 @@ class WXR_Parser_SimpleXML {
 		);
 	}
 }
+
 /**
  * WXR Parser that makes use of the XML Parser PHP extension.
  */
@@ -395,6 +397,7 @@ class WXR_Parser_XML {
 		$this->cdata = false;
 	}
 }
+
 /**
  * WXR Parser that uses regular expressions. Fallback for installs without an XML parser.
  */

@@ -102,6 +102,38 @@ function mprm_payment_mode_select() {
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
+function mprm_checkout_button_next() {
+	$color = mprm_get_option('checkout_color', 'inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$style = mprm_get_option('button_style', 'button');
+	$purchase_page = mprm_get_option('purchase_page', '0');
+	ob_start();
+	?>
+	<input type="hidden" name="mprm_action" value="gateway_select"/>
+	<input type="hidden" name="page_id" value="<?php echo absint($purchase_page); ?>"/>
+	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
+	<?php
+	return apply_filters('mprm_checkout_button_next', ob_get_clean());
+}
+
+function mprm_checkout_button_purchase() {
+	$color = mprm_get_option('checkout_color', 'inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	$style = mprm_get_option('button_style', 'button');
+	$label = mprm_get_option('checkout_label', '');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	if (mprm_get_cart_total()) {
+		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
+	} else {
+		$complete_purchase = !empty($label) ? $label : __('Free Menu item', 'mp-restaurant-menu');
+	}
+	ob_start();
+	?>
+	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
+	<?php
+	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
+}
 
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
@@ -476,7 +508,7 @@ function mprm_purchase_form_after_submit() {
 
 
 function mprm_get_login_fields() {
-	$color = mprm_get_option('checkout_color', 'gray');
+	$color = mprm_get_option('checkout_color', 'inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
@@ -641,6 +673,30 @@ function mprm_add_body_classes($class) {
 	return array_unique($classes);
 }
 
+function mprm_update_cart_button() {
+	if (!models\Cart::get_instance()->item_quantities_enabled())
+		return;
+	$color = mprm_get_option('checkout_color', 'inherit');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	?>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="hidden" name="mprm_action" value="update_cart"/>
+	<?php
+}
+
+function mprm_save_cart_button() {
+	if (mprm_is_cart_saving_disabled())
+		return;
+	$color = mprm_get_option('checkout_color', 'inherit');
+	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
+	$color = ($color == 'inherit') ? '' : $color;
+	if (models\Cart::get_instance()->is_cart_saved()) : ?>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+	<?php endif; ?>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<?php
+}
 
 function mprm_user_info_fields() {
 	$customer = models\Customer::get_instance()->get_session_customer();

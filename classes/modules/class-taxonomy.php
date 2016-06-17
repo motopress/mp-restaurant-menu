@@ -34,7 +34,7 @@ class Taxonomy extends Module {
 			'parent_item' => __('Parent ' . $params['titles']['single'], $plugin_name),
 			'parent_item_colon' => __('Parent ' . $params['titles']['single'], $plugin_name),
 			'public' => true,
-			'show_in_nav_menus' => true,
+			'show_in_nav_menus' => empty($params['show_in_nav_menus']) ? false : $params['show_in_nav_menus'],
 			'show_ui' => true,
 			'show_in_menu' => false,
 			'show_tagcloud' => true,

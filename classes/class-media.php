@@ -167,6 +167,379 @@ class Media extends Core {
 		}
 	}
 
+	/**
+	 * Current screen
+	 *
+	 * @param \WP_Screen $current_screen
+	 */
+	public function current_screen(\WP_Screen $current_screen) {
+		$this->enqueue_style('admin-styles', 'admin-styles.css');
+		$prefix = $this->get_prefix();
+		if (!empty($current_screen)) {
+			switch ($current_screen->base) {
+				case"post":
+				case"page":
+					wp_enqueue_script('underscore');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					$this->enqueue_script('jBox', "libs/jBox{$prefix}.js");
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					$this->enqueue_style('jBox', 'lib/jbox/jBox.css');
+					break;
+				default:
+					break;
+			}
+
+			switch ($current_screen->id) {
+				case "restaurant-menu_page_admin?page=mprm-settings":
+					wp_enqueue_script('underscore');
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					wp_enqueue_script('wp-util');
+					wp_enqueue_media();
+					wp_enqueue_script('thickbox');
+					wp_enqueue_style('thickbox');
+					break;
+				case"restaurant-menu_page_mprm-customers":
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					break;
+				case"restaurant-menu_page_mprm-settings":
+					wp_enqueue_script('wp-util');
+					wp_enqueue_media();
+
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+
+					break;
+				case "edit-mp_menu_category":
+					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+					$this->enqueue_script('iconset-mprm-icon', "libs/iconset-mprm-icon{$prefix}.js");
+					$this->enqueue_script('fonticonpicker', "libs/jquery.fonticonpicker{$prefix}.js", array("jquery"), '2.0.0');
+					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
+					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
+					wp_enqueue_media();
+					break;
+				case "mprm_order":
+					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
+					$this->enqueue_script('mprm-chosen', "libs/chosen.jquery{$prefix}.js", array("jquery"), '1.1.0');
+					wp_enqueue_media();
+					break;
+				case "customize":
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Admin script
+	 */
+	public function admin_enqueue_scripts() {
+		global $current_screen;
+		$this->current_screen($current_screen);
+	}
+
+	/**
+	 * Wp head
+	 */
+	public function wp_head() {
+		$this->add_theme_css();
+	}
+
+	/**
+	 * Wp footer
+	 */
+	public function wp_footer() {
+		$this->add_theme_js();
+	}
+
+	/**
+	 * Add theme css
+	 */
+	private function add_theme_css() {
+		global $post_type;
+		$this->enqueue_style('mprm-style', 'style.css');
+		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+		wp_enqueue_script('wp-util');
+		switch ($post_type) {
+			case"mp_menu_item":
+				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
+				break;
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * Add theme js
+	 */
+	private function add_theme_js() {
+		global $post_type, $taxonomy;
+		$prefix = $this->get_prefix();
+		switch ($post_type) {
+			case "mp_menu_item":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+				$this->enqueue_script('magnific-popup', "libs/jquery.magnific-popup{$prefix}.js", array("jquery"), '1.0.1');
+				break;
+
+			default:
+				break;
+		}
+
+		switch ($taxonomy) {
+			case "mp_menu_category":
+			case "mp_menu_tag":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+				break;
+			default:
+				break;
+
+		}
+	}
+
+	public function add_plugin_js($type = false) {
+		$prefix = $this->get_prefix();
+		switch ($type) {
+			case"shortcode":
+			case"widget":
+				wp_enqueue_script('underscore');
+				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
+				break;
+		}
+	}
+
+	/**
+	 * Register all post type
+	 */
+	public function register_all_post_type() {
+		Post::get_instance()->register_post_type(array(
+			'post_type' => $this->get_post_type('menu_item'),
+			'titles' => array('many' => 'menu items', 'single' => 'menu item'),
+			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
+			'slug' => 'menu',
+			'capability_type' => 'product',
+			'map_meta_cap' => true
+		));
+//		Post::get_instance()->register_post_type(array(
+//			'post_type' => $this->get_post_type('order'),
+//			'titles' => array('many' => 'orders', 'single' => 'order'),
+//			'supports' => array('title', 'comments', 'custom-fields'),
+//			'slug' => 'menu'
+//		));
+		register_post_type($this->get_post_type('order'), array(
+			'labels' => array(
+				'name' => __('Orders', 'mp-restaurant-menu'),
+				'singular_name' => _x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
+				'add_new' => __('Add Order', 'mp-restaurant-menu'),
+				'add_new_item' => __('Add New Order', 'mp-restaurant-menu'),
+				'edit' => __('Edit', 'mp-restaurant-menu'),
+				'edit_item' => __('Edit Order', 'mp-restaurant-menu'),
+				'new_item' => __('New Order', 'mp-restaurant-menu'),
+				'view' => __('View Order', 'mp-restaurant-menu'),
+				'view_item' => __('View Order', 'mp-restaurant-menu'),
+				'search_items' => __('Search Orders', 'mp-restaurant-menu'),
+				'not_found' => __('No Orders found', 'mp-restaurant-menu'),
+				'not_found_in_trash' => __('No Orders found in trash', 'mp-restaurant-menu'),
+				'parent' => __('Parent Orders', 'mp-restaurant-menu'),
+				'menu_name' => _x('Orders', 'Admin menu name', 'mp-restaurant-menu')
+			),
+			'description' => __('This is where store orders are stored.', 'mp-restaurant-menu'),
+			'public' => false,
+			'show_ui' => true,
+			'capability_type' => 'shop_payment',
+			'capabilities' => array(
+				'create_posts' => false,
+			),
+			'map_meta_cap' => true,
+			'publicly_queryable' => false,
+			'exclude_from_search' => true,
+			'show_in_menu' => false,
+			'hierarchical' => false,
+			'show_in_nav_menus' => false,
+			'rewrite' => false,
+			'query_var' => false,
+			'supports' => array('title', 'comments'),
+			'has_archive' => false,
+		));
+	}
+
+	/**
+	 * Register all taxonomies
+	 */
+	public function register_all_taxonomies() {
+		$menu_item = $this->get_post_type('menu_item');
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('menu_category'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'menu categories', 'single' => 'menu category'),
+				'slug' => 'menu-category',
+				'show_in_nav_menus' => true,
+			)
+		);
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('menu_tag'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'menu tags', 'single' => 'menu tag'),
+				'slug' => 'menu-tag',
+				'show_in_nav_menus' => true,
+			)
+		);
+		Taxonomy::get_instance()->register(
+			array(
+				'taxonomy' => $this->get_tax_name('ingredient'),
+				'object_type' => array($menu_item),
+				'titles' => array('many' => 'ingredients', 'single' => 'ingredient'),
+				'show_in_nav_menus' => false,
+			)
+		);
+	}
+
+	/**
+	 * Template include
+	 *
+	 * @param string $template
+	 *
+	 * @return string
+	 */
+	public function template_include($template) {
+		global $post, $taxonomy;
+		if (!empty($taxonomy)) {
+			foreach ($this->taxonomy_names as $taxonomy_name) {
+				if (basename($template) != "taxonomy-$taxonomy_name.php") {
+					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
+					if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
+						$template = $path;
+					}
+				}
+			}
+		} elseif (!empty($post)) {
+			foreach ($this->post_types as $post_type) {
+				if (basename($template) != "single-$post_type.php") {
+					$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
+					if ($post->post_type == $post_type && file_exists($path)) {
+						$template = $path;
+					}
+				}
+			}
+		}
+		return $template;
+	}
+
+	/**
+	 * Connect js for MCE editor
+	 *
+	 * @param $plugin_array
+	 *
+	 * @return mixed
+	 */
+	public function mce_external_plugins($plugin_array) {
+		global $typenow, $pagenow;
+		$default_array = array('post-new.php', 'post.php');
+		if (in_array($pagenow, $default_array)) {
+			$path = MP_RM_MEDIA_URL . 'js/mce-mp-restaurant-menu-plugin.js';
+			$plugin_array['mp_restaurant_menu'] = $path;
+		}
+		return $plugin_array;
+	}
+
+	/**
+	 * Add button in MCE editor
+	 *
+	 * @param $buttons
+	 *
+	 * @return mixed
+	 */
+	public function mce_buttons($buttons) {
+		array_push($buttons, 'mp_add_menu');
+		return $buttons;
+	}
+
+	/**
+	 * Enqueue script
+	 *
+	 * @param string $name
+	 * @param string $path
+	 * @param array $parent
+	 * @param bool /string $version
+	 *
+	 * @return void
+	 */
+	public function enqueue_script($name, $path, $parent = array("jquery"), $version = false) {
+		if (empty($version)) {
+			$version = $this->get_version();
+		}
+		wp_enqueue_script($name, MP_RM_JS_URL . $path, $parent, $version);
+	}
+
+	/**
+	 * Enqueue style
+	 *
+	 * @param string $name
+	 * @param string $path
+	 * @param array $parent
+	 * @param bool /string $version
+	 * * @return void
+	 */
+	public function enqueue_style($name, $path, $parent = array(), $version = false) {
+		if (empty($version)) {
+			$version = $this->get_version();
+		}
+		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $parent, $version);
+	}
+
+	/**
+	 * Cut string
+	 *
+	 * @param string $args
+	 *
+	 * @return int|mixed|string
+	 */
+	public static function cut_str($args = '') {
+		$default = array(
+			'maxchar' => 350,
+			'text' => '',
+			'save_format' => false,
+			'more_text' => __('Read more', 'mp-restaurant-menu') . '...',
+			'echo' => false,
+		);
+		if (is_array($args)) {
+			$rgs = $args;
+		} else {
+			parse_str($args, $rgs);
+		}
+		$args = array_merge($default, $rgs);
+		$args['maxchar'] += 0;
+		// cutting
+		if (mb_strlen($args['text']) > $args['maxchar'] && $args['maxchar'] != 0) {
+			$args['text'] = mb_substr($args['text'], 0, $args['maxchar']);
+			$args['text'] = $args['text'] . '...';
+		}
+		// save br ad paragraph
+		if ($args['save_format']) {
+			$args['text'] = str_replace("\r", '', $args['text']);
+			$args['text'] = preg_replace("~\n+~", "</p><p>", $args['text']);
+			$args['text'] = "<p>" . str_replace("\n", "<br />", trim($args['text'])) . "</p>";
+		}
+		if ($args['echo']) {
+			return print $args['text'];
+		}
+		return $args['text'];
+	}
+
+	public function disable_autosave() {
+		global $post;
+		if (!empty($post) && $post->post_type == 'mprm_order') {
+			wp_dequeue_script('autosave');
+		}
+	}
+
 	public function register_settings() {
 		if (false == get_option('mprm_settings')) {
 			add_option('mprm_settings');
@@ -1411,5 +1784,13 @@ class Media extends Core {
 		}
 		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
 		return apply_filters('mprm_settings_tabs', $tabs);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_prefix() {
+		$prefix = MP_RM_DEBUG ? '' : '.min';
+		return $prefix;
 	}
 }

@@ -57,6 +57,7 @@ class IpnListener {
 	private $response = '';
 	const PAYPAL_HOST = 'www.paypal.com';
 	const SANDBOX_HOST = 'www.sandbox.paypal.com';
+
 	/**
 	 * Post Back Using cURL
 	 *
@@ -96,6 +97,7 @@ class IpnListener {
 			throw new \Exception("cURL error: [$errno] $errstr");
 		}
 	}
+
 	/**
 	 *    Post Back Using fsockopen()
 	 *
@@ -148,6 +150,7 @@ class IpnListener {
 		if ($this->use_sandbox) return IpnListener::SANDBOX_HOST;
 		else return IpnListener::PAYPAL_HOST;
 	}
+
 	/**
 	 *  Get POST URI
 	 *
@@ -160,6 +163,7 @@ class IpnListener {
 	public function getPostUri() {
 		return $this->post_uri;
 	}
+
 	/**
 	 *  Get Response
 	 *
@@ -171,6 +175,7 @@ class IpnListener {
 	public function getResponse() {
 		return $this->response;
 	}
+
 	/**
 	 *  Get Response Status
 	 *
@@ -182,6 +187,7 @@ class IpnListener {
 	public function getResponseStatus() {
 		return $this->response_status;
 	}
+
 	/**
 	 *  Get Text Report
 	 *
@@ -216,6 +222,7 @@ class IpnListener {
 		$r .= "\n\n";
 		return $r;
 	}
+
 	/**
 	 *  Process IPN
 	 *
@@ -259,6 +266,7 @@ class IpnListener {
 			throw new \Exception("Unexpected response from PayPal.");
 		}
 	}
+
 	/**
 	 *  Require Post Method
 	 *
@@ -273,4 +281,5 @@ class IpnListener {
 		}
 	}
 }
+
 ?>

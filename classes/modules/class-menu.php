@@ -16,6 +16,7 @@ class Menu {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Add menu page
 	 *
@@ -27,6 +28,7 @@ class Menu {
 		$params['position'] = !empty($params['position']) ? $params['position'] : null;
 		add_menu_page($params['title'], $params['title'], $params['capability'], $params['menu_slug'], $params['function'], $params['icon_url'], $params['position']);
 	}
+
 	/**
 	 * Add submenu page
 	 *

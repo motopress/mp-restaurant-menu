@@ -1,6 +1,8 @@
 <?php
 namespace mp_restaurant_menu\classes;
+
 use mp_restaurant_menu\classes\models\Menu_category;
+
 /**
  * Export class
  */
@@ -32,6 +34,7 @@ class Export extends Core {
 			$this->export($args);
 		}
 	}
+
 	/**
 	 * Export file
 	 *
@@ -296,6 +299,7 @@ class Export extends Core {
 		</rss>
 		<?php
 	}
+
 	/**
 	 * Generate file name
 	 * @return mixed|void
@@ -303,10 +307,10 @@ class Export extends Core {
 	public function file_name() {
 		$sitename = sanitize_key(get_bloginfo('name'));
 		if (!empty($sitename)) {
-			$sitename .= '.';
+			$sitename .= '_';
 		}
-		$date = date('d.m.Y H.i');
-		$wp_filename = 'mp-restaurant-menu_' . $date . '.xml';
+		$date = date('d.m.Y_H.i', time());
+		$wp_filename = $sitename . 'restaurant_menu_' . $date . '.xml';
 		/**
 		 * Filter the export filename.
 		 *
@@ -319,6 +323,7 @@ class Export extends Core {
 		$filename = apply_filters('export_wp_filename', $wp_filename, $sitename, $date);
 		return $filename;
 	}
+
 	/**
 	 * Output list of authors with posts
 	 *
@@ -352,6 +357,7 @@ class Export extends Core {
 			echo "</wp:author>\n";
 		}
 	}
+
 	/**
 	 * Return the URL of the site
 	 *
@@ -367,6 +373,7 @@ class Export extends Core {
 		else
 			return get_bloginfo_rss('url');
 	}
+
 	/**
 	 * Output a term_description XML tag from a given term object
 	 *
@@ -379,6 +386,7 @@ class Export extends Core {
 			return;
 		echo '<wp:term_description>' . $this->mptt_cdata($term->description) . '</wp:term_description>';
 	}
+
 	/**
 	 * Output a term_name XML tag from a given term object
 	 *
@@ -391,6 +399,7 @@ class Export extends Core {
 			return;
 		echo '<wp:term_name>' . $this->mptt_cdata($term->name) . '</wp:term_name>';
 	}
+
 	/**
 	 * Wrap given string in XML CDATA tag.
 	 *
@@ -408,6 +417,7 @@ class Export extends Core {
 		$str = '<![CDATA[' . str_replace(']]>', ']]]]><![CDATA[>', $str) . ']]>';
 		return $str;
 	}
+
 	/**
 	 *
 	 * @param bool $return_me
@@ -420,6 +430,7 @@ class Export extends Core {
 			$return_me = true;
 		return $return_me;
 	}
+
 	/**
 	 * Output list of taxonomy terms, in XML tag format, associated with a post
 	 *

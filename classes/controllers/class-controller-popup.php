@@ -9,6 +9,7 @@ use mp_restaurant_menu\classes\View;
  * Class Controller_Popup
  * @package mp_restaurant_menu\classes\controllers
  */
+
 class Controller_Popup extends Controller {
 	protected static $instance;
 	public $data = array();
@@ -16,6 +17,7 @@ class Controller_Popup extends Controller {
 	/**
 	 * @return Controller_Popup
 	 */
+
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

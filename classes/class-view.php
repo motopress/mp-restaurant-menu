@@ -16,6 +16,7 @@ class View {
 		}
 		return self::$instance;
 	}
+
 	/**
 	 * Render template
 	 *
@@ -30,6 +31,7 @@ class View {
 		$this->data = $data;
 		include_once MP_RM_TEMPLATES_PATH . 'index.php';
 	}
+
 	/**
 	 * Render html
 	 *

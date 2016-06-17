@@ -3,7 +3,7 @@
  * Plugin Name: Restaurant Menu
  * Plugin URI: http://www.getmotopress.com
  * Description: This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
- * Version: 1.1.5
+ * Version: 1.1.3
  * Author: MotoPress
  * Author URI: http://www.getmotopress.com
  * License: GPLv2 or later
@@ -19,7 +19,7 @@ define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
 define('MP_RM_CSS_URL', MP_RM_MEDIA_URL . 'css/');
 define('MP_RM_PLUGIN_NAME', str_replace('-', '_', dirname(plugin_basename(__FILE__))));
-define('MP_RM_LANG_PATH', MP_RM_PLUGIN_PATH . 'languages');
+define('MP_RM_LANG_PATH', MP_RM_PLUGIN_PATH . 'languages/');
 define('MP_RM_TEMPLATES_PATH', MP_RM_PLUGIN_PATH . 'templates/');
 define('MP_RM_CLASSES_PATH', MP_RM_PLUGIN_PATH . 'classes/');
 define('MP_RM_PREPROCESSORS_PATH', MP_RM_CLASSES_PATH . 'preprocessors/');
@@ -56,14 +56,13 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	}
 
 	/**
-	 * On activation defrozo plugin
+	 * On activation plugin
 	 */
 	public static function on_activation() {
 		global $wpdb;
 		if (!current_user_can('activate_plugins')) {
 			return;
 		}
-		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
@@ -71,12 +70,9 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		// User capability
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
-		if (!empty($plugin)) {
-			check_admin_referer("activate-plugin_{$plugin}");
-		}
+
+		// Create table 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . "mprm_customer";
 
@@ -102,7 +98,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	}
 
 	/**
-	 * On deactivation defrozo plugin
+	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
 		if (!current_user_can('activate_plugins')) {
