@@ -46,12 +46,4 @@ class Module extends Core {
 		}
 		return $labels;
 	}
-
-	/**
-	 * Install controllers
-	 */
-	public static function install() {
-		// include all core controllers
-		Core::include_all(MP_RM_MODULES_PATH);
-	}
 }

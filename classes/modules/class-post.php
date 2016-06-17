@@ -23,40 +23,6 @@ class Post extends Module {
 	}
 
 	/**
-	 * Register custom post
-	 *
-	 * @param array $params
-	 * @param string $plugin_name
-	 *
-	 * @return bool
-	 */
-	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
-		$args = array(
-			'show_in_rest' => true,
-			'label' => $params['post_type'],
-			'labels' => $this->get_labels($params, $plugin_name),
-			'public' => true,
-			'show_ui' => true,
-			'show_in_menu' => false,
-			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
-			"menu_position" => 21,
-			"hierarchical" => false,
-			"map_meta_cap" => empty($params['map_meta_cap']) ? false : $params['map_meta_cap'],
-			"rewrite" => (!empty($params['slug'])) ? array(
-				'slug' => $params['slug'],
-				'with_front' => true,
-				'hierarchical' => true
-			) : false,
-			'supports' => $params['supports'],
-			'show_in_admin_bar' => true
-		);
-		$status = register_post_type($params['post_type'], $args);
-		if (!is_wp_error($status)) {
-			return true;
-		}
-	}
-
-	/**
 	 * Register our custom post statuses, used for order status.
 	 */
 	public static function register_post_status() {

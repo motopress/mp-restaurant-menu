@@ -1547,19 +1547,7 @@ function render_term_header($data) {
 		mprm_get_template('common/item-taxonomy-header');
 	}
 }
-function mprm_menu_item_before_content(){
-	global $mprm_view_args;
-if (!empty($mprm_view_args['link_item'])) { ?>
-	<a class="mprm-link" href="<?php the_permalink() ?>">
-<?php }
-}
 
-function mprm_menu_item_after_content(){
-	global $mprm_view_args;
-if (!empty($mprm_view_args['link_item'])) { ?>
-	</a>
-<?php }
-}
 
 /**
 * @return mixed|void
