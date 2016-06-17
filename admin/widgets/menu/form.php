@@ -8,7 +8,7 @@
 	<select class="widefat mprm-widget-view" id="<?php echo $widget_object->get_field_id('view') ?>" name="<?php echo $widget_object->get_field_name('view') ?>">
 		<option value="grid" <?php selected($view, 'grid'); ?>><?php _e('Grid', 'mp-restaurant-menu'); ?></option>
 		<option value="list" <?php selected($view, 'list'); ?>><?php _e('List', 'mp-restaurant-menu'); ?></option>
-		<option value="simple-list" <?php selected($view, 'simple-list'); ?>><?php _e('Menu list', 'mp-restaurant-menu'); ?></option>
+		<option value="simple-list" <?php selected($view, 'simple-list'); ?>><?php _e('Simple list', 'mp-restaurant-menu'); ?></option>
 	</select>
 </p>
 <p>
