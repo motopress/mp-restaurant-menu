@@ -1497,6 +1497,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 				$('a.mp_menu_gallery').on('click', function() {
 					state.openMediaWindow();
 				});
+
 			},
 			/**
 			 * Gallery Init
@@ -1660,6 +1661,46 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 						console.warn(data);
 					}
 				);
+			},
+			quickEdit: function() {
+				$(document).on('click', '#the-list .editinline', function(event) {
+
+					//event.preventDefault();
+					var parent = $(this).closest('tr');
+					var post_id = parent.attr('id').replace(/\D/ig, '');
+
+					var qPrice = parent.find('.mprm-data-price').text(),
+						sku = parent.find('.mprm-data-sku').text(),
+
+						calories = parent.find('.mprm-data-calories').text(),
+						cholesterol = parent.find('.mprm-data-cholesterol').text(),
+						fiber = parent.find('.mprm-data-fiber').text(),
+						sodium = parent.find('.mprm-data-sodium').text(),
+						carbohydrates = parent.find('.mprm-data-carbohydrates').text(),
+						fat = parent.find('.mprm-data-fat').text(),
+						protein = parent.find('.mprm-data-protein').text(),
+
+						bulk = parent.find('.mprm-data-bulk').text(),
+						size = parent.find('.mprm-data-size').text(),
+						weight = parent.find('.mprm-data-weight').text();
+
+					var editParent = $('#edit-' + post_id);
+					editParent.find('.inline-price [name="price"]').val(qPrice);
+					editParent.find('.inline-sku [name="sku"]').val(sku);
+
+					editParent.find('[name="nutritional[calories][val]"]').val(calories);
+					editParent.find('[name="nutritional[cholesterol][val]"]').val(cholesterol);
+					editParent.find('[name="nutritional[fiber][val]"]').val(fiber);
+					editParent.find('[name="nutritional[sodium][val]"]').val(sodium);
+					editParent.find('[name="nutritional[carbohydrates][val]"]').val(carbohydrates);
+					editParent.find('[name="nutritional[fat][val]"]').val(fat);
+					editParent.find('[name="nutritional[protein][val]"]').val(protein);
+
+					editParent.find('[name="attributes[bulk][val]"]').val(bulk);
+					editParent.find('[name="attributes[size][val]"]').val(size);
+					editParent.find('[name="attributes[weight][val]"]').val(weight);
+
+				})
 			}
 		};
 	}
@@ -1829,6 +1870,9 @@ MP_RM_Registry.register("Theme", (function($) {
 		// if edit and add menu_item
 		if ('mp_menu_item' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Menu-Item").init();
+		}
+		if ('edit-mp_menu_item' === window.pagenow) {
+			MP_RM_Registry._get("Menu-Item").quickEdit();
 		}
 		// if settings
 		if ('restaurant-menu_page_mprm-settings' === window.pagenow) {

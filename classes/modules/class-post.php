@@ -208,7 +208,7 @@ class Post extends Module {
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
-				$value = $_POST[$metabox['name']];
+				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
 				if (is_array($value)) {
 					$mydata = $value;
 				} else {
@@ -250,6 +250,7 @@ class Post extends Module {
 	 */
 	public function show_menu_columns($column, $post_ID) {
 		global $post;
+		$data = array();
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
 
@@ -261,9 +262,17 @@ class Post extends Module {
 				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
 				break;
 			case 'mprm-thumb':
-				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>';
+				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>';
 				break;
 			case 'mprm-price':
+
+				$data['nutritional'] = get_post_meta($post->ID, 'nutritional', true);
+				$data['attributes'] = get_post_meta($post->ID, 'attributes', true);
+				$data['price'] = get_post_meta($post->ID, 'price', true);
+				$data['sku'] = get_post_meta($post->ID, 'sku', true);
+
+				$this->get_view()->render_html('../admin/quick-edit/hidden-data', $data);
+
 				if (!empty($post->price)) {
 					echo mprm_currency_filter(mprm_format_amount($post->price));
 				} else {

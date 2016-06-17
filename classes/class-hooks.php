@@ -1022,9 +1022,7 @@ class Hooks extends Core {
 	 */
 	public function bulk_edit($column_name, $post_type) {
 
-		if ('mprm_info' == $column_name && ($this->post_types['menu_item'] == $post_type)) {
-			$this->get_view()->render_html('../admin/metaboxes/sku');
-		}
+
 	}
 
 	/**
@@ -1078,7 +1076,6 @@ class Hooks extends Core {
 	public function add_posts_column($posts_columns, $post_type) {
 		switch ($post_type) {
 			case "{$this->post_types['menu_item']}":
-				$posts_columns['mprm_info'] = __('Additional information', 'mp-restaurant-menu');
 				break;
 			case "{$this->post_types['order']}":
 				break;
@@ -1100,7 +1097,6 @@ class Hooks extends Core {
 
 		switch ($post_type) {
 			case "{$this->post_types['menu_item']}":
-				unset($posts_columns['mprm_info']);
 				break;
 			case "{$this->post_types['order']}":
 				break;
@@ -1254,7 +1250,14 @@ class Hooks extends Core {
 	 */
 	public function remove_row_actions($actions, $post) {
 		global $current_screen;
-		if ($current_screen->post_type != 'mprm_order') return $actions;
+		if (is_object($current_screen)) {
+			if ($current_screen->post_type != 'mprm_order') {
+				return $actions;
+			}
+		} elseif ($post->post_type != 'mprm_order') {
+			return $actions;
+		}
+
 //		unset($actions['edit']);
 		unset($actions['view']);
 //		unset($actions['trash']);
