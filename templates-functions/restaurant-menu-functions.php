@@ -1,9 +1,5 @@
 <?php
-use mp_restaurant_menu\classes;
-use mp_restaurant_menu\classes\Core;
-use mp_restaurant_menu\classes\models;
-use mp_restaurant_menu\classes\modules\Breadcrumbs;
-use mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
 
 /**
  * Add class wrapper

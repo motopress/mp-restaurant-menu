@@ -318,9 +318,9 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_attributes', 30);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_excerpt', 35);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_tags', 40);
-		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 60);
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 50);
 
-		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 50);
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content',60);
 
 		/**
 		 * Menu item list
@@ -908,7 +908,7 @@ class Hooks extends Core {
 	 *
 	 * @return array
 	 */
-	public function order_total_orderby($vars) {
+	public function order_order_total_orderby($vars) {
 		if (isset($vars['orderby']) && 'order_total' == $vars['orderby'] && $vars['post_type'] == 'mprm_order') {
 			$vars = array_merge($vars, array(
 				'meta_key' => '_mprm_order_total',
