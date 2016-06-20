@@ -17,7 +17,7 @@
 			$('#mprm-shortcode-form').on('change', 'select[name="view"]', function() {
 
 				var shortCode = $('[name="shortcode_name"]').val();
-				if (shortCode === 'mprm_items') { 
+				if (shortCode === 'mprm_items') {
 					switch ($(this).val()) {
 						case"simple-list" :
 							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');

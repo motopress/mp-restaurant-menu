@@ -1150,7 +1150,7 @@ class Media extends Core {
 	 * @return string
 	 */
 	public function get_prefix() {
-		$prefix = MP_RM_DEBUG ? '.min' : '';
+		$prefix = !MP_RM_DEBUG ? '.min' : '';
 		return $prefix;
 	}
 
@@ -1366,7 +1366,7 @@ class Media extends Core {
 		global $pagenow;
 		$default_array = array('post-new.php', 'post.php');
 		if (in_array($pagenow, $default_array)) {
-			$path = MP_RM_MEDIA_URL . 'js/mce-mp-restaurant-menu-plugin.js';
+			$path = MP_RM_MEDIA_URL . "js/mce-mp-restaurant-menu-plugin{$this->get_prefix()}.js";
 			$plugin_array['mp_restaurant_menu'] = $path;
 		}
 		return $plugin_array;
