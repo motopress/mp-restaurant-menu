@@ -1815,6 +1815,7 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
+  color: inherit;
 }
 .mprm-main-wrapper a:focus,
 .mprm-container a:focus,
