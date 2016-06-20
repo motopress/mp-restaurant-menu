@@ -16,17 +16,20 @@
 		function change_shortcode_view() {
 			$('#mprm-shortcode-form').on('change', 'select[name="view"]', function() {
 
-				switch ($(this).val()) {
-					case"simple-list" :
-						$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');
-						$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').removeClass('hidden');
-						break;
-					case"grid" :
-					case"list" :
-					default:
-						$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').removeClass('hidden');
-						$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').addClass('hidden');
-						break;
+				var shortCode = $('[name="shortcode_name"]').val();
+				if (shortCode === 'mprm_items') { 
+					switch ($(this).val()) {
+						case"simple-list" :
+							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');
+							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').removeClass('hidden');
+							break;
+						case"grid" :
+						case"list" :
+						default:
+							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').removeClass('hidden');
+							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').addClass('hidden');
+							break;
+					}
 				}
 			});
 		}
