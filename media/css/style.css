@@ -701,6 +701,10 @@ there.
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
 }
+.mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item .mprm-title {
+  margin: 0;
+  padding: 0;
+}
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-dots {
   border-bottom: 1px dotted #0a0a0a;
   -webkit-box-flex: 1;
@@ -1105,6 +1109,10 @@ there.
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item {
   white-space: pre-wrap;
+}
+.mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item .mprm-title {
+  margin: 0;
+  padding: 0;
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-dots {
   border-bottom: 1px dotted #0a0a0a;
