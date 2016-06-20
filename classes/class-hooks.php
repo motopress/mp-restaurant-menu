@@ -320,7 +320,7 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_tags', 40);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 50);
 
-		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content',60);
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 60);
 
 		/**
 		 * Menu item list
@@ -333,15 +333,19 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_ingredients()
 		 * @see mprm_menu_item_list_excerpt()
 		 */
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_header', 5);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_before_content', 5);
+
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_header', 10);
 //		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_right_header', 20);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_title_simple', 30);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_ingredients', 40);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_attributes', 50);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_excerpt', 60);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_tags', 70);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_title_simple', 20);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_ingredients', 30);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_attributes', 40);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_excerpt', 50);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_tags', 60);
 		//		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_right_footer', 90);
-		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_footer', 95);
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_footer', 65);
+
+		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_after_content', 70);
 	}
 
 	/**
@@ -500,8 +504,8 @@ class Hooks extends Core {
 		/**
 		 * output Wordpress standard them  wrapper
 		 */
-		add_action('mprm_single_before_wrapper', 'mprm_theme_wrapper_before');
-		add_action('mprm_single_after_wrapper', 'mprm_theme_wrapper_after');
+		add_action('mprm-before-main-wrapper', 'mprm_theme_wrapper_before');
+		add_action('mprm-after-main-wrapper', 'mprm_theme_wrapper_after');
 		/**
 		 * Before Menu_item header
 		 *
@@ -582,8 +586,8 @@ class Hooks extends Core {
 	 * Install category actions
 	 */
 	public static function install_category_actions() {
-		add_action('mprm_category_before_wrapper', 'mprm_theme_wrapper_before');
-		add_action('mprm_category_after_wrapper', 'mprm_theme_wrapper_after');
+		add_action('mprm-single-category-before-wrapper', 'mprm_theme_wrapper_before');
+		add_action('mprm-single-category-after-wrapper', 'mprm_theme_wrapper_after');
 		/**
 		 * Before Menu_item list
 		 *
@@ -814,8 +818,16 @@ class Hooks extends Core {
 
 		add_filter('views_edit-mprm_order', array($this, 'clear_admin_filter'));
 		// Bulk / quick edit
-		//add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
-		//add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
+		add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
+		add_action('quick_edit_custom_box', array($this, 'quick_edit'), 10, 2);
+		// Edit
+		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
+		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
+
+		add_filter('manage_edit-mp_menu_item_columns', array($this, 'remove_posts_column'));
+		add_filter('manage_edit-mprm_order_columns', array($this, 'remove_posts_column'));
+
+
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
 		add_action('load-edit.php', array($this, 'bulk_action'));
@@ -826,16 +838,17 @@ class Hooks extends Core {
 
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
-		// List posts
+		// Menu item List posts
 		add_filter("manage_{$this->get_post_type('menu_item')}_posts_columns", array(Post::get_instance(), "init_menu_columns"), 10);
 		add_action("manage_{$this->get_post_type('menu_item')}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
 		// Disable Auto Save
 		add_action('admin_print_scripts', array(Media::get_instance(), 'disable_autosave'));
+
 		// Manage and sortable order
 		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
 		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
 		add_action("manage_edit-{$this->get_post_type('order')}_sortable_columns", array(Order::get_instance(), "order_sortable_columns"), 10, 2);
-		add_filter('request', array($this, 'order_order_total_orderby'));
+		add_filter('request', array($this, 'order_total_orderby'));
 
 		// ajax redirect
 		add_action('wp_ajax_route_url', array(Core::get_instance(), "wp_ajax_route_url"));
@@ -908,7 +921,7 @@ class Hooks extends Core {
 	 *
 	 * @return array
 	 */
-	public function order_order_total_orderby($vars) {
+	public function order_total_orderby($vars) {
 		if (isset($vars['orderby']) && 'order_total' == $vars['orderby'] && $vars['post_type'] == 'mprm_order') {
 			$vars = array_merge($vars, array(
 				'meta_key' => '_mprm_order_total',

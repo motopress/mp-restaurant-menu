@@ -685,6 +685,9 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-header.only-text .mprm-title {
   margin: 0;
 }
+.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-row .mprm-columns:first-child.type-mp_menu_item {
+  padding-right: 0.5em;
+}
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
   padding: 0;
   margin: 0;
