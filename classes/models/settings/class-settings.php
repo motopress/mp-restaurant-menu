@@ -1,9 +1,9 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Model;
-use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\View;
 
 /**
@@ -12,78 +12,6 @@ use mp_restaurant_menu\classes\View;
  */
 class Settings extends Model {
 	protected static $instance;
-
-	/**
-	 * @return Settings
-	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Get settings
-	 *
-	 * @param bool $key
-	 *
-	 * @return mixed|void
-	 */
-	public function get_settings($key = false) {
-		$settings = get_option('mprm_settings');
-		if (empty($settings)) {
-			$default_settings =
-				array(
-					'currency' => 'USD',
-					'customer_phone' => '1',
-					'gateways' =>
-						array(
-							'paypal' => '1',
-							'manual' => '1',
-						),
-
-					'item_quantities' => '1',
-					'shipping_address' => '1',
-					'enable_ajax_cart' => '1',
-					'default_gateway' => 'manual',
-					'checkout_color' => 'inherit',
-					'checkout_padding' => 'mprm-inherit',
-					'currency_position' => 'before',
-					'thousands_separator' => ',',
-					'decimal_separator' => '.',
-					'accepted_cards' =>
-						array(
-							'mastercard' => 'Mastercard',
-							'visa' => 'Visa',
-							'americanexpress' => 'American Express',
-							'discover' => 'Discover',
-							'paypal' => 'PayPal',
-						),
-					'checkout_label' => 'Purchase',
-					'add_to_cart_text' => 'Add to Cart',
-					'buy_now_text' => 'Buy Now'
-				);
-
-			// Update old settings with new single option
-			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
-			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
-			$email_settings = is_array(get_option('mprm_settings_emails')) ? get_option('mprm_settings_emails') : array();
-			$style_settings = is_array(get_option('mprm_settings_styles')) ? get_option('mprm_settings_styles') : array();
-			$tax_settings = is_array(get_option('mprm_settings_taxes')) ? get_option('mprm_settings_taxes') : array();
-			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
-			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
-			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
-			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings, $default_settings);
-
-			update_option('mprm_settings', $settings);
-		}
-		if (!empty($settings[$key])) {
-			return $settings[$key];
-		} else {
-			return $settings;
-		}
-	}
 
 	/**
 	 * @return array
@@ -259,6 +187,68 @@ class Settings extends Model {
 	}
 
 	/**
+	 * Get settings
+	 *
+	 * @param bool $key
+	 *
+	 * @return mixed|void
+	 */
+	public function get_settings($key = false) {
+		$settings = get_option('mprm_settings');
+		if (empty($settings)) {
+			$default_settings =
+				array(
+					'currency' => 'USD',
+					'customer_phone' => '1',
+					'gateways' =>
+						array(
+							'paypal' => '1',
+							'manual' => '1',
+						),
+
+					'item_quantities' => '1',
+					'shipping_address' => '1',
+					'enable_ajax_cart' => '1',
+					'default_gateway' => 'manual',
+					'checkout_color' => 'inherit',
+					'checkout_padding' => 'mprm-inherit',
+					'currency_position' => 'before',
+					'thousands_separator' => ',',
+					'decimal_separator' => '.',
+					'accepted_cards' =>
+						array(
+							'mastercard' => 'Mastercard',
+							'visa' => 'Visa',
+							'americanexpress' => 'American Express',
+							'discover' => 'Discover',
+							'paypal' => 'PayPal',
+						),
+					'checkout_label' => 'Purchase',
+					'add_to_cart_text' => 'Add to Cart',
+					'buy_now_text' => 'Buy Now'
+				);
+
+			// Update old settings with new single option
+			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
+			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
+			$email_settings = is_array(get_option('mprm_settings_emails')) ? get_option('mprm_settings_emails') : array();
+			$style_settings = is_array(get_option('mprm_settings_styles')) ? get_option('mprm_settings_styles') : array();
+			$tax_settings = is_array(get_option('mprm_settings_taxes')) ? get_option('mprm_settings_taxes') : array();
+			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
+			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
+			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
+			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings, $default_settings);
+
+			update_option('mprm_settings', $settings);
+		}
+		if (!empty($settings[$key])) {
+			return $settings[$key];
+		} else {
+			return $settings;
+		}
+	}
+
+	/**
 	 * Currency
 	 *
 	 * @default USD
@@ -268,6 +258,34 @@ class Settings extends Model {
 	public function get_currency() {
 		$currency = $this->get_option('currency', 'USD');
 		return apply_filters('mprm_currency', $currency);
+	}
+
+	/**
+	 * @param string $key
+	 * @param bool $default
+	 *
+	 * @return mixed|void
+	 */
+	public function get_option($key = '', $default = false) {
+		global $mprm_options;
+
+		if (empty($mprm_options)) {
+			$mprm_options = Settings::get_instance()->get_settings();
+		}
+
+		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
+		$value = apply_filters('mprm_get_option', $value, $key, $default);
+		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
+	}
+
+	/**
+	 * @return Settings
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
 	}
 
 	/**
@@ -306,268 +324,6 @@ class Settings extends Model {
 			'RUB' => __('Russian Rubles', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_currencies', $currencies);
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_country_list() {
-		$countries = array(
-			'' => '',
-			'US' => 'United States',
-			'CA' => 'Canada',
-			'GB' => 'United Kingdom',
-			'AF' => 'Afghanistan',
-			'AX' => '&#197;land Islands',
-			'AL' => 'Albania',
-			'DZ' => 'Algeria',
-			'AS' => 'American Samoa',
-			'AD' => 'Andorra',
-			'AO' => 'Angola',
-			'AI' => 'Anguilla',
-			'AQ' => 'Antarctica',
-			'AG' => 'Antigua and Barbuda',
-			'AR' => 'Argentina',
-			'AM' => 'Armenia',
-			'AW' => 'Aruba',
-			'AU' => 'Australia',
-			'AT' => 'Austria',
-			'AZ' => 'Azerbaijan',
-			'BS' => 'Bahamas',
-			'BH' => 'Bahrain',
-			'BD' => 'Bangladesh',
-			'BB' => 'Barbados',
-			'BY' => 'Belarus',
-			'BE' => 'Belgium',
-			'BZ' => 'Belize',
-			'BJ' => 'Benin',
-			'BM' => 'Bermuda',
-			'BT' => 'Bhutan',
-			'BO' => 'Bolivia',
-			'BQ' => 'Bonaire, Saint Eustatius and Saba',
-			'BA' => 'Bosnia and Herzegovina',
-			'BW' => 'Botswana',
-			'BV' => 'Bouvet Island',
-			'BR' => 'Brazil',
-			'IO' => 'British Indian Ocean Territory',
-			'BN' => 'Brunei Darrussalam',
-			'BG' => 'Bulgaria',
-			'BF' => 'Burkina Faso',
-			'BI' => 'Burundi',
-			'KH' => 'Cambodia',
-			'CM' => 'Cameroon',
-			'CV' => 'Cape Verde',
-			'KY' => 'Cayman Islands',
-			'CF' => 'Central African Republic',
-			'TD' => 'Chad',
-			'CL' => 'Chile',
-			'CN' => 'China',
-			'CX' => 'Christmas Island',
-			'CC' => 'Cocos Islands',
-			'CO' => 'Colombia',
-			'KM' => 'Comoros',
-			'CD' => 'Congo, Democratic People\'s Republic',
-			'CG' => 'Congo, Republic of',
-			'CK' => 'Cook Islands',
-			'CR' => 'Costa Rica',
-			'CI' => 'Cote d\'Ivoire',
-			'HR' => 'Croatia/Hrvatska',
-			'CU' => 'Cuba',
-			'CW' => 'Cura&Ccedil;ao',
-			'CY' => 'Cyprus',
-			'CZ' => 'Czech Republic',
-			'DK' => 'Denmark',
-			'DJ' => 'Djibouti',
-			'DM' => 'Dominica',
-			'DO' => 'Dominican Republic',
-			'TP' => 'East Timor',
-			'EC' => 'Ecuador',
-			'EG' => 'Egypt',
-			'GQ' => 'Equatorial Guinea',
-			'SV' => 'El Salvador',
-			'ER' => 'Eritrea',
-			'EE' => 'Estonia',
-			'ET' => 'Ethiopia',
-			'FK' => 'Falkland Islands',
-			'FO' => 'Faroe Islands',
-			'FJ' => 'Fiji',
-			'FI' => 'Finland',
-			'FR' => 'France',
-			'GF' => 'French Guiana',
-			'PF' => 'French Polynesia',
-			'TF' => 'French Southern Territories',
-			'GA' => 'Gabon',
-			'GM' => 'Gambia',
-			'GE' => 'Georgia',
-			'DE' => 'Germany',
-			'GR' => 'Greece',
-			'GH' => 'Ghana',
-			'GI' => 'Gibraltar',
-			'GL' => 'Greenland',
-			'GD' => 'Grenada',
-			'GP' => 'Guadeloupe',
-			'GU' => 'Guam',
-			'GT' => 'Guatemala',
-			'GG' => 'Guernsey',
-			'GN' => 'Guinea',
-			'GW' => 'Guinea-Bissau',
-			'GY' => 'Guyana',
-			'HT' => 'Haiti',
-			'HM' => 'Heard and McDonald Islands',
-			'VA' => 'Holy See (City Vatican State)',
-			'HN' => 'Honduras',
-			'HK' => 'Hong Kong',
-			'HU' => 'Hungary',
-			'IS' => 'Iceland',
-			'IN' => 'India',
-			'ID' => 'Indonesia',
-			'IR' => 'Iran',
-			'IQ' => 'Iraq',
-			'IE' => 'Ireland',
-			'IM' => 'Isle of Man',
-			'IL' => 'Israel',
-			'IT' => 'Italy',
-			'JM' => 'Jamaica',
-			'JP' => 'Japan',
-			'JE' => 'Jersey',
-			'JO' => 'Jordan',
-			'KZ' => 'Kazakhstan',
-			'KE' => 'Kenya',
-			'KI' => 'Kiribati',
-			'KW' => 'Kuwait',
-			'KG' => 'Kyrgyzstan',
-			'LA' => 'Lao People\'s Democratic Republic',
-			'LV' => 'Latvia',
-			'LB' => 'Lebanon',
-			'LS' => 'Lesotho',
-			'LR' => 'Liberia',
-			'LY' => 'Libyan Arab Jamahiriya',
-			'LI' => 'Liechtenstein',
-			'LT' => 'Lithuania',
-			'LU' => 'Luxembourg',
-			'MO' => 'Macau',
-			'MK' => 'Macedonia',
-			'MG' => 'Madagascar',
-			'MW' => 'Malawi',
-			'MY' => 'Malaysia',
-			'MV' => 'Maldives',
-			'ML' => 'Mali',
-			'MT' => 'Malta',
-			'MH' => 'Marshall Islands',
-			'MQ' => 'Martinique',
-			'MR' => 'Mauritania',
-			'MU' => 'Mauritius',
-			'YT' => 'Mayotte',
-			'MX' => 'Mexico',
-			'FM' => 'Micronesia',
-			'MD' => 'Moldova, Republic of',
-			'MC' => 'Monaco',
-			'MN' => 'Mongolia',
-			'ME' => 'Montenegro',
-			'MS' => 'Montserrat',
-			'MA' => 'Morocco',
-			'MZ' => 'Mozambique',
-			'MM' => 'Myanmar',
-			'NA' => 'Namibia',
-			'NR' => 'Nauru',
-			'NP' => 'Nepal',
-			'NL' => 'Netherlands',
-			'AN' => 'Netherlands Antilles',
-			'NC' => 'New Caledonia',
-			'NZ' => 'New Zealand',
-			'NI' => 'Nicaragua',
-			'NE' => 'Niger',
-			'NG' => 'Nigeria',
-			'NU' => 'Niue',
-			'NF' => 'Norfolk Island',
-			'KP' => 'North Korea',
-			'MP' => 'Northern Mariana Islands',
-			'NO' => 'Norway',
-			'OM' => 'Oman',
-			'PK' => 'Pakistan',
-			'PW' => 'Palau',
-			'PS' => 'Palestinian Territories',
-			'PA' => 'Panama',
-			'PG' => 'Papua New Guinea',
-			'PY' => 'Paraguay',
-			'PE' => 'Peru',
-			'PH' => 'Phillipines',
-			'PN' => 'Pitcairn Island',
-			'PL' => 'Poland',
-			'PT' => 'Portugal',
-			'PR' => 'Puerto Rico',
-			'QA' => 'Qatar',
-			'XK' => 'Republic of Kosovo',
-			'RE' => 'Reunion Island',
-			'RO' => 'Romania',
-			'RU' => 'Russian Federation',
-			'RW' => 'Rwanda',
-			'BL' => 'Saint Barth&eacute;lemy',
-			'SH' => 'Saint Helena',
-			'KN' => 'Saint Kitts and Nevis',
-			'LC' => 'Saint Lucia',
-			'MF' => 'Saint Martin (French)',
-			'SX' => 'Saint Martin (Dutch)',
-			'PM' => 'Saint Pierre and Miquelon',
-			'VC' => 'Saint Vincent and the Grenadines',
-			'SM' => 'San Marino',
-			'ST' => 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe',
-			'SA' => 'Saudi Arabia',
-			'SN' => 'Senegal',
-			'RS' => 'Serbia',
-			'SC' => 'Seychelles',
-			'SL' => 'Sierra Leone',
-			'SG' => 'Singapore',
-			'SK' => 'Slovak Republic',
-			'SI' => 'Slovenia',
-			'SB' => 'Solomon Islands',
-			'SO' => 'Somalia',
-			'ZA' => 'South Africa',
-			'GS' => 'South Georgia',
-			'KR' => 'South Korea',
-			'SS' => 'South Sudan',
-			'ES' => 'Spain',
-			'LK' => 'Sri Lanka',
-			'SD' => 'Sudan',
-			'SR' => 'Suriname',
-			'SJ' => 'Svalbard and Jan Mayen Islands',
-			'SZ' => 'Swaziland',
-			'SE' => 'Sweden',
-			'CH' => 'Switzerland',
-			'SY' => 'Syrian Arab Republic',
-			'TW' => 'Taiwan',
-			'TJ' => 'Tajikistan',
-			'TZ' => 'Tanzania',
-			'TH' => 'Thailand',
-			'TL' => 'Timor-Leste',
-			'TG' => 'Togo',
-			'TK' => 'Tokelau',
-			'TO' => 'Tonga',
-			'TT' => 'Trinidad and Tobago',
-			'TN' => 'Tunisia',
-			'TR' => 'Turkey',
-			'TM' => 'Turkmenistan',
-			'TC' => 'Turks and Caicos Islands',
-			'TV' => 'Tuvalu',
-			'UG' => 'Uganda',
-			'UA' => 'Ukraine',
-			'AE' => 'United Arab Emirates',
-			'UY' => 'Uruguay',
-			'UM' => 'US Minor Outlying Islands',
-			'UZ' => 'Uzbekistan',
-			'VU' => 'Vanuatu',
-			'VE' => 'Venezuela',
-			'VN' => 'Vietnam',
-			'VG' => 'Virgin Islands (British)',
-			'VI' => 'Virgin Islands (USA)',
-			'WF' => 'Wallis and Futuna Islands',
-			'EH' => 'Western Sahara',
-			'WS' => 'Western Samoa',
-			'YE' => 'Yemen',
-			'ZM' => 'Zambia',
-			'ZW' => 'Zimbabwe'
-		);
-		return apply_filters('mprm_countries', $countries);
 	}
 
 	/**
@@ -648,6 +404,40 @@ class Settings extends Model {
 			}
 			echo '<p class="description" style="margin-top:16px;">' . wp_kses_post($args['desc']) . '</p>';
 		}
+	}
+
+	/**
+	 * @param $str
+	 *
+	 * @return bool
+	 */
+	public function string_is_image_url($str) {
+		$ext = $this->get_file_extension($str);
+		switch (strtolower($ext)) {
+			case 'jpg';
+				$return = true;
+				break;
+			case 'png';
+				$return = true;
+				break;
+			case 'gif';
+				$return = true;
+				break;
+			default:
+				$return = false;
+				break;
+		}
+		return (bool)apply_filters('mprm_string_is_image', $return, $str);
+	}
+
+	/**
+	 * @param $str
+	 *
+	 * @return mixed
+	 */
+	public function get_file_extension($str) {
+		$parts = explode('.', $str);
+		return end($parts);
 	}
 
 	/**
@@ -919,6 +709,101 @@ class Settings extends Model {
 	}
 
 	/**
+	 * @param null $country
+	 *
+	 * @return mixed|void
+	 */
+	public function get_shop_states($country = null) {
+		if (empty($country)) {
+			$country = $this->get_shop_country();
+		}
+		switch ($country) :
+			case 'US' :
+				$states = $this->get('settings_countries')->get_states_list();
+				break;
+			case 'CA' :
+				$states =  $this->get('settings_countries')->get_provinces_list();
+				break;
+			case 'AU' :
+				$states =  $this->get('settings_countries')->get_australian_states_list();
+				break;
+			case 'BD' :
+				$states =  $this->get('settings_countries')->get_bangladeshi_states_list();
+				break;
+			case 'BG' :
+				$states =  $this->get('settings_countries')->get_bulgarian_states_list();
+				break;
+			case 'BR' :
+				$states =  $this->get('settings_countries')->get_brazil_states_list();
+				break;
+			case 'CN' :
+				$states =  $this->get('settings_countries')->get_chinese_states_list();
+				break;
+			case 'HK' :
+				$states =  $this->get('settings_countries')->get_hong_kong_states_list();
+				break;
+			case 'HU' :
+				$states =  $this->get('settings_countries')->get_hungary_states_list();
+				break;
+			case 'ID' :
+				$states =  $this->get('settings_countries')->get_indonesian_states_list();
+				break;
+			case 'IN' :
+				$states =  $this->get('settings_countries')->get_indian_states_list();
+				break;
+			case 'IR' :
+				$states =  $this->get('settings_countries')->get_iranian_states_list();
+				break;
+			case 'IT' :
+				$states =  $this->get('settings_countries')->get_italian_states_list();
+				break;
+			case 'JP' :
+				$states =  $this->get('settings_countries')->get_japanese_states_list();
+				break;
+			case 'MX' :
+				$states =  $this->get('settings_countries')->get_mexican_states_list();
+				break;
+			case 'MY' :
+				$states =  $this->get('settings_countries')->get_malaysian_states_list();
+				break;
+			case 'NP' :
+				$states =  $this->get('settings_countries')->get_nepalese_states_list();
+				break;
+			case 'NZ' :
+				$states =  $this->get('settings_countries')->get_new_zealand_states_list();
+				break;
+			case 'PE' :
+				$states =  $this->get('settings_countries')->get_peruvian_states_list();
+				break;
+			case 'TH' :
+				$states =  $this->get('settings_countries')->get_thailand_states_list();
+				break;
+			case 'TR' :
+				$states =  $this->get('settings_countries')->get_turkey_states_list();
+				break;
+			case 'ZA' :
+				$states =  $this->get('settings_countries')->get_south_african_states_list();
+				break;
+			case 'ES' :
+				$states =  $this->get('settings_countries')->get_spain_states_list();
+				break;
+			default :
+				$states = array();
+				break;
+		endswitch;
+		return apply_filters('mprm_shop_states', $states, $country);
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_shop_country() {
+		$country = $this->get_option('base_country', 'US');
+		$country = apply_filters('mprm_shop_country', $country);
+		return $country;
+	}
+
+	/**
 	 * @param $args
 	 */
 	public function hook_callback($args) {
@@ -1031,6 +916,276 @@ class Settings extends Model {
 		</p>
 		<?php
 		echo ob_get_clean();
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_tax_rates() {
+		$rates = $this->get_option('mprm_tax_rates', array());
+		return apply_filters('mprm_get_tax_rates', $rates);
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_country_list() {
+		$countries = array(
+			'' => '',
+			'US' => 'United States',
+			'CA' => 'Canada',
+			'GB' => 'United Kingdom',
+			'AF' => 'Afghanistan',
+			'AX' => '&#197;land Islands',
+			'AL' => 'Albania',
+			'DZ' => 'Algeria',
+			'AS' => 'American Samoa',
+			'AD' => 'Andorra',
+			'AO' => 'Angola',
+			'AI' => 'Anguilla',
+			'AQ' => 'Antarctica',
+			'AG' => 'Antigua and Barbuda',
+			'AR' => 'Argentina',
+			'AM' => 'Armenia',
+			'AW' => 'Aruba',
+			'AU' => 'Australia',
+			'AT' => 'Austria',
+			'AZ' => 'Azerbaijan',
+			'BS' => 'Bahamas',
+			'BH' => 'Bahrain',
+			'BD' => 'Bangladesh',
+			'BB' => 'Barbados',
+			'BY' => 'Belarus',
+			'BE' => 'Belgium',
+			'BZ' => 'Belize',
+			'BJ' => 'Benin',
+			'BM' => 'Bermuda',
+			'BT' => 'Bhutan',
+			'BO' => 'Bolivia',
+			'BQ' => 'Bonaire, Saint Eustatius and Saba',
+			'BA' => 'Bosnia and Herzegovina',
+			'BW' => 'Botswana',
+			'BV' => 'Bouvet Island',
+			'BR' => 'Brazil',
+			'IO' => 'British Indian Ocean Territory',
+			'BN' => 'Brunei Darrussalam',
+			'BG' => 'Bulgaria',
+			'BF' => 'Burkina Faso',
+			'BI' => 'Burundi',
+			'KH' => 'Cambodia',
+			'CM' => 'Cameroon',
+			'CV' => 'Cape Verde',
+			'KY' => 'Cayman Islands',
+			'CF' => 'Central African Republic',
+			'TD' => 'Chad',
+			'CL' => 'Chile',
+			'CN' => 'China',
+			'CX' => 'Christmas Island',
+			'CC' => 'Cocos Islands',
+			'CO' => 'Colombia',
+			'KM' => 'Comoros',
+			'CD' => 'Congo, Democratic People\'s Republic',
+			'CG' => 'Congo, Republic of',
+			'CK' => 'Cook Islands',
+			'CR' => 'Costa Rica',
+			'CI' => 'Cote d\'Ivoire',
+			'HR' => 'Croatia/Hrvatska',
+			'CU' => 'Cuba',
+			'CW' => 'Cura&Ccedil;ao',
+			'CY' => 'Cyprus',
+			'CZ' => 'Czech Republic',
+			'DK' => 'Denmark',
+			'DJ' => 'Djibouti',
+			'DM' => 'Dominica',
+			'DO' => 'Dominican Republic',
+			'TP' => 'East Timor',
+			'EC' => 'Ecuador',
+			'EG' => 'Egypt',
+			'GQ' => 'Equatorial Guinea',
+			'SV' => 'El Salvador',
+			'ER' => 'Eritrea',
+			'EE' => 'Estonia',
+			'ET' => 'Ethiopia',
+			'FK' => 'Falkland Islands',
+			'FO' => 'Faroe Islands',
+			'FJ' => 'Fiji',
+			'FI' => 'Finland',
+			'FR' => 'France',
+			'GF' => 'French Guiana',
+			'PF' => 'French Polynesia',
+			'TF' => 'French Southern Territories',
+			'GA' => 'Gabon',
+			'GM' => 'Gambia',
+			'GE' => 'Georgia',
+			'DE' => 'Germany',
+			'GR' => 'Greece',
+			'GH' => 'Ghana',
+			'GI' => 'Gibraltar',
+			'GL' => 'Greenland',
+			'GD' => 'Grenada',
+			'GP' => 'Guadeloupe',
+			'GU' => 'Guam',
+			'GT' => 'Guatemala',
+			'GG' => 'Guernsey',
+			'GN' => 'Guinea',
+			'GW' => 'Guinea-Bissau',
+			'GY' => 'Guyana',
+			'HT' => 'Haiti',
+			'HM' => 'Heard and McDonald Islands',
+			'VA' => 'Holy See (City Vatican State)',
+			'HN' => 'Honduras',
+			'HK' => 'Hong Kong',
+			'HU' => 'Hungary',
+			'IS' => 'Iceland',
+			'IN' => 'India',
+			'ID' => 'Indonesia',
+			'IR' => 'Iran',
+			'IQ' => 'Iraq',
+			'IE' => 'Ireland',
+			'IM' => 'Isle of Man',
+			'IL' => 'Israel',
+			'IT' => 'Italy',
+			'JM' => 'Jamaica',
+			'JP' => 'Japan',
+			'JE' => 'Jersey',
+			'JO' => 'Jordan',
+			'KZ' => 'Kazakhstan',
+			'KE' => 'Kenya',
+			'KI' => 'Kiribati',
+			'KW' => 'Kuwait',
+			'KG' => 'Kyrgyzstan',
+			'LA' => 'Lao People\'s Democratic Republic',
+			'LV' => 'Latvia',
+			'LB' => 'Lebanon',
+			'LS' => 'Lesotho',
+			'LR' => 'Liberia',
+			'LY' => 'Libyan Arab Jamahiriya',
+			'LI' => 'Liechtenstein',
+			'LT' => 'Lithuania',
+			'LU' => 'Luxembourg',
+			'MO' => 'Macau',
+			'MK' => 'Macedonia',
+			'MG' => 'Madagascar',
+			'MW' => 'Malawi',
+			'MY' => 'Malaysia',
+			'MV' => 'Maldives',
+			'ML' => 'Mali',
+			'MT' => 'Malta',
+			'MH' => 'Marshall Islands',
+			'MQ' => 'Martinique',
+			'MR' => 'Mauritania',
+			'MU' => 'Mauritius',
+			'YT' => 'Mayotte',
+			'MX' => 'Mexico',
+			'FM' => 'Micronesia',
+			'MD' => 'Moldova, Republic of',
+			'MC' => 'Monaco',
+			'MN' => 'Mongolia',
+			'ME' => 'Montenegro',
+			'MS' => 'Montserrat',
+			'MA' => 'Morocco',
+			'MZ' => 'Mozambique',
+			'MM' => 'Myanmar',
+			'NA' => 'Namibia',
+			'NR' => 'Nauru',
+			'NP' => 'Nepal',
+			'NL' => 'Netherlands',
+			'AN' => 'Netherlands Antilles',
+			'NC' => 'New Caledonia',
+			'NZ' => 'New Zealand',
+			'NI' => 'Nicaragua',
+			'NE' => 'Niger',
+			'NG' => 'Nigeria',
+			'NU' => 'Niue',
+			'NF' => 'Norfolk Island',
+			'KP' => 'North Korea',
+			'MP' => 'Northern Mariana Islands',
+			'NO' => 'Norway',
+			'OM' => 'Oman',
+			'PK' => 'Pakistan',
+			'PW' => 'Palau',
+			'PS' => 'Palestinian Territories',
+			'PA' => 'Panama',
+			'PG' => 'Papua New Guinea',
+			'PY' => 'Paraguay',
+			'PE' => 'Peru',
+			'PH' => 'Phillipines',
+			'PN' => 'Pitcairn Island',
+			'PL' => 'Poland',
+			'PT' => 'Portugal',
+			'PR' => 'Puerto Rico',
+			'QA' => 'Qatar',
+			'XK' => 'Republic of Kosovo',
+			'RE' => 'Reunion Island',
+			'RO' => 'Romania',
+			'RU' => 'Russian Federation',
+			'RW' => 'Rwanda',
+			'BL' => 'Saint Barth&eacute;lemy',
+			'SH' => 'Saint Helena',
+			'KN' => 'Saint Kitts and Nevis',
+			'LC' => 'Saint Lucia',
+			'MF' => 'Saint Martin (French)',
+			'SX' => 'Saint Martin (Dutch)',
+			'PM' => 'Saint Pierre and Miquelon',
+			'VC' => 'Saint Vincent and the Grenadines',
+			'SM' => 'San Marino',
+			'ST' => 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe',
+			'SA' => 'Saudi Arabia',
+			'SN' => 'Senegal',
+			'RS' => 'Serbia',
+			'SC' => 'Seychelles',
+			'SL' => 'Sierra Leone',
+			'SG' => 'Singapore',
+			'SK' => 'Slovak Republic',
+			'SI' => 'Slovenia',
+			'SB' => 'Solomon Islands',
+			'SO' => 'Somalia',
+			'ZA' => 'South Africa',
+			'GS' => 'South Georgia',
+			'KR' => 'South Korea',
+			'SS' => 'South Sudan',
+			'ES' => 'Spain',
+			'LK' => 'Sri Lanka',
+			'SD' => 'Sudan',
+			'SR' => 'Suriname',
+			'SJ' => 'Svalbard and Jan Mayen Islands',
+			'SZ' => 'Swaziland',
+			'SE' => 'Sweden',
+			'CH' => 'Switzerland',
+			'SY' => 'Syrian Arab Republic',
+			'TW' => 'Taiwan',
+			'TJ' => 'Tajikistan',
+			'TZ' => 'Tanzania',
+			'TH' => 'Thailand',
+			'TL' => 'Timor-Leste',
+			'TG' => 'Togo',
+			'TK' => 'Tokelau',
+			'TO' => 'Tonga',
+			'TT' => 'Trinidad and Tobago',
+			'TN' => 'Tunisia',
+			'TR' => 'Turkey',
+			'TM' => 'Turkmenistan',
+			'TC' => 'Turks and Caicos Islands',
+			'TV' => 'Tuvalu',
+			'UG' => 'Uganda',
+			'UA' => 'Ukraine',
+			'AE' => 'United Arab Emirates',
+			'UY' => 'Uruguay',
+			'UM' => 'US Minor Outlying Islands',
+			'UZ' => 'Uzbekistan',
+			'VU' => 'Vanuatu',
+			'VE' => 'Venezuela',
+			'VN' => 'Vietnam',
+			'VG' => 'Virgin Islands (British)',
+			'VI' => 'Virgin Islands (USA)',
+			'WF' => 'Wallis and Futuna Islands',
+			'EH' => 'Western Sahara',
+			'WS' => 'Western Samoa',
+			'YE' => 'Yemen',
+			'ZM' => 'Zambia',
+			'ZW' => 'Zimbabwe'
+		);
+		return apply_filters('mprm_countries', $countries);
 	}
 
 	/**
@@ -1204,152 +1359,6 @@ class Settings extends Model {
 	}
 
 	/**
-	 * @param $str
-	 *
-	 * @return bool
-	 */
-	public function string_is_image_url($str) {
-		$ext = $this->get_file_extension($str);
-		switch (strtolower($ext)) {
-			case 'jpg';
-				$return = true;
-				break;
-			case 'png';
-				$return = true;
-				break;
-			case 'gif';
-				$return = true;
-				break;
-			default:
-				$return = false;
-				break;
-		}
-		return (bool)apply_filters('mprm_string_is_image', $return, $str);
-	}
-
-	/**
-	 * @param $str
-	 *
-	 * @return mixed
-	 */
-	public function get_file_extension($str) {
-		$parts = explode('.', $str);
-		return end($parts);
-	}
-
-	/**
-	 * @param null $country
-	 *
-	 * @return mixed|void
-	 */
-	public function get_shop_states($country = null) {
-		if (empty($country)) {
-			$country = $this->get_shop_country();
-		}
-		switch ($country) :
-			case 'US' :
-				$states = Settings_countries::get_instance()->get_states_list();
-				break;
-			case 'CA' :
-				$states = Settings_countries::get_instance()->get_provinces_list();
-				break;
-			case 'AU' :
-				$states = Settings_countries::get_instance()->get_australian_states_list();
-				break;
-			case 'BD' :
-				$states = Settings_countries::get_instance()->get_bangladeshi_states_list();
-				break;
-			case 'BG' :
-				$states = Settings_countries::get_instance()->get_bulgarian_states_list();
-				break;
-			case 'BR' :
-				$states = Settings_countries::get_instance()->get_brazil_states_list();
-				break;
-			case 'CN' :
-				$states = Settings_countries::get_instance()->get_chinese_states_list();
-				break;
-			case 'HK' :
-				$states = Settings_countries::get_instance()->get_hong_kong_states_list();
-				break;
-			case 'HU' :
-				$states = Settings_countries::get_instance()->get_hungary_states_list();
-				break;
-			case 'ID' :
-				$states = Settings_countries::get_instance()->get_indonesian_states_list();
-				break;
-			case 'IN' :
-				$states = Settings_countries::get_instance()->get_indian_states_list();
-				break;
-			case 'IR' :
-				$states = Settings_countries::get_instance()->get_iranian_states_list();
-				break;
-			case 'IT' :
-				$states = Settings_countries::get_instance()->get_italian_states_list();
-				break;
-			case 'JP' :
-				$states = Settings_countries::get_instance()->get_japanese_states_list();
-				break;
-			case 'MX' :
-				$states = Settings_countries::get_instance()->get_mexican_states_list();
-				break;
-			case 'MY' :
-				$states = Settings_countries::get_instance()->get_malaysian_states_list();
-				break;
-			case 'NP' :
-				$states = Settings_countries::get_instance()->get_nepalese_states_list();
-				break;
-			case 'NZ' :
-				$states = Settings_countries::get_instance()->get_new_zealand_states_list();
-				break;
-			case 'PE' :
-				$states = Settings_countries::get_instance()->get_peruvian_states_list();
-				break;
-			case 'TH' :
-				$states = Settings_countries::get_instance()->get_thailand_states_list();
-				break;
-			case 'TR' :
-				$states = Settings_countries::get_instance()->get_turkey_states_list();
-				break;
-			case 'ZA' :
-				$states = Settings_countries::get_instance()->get_south_african_states_list();
-				break;
-			case 'ES' :
-				$states = Settings_countries::get_instance()->get_spain_states_list();
-				break;
-			default :
-				$states = array();
-				break;
-		endswitch;
-		return apply_filters('mprm_shop_states', $states, $country);
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_tax_rates() {
-		$rates = $this->get_option('mprm_tax_rates', array());
-		return apply_filters('mprm_get_tax_rates', $rates);
-	}
-
-	/**
-	 * @param string $key
-	 * @param bool $default
-	 *
-	 * @return mixed|void
-	 */
-	public function get_option($key = '', $default = false) {
-		global $mprm_options;
-
-		if (empty($mprm_options)) {
-			$mprm_options = Settings::get_instance()->get_settings();
-		}
-
-		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
-		$value = apply_filters('mprm_get_option', $value, $key, $default);
-		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
-	}
-
-	/**
 	 * @param string $key
 	 * @param bool $value
 	 *
@@ -1444,15 +1453,6 @@ class Settings extends Model {
 			$url = add_query_arg('nocache', 'true', $url);
 		}
 		return $url;
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_shop_country() {
-		$country = $this->get_option('base_country', 'US');
-		$country = apply_filters('mprm_shop_country', $country);
-		return $country;
 	}
 
 	/**
