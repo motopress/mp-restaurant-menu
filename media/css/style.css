@@ -1856,6 +1856,7 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
+  color: inherit;
 }
 .mprm-main-wrapper a:focus,
 .mprm-main-wrapper a.mprm-link:focus,
@@ -1867,12 +1868,13 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: initial;
+  color: inherit;
 }
 .mprm-container {
   margin: 0;
   padding: 0;
   position: relative;
+  color: inherit;
 }
 .mprm-container a,
 .mprm-container a.mprm-link {
@@ -1891,7 +1893,7 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: initial;
+  color: inherit;
 }
 .mprm-container .mprm-row {
   padding-bottom: 4%;
