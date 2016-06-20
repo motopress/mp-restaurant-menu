@@ -940,7 +940,6 @@ function mprm_menu_item_simple_list_header() {
  * @global array $mprm_view_args
  */
 function mprm_menu_item_list_image() {
-	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (mprm_get_feat_image() && !empty($post_options['image'])) {
 		mprm_get_template('common/list-item-image', array('image' => $post_options['image']));
@@ -953,7 +952,6 @@ function mprm_menu_item_list_image() {
  * @global array $mprm_view_args
  */
 function mprm_menu_item_list_right_header() {
-	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	$feat_img = mprm_get_feat_image();
 	?>
@@ -1146,7 +1144,6 @@ function mprm_category_menu_item_after_content(){
  * @global array $mprm_view_args
  */
 function mprm_menu_item_grid_image() {
-	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
 	if (mprm_get_feat_image() && !empty($post_options['image'])) {
 		echo $post_options['image'];
@@ -1515,6 +1512,7 @@ function mprm_get_error_html() {
  */
 function create_grid_by_posts($data, $col) {
 	global $post;
+	$i = 1;
 	$last_key = array_search(end($data['posts']), $data['posts']);
 
 	foreach ($data['posts'] as $key => $post) :

@@ -320,7 +320,8 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_tags', 40);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 50);
 
-		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 60);
+		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 55);
+
 
 		/**
 		 * Menu item list
@@ -506,6 +507,7 @@ class Hooks extends Core {
 		 */
 		add_action('mprm-before-main-wrapper', 'mprm_theme_wrapper_before');
 		add_action('mprm-after-main-wrapper', 'mprm_theme_wrapper_after');
+
 		/**
 		 * Before Menu_item header
 		 *

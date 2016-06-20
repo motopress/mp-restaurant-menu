@@ -717,7 +717,7 @@ there.
   -webkit-flex-basis: 5%;
       -ms-flex-preferred-size: 5%;
           flex-basis: 5%;
-  margin-bottom: 0.5em;
+  margin: 0.25em;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-price {
   -webkit-align-self: flex-end;
@@ -1126,7 +1126,7 @@ there.
   -webkit-flex-basis: 5%;
       -ms-flex-preferred-size: 5%;
           flex-basis: 5%;
-  margin-bottom: 0.5em;
+  margin: 0.25em;
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-price {
   -webkit-align-self: flex-end;
@@ -1826,7 +1826,6 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm-main-wrapper a:focus,
 .mprm-container a:focus,
@@ -1844,56 +1843,15 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm-form-error {
   border-color: #a94442;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.mprm-main-wrapper a,
-.mprm-main-wrapper a.mprm-link {
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  color: inherit;
-}
-.mprm-main-wrapper a:focus,
-.mprm-main-wrapper a.mprm-link:focus,
-.mprm-main-wrapper a:visited,
-.mprm-main-wrapper a.mprm-link:visited,
-.mprm-main-wrapper a:hover,
-.mprm-main-wrapper a.mprm-link:hover {
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  color: inherit;
-}
 .mprm-container {
   margin: 0;
   padding: 0;
   position: relative;
-  color: inherit;
-}
-.mprm-container a,
-.mprm-container a.mprm-link {
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  border: none;
-}
-.mprm-container a:focus,
-.mprm-container a.mprm-link:focus,
-.mprm-container a:visited,
-.mprm-container a.mprm-link:visited,
-.mprm-container a:hover,
-.mprm-container a.mprm-link:hover {
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  color: inherit;
 }
 .mprm-container .mprm-row {
   padding-bottom: 4%;
