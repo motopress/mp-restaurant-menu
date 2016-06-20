@@ -1844,7 +1844,7 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: initial;
+  color: inherit;
 }
 .mprm-form-error {
   border-color: #a94442;

@@ -1530,9 +1530,8 @@ function create_grid_by_posts($data, $col) {
 			</div>
 		<?php }
 		$i++;
-		wp_reset_postdata(); endforeach;
-
-	return array($post, $i);
+		wp_reset_postdata();
+		 endforeach;
 }
 /**
 * @param $data
