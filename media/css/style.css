@@ -1895,9 +1895,10 @@ there.
 }
 .mprm-container.mprm-view-simple-list .mprm-column-count {
   display: inline-block;
+  width: 100%;
 }
 .mprm-container.mprm-view-simple-list .mprm-column-count .mprm-columns {
-  width: auto;
+  width: 100%;
 }
 @media (max-width: 550px) {
   .mprm-container.mprm-view-simple-list > div[class^="mprm-columns-count-"] {
