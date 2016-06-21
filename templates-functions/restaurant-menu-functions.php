@@ -535,12 +535,18 @@ function get_mprm_menu_item_ID() {
 /**
  * Grid mprm-columns class
  *
- * @param $type
+ * @param int $type
+ * @param string $view
  *
  * @return string
  */
-function get_column_class($type) {
-	$column_class = apply_filters('mprm-grid-column-class','mprm-columns');
+function get_column_class($type,$view = 'default') {
+
+	if($view =='simple-list'){
+		$column_class = apply_filters('mprm-grid-column-class-simple-list','mprm-column-count');
+	}else{
+		$column_class = apply_filters('mprm-grid-column-class','mprm-columns');
+	}
 
 	switch ($type) {
 		case '1':

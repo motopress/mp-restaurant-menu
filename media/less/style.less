@@ -39,6 +39,58 @@
 	  border: none;
 	}
   }
+  &.mprm-shortcode-items {
+	a, a.mprm-link {
+	  color: inherit;
+	  &:focus,
+	  &:visited,
+	  &:hover {
+		color: inherit;
+	  }
+	}
+  }
+}
+
+.mprm-container {
+  &.mprm-view-simple-list {
+
+	.mprm-columns-count-1 {
+	  column-count: 1;
+	}
+	.mprm-columns-count-2 {
+	  column-count: 2;
+	}
+	.mprm-columns-count-3 {
+	  column-count: 3;
+	}
+	.mprm-columns-count-4 {
+	  column-count: 4;
+	}
+	.mprm-columns-count-6 {
+	  column-count: 6;
+	}
+
+	.mprm-column-count {
+	  display: inline-block;
+	  .mprm-columns {
+		width: auto;
+	  }
+	}
+  }
+}
+
+@media (max-width: @bp-larger-than-phablet) {
+  .mprm-container {
+	&.mprm-view-simple-list {
+	  > div[class^="mprm-columns-count-"] {
+		column-count: auto;
+	  }
+	  .mprm-column-count {
+		display: inline-block;
+		width: 100%;
+	  }
+	}
+  }
 }
 
 .mprm-form-error {
