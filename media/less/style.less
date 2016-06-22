@@ -25,7 +25,7 @@
 }
 
 .mprm-main-wrapper, .mprm-container {
-  a, a.mprm-link {
+  a.mprm-link {
 	text-decoration: none;
 	outline: none;
 	box-shadow: none;
@@ -39,16 +39,38 @@
 	  border: none;
 	}
   }
-  &.mprm-shortcode-items {
-	a, a.mprm-link {
-	  color: inherit;
-	  &:focus,
-	  &:visited,
-	  &:hover {
-		color: inherit;
+
+
+  .mprm_menu_item_buy_button {
+	form {
+	  a {
+		text-decoration: none;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		&:focus,
+		&:visited,
+		&:hover {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		}
 	  }
 	}
   }
+  //&.mprm-shortcode-items {
+  //a, a.mprm-link {
+  //
+  //  &:focus,
+  //  &:visited,
+  //  &:hover {
+  //	* {
+  //	  color: initial;
+  //	}
+  //  }
+  //}
+  //}
 }
 
 .mprm-container {

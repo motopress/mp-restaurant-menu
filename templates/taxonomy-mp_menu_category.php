@@ -72,8 +72,9 @@ do_action('mprm-single-category-before-wrapper');
 	</div>
 <?php
 do_action('mprm-single-category-after-wrapper');
+
 if (is_tax() && ('twentyfourteen' === get_option('template'))) {
 	get_sidebar();
 }
-get_footer();
-?>
+
+get_footer(); ?>

@@ -16,6 +16,9 @@
 .twentyfourteen .tfmp .product .images img {
   margin-bottom: 1em;
 }
+.twentyeleven .mprm-container .mprm-item-image img {
+  width: 100%;
+}
 .twentyeleven .mp-menu-item .mprm-sidebar .mprm-title,
 .twentyeleven .mp-menu-item .mprm-sidebar .mprm-price {
   font-size: 1.2rem;
@@ -709,7 +712,7 @@ there.
   padding: 0;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-dots {
-  border-bottom: 1px dotted #0a0a0a;
+  border-bottom: 1px dotted #e0e0e0;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
@@ -1119,7 +1122,7 @@ there.
   padding: 0;
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-dots {
-  border-bottom: 1px dotted #0a0a0a;
+  border-bottom: 1px dotted #e0e0e0;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
@@ -1540,7 +1543,7 @@ there.
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
-.mprm-plugin-styles a.mprm-submit,
+.mprm-plugin-styles .mprm-submit,
 .mprm-plugin-styles input.mprm-submit {
   text-decoration: none;
   outline: none;
@@ -1558,154 +1561,154 @@ there.
           user-select: none;
   min-height: initial;
 }
-.mprm-plugin-styles a.mprm-submit.mprm-small,
+.mprm-plugin-styles .mprm-submit.mprm-small,
 .mprm-plugin-styles input.mprm-submit.mprm-small {
   padding: 0.25em 0.5em;
   font-size: 0.75em;
   line-height: 1.2;
 }
-.mprm-plugin-styles a.mprm-submit.mprm-middle,
+.mprm-plugin-styles .mprm-submit.mprm-middle,
 .mprm-plugin-styles input.mprm-submit.mprm-middle {
   padding: 0.5em 1em;
   font-size: 0.9em;
   line-height: 1.2;
 }
-.mprm-plugin-styles a.mprm-submit.mprm-big,
+.mprm-plugin-styles .mprm-submit.mprm-big,
 .mprm-plugin-styles input.mprm-submit.mprm-big {
   padding: 0.85em 1.7em;
   font-size: 1.1em;
   line-height: 1.2;
 }
-.mprm-plugin-styles a.mprm-submit.gray,
+.mprm-plugin-styles .mprm-submit.gray,
 .mprm-plugin-styles input.mprm-submit.gray {
   color: #333333;
   background: #f0f0f0;
   border-color: #cccccc;
 }
-.mprm-plugin-styles a.mprm-submit.gray:hover,
+.mprm-plugin-styles .mprm-submit.gray:hover,
 .mprm-plugin-styles input.mprm-submit.gray:hover,
-.mprm-plugin-styles a.mprm-submit.gray:focus,
+.mprm-plugin-styles .mprm-submit.gray:focus,
 .mprm-plugin-styles input.mprm-submit.gray:focus,
-.mprm-plugin-styles a.mprm-submit.gray:active,
+.mprm-plugin-styles .mprm-submit.gray:active,
 .mprm-plugin-styles input.mprm-submit.gray:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.white,
+.mprm-plugin-styles .mprm-submit.white,
 .mprm-plugin-styles input.mprm-submit.white {
   color: #333333;
   background: #ffffff;
   border-color: #cccccc;
 }
-.mprm-plugin-styles a.mprm-submit.white:hover,
+.mprm-plugin-styles .mprm-submit.white:hover,
 .mprm-plugin-styles input.mprm-submit.white:hover,
-.mprm-plugin-styles a.mprm-submit.white:focus,
+.mprm-plugin-styles .mprm-submit.white:focus,
 .mprm-plugin-styles input.mprm-submit.white:focus,
-.mprm-plugin-styles a.mprm-submit.white:active,
+.mprm-plugin-styles .mprm-submit.white:active,
 .mprm-plugin-styles input.mprm-submit.white:active {
   color: #333333;
   background: #ebebeb;
   border-color: #adadad;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.blue,
+.mprm-plugin-styles .mprm-submit.blue,
 .mprm-plugin-styles input.mprm-submit.blue {
   color: #ffffff;
   background: #428bca;
   border-color: #357ebd;
 }
-.mprm-plugin-styles a.mprm-submit.blue:hover,
+.mprm-plugin-styles .mprm-submit.blue:hover,
 .mprm-plugin-styles input.mprm-submit.blue:hover,
-.mprm-plugin-styles a.mprm-submit.blue:focus,
+.mprm-plugin-styles .mprm-submit.blue:focus,
 .mprm-plugin-styles input.mprm-submit.blue:focus,
-.mprm-plugin-styles a.mprm-submit.blue:active,
+.mprm-plugin-styles .mprm-submit.blue:active,
 .mprm-plugin-styles input.mprm-submit.blue:active {
   color: #ffffff;
   background: #3276b1;
   border-color: #285e8e;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.red,
+.mprm-plugin-styles .mprm-submit.red,
 .mprm-plugin-styles input.mprm-submit.red {
   color: #ffffff;
   background: #d9534f;
   border-color: #d43f3a;
 }
-.mprm-plugin-styles a.mprm-submit.red:hover,
+.mprm-plugin-styles .mprm-submit.red:hover,
 .mprm-plugin-styles input.mprm-submit.red:hover,
-.mprm-plugin-styles a.mprm-submit.red:focus,
+.mprm-plugin-styles .mprm-submit.red:focus,
 .mprm-plugin-styles input.mprm-submit.red:focus,
-.mprm-plugin-styles a.mprm-submit.red:active,
+.mprm-plugin-styles .mprm-submit.red:active,
 .mprm-plugin-styles input.mprm-submit.red:active {
   color: #ffffff;
   background: #d2322d;
   border-color: #ac2925;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.green,
+.mprm-plugin-styles .mprm-submit.green,
 .mprm-plugin-styles input.mprm-submit.green {
   color: #ffffff;
   background: #5cb85c;
   border-color: #4cae4c;
 }
-.mprm-plugin-styles a.mprm-submit.green:hover,
+.mprm-plugin-styles .mprm-submit.green:hover,
 .mprm-plugin-styles input.mprm-submit.green:hover,
-.mprm-plugin-styles a.mprm-submit.green:focus,
+.mprm-plugin-styles .mprm-submit.green:focus,
 .mprm-plugin-styles input.mprm-submit.green:focus,
-.mprm-plugin-styles a.mprm-submit.green:active,
+.mprm-plugin-styles .mprm-submit.green:active,
 .mprm-plugin-styles input.mprm-submit.green:active {
   color: #ffffff;
   background: #47a447;
   border-color: #398439;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.yellow,
+.mprm-plugin-styles .mprm-submit.yellow,
 .mprm-plugin-styles input.mprm-submit.yellow {
   color: #ffffff;
   background: #f0ad4e;
   border-color: #eea236;
 }
-.mprm-plugin-styles a.mprm-submit.yellow:hover,
+.mprm-plugin-styles .mprm-submit.yellow:hover,
 .mprm-plugin-styles input.mprm-submit.yellow:hover,
-.mprm-plugin-styles a.mprm-submit.yellow:focus,
+.mprm-plugin-styles .mprm-submit.yellow:focus,
 .mprm-plugin-styles input.mprm-submit.yellow:focus,
-.mprm-plugin-styles a.mprm-submit.yellow:active,
+.mprm-plugin-styles .mprm-submit.yellow:active,
 .mprm-plugin-styles input.mprm-submit.yellow:active {
   color: #ffffff;
   background: #ed9c28;
   border-color: #d58512;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.orange,
+.mprm-plugin-styles .mprm-submit.orange,
 .mprm-plugin-styles input.mprm-submit.orange {
   color: #ffffff;
   background: #ed9c28;
   border-color: #e3921e;
 }
-.mprm-plugin-styles a.mprm-submit.orange:hover,
+.mprm-plugin-styles .mprm-submit.orange:hover,
 .mprm-plugin-styles input.mprm-submit.orange:hover,
-.mprm-plugin-styles a.mprm-submit.orange:focus,
+.mprm-plugin-styles .mprm-submit.orange:focus,
 .mprm-plugin-styles input.mprm-submit.orange:focus,
-.mprm-plugin-styles a.mprm-submit.orange:active,
+.mprm-plugin-styles .mprm-submit.orange:active,
 .mprm-plugin-styles input.mprm-submit.orange:active {
   color: #ffffff;
   background: #e59016;
   border-color: #d58512;
   background-image: none;
 }
-.mprm-plugin-styles a.mprm-submit.dark-gray,
+.mprm-plugin-styles .mprm-submit.dark-gray,
 .mprm-plugin-styles input.mprm-submit.dark-gray {
   color: #ffffff;
   background: #363636;
   border-color: #222;
 }
-.mprm-plugin-styles a.mprm-submit.dark-gray:hover,
+.mprm-plugin-styles .mprm-submit.dark-gray:hover,
 .mprm-plugin-styles input.mprm-submit.dark-gray:hover,
-.mprm-plugin-styles a.mprm-submit.dark-gray:focus,
+.mprm-plugin-styles .mprm-submit.dark-gray:focus,
 .mprm-plugin-styles input.mprm-submit.dark-gray:focus,
-.mprm-plugin-styles a.mprm-submit.dark-gray:active,
+.mprm-plugin-styles .mprm-submit.dark-gray:active,
 .mprm-plugin-styles input.mprm-submit.dark-gray:active {
   color: #ffffff;
   background: #333;
@@ -1822,8 +1825,6 @@ there.
 .mprm-clear:after {
   clear: both;
 }
-.mprm-main-wrapper a,
-.mprm-container a,
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;
@@ -1831,16 +1832,10 @@ there.
   box-shadow: none;
   border: none;
 }
-.mprm-main-wrapper a:focus,
-.mprm-container a:focus,
 .mprm-main-wrapper a.mprm-link:focus,
 .mprm-container a.mprm-link:focus,
-.mprm-main-wrapper a:visited,
-.mprm-container a:visited,
 .mprm-main-wrapper a.mprm-link:visited,
 .mprm-container a.mprm-link:visited,
-.mprm-main-wrapper a:hover,
-.mprm-container a:hover,
 .mprm-main-wrapper a.mprm-link:hover,
 .mprm-container a.mprm-link:hover {
   text-decoration: none;
@@ -1848,25 +1843,23 @@ there.
   box-shadow: none;
   border: none;
 }
-.mprm-main-wrapper.mprm-shortcode-items a,
-.mprm-container.mprm-shortcode-items a,
-.mprm-main-wrapper.mprm-shortcode-items a.mprm-link,
-.mprm-container.mprm-shortcode-items a.mprm-link {
-  color: inherit;
+.mprm-main-wrapper .mprm_menu_item_buy_button form a,
+.mprm-container .mprm_menu_item_buy_button form a {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
-.mprm-main-wrapper.mprm-shortcode-items a:focus,
-.mprm-container.mprm-shortcode-items a:focus,
-.mprm-main-wrapper.mprm-shortcode-items a.mprm-link:focus,
-.mprm-container.mprm-shortcode-items a.mprm-link:focus,
-.mprm-main-wrapper.mprm-shortcode-items a:visited,
-.mprm-container.mprm-shortcode-items a:visited,
-.mprm-main-wrapper.mprm-shortcode-items a.mprm-link:visited,
-.mprm-container.mprm-shortcode-items a.mprm-link:visited,
-.mprm-main-wrapper.mprm-shortcode-items a:hover,
-.mprm-container.mprm-shortcode-items a:hover,
-.mprm-main-wrapper.mprm-shortcode-items a.mprm-link:hover,
-.mprm-container.mprm-shortcode-items a.mprm-link:hover {
-  color: inherit;
+.mprm-main-wrapper .mprm_menu_item_buy_button form a:focus,
+.mprm-container .mprm_menu_item_buy_button form a:focus,
+.mprm-main-wrapper .mprm_menu_item_buy_button form a:visited,
+.mprm-container .mprm_menu_item_buy_button form a:visited,
+.mprm-main-wrapper .mprm_menu_item_buy_button form a:hover,
+.mprm-container .mprm_menu_item_buy_button form a:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 .mprm-container.mprm-view-simple-list .mprm-columns-count-1 {
   -webkit-column-count: 1;
