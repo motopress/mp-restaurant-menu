@@ -1886,11 +1886,12 @@ there.
      -moz-column-count: 6;
           column-count: 6;
 }
-.mprm-container.mprm-view-simple-list .mprm-column-count {
+.mprm-container.mprm-view-simple-list .mprm-simple-view-column {
   display: inline-block;
   width: 100%;
+  margin-bottom: 2rem;
 }
-.mprm-container.mprm-view-simple-list .mprm-column-count .mprm-columns {
+.mprm-container.mprm-view-simple-list .mprm-simple-view-column .mprm-columns {
   width: 100%;
 }
 @media (max-width: 550px) {
@@ -1899,7 +1900,8 @@ there.
        -moz-column-count: auto;
             column-count: auto;
   }
-  .mprm-container.mprm-view-simple-list .mprm-column-count {
+  .mprm-container.mprm-view-simple-list .mprm-simple-view-column {
+    margin-bottom: 1rem;
     display: inline-block;
     width: 100%;
   }

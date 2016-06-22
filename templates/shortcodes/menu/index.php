@@ -12,32 +12,31 @@ $i = 1;
 				create_grid_by_posts($data, $col);
 			} elseif ($view == 'simple-list') {
 
-				render_term_header($data);
-
 				if (empty($data['term'])) {
 					foreach ($data['posts'] as $key => $post) :
 						setup_postdata($post);
 						mprm_set_menu_item($post->ID); ?>
-						<div class="mprm-column-count">
+						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
 							<?php render_current_html(); ?>
 						</div>
 						<?php
 						wp_reset_postdata();
 					endforeach;
-				} else {
-					foreach ($data['posts'] as $key => $post) :
-						setup_postdata($post); ?>
-						<div <?php post_class("mprm-column-count"); ?>>
-							<?php
+				} else { ?>
+					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
+						<?php render_term_header($data);
 
+						foreach ($data['posts'] as $key => $post) :
+
+							setup_postdata($post);
 							mprm_set_menu_item($post->ID);
 							render_current_html();
 							wp_reset_postdata();
 
-							?>
-						</div>
-					<?php endforeach;
-				}
+						endforeach;
+						?>
+					</div>
+				<?php }
 			}
 		} ?>
 		<?php if ($view == 'simple-list'){ ?>

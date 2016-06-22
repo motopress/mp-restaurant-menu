@@ -543,7 +543,7 @@ function get_mprm_menu_item_ID() {
 function get_column_class($type,$view = 'default') {
 
 	if($view =='simple-list'){
-		$column_class = apply_filters('mprm-grid-column-class-simple-list','mprm-column-count');
+		$column_class = apply_filters('mprm-grid-column-class-simple-list','mprm-simple-view-column');
 	}else{
 		$column_class = apply_filters('mprm-grid-column-class','mprm-columns');
 	}
