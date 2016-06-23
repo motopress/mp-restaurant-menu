@@ -1333,7 +1333,10 @@ class Media extends Core {
 	 */
 	public function template_include($template) {
 		global $post, $taxonomy;
-		if (!empty($taxonomy)) {
+		if ( is_embed() ) {
+			return $template;
+		}
+		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
 			foreach ($this->taxonomy_names as $taxonomy_name) {
 				if (basename($template) != "taxonomy-$taxonomy_name.php") {
 					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
@@ -1342,7 +1345,9 @@ class Media extends Core {
 					}
 				}
 			}
-		} elseif (!empty($post)) {
+		}
+
+		if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
 			foreach ($this->post_types as $post_type) {
 				if (basename($template) != "single-$post_type.php") {
 					$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
@@ -1352,6 +1357,7 @@ class Media extends Core {
 				}
 			}
 		}
+
 		return $template;
 	}
 
