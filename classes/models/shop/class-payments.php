@@ -1,64 +1,26 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
-use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\models\parents\Parent_query;
 use mp_restaurant_menu\classes\View as View;
 
+/**
+ * Class Payments
+ * @package mp_restaurant_menu\classes\models
+ */
 class Payments extends Parent_query {
 
 	protected static $instance;
 
+	/**
+	 * @return Payments
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 
 		return self::$instance;
-	}
-
-	public function get_payments($args = array()) {
-		$args = apply_filters('mprm_get_payments_args', $args);
-		$args['post_type'] = $this->get_post_type('order');
-		$this->setup_args($args);
-
-		return $this->get_posts();
-	}
-
-	public function get_posts($args = array()) {
-		do_action('mprm_pre_get_order', $this);
-		$query = new \WP_Query($this->args);
-
-		$custom_output = array(
-			'orders'
-		);
-		if (isset($this->args['output'])) {
-			if (in_array($this->args['output'], $custom_output)) {
-				return $query->posts;
-			}
-		}
-
-		if ($query->have_posts()) {
-			while ($query->have_posts()) {
-				$query->the_post();
-
-				$payment_id = get_post()->ID;
-				$payment = new Order($payment_id);
-
-				if ($this->get('settings')->get_option('enable_sequential')) {
-					// Backwards Compatibility, needs to set `payment_number` attribute
-					$payment->payment_number = $payment->number;
-				}
-
-				$this->posts[] = apply_filters('mprm_payment', $payment, $payment_id, $this);
-			}
-
-			wp_reset_postdata();
-		}
-
-		do_action('mprm_post_get_order', $this);
-
-		return $this->posts;
 	}
 
 	/**
@@ -120,6 +82,60 @@ class Payments extends Parent_query {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param array $args
+	 *
+	 * @return array
+	 */
+	public function get_payments($args = array()) {
+		$args = apply_filters('mprm_get_payments_args', $args);
+		$args['post_type'] = $this->get_post_type('order');
+		$this->setup_args($args);
+
+		return $this->get_posts();
+	}
+
+	/**
+	 * @param array $args
+	 *
+	 * @return array
+	 */
+	public function get_posts($args = array()) {
+		do_action('mprm_pre_get_order', $this);
+		$query = new \WP_Query($this->args);
+
+		$custom_output = array(
+			'orders'
+		);
+		if (isset($this->args['output'])) {
+			if (in_array($this->args['output'], $custom_output)) {
+				return $query->posts;
+			}
+		}
+
+		if ($query->have_posts()) {
+			while ($query->have_posts()) {
+				$query->the_post();
+
+				$payment_id = get_post()->ID;
+				$payment = new Order($payment_id);
+
+				if ($this->get('settings')->get_option('enable_sequential')) {
+					// Backwards Compatibility, needs to set `payment_number` attribute
+					$payment->payment_number = $payment->number;
+				}
+
+				$this->posts[] = apply_filters('mprm_payment', $payment, $payment_id, $this);
+			}
+
+			wp_reset_postdata();
+		}
+
+		do_action('mprm_post_get_order', $this);
+
+		return $this->posts;
 	}
 
 	/**
@@ -195,6 +211,103 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * @return bool|mixed|void
+	 */
+	public function get_next_payment_number() {
+		if (!$this->get('settings')->get_option('enable_sequential')) {
+			return false;
+		}
+		$number = get_option('mprm_last_payment_number');
+		$start = $this->get('settings')->get_option('sequential_start', 1);
+		$increment_number = true;
+		if (false !== $number) {
+			if (empty($number)) {
+				$number = $start;
+				$increment_number = false;
+			}
+		} else {
+			// This case handles the first addition of the new option, as well as if it get's deleted for any reason
+
+			$last_payment = $this->get_posts(array(
+				'number' => 1,
+				'order' => 'DESC',
+				'orderby' => 'ID',
+				'output' => 'posts',
+				'fields' => 'ids'
+			));
+
+			if (!empty($last_payment)) {
+				$number = $this->get_payment_number($last_payment[0]);
+			}
+			if (!empty($number) && $number !== (int)$last_payment[0]) {
+				$number = $this->remove_payment_prefix_postfix($number);
+			} else {
+				$number = $start;
+				$increment_number = false;
+			}
+		}
+		$increment_number = apply_filters('mprm_increment_payment_number', $increment_number, $number);
+		if ($increment_number) {
+			$number++;
+		}
+
+		return apply_filters('mprm_get_next_payment_number', $number);
+	}
+
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return string
+	 */
+	public function get_payment_number($payment_id = 0) {
+		$payment = new Order($payment_id);
+
+		return $payment->number;
+	}
+
+	/**
+	 * @param $number
+	 *
+	 * @return mixed|void
+	 */
+	public function remove_payment_prefix_postfix($number) {
+		$prefix = $this->get('settings')->get_option('sequential_prefix');
+		$postfix = $this->get('settings')->get_option('sequential_postfix');
+		// Remove prefix
+		$number = preg_replace('/' . $prefix . '/', '', $number, 1);
+		// Remove the postfix
+		$length = strlen($number);
+		$postfix_pos = strrpos($number, $postfix);
+		if (false !== $postfix_pos) {
+			$number = substr_replace($number, '', $postfix_pos, $length);
+		}
+		// Ensure it's a whole number
+		$number = intval($number);
+
+		return apply_filters('mprm_remove_payment_prefix_postfix', $number, $prefix, $postfix);
+	}
+
+	/**
+	 * @param $number
+	 *
+	 * @return int|mixed|void
+	 */
+	public function format_payment_number($number) {
+		if (!$this->get('settings')->get_option('enable_sequential')) {
+			return $number;
+		}
+		if (!is_numeric($number)) {
+			return $number;
+		}
+		$prefix = $this->get('settings')->get_option('sequential_prefix');
+		$number = absint($number);
+		$postfix = $this->get('settings')->get_option('sequential_postfix');
+		$formatted_number = $prefix . $number . $postfix;
+
+		return apply_filters('mprm_format_payment_number', $formatted_number, $prefix, $number, $postfix);
+	}
+
+	/**
 	 * Save / edit order data
 	 *
 	 * @param $data
@@ -243,39 +356,40 @@ class Payments extends Parent_query {
 		$updated_menu_items = isset($_POST['mprm-order-details']) ? $_POST['mprm-order-details'] : false;
 
 		if ($updated_menu_items && !empty($_POST['mprm-order-details'])) {
+			if (!empty($updated_menu_items) && is_array($updated_menu_items)) {
+				foreach ($updated_menu_items as $menu_item) {
 
-			foreach ($updated_menu_items as $menu_item) {
+					// If this item doesn't have a log yet, add one for each quantity count
+					$has_log = absint($menu_item['has_log']);
+					$has_log = empty($has_log) ? false : true;
 
-				// If this item doesn't have a log yet, add one for each quantity count
-				$has_log = absint($menu_item['has_log']);
-				$has_log = empty($has_log) ? false : true;
+					if ($has_log) {
+						continue;
+					}
 
-				if ($has_log) {
-					continue;
+					if (empty($menu_item['item_price'])) {
+						$menu_item['item_price'] = 0.00;
+					}
+
+					$item_price = $menu_item['item_price'];
+					$menu_item_id = absint($menu_item['id']);
+					$quantity = absint($menu_item['quantity']) > 0 ? absint($menu_item['quantity']) : 1;
+					$price_id = false;
+
+					if ($this->get('menu_item')->has_variable_prices($menu_item_id) && isset($menu_item['price_id'])) {
+						$price_id = absint($menu_item['price_id']);
+					}
+
+					// Set some defaults
+					$args = array(
+						'quantity' => $quantity,
+						'item_price' => $item_price,
+						'price_id' => empty($price_id) ? 0 : $price_id,
+					);
+
+					$payment->add_menu_item($menu_item_id, $args);
+
 				}
-
-				if (empty($menu_item['item_price'])) {
-					$menu_item['item_price'] = 0.00;
-				}
-
-				$item_price = $menu_item['item_price'];
-				$menu_item_id = absint($menu_item['id']);
-				$quantity = absint($menu_item['quantity']) > 0 ? absint($menu_item['quantity']) : 1;
-				$price_id = false;
-
-				if ($this->get('menu_item')->has_variable_prices($menu_item_id) && isset($menu_item['price_id'])) {
-					$price_id = absint($menu_item['price_id']);
-				}
-
-				// Set some defaults
-				$args = array(
-					'quantity' => $quantity,
-					'item_price' => $item_price,
-					'price_id' => empty($price_id) ? 0 : $price_id,
-				);
-
-				$payment->add_menu_item($menu_item_id, $args);
-
 			}
 
 			if (!empty($data['mprm-order-removed'])) {
@@ -430,6 +544,111 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * @param int $payment_id
+	 * @param string $note
+	 *
+	 * @return bool|false|int
+	 */
+	public function insert_payment_note($payment_id = 0, $note = '') {
+		if (empty($payment_id) || empty($note)) {
+			return false;
+		}
+
+		do_action('mprm_pre_insert_payment_note', $payment_id, $note);
+
+		$note_id = wp_insert_comment(wp_filter_comment(array(
+			'comment_post_ID' => $payment_id,
+			'comment_content' => $note,
+			'user_id' => is_admin() ? get_current_user_id() : 0,
+			'comment_date' => current_time('mysql'),
+			'comment_date_gmt' => current_time('mysql', 1),
+			'comment_approved' => 1,
+			'comment_parent' => 0,
+			'comment_author' => '',
+			'comment_author_IP' => '',
+			'comment_author_url' => '',
+			'comment_author_email' => '',
+			'comment_type' => 'mprm_order_note'
+		)));
+
+		do_action('mprm_insert_payment_note', $note_id, $payment_id, $note);
+
+		return $note_id;
+	}
+
+	/**
+	 * @param int $amount
+	 *
+	 * @return int|mixed|void
+	 */
+	public function increase_total_earnings($amount = 0) {
+		$total = $this->get_total_earnings();
+		$total += $amount;
+		update_option('mprm_earnings_total', $total);
+
+		return $total;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_total_earnings() {
+		$total = get_option('mprm_earnings_total', false);
+		// If no total stored in DB, use old method of calculating total earnings
+		if (false === $total) {
+			global $wpdb;
+			$total = get_transient('mprm_earnings_total');
+			if (false === $total) {
+				$total = (float)0;
+				$args = apply_filters('mprm_get_total_earnings_args', array(
+					'offset' => 0,
+					'number' => -1,
+					'status' => array('publish', 'mprm-revoked'),
+					'fields' => 'ids',
+					'output' => 'orders'
+				));
+
+				$payments = $this->get_payments($args);
+
+				if ($payments) {
+					if (did_action('mprm_update_payment_status')) {
+						array_pop($payments);
+					}
+					if (!empty($payments)) {
+						$payments = implode(',', $payments);
+						$total += $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN({$payments})");
+					}
+				}
+				// Cache results for 1 day. This cache is cleared automatically when a payment is made
+				set_transient('mprm_earnings_total', $total, 86400);
+				// Store the total for the first time
+				update_option('mprm_earnings_total', $total);
+			}
+		}
+		if ($total < 0) {
+			$total = 0; // Don't ever show negative earnings
+		}
+
+		return apply_filters('mprm_total_earnings', round($total, $this->get('formatting')->currency_decimal_filter()));
+	}
+
+	/**
+	 * @param int $amount
+	 *
+	 * @return int|mixed|void
+	 */
+	public function decrease_total_earnings($amount = 0) {
+		$total = $this->get_total_earnings();
+		$total -= $amount;
+		if ($total < 0) {
+			$total = 0;
+		}
+		update_option('mprm_earnings_total', $total);
+
+		return $total;
+	}
+
+	/**
 	 * Update payment status
 	 *
 	 * @param $payment_id
@@ -547,6 +766,238 @@ class Payments extends Parent_query {
 		}
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return mixed|void
+	 */
+	public function get_payment_amount($payment_id) {
+		$payment = new Order($payment_id);
+
+		return apply_filters('mprm_payment_amount', floatval($payment->total), $payment_id);
+	}
+
+	/**
+	 * @param $payment_id
+	 *
+	 * @return null
+	 */
+	public function get_payment_customer_id($payment_id) {
+		$payment = new Order($payment_id);
+
+		return $payment->customer_id;
+	}
+
+	/**
+	 * @param $payment_id
+	 *
+	 * @return bool
+	 */
+	public function check_for_existing_payment($payment_id) {
+		$exists = false;
+		$payment = new Order($payment_id);
+		if ($payment_id === $payment->ID && 'publish' === $payment->status) {
+			$exists = true;
+		}
+
+		return $exists;
+	}
+
+	/**
+	 * Get payment status
+	 *
+	 * @param $payment
+	 * @param bool $return_label
+	 *
+	 * @return bool|mixed
+	 */
+	public function get_payment_status($payment, $return_label = false) {
+		if (!is_object($payment) || !isset($payment->post_status)) {
+			return false;
+		}
+		$statuses = $this->get_payment_statuses();
+		if (!is_array($statuses) || empty($statuses)) {
+			return false;
+		}
+		$payment = new Order($payment->ID);
+		if (array_key_exists($payment->status, $statuses)) {
+			if (true === $return_label) {
+				return $statuses[$payment->status];
+			} else {
+				// Account that our 'publish' status is labeled 'Complete'
+				$post_status = 'publish' == $payment->status ? 'Complete' : $payment->post_status;
+
+				// Make sure we're matching cases, since they matter
+				$post_label = array_search(strtolower($post_status), array_map('strtolower', $statuses));
+				if ($post_label) {
+					return $statuses[$post_label];
+				} else {
+					return !empty($statuses[$payment->status]) ? $statuses[$payment->status] : $payment->status;
+				}
+			}
+		}
+
+		return $payment->status;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_payment_statuses() {
+		$payment_statuses = array(
+			'mprm-pending' => __('Pending', 'mp-restaurant-menu'),
+			'publish' => __('Complete', 'mp-restaurant-menu'),
+			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
+			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
+			'mprm-cooking' => __('Cooking', 'mp-restaurant-menu'),
+			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
+			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
+		);
+
+		return apply_filters('mprm_payment_statuses', $payment_statuses);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_payment_status_keys() {
+		$statuses = array_keys($this->get_payment_statuses());
+		asort($statuses);
+
+		return array_values($statuses);
+	}
+
+	/**
+	 * @param null $day
+	 * @param $month_num
+	 * @param null $year
+	 * @param null $hour
+	 * @param bool $include_taxes
+	 *
+	 * @return float
+	 */
+	public function get_earnings_by_date($day = null, $month_num, $year = null, $hour = null, $include_taxes = true) {
+		global $wpdb;
+		$args = array(
+			'post_type' => 'mprm_order',
+			'nopaging' => true,
+			'year' => $year,
+			'monthnum' => $month_num,
+			'post_status' => array('publish', 'mprm-revoked'),
+			'fields' => 'ids',
+			'update_post_term_cache' => false,
+			'include_taxes' => $include_taxes,
+		);
+		if (!empty($day)) {
+			$args['day'] = $day;
+		}
+		if (!empty($hour)) {
+			$args['hour'] = $hour;
+		}
+		$args = apply_filters('mprm_get_earnings_by_date_args', $args);
+		$key = 'mprm_stats_' . substr(md5(serialize($args)), 0, 15);
+		$earnings = get_transient($key);
+		if (false === $earnings) {
+			$sales = get_posts($args);
+			$earnings = 0;
+			if ($sales) {
+				$sales = implode(',', $sales);
+				$total_earnings = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN ({$sales})");
+				$total_tax = 0;
+				if (!$include_taxes) {
+					$total_tax = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_tax' AND post_id IN ({$sales})");
+				}
+				$earnings += ($total_earnings - $total_tax);
+			}
+			// Cache the results for one hour
+			set_transient($key, $earnings, HOUR_IN_SECONDS);
+		}
+
+		return round($earnings, 2);
+	}
+
+	/**
+	 * @param null $day
+	 * @param null $month_num
+	 * @param null $year
+	 * @param null $hour
+	 *
+	 * @return int|mixed
+	 */
+	public function get_sales_by_date($day = null, $month_num = null, $year = null, $hour = null) {
+		$args = array(
+			'post_type' => 'mprm_order',
+			'nopaging' => true,
+			'year' => $year,
+			'fields' => 'ids',
+			'post_status' => array('publish', 'mprm-revoked'),
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false
+		);
+		$show_free = apply_filters('mprm_sales_by_date_show_free', true, $args);
+		if (false === $show_free) {
+			$args['meta_query'] = array(
+				array(
+					'key' => '_mprm_order_total',
+					'value' => 0,
+					'compare' => '>',
+					'type' => 'NUMERIC',
+				),
+			);
+		}
+		if (!empty($month_num)) {
+			$args['monthnum'] = $month_num;
+		}
+		if (!empty($day)) {
+			$args['day'] = $day;
+		}
+		if (!empty($hour)) {
+			$args['hour'] = $hour;
+		}
+		$args = apply_filters('mprm_get_sales_by_date_args', $args);
+		$key = 'mprm_stats_' . substr(md5(serialize($args)), 0, 15);
+		$count = get_transient($key);
+		if (false === $count) {
+			$sales = new \WP_Query($args);
+			$count = (int)$sales->post_count;
+			// Cache the results for one hour
+			set_transient($key, $count, HOUR_IN_SECONDS);
+		}
+
+		return $count;
+	}
+
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return mixed|void
+	 */
+	public function is_payment_complete($payment_id = 0) {
+		$payment = new Order($payment_id);
+		$ret = false;
+		if ($payment->ID > 0) {
+			if ((int)$payment_id === (int)$payment->ID && 'publish' == $payment->status) {
+				$ret = true;
+			}
+		}
+
+		return apply_filters('mprm_is_payment_complete', $ret, $payment_id, $payment->post_status);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_total_sales() {
+		$payments = $this->count_payments();
+
+		return $payments->revoked + $payments->publish;
+	}
+
+	/**
+	 * @param array $args
+	 *
+	 * @return array|object
+	 */
 	public function count_payments($args = array()) {
 		global $wpdb;
 		$defaults = array(
@@ -684,258 +1135,47 @@ class Payments extends Parent_query {
 		return $stats;
 	}
 
-	public function check_for_existing_payment($payment_id) {
-		$exists = false;
-		$payment = new Order($payment_id);
-		if ($payment_id === $payment->ID && 'publish' === $payment->status) {
-			$exists = true;
-		}
-
-		return $exists;
-	}
-
 	/**
-	 * Get payment status
+	 * @param int $payment_id
+	 * @param string $meta_key
+	 * @param bool $single
 	 *
-	 * @param $payment
-	 * @param bool $return_label
-	 *
-	 * @return bool|mixed
+	 * @return mixed|void
 	 */
-	public function get_payment_status($payment, $return_label = false) {
-		if (!is_object($payment) || !isset($payment->post_status)) {
-			return false;
-		}
-		$statuses = $this->get_payment_statuses();
-		if (!is_array($statuses) || empty($statuses)) {
-			return false;
-		}
-		$payment = new Order($payment->ID);
-		if (array_key_exists($payment->status, $statuses)) {
-			if (true === $return_label) {
-				return $statuses[$payment->status];
-			} else {
-				// Account that our 'publish' status is labeled 'Complete'
-				$post_status = 'publish' == $payment->status ? 'Complete' : $payment->post_status;
-
-				// Make sure we're matching cases, since they matter
-				$post_label = array_search(strtolower($post_status), array_map('strtolower', $statuses));
-				if ($post_label) {
-					return $statuses[$post_label];
-				} else {
-					return !empty($statuses[$payment->status]) ? $statuses[$payment->status] : $payment->status;
-				}
-			}
-		}
-
-		return $payment->status;
-	}
-
-	public function get_payment_statuses() {
-		$payment_statuses = array(
-			'mprm-pending' => __('Pending', 'mp-restaurant-menu'),
-			'publish' => __('Complete', 'mp-restaurant-menu'),
-			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
-			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
-			'mprm-cooking' => __('Cooking', 'mp-restaurant-menu'),
-			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
-			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
-		);
-
-		return apply_filters('mprm_payment_statuses', $payment_statuses);
-	}
-
-	public function get_payment_status_keys() {
-		$statuses = array_keys($this->get_payment_statuses());
-		asort($statuses);
-
-		return array_values($statuses);
-	}
-
-	public function get_earnings_by_date($day = null, $month_num, $year = null, $hour = null, $include_taxes = true) {
-		global $wpdb;
-		$args = array(
-			'post_type' => 'mprm_order',
-			'nopaging' => true,
-			'year' => $year,
-			'monthnum' => $month_num,
-			'post_status' => array('publish', 'mprm-revoked'),
-			'fields' => 'ids',
-			'update_post_term_cache' => false,
-			'include_taxes' => $include_taxes,
-		);
-		if (!empty($day)) {
-			$args['day'] = $day;
-		}
-		if (!empty($hour)) {
-			$args['hour'] = $hour;
-		}
-		$args = apply_filters('mprm_get_earnings_by_date_args', $args);
-		$key = 'mprm_stats_' . substr(md5(serialize($args)), 0, 15);
-		$earnings = get_transient($key);
-		if (false === $earnings) {
-			$sales = get_posts($args);
-			$earnings = 0;
-			if ($sales) {
-				$sales = implode(',', $sales);
-				$total_earnings = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN ({$sales})");
-				$total_tax = 0;
-				if (!$include_taxes) {
-					$total_tax = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_tax' AND post_id IN ({$sales})");
-				}
-				$earnings += ($total_earnings - $total_tax);
-			}
-			// Cache the results for one hour
-			set_transient($key, $earnings, HOUR_IN_SECONDS);
-		}
-
-		return round($earnings, 2);
-	}
-
-	public function get_sales_by_date($day = null, $month_num = null, $year = null, $hour = null) {
-		$args = array(
-			'post_type' => 'mprm_order',
-			'nopaging' => true,
-			'year' => $year,
-			'fields' => 'ids',
-			'post_status' => array('publish', 'mprm-revoked'),
-			'update_post_meta_cache' => false,
-			'update_post_term_cache' => false
-		);
-		$show_free = apply_filters('mprm_sales_by_date_show_free', true, $args);
-		if (false === $show_free) {
-			$args['meta_query'] = array(
-				array(
-					'key' => '_mprm_order_total',
-					'value' => 0,
-					'compare' => '>',
-					'type' => 'NUMERIC',
-				),
-			);
-		}
-		if (!empty($month_num)) {
-			$args['monthnum'] = $month_num;
-		}
-		if (!empty($day)) {
-			$args['day'] = $day;
-		}
-		if (!empty($hour)) {
-			$args['hour'] = $hour;
-		}
-		$args = apply_filters('mprm_get_sales_by_date_args', $args);
-		$key = 'mprm_stats_' . substr(md5(serialize($args)), 0, 15);
-		$count = get_transient($key);
-		if (false === $count) {
-			$sales = new \WP_Query($args);
-			$count = (int)$sales->post_count;
-			// Cache the results for one hour
-			set_transient($key, $count, HOUR_IN_SECONDS);
-		}
-
-		return $count;
-	}
-
-	public function is_payment_complete($payment_id = 0) {
-		$payment = new Order($payment_id);
-		$ret = false;
-		if ($payment->ID > 0) {
-			if ((int)$payment_id === (int)$payment->ID && 'publish' == $payment->status) {
-				$ret = true;
-			}
-		}
-
-		return apply_filters('mprm_is_payment_complete', $ret, $payment_id, $payment->post_status);
-	}
-
-	public function get_total_sales() {
-		$payments = $this->count_payments();
-
-		return $payments->revoked + $payments->publish;
-	}
-
-	public function get_total_earnings() {
-		$total = get_option('mprm_earnings_total', false);
-		// If no total stored in DB, use old method of calculating total earnings
-		if (false === $total) {
-			global $wpdb;
-			$total = get_transient('mprm_earnings_total');
-			if (false === $total) {
-				$total = (float)0;
-				$args = apply_filters('mprm_get_total_earnings_args', array(
-					'offset' => 0,
-					'number' => -1,
-					'status' => array('publish', 'mprm-revoked'),
-					'fields' => 'ids',
-					'output' => 'orders'
-				));
-
-				$payments = $this->get_payments($args);
-
-				if ($payments) {
-					if (did_action('mprm_update_payment_status')) {
-						array_pop($payments);
-					}
-					if (!empty($payments)) {
-						$payments = implode(',', $payments);
-						$total += $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN({$payments})");
-					}
-				}
-				// Cache results for 1 day. This cache is cleared automatically when a payment is made
-				set_transient('mprm_earnings_total', $total, 86400);
-				// Store the total for the first time
-				update_option('mprm_earnings_total', $total);
-			}
-		}
-		if ($total < 0) {
-			$total = 0; // Don't ever show negative earnings
-		}
-
-		return apply_filters('mprm_total_earnings', round($total, $this->get('formatting')->currency_decimal_filter()));
-	}
-
-	public function increase_total_earnings($amount = 0) {
-		$total = $this->get_total_earnings();
-		$total += $amount;
-		update_option('mprm_earnings_total', $total);
-
-		return $total;
-	}
-
-	public function decrease_total_earnings($amount = 0) {
-		$total = $this->get_total_earnings();
-		$total -= $amount;
-		if ($total < 0) {
-			$total = 0;
-		}
-		update_option('mprm_earnings_total', $total);
-
-		return $total;
-	}
-
 	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
 		$payment = new Order($payment_id);
 
 		return $payment->get_meta($meta_key, $single);
 	}
 
-	public function update_payment_meta($payment_id = 0, $meta_key = '', $meta_value = '', $prev_value = '') {
-		$payment = new Order($payment_id);
-
-		return $payment->update_meta($meta_key, $meta_value, $prev_value);
-	}
-
+	/**
+	 * @param $payment_id
+	 *
+	 * @return array
+	 */
 	public function get_payment_meta_user_info($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->user_info;
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return array
+	 */
 	public function get_payment_meta_menu_items($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->menu_items;
 	}
 
+	/**
+	 * @param $payment_id
+	 * @param bool $include_bundle_files
+	 *
+	 * @return mixed|void
+	 */
 	public function get_payment_meta_cart_details($payment_id, $include_bundle_files = false) {
 
 		$payment = new Order($payment_id);
@@ -983,12 +1223,22 @@ class Payments extends Parent_query {
 		return apply_filters('mprm_payment_meta_cart_details', $cart_details, $payment_id);
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_user_email($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->email;
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return bool
+	 */
 	public function is_guest_payment($payment_id) {
 		$payment_user_id = $this->get_payment_user_id($payment_id);
 		$is_guest_payment = !empty($payment_user_id) && $payment_user_id > 0 ? false : true;
@@ -996,175 +1246,157 @@ class Payments extends Parent_query {
 		return (bool)apply_filters('mprm_is_guest_payment', $is_guest_payment, $payment_id);
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return int
+	 */
 	public function get_payment_user_id($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->user_id;
 	}
 
-	public function get_payment_customer_id($payment_id) {
-		$payment = new Order($payment_id);
-
-		return $payment->customer_id;
-	}
-
+	/**
+	 * @param $payment_id
+	 *
+	 * @return bool
+	 */
 	public function payment_has_unlimited_menu_items($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->has_unlimited_menu_items;
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_user_ip($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->ip;
 	}
 
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_completed_date($payment_id = 0) {
 		$payment = new Order($payment_id);
 
 		return $payment->completed_date;
 	}
 
+	/**
+	 * @param $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_gateway($payment_id) {
 		$payment = new Order($payment_id);
 
 		return $payment->gateway;
 	}
 
-	public function get_payment_currency_code($payment_id = 0) {
-		$payment = new Order($payment_id);
-
-		return $payment->currency;
-	}
-
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return mixed|void
+	 */
 	public function get_payment_currency($payment_id = 0) {
 		$currency = $this->get_payment_currency_code($payment_id);
 
 		return apply_filters('mprm_payment_currency', $this->get('misc')->get_currency_name($currency), $payment_id);
 	}
 
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return string
+	 */
+	public function get_payment_currency_code($payment_id = 0) {
+		$payment = new Order($payment_id);
+
+		return $payment->currency;
+	}
+
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_key($payment_id = 0) {
 		$payment = new Order($payment_id);
 
 		return $payment->key;
 	}
 
-	public function get_payment_number($payment_id = 0) {
-		$payment = new Order($payment_id);
-
-		return $payment->number;
-	}
-
-	public function format_payment_number($number) {
-		if (!$this->get('settings')->get_option('enable_sequential')) {
-			return $number;
-		}
-		if (!is_numeric($number)) {
-			return $number;
-		}
-		$prefix = $this->get('settings')->get_option('sequential_prefix');
-		$number = absint($number);
-		$postfix = $this->get('settings')->get_option('sequential_postfix');
-		$formatted_number = $prefix . $number . $postfix;
-
-		return apply_filters('mprm_format_payment_number', $formatted_number, $prefix, $number, $postfix);
-	}
-
-	public function get_next_payment_number() {
-		if (!$this->get('settings')->get_option('enable_sequential')) {
-			return false;
-		}
-		$number = get_option('mprm_last_payment_number');
-		$start = $this->get('settings')->get_option('sequential_start', 1);
-		$increment_number = true;
-		if (false !== $number) {
-			if (empty($number)) {
-				$number = $start;
-				$increment_number = false;
-			}
-		} else {
-			// This case handles the first addition of the new option, as well as if it get's deleted for any reason
-
-			$last_payment = $this->get_posts(array(
-				'number' => 1,
-				'order' => 'DESC',
-				'orderby' => 'ID',
-				'output' => 'posts',
-				'fields' => 'ids'
-			));
-
-			if (!empty($last_payment)) {
-				$number = $this->get_payment_number($last_payment[0]);
-			}
-			if (!empty($number) && $number !== (int)$last_payment[0]) {
-				$number = $this->remove_payment_prefix_postfix($number);
-			} else {
-				$number = $start;
-				$increment_number = false;
-			}
-		}
-		$increment_number = apply_filters('mprm_increment_payment_number', $increment_number, $number);
-		if ($increment_number) {
-			$number++;
-		}
-
-		return apply_filters('mprm_get_next_payment_number', $number);
-	}
-
-	public function remove_payment_prefix_postfix($number) {
-		$prefix = $this->get('settings')->get_option('sequential_prefix');
-		$postfix = $this->get('settings')->get_option('sequential_postfix');
-		// Remove prefix
-		$number = preg_replace('/' . $prefix . '/', '', $number, 1);
-		// Remove the postfix
-		$length = strlen($number);
-		$postfix_pos = strrpos($number, $postfix);
-		if (false !== $postfix_pos) {
-			$number = substr_replace($number, '', $postfix_pos, $length);
-		}
-		// Ensure it's a whole number
-		$number = intval($number);
-
-		return apply_filters('mprm_remove_payment_prefix_postfix', $number, $prefix, $postfix);
-	}
-
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return mixed
+	 */
 	public function payment_amount($payment_id = 0) {
 		$amount = $this->get_payment_amount($payment_id);
 
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($amount), $this->get_payment_currency_code($payment_id));
 	}
 
-	public function get_payment_amount($payment_id) {
-		$payment = new Order($payment_id);
-
-		return apply_filters('mprm_payment_amount', floatval($payment->total), $payment_id);
-	}
-
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return mixed
+	 */
 	public function payment_subtotal($payment_id = 0) {
 		$subtotal = $this->get_payment_subtotal($payment_id);
 
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($subtotal), $this->get_payment_currency_code($payment_id));
 	}
 
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return int
+	 */
 	public function get_payment_subtotal($payment_id = 0) {
 		$payment = new Order($payment_id);
 
 		return $payment->subtotal;
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param bool $payment_meta
+	 *
+	 * @return mixed
+	 */
 	public function payment_tax($payment_id = 0, $payment_meta = false) {
 		$tax = $this->get_payment_tax($payment_id, $payment_meta);
 
 		return $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($tax), $this->get_payment_currency_code($payment_id));
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param bool $payment_meta
+	 *
+	 * @return int
+	 */
 	public function get_payment_tax($payment_id = 0, $payment_meta = false) {
 		$payment = new Order($payment_id);
 
 		return $payment->tax;
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param bool $cart_key
+	 *
+	 * @return int
+	 */
 	public function get_payment_item_tax($payment_id = 0, $cart_key = false) {
 		$payment = new Order($payment_id);
 		$item_tax = 0;
@@ -1176,18 +1408,35 @@ class Payments extends Parent_query {
 		return $item_tax;
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param string $type
+	 *
+	 * @return mixed|void
+	 */
 	public function get_payment_fees($payment_id = 0, $type = 'all') {
 		$payment = new Order($payment_id);
 
 		return $payment->get_fees($type);
 	}
 
+	/**
+	 * @param int $payment_id
+	 *
+	 * @return string
+	 */
 	public function get_payment_transaction_id($payment_id = 0) {
 		$payment = new Order($payment_id);
 
 		return $payment->transaction_id;
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param string $transaction_id
+	 *
+	 * @return bool|int
+	 */
 	public function set_payment_transaction_id($payment_id = 0, $transaction_id = '') {
 		if (empty($payment_id) || empty($transaction_id)) {
 			return false;
@@ -1197,16 +1446,25 @@ class Payments extends Parent_query {
 		return $this->update_payment_meta($payment_id, '_mprm_order_transaction_id', $transaction_id);
 	}
 
-	public function get_purchase_id_by_key($key) {
-		global $wpdb;
-		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_purchase_key' AND meta_value = %s LIMIT 1", $key));
-		if ($purchase != null) {
-			return $purchase;
-		}
+	/**
+	 * @param int $payment_id
+	 * @param string $meta_key
+	 * @param string $meta_value
+	 * @param string $prev_value
+	 *
+	 * @return bool|int
+	 */
+	public function update_payment_meta($payment_id = 0, $meta_key = '', $meta_value = '', $prev_value = '') {
+		$payment = new Order($payment_id);
 
-		return 0;
+		return $payment->update_meta($meta_key, $meta_value, $prev_value);
 	}
 
+	/**
+	 * @param $key
+	 *
+	 * @return int|null|string
+	 */
 	public function get_purchase_id_by_transaction_id($key) {
 		global $wpdb;
 		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_transaction_id' AND meta_value = %s LIMIT 1", $key));
@@ -1216,6 +1474,12 @@ class Payments extends Parent_query {
 		return 0;
 	}
 
+	/**
+	 * @param int $payment_id
+	 * @param string $search
+	 *
+	 * @return array|bool|int
+	 */
 	public function get_payment_notes($payment_id = 0, $search = '') {
 		if (empty($payment_id) && empty($search)) {
 			return false;
@@ -1229,33 +1493,12 @@ class Payments extends Parent_query {
 		return $notes;
 	}
 
-	public function insert_payment_note($payment_id = 0, $note = '') {
-		if (empty($payment_id) || empty($note)) {
-			return false;
-		}
-
-		do_action('mprm_pre_insert_payment_note', $payment_id, $note);
-
-		$note_id = wp_insert_comment(wp_filter_comment(array(
-			'comment_post_ID' => $payment_id,
-			'comment_content' => $note,
-			'user_id' => is_admin() ? get_current_user_id() : 0,
-			'comment_date' => current_time('mysql'),
-			'comment_date_gmt' => current_time('mysql', 1),
-			'comment_approved' => 1,
-			'comment_parent' => 0,
-			'comment_author' => '',
-			'comment_author_IP' => '',
-			'comment_author_url' => '',
-			'comment_author_email' => '',
-			'comment_type' => 'mprm_order_note'
-		)));
-
-		do_action('mprm_insert_payment_note', $note_id, $payment_id, $note);
-
-		return $note_id;
-	}
-
+	/**
+	 * @param int $comment_id
+	 * @param int $payment_id
+	 *
+	 * @return bool
+	 */
 	public function delete_payment_note($comment_id = 0, $payment_id = 0) {
 		if (empty($comment_id)) {
 			return false;
@@ -1267,6 +1510,12 @@ class Payments extends Parent_query {
 		return $ret;
 	}
 
+	/**
+	 * @param $note
+	 * @param int $payment_id
+	 *
+	 * @return mixed
+	 */
 	public function get_payment_note_html($note, $payment_id = 0) {
 		if (is_numeric($note)) {
 			$note = get_comment($note);
@@ -1297,6 +1546,9 @@ class Payments extends Parent_query {
 		return $note_html;
 	}
 
+	/**
+	 * @param $query
+	 */
 	public function hide_payment_notes($query) {
 		global $wp_version;
 		if (version_compare(floatval($wp_version), '4.1', '>=')) {
@@ -1309,6 +1561,12 @@ class Payments extends Parent_query {
 		}
 	}
 
+	/**
+	 * @param $clauses
+	 * @param $wp_comment_query
+	 *
+	 * @return mixed
+	 */
 	public function hide_payment_notes_pre_41($clauses, $wp_comment_query) {
 		global $wpdb, $wp_version;
 		if (version_compare(floatval($wp_version), '4.1', '<')) {
@@ -1318,6 +1576,12 @@ class Payments extends Parent_query {
 		return $clauses;
 	}
 
+	/**
+	 * @param $where
+	 * @param $wp_comment_query
+	 *
+	 * @return string
+	 */
 	public function hide_payment_notes_from_feeds($where, $wp_comment_query) {
 		global $wpdb;
 		$where .= $wpdb->prepare(" AND comment_type != %s", 'mprm_order_note');
@@ -1325,6 +1589,12 @@ class Payments extends Parent_query {
 		return $where;
 	}
 
+	/**
+	 * @param $stats
+	 * @param $post_id
+	 *
+	 * @return bool|mixed|object
+	 */
 	public function remove_payment_notes_in_comment_counts($stats, $post_id) {
 		global $wpdb, $pagenow;
 		if ('index.php' != $pagenow) {
@@ -1372,6 +1642,11 @@ class Payments extends Parent_query {
 		return $stats;
 	}
 
+	/**
+	 * @param string $where
+	 *
+	 * @return string
+	 */
 	public function filter_where_older_than_week($where = '') {
 		// Payments older than one week
 		$start = date('Y-m-d', strtotime('-7 days'));
@@ -1380,6 +1655,11 @@ class Payments extends Parent_query {
 		return $where;
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return bool|int|null|string
+	 */
 	public function get_payment_id($params = array()) {
 		$payment_id = false;
 		if (!empty($params)) {
@@ -1395,6 +1675,26 @@ class Payments extends Parent_query {
 		return $payment_id;
 	}
 
+	/**
+	 * @param $key
+	 *
+	 * @return int|null|string
+	 */
+	public function get_purchase_id_by_key($key) {
+		global $wpdb;
+		$purchase = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_purchase_key' AND meta_value = %s LIMIT 1", $key));
+		if ($purchase != null) {
+			return $purchase;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * @param $payment_id
+	 * @param $new_status
+	 * @param $old_status
+	 */
 	public function complete_purchase($payment_id, $new_status, $old_status) {
 		if ($old_status == 'publish' || $old_status == 'mprm-complete') {
 			return; // Make sure that payments are only completed once
@@ -1464,6 +1764,11 @@ class Payments extends Parent_query {
 		$this->get('cart')->empty_cart();
 	}
 
+	/**
+	 * @param $payment_id
+	 * @param $new_status
+	 * @param $old_status
+	 */
 	public function record_status_change($payment_id, $new_status, $old_status) {
 		// Get the list of statuses so that status in the payment note can be translated
 		$status = $this->get_payment_statuses();
@@ -1506,6 +1811,9 @@ class Payments extends Parent_query {
 		}
 	}
 
+	/**
+	 * @param $data
+	 */
 	public function update_old_payments_with_totals($data) {
 		if (!wp_verify_nonce($data['_wpnonce'], 'mprm_upgrade_payments_nonce')) {
 			return;

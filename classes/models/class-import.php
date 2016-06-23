@@ -33,15 +33,21 @@ class Import extends Core {
 	var $url_remap = array();
 	var $featured_images = array();
 
+	/**
+	 * Import constructor.
+	 */
+	function __construct() {
+		parent::__construct();
+	}
+
+	/**
+	 * @return Import
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
-
-	function __construct() {
-		parent::__construct();
 	}
 
 	/**
@@ -55,104 +61,6 @@ class Import extends Core {
 		if ('_edit_lock' == $meta_key)
 			$return_me = true;
 		return $return_me;
-	}
-
-	public function header() {
-		View::get_instance()->render_html('../admin/import/header');
-	}
-
-	public function footer() {
-		View::get_instance()->render_html('../admin/import/footer');
-	}
-
-	public function greet() {
-		View::get_instance()->render_html('../admin/import/greet');
-	}
-
-	/**
-	 * Decide whether or not the importer is allowed to create users.
-	 * Default is true, can be filtered via import_allow_create_users
-	 *
-	 * @return bool True if creating users is allowed
-	 */
-	public function allow_create_users() {
-		return apply_filters('import_allow_create_users', true);
-	}
-
-	/**
-	 * Decide whether or not the importer should attempt to menu_item attachment files.
-	 * Default is true, can be filtered via import_allow_fetch_attachments. The choice
-	 * made at the import options screen must also be true, false here hides that checkbox.
-	 *
-	 * @return bool True if menu_iteming attachments is allowed
-	 */
-	public function allow_fetch_attachments() {
-		return apply_filters('import_allow_fetch_attachments', true);
-	}
-
-	public function import_options() {
-		$j = 0;
-		?>
-		<form action="<?php echo admin_url('admin.php?import=mprm-importer&amp;step=2'); ?>" method="post">
-			<?php wp_nonce_field('mprm-importer'); ?>
-			<input type="hidden" name="import_id" value="<?php echo $this->id; ?>"/>
-			<?php if (!empty($this->authors)) : ?>
-				<h3><?php _e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
-				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
-				<?php if ($this->allow_create_users()) : ?>
-					<p><?php printf(__('If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'mp-restaurant-menu'), esc_html(get_option('default_role'))); ?></p>
-				<?php endif; ?>
-				<ol id="authors">
-					<?php foreach ($this->authors as $author) : ?>
-						<li><?php $this->author_select($j++, $author); ?></li>
-					<?php endforeach; ?>
-				</ol>
-			<?php endif; ?>
-			<?php if ($this->allow_fetch_attachments()) : ?>
-				<h3><?php _e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
-				<p>
-					<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments"/>
-					<label for="import-attachments"><?php _e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
-				</p>
-			<?php endif; ?>
-			<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e('Submit', 'mp-restaurant-menu'); ?>"/></p>
-		</form>
-		<?php
-	}
-
-	/**
-	 * Display import options for an individual author. That is, either create
-	 * a new user based on import info or map to an existing user
-	 *
-	 * @param int $n Index for each author in the form
-	 * @param array $author Author information, e.g. login, display name, email
-	 */
-	function author_select($n, $author) {
-		_e('Import author:', 'mp-restaurant-menu');
-		echo ' <strong>' . esc_html($author['author_display_name']);
-		if ($this->version != '1.0') echo ' (' . esc_html($author['author_login']) . ')';
-		echo '</strong><br />';
-		if ($this->version != '1.0')
-			echo '<div style="margin-left:18px">';
-		$create_users = $this->allow_create_users();
-		if ($create_users) {
-			if ($this->version != '1.0') {
-				_e('or create new user with login name:', 'mp-restaurant-menu');
-				$value = '';
-			} else {
-				_e('as a new user:', 'mp-restaurant-menu');
-				$value = esc_attr(sanitize_user($author['author_login'], true));
-			}
-			echo ' <input type="text" name="user_new[' . $n . ']" value="' . $value . '" /><br />';
-		}
-		if (!$create_users && $this->version == '1.0')
-			_e('assign posts to an existing user:', 'mp-restaurant-menu');
-		else
-			_e('or assign posts to an existing user:', 'mp-restaurant-menu');
-		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __('- Select -', 'mp-restaurant-menu')));
-		echo '<input type="hidden" name="imported_authors[' . $n . ']" value="' . esc_attr($author['author_login']) . '" />';
-		if ($this->version != '1.0')
-			echo '</div>';
 	}
 
 	/**
@@ -193,163 +101,17 @@ class Import extends Core {
 		$this->footer();
 	}
 
-	/**
-	 * Import start
-	 *
-	 * @param $file
-	 */
-	public function process_start($file) {
-		$this->import_data = $this->parse($file);
-		$this->get_authors_from_import($this->import_data);
-		$this->version = $this->import_data['version'];
-		$this->posts = $this->import_data['posts'];
-		$this->terms = $this->import_data['terms'];
-		wp_suspend_cache_invalidation(true);
-		$this->process_terms();
-		$this->process_posts();
-		wp_suspend_cache_invalidation(false);
-		$this->backfill_parents();
-		$this->backfill_attachment_urls();
-		$this->remap_featured_images();
-		wp_defer_term_counting(true);
-		wp_defer_comment_counting(true);
-		do_action('import_start');
+	public function header() {
+		View::get_instance()->render_html('../admin/import/header');
 	}
 
-	public function process_end() {
-		wp_import_cleanup($this->id);
-		wp_cache_flush();
-		foreach (get_taxonomies() as $tax) {
-			delete_option("{$tax}_children");
-			_get_term_hierarchy($tax);
-		}
-		wp_defer_term_counting(false);
-		wp_defer_comment_counting(false);
-		echo '<p>' . __('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . __('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
-		echo '<p>' . __('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
-		do_action('import_end');
+	public function greet() {
+		View::get_instance()->render_html('../admin/import/greet');
 	}
 
 	/**
-	 * If fetching attachments is enabled then attempt to create a new attachment
-	 *
-	 * @param array $post Attachment post details from WXR
-	 * @param string $url URL to fetch attachment from
-	 *
-	 * @return int|WP_Error Post ID on success, WP_Error otherwise
-	 */
-	public function process_attachment($post, $url) {
-		if (!$this->fetch_attachments)
-			return new \WP_Error('attachment_processing_error',
-				__('Fetching attachments is not enabled', 'mp-restaurant-menu'));
-		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
-		if (preg_match('|^/[\w\W]+$|', $url))
-			$url = rtrim($this->base_url, '/') . $url;
-		$upload = $this->fetch_remote_file($url, $post);
-		if (is_wp_error($upload))
-			return $upload;
-		if ($info = wp_check_filetype($upload['file']))
-			$post['post_mime_type'] = $info['type'];
-		else
-			return new \WP_Error('attachment_processing_error', __('Invalid file type', 'mp-restaurant-menu'));
-		$post['guid'] = $upload['url'];
-		// as per wp-admin/includes/upload.php
-		$post_id = wp_insert_attachment($post, $upload['file']);
-		wp_update_attachment_metadata($post_id, wp_generate_attachment_metadata($post_id, $upload['file']));
-		// remap resized image URLs, works by stripping the extension and remapping the URL stub.
-		if (preg_match('!^image/!', $info['type'])) {
-			$parts = pathinfo($url);
-			$name = basename($parts['basename'], ".{$parts['extension']}"); // PATHINFO_FILENAME in PHP 5.2
-			$parts_new = pathinfo($upload['url']);
-			$name_new = basename($parts_new['basename'], ".{$parts_new['extension']}");
-			$this->url_remap[$parts['dirname'] . '/' . $name] = $parts_new['dirname'] . '/' . $name_new;
-		}
-		return $post_id;
-	}
-
-	/**
-	 * Get file by URL and write upload
-	 *
-	 * @param $url
-	 * @param $upload
-	 * @param int $redirection
-	 *
 	 * @return bool
 	 */
-	private function write_file($url, $upload, $redirection = 5) {
-		$options = array();
-		$options['redirection'] = $redirection;
-		if (false == $upload['file'])
-			$options['method'] = 'HEAD';
-		else
-			$options['method'] = 'GET';
-		$response = wp_safe_remote_request($url, $options);
-		if (false == $upload['file']) {
-			return false;
-		}
-		// GET request - write it to the supplied filename
-		$out_fp = fopen($upload['file'], 'w');
-		if (!$out_fp) {
-			return false;
-		}
-		fwrite($out_fp, wp_remote_retrieve_body($response));
-		fclose($out_fp);
-		clearstatcache();
-		return true;
-	}
-
-	/**
-	 * Attempt to menu_item a remote file attachment
-	 *
-	 * @param string $url URL of item to fetch
-	 * @param array $post Attachment details
-	 *
-	 * @return array|\WP_Error Local file location details on success, WP_Error otherwise
-	 */
-	public function fetch_remote_file($url, $post) {
-		// extract the file name and extension from the url
-		$file_name = basename($url);
-		// get placeholder file in the upload dir with a unique, sanitized filename
-		$upload = wp_upload_bits($file_name, 0, '', $post['upload_date']);
-		if ($upload['error'])
-			return new \WP_Error('upload_dir_error', $upload['error']);
-		// fetch the remote url and write it to the placeholder file
-		$response_data = wp_safe_remote_head($url);
-		$headers = wp_remote_retrieve_headers($response_data);
-		$headers['response'] = wp_remote_retrieve_response_code($response_data);
-		if (!$headers) {
-			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Remote server did not respond', 'mp-restaurant-menu'));
-		}
-		// make sure the fetch was successful
-		if ($headers['response'] != '200') {
-			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', sprintf(__('Remote server returned error response %1$d %2$s', 'mp-restaurant-menu'), esc_html($headers['response']), get_status_header_desc($headers['response'])));
-		}
-		$this->write_file($url, $upload);
-		$filesize = filesize($upload['file']);
-		if (isset($headers['content-length']) && $filesize != $headers['content-length']) {
-			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Remote file is incorrect size', 'mp-restaurant-menu'));
-		}
-		if (0 == $filesize) {
-			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Zero size file menu_itemed', 'mp-restaurant-menu'));
-		}
-		$max_size = (int)$this->max_attachment_size();
-		if (!empty($max_size) && $filesize > $max_size) {
-			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', sprintf(__('Remote file is too large, limit is %s', 'mp-restaurant-menu'), size_format($max_size)));
-		}
-		// keep track of the old and new urls so we can substitute them later
-		$this->url_remap[$url] = $upload['url'];
-		$this->url_remap[$post['guid']] = $upload['url']; // r13735, really needed?
-		// keep track of the destination if the remote url is redirected somewhere else
-		if (isset($headers['x-final-location']) && $headers['x-final-location'] != $url)
-			$this->url_remap[$headers['x-final-location']] = $upload['url'];
-		return $upload;
-	}
-
 	public function handle_upload() {
 		$file = wp_import_handle_upload();
 		if (isset($file['error'])) {
@@ -376,7 +138,7 @@ class Import extends Core {
 			printf(__('This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'mp-restaurant-menu'), esc_html($this->import_data['version']));
 			echo '</strong></p></div>';
 		}
-		$this->get_authors_from_import($this->import_data);
+		$this->get_authors_from_import();
 		return true;
 	}
 
@@ -393,35 +155,12 @@ class Import extends Core {
 	}
 
 	/**
-	 * Decide if the given meta key maps to information we will want to import
-	 *
-	 * @param string $key The meta key to check
-	 *
-	 * @return string|bool The key if we do want to import, false if not
-	 */
-	function is_valid_meta_key($key) {
-		// skip attachment metadata since we'll regenerate it from scratch
-		// skip _edit_lock as not relevant for import
-		if (in_array($key, array('_wp_attached_file', '_wp_attachment_metadata', '_edit_lock')))
-			return false;
-		return $key;
-	}
-
-	/**
-	 * Added to http_request_timeout filter to force timeout at 60 seconds during import
-	 * @return int 60
-	 */
-	function bump_request_timeout() {
-		return 60;
-	}
-
-	/**
 	 * Retrieve authors from parsed WXR data
 	 *
 	 * Uses the provided author information from WXR 1.1 files
 	 * or extracts info from each post for WXR 1.0 files
 	 *
-	 * @param array $this ->import_data Data returned by a WXR parser
+	 * @internal param array $this ->import_data Data returned by a WXR parser
 	 */
 	function get_authors_from_import() {
 		if (!empty($this->import_data['authors'])) {
@@ -442,6 +181,115 @@ class Import extends Core {
 					);
 			}
 		}
+	}
+
+	public function import_options() {
+		$j = 0;
+		?>
+		<form action="<?php echo admin_url('admin.php?import=mprm-importer&amp;step=2'); ?>" method="post">
+			<?php wp_nonce_field('mprm-importer'); ?>
+			<input type="hidden" name="import_id" value="<?php echo $this->id; ?>"/>
+			<?php if (!empty($this->authors)) : ?>
+				<h3><?php _e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
+				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
+				<?php if ($this->allow_create_users()) : ?>
+					<p><?php printf(__('If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'mp-restaurant-menu'), esc_html(get_option('default_role'))); ?></p>
+				<?php endif; ?>
+				<ol id="authors">
+					<?php foreach ($this->authors as $author) : ?>
+						<li><?php $this->author_select($j++, $author); ?></li>
+					<?php endforeach; ?>
+				</ol>
+			<?php endif; ?>
+			<?php if ($this->allow_fetch_attachments()) : ?>
+				<h3><?php _e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
+				<p>
+					<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments"/>
+					<label for="import-attachments"><?php _e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
+				</p>
+			<?php endif; ?>
+			<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e('Submit', 'mp-restaurant-menu'); ?>"/></p>
+		</form>
+		<?php
+	}
+
+	/**
+	 * Decide whether or not the importer is allowed to create users.
+	 * Default is true, can be filtered via import_allow_create_users
+	 *
+	 * @return bool True if creating users is allowed
+	 */
+	public function allow_create_users() {
+		return apply_filters('import_allow_create_users', true);
+	}
+
+	/**
+	 * Display import options for an individual author. That is, either create
+	 * a new user based on import info or map to an existing user
+	 *
+	 * @param int $n Index for each author in the form
+	 * @param array $author Author information, e.g. login, display name, email
+	 */
+	function author_select($n, $author) {
+		_e('Import author:', 'mp-restaurant-menu');
+		echo ' <strong>' . esc_html($author['author_display_name']);
+		if ($this->version != '1.0') echo ' (' . esc_html($author['author_login']) . ')';
+		echo '</strong><br />';
+		if ($this->version != '1.0')
+			echo '<div style="margin-left:18px">';
+		$create_users = $this->allow_create_users();
+		if ($create_users) {
+			if ($this->version != '1.0') {
+				_e('or create new user with login name:', 'mp-restaurant-menu');
+				$value = '';
+			} else {
+				_e('as a new user:', 'mp-restaurant-menu');
+				$value = esc_attr(sanitize_user($author['author_login'], true));
+			}
+			echo ' <input type="text" name="user_new[' . $n . ']" value="' . $value . '" /><br />';
+		}
+		if (!$create_users && $this->version == '1.0')
+			_e('assign posts to an existing user:', 'mp-restaurant-menu');
+		else
+			_e('or assign posts to an existing user:', 'mp-restaurant-menu');
+		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __('- Select -', 'mp-restaurant-menu')));
+		echo '<input type="hidden" name="imported_authors[' . $n . ']" value="' . esc_attr($author['author_login']) . '" />';
+		if ($this->version != '1.0')
+			echo '</div>';
+	}
+
+	/**
+	 * Decide whether or not the importer should attempt to menu_item attachment files.
+	 * Default is true, can be filtered via import_allow_fetch_attachments. The choice
+	 * made at the import options screen must also be true, false here hides that checkbox.
+	 *
+	 * @return bool True if menu_iteming attachments is allowed
+	 */
+	public function allow_fetch_attachments() {
+		return apply_filters('import_allow_fetch_attachments', true);
+	}
+
+	/**
+	 * Import start
+	 *
+	 * @param $file
+	 */
+	public function process_start($file) {
+		$this->import_data = $this->parse($file);
+		$this->get_authors_from_import();
+		$this->version = $this->import_data['version'];
+		$this->posts = $this->import_data['posts'];
+		$this->terms = $this->import_data['terms'];
+		wp_suspend_cache_invalidation(true);
+		$this->process_terms();
+		$this->process_posts();
+		wp_suspend_cache_invalidation(false);
+		$this->backfill_parents();
+		$this->backfill_attachment_urls();
+		$this->remap_featured_images();
+		wp_defer_term_counting(true);
+		wp_defer_comment_counting(true);
+		do_action('import_start');
 	}
 
 	/**
@@ -717,6 +565,133 @@ class Import extends Core {
 	}
 
 	/**
+	 * If fetching attachments is enabled then attempt to create a new attachment
+	 *
+	 * @param array $post Attachment post details from WXR
+	 * @param string $url URL to fetch attachment from
+	 *
+	 * @return int|WP_Error Post ID on success, WP_Error otherwise
+	 */
+	public function process_attachment($post, $url) {
+		if (!$this->fetch_attachments)
+			return new \WP_Error('attachment_processing_error',
+				__('Fetching attachments is not enabled', 'mp-restaurant-menu'));
+		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
+		if (preg_match('|^/[\w\W]+$|', $url))
+			$url = rtrim($this->base_url, '/') . $url;
+		$upload = $this->fetch_remote_file($url, $post);
+		if (is_wp_error($upload))
+			return $upload;
+		if ($info = wp_check_filetype($upload['file']))
+			$post['post_mime_type'] = $info['type'];
+		else
+			return new \WP_Error('attachment_processing_error', __('Invalid file type', 'mp-restaurant-menu'));
+		$post['guid'] = $upload['url'];
+		// as per wp-admin/includes/upload.php
+		$post_id = wp_insert_attachment($post, $upload['file']);
+		wp_update_attachment_metadata($post_id, wp_generate_attachment_metadata($post_id, $upload['file']));
+		// remap resized image URLs, works by stripping the extension and remapping the URL stub.
+		if (preg_match('!^image/!', $info['type'])) {
+			$parts = pathinfo($url);
+			$name = basename($parts['basename'], ".{$parts['extension']}"); // PATHINFO_FILENAME in PHP 5.2
+			$parts_new = pathinfo($upload['url']);
+			$name_new = basename($parts_new['basename'], ".{$parts_new['extension']}");
+			$this->url_remap[$parts['dirname'] . '/' . $name] = $parts_new['dirname'] . '/' . $name_new;
+		}
+		return $post_id;
+	}
+
+	/**
+	 * Attempt to menu_item a remote file attachment
+	 *
+	 * @param string $url URL of item to fetch
+	 * @param array $post Attachment details
+	 *
+	 * @return array|\WP_Error Local file location details on success, WP_Error otherwise
+	 */
+	public function fetch_remote_file($url, $post) {
+		// extract the file name and extension from the url
+		$file_name = basename($url);
+		// get placeholder file in the upload dir with a unique, sanitized filename
+		$upload = wp_upload_bits($file_name, 0, '', $post['upload_date']);
+		if ($upload['error'])
+			return new \WP_Error('upload_dir_error', $upload['error']);
+		// fetch the remote url and write it to the placeholder file
+		$response_data = wp_safe_remote_head($url);
+		$headers = wp_remote_retrieve_headers($response_data);
+		$headers['response'] = wp_remote_retrieve_response_code($response_data);
+		if (!$headers) {
+			@unlink($upload['file']);
+			return new \WP_Error('import_file_error', __('Remote server did not respond', 'mp-restaurant-menu'));
+		}
+		// make sure the fetch was successful
+		if ($headers['response'] != '200') {
+			@unlink($upload['file']);
+			return new \WP_Error('import_file_error', sprintf(__('Remote server returned error response %1$d %2$s', 'mp-restaurant-menu'), esc_html($headers['response']), get_status_header_desc($headers['response'])));
+		}
+		$this->write_file($url, $upload);
+		$filesize = filesize($upload['file']);
+		if (isset($headers['content-length']) && $filesize != $headers['content-length']) {
+			@unlink($upload['file']);
+			return new \WP_Error('import_file_error', __('Remote file is incorrect size', 'mp-restaurant-menu'));
+		}
+		if (0 == $filesize) {
+			@unlink($upload['file']);
+			return new \WP_Error('import_file_error', __('Zero size file menu_itemed', 'mp-restaurant-menu'));
+		}
+		$max_size = (int)$this->max_attachment_size();
+		if (!empty($max_size) && $filesize > $max_size) {
+			@unlink($upload['file']);
+			return new \WP_Error('import_file_error', sprintf(__('Remote file is too large, limit is %s', 'mp-restaurant-menu'), size_format($max_size)));
+		}
+		// keep track of the old and new urls so we can substitute them later
+		$this->url_remap[$url] = $upload['url'];
+		$this->url_remap[$post['guid']] = $upload['url']; // r13735, really needed?
+		// keep track of the destination if the remote url is redirected somewhere else
+		if (isset($headers['x-final-location']) && $headers['x-final-location'] != $url)
+			$this->url_remap[$headers['x-final-location']] = $upload['url'];
+		return $upload;
+	}
+
+	/**
+	 * Get file by URL and write upload
+	 *
+	 * @param $url
+	 * @param $upload
+	 * @param int $redirection
+	 *
+	 * @return bool
+	 */
+	private function write_file($url, $upload, $redirection = 5) {
+		$options = array();
+		$options['redirection'] = $redirection;
+		if (false == $upload['file'])
+			$options['method'] = 'HEAD';
+		else
+			$options['method'] = 'GET';
+		$response = wp_safe_remote_request($url, $options);
+		if (false == $upload['file']) {
+			return false;
+		}
+		// GET request - write it to the supplied filename
+		$out_fp = fopen($upload['file'], 'w');
+		if (!$out_fp) {
+			return false;
+		}
+		fwrite($out_fp, wp_remote_retrieve_body($response));
+		fclose($out_fp);
+		clearstatcache();
+		return true;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	function max_attachment_size() {
+		return apply_filters('import_attachment_size_limit', 0);
+	}
+
+	/**
 	 * Attempt to associate posts and menu items with previously missing parents
 	 *
 	 * An imported post's parent may not have been imported when it was first created
@@ -766,11 +741,6 @@ class Import extends Core {
 		}
 	}
 
-	// return the difference in length between two strings
-	public function cmpr_strlen($a, $b) {
-		return strlen($b) - strlen($a);
-	}
-
 	/**
 	 * Update _thumbnail_id meta to new, imported attachment IDs
 	 */
@@ -786,7 +756,56 @@ class Import extends Core {
 		}
 	}
 
-	function max_attachment_size() {
-		return apply_filters('import_attachment_size_limit', 0);
+	public function process_end() {
+		wp_import_cleanup($this->id);
+		wp_cache_flush();
+		foreach (get_taxonomies() as $tax) {
+			delete_option("{$tax}_children");
+			_get_term_hierarchy($tax);
+		}
+		wp_defer_term_counting(false);
+		wp_defer_comment_counting(false);
+		echo '<p>' . __('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . __('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
+		echo '<p>' . __('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
+		do_action('import_end');
+	}
+
+	public function footer() {
+		View::get_instance()->render_html('../admin/import/footer');
+	}
+
+	// return the difference in length between two strings
+
+	/**
+	 * Decide if the given meta key maps to information we will want to import
+	 *
+	 * @param string $key The meta key to check
+	 *
+	 * @return string|bool The key if we do want to import, false if not
+	 */
+	function is_valid_meta_key($key) {
+		// skip attachment metadata since we'll regenerate it from scratch
+		// skip _edit_lock as not relevant for import
+		if (in_array($key, array('_wp_attached_file', '_wp_attachment_metadata', '_edit_lock')))
+			return false;
+		return $key;
+	}
+
+	/**
+	 * Added to http_request_timeout filter to force timeout at 60 seconds during import
+	 * @return int 60
+	 */
+	function bump_request_timeout() {
+		return 60;
+	}
+
+	/**
+	 * @param $a
+	 * @param $b
+	 *
+	 * @return int
+	 */
+	public function cmpr_strlen($a, $b) {
+		return strlen($b) - strlen($a);
 	}
 }

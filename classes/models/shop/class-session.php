@@ -12,6 +12,9 @@ use mp_restaurant_menu\classes\libs\WP_Session;
 class Session extends Core {
 	protected static $instance;
 
+	/**
+	 * @return Session
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -113,6 +116,11 @@ class Session extends Core {
 		return $this->session->session_id;
 	}
 
+	/**
+	 * @param $key
+	 *
+	 * @return bool|mixed
+	 */
 	public function get_session_by_key($key) {
 		$key = sanitize_key($key);
 		return isset($this->session[$key]) ? maybe_unserialize($this->session[$key]) : false;

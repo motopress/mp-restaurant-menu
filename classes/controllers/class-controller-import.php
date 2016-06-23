@@ -11,6 +11,9 @@ use mp_restaurant_menu\classes\View;
 class Controller_Import extends Controller {
 	protected static $instance;
 
+	/**
+	 * @return Controller_Import
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

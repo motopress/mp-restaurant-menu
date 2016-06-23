@@ -3,9 +3,16 @@ namespace mp_restaurant_menu\classes\modules;
 
 use mp_restaurant_menu\classes\Module;
 
+/**
+ * Class Breadcrumbs
+ * @package mp_restaurant_menu\classes\modules
+ */
 class Breadcrumbs extends Module {
 	protected static $instance;
 
+	/**
+	 * @return Breadcrumbs
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -14,6 +21,9 @@ class Breadcrumbs extends Module {
 	}
 
 	// Breadcrumbs
+	/**
+	 * @param array $params
+	 */
 	function show_breadcrumbs(array $params = array()) {
 		// Settings
 		$current_page = isset($params['current_page']) ? $params['current_page'] : true;

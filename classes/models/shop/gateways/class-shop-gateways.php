@@ -1,10 +1,18 @@
 <?php namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Hooks;
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Gateways
+ * @package mp_restaurant_menu\classes\models
+ */
 class Gateways extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Gateways
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -12,6 +20,28 @@ class Gateways extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
+	public function shop_supports_buy_now() {
+		$gateways = $this->get_enabled_payment_gateways();
+		$ret = false;
+		if (!$this->get('taxes')->use_taxes() && $gateways) {
+			foreach ($gateways as $gateway_id => $gateway) {
+				if ($this->gateway_supports_buy_now($gateway_id)) {
+					$ret = true;
+					break;
+				}
+			}
+		}
+		return apply_filters('mprm_shop_supports_buy_now', $ret);
+	}
+
+	/**
+	 * @param bool $sort
+	 *
+	 * @return mixed|void
+	 */
 	public function get_enabled_payment_gateways($sort = false) {
 		$gateways = $this->get_payment_gateways();
 		$enabled = $this->get('settings')->get_option('gateways', false);
@@ -33,6 +63,9 @@ class Gateways extends Model {
 		return apply_filters('mprm_enabled_payment_gateways', $gateway_list);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_payment_gateways() {
 		// Default, built-in gateways
 		$gateways = array(
@@ -53,6 +86,9 @@ class Gateways extends Model {
 		return apply_filters('mprm_payment_gateways', $gateways);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_default_gateway() {
 		$default = $this->get('settings')->get_option('default_gateway', 'paypal');
 		if (!$this->is_gateway_active($default)) {
@@ -63,38 +99,42 @@ class Gateways extends Model {
 		return apply_filters('mprm_default_gateway', $default);
 	}
 
+	/**
+	 * @param $gateway
+	 *
+	 * @return mixed|void
+	 */
 	public function is_gateway_active($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
 		$ret = array_key_exists($gateway, $gateways);
 		return apply_filters('mprm_is_gateway_active', $ret, $gateway, $gateways);
 	}
 
-	public function shop_supports_buy_now() {
-		$gateways = $this->get_enabled_payment_gateways();
-		$ret = false;
-		if (!$this->get('taxes')->use_taxes() && $gateways) {
-			foreach ($gateways as $gateway_id => $gateway) {
-				if ($this->gateway_supports_buy_now($gateway_id)) {
-					$ret = true;
-					break;
-				}
-			}
-		}
-		return apply_filters('mprm_shop_supports_buy_now', $ret);
-	}
-
+	/**
+	 * @param $gateway
+	 *
+	 * @return mixed|void
+	 */
 	public function gateway_supports_buy_now($gateway) {
 		$supports = $this->get_gateway_supports($gateway);
 		$ret = in_array('buy_now', $supports);
 		return apply_filters('mprm_gateway_supports_buy_now', $ret, $gateway);
 	}
 
+	/**
+	 * @param $gateway
+	 *
+	 * @return mixed|void
+	 */
 	public function get_gateway_supports($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
 		$supports = isset($gateways[$gateway]['supports']) ? $gateways[$gateway]['supports'] : array();
 		return apply_filters('mprm_gateway_supports', $supports, $gateway);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_chosen_gateway() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$chosen = isset($_REQUEST['payment-mode']) ? $_REQUEST['payment-mode'] : false;
@@ -118,6 +158,9 @@ class Gateways extends Model {
 		return apply_filters('mprm_chosen_gateway', $enabled_gateway);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function show_gateways() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$show_gateways = false;
@@ -131,12 +174,27 @@ class Gateways extends Model {
 		return apply_filters('mprm_show_gateways', $show_gateways);
 	}
 
+	/**
+	 * @param $gateway
+	 * @param $payment_data
+	 */
 	public function send_to_gateway($gateway, $payment_data) {
 		$payment_data['gateway_nonce'] = wp_create_nonce('mprm-gateway');
 		// $gateway must match the ID used when registering the gateway
+		add_action('http_api_curl', array(Hooks::get_instance(), 'http_api_curl'));
+
 		do_action('mprm_gateway_' . $gateway, $payment_data);
+
+		remove_action('http_api_curl', array(Hooks::get_instance(), 'http_api_curl'));
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 * @param array $options
+	 * @param int $quantity
+	 *
+	 * @return mixed|void
+	 */
 	function build_straight_to_gateway_data($menu_item_id = 0, $options = array(), $quantity = 1) {
 		$price_options = array();
 		if (empty($options) || !$this->get('menu_item')->has_variable_prices($menu_item_id)) {
@@ -216,6 +274,11 @@ class Gateways extends Model {
 		return apply_filters('mprm_straight_to_gateway_purchase_data', $purchase_data);
 	}
 
+	/**
+	 * @param $gateway
+	 *
+	 * @return mixed|void
+	 */
 	function get_gateway_checkout_label($gateway) {
 		$gateways = $this->get_payment_gateways();
 		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['checkout_label'] : $gateway;
@@ -225,6 +288,11 @@ class Gateways extends Model {
 		return apply_filters('mprm_gateway_checkout_label', $label, $gateway);
 	}
 
+	/**
+	 * @param $gateway
+	 *
+	 * @return mixed|void
+	 */
 	function get_gateway_admin_label($gateway) {
 		$gateways = $this->get_payment_gateways();
 		$label = isset($gateways[$gateway]) ? $gateways[$gateway]['admin_label'] : $gateway;

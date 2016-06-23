@@ -4,49 +4,22 @@ namespace mp_restaurant_menu\classes\modules;
 use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Module;
 
+/**
+ * Class Post
+ * @package mp_restaurant_menu\classes\modules
+ */
 class Post extends Module {
 	protected static $instance;
 	private $metaboxes;
 
+	/**
+	 * @return Post
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Register custom post
-	 *
-	 * @param array $params
-	 * @param string $plugin_name
-	 *
-	 * @return bool
-	 */
-	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
-		$args = array(
-			'show_in_rest' => true,
-			'label' => $params['post_type'],
-			'labels' => $this->get_labels($params, $plugin_name),
-			'public' => true,
-			'show_ui' => true,
-			'show_in_menu' => false,
-			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
-			"menu_position" => 21,
-			"hierarchical" => false,
-			"map_meta_cap" => empty($params['map_meta_cap']) ? false : $params['map_meta_cap'],
-			"rewrite" => (!empty($params['slug'])) ? array(
-				'slug' => $params['slug'],
-				'with_front' => true,
-				'hierarchical' => true
-			) : false,
-			'supports' => $params['supports'],
-			'show_in_admin_bar' => true
-		);
-		$status = register_post_type($params['post_type'], $args);
-		if (!is_wp_error($status)) {
-			return true;
-		}
 	}
 
 	/**
@@ -134,6 +107,39 @@ class Post extends Module {
 	}
 
 	/**
+	 * Register custom post
+	 *
+	 * @param array $params
+	 * @param string $plugin_name
+	 *
+	 * @return bool
+	 */
+	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
+		$args = array(
+			'label' => $params['post_type'],
+			'labels' => $this->get_labels($params, $plugin_name),
+			"public" => true,
+			"show_ui" => true,
+			'show_in_menu' => false,
+			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
+			"menu_position" => 21,
+			"hierarchical" => false,
+			"map_meta_cap" => empty($params['map_meta_cap']) ? false : $params['map_meta_cap'],
+			"rewrite" => (!empty($params['slug'])) ? array(
+				'slug' => $params['slug'],
+				'with_front' => true,
+				'hierarchical' => true
+			) : false,
+			"supports" => $params['supports'],
+			"show_in_admin_bar" => true
+		);
+		$status = register_post_type($params['post_type'], $args);
+		if (!is_wp_error($status)) {
+			return true;
+		}
+	}
+
+	/**
 	 * Set metabox params
 	 *
 	 * @param array $params
@@ -202,7 +208,7 @@ class Post extends Module {
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
-				$value = $_POST[$metabox['name']];
+				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
 				if (is_array($value)) {
 					$mydata = $value;
 				} else {
@@ -229,10 +235,10 @@ class Post extends Module {
 	 * @return array
 	 */
 	public function init_menu_columns($columns) {
-		$columns = array_slice($columns, 0, 1, true) + array('mptt-thumb' => __("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 1, true) + array('mprm-thumb' => __("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
 		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_tag') => __("Tags", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
 		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_category') => __("Categories", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array('mptt-price' => __("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array('mprm-price' => __("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
 		return $columns;
 	}
 
@@ -240,11 +246,14 @@ class Post extends Module {
 	 * Add content to custom column
 	 *
 	 * @param $column
+	 * @param $post_ID
 	 */
 	public function show_menu_columns($column, $post_ID) {
+		global $post;
+		$data = array();
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
-		global $post;
+
 		switch ($column) {
 			case $category_name:
 				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $category_name);
@@ -252,10 +261,18 @@ class Post extends Module {
 			case $tag_name:
 				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
 				break;
-			case 'mptt-thumb':
-				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>';
+			case 'mprm-thumb':
+				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>';
 				break;
-			case 'mptt-price':
+			case 'mprm-price':
+
+				$data['nutritional'] = get_post_meta($post->ID, 'nutritional', true);
+				$data['attributes'] = get_post_meta($post->ID, 'attributes', true);
+				$data['price'] = get_post_meta($post->ID, 'price', true);
+				$data['sku'] = get_post_meta($post->ID, 'sku', true);
+
+				$this->get_view()->render_html('../admin/quick-edit/hidden-data', $data);
+
 				if (!empty($post->price)) {
 					echo mprm_currency_filter(mprm_format_amount($post->price));
 				} else {

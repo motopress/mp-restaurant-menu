@@ -4,9 +4,16 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View as View;
 
+/**
+ * Class Errors
+ * @package mp_restaurant_menu\classes\models
+ */
 class Errors extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Errors
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -30,6 +37,9 @@ class Errors extends Model {
 		}
 	}
 
+	/**
+	 * @return bool|mixed
+	 */
 	public function get_error_html() {
 		$errors = $this->get_errors();
 		if ($errors) {

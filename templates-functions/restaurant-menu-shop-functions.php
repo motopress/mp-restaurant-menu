@@ -1,7 +1,7 @@
 <?php
-use \mp_restaurant_menu\classes\models;
-use \mp_restaurant_menu\classes\Core as Core;
-use \mp_restaurant_menu\classes\View as View;
+use mp_restaurant_menu\classes\Core as Core;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\View as View;
 
 function mprm_before_purchase_form() {
 }
@@ -27,29 +27,37 @@ function mprm_after_cc_expiration() {
 function mprm_after_cc_fields() {
 }
 
+/**
+ * @return bool|mixed
+ */
 function mprm_get_purchase_session() {
 	return models\Session::get_instance()->get_session_by_key('mprm_purchase');
 }
 
+/**
+ * @return bool
+ */
 function mprm_use_skus() {
 	$ret = mprm_get_option('enable_skus', false);
 	return (bool)apply_filters('mprm_use_skus', $ret);
 }
 
-function mprm_get_cart_item_price_id($item = array()) {
-	if (isset($item['item_number'])) {
-		$price_id = isset($item['item_number']['options']['price_id']) ? $item['item_number']['options']['price_id'] : null;
-	} else {
-		$price_id = isset($item['options']['price_id']) ? $item['options']['price_id'] : null;
-	}
-	return $price_id;
-}
 
+/**
+ * @param int $menu_item_id
+ *
+ * @return mixed|void
+ */
 function mprm_get_menu_item_sku($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->get_sku();
 }
 
+/**
+ * @param int $menu_item_id
+ *
+ * @return string
+ */
 function mprm_get_menu_item_notes($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->get_notes();
@@ -94,38 +102,6 @@ function mprm_payment_mode_select() {
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
-function mprm_checkout_button_next() {
-	$color = mprm_get_option('checkout_color', 'inherit');
-	$color = ($color == 'inherit') ? '' : $color;
-	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
-	$style = mprm_get_option('button_style', 'button');
-	$purchase_page = mprm_get_option('purchase_page', '0');
-	ob_start();
-	?>
-	<input type="hidden" name="mprm_action" value="gateway_select"/>
-	<input type="hidden" name="page_id" value="<?php echo absint($purchase_page); ?>"/>
-	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
-	<?php
-	return apply_filters('mprm_checkout_button_next', ob_get_clean());
-}
-
-function mprm_checkout_button_purchase() {
-	$color = mprm_get_option('checkout_color', 'inherit');
-	$color = ($color == 'inherit') ? '' : $color;
-	$style = mprm_get_option('button_style', 'button');
-	$label = mprm_get_option('checkout_label', '');
-	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
-	if (mprm_get_cart_total()) {
-		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
-	} else {
-		$complete_purchase = !empty($label) ? $label : __('Free Menu item', 'mp-restaurant-menu');
-	}
-	ob_start();
-	?>
-	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
-	<?php
-	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
-}
 
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
@@ -182,6 +158,9 @@ function mprm_purchase_form() {
 	do_action('mprm_purchase_form_bottom');
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_show_gateways() {
 	return models\Gateways::get_instance()->show_gateways();
 }
@@ -316,15 +295,6 @@ function mprm_get_register_fields() {
 function mprm_purchase_form_before_cc_form() {
 }
 
-function mprm_is_no_guest_checkout() {
-	return models\Misc::get_instance()->no_guest_checkout();
-}
-
-function mprm_checkout_tax_fields() {
-	if (models\Taxes::get_instance()->cart_needs_tax_address_fields() && mprm_get_cart_total()) {
-		mprm_default_cc_address_fields();
-	}
-}
 
 function mprm_default_cc_address_fields() {
 	$logged_in = is_user_logged_in();
@@ -468,18 +438,6 @@ function mprm_default_cc_address_fields() {
 	echo ob_get_clean();
 }
 
-function mprm_checkout_submit() { ?>
-	<fieldset id="mprm_purchase_submit">
-		<?php do_action('mprm_purchase_form_before_submit'); ?>
-		<?php mprm_checkout_hidden_fields(); ?>
-		<?php echo mprm_checkout_button_purchase(); ?>
-		<?php do_action('mprm_purchase_form_after_submit'); ?>
-		<!--		--><?php //if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
-		<!--			<p class="mprm-cancel"><a href="--><?php //echo models\Checkout::get_instance()->get_checkout_uri(); ?><!--">--><?php //_e('Go back', 'mp-restaurant-menu'); ?><!--</a></p>-->
-		<!--		--><?php //} ?>
-	</fieldset>
-	<?php
-}
 
 function mprm_terms_agreement() {
 	if (mprm_get_option('show_agree_to_terms', false)) {
@@ -507,39 +465,18 @@ function mprm_terms_agreement() {
 	}
 }
 
-function mprm_checkout_additional_information() {
-	View::get_instance()->render_html('/shop/checkout-additional-information');
-}
 
 function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
 }
 
-function mprm_checkout_final_total() {
-	?>
-	<p id="mprm_final_total_wrap">
-		<strong><?php _e('Purchase Total:', 'mp-restaurant-menu'); ?></strong>
-		<span class="mprm_cart_amount" data-subtotal="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>" data-total="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>"><?php models\Cart::get_instance()->cart_total(); ?></span>
-	</p>
-	<?php
-}
 
 function mprm_purchase_form_after_submit() {
 }
 
-function mprm_checkout_hidden_fields() {
-	?>
-	<?php if (is_user_logged_in()) { ?>
-		<input type="hidden" name="mprm-user-id" value="<?php echo get_current_user_id(); ?>"/>
-	<?php } ?>
-	<input type="hidden" name="mprm_action" value="purchase"/>
-	<input type="hidden" name="controller" value="cart"/>
-	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
-	<?php
-}
 
 function mprm_get_login_fields() {
-	$color = mprm_get_option('checkout_color', 'inherit');
+	$color = mprm_get_option('checkout_color', 'gray');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
@@ -598,9 +535,6 @@ function mprm_get_login_fields() {
 function mprm_register_account_fields_before() {
 }
 
-function mprm_cart_empty() {
-	echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
-}
 
 function mprm_checkout_table_header_first() {
 }
@@ -677,13 +611,18 @@ function mprm_payment_mode_top() {
 	echo '</div>';
 }
 
+/**
+ * @param $class
+ *
+ * @return array
+ */
 function mprm_add_body_classes($class) {
 	$classes = (array)$class;
-	if (models\Checkout::get_instance()->is_checkout()) {
+	if (mprm_is_checkout()) {
 		$classes[] = 'mprm-checkout';
 		$classes[] = 'mprm-page';
 	}
-	if (models\Checkout::get_instance()->is_success_page()) {
+	if (mprm_is_success_page()) {
 		$classes[] = 'mprm-success';
 		$classes[] = 'mprm-page';
 	}
@@ -702,30 +641,6 @@ function mprm_add_body_classes($class) {
 	return array_unique($classes);
 }
 
-function mprm_update_cart_button() {
-	if (!models\Cart::get_instance()->item_quantities_enabled())
-		return;
-	$color = mprm_get_option('checkout_color', 'inherit');
-	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
-	$color = ($color == 'inherit') ? '' : $color;
-	?>
-	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
-	<input type="hidden" name="mprm_action" value="update_cart"/>
-	<?php
-}
-
-function mprm_save_cart_button() {
-	if (mprm_is_cart_saving_disabled())
-		return;
-	$color = mprm_get_option('checkout_color', 'inherit');
-	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
-	$color = ($color == 'inherit') ? '' : $color;
-	if (models\Cart::get_instance()->is_cart_saved()) : ?>
-		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
-	<?php endif; ?>
-	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
-	<?php
-}
 
 function mprm_user_info_fields() {
 	$customer = models\Customer::get_instance()->get_session_customer();
@@ -764,6 +679,11 @@ function mprm_purchase_form_user_info() {
 function mprm_purchase_form_user_info_fields() {
 }
 
+/**
+ * @param string $where
+ *
+ * @return string
+ */
 function mprm_filter_where_older_than_week($where = '') {
 	// Payments older than one week
 	$start = date('Y-m-d', strtotime('-7 days'));
@@ -771,36 +691,77 @@ function mprm_filter_where_older_than_week($where = '') {
 	return $where;
 }
 
+/**
+ * @param int $menu_item_id
+ * @param int $quantity
+ *
+ * @return bool|mixed
+ */
 function mprm_increase_purchase_count($menu_item_id = 0, $quantity = 1) {
 	$quantity = (int)$quantity;
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->increase_sales($quantity);
 }
 
+/**
+ * @param string $price
+ * @param string $currency
+ *
+ * @return mixed|string|void
+ */
 function mprm_currency_filter($price = '', $currency = '') {
 	return models\Menu_item::get_instance()->currency_filter($price, $currency);
 }
 
+/**
+ * @param $amount
+ * @param bool $decimals
+ *
+ * @return mixed|void
+ */
 function mprm_format_amount($amount, $decimals = true) {
 	return models\Formatting::get_instance()->format_amount($amount, $decimals);
 }
 
+/**
+ * @param $payment_id
+ *
+ * @return mixed|void
+ */
 function mprm_get_payment_amount($payment_id) {
 	return models\Payments::get_instance()->get_payment_amount($payment_id);
 }
 
+/**
+ * @param bool $lowercase
+ *
+ * @return string
+ */
 function mprm_get_label_plural($lowercase = false) {
 	return models\Menu_item::get_instance()->get_label($lowercase, 'plural');
 }
 
+/**
+ * @param bool $lowercase
+ *
+ * @return string
+ */
 function mprm_get_label_singular($lowercase = false) {
 	return models\Menu_item::get_instance()->get_label($lowercase, 'singular');
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_is_success_page() {
 	return models\Checkout::get_instance()->is_success_page();
 }
 
+/**
+ * @param $content
+ *
+ * @return mixed|void
+ */
 function mprm_filter_success_page_content($content) {
 	if (isset($_GET['payment-confirmation']) && mprm_is_success_page()) {
 		if (has_filter('mprm_payment_confirm_' . $_GET['payment-confirmation'])) {
@@ -814,45 +775,95 @@ function mprm_get_plugin_version() {
 	return Core::get_instance()->get_version();
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_success_page_uri() {
 	$page_id = mprm_get_option('success_page', 0);
 	$page_id = absint($page_id);
 	return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 }
 
+/**
+ * @param int $payment_id
+ *
+ * @return string
+ */
 function mprm_get_payment_key($payment_id = 0) {
 	return models\Payments::get_instance()->get_payment_key($payment_id);
 }
 
+/**
+ * @param int $payment_id
+ *
+ * @return string
+ */
 function mprm_get_payment_number($payment_id = 0) {
 	return models\Payments::get_instance()->get_payment_number($payment_id);
 }
 
+/**
+ * @param $payment
+ * @param bool $return_label
+ *
+ * @return bool|mixed
+ */
 function mprm_get_payment_status($payment, $return_label = false) {
 	return models\Payments::get_instance()->get_payment_status($payment, $return_label);
 }
 
+/**
+ * @param int $payment_id
+ * @param string $meta_key
+ * @param bool $single
+ *
+ * @return mixed|void
+ */
 function mprm_get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
 	return models\Payments::get_instance()->get_payment_meta($payment_id, $meta_key, $single);
 }
 
+/**
+ * @param int $user
+ * @param int $number
+ * @param bool $pagination
+ * @param string $status
+ *
+ * @return bool
+ */
 function mprm_get_users_purchases($user = 0, $number = 20, $pagination = false, $status = 'mprm-complete') {
 	return models\Customer::get_instance()->get_users_purchases($user, $number, $pagination, $status);
 }
 
+/**
+ * @return bool
+ */
 function mprm_item_quantities_enabled() {
 	return models\Cart::get_instance()->item_quantities_enabled();
 }
 
+/**
+ * @param int $user_id
+ *
+ * @return bool
+ */
 function mprm_user_pending_verification($user_id = 0) {
 	return models\Customer::get_instance()->user_pending_verification($user_id);
 }
 
+/**
+ * @param int $menu_item_id
+ *
+ * @return bool
+ */
 function mprm_is_bundled_product($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->is_bundled_menu_item();
 }
 
+/**
+ * @return int
+ */
 function mprm_count_purchases_of_customer() {
 	if (empty($user)) {
 		$user = get_current_user_id();
@@ -861,10 +872,18 @@ function mprm_count_purchases_of_customer() {
 	return isset($stats['purchases']) ? $stats['purchases'] : 0;
 }
 
+/**
+ * @param int $user_id
+ *
+ * @return mixed|void
+ */
 function mprm_get_user_verification_request_url($user_id = 0) {
 	return models\Customer::get_instance()->get_user_verification_request_url($user_id);
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_payment_statuses() {
 	return models\Payments::get_instance()->get_payment_statuses();
 }
@@ -878,46 +897,95 @@ function mprm_get_order_object(\WP_Post $post) {
 	return new models\Order($post->ID);
 }
 
+/**
+ * @return bool
+ */
 function mprm_use_taxes() {
 	return models\Taxes::get_instance()->use_taxes();
 }
 
+/**
+ * @param string $currency
+ *
+ * @return string
+ */
 function mprm_currency_symbol($currency = '') {
 	return models\Settings::get_instance()->get_currency_symbol($currency);
 }
 
+/**
+ * @param $order_id
+ *
+ * @return array
+ */
 function mprm_get_payment_meta_user_info($order_id) {
 	return models\Payments::get_instance()->get_payment_meta_user_info($order_id);
 }
 
+/**
+ * @param $gateway
+ *
+ * @return mixed|void
+ */
 function mprm_get_gateway_admin_label($gateway) {
 	return models\Gateways::get_instance()->get_gateway_admin_label($gateway);
 }
 
-function mprm_get_cart_items() {
-	return models\Cart::get_instance()->get_cart_contents();
-}
 
+/**
+ * @param int $menu_item_id
+ * @param $user_purchase_info
+ * @param null $amount_override
+ *
+ * @return mixed|void
+ */
 function mprm_get_menu_item_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
 	return models\Menu_item::get_instance()->get_final_price($menu_item_id, $user_purchase_info, $amount_override);
 }
 
+/**
+ * @param $menu_item_id
+ *
+ * @return bool
+ */
 function mprm_has_variable_prices($menu_item_id) {
 	return models\Menu_item::get_instance()->has_variable_prices($menu_item_id);
 }
 
+/**
+ * @param int $menu_item_id
+ * @param int $price_id
+ * @param int $payment_id
+ *
+ * @return mixed|void
+ */
 function mprm_get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
 	return models\Menu_item::get_instance()->get_price_option_name($menu_item_id, $price_id, $payment_id);
 }
 
+/**
+ * @param $payment_id
+ *
+ * @return mixed|void
+ */
 function mprm_is_payment_complete($payment_id) {
 	return models\Payments::get_instance()->is_payment_complete($payment_id);
 }
 
+/**
+ * @param $var
+ *
+ * @return array|string
+ */
 function mprm_clean($var) {
 	return is_array($var) ? array_map('mprm_clean', $var) : sanitize_text_field($var);
 }
 
+/**
+ * @param $data
+ *
+ * @return mixed
+ */
 function mprm_menu_item_dropdown($data) {
 	$menu_items = mprm_get_menu_items(array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item'));
 
@@ -937,6 +1005,11 @@ function mprm_menu_item_dropdown($data) {
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
+/**
+ * @param $data
+ *
+ * @return mixed
+ */
 function mprm_customers_dropdown($data) {
 	$options = array(__('No customer attached', 'mp-restaurant-menu'));
 	$argc = array(
@@ -957,35 +1030,75 @@ function mprm_customers_dropdown($data) {
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
+/**
+ * @param $data
+ *
+ * @return mixed
+ */
 function mprm_text($data) {
 	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
 }
 
+/**
+ * @param $data
+ *
+ * @return mixed
+ */
 function mprn_select($data) {
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
+/**
+ * @param $key
+ *
+ * @return string
+ */
 function mprm_sanitize_key($key) {
 	return models\Formatting::get_instance()->sanitize_key($key);
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_country_list() {
 	return models\Settings::get_instance()->get_country_list();
 }
 
+/**
+ * @param null $country
+ *
+ * @return mixed|void
+ */
 function mprm_get_shop_states($country = null) {
 	return models\Settings::get_instance()->get_shop_states($country);
 }
 
+/**
+ * @param array $args
+ *
+ * @return mixed
+ */
 function mprm_get_menu_items(array $args) {
 	$menu_items = models\Menu_item::get_instance()->get_menu_items($args);
 	return $menu_items[0]['posts'];
 }
 
+/**
+ * @param int $payment_id
+ * @param string $search
+ *
+ * @return array|bool|int
+ */
 function mprm_get_payment_notes($payment_id = 0, $search = '') {
 	return models\Payments::get_instance()->get_payment_notes($payment_id, $search);
 }
 
+/**
+ * @param $note
+ * @param int $payment_id
+ *
+ * @return mixed
+ */
 function mprm_get_payment_note_html($note, $payment_id = 0) {
 	return models\Payments::get_instance()->get_payment_note_html($note, $payment_id);
 }
@@ -999,10 +1112,18 @@ function mprm_get_customer($customer_id) {
 	return new models\Customer(array('field' => 'id', 'value' => $customer_id));
 }
 
+/**
+ * @param $amount
+ *
+ * @return mixed|void
+ */
 function mprm_sanitize_amount($amount) {
 	return models\Formatting::get_instance()->sanitize_amount($amount);
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_get_currency() {
 	return models\Settings::get_instance()->get_currency();
 }
@@ -1019,28 +1140,28 @@ function mprm_get_option($key, $default = false) {
 	return models\Settings::get_instance()->get_option($key, $default);
 }
 
+/**
+ * @return mixed|void
+ */
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
 }
 
+/**
+ * @return false|string
+ */
 function mprm_get_purchase_history_page() {
 	$history_page_url = get_permalink(mprm_get_option('purchase_history_page'));
 	return empty($history_page_url) ? '' : $history_page_url;
 }
 
-function mprm_get_default_sale_notification_email() {
-
-	$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
-	$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
-	$default_email_body .= '{menu_item_list}' . "\n\n";
-	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . "{fullname}" . "\n";
-	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . "{price}" . "\n";
-	$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . " " . "{payment_method}" . "\n\n";
-	$default_email_body .= __('Thank you', 'mp-restaurant-menu');
-
-	$message = mprm_get_option('sale_notification', false);
-	$message = !empty($message) ? $message : $default_email_body;
-
-	return $message;
+/**
+ * @return string
+ */
+function mprm_get_view_price_position() {
+	global $mprm_view_args;
+	$price_position = empty($mprm_view_args['price_pos']) ? 'points' : $mprm_view_args['price_pos'];
+	return $price_position;
 }
+
 

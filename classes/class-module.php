@@ -1,16 +1,27 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\Core;
+/**
+ * Class Module
+ * @package mp_restaurant_menu\classes
+ */
 
 class Module extends Core {
 	/**
-	 * Get lables
+	 * Install controllers
+	 */
+	public static function install() {
+		// include all core controllers
+		Core::include_all(MP_RM_MODULES_PATH);
+	}
+
+	/**
+	 * Get labels
 	 *
 	 * @param array $params
 	 * @param string $plugin_name
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function get_labels(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$labels = array();
@@ -34,13 +45,5 @@ class Module extends Core {
 			);
 		}
 		return $labels;
-	}
-
-	/**
-	 * Install controllers
-	 */
-	public static function install() {
-		// include all core controllers
-		Core::include_all(MP_RM_MODULES_PATH);
 	}
 }

@@ -1,14 +1,15 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\Core;
-
 /**
  * Model class
  */
 class Model extends Core {
 	protected static $instance;
 
+	/**
+	 * @return Model
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

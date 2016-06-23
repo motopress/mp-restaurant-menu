@@ -3,9 +3,16 @@
 use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Paypal_standart
+ * @package mp_restaurant_menu\classes\models
+ */
 class Paypal_standart extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Paypal_standart
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -13,6 +20,9 @@ class Paypal_standart extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * @param $purchase_data
+	 */
 	public function process_paypal_purchase($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));

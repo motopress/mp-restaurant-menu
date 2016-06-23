@@ -2,9 +2,16 @@
 
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Test_Manual_payment
+ * @package mp_restaurant_menu\classes\models
+ */
 class Test_Manual_payment extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Test_Manual_payment
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -12,6 +19,9 @@ class Test_Manual_payment extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * @param $purchase_data
+	 */
 	public function test_manual_payment($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
 			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));

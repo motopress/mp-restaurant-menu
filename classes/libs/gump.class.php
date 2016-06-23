@@ -225,7 +225,7 @@ class GUMP {
 	 * Sanitize the input data.
 	 *
 	 * @param array $input
-	 * @param null $fields
+	 * @param array|null $fields
 	 * @param bool $utf8_encode
 	 *
 	 * @return array
@@ -853,6 +853,8 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_contains_list($field, $input, $param = null) {
@@ -880,6 +882,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1317,6 +1321,8 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_valid_ip($field, $input, $param = null) {
@@ -1340,8 +1346,9 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
-	 * @return mixed
+	 * @param null $param
 	 *
+	 * @return mixed
 	 * @see http://pastebin.com/UvUPPYK0
 	 */
 	/*
@@ -1371,6 +1378,8 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_valid_ipv6($field, $input, $param = null) {
@@ -1395,6 +1404,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1440,6 +1451,8 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_valid_name($field, $input, $param = null) {
@@ -1463,6 +1476,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1492,6 +1507,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1643,6 +1660,8 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_starts($field, $input, $param = null) {
@@ -1667,6 +1686,8 @@ class GUMP {
 	 * @param  string $field
 	 * @param  array $input
 	 *
+	 * @param null $param
+	 *
 	 * @return mixed
 	 */
 	protected function validate_required_file($field, $input, $param = null) {
@@ -1689,6 +1710,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1784,17 +1807,19 @@ class GUMP {
 	 * @param string $field
 	 * @param array $input
 	 *
-	 * @return mixed
+	 * @param null $param
+	 *
+	 * @return mixed Examples:
 	 *
 	 * Examples:
 	 *
-	 *  555-555-5555: valid
-	 *    5555425555: valid
-	 *    555 555 5555: valid
-	 *    1(519) 555-4444: valid
-	 *    1 (519) 555-4422: valid
-	 *    1-555-555-5555: valid
-	 *    1-(555)-555-5555: valid
+	 * 555-555-5555: valid
+	 * 5555425555: valid
+	 * 555 555 5555: valid
+	 * 1(519) 555-4444: valid
+	 * 1 (519) 555-4422: valid
+	 * 1-555-555-5555: valid
+	 * 1-(555)-555-5555: valid
 	 */
 	protected function validate_phone_number($field, $input, $param = null) {
 		if (!isset($input[$field]) || empty($input[$field])) {
@@ -1818,6 +1843,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */
@@ -1843,6 +1870,8 @@ class GUMP {
 	 *
 	 * @param string $field
 	 * @param array $input
+	 *
+	 * @param null $param
 	 *
 	 * @return mixed
 	 */

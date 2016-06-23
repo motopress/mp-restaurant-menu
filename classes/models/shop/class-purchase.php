@@ -4,9 +4,16 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Purchase
+ * @package mp_restaurant_menu\classes\models
+ */
 class Purchase extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Purchase
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -161,6 +168,9 @@ class Purchase extends Model {
 		return $valid ? $number : false;
 	}
 
+	/**
+	 * @return array|bool
+	 */
 	public function purchase_form_validate_fields() {
 		// Check if there is $_POST
 		if (empty($_POST)) return false;
@@ -207,6 +217,9 @@ class Purchase extends Model {
 		return $valid_data;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function purchase_form_validate_gateway() {
 		$gateway = $this->get('gateways')->get_default_gateway();
 		// Check if a gateway value is present
@@ -221,6 +234,9 @@ class Purchase extends Model {
 		return $gateway;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function purchase_form_validate_discounts() {
 		// Retrieve the discount stored in cookies
 		$discounts = $this->get('cart')->get_cart_discounts();
@@ -269,6 +285,9 @@ class Purchase extends Model {
 		}
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function purchase_form_required_fields() {
 		$required_fields = array(
 			'mprm_email' => array(
@@ -303,6 +322,9 @@ class Purchase extends Model {
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function purchase_form_validate_logged_in_user() {
 		global $user_ID;
 		// Start empty array to collect valid user data
@@ -341,6 +363,9 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function purchase_form_validate_new_user() {
 		$registering_new_user = false;
 		// Start an empty array to collect valid user data
@@ -425,6 +450,9 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function purchase_form_validate_user_login() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
@@ -478,6 +506,9 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function purchase_form_validate_guest_user() {
 		// Start an array to collect valid user data
 		$valid_user_data = array(
@@ -513,6 +544,11 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
+	/**
+	 * @param array $user_data
+	 *
+	 * @return int|\WP_Error
+	 */
 	public function register_and_login_new_user($user_data = array()) {
 		// Verify the array
 		if (empty($user_data))
@@ -543,6 +579,11 @@ class Purchase extends Model {
 		return $user_id;
 	}
 
+	/**
+	 * @param array $valid_data
+	 *
+	 * @return bool
+	 */
 	public function get_purchase_form_user($valid_data = array()) {
 		// Initialize user
 		$user = false;
@@ -601,6 +642,9 @@ class Purchase extends Model {
 		return $user;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function purchase_form_validate_cc() {
 		$card_data = $this->get_purchase_cc_info();
 		// Validate the card zip
@@ -613,6 +657,9 @@ class Purchase extends Model {
 		return $card_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_purchase_cc_info() {
 		$cc_info = array();
 		$cc_info['card_name'] = isset($_POST['card_name']) ? sanitize_text_field($_POST['card_name']) : '';
@@ -630,6 +677,12 @@ class Purchase extends Model {
 		return $cc_info;
 	}
 
+	/**
+	 * @param int $zip
+	 * @param string $country_code
+	 *
+	 * @return bool|mixed|void
+	 */
 	public function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
 		$ret = false;
 		if (empty($zip) || empty($country_code))
@@ -840,6 +893,9 @@ class Purchase extends Model {
 
 	}
 
+	/**
+	 * @param $data
+	 */
 	public function process_straight_to_gateway($data) {
 		$menu_item_id = $data['menu_item_id'];
 		$options = isset($data['mprm_options']) ? $data['mprm_options'] : array();

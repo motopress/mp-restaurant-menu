@@ -6,6 +6,10 @@ use mp_restaurant_menu\classes\Model;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Menu_item
+ * @package mp_restaurant_menu\classes\models
+ */
 class Menu_item extends Model {
 	protected static $instance;
 	private $bundled_menu_items;
@@ -17,6 +21,59 @@ class Menu_item extends Model {
 	private $ID;
 	private $sku;
 
+	/**
+	 * Menu_item constructor.
+	 *
+	 * @param bool $_id
+	 * @param array $_args
+	 */
+	public function __construct($_id = false, $_args = array()) {
+		parent::__construct();
+		if ($_id) {
+			$menu_item = \WP_Post::get_instance($_id);
+			return $this->setup_menu_item($menu_item);
+		}
+	}
+
+	/**
+	 * @param $menu_item
+	 *
+	 * @return bool
+	 */
+	private function setup_menu_item($menu_item) {
+		if ($this->is_menu_item($menu_item)) {
+			foreach ($menu_item as $key => $value) {
+				switch ($key) {
+					default:
+						$this->$key = $value;
+						break;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *  Is menu item object
+	 *
+	 * @param $post
+	 *
+	 * @return bool
+	 */
+	public function is_menu_item($post) {
+		if (!is_a($post, 'WP_Post')) {
+			return false;
+		}
+		if ('mp_menu_item' !== $post->post_type) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return Menu_item
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -32,18 +89,16 @@ class Menu_item extends Model {
 		Post::get_instance()->set_metaboxes($metabox_array);
 	}
 
-	public function __construct($_id = false, $_args = array()) {
-		parent::__construct();
-		if ($_id) {
-			$menu_item = \WP_Post::get_instance($_id);
-			return $this->setup_menu_item($menu_item);
-		}
-	}
-
+	/**
+	 * @return mixed
+	 */
 	public function get_ID() {
 		return $this->ID;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_sku() {
 		if (!isset($this->sku)) {
 			$this->sku = get_post_meta($this->ID, 'mprm_sku', true);
@@ -54,24 +109,14 @@ class Menu_item extends Model {
 		return apply_filters('mprm_get_menu_item_sku', $this->sku, $this->ID);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_notes() {
 		if (!isset($this->notes)) {
 			$this->notes = get_post_meta($this->ID, 'mprm_product_notes', true);
 		}
 		return (string)apply_filters('mprm_product_notes', $this->notes, $this->ID);
-	}
-
-	private function setup_menu_item($menu_item) {
-		if ($this->is_menu_item($menu_item)) {
-			foreach ($menu_item as $key => $value) {
-				switch ($key) {
-					default:
-						$this->$key = $value;
-						break;
-				}
-			}
-			return true;
-		}
 	}
 
 	/**
@@ -114,10 +159,16 @@ class Menu_item extends Model {
 		return $gallery;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_bundled_menu_item() {
 		return 'bundle' === $this->get_type();
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_type() {
 
 		if (!isset($this->type)) {
@@ -170,22 +221,6 @@ class Menu_item extends Model {
 	}
 
 	/**
-	 * Get attributes
-	 *
-	 * @param \WP_Post $post
-	 *
-	 * @return array/void
-	 */
-	public function get_attributes(\WP_Post $post) {
-		$attributes = get_post_meta($post->ID, 'attributes', true);
-		if (!$this->is_arr_values_empty($attributes)) {
-			return $attributes;
-		} else {
-			return array();
-		}
-	}
-
-	/**
 	 * Get featured image
 	 *
 	 * @param \WP_Post $post
@@ -203,21 +238,12 @@ class Menu_item extends Model {
 	}
 
 	/**
-	 * Get menu item class
+	 * @param int $menu_item_id
+	 * @param $user_purchase_info
+	 * @param null $amount_override
 	 *
-	 * @param int $id
-	 * @param bool $format
-	 *
-	 * @return string
+	 * @return mixed|void
 	 */
-	public function get_price($id, $format = false) {
-		$price = get_post_meta($id, 'price', true);
-		if ($format) {
-			$price = $this->get_formatting_price($price);
-		}
-		return $price;
-	}
-
 	public function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
 		if (is_null($amount_override)) {
 			$original_price = get_post_meta($menu_item_id, 'mprm_price', true);
@@ -236,31 +262,12 @@ class Menu_item extends Model {
 		return apply_filters('mprm_final_price', $price, $menu_item_id, $user_purchase_info);
 	}
 
-	public function get_formatting_price($amount, $decimals = true) {
-		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
-		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-		// Format the amount
-		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
-			$whole = substr($amount, 0, $sep_found);
-			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
-			$amount = $whole . '.' . $part;
-		}
-		// Strip , from the amount (if set as the thousands separator)
-		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
-			$amount = str_replace(',', '', $amount);
-		}
-		// Strip ' ' from the amount (if set as the thousands separator)
-		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
-			$amount = str_replace(' ', '', $amount);
-		}
-		if (empty($amount)) {
-			$amount = 0;
-		}
-		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
-		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
-		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
-	}
-
+	/**
+	 * @param string $price
+	 * @param string $currency
+	 *
+	 * @return mixed|string|void
+	 */
 	public function currency_filter($price = '', $currency = '') {
 		if (empty($currency)) {
 			$currency = $this->get('settings')->get_currency();
@@ -368,6 +375,7 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_category')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		}
 
@@ -385,6 +393,7 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_tag')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		}
 
@@ -409,13 +418,15 @@ class Menu_item extends Model {
 					)
 				);
 				$items[$id] = array('term' => get_term($id, $this->get_tax_name('menu_category')), 'posts' => get_posts($term_params));
+				$items[$id]['order'] = $this->get('menu_category')->get_term_order($id);
 			}
 		} elseif (empty($category_ids) && empty($tags_ids) && !empty($args['item_ids'])) {
 			$items[0] = array('term' => '', 'posts' => get_posts($params));
 		} elseif (empty($category_ids) && empty($tags_ids) && empty($args['item_ids'])) {
 			$items[0] = array('term' => '', 'posts' => get_posts($params));
 		}
-		return $items;
+
+		return $this->get('menu_category')->sort_category_order($items);
 	}
 
 	/**
@@ -468,6 +479,69 @@ class Menu_item extends Model {
 	}
 
 	/**
+	 * Get menu item class
+	 *
+	 * @param int $id
+	 * @param bool $format
+	 *
+	 * @return string
+	 */
+	public function get_price($id, $format = false) {
+		$price = get_post_meta($id, 'price', true);
+		if ($format) {
+			$price = $this->get_formatting_price($price);
+		}
+		return $price;
+	}
+
+	/**
+	 * @param $amount
+	 * @param bool $decimals
+	 *
+	 * @return mixed|void
+	 */
+	public function get_formatting_price($amount, $decimals = true) {
+		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
+		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+		// Format the amount
+		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
+			$whole = substr($amount, 0, $sep_found);
+			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
+			$amount = $whole . '.' . $part;
+		}
+		// Strip , from the amount (if set as the thousands separator)
+		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(',', '', $amount);
+		}
+		// Strip ' ' from the amount (if set as the thousands separator)
+		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
+			$amount = str_replace(' ', '', $amount);
+		}
+		if (empty($amount)) {
+			$amount = 0;
+		}
+		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
+		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
+		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
+	}
+
+	/**
+	 * Get attributes
+	 *
+	 * @param \WP_Post $post
+	 *
+	 * @return array/void
+	 */
+	public function get_attributes(\WP_Post $post) {
+		$attributes = get_post_meta($post->ID, 'attributes', true);
+		if (!$this->is_arr_values_empty($attributes)) {
+			return $attributes;
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	 * Is nutritional empty
 	 *
 	 * @param array $data
@@ -495,6 +569,11 @@ class Menu_item extends Model {
 		return false;
 	}
 
+	/**
+	 * @param $args
+	 *
+	 * @return mixed|void
+	 */
 	public function get_purchase_link($args) {
 		global $post, $mprm_displayed_form_ids;
 
@@ -609,6 +688,11 @@ class Menu_item extends Model {
 		return apply_filters('mprm_purchase_menu_item_form', $purchase_form, $args);
 	}
 
+	/**
+	 * @param $post_id
+	 *
+	 * @return mixed|void
+	 */
 	public function get_button_behavior($post_id) {
 		$button_behavior = get_post_meta($post_id, '_button_behavior', true);
 		if (empty($button_behavior) || !$this->get('gateways')->shop_supports_buy_now()) {
@@ -618,34 +702,33 @@ class Menu_item extends Model {
 	}
 
 	/**
-	 *  Is menu item object
-	 *
-	 * @param $post
+	 * @param $post_id
 	 *
 	 * @return bool
 	 */
-	public function is_menu_item($post) {
-		if (!is_a($post, 'WP_Post')) {
-			return false;
-		}
-		if ('mp_menu_item' !== $post->post_type) {
-			return false;
-		}
-		return true;
-	}
-
 	public function has_variable_prices($post_id) {
 		$ret = get_post_meta($post_id, '_variable_pricing', true);
 
 		return (bool)apply_filters('mprm_has_variable_prices', $ret, $post_id);
 	}
 
+	/**
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	public function is_single_price_mode($post_id) {
 		$ret = get_post_meta($post_id, '_mprm_price_options_mode', true);
 
 		return (bool)apply_filters('mprm_single_price_option_mode', $ret, $post_id);
 	}
 
+	/**
+	 * @param bool $price_id
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	public function is_free($price_id = false, $post_id) {
 		global $post;
 		if (empty($post)) {
@@ -670,56 +753,23 @@ class Menu_item extends Model {
 		return (bool)apply_filters('mprm_is_free_menu_item', $is_free, $post->ID, $price_id);
 	}
 
-	public function get_prices($post_id) {
-		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
-		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
-	}
-
-	public function get_menu_item($menu_item = 0) {
-		if (is_numeric($menu_item)) {
-			$menu_item = get_post($menu_item);
-			if (!$menu_item || 'mp_menu_item' !== $menu_item->post_type)
-				return null;
-			return $menu_item;
-		}
-		$args = array(
-			'post_type' => 'mp_menu_item',
-			'name' => $menu_item,
-			'numberposts' => 1
-		);
-		$menu_item = get_posts($args);
-		if ($menu_item) {
-			return $menu_item[0];
-		}
-		return null;
-	}
-
-	public function get_price_option_amount($menu_item_id = 0, $price_id = 0) {
-		$prices = $this->get_variable_prices($menu_item_id);
-		$amount = 0.00;
-		if ($prices && is_array($prices)) {
-			if (isset($prices[$price_id]))
-				$amount = $prices[$price_id]['amount'];
-		}
-		return apply_filters('mprm_get_price_option_amount', $this->get('formatting')->sanitize_amount($amount), $menu_item_id, $price_id);
-	}
-
-	public function get_variable_prices($menu_item_id = 0) {
-		if (empty($menu_item_id)) {
-			return false;
-		}
-		return $this->get_prices($menu_item_id);
-	}
-
+	/**
+	 * @param int $menu_item_id
+	 * @param string $type
+	 *
+	 * @return string
+	 */
 	public function get_price_option($menu_item_id = 0, $type = 'max') {
+		$price_type = 0.00;
+		$max = 0;
+		$id = 0;
 		if (empty($menu_item_id))
 			$menu_item_id = get_the_ID();
 		if (!$this->has_variable_prices($menu_item_id)) {
 			return $this->get_price($menu_item_id);
 		}
 		$prices = $this->get_variable_prices($menu_item_id);
-		$price_type = 0.00;
-		$max = 0;
+
 		if (!empty($prices)) {
 			foreach ($prices as $key => $price) {
 				if (empty($price['amount'])) {
@@ -746,6 +796,73 @@ class Menu_item extends Model {
 		return $this->get('formatting')->sanitize_amount($price_type);
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 *
+	 * @return bool|mixed|void
+	 */
+	public function get_variable_prices($menu_item_id = 0) {
+		if (empty($menu_item_id)) {
+			return false;
+		}
+		return $this->get_prices($menu_item_id);
+	}
+
+	/**
+	 * @param $post_id
+	 *
+	 * @return mixed|void
+	 */
+	public function get_prices($post_id) {
+		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
+		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
+	}
+
+	/**
+	 * @param int $menu_item
+	 *
+	 * @return array|int|null|\WP_Post
+	 */
+	public function get_menu_item($menu_item = 0) {
+		if (is_numeric($menu_item)) {
+			$menu_item = get_post($menu_item);
+			if (!$menu_item || 'mp_menu_item' !== $menu_item->post_type)
+				return null;
+			return $menu_item;
+		}
+		$args = array(
+			'post_type' => 'mp_menu_item',
+			'name' => $menu_item,
+			'numberposts' => 1
+		);
+		$menu_item = get_posts($args);
+		if ($menu_item) {
+			return $menu_item[0];
+		}
+		return null;
+	}
+
+	/**
+	 * @param int $menu_item_id
+	 * @param int $price_id
+	 *
+	 * @return mixed|void
+	 */
+	public function get_price_option_amount($menu_item_id = 0, $price_id = 0) {
+		$prices = $this->get_variable_prices($menu_item_id);
+		$amount = 0.00;
+		if ($prices && is_array($prices)) {
+			if (isset($prices[$price_id]))
+				$amount = $prices[$price_id]['amount'];
+		}
+		return apply_filters('mprm_get_price_option_amount', $this->get('formatting')->sanitize_amount($amount), $menu_item_id, $price_id);
+	}
+
+	/**
+	 * @param int $quantity
+	 *
+	 * @return bool|mixed
+	 */
 	public function increase_sales($quantity = 1) {
 		$sales = $this->get_menu_item_sales_stats($this->ID);
 		$quantity = absint($quantity);
@@ -757,23 +874,43 @@ class Menu_item extends Model {
 		return false;
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 *
+	 * @return mixed
+	 */
 	public function get_menu_item_sales_stats($menu_item_id = 0) {
-		if (empty($this->sales)) {
+		if (!empty($menu_item_id) && is_numeric($menu_item_id)) {
+			$this->sales = get_post_meta($menu_item_id, '_mprm_menu_item_sales', true);
+		} elseif (empty($this->sales)) {
 			$this->sales = get_post_meta($this->ID, '_mprm_menu_item_sales', true);
 		}
 		return $this->sales;
 	}
 
-	public function decrease_sales($quantity = 1) {
-		$sales = $this->get_menu_item_sales_stats($this->ID);
-		// Only decrease if not already zero
-		if ($sales > 0) {
-			$quantity = absint($quantity);
-			$total_sales = $sales - $quantity;
-			if ($this->update_meta('_mprm_menu_item_sales', $total_sales)) {
-				$this->sales = $total_sales;
-				return $this->sales;
-			}
+	/**
+	 * @param string $meta_key
+	 * @param string $meta_value
+	 *
+	 * @return bool
+	 */
+	private function update_meta($meta_key = '', $meta_value = '') {
+		global $wpdb;
+		if (empty($meta_key) || empty($meta_value)) {
+			return false;
+		}
+		// Make sure if it needs to be serialized, we do
+		$meta_value = maybe_serialize($meta_value);
+		if (is_numeric($meta_value)) {
+			$value_type = is_float($meta_value) ? '%f' : '%d';
+		} else {
+			$value_type = "'%s'";
+		}
+		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = {$value_type} WHERE post_id = {$this->ID} AND meta_key = '%s'", $meta_value, $meta_key);
+
+		if ($wpdb->query($sql)) {
+			clean_post_cache($this->ID);
+			return true;
 		}
 		return false;
 	}
@@ -809,6 +946,17 @@ class Menu_item extends Model {
 	}
 
 	/**
+	 * @param int $menu_item_id
+	 * @param $amount
+	 *
+	 * @return bool
+	 */
+	public function get_decrease_earnings($menu_item_id = 0, $amount) {
+		$this->setup_menu_item($menu_item_id);
+		return $this->decrease_earnings($amount);
+	}
+
+	/**
 	 * Decrease earnings
 	 *
 	 * @param $amount
@@ -828,53 +976,69 @@ class Menu_item extends Model {
 		return false;
 	}
 
-	public function get_decrease_earnings($menu_item_id = 0, $amount) {
-		$this->setup_menu_item($menu_item_id);
-		return $this->decrease_earnings($amount);
-	}
-
-
+	/**
+	 * @param int $menu_item_id
+	 * @param int $quantity
+	 *
+	 * @return bool|mixed
+	 */
 	public function decrease_purchase_count($menu_item_id = 0, $quantity = 1) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->decrease_sales($quantity);
 	}
 
+	/**
+	 * @param int $quantity
+	 *
+	 * @return bool|mixed
+	 */
+	public function decrease_sales($quantity = 1) {
+		$sales = $this->get_menu_item_sales_stats($this->ID);
+		// Only decrease if not already zero
+		if ($sales > 0) {
+			$quantity = absint($quantity);
+			$total_sales = $sales - $quantity;
+			if ($this->update_meta('_mprm_menu_item_sales', $total_sales)) {
+				$this->sales = $total_sales;
+				return $this->sales;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param int $menu_item_id
+	 *
+	 * @return mixed
+	 */
 	public function get_menu_item_type($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->type;
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 *
+	 * @return mixed
+	 */
 	public function get_bundled_products($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->bundled_menu_items;
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 *
+	 * @return mixed
+	 */
 	public function get_sales_stats($menu_item_id = 0) {
 		$this->setup_menu_item($menu_item_id);
 		return $this->sales;
 	}
 
-	private function update_meta($meta_key = '', $meta_value = '') {
-		global $wpdb;
-		if (empty($meta_key) || empty($meta_value)) {
-			return false;
-		}
-		// Make sure if it needs to be serialized, we do
-		$meta_value = maybe_serialize($meta_value);
-		if (is_numeric($meta_value)) {
-			$value_type = is_float($meta_value) ? '%f' : '%d';
-		} else {
-			$value_type = "'%s'";
-		}
-		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = {$value_type} WHERE post_id = {$this->ID} AND meta_key = '%s'", $meta_value, $meta_key);
-
-		if ($wpdb->query($sql)) {
-			clean_post_cache($this->ID);
-			return true;
-		}
-		return false;
-	}
-
+	/**
+	 * @return array
+	 */
 	public function get_search_params() {
 		$search_params = array(
 			'sku'
@@ -882,6 +1046,13 @@ class Menu_item extends Model {
 		return $search_params;
 	}
 
+	/**
+	 * @param int $menu_item_id
+	 * @param int $price_id
+	 * @param int $payment_id
+	 *
+	 * @return mixed|void
+	 */
 	public function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
 		$prices = $this->get_variable_prices($menu_item_id);
 		$price_name = '';
@@ -892,6 +1063,12 @@ class Menu_item extends Model {
 		return apply_filters('mprm_get_price_option_name', $price_name, $menu_item_id, $payment_id, $price_id);
 	}
 
+	/**
+	 * @param bool $lowercase
+	 * @param string $type
+	 *
+	 * @return string
+	 */
 	public function get_label($lowercase = false, $type = 'singular') {
 		$labels = array(
 			'singular' => __('Menu item', 'mp-restaurant-menu'),

@@ -1,7 +1,7 @@
 <?php
 get_header();
 mprm_get_taxonomy();
-do_action('mprm_category_before_wrapper');
+do_action('mprm-single-category-before-wrapper');
 ?>
 	<div <?php post_class(apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
 		<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-category-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-category') ?> ">
@@ -71,6 +71,10 @@ do_action('mprm_category_before_wrapper');
 		</div>
 	</div>
 <?php
-do_action('mprm_category_after_wrapper');
-get_footer();
-?>
+do_action('mprm-single-category-after-wrapper');
+
+if (is_tax() && ('twentyfourteen' === get_option('template'))) {
+	get_sidebar();
+}
+
+get_footer(); ?>

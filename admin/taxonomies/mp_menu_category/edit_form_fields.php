@@ -1,9 +1,16 @@
 <tr class="form-field">
+	<th for="category-order"><?php _e('Order', 'mp-restaurant-menu'); ?></th>
+	<td id='menu-cat-order'>
+		<input type="text" id="category-order" value="<?php echo esc_attr($order); ?>" name="term_meta[order]"/>
+	</td>
+</tr>
+<tr class="form-field">
 	<th scope="row" valign="top"><label for="term_meta[iconname]"><?php _e('Icon', 'mp-restaurant-menu'); ?></label></th>
 	<td id='menu-cat-icon'>
 		<input type="text" id="IconPicker" name="term_meta[iconname]" value="<?php echo esc_attr($iconname) ?>"/>
 	</td>
 </tr>
+
 <tr class="form-field">
 	<th scope="row" valign="top"><label><?php _e('Thumbnail', 'foodpress'); ?></label></th>
 	<td>

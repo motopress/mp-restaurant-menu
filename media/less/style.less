@@ -24,17 +24,13 @@
   }
 }
 
-.mprm-form-error {
-  border-color: #a94442;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-}
-
-.mprm-main-wrapper {
-  a, a.mprm-link {
+.mprm-main-wrapper, .mprm-container {
+  a.mprm-link {
 	text-decoration: none;
 	outline: none;
 	box-shadow: none;
 	border: none;
+	color: inherit;
 	&:focus,
 	&:visited,
 	&:hover {
@@ -42,30 +38,101 @@
 	  outline: none;
 	  box-shadow: none;
 	  border: none;
-	  color: initial;
+	  color: inherit;
 	}
   }
+
+  .mprm_menu_item_buy_button {
+	form {
+	  a {
+		text-decoration: none;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		&:focus,
+		&:visited,
+		&:hover {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		}
+	  }
+	}
+  }
+  //&.mprm-shortcode-items {
+  //a, a.mprm-link {
+  //
+  //  &:focus,
+  //  &:visited,
+  //  &:hover {
+  //	* {
+  //	  color: initial;
+  //	}
+  //  }
+  //}
+  //}
+}
+
+.mprm-container {
+  &.mprm-view-simple-list {
+
+	.mprm-columns-count-1 {
+	  column-count: 1;
+	  column-gap: 2rem;
+	}
+	.mprm-columns-count-2 {
+	  column-count: 2;
+	  column-gap: 2rem;
+	}
+	.mprm-columns-count-3 {
+	  column-count: 3;
+	  column-gap: 2rem;
+	}
+	.mprm-columns-count-4 {
+	  column-count: 4;
+	  column-gap: 2rem;
+	}
+	.mprm-columns-count-6 {
+	  column-count: 6;
+	  column-gap: 2rem;
+	}
+
+	.mprm-simple-view-column {
+	  display: inline-block;
+	  width: 100%;
+	  margin-bottom: 2rem;
+	  .mprm-columns {
+		width: 100%;
+	  }
+	}
+  }
+}
+
+@media (max-width: @bp-larger-than-phablet) {
+  .mprm-container {
+	&.mprm-view-simple-list {
+	  > div[class^="mprm-columns-count-"] {
+		column-count: auto;
+	  }
+	  .mprm-simple-view-column {
+		margin-bottom: 1rem;
+		display: inline-block;
+		width: 100%;
+	  }
+	}
+  }
+}
+
+.mprm-form-error {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 
 .mprm-container {
   margin: 0;
   padding: 0;
   position: relative;
-  a, a.mprm-link {
-	text-decoration: none;
-	outline: none;
-	box-shadow: none;
-	border: none;
-	&:focus,
-	&:visited,
-	&:hover {
-	  text-decoration: none;
-	  outline: none;
-	  box-shadow: none;
-	  border: none;
-	  color: initial;
-	}
-  }
   .mprm-row {
 	padding-bottom: @padding-default;
   }

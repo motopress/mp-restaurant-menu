@@ -3,9 +3,16 @@ namespace mp_restaurant_menu\classes\models\parents;
 
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Term
+ * @package mp_restaurant_menu\classes\models\parents
+ */
 class Term extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Term
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

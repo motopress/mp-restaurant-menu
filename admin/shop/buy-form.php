@@ -15,7 +15,9 @@
 			<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 		<?php } ?>
 
-		<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>" <?php echo $checkout_display ?>><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+		<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>" <?php echo $checkout_display ?>>
+			<?php _e('Checkout', 'mp-restaurant-menu') ?>
+		</a>
 		<?php if (!$is_ajax_disabled) : ?>
 			<span class="mprm-cart-ajax-alert">
 					<span class="mprm-cart-added-alert" style="display: none;">

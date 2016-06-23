@@ -166,13 +166,13 @@ class FirePHP {
 	 */
 	protected $throwErrorExceptions = true;
 	/**
-	 * Flag whether to convert PHP assertion errors to Exceptions
+	 * Flag whether to convert PHP assertion errors to \Exceptions
 	 *
 	 * @var boolean
 	 */
 	protected $convertAssertionErrorsToExceptions = true;
 	/**
-	 * Flag whether to throw PHP assertion errors that have been converted to Exceptions
+	 * Flag whether to throw PHP assertion errors that have been converted to \Exceptions
 	 *
 	 * @var boolean
 	 */
@@ -269,12 +269,12 @@ class FirePHP {
 	 *
 	 * @param object $console The console object to log to
 	 *
-	 * @return void
+	 * @throws \Exception
 	 */
 	public function setLogToInsightConsole($console) {
 		if (is_string($console)) {
 			if (get_class($this) != 'FirePHP_Insight' && !is_subclass_of($this, 'FirePHP_Insight')) {
-				throw new Exception('FirePHP instance not an instance or subclass of FirePHP_Insight!');
+				throw new \Exception('FirePHP instance not an instance or subclass of FirePHP_Insight!');
 			}
 			$this->logToInsightConsole = $this->to('request')->console($console);
 		} else {
@@ -349,7 +349,7 @@ class FirePHP {
 	 * @param string $Name
 	 * @param mixed $Value
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function setOption($Name, $Value) {
@@ -364,7 +364,7 @@ class FirePHP {
 	 *
 	 * @param string $Name
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @return mixed
 	 */
 	public function getOption($Name) {
@@ -378,6 +378,8 @@ class FirePHP {
 	 * Register FirePHP as your error handler
 	 *
 	 * Will throw exceptions for each php error.
+	 *
+	 * @param bool $throwErrorExceptions
 	 *
 	 * @return mixed Returns a string containing the previously defined error handler (if any)
 	 */
@@ -400,6 +402,10 @@ class FirePHP {
 	 * @param string $errfile
 	 * @param int $errline
 	 * @param array $errcontext
+	 *
+	 * @throws \Error
+	 * @throws \ErrorException
+	 * @throws \Exception
 	 */
 	public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
 		// Don't throw exception if error reporting is switched off
@@ -408,7 +414,7 @@ class FirePHP {
 		}
 		// Only throw exceptions for errors we are asking for
 		if (error_reporting() & $errno) {
-			$exception = new ErrorException($errstr, 0, $errno, $errfile, $errline);
+			$exception = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 			if ($this->throwErrorExceptions) {
 				throw $exception;
 			} else {
@@ -433,16 +439,16 @@ class FirePHP {
 	 *
 	 * Logs all exceptions to your firebug console and then stops the script.
 	 *
-	 * @param Exception $Exception
+	 * @param \Exception $Exception
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function exceptionHandler($Exception) {
 		$this->inExceptionHandler = true;
 		header('HTTP/1.1 500 Internal Server Error');
 		try {
 			$this->fb($Exception);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			echo 'We had an exception: ' . $e;
 		}
 		$this->inExceptionHandler = false;
@@ -455,6 +461,7 @@ class FirePHP {
 	 * @param boolean $throwAssertionExceptions
 	 *
 	 * @return mixed Returns the original setting or FALSE on errors
+	 * @throws \Exception
 	 */
 	public function registerAssertionHandler($convertAssertionErrorsToExceptions = true, $throwAssertionExceptions = false) {
 		$this->convertAssertionErrorsToExceptions = $convertAssertionErrorsToExceptions;
@@ -473,10 +480,14 @@ class FirePHP {
 	 * @param string $file File source of assertion
 	 * @param int $line Line source of assertion
 	 * @param mixed $code Assertion code
+	 *
+	 * @throws \Error
+	 * @throws \ErrorException
+	 * @throws \Exception
 	 */
 	public function assertionHandler($file, $line, $code) {
 		if ($this->convertAssertionErrorsToExceptions) {
-			$exception = new ErrorException('Assertion Failed - Code[ ' . $code . ' ]', 0, null, $file, $line);
+			$exception = new \ErrorException('Assertion Failed - Code[ ' . $code . ' ]', 0, null, $file, $line);
 			if ($this->throwAssertionExceptions) {
 				throw $exception;
 			} else {
@@ -498,7 +509,7 @@ class FirePHP {
 	 * @param array $Options OPTIONAL Instructions on how to log the group
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function group($Name, $Options = null) {
 		if (!$Name) {
@@ -519,7 +530,7 @@ class FirePHP {
 	 * Ends a group you have started before
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function groupEnd() {
 		return $this->fb(null, null, FirePHP::GROUP_END);
@@ -533,8 +544,11 @@ class FirePHP {
 	 * @param mixes $Object
 	 * @param string $Label
 	 *
+	 * @param array $Options
+	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function log($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::LOG, $Options);
@@ -548,8 +562,11 @@ class FirePHP {
 	 * @param mixes $Object
 	 * @param string $Label
 	 *
+	 * @param array $Options
+	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function info($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::INFO, $Options);
@@ -563,8 +580,11 @@ class FirePHP {
 	 * @param mixes $Object
 	 * @param string $Label
 	 *
+	 * @param array $Options
+	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function warn($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::WARN, $Options);
@@ -578,8 +598,11 @@ class FirePHP {
 	 * @param mixes $Object
 	 * @param string $Label
 	 *
+	 * @param array $Options
+	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function error($Object, $Label = null, $Options = array()) {
 		return $this->fb($Object, $Label, FirePHP::ERROR, $Options);
@@ -593,10 +616,13 @@ class FirePHP {
 	 * @param string $Key
 	 * @param mixed $Variable
 	 *
+	 * @param array $options
+	 *
 	 * @return true
-	 * @throws Exception
 	 */
-	public function dump($Key, $Variable, $Options = array()) {
+	public function dump($Key, $Variable,
+
+		                 $options = array()) {
 		if (!is_string($Key)) {
 			throw $this->newException('Key passed to dump() is not a string');
 		}
@@ -606,7 +632,7 @@ class FirePHP {
 		if (!preg_match_all('/^[a-zA-Z0-9-_\.:]*$/', $Key, $m)) {
 			throw $this->newException('Key passed to dump() contains invalid characters [a-zA-Z0-9-_\.:]');
 		}
-		return $this->fb($Variable, $Key, FirePHP::DUMP, $Options);
+		return $this->fb($Variable, $Key, FirePHP::DUMP, $options);
 	}
 
 	/**
@@ -617,7 +643,7 @@ class FirePHP {
 	 * @param string $Label
 	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function trace($Label) {
 		return $this->fb($Label, FirePHP::TRACE);
@@ -631,8 +657,11 @@ class FirePHP {
 	 * @param string $Label
 	 * @param string $Table
 	 *
+	 * @param array $Options
+	 *
 	 * @return true
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function table($Label, $Table, $Options = array()) {
 		return $this->fb($Table, $Label, FirePHP::TABLE, $Options);
@@ -646,7 +675,7 @@ class FirePHP {
 	public static function to() {
 		$instance = self::getInstance();
 		if (!method_exists($instance, "_to")) {
-			throw new Exception("FirePHP::to() implementation not loaded");
+			throw new \Exception("FirePHP::to() implementation not loaded");
 		}
 		$args = func_get_args();
 		return call_user_func_array(array($instance, '_to'), $args);
@@ -660,7 +689,7 @@ class FirePHP {
 	public static function plugin() {
 		$instance = self::getInstance();
 		if (!method_exists($instance, "_plugin")) {
-			throw new Exception("FirePHP::plugin() implementation not loaded");
+			throw new \Exception("FirePHP::plugin() implementation not loaded");
 		}
 		$args = func_get_args();
 		return call_user_func_array(array($instance, '_plugin'), $args);
@@ -695,7 +724,8 @@ class FirePHP {
 	 * @param mixed $Object The variable to be logged
 	 *
 	 * @return true Return TRUE if message was added to headers, FALSE otherwise
-	 * @throws Exception
+	 * @throws \Error
+	 * @throws \Exception
 	 */
 	public function fb($Object) {
 		if ($this instanceof FirePHP_Insight && method_exists($this, '_logUpgradeClientMessage')) {
@@ -753,7 +783,7 @@ class FirePHP {
 					}
 		if ($this->logToInsightConsole !== null && (get_class($this) == 'FirePHP_Insight' || is_subclass_of($this, 'FirePHP_Insight'))) {
 			$msg = $this->logToInsightConsole;
-			if ($Object instanceof Exception) {
+			if ($Object instanceof \Exception) {
 				$Type = self::EXCEPTION;
 			}
 			if ($Label && $Type != self::TABLE && $Type != self::GROUP_START) {
@@ -796,7 +826,7 @@ class FirePHP {
 		}
 		$meta = array();
 		$skipFinalObjectEncode = false;
-		if ($Object instanceof Exception) {
+		if ($Object instanceof \Exception) {
 			$meta['file'] = $this->_escapeTraceFile($Object->getFile());
 			$meta['line'] = $Object->getLine();
 			$trace = $Object->getTrace();
@@ -1047,6 +1077,9 @@ class FirePHP {
 	 *
 	 * @param string $Filename
 	 * @param integer $Linenum
+	 *
+	 * @return bool
+	 * @return bool
 	 */
 	protected function headersSent(&$Filename, &$Linenum) {
 		return headers_sent($Filename, $Linenum);
@@ -1100,7 +1133,9 @@ class FirePHP {
 	/**
 	 * Get a request header
 	 *
-	 * @return string|false
+	 * @param $Name
+	 *
+	 * @return false|string
 	 */
 	protected function getRequestHeader($Name) {
 		$headers = self::getAllRequestHeaders();
@@ -1115,10 +1150,10 @@ class FirePHP {
 	 *
 	 * @param string $Message
 	 *
-	 * @return Exception
+	 * @return \Exception
 	 */
 	protected function newException($Message) {
-		return new Exception($Message);
+		return new \Exception($Message);
 	}
 
 	/**
@@ -1127,6 +1162,8 @@ class FirePHP {
 	 * Uses PHP's jeson_encode() if available
 	 *
 	 * @param object $Object The object to be encoded
+	 *
+	 * @param bool $skipObjectEncode
 	 *
 	 * @return string The JSON string
 	 */
@@ -1170,9 +1207,12 @@ class FirePHP {
 	 * protected and private visibility
 	 *
 	 * @param Object $Object The object to be encoded
-	 * @param int $Depth The current traversal depth
+	 * @param int $ObjectDepth
+	 * @param int $ArrayDepth
+	 * @param int $MaxDepth
 	 *
 	 * @return array All members of the object
+	 * @internal param int $Depth The current traversal depth
 	 */
 	protected function encodeObject($Object, $ObjectDepth = 1, $ArrayDepth = 1, $MaxDepth = 1) {
 		if ($MaxDepth > $this->options['maxDepth']) {
@@ -1570,7 +1610,7 @@ class FirePHP {
 						array_values($var));
 					array_pop($this->json_objectStack);
 					foreach ($properties as $property) {
-						if ($property instanceof Exception) {
+						if ($property instanceof \Exception) {
 							return $property;
 						}
 					}
@@ -1581,7 +1621,7 @@ class FirePHP {
 				$elements = array_map(array($this, 'json_encode'), $var);
 				array_pop($this->json_objectStack);
 				foreach ($elements as $element) {
-					if ($element instanceof Exception) {
+					if ($element instanceof \Exception) {
 						return $element;
 					}
 				}
@@ -1594,7 +1634,7 @@ class FirePHP {
 					array_values($vars));
 				array_pop($this->json_objectStack);
 				foreach ($properties as $property) {
-					if ($property instanceof Exception) {
+					if ($property instanceof \Exception) {
 						return $property;
 					}
 				}
@@ -1625,7 +1665,7 @@ class FirePHP {
 			$value['GLOBALS'] = '** Recursion **';
 		}
 		$encoded_value = $this->json_encode($value);
-		if ($encoded_value instanceof Exception) {
+		if ($encoded_value instanceof \Exception) {
 			return $encoded_value;
 		}
 		return $this->json_encode(strval($name)) . ':' . $encoded_value;
@@ -1633,6 +1673,8 @@ class FirePHP {
 
 	/**
 	 * @deprecated
+	 *
+	 * @param $URL
 	 */
 	public function setProcessorUrl($URL) {
 		trigger_error("The FirePHP::setProcessorUrl() method is no longer supported", E_USER_DEPRECATED);
@@ -1640,6 +1682,8 @@ class FirePHP {
 
 	/**
 	 * @deprecated
+	 *
+	 * @param $URL
 	 */
 	public function setRendererUrl($URL) {
 		trigger_error("The FirePHP::setRendererUrl() method is no longer supported", E_USER_DEPRECATED);

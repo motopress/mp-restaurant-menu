@@ -2,14 +2,22 @@
 namespace mp_restaurant_menu\classes\shortcodes;
 
 use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\models\Menu_category;
 use mp_restaurant_menu\classes\models\Menu_tag;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
-use mp_restaurant_menu\classes\models\Menu_category;
+
+/**
+ * Class Shortcode_Item
+ * @package mp_restaurant_menu\classes\shortcodes
+ */
 
 class Shortcode_Item extends Shortcodes {
 	protected static $instance;
 
+	/**
+	 * @return Shortcode_Item
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -22,7 +30,7 @@ class Shortcode_Item extends Shortcodes {
 	 *
 	 * @param array $args
 	 *
-	 * @return type
+	 * @return mixed
 	 */
 	public function render_shortcode(array $args) {
 		global $mprm_view_args;
@@ -44,7 +52,7 @@ class Shortcode_Item extends Shortcodes {
 			'view' => array(
 				'type' => 'select',
 				'label' => __('View mode', 'mp-restaurant-menu'),
-				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu')),
+				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu'), 'simple-list' => __('Simple list', 'mp-restaurant-menu')),
 				'default' => 'grid'
 			),
 			'categ' => array(
@@ -79,6 +87,20 @@ class Shortcode_Item extends Shortcodes {
 					'none' => __('Don`t show', 'mp-restaurant-menu'),
 				),
 				'default' => 'only_text'
+			),
+			'price_pos' => array(
+				'type' => 'select',
+				'label' => __('Price position', 'mp-restaurant-menu'),
+				'list' => array(
+					'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
+					'right' => __('Price on the right', 'mp-restaurant-menu'),
+					'after_title' => __('Price next to the title', 'mp-restaurant-menu'),
+				),
+				'dependency' => array(
+					'parameter' => 'view',
+					'value' => 'simple-list'
+				),
+				'default' => 'right'
 			),
 			'show_attributes' => array(
 				'type' => 'radio-buttons',
@@ -124,7 +146,7 @@ class Shortcode_Item extends Shortcodes {
 			),
 			'desc_length' => array(
 				'type' => 'text',
-				'label' => __('Description length', 'mp-restaurant-menu'),
+				'label' => __('Excerpt length', 'mp-restaurant-menu'),
 			)
 		);
 		$mprm_items = new \MPCEObject('mprm_items', __('Menu Items', 'mp-restaurant-menu'), '', $attributes);

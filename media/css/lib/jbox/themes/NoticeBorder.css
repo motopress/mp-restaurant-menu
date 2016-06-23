@@ -11,7 +11,7 @@
 
 .jBox-NoticeBorder.jBox-Notice-color .jBox-container {
 	color: #414141;
-	text-shadow: 0 0px 0 #000;
+	text-shadow: 0 0 0 #000;
 	background: rgba(255, 255, 255, 0.92);
 	font-weight: 700;
 }
@@ -23,7 +23,7 @@
 	left: 0;
 	bottom: 0;
 	width: 5px;
-	border-radius: 0px 0 0 0px;
+	border-radius: 0 0 0 0;
 	background-size: 18px 18px;
 }
 

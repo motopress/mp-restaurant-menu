@@ -67,6 +67,9 @@
 </div>
 <?php
 do_action('mprm_tag_after_wrapper');
+if (is_tax() && ('twentyfourteen' === get_option('template'))) {
+	get_sidebar();
+}
 get_footer();
 
 ?>

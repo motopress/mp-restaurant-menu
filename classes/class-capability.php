@@ -1,8 +1,15 @@
 <?php
 namespace mp_restaurant_menu\classes;
+/**
+ * Class Capabilities
+ * @package mp_restaurant_menu\classes
+ */
 class Capabilities extends Core {
 	protected static $instance;
 
+	/**
+	 * @return Capabilities
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -245,6 +252,9 @@ class Capabilities extends Core {
 		}
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	function is_caching_plugin_active() {
 		$caching = (function_exists('wpsupercache_site_admin') || defined('W3TC') || function_exists('rocket_init'));
 		return apply_filters('mprm_is_caching_plugin_active', $caching);

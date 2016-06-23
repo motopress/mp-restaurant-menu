@@ -4,13 +4,19 @@ namespace mp_restaurant_menu\classes\controllers;
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\Settings;
-use mp_restaurant_menu\classes\models\Settings_countries;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Controller_Settings
+ * @package mp_restaurant_menu\classes\controllers
+ */
 class Controller_Settings extends Controller {
 	protected static $instance;
 
+	/**
+	 * @return Controller_Settings
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -22,7 +28,6 @@ class Controller_Settings extends Controller {
 	 * Action content
 	 */
 	public function action_content() {
-		$data = array();
 		$data = $this->get('settings')->get_config_settings();
 		//$data
 		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();

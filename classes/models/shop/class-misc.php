@@ -4,9 +4,16 @@ namespace mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Model;
 
+/**
+ * Class Misc
+ * @package mp_restaurant_menu\classes\models
+ */
 class Misc extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Misc
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -14,6 +21,11 @@ class Misc extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * @param bool $nocache
+	 *
+	 * @return mixed|string|void
+	 */
 	public function get_current_page_url($nocache = false) {
 		global $wp;
 		if (get_option('permalink_structure')) {
@@ -53,16 +65,25 @@ class Misc extends Model {
 		return $url;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_test_mode() {
 		$ret = $this->get('settings')->get_option('test_mode', false);
 		return (bool)apply_filters('mprm_is_test_mode', $ret);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function no_guest_checkout() {
 		$ret = $this->get('settings')->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_no_guest_checkout', $ret);
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function get_ip() {
 		$ip = '127.0.0.1';
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -77,6 +98,11 @@ class Misc extends Model {
 		return apply_filters('mprm_get_ip', $ip);
 	}
 
+	/**
+	 * @param string $code
+	 *
+	 * @return mixed|void
+	 */
 	public function get_currency_name($code = 'USD') {
 		$currencies = $this->get('settings')->get_currencies();
 		$name = isset($currencies[$code]) ? $currencies[$code] : $code;
@@ -87,17 +113,30 @@ class Misc extends Model {
 		die();
 	}
 
+	/**
+	 * @param string $message
+	 * @param string $title
+	 * @param int $status
+	 */
 	public function mprm_die($message = '', $title = '', $status = 400) {
 		add_filter('wp_die_ajax_handler', array($this, 'mprm_die_handler'), 10, 3);
 		add_filter('wp_die_handler', array($this, 'mprm_die_handler'), 10, 3);
 		wp_die($message, $title, array('response' => $status));
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function use_skus() {
 		$ret = $this->get('settings')->get_option('enable_skus', false);
 		return (bool)apply_filters('mprm_use_skus', $ret);
 	}
 
+	/**
+	 * @param string $payment_key
+	 *
+	 * @return bool
+	 */
 	public function can_view_receipt($payment_key = '') {
 		global $mprm_receipt_args;
 		$return = false;
@@ -125,6 +164,9 @@ class Misc extends Model {
 		return (bool)apply_filters('mprm_can_view_receipt', $return, $payment_key);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_php_arg_separator_output() {
 		return ini_get('arg_separator.output');
 	}

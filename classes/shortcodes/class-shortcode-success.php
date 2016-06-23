@@ -5,9 +5,16 @@ use mp_restaurant_menu\classes\models\Order;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Shortcode_success
+ * @package mp_restaurant_menu\classes\shortcodes
+ */
 class Shortcode_success extends Shortcodes {
 	protected static $instance;
 
+	/**
+	 * @return Shortcode_success
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

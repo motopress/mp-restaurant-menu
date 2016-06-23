@@ -13,6 +13,27 @@
 			});
 		}
 
+		function change_shortcode_view() {
+			$('#mprm-shortcode-form').on('change', 'select[name="view"]', function() {
+
+				var shortCode = $('[name="shortcode_name"]').val();
+				if (shortCode === 'mprm_items') {
+					switch ($(this).val()) {
+						case"simple-list" :
+							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');
+							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').removeClass('hidden');
+							break;
+						case"grid" :
+						case"list" :
+						default:
+							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').removeClass('hidden');
+							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').addClass('hidden');
+							break;
+					}
+				}
+			});
+		}
+
 		/**
 		 * init shortcode button
 		 * @param callBack
@@ -85,6 +106,7 @@
 								MP_RM_Registry._get('MP_RM_Functions').showBlocks('mprm_categories');
 								init_change_shortcode_type();
 								init_checkbox();
+								change_shortcode_view();
 								inti_insert_button(function(params) {
 									var shortcode = wp.shortcode.string({
 										tag: params.name,

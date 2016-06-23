@@ -1,83 +1,21 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Model;
-use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Settings
+ * @package mp_restaurant_menu\classes\models
+ */
 class Settings extends Model {
 	protected static $instance;
 
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
-	 * Get settings
-	 *
-	 * @param bool $key
-	 *
-	 * @return mixed|void
+	 * @return array
 	 */
-	public function get_settings($key = false) {
-		$settings = get_option('mprm_settings');
-		if (empty($settings)) {
-			$default_settings =
-				array(
-					'currency' => 'USD',
-					'customer_phone' => '1',
-					'gateways' =>
-						array(
-							'paypal' => '1',
-							'manual' => '1',
-						),
-
-					'item_quantities' => '1',
-					'shipping_address' => '1',
-					'enable_ajax_cart' => '1',
-					'default_gateway' => 'manual',
-					'checkout_color' => 'inherit',
-					'checkout_padding' => 'mprm-inherit',
-					'currency_position' => 'before',
-					'thousands_separator' => ',',
-					'decimal_separator' => '.',
-					'accepted_cards' =>
-						array(
-							'mastercard' => 'Mastercard',
-							'visa' => 'Visa',
-							'americanexpress' => 'American Express',
-							'discover' => 'Discover',
-							'paypal' => 'PayPal',
-						),
-					'checkout_label' => 'Purchase',
-					'add_to_cart_text' => 'Add to Cart',
-					'buy_now_text' => 'Buy Now'
-				);
-
-			// Update old settings with new single option
-			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
-			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
-			$email_settings = is_array(get_option('mprm_settings_emails')) ? get_option('mprm_settings_emails') : array();
-			$style_settings = is_array(get_option('mprm_settings_styles')) ? get_option('mprm_settings_styles') : array();
-			$tax_settings = is_array(get_option('mprm_settings_taxes')) ? get_option('mprm_settings_taxes') : array();
-			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
-			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
-			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
-			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings, $default_settings);
-
-			update_option('mprm_settings', $settings);
-		}
-		if (!empty($settings[$key])) {
-			return $settings[$key];
-		} else {
-			return $settings;
-		}
-	}
-
 	public function get_config_settings() {
 		$settings = array('tabs' => array());
 		$config_settings = $this->get_config('settings');
@@ -88,6 +26,11 @@ class Settings extends Model {
 		return $settings;
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
 	public function save_settings(array $params) {
 		unset($params['controller']);
 		unset($params['mprm_action']);
@@ -244,6 +187,68 @@ class Settings extends Model {
 	}
 
 	/**
+	 * Get settings
+	 *
+	 * @param bool $key
+	 *
+	 * @return mixed|void
+	 */
+	public function get_settings($key = false) {
+		$settings = get_option('mprm_settings');
+		if (empty($settings)) {
+			$default_settings =
+				array(
+					'currency' => 'USD',
+					'customer_phone' => '1',
+					'gateways' =>
+						array(
+							'paypal' => '1',
+							'manual' => '1',
+						),
+
+					'item_quantities' => '1',
+					'shipping_address' => '1',
+					'enable_ajax_cart' => '1',
+					'default_gateway' => 'manual',
+					'checkout_color' => 'inherit',
+					'checkout_padding' => 'mprm-inherit',
+					'currency_position' => 'before',
+					'thousands_separator' => ',',
+					'decimal_separator' => '.',
+					'accepted_cards' =>
+						array(
+							'mastercard' => 'Mastercard',
+							'visa' => 'Visa',
+							'americanexpress' => 'American Express',
+							'discover' => 'Discover',
+							'paypal' => 'PayPal',
+						),
+					'checkout_label' => 'Purchase',
+					'add_to_cart_text' => 'Add to Cart',
+					'buy_now_text' => 'Buy Now'
+				);
+
+			// Update old settings with new single option
+			$general_settings = is_array(get_option('mprm_settings_general')) ? get_option('mprm_settings_general') : array();
+			$gateway_settings = is_array(get_option('mprm_settings_gateways')) ? get_option('mprm_settings_gateways') : array();
+			$email_settings = is_array(get_option('mprm_settings_emails')) ? get_option('mprm_settings_emails') : array();
+			$style_settings = is_array(get_option('mprm_settings_styles')) ? get_option('mprm_settings_styles') : array();
+			$tax_settings = is_array(get_option('mprm_settings_taxes')) ? get_option('mprm_settings_taxes') : array();
+			$ext_settings = is_array(get_option('mprm_settings_extensions')) ? get_option('mprm_settings_extensions') : array();
+			$license_settings = is_array(get_option('mprm_settings_licenses')) ? get_option('mprm_settings_licenses') : array();
+			$misc_settings = is_array(get_option('mprm_settings_misc')) ? get_option('mprm_settings_misc') : array();
+			$settings = array_merge($general_settings, $gateway_settings, $email_settings, $style_settings, $tax_settings, $ext_settings, $license_settings, $misc_settings, $default_settings);
+
+			update_option('mprm_settings', $settings);
+		}
+		if (!empty($settings[$key])) {
+			return $settings[$key];
+		} else {
+			return $settings;
+		}
+	}
+
+	/**
 	 * Currency
 	 *
 	 * @default USD
@@ -253,6 +258,34 @@ class Settings extends Model {
 	public function get_currency() {
 		$currency = $this->get_option('currency', 'USD');
 		return apply_filters('mprm_currency', $currency);
+	}
+
+	/**
+	 * @param string $key
+	 * @param bool $default
+	 *
+	 * @return mixed|void
+	 */
+	public function get_option($key = '', $default = false) {
+		global $mprm_options;
+
+		if (empty($mprm_options)) {
+			$mprm_options = Settings::get_instance()->get_settings();
+		}
+
+		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
+		$value = apply_filters('mprm_get_option', $value, $key, $default);
+		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
+	}
+
+	/**
+	 * @return Settings
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
 	}
 
 	/**
@@ -293,6 +326,609 @@ class Settings extends Model {
 		return apply_filters('mprm_currencies', $currencies);
 	}
 
+	/**
+	 * @param array $args
+	 */
+	public function header_callback($args = array()) {
+		echo '';
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function checkbox_callback($args) {
+		global $mprm_options;
+		if (isset($args['faux']) && true === $args['faux']) {
+			$name = '';
+		} else {
+			$name = 'name="mprm_settings[' . sanitize_key($args['id']) . ']"';
+		}
+		$checked = isset($mprm_options[$args['id']]) ? checked(1, $mprm_options[$args['id']], false) : '';
+		$html = '<input type="checkbox" id="mprm_settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function multicheck_callback($args) {
+		global $mprm_options;
+		if (!empty($args['options'])) {
+			foreach ($args['options'] as $key => $option):
+				if (isset($mprm_options[$args['id']][$key])) {
+					$enabled = $option;
+				} else {
+					$enabled = NULL;
+				}
+				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . wp_kses_post($option) . '</label><br/>';
+			endforeach;
+			echo '<p class="description">' . $args['desc'] . '</p>';
+		}
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function payment_icons_callback($args) {
+		global $mprm_options;
+		if (!empty($args['options'])) {
+			foreach ($args['options'] as $key => $option) {
+				if (isset($mprm_options[$args['id']][$key])) {
+					$enabled = $option;
+				} else {
+					$enabled = NULL;
+				}
+				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
+				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+				if ($this->string_is_image_url($key)) {
+					echo '<img class="payment-icon" src="' . esc_url($key) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
+				} else {
+					$card = strtolower(str_replace(' ', '', $option));
+					if (has_filter('accepted_payment_' . $card . '_image')) {
+						$image = apply_filters('accepted_payment_' . $card . '_image', '');
+					} else {
+						$image = MP_RM_MEDIA_URL . 'img/' . 'icons/' . $card . '.gif';
+						$content_dir = WP_CONTENT_DIR;
+						if (function_exists('wp_normalize_path')) {
+							// Replaces backslashes with forward slashes for Windows systems
+							//$image = wp_normalize_path($image);
+							$content_dir = wp_normalize_path($content_dir);
+						}
+						$image = str_replace($content_dir, content_url(), $image);
+					}
+					echo '<img class="payment-icon" src="' . esc_url($image) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
+				}
+				echo $option . '</label>';
+			}
+			echo '<p class="description" style="margin-top:16px;">' . wp_kses_post($args['desc']) . '</p>';
+		}
+	}
+
+	/**
+	 * @param $str
+	 *
+	 * @return bool
+	 */
+	public function string_is_image_url($str) {
+		$ext = $this->get_file_extension($str);
+		switch (strtolower($ext)) {
+			case 'jpg';
+				$return = true;
+				break;
+			case 'png';
+				$return = true;
+				break;
+			case 'gif';
+				$return = true;
+				break;
+			default:
+				$return = false;
+				break;
+		}
+		return (bool)apply_filters('mprm_string_is_image', $return, $str);
+	}
+
+	/**
+	 * @param $str
+	 *
+	 * @return mixed
+	 */
+	public function get_file_extension($str) {
+		$parts = explode('.', $str);
+		return end($parts);
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function radio_callback($args) {
+		global $mprm_options;
+		foreach ($args['options'] as $key => $option) :
+			$checked = false;
+			if (isset($mprm_options[$args['id']]) && $mprm_options[$args['id']] == $key)
+				$checked = true;
+			elseif (isset($args['std']) && $args['std'] == $key && !isset($mprm_options[$args['id']]))
+				$checked = true;
+			echo '<input name="mprm_settings[' . sanitize_key($args['id']) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
+			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
+		endforeach;
+		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function gateways_callback($args) {
+		global $mprm_options;
+		foreach ($args['options'] as $key => $option) :
+			if (isset($mprm_options['gateways'][$key]))
+				$enabled = '1';
+			else
+				$enabled = null;
+			echo '<input name="mprm_settings[' . esc_attr($args['id']) . '][' . sanitize_key($key) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
+			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option['admin_label']) . '</label><br/>';
+		endforeach;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function gateway_select_callback($args) {
+		global $mprm_options;
+		echo '<select name="mprm_settings[' . sanitize_key($args['id']) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . ']">';
+		foreach ($args['options'] as $key => $option) :
+			$selected = isset($mprm_options[$args['id']]) ? selected($key, $mprm_options[$args['id']], false) : '';
+			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option['admin_label']) . '</option>';
+		endforeach;
+		echo '</select>';
+		echo '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function text_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		if (isset($args['faux']) && true === $args['faux']) {
+			$args['readonly'] = true;
+			$value = isset($args['std']) ? $args['std'] : '';
+			$name = '';
+		} else {
+			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
+		}
+		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function number_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		if (isset($args['faux']) && true === $args['faux']) {
+			$args['readonly'] = true;
+			$value = isset($args['std']) ? $args['std'] : '';
+			$name = '';
+		} else {
+			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
+		}
+		$max = isset($args['max']) ? $args['max'] : 999999;
+		$min = isset($args['min']) ? $args['min'] : 0;
+		$step = isset($args['step']) ? $args['step'] : 1;
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="number" step="' . esc_attr($step) . '" max="' . esc_attr($max) . '" min="' . esc_attr($min) . '" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function textarea_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$html = '<textarea class="large-text" cols="50" rows="5" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function password_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="password" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '"/>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function missing_callback($args) {
+		printf(
+			__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
+			'<strong>' . $args['id'] . '</strong>'
+		);
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function select_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		if (isset($args['placeholder'])) {
+			$placeholder = $args['placeholder'];
+		} else {
+			$placeholder = '';
+		}
+		if (isset($args['chosen'])) {
+			$chosen = 'class="mprm-chosen"';
+		} else {
+			$chosen = '';
+		}
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
+		foreach ($args['options'] as $option => $name) {
+			$selected = selected($option, $value, false);
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
+		}
+		$html .= '</select>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function color_select_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"/>';
+		foreach ($args['options'] as $option => $color) {
+			$selected = selected($option, $value, false);
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($color['label']) . '</option>';
+		}
+		$html .= '</select>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function rich_editor_callback($args) {
+		global $mprm_options, $wp_version;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+			if (empty($args['allow_blank']) && empty($value)) {
+				$value = isset($args['std']) ? $args['std'] : '';
+			}
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$rows = isset($args['size']) ? $args['size'] : 20;
+		if ($wp_version >= 3.3 && function_exists('wp_editor')) {
+			ob_start();
+			wp_editor(stripslashes($value), 'settings_' . esc_attr($args['id']), array('textarea_name' => 'mprm_settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => absint($rows)));
+			$html = ob_get_clean();
+		} else {
+			$html = '<textarea class="large-text" rows="10" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
+		}
+		$html .= '<br/><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function upload_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
+		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . __('Upload File', 'mp-restaurant-menu') . '"/></span>';
+		$html .= '<br><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function color_callback($args) {
+		global $mprm_options;
+		if (isset($mprm_options[$args['id']])) {
+			$value = $mprm_options[$args['id']];
+		} else {
+			$value = isset($args['std']) ? $args['std'] : '';
+		}
+		$default = isset($args['std']) ? $args['std'] : '';
+		$html = '<input type="text" class="mprm-color-picker" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" data-default-color="' . esc_attr($default) . '" />';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function shop_states_callback($args) {
+		global $mprm_options;
+		if (isset($args['placeholder'])) {
+			$placeholder = $args['placeholder'];
+		} else {
+			$placeholder = '';
+		}
+		$states = $this->get_shop_states();
+		$chosen = ($args['chosen'] ? ' mprm-chosen' : '');
+		$class = empty($states) ? ' class="mprm-no-states' . $chosen . '"' : 'class="' . $chosen . '"';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
+		foreach ($states as $option => $name) {
+			$selected = isset($mprm_options[$args['id']]) ? selected($option, $mprm_options[$args['id']], false) : '';
+			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
+		}
+		$html .= '</select>';
+		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
+		echo $html;
+	}
+
+	/**
+	 * @param null $country
+	 *
+	 * @return mixed|void
+	 */
+	public function get_shop_states($country = null) {
+		if (empty($country)) {
+			$country = $this->get_shop_country();
+		}
+		switch ($country) :
+			case 'US' :
+				$states = $this->get('settings_countries')->get_states_list();
+				break;
+			case 'CA' :
+				$states =  $this->get('settings_countries')->get_provinces_list();
+				break;
+			case 'AU' :
+				$states =  $this->get('settings_countries')->get_australian_states_list();
+				break;
+			case 'BD' :
+				$states =  $this->get('settings_countries')->get_bangladeshi_states_list();
+				break;
+			case 'BG' :
+				$states =  $this->get('settings_countries')->get_bulgarian_states_list();
+				break;
+			case 'BR' :
+				$states =  $this->get('settings_countries')->get_brazil_states_list();
+				break;
+			case 'CN' :
+				$states =  $this->get('settings_countries')->get_chinese_states_list();
+				break;
+			case 'HK' :
+				$states =  $this->get('settings_countries')->get_hong_kong_states_list();
+				break;
+			case 'HU' :
+				$states =  $this->get('settings_countries')->get_hungary_states_list();
+				break;
+			case 'ID' :
+				$states =  $this->get('settings_countries')->get_indonesian_states_list();
+				break;
+			case 'IN' :
+				$states =  $this->get('settings_countries')->get_indian_states_list();
+				break;
+			case 'IR' :
+				$states =  $this->get('settings_countries')->get_iranian_states_list();
+				break;
+			case 'IT' :
+				$states =  $this->get('settings_countries')->get_italian_states_list();
+				break;
+			case 'JP' :
+				$states =  $this->get('settings_countries')->get_japanese_states_list();
+				break;
+			case 'MX' :
+				$states =  $this->get('settings_countries')->get_mexican_states_list();
+				break;
+			case 'MY' :
+				$states =  $this->get('settings_countries')->get_malaysian_states_list();
+				break;
+			case 'NP' :
+				$states =  $this->get('settings_countries')->get_nepalese_states_list();
+				break;
+			case 'NZ' :
+				$states =  $this->get('settings_countries')->get_new_zealand_states_list();
+				break;
+			case 'PE' :
+				$states =  $this->get('settings_countries')->get_peruvian_states_list();
+				break;
+			case 'TH' :
+				$states =  $this->get('settings_countries')->get_thailand_states_list();
+				break;
+			case 'TR' :
+				$states =  $this->get('settings_countries')->get_turkey_states_list();
+				break;
+			case 'ZA' :
+				$states =  $this->get('settings_countries')->get_south_african_states_list();
+				break;
+			case 'ES' :
+				$states =  $this->get('settings_countries')->get_spain_states_list();
+				break;
+			default :
+				$states = array();
+				break;
+		endswitch;
+		return apply_filters('mprm_shop_states', $states, $country);
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_shop_country() {
+		$country = $this->get_option('base_country', 'US');
+		$country = apply_filters('mprm_shop_country', $country);
+		return $country;
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function hook_callback($args) {
+		do_action('mprm_' . $args['id'], $args);
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function tax_rates_callback($args) {
+		global $mprm_options;
+		$rates = $this->get_tax_rates();
+		ob_start(); ?>
+		<p><?php echo $args['desc']; ?></p>
+		<table id="tax_rates" class="wp-list-table widefat fixed posts">
+			<thead>
+			<tr>
+				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_state"><?php _e('State / Province', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'mp-restaurant-menu'); ?>"><?php _e('Country Wide', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_rate"><?php _e('Rate', 'mp-restaurant-menu'); ?></th>
+				<th scope="col"><?php _e('Remove', 'mp-restaurant-menu'); ?></th>
+			</tr>
+			</thead>
+			<?php if (!empty($rates)) : ?>
+				<?php foreach ($rates as $key => $rate) : ?>
+					<tr>
+						<td class="tax_country">
+							<?php
+							View::get_instance()->render_html('../admin/settings/select',
+								array(
+									'options' => $this->get_country_list(),
+									'name' => 'tax_rates[' . sanitize_key($key) . '][country]',
+									'selected' => $rate['country'],
+									'show_option_all' => false,
+									'show_option_none' => false,
+									'class' => 'mprm-tax-country',
+									'chosen' => false,
+									'placeholder' => __('Choose a country', 'mp-restaurant-menu')
+								)
+							);
+							?>
+						</td>
+						<td class="tax_state">
+							<?php
+							$states = $this->get_shop_states($rate['country']);
+							if (!empty($states)) {
+								View::get_instance()->render_html('../admin/settings/select',
+									array(
+										'options' => $states,
+										'name' => 'tax_rates[' . sanitize_key($key) . '][state]',
+										'selected' => $rate['state'],
+										'show_option_all' => false,
+										'show_option_none' => false,
+										'chosen' => false,
+										'placeholder' => __('Choose a state', 'mp-restaurant-menu')
+									)
+								);
+							} else {
+								$args = array(
+									'name' => 'tax_rates[' . sanitize_key($key) . '][state]', $rate['state'],
+									'value' => !empty($rate['state']) ? $rate['state'] : '',
+								);
+								View::get_instance()->render_html('../admin/settings/text', $args);
+							}
+							?>
+						</td>
+						<td class="tax_global">
+							<input type="checkbox" name="tax_rates[<?php echo sanitize_key($key); ?>][global]" id="tax_rates[<?php echo sanitize_key($key); ?>][global]" value="1"<?php checked(true, !empty($rate['global'])); ?>/>
+							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
+						</td>
+						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo sanitize_key($key); ?>][rate]" value="<?php echo esc_html($rate['rate']); ?>"/></td>
+						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
+					</tr>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<tr>
+					<td class="tax_country">
+						<?php
+						View::get_instance()->render_html('../admin/settings/select',
+							array(
+								'options' => $this->get_country_list(),
+								'name' => 'tax_rates[0][country]',
+								'show_option_all' => false,
+								'show_option_none' => false,
+								'class' => 'mprm-tax-country',
+								'chosen' => false,
+								'placeholder' => __('Choose a country', 'mp-restaurant-menu')
+							)
+						);
+						?>
+					</td>
+					<td class="tax_state">
+						<?php
+						View::get_instance()->render_html('../admin/settings/text', array(
+							'name' => 'tax_rates[0][state]'
+						)); ?>
+					</td>
+					<td class="tax_global">
+						<input type="checkbox" name="tax_rates[0][global]" value="1"/>
+						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
+					</td>
+					<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="tax_rates[0][rate]" value=""/></td>
+					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
+				</tr>
+			<?php endif; ?>
+		</table>
+		<p>
+			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
+		</p>
+		<?php
+		echo ob_get_clean();
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_tax_rates() {
+		$rates = $this->get_option('mprm_tax_rates', array());
+		return apply_filters('mprm_get_tax_rates', $rates);
+	}
+
+	/**
+	 * @return mixed|void
+	 */
 	public function get_country_list() {
 		$countries = array(
 			'' => '',
@@ -552,413 +1188,16 @@ class Settings extends Model {
 		return apply_filters('mprm_countries', $countries);
 	}
 
-	public function header_callback($args = array()) {
-		echo '';
-	}
-
-	public function checkbox_callback($args) {
-		global $mprm_options;
-		if (isset($args['faux']) && true === $args['faux']) {
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . sanitize_key($args['id']) . ']"';
-		}
-		$checked = isset($mprm_options[$args['id']]) ? checked(1, $mprm_options[$args['id']], false) : '';
-		$html = '<input type="checkbox" id="mprm_settings[' . sanitize_key($args['id']) . ']"' . $name . ' value="1" ' . $checked . '/>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function multicheck_callback($args) {
-		global $mprm_options;
-		if (!empty($args['options'])) {
-			foreach ($args['options'] as $key => $option):
-				if (isset($mprm_options[$args['id']][$key])) {
-					$enabled = $option;
-				} else {
-					$enabled = NULL;
-				}
-				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
-				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . wp_kses_post($option) . '</label><br/>';
-			endforeach;
-			echo '<p class="description">' . $args['desc'] . '</p>';
-		}
-	}
-
-	public function payment_icons_callback($args) {
-		global $mprm_options;
-		if (!empty($args['options'])) {
-			foreach ($args['options'] as $key => $option) {
-				if (isset($mprm_options[$args['id']][$key])) {
-					$enabled = $option;
-				} else {
-					$enabled = NULL;
-				}
-				echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
-				echo '<input name="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
-				if ($this->string_is_image_url($key)) {
-					echo '<img class="payment-icon" src="' . esc_url($key) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
-				} else {
-					$card = strtolower(str_replace(' ', '', $option));
-					if (has_filter('accepted_payment_' . $card . '_image')) {
-						$image = apply_filters('accepted_payment_' . $card . '_image', '');
-					} else {
-						$image = MP_RM_MEDIA_URL . 'img/' . 'icons/' . $card . '.gif';
-						$content_dir = WP_CONTENT_DIR;
-						if (function_exists('wp_normalize_path')) {
-							// Replaces backslashes with forward slashes for Windows systems
-							//$image = wp_normalize_path($image);
-							$content_dir = wp_normalize_path($content_dir);
-						}
-						$image = str_replace($content_dir, content_url(), $image);
-					}
-					echo '<img class="payment-icon" src="' . esc_url($image) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
-				}
-				echo $option . '</label>';
-			}
-			echo '<p class="description" style="margin-top:16px;">' . wp_kses_post($args['desc']) . '</p>';
-		}
-	}
-
-	public function radio_callback($args) {
-		global $mprm_options;
-		foreach ($args['options'] as $key => $option) :
-			$checked = false;
-			if (isset($mprm_options[$args['id']]) && $mprm_options[$args['id']] == $key)
-				$checked = true;
-			elseif (isset($args['std']) && $args['std'] == $key && !isset($mprm_options[$args['id']]))
-				$checked = true;
-			echo '<input name="mprm_settings[' . sanitize_key($args['id']) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
-			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
-		endforeach;
-		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
-	}
-
-	public function gateways_callback($args) {
-		global $mprm_options;
-		foreach ($args['options'] as $key => $option) :
-			if (isset($mprm_options['gateways'][$key]))
-				$enabled = '1';
-			else
-				$enabled = null;
-			echo '<input name="mprm_settings[' . esc_attr($args['id']) . '][' . sanitize_key($key) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
-			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option['admin_label']) . '</label><br/>';
-		endforeach;
-	}
-
-	public function gateway_select_callback($args) {
-		global $mprm_options;
-		echo '<select name="mprm_settings[' . sanitize_key($args['id']) . ']"" id="mprm_settings[' . sanitize_key($args['id']) . ']">';
-		foreach ($args['options'] as $key => $option) :
-			$selected = isset($mprm_options[$args['id']]) ? selected($key, $mprm_options[$args['id']], false) : '';
-			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option['admin_label']) . '</option>';
-		endforeach;
-		echo '</select>';
-		echo '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-	}
-
-	public function text_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		if (isset($args['faux']) && true === $args['faux']) {
-			$args['readonly'] = true;
-			$value = isset($args['std']) ? $args['std'] : '';
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
-		}
-		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
-		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function number_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		if (isset($args['faux']) && true === $args['faux']) {
-			$args['readonly'] = true;
-			$value = isset($args['std']) ? $args['std'] : '';
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
-		}
-		$max = isset($args['max']) ? $args['max'] : 999999;
-		$min = isset($args['min']) ? $args['min'] : 0;
-		$step = isset($args['step']) ? $args['step'] : 1;
-		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="number" step="' . esc_attr($step) . '" max="' . esc_attr($max) . '" min="' . esc_attr($min) . '" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function textarea_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$html = '<textarea class="large-text" cols="50" rows="5" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function password_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="password" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '"/>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function missing_callback($args) {
-		printf(
-			__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
-			'<strong>' . $args['id'] . '</strong>'
-		);
-	}
-
-	public function select_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		if (isset($args['placeholder'])) {
-			$placeholder = $args['placeholder'];
-		} else {
-			$placeholder = '';
-		}
-		if (isset($args['chosen'])) {
-			$chosen = 'class="mprm-chosen"';
-		} else {
-			$chosen = '';
-		}
-		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
-		foreach ($args['options'] as $option => $name) {
-			$selected = selected($option, $value, false);
-			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
-		}
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function color_select_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"/>';
-		foreach ($args['options'] as $option => $color) {
-			$selected = selected($option, $value, false);
-			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($color['label']) . '</option>';
-		}
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function rich_editor_callback($args) {
-		global $mprm_options, $wp_version;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-			if (empty($args['allow_blank']) && empty($value)) {
-				$value = isset($args['std']) ? $args['std'] : '';
-			}
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$rows = isset($args['size']) ? $args['size'] : 20;
-		if ($wp_version >= 3.3 && function_exists('wp_editor')) {
-			ob_start();
-			wp_editor(stripslashes($value), 'settings_' . esc_attr($args['id']), array('textarea_name' => 'mprm_settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => absint($rows)));
-			$html = ob_get_clean();
-		} else {
-			$html = '<textarea class="large-text" rows="10" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
-		}
-		$html .= '<br/><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function upload_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . __('Upload File', 'mp-restaurant-menu') . '"/></span>';
-		$html .= '<br><label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function color_callback($args) {
-		global $mprm_options;
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		$default = isset($args['std']) ? $args['std'] : '';
-		$html = '<input type="text" class="mprm-color-picker" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" data-default-color="' . esc_attr($default) . '" />';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function shop_states_callback($args) {
-		global $mprm_options;
-		if (isset($args['placeholder'])) {
-			$placeholder = $args['placeholder'];
-		} else {
-			$placeholder = '';
-		}
-		$states = $this->get_shop_states();
-		$chosen = ($args['chosen'] ? ' mprm-chosen' : '');
-		$class = empty($states) ? ' class="mprm-no-states' . $chosen . '"' : 'class="' . $chosen . '"';
-		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']"' . $class . 'data-placeholder="' . esc_html($placeholder) . '"/>';
-		foreach ($states as $option => $name) {
-			$selected = isset($mprm_options[$args['id']]) ? selected($option, $mprm_options[$args['id']], false) : '';
-			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
-		}
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		echo $html;
-	}
-
-	public function hook_callback($args) {
-		do_action('mprm_' . $args['id'], $args);
-	}
-
-	public function tax_rates_callback($args) {
-		global $mprm_options;
-		$rates = $this->get_tax_rates();
-		ob_start(); ?>
-		<p><?php echo $args['desc']; ?></p>
-		<table id="tax_rates" class="wp-list-table widefat fixed posts">
-			<thead>
-			<tr>
-				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_state"><?php _e('State / Province', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'mp-restaurant-menu'); ?>"><?php _e('Country Wide', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_rate"><?php _e('Rate', 'mp-restaurant-menu'); ?></th>
-				<th scope="col"><?php _e('Remove', 'mp-restaurant-menu'); ?></th>
-			</tr>
-			</thead>
-			<?php if (!empty($rates)) : ?>
-				<?php foreach ($rates as $key => $rate) : ?>
-					<tr>
-						<td class="tax_country">
-							<?php
-							View::get_instance()->render_html('../admin/settings/select',
-								array(
-									'options' => $this->get_country_list(),
-									'name' => 'tax_rates[' . sanitize_key($key) . '][country]',
-									'selected' => $rate['country'],
-									'show_option_all' => false,
-									'show_option_none' => false,
-									'class' => 'mprm-tax-country',
-									'chosen' => false,
-									'placeholder' => __('Choose a country', 'mp-restaurant-menu')
-								)
-							);
-							?>
-						</td>
-						<td class="tax_state">
-							<?php
-							$states = $this->get_shop_states($rate['country']);
-							if (!empty($states)) {
-								View::get_instance()->render_html('../admin/settings/select',
-									array(
-										'options' => $states,
-										'name' => 'tax_rates[' . sanitize_key($key) . '][state]',
-										'selected' => $rate['state'],
-										'show_option_all' => false,
-										'show_option_none' => false,
-										'chosen' => false,
-										'placeholder' => __('Choose a state', 'mp-restaurant-menu')
-									)
-								);
-							} else {
-								$args = array(
-									'name' => 'tax_rates[' . sanitize_key($key) . '][state]', $rate['state'],
-									'value' => !empty($rate['state']) ? $rate['state'] : '',
-								);
-								View::get_instance()->render_html('../admin/settings/text', $args);
-							}
-							?>
-						</td>
-						<td class="tax_global">
-							<input type="checkbox" name="tax_rates[<?php echo sanitize_key($key); ?>][global]" id="tax_rates[<?php echo sanitize_key($key); ?>][global]" value="1"<?php checked(true, !empty($rate['global'])); ?>/>
-							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
-						</td>
-						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo sanitize_key($key); ?>][rate]" value="<?php echo esc_html($rate['rate']); ?>"/></td>
-						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
-					</tr>
-				<?php endforeach; ?>
-			<?php else : ?>
-				<tr>
-					<td class="tax_country">
-						<?php
-						View::get_instance()->render_html('../admin/settings/select',
-							array(
-								'options' => $this->get_country_list(),
-								'name' => 'tax_rates[0][country]',
-								'show_option_all' => false,
-								'show_option_none' => false,
-								'class' => 'mprm-tax-country',
-								'chosen' => false,
-								'placeholder' => __('Choose a country', 'mp-restaurant-menu')
-							)
-						);
-						?>
-					</td>
-					<td class="tax_state">
-						<?php
-						View::get_instance()->render_html('../admin/settings/text', array(
-							'name' => 'tax_rates[0][state]'
-						)); ?>
-					</td>
-					<td class="tax_global">
-						<input type="checkbox" name="tax_rates[0][global]" value="1"/>
-						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
-					</td>
-					<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="tax_rates[0][rate]" value=""/></td>
-					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
-				</tr>
-			<?php endif; ?>
-		</table>
-		<p>
-			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
-		</p>
-		<?php
-		echo ob_get_clean();
-	}
-
+	/**
+	 * @param $args
+	 */
 	public function descriptive_text_callback($args) {
 		echo wp_kses_post($args['desc']);
 	}
 
+	/**
+	 * @param $args
+	 */
 	public function license_key_callback($args) {
 		global $mprm_options;
 		$messages = array();
@@ -1119,128 +1358,12 @@ class Settings extends Model {
 
 	}
 
-	public function string_is_image_url($str) {
-		$ext = $this->get_file_extension($str);
-		switch (strtolower($ext)) {
-			case 'jpg';
-				$return = true;
-				break;
-			case 'png';
-				$return = true;
-				break;
-			case 'gif';
-				$return = true;
-				break;
-			default:
-				$return = false;
-				break;
-		}
-		return (bool)apply_filters('mprm_string_is_image', $return, $str);
-	}
-
-	public function get_file_extension($str) {
-		$parts = explode('.', $str);
-		return end($parts);
-	}
-
-	public function get_shop_states($country = null) {
-		if (empty($country)) {
-			$country = $this->get_shop_country($country);
-		}
-		switch ($country) :
-			case 'US' :
-				$states = Settings_countries::get_instance()->get_states_list();
-				break;
-			case 'CA' :
-				$states = Settings_countries::get_instance()->get_provinces_list();
-				break;
-			case 'AU' :
-				$states = Settings_countries::get_instance()->get_australian_states_list();
-				break;
-			case 'BD' :
-				$states = Settings_countries::get_instance()->get_bangladeshi_states_list();
-				break;
-			case 'BG' :
-				$states = Settings_countries::get_instance()->get_bulgarian_states_list();
-				break;
-			case 'BR' :
-				$states = Settings_countries::get_instance()->get_brazil_states_list();
-				break;
-			case 'CN' :
-				$states = Settings_countries::get_instance()->get_chinese_states_list();
-				break;
-			case 'HK' :
-				$states = Settings_countries::get_instance()->get_hong_kong_states_list();
-				break;
-			case 'HU' :
-				$states = Settings_countries::get_instance()->get_hungary_states_list();
-				break;
-			case 'ID' :
-				$states = Settings_countries::get_instance()->get_indonesian_states_list();
-				break;
-			case 'IN' :
-				$states = Settings_countries::get_instance()->get_indian_states_list();
-				break;
-			case 'IR' :
-				$states = Settings_countries::get_instance()->get_iranian_states_list();
-				break;
-			case 'IT' :
-				$states = Settings_countries::get_instance()->get_italian_states_list();
-				break;
-			case 'JP' :
-				$states = Settings_countries::get_instance()->get_japanese_states_list();
-				break;
-			case 'MX' :
-				$states = Settings_countries::get_instance()->get_mexican_states_list();
-				break;
-			case 'MY' :
-				$states = Settings_countries::get_instance()->get_malaysian_states_list();
-				break;
-			case 'NP' :
-				$states = Settings_countries::get_instance()->get_nepalese_states_list();
-				break;
-			case 'NZ' :
-				$states = Settings_countries::get_instance()->get_new_zealand_states_list();
-				break;
-			case 'PE' :
-				$states = Settings_countries::get_instance()->get_peruvian_states_list();
-				break;
-			case 'TH' :
-				$states = Settings_countries::get_instance()->get_thailand_states_list();
-				break;
-			case 'TR' :
-				$states = Settings_countries::get_instance()->get_turkey_states_list();
-				break;
-			case 'ZA' :
-				$states = Settings_countries::get_instance()->get_south_african_states_list();
-				break;
-			case 'ES' :
-				$states = Settings_countries::get_instance()->get_spain_states_list();
-				break;
-			default :
-				$states = array();
-				break;
-		endswitch;
-		return apply_filters('mprm_shop_states', $states, $country);
-	}
-
-	public function get_tax_rates() {
-		$rates = $this->get_option('mprm_tax_rates', array());
-		return apply_filters('mprm_get_tax_rates', $rates);
-	}
-
-	public function get_option($key = '', $default = false) {
-		global $mprm_options;
-
-		if (empty($mprm_options)) {
-			$mprm_options = Settings::get_instance()->get_settings();
-		}
-
-		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
-		$value = apply_filters('mprm_get_option', $value, $key, $default);
-		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
-	}
-
+	/**
+	 * @param string $key
+	 * @param bool $value
+	 *
+	 * @return bool
+	 */
 	public function set_option($key = '', $value = false) {
 		global $mprm_options;
 
@@ -1251,6 +1374,11 @@ class Settings extends Model {
 		return update_option('mprm_settings', $mprm_options);
 	}
 
+	/**
+	 * @param array $input
+	 *
+	 * @return array|mixed|void
+	 */
 	public function mprm_settings_sanitize($input = array()) {
 		global $mprm_options;
 		if (empty($_POST['_wp_http_referer'])) {
@@ -1298,16 +1426,27 @@ class Settings extends Model {
 		return $output;
 	}
 
+	/**
+	 * @return mixed|void
+	 */
 	public function is_ajax_disabled() {
 		$retval = !$this->get_option('enable_ajax_cart');
 		return apply_filters('mprm_is_ajax_disabled', $retval);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_ssl_enforced() {
 		$ssl_enforced = $this->get_option('enforce_ssl', false);
 		return (bool)apply_filters('mprm_is_ssl_enforced', $ssl_enforced);
 	}
 
+	/**
+	 * @param string $url
+	 *
+	 * @return string
+	 */
 	public function add_cache_busting($url = '') {
 		$no_cache_checkout = $this->get_option('no_cache_checkout', false);
 		if (Capabilities::get_instance()->is_caching_plugin_active() || ($this->get('checkout')->is_checkout() && $no_cache_checkout)) {
@@ -1316,17 +1455,17 @@ class Settings extends Model {
 		return $url;
 	}
 
-	public function get_shop_country() {
-		$country = $this->get_option('base_country', 'US');
-		$country = apply_filters('mprm_shop_country', $country);
-		return $country;
-	}
-
+	/**
+	 * @return mixed|void
+	 */
 	public function get_shop_state() {
 		$state = $this->get_option('base_state', false);
 		return apply_filters('mprm_shop_state', $state);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function logged_in_only() {
 		$ret = $this->get_option('logged_in_only', false);
 		return (bool)apply_filters('mprm_logged_in_only', $ret);

@@ -5,9 +5,16 @@ use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\View;
 
+/**
+ * Class Shortcode_Checkout
+ * @package mp_restaurant_menu\classes\shortcodes
+ */
 class Shortcode_Checkout extends Shortcodes {
 	protected static $instance;
 
+	/**
+	 * @return Shortcode_Checkout
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

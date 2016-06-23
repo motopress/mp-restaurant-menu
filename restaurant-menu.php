@@ -39,9 +39,15 @@ register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'o
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
 
+/**
+ * Class MP_Restaurant_Menu_Setup_Plugin
+ */
 class MP_Restaurant_Menu_Setup_Plugin {
 	protected static $instance;
 
+	/**
+	 * @return MP_Restaurant_Menu_Setup_Plugin
+	 */
 	public static function init() {
 		if (null === self::$instance) {
 			self::$instance = new self();
@@ -54,13 +60,12 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 */
 	public static function on_activation() {
 		global $wpdb;
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
+
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
 		flush_rewrite_rules();
+
 		// User capability
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
@@ -95,25 +100,17 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
-		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+
 		Capabilities::get_instance()->remove_caps();
 		flush_rewrite_rules();
-		if (!empty($plugin)) {
-			check_admin_referer("deactivate-plugin_{$plugin}");
-		}
+
 	}
 
 	/**
 	 * On uninstall
 	 */
 	public static function on_uninstall() {
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
-		check_admin_referer('bulk-plugins');
+
 	}
 
 	static function include_all() {
@@ -179,6 +176,9 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
 	}
 
+	/**
+	 * MP_Restaurant_Menu_Setup_Plugin constructor.
+	 */
 	public function __construct() {
 		$this->include_all();
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);
