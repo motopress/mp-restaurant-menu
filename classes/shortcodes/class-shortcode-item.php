@@ -146,7 +146,7 @@ class Shortcode_Item extends Shortcodes {
 			),
 			'desc_length' => array(
 				'type' => 'text',
-				'label' => __('Description length', 'mp-restaurant-menu'),
+				'label' => __('Excerpt length', 'mp-restaurant-menu'),
 			)
 		);
 		$mprm_items = new \MPCEObject('mprm_items', __('Menu Items', 'mp-restaurant-menu'), '', $attributes);

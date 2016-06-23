@@ -93,6 +93,6 @@
 	<label for="<?php echo $widget_object->get_field_id('link_item') ?>"><?php _e('Link item', 'mp-restaurant-menu'); ?></label>
 </p>
 <p>
-	<label for="<?php echo $widget_object->get_field_id('desc_length') ?>"><?php _e('Description length', 'mp-restaurant-menu'); ?></label>
+	<label for="<?php echo $widget_object->get_field_id('desc_length') ?>"><?php _e('Excerpt length', 'mp-restaurant-menu'); ?></label>
 	<input id="<?php echo $widget_object->get_field_id('desc_length') ?>" type="text" class="widefat" name="<?php echo $widget_object->get_field_name('desc_length') ?>" value="<?php echo !empty($desc_length) ? $desc_length : '' ?>">
 </p>
