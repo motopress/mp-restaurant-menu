@@ -1333,7 +1333,7 @@ class Media extends Core {
 	 */
 	public function template_include($template) {
 		global $post, $taxonomy;
-		if ( is_embed() ) {
+		if (is_embed()) {
 			return $template;
 		}
 		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
