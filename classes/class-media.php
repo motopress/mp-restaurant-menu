@@ -1135,15 +1135,15 @@ class Media extends Core {
 	 *
 	 * @param string $name
 	 * @param string $path
-	 * @param array $parent
+	 * @param array $deps
 	 * @param bool /string $version
 	 * * @return void
 	 */
-	public function enqueue_style($name, $path, $parent = array(), $version = false) {
+	public function enqueue_style($name, $path, $deps = array(), $version = false) {
 		if (empty($version)) {
 			$version = $this->get_version();
 		}
-		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $parent, $version);
+		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $deps, $version);
 	}
 
 	/**
@@ -1159,22 +1159,22 @@ class Media extends Core {
 	 *
 	 * @param string $name
 	 * @param string $path
-	 * @param array $parent
+	 * @param array $deps
 	 * @param bool /string $version
 	 *
 	 * @return void
 	 */
-	public function enqueue_script($name, $path, $parent = array("jquery"), $version = false) {
+	public function enqueue_script($name, $path, $deps = array("jquery"), $version = false) {
 		if (empty($version)) {
 			$version = $this->get_version();
 		}
-		wp_enqueue_script($name, MP_RM_JS_URL . $path, $parent, $version);
+		wp_enqueue_script($name, MP_RM_JS_URL . $path, $deps, $version);
 	}
 
 	/**
 	 * Wp head
 	 */
-	public function wp_head() {
+	public function enqueue_scripts() {
 		$this->add_theme_css();
 	}
 
