@@ -864,7 +864,7 @@ class Hooks extends Core {
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
 
-		add_action('http_api_curl', array($this, 'http_api_curl'));
+		//add_action('http_api_curl', array($this, 'http_api_curl'));
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
 			add_theme_support('post-thumbnails');

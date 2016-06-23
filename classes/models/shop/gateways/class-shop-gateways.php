@@ -1,5 +1,6 @@
 <?php namespace mp_restaurant_menu\classes\models;
 
+use mp_restaurant_menu\classes\Hooks;
 use mp_restaurant_menu\classes\Model;
 
 /**
@@ -17,6 +18,23 @@ class Gateways extends Model {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function shop_supports_buy_now() {
+		$gateways = $this->get_enabled_payment_gateways();
+		$ret = false;
+		if (!$this->get('taxes')->use_taxes() && $gateways) {
+			foreach ($gateways as $gateway_id => $gateway) {
+				if ($this->gateway_supports_buy_now($gateway_id)) {
+					$ret = true;
+					break;
+				}
+			}
+		}
+		return apply_filters('mprm_shop_supports_buy_now', $ret);
 	}
 
 	/**
@@ -93,23 +111,6 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
-	 */
-	public function shop_supports_buy_now() {
-		$gateways = $this->get_enabled_payment_gateways();
-		$ret = false;
-		if (!$this->get('taxes')->use_taxes() && $gateways) {
-			foreach ($gateways as $gateway_id => $gateway) {
-				if ($this->gateway_supports_buy_now($gateway_id)) {
-					$ret = true;
-					break;
-				}
-			}
-		}
-		return apply_filters('mprm_shop_supports_buy_now', $ret);
-	}
-
-	/**
 	 * @param $gateway
 	 *
 	 * @return mixed|void
@@ -180,7 +181,11 @@ class Gateways extends Model {
 	public function send_to_gateway($gateway, $payment_data) {
 		$payment_data['gateway_nonce'] = wp_create_nonce('mprm-gateway');
 		// $gateway must match the ID used when registering the gateway
+		add_action('http_api_curl', array(Hooks::get_instance(), 'http_api_curl'));
+
 		do_action('mprm_gateway_' . $gateway, $payment_data);
+
+		remove_action('http_api_curl', array(Hooks::get_instance(), 'http_api_curl'));
 	}
 
 	/**
