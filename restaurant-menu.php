@@ -60,13 +60,12 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 */
 	public static function on_activation() {
 		global $wpdb;
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
+
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
 		flush_rewrite_rules();
+
 		// User capability
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
@@ -101,25 +100,17 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
-		$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+
 		Capabilities::get_instance()->remove_caps();
 		flush_rewrite_rules();
-		if (!empty($plugin)) {
-			check_admin_referer("deactivate-plugin_{$plugin}");
-		}
+
 	}
 
 	/**
 	 * On uninstall
 	 */
 	public static function on_uninstall() {
-		if (!current_user_can('activate_plugins')) {
-			return;
-		}
-		check_admin_referer('bulk-plugins');
+
 	}
 
 	static function include_all() {

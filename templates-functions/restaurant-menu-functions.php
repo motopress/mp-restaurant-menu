@@ -362,29 +362,6 @@ function mprm_get_menu_items_by_term() {
 }
 
 /**
- * @param $slug
- * @param string $name
- */
-function mprm_get_template_part($slug, $name = '') {
-	$template = '';
-	if ($name) {
-		$template = locate_template(array("{$slug}-{$name}.php", MP_RM_TEMPLATES_PATH . "{$slug}-{$name}.php"));
-	}
-	// Get default slug-name.php
-	if (!$template && $name && file_exists(MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php")) {
-		$template = MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php";
-	}
-	if (!$template) {
-		$template = locate_template(array("{$slug}.php", MP_RM_TEMPLATES_PATH . "{$slug}.php"));
-	}
-	// Allow 3rd party plugins to filter template file from their plugin.
-	$template = apply_filters('mprm_get_template_part', $template, $slug, $name);
-	if ($template) {
-		load_template($template, false);
-	}
-}
-
-/**
  * @param $template
  * @param null $data
  * @param bool $output
