@@ -91,7 +91,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 //			$classes[] = 'mp_menu_item-tag-' . $value->slug;
 //		}
 //	}
-	if(!is_search()){
+	if ( !is_search() ){
 		if (false !== ($key = array_search('hentry', $classes))) {
 			unset($classes[$key]);
 		}
@@ -360,29 +360,6 @@ function mprm_get_menu_items_by_term() {
 	}
 	$mprm_items = models\Menu_item::get_instance()->get_menu_items($params);
 	return $mprm_items;
-}
-
-/**
- * @param $slug
- * @param string $name
- */
-function mprm_get_template_part($slug, $name = '') {
-	$template = '';
-	if ($name) {
-		$template = locate_template(array("{$slug}-{$name}.php", MP_RM_TEMPLATES_PATH . "{$slug}-{$name}.php"));
-	}
-	// Get default slug-name.php
-	if (!$template && $name && file_exists(MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php")) {
-		$template = MP_RM_TEMPLATES_PATH . "templates/{$slug}-{$name}.php";
-	}
-	if (!$template) {
-		$template = locate_template(array("{$slug}.php", MP_RM_TEMPLATES_PATH . "{$slug}.php"));
-	}
-	// Allow 3rd party plugins to filter template file from their plugin.
-	$template = apply_filters('mprm_get_template_part', $template, $slug, $name);
-	if ($template) {
-		load_template($template, false);
-	}
 }
 
 /**

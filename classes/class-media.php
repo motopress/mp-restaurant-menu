@@ -1333,6 +1333,7 @@ class Media extends Core {
 	 */
 	public function template_include($template) {
 		global $post, $taxonomy;
+		
 		if (!empty($taxonomy)) {
 			foreach ($this->taxonomy_names as $taxonomy_name) {
 				if (basename($template) != "taxonomy-$taxonomy_name.php") {
