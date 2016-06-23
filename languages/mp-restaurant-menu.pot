@@ -1,22 +1,21 @@
-﻿#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-06-22 18:15+0200\n"
+"PO-Revision-Date: 2016-06-22 18:15+0200\n"
 "Last-Translator: \n"
-"Language-Team: MotoPress\n"
+"Language-Team: \n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
-"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: media\n"
 
-#: admin/customers/delete.php:6 admin/customers/message.php:3
+#: admin/customers/delete.php:6 admin/customers/message.php:2
 msgid "Delete customer"
 msgstr ""
 
@@ -83,11 +82,18 @@ msgid "Export"
 msgstr ""
 
 #: admin/import/export.php:2
-msgid "When you click the button below WordPress will create an XML file for you to save to your computer. Once you've saved the download file, you can use the Import function in another WordPress installation to import the content from this site."
+msgid ""
+"When you click the button below WordPress will create an XML file for you to "
+"save to your computer. Once you've saved the download file, you can use the "
+"Import function in another WordPress installation to import the content from "
+"this site."
 msgstr ""
 
 #: admin/import/greet.php:2
-msgid "Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgid ""
+"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
+"the posts, pages, comments, custom fields, categories, and tags into this "
+"site."
 msgstr ""
 
 #: admin/import/greet.php:3
@@ -103,17 +109,17 @@ msgid "Import"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:3
-#: templates-functions/restaurant-menu-functions.php:1407
+#: templates-functions/restaurant-menu-functions.php:1378
 msgid "Weight"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:8
-#: templates-functions/restaurant-menu-functions.php:1406
+#: templates-functions/restaurant-menu-functions.php:1377
 msgid "Volume"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:13
-#: templates-functions/restaurant-menu-functions.php:1405
+#: templates-functions/restaurant-menu-functions.php:1376
 msgid "Size"
 msgstr ""
 
@@ -136,37 +142,37 @@ msgid "Add images"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:3
-#: templates-functions/restaurant-menu-functions.php:1390
+#: templates-functions/restaurant-menu-functions.php:1361
 msgid "Calories"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:8
-#: templates-functions/restaurant-menu-functions.php:1391
+#: templates-functions/restaurant-menu-functions.php:1362
 msgid "Cholesterol"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:13
-#: templates-functions/restaurant-menu-functions.php:1392
+#: templates-functions/restaurant-menu-functions.php:1363
 msgid "Fiber"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:18
-#: templates-functions/restaurant-menu-functions.php:1393
+#: templates-functions/restaurant-menu-functions.php:1364
 msgid "Sodium"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:23
-#: templates-functions/restaurant-menu-functions.php:1394
+#: templates-functions/restaurant-menu-functions.php:1365
 msgid "Carbohydrates"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:28
-#: templates-functions/restaurant-menu-functions.php:1395
+#: templates-functions/restaurant-menu-functions.php:1366
 msgid "Fat"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:33
-#: templates-functions/restaurant-menu-functions.php:1396
+#: templates-functions/restaurant-menu-functions.php:1367
 msgid "Protein"
 msgstr ""
 
@@ -269,7 +275,7 @@ msgstr ""
 #: admin/metaboxes/order/order-purchased.php:68
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:11
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:15
-#: classes/models/settings/class-settings.php:866
+#: classes/models/settings/class-settings.php:865
 #: configs/language-admin-js.php:36 templates/shop/checkout-cart.php:51
 #: templates/shop/checkout-cart.php:66
 msgid "Remove"
@@ -356,7 +362,10 @@ msgid "Restaurant Menu Plugin - eCommerce Setup"
 msgstr ""
 
 #: admin/notices/install-plugin.php:3
-msgid "Press \"Activate eCommerce\" button to activate eCommerce option and create Checkout pages. Press \"Skip\" if you do not want to sell food and beverages online."
+msgid ""
+"Press \"Activate eCommerce\" button to activate eCommerce option and create "
+"Checkout pages. Press \"Skip\" if you do not want to sell food and beverages "
+"online."
 msgstr ""
 
 #: admin/notices/install-plugin.php:5
@@ -380,56 +389,56 @@ msgid "Show menu items"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:12 admin/popups/add-shortcodes.php:21
-#: admin/widgets/category/form.php:7 admin/widgets/menu/form.php:7
+#: admin/widgets/category/form.php:7 admin/widgets/menu/form.php:6
 #: classes/shortcodes/class-shortcode-category.php:45
-#: classes/shortcodes/class-shortcode-item.php:41
+#: classes/shortcodes/class-shortcode-item.php:46
 msgid "View mode"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:15 admin/popups/add-shortcodes.php:24
-#: admin/widgets/category/form.php:9 admin/widgets/menu/form.php:9
+#: admin/widgets/category/form.php:9 admin/widgets/menu/form.php:8
 #: classes/class-media.php:564
 #: classes/shortcodes/class-shortcode-category.php:46
-#: classes/shortcodes/class-shortcode-item.php:42 configs/settings.php:12
+#: classes/shortcodes/class-shortcode-item.php:47 configs/settings.php:12
 msgid "Grid"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:16 admin/popups/add-shortcodes.php:25
-#: admin/widgets/category/form.php:10 admin/widgets/menu/form.php:10
+#: admin/widgets/category/form.php:10 admin/widgets/menu/form.php:9
 #: classes/class-media.php:565
 #: classes/shortcodes/class-shortcode-category.php:46
-#: classes/shortcodes/class-shortcode-item.php:42 configs/settings.php:16
+#: classes/shortcodes/class-shortcode-item.php:47 configs/settings.php:16
 msgid "List"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:31 admin/widgets/category/form.php:14
-#: admin/widgets/menu/form.php:14 classes/class-media.php:58
+#: admin/widgets/menu/form.php:13 classes/class-media.php:58
 #: classes/modules/class-post.php:234
 #: classes/shortcodes/class-shortcode-category.php:51
-#: classes/shortcodes/class-shortcode-item.php:47
+#: classes/shortcodes/class-shortcode-item.php:52
 msgid "Categories"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:43 admin/widgets/menu/form.php:26
+#: admin/popups/add-shortcodes.php:43 admin/widgets/menu/form.php:25
 #: classes/class-media.php:65 classes/modules/class-post.php:233
-#: classes/shortcodes/class-shortcode-item.php:51
+#: classes/shortcodes/class-shortcode-item.php:56
 msgid "Tags"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:55 admin/widgets/menu/form.php:36
-#: classes/shortcodes/class-shortcode-item.php:55
+#: admin/popups/add-shortcodes.php:55 admin/widgets/menu/form.php:35
+#: classes/shortcodes/class-shortcode-item.php:60
 msgid "Menu item IDs"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:61 admin/widgets/category/form.php:26
-#: admin/widgets/menu/form.php:40
+#: admin/widgets/menu/form.php:39
 #: classes/shortcodes/class-shortcode-category.php:55
-#: classes/shortcodes/class-shortcode-item.php:59
+#: classes/shortcodes/class-shortcode-item.php:64
 msgid "Columns"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:64 admin/widgets/category/form.php:28
-#: admin/widgets/menu/form.php:42
+#: admin/widgets/menu/form.php:41
 msgid "column"
 msgstr ""
 
@@ -437,30 +446,30 @@ msgstr ""
 #: admin/popups/add-shortcodes.php:67 admin/popups/add-shortcodes.php:68
 #: admin/widgets/category/form.php:29 admin/widgets/category/form.php:30
 #: admin/widgets/category/form.php:31 admin/widgets/category/form.php:32
-#: admin/widgets/menu/form.php:43 admin/widgets/menu/form.php:44
-#: admin/widgets/menu/form.php:45 admin/widgets/menu/form.php:46
+#: admin/widgets/menu/form.php:42 admin/widgets/menu/form.php:43
+#: admin/widgets/menu/form.php:44 admin/widgets/menu/form.php:45
 msgid "columns"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:73 admin/popups/add-shortcodes.php:83
-#: admin/widgets/category/form.php:37 admin/widgets/menu/form.php:50
+#: admin/widgets/category/form.php:37 admin/widgets/menu/form.php:49
 #: classes/shortcodes/class-shortcode-category.php:66
-#: classes/shortcodes/class-shortcode-item.php:70
+#: classes/shortcodes/class-shortcode-item.php:75
 msgid "Show category name"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:76 admin/widgets/menu/form.php:52
-#: classes/shortcodes/class-shortcode-item.php:72
+#: admin/popups/add-shortcodes.php:76 admin/widgets/menu/form.php:51
+#: classes/shortcodes/class-shortcode-item.php:77
 msgid "Only text"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:77 admin/widgets/menu/form.php:53
-#: classes/shortcodes/class-shortcode-item.php:73
+#: admin/popups/add-shortcodes.php:77 admin/widgets/menu/form.php:52
+#: classes/shortcodes/class-shortcode-item.php:78
 msgid "Title with image"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:78 admin/widgets/menu/form.php:54
-#: classes/shortcodes/class-shortcode-item.php:74
+#: admin/popups/add-shortcodes.php:78 admin/widgets/menu/form.php:53
+#: classes/shortcodes/class-shortcode-item.php:79
 msgid "Don`t show"
 msgstr ""
 
@@ -470,38 +479,38 @@ msgid "Show category featured image"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:95 admin/popups/add-shortcodes.php:119
-#: admin/widgets/menu/form.php:59
-#: classes/shortcodes/class-shortcode-item.php:80
+#: admin/widgets/menu/form.php:58
+#: classes/shortcodes/class-shortcode-item.php:85
 msgid "Show attributes"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:101 admin/widgets/menu/form.php:63
-#: classes/shortcodes/class-shortcode-item.php:86
+#: admin/popups/add-shortcodes.php:101 admin/widgets/menu/form.php:62
+#: classes/shortcodes/class-shortcode-item.php:91
 msgid "Show featured image"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:107 admin/widgets/menu/form.php:67
-#: classes/shortcodes/class-shortcode-item.php:92
+#: admin/popups/add-shortcodes.php:107 admin/widgets/menu/form.php:66
+#: classes/shortcodes/class-shortcode-item.php:97
 msgid "Show excerpt"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:113 admin/widgets/menu/form.php:71
-#: classes/shortcodes/class-shortcode-item.php:98
+#: admin/popups/add-shortcodes.php:113 admin/widgets/menu/form.php:70
+#: classes/shortcodes/class-shortcode-item.php:103
 msgid "Show price"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:125 admin/widgets/menu/form.php:75
-#: classes/shortcodes/class-shortcode-item.php:104
+#: admin/popups/add-shortcodes.php:125 admin/widgets/menu/form.php:74
+#: classes/shortcodes/class-shortcode-item.php:109
 msgid "Show tags"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:131 admin/widgets/menu/form.php:79
-#: classes/shortcodes/class-shortcode-item.php:110
+#: admin/popups/add-shortcodes.php:131 admin/widgets/menu/form.php:78
+#: classes/shortcodes/class-shortcode-item.php:115
 msgid "Show ingredients"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:137 admin/widgets/menu/form.php:83
-#: classes/shortcodes/class-shortcode-item.php:116
+#: admin/popups/add-shortcodes.php:137 admin/widgets/menu/form.php:82
+#: classes/shortcodes/class-shortcode-item.php:121
 msgid "Link item"
 msgstr ""
 
@@ -528,9 +537,9 @@ msgid "Text color"
 msgstr ""
 
 #: admin/popups/add-shortcodes.php:173 admin/widgets/category/form.php:52
-#: admin/widgets/menu/form.php:86
+#: admin/widgets/menu/form.php:85
 #: classes/shortcodes/class-shortcode-category.php:90
-#: classes/shortcodes/class-shortcode-item.php:122
+#: classes/shortcodes/class-shortcode-item.php:127
 msgid "Description length"
 msgstr ""
 
@@ -576,7 +585,7 @@ msgstr ""
 msgid "Set Image"
 msgstr ""
 
-#: admin/widgets/category/form.php:3 admin/widgets/menu/form.php:3
+#: admin/widgets/category/form.php:3 admin/widgets/menu/form.php:2
 msgid "Title"
 msgstr ""
 
@@ -596,62 +605,112 @@ msgstr ""
 msgid "Shop Vendor restaurant menu"
 msgstr ""
 
-#: classes/class-hooks.php:116
+#: classes/class-hooks.php:798
 msgid "Import menu items, categories, images and other data."
 msgstr ""
 
-#: classes/class-hooks.php:1084 classes/class-hooks.php:1087
-#: classes/class-hooks.php:1089
+#: classes/class-hooks.php:1073 classes/class-hooks.php:1076
+#: classes/class-hooks.php:1078
 msgid "Order updated."
 msgstr ""
 
-#: classes/class-hooks.php:1085
+#: classes/class-hooks.php:1074
 msgid "Custom field updated."
 msgstr ""
 
-#: classes/class-hooks.php:1086
+#: classes/class-hooks.php:1075
 msgid "Custom field deleted."
 msgstr ""
 
-#: classes/class-hooks.php:1088
+#: classes/class-hooks.php:1077
 #, php-format
 msgid "Order restored to revision from %s"
 msgstr ""
 
-#: classes/class-hooks.php:1090
+#: classes/class-hooks.php:1079
 msgid "Order saved."
 msgstr ""
 
-#: classes/class-hooks.php:1091
+#: classes/class-hooks.php:1080
 msgid "Order submitted."
 msgstr ""
 
-#: classes/class-hooks.php:1092
+#: classes/class-hooks.php:1081
 #, php-format
 msgid "Order scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: classes/class-hooks.php:1093
+#: classes/class-hooks.php:1082
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: classes/class-hooks.php:1094
+#: classes/class-hooks.php:1083
 msgid "Order draft updated."
 msgstr ""
 
-#: classes/class-hooks.php:1095
+#: classes/class-hooks.php:1084
 msgid "Order updated and email sent."
+msgstr ""
+
+#: classes/class-hooks.php:1092
+#, php-format
+msgid "%s menu item updated."
+msgstr ""
+
+#: classes/class-hooks.php:1093
+#, php-format
+msgid "%s menu item not updated, somebody is editing it."
+msgstr ""
+
+#: classes/class-hooks.php:1094
+#, php-format
+msgid "%s menu item permanently deleted."
+msgstr ""
+
+#: classes/class-hooks.php:1095
+#, php-format
+msgid "%s menu item moved to the Trash."
+msgstr ""
+
+#: classes/class-hooks.php:1096
+#, php-format
+msgid "%s menu item restored from the Trash."
+msgstr ""
+
+#: classes/class-hooks.php:1100
+#, php-format
+msgid "%s order updated."
+msgstr ""
+
+#: classes/class-hooks.php:1101
+#, php-format
+msgid "%s order not updated, somebody is editing it."
+msgstr ""
+
+#: classes/class-hooks.php:1102
+#, php-format
+msgid "%s order permanently deleted."
+msgstr ""
+
+#: classes/class-hooks.php:1103
+#, php-format
+msgid "%s order moved to the Trash."
+msgstr ""
+
+#: classes/class-hooks.php:1104
+#, php-format
+msgid "%s order restored from the Trash."
 msgstr ""
 
 #: classes/class-media.php:34
 msgid "Restaurant Menu"
 msgstr ""
 
-#: classes/class-media.php:43 classes/shortcodes/class-shortcode-item.php:125
+#: classes/class-media.php:43 classes/shortcodes/class-shortcode-item.php:130
 msgid "Menu Items"
 msgstr ""
 
-#: classes/class-media.php:51 classes/class-module.php:21
+#: classes/class-media.php:51 classes/class-module.php:23
 msgid "Add New"
 msgstr ""
 
@@ -750,7 +809,9 @@ msgid "Checkout Page"
 msgstr ""
 
 #: classes/class-media.php:585
-msgid "The page where buyers will complete their purchases. Use <i>[mprm_checkout]</i> shortcode on this page."
+msgid ""
+"The page where buyers will complete their purchases. Use <i>[mprm_checkout]</"
+"i> shortcode on this page."
 msgstr ""
 
 #: classes/class-media.php:589 classes/class-media.php:598
@@ -763,7 +824,9 @@ msgid "Success Transaction Page"
 msgstr ""
 
 #: classes/class-media.php:594
-msgid "The page buyers are sent to after completing their purchases. Use <i>[mprm_success]</i> shortcode on this page."
+msgid ""
+"The page buyers are sent to after completing their purchases. Use <i>"
+"[mprm_success]</i> shortcode on this page."
 msgstr ""
 
 #: classes/class-media.php:602
@@ -779,7 +842,9 @@ msgid "Purchase History Page"
 msgstr ""
 
 #: classes/class-media.php:612
-msgid "This page shows a complete purchase history for the current user. Use <i>[mprm_purchase_history]</i> shortcode on this page."
+msgid ""
+"This page shows a complete purchase history for the current user. Use <i>"
+"[mprm_purchase_history]</i> shortcode on this page."
 msgstr ""
 
 #: classes/class-media.php:657
@@ -787,7 +852,9 @@ msgid "Currency"
 msgstr ""
 
 #: classes/class-media.php:658
-msgid "Choose your currency. <i>Note that some payment gateways have currency restrictions.</i>"
+msgid ""
+"Choose your currency. <i>Note that some payment gateways have currency "
+"restrictions.</i>"
 msgstr ""
 
 #: classes/class-media.php:665
@@ -843,7 +910,10 @@ msgid "Test Mode"
 msgstr ""
 
 #: classes/class-media.php:733
-msgid "While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing."
+msgid ""
+"While in test mode no live transactions are processed. To fully use test "
+"mode, you must have a sandbox (test) account for the payment gateway you are "
+"testing."
 msgstr ""
 
 #: classes/class-media.php:738
@@ -875,7 +945,10 @@ msgid "Disable PayPal IPN Verification"
 msgstr ""
 
 #: classes/class-media.php:774
-msgid "If payments via PayPal are not getting marked as complete, then check this box. <a href=\"https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/\" target=\"_blank\">More about IPN</a>"
+msgid ""
+"If payments via PayPal are not getting marked as complete, then check this "
+"box. <a href=\"https://developer.paypal.com/webapps/developer/docs/classic/"
+"products/instant-payment-notification/\" target=\"_blank\">More about IPN</a>"
 msgstr ""
 
 #: classes/class-media.php:786
@@ -899,7 +972,9 @@ msgid "Enforce SSL on Checkout"
 msgstr ""
 
 #: classes/class-media.php:799
-msgid "Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option."
+msgid ""
+"Check this to force users to be redirected to the secure checkout page. You "
+"must have an SSL certificate installed to use this option."
 msgstr ""
 
 #: classes/class-media.php:804
@@ -915,7 +990,9 @@ msgid "Show Register / Login Form?"
 msgstr ""
 
 #: classes/class-media.php:811
-msgid "Display the registration and login forms on the checkout page for non-logged-in users."
+msgid ""
+"Display the registration and login forms on the checkout page for non-logged-"
+"in users."
 msgstr ""
 
 #: classes/class-media.php:815
@@ -959,7 +1036,9 @@ msgid "Email Template"
 msgstr ""
 
 #: classes/class-media.php:854
-msgid "Choose a template. Click \"Save Changes\", then \"Preview Purchase Receipt\" to see the new template."
+msgid ""
+"Choose a template. Click \"Save Changes\", then \"Preview Purchase Receipt\" "
+"to see the new template."
 msgstr ""
 
 #: classes/class-media.php:860
@@ -967,7 +1046,9 @@ msgid "Logo"
 msgstr ""
 
 #: classes/class-media.php:861
-msgid "Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed in HTML emails only."
+msgid ""
+"Upload or choose a logo to be displayed at the top of the purchase receipt "
+"emails. Displayed in HTML emails only."
 msgstr ""
 
 #: classes/class-media.php:874 classes/class-media.php:896
@@ -983,7 +1064,8 @@ msgid "From Name"
 msgstr ""
 
 #: classes/class-media.php:880
-msgid "The name purchase receipts are said to come from. Use your site or shop name."
+msgid ""
+"The name purchase receipts are said to come from. Use your site or shop name."
 msgstr ""
 
 #: classes/class-media.php:886
@@ -991,7 +1073,9 @@ msgid "From Email"
 msgstr ""
 
 #: classes/class-media.php:887
-msgid "Email to send purchase receipts from. This will act as the \"from\" and \"reply-to\" address."
+msgid ""
+"Email to send purchase receipts from. This will act as the \"from\" and "
+"\"reply-to\" address."
 msgstr ""
 
 #: classes/class-media.php:893
@@ -1011,14 +1095,18 @@ msgid "Enter the heading for the purchase receipt email."
 msgstr ""
 
 #: classes/class-media.php:908
-msgid "Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:"
+msgid ""
+"Enter the text that is sent as purchase receipt email to users after "
+"completion of a successful purchase. HTML is accepted. Available template "
+"tags:"
 msgstr ""
 
 #: classes/class-media.php:910
 msgid ""
 "Dear {name},\n"
 "\n"
-"Thank you for your purchase. Your order details are shown below for your reference:\n"
+"Thank you for your purchase. Your order details are shown below for your "
+"reference:\n"
 "{menu_item_list}\n"
 "Total: {price}\n"
 "\n"
@@ -1042,7 +1130,9 @@ msgid "Sale Notification"
 msgstr ""
 
 #: classes/class-media.php:929
-msgid "Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:"
+msgid ""
+"Enter the text that is sent as sale notification email after completion of a "
+"purchase. HTML is accepted. Available template tags:"
 msgstr ""
 
 #: classes/class-media.php:935
@@ -1050,7 +1140,9 @@ msgid "Sale Notification Emails"
 msgstr ""
 
 #: classes/class-media.php:936
-msgid "Enter the email address(es) that should receive a notification anytime a sale is made, one per line"
+msgid ""
+"Enter the email address(es) that should receive a notification anytime a "
+"sale is made, one per line"
 msgstr ""
 
 #: classes/class-media.php:942
@@ -1070,7 +1162,9 @@ msgid "Disable Styles"
 msgstr ""
 
 #: classes/class-media.php:961
-msgid "Check this box to disable all included styling of buttons, checkout fields, and all other elements."
+msgid ""
+"Check this box to disable all included styling of buttons, checkout fields, "
+"and all other elements."
 msgstr ""
 
 #: classes/class-media.php:966
@@ -1143,7 +1237,8 @@ msgid "Menu item Method"
 msgstr ""
 
 #: classes/class-media.php:1101
-msgid "Select the file menu_item method. Note, not all methods work on all servers."
+msgid ""
+"Select the file menu_item method. Note, not all methods work on all servers."
 msgstr ""
 
 #: classes/class-media.php:1104
@@ -1160,7 +1255,9 @@ msgstr ""
 
 #: classes/class-media.php:1117
 #, php-format
-msgid "The maximum number of times files can be menu_itemed for purchases. Can be overwritten for each %s."
+msgid ""
+"The maximum number of times files can be menu_itemed for purchases. Can be "
+"overwritten for each %s."
 msgstr ""
 
 #: classes/class-media.php:1123
@@ -1168,7 +1265,9 @@ msgid "Menu item Link Expiration"
 msgstr ""
 
 #: classes/class-media.php:1124
-msgid "How long should menu_item links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours."
+msgid ""
+"How long should menu_item links be valid for? Default is 24 hours from the "
+"time they are generated. Enter a time in hours."
 msgstr ""
 
 #: classes/class-media.php:1132
@@ -1176,7 +1275,9 @@ msgid "Disable Remenu_item?"
 msgstr ""
 
 #: classes/class-media.php:1133
-msgid "Check this if you do not want to allow users to remenu_item items from their purchase history."
+msgid ""
+"Check this if you do not want to allow users to remenu_item items from their "
+"purchase history."
 msgstr ""
 
 #: classes/class-media.php:1179
@@ -1188,7 +1289,9 @@ msgid "Agree to Terms"
 msgstr ""
 
 #: classes/class-media.php:1185
-msgid "Check this box to show an Agree To Terms checkbox on the checkout page that users must agree to before purchasing."
+msgid ""
+"Check this box to show an Agree To Terms checkbox on the checkout page that "
+"users must agree to before purchasing."
 msgstr ""
 
 #: classes/class-media.php:1190
@@ -1329,27 +1432,27 @@ msgstr ""
 msgid "Misc"
 msgstr ""
 
-#: classes/class-module.php:22
+#: classes/class-module.php:24
 msgid "Add New "
 msgstr ""
 
-#: classes/class-module.php:23
+#: classes/class-module.php:25
 msgid "Edit "
 msgstr ""
 
-#: classes/class-module.php:24
+#: classes/class-module.php:26
 msgid "New "
 msgstr ""
 
-#: classes/class-module.php:25
+#: classes/class-module.php:27
 msgid "All "
 msgstr ""
 
-#: classes/class-module.php:26
+#: classes/class-module.php:28
 msgid "View "
 msgstr ""
 
-#: classes/class-module.php:27
+#: classes/class-module.php:29
 msgid "Search "
 msgstr ""
 
@@ -1386,18 +1489,21 @@ msgstr ""
 msgid "Invalid Customer ID"
 msgstr ""
 
-#: classes/libs/parsers.php:39 classes/libs/parsers.php:64
-#: classes/libs/parsers.php:70
+#: classes/libs/parsers.php:39 classes/libs/parsers.php:65
+#: classes/libs/parsers.php:71
 msgid "There was an error when reading this WXR file"
 msgstr ""
 
 #: classes/libs/parsers.php:40
-msgid "Details are shown above. The importer will now try again with a different parser..."
+msgid ""
+"Details are shown above. The importer will now try again with a different "
+"parser..."
 msgstr ""
 
-#: classes/libs/parsers.php:73 classes/libs/parsers.php:77
-#: classes/libs/parsers.php:246 classes/libs/parsers.php:433
-msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+#: classes/libs/parsers.php:74 classes/libs/parsers.php:78
+#: classes/libs/parsers.php:249 classes/libs/parsers.php:441
+msgid ""
+"This does not appear to be a WXR file, missing/invalid WXR version number"
 msgstr ""
 
 #: classes/models/class-emails.php:29
@@ -1405,7 +1511,9 @@ msgid "Dear"
 msgstr ""
 
 #: classes/models/class-emails.php:30
-msgid "Thank you for your purchase. Your order details are shown below for your reference:"
+msgid ""
+"Thank you for your purchase. Your order details are shown below for your "
+"reference:"
 msgstr ""
 
 #: classes/models/class-emails.php:50
@@ -1576,7 +1684,9 @@ msgid "Your site name"
 msgstr ""
 
 #: classes/models/class-emails.php:569
-msgid "Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly."
+msgid ""
+"Adds a link so users can view their receipt directly on your website if they "
+"are unable to view it in the browser correctly."
 msgstr ""
 
 #: classes/models/class-import.php:100
@@ -1584,12 +1694,19 @@ msgid "Assign Authors"
 msgstr ""
 
 #: classes/models/class-import.php:101
-msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgid ""
+"To make it easier for you to edit and save the imported content, you may "
+"want to reassign the author of the imported item to an existing user of this "
+"site. For example, you may want to import all the entries as <code>admin</"
+"code>s entries."
 msgstr ""
 
 #: classes/models/class-import.php:103
 #, php-format
-msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary."
+msgid ""
+"If a new user is created by WordPress, a new password will be randomly "
+"generated and the new user&#8217;s role will be set as %s. Manually changing "
+"the new user&#8217;s details will be necessary."
 msgstr ""
 
 #: classes/models/class-import.php:112
@@ -1673,17 +1790,23 @@ msgstr ""
 
 #: classes/models/class-import.php:361
 #, php-format
-msgid "The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem."
+msgid ""
+"The export file could not be found at <code>%s</code>. It is likely that "
+"this was caused by a permissions problem."
 msgstr ""
 
 #: classes/models/class-import.php:376
 #, php-format
-msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgid ""
+"This WXR file (version %s) may not be supported by this version of the "
+"importer. Please consider updating."
 msgstr ""
 
 #: classes/models/class-import.php:434
 #, php-format
-msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgid ""
+"Failed to import author %s. Their posts will be attributed to the current "
+"user."
 msgstr ""
 
 #: classes/models/class-import.php:493 classes/models/class-import.php:610
@@ -1708,7 +1831,9 @@ msgstr ""
 
 #: classes/models/class-menu-item.php:509
 #, php-format
-msgid "No checkout page has been configured. Visit <a href=\"%s\">Settings</a> to set one."
+msgid ""
+"No checkout page has been configured. Visit <a href=\"%s\">Settings</a> to "
+"set one."
 msgstr ""
 
 #: classes/models/class-menu-item.php:521
@@ -1763,211 +1888,211 @@ msgstr ""
 msgid "Improper date provided."
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1131
+#: classes/models/settings/class-settings-countries.php:1157
 msgid "A Coru&ntilde;a"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1132
+#: classes/models/settings/class-settings-countries.php:1158
 msgid "Araba"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1133
+#: classes/models/settings/class-settings-countries.php:1159
 msgid "Albacete"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1134
+#: classes/models/settings/class-settings-countries.php:1160
 msgid "Alicante"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1135
+#: classes/models/settings/class-settings-countries.php:1161
 msgid "Almer&iacute;a"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1136
+#: classes/models/settings/class-settings-countries.php:1162
 msgid "Asturias"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1137
+#: classes/models/settings/class-settings-countries.php:1163
 msgid "&Aacute;vila"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1138
+#: classes/models/settings/class-settings-countries.php:1164
 msgid "Badajoz"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1139
+#: classes/models/settings/class-settings-countries.php:1165
 msgid "Baleares"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1140
+#: classes/models/settings/class-settings-countries.php:1166
 msgid "Barcelona"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1141
+#: classes/models/settings/class-settings-countries.php:1167
 msgid "Burgos"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1142
+#: classes/models/settings/class-settings-countries.php:1168
 msgid "C&aacute;ceres"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1143
+#: classes/models/settings/class-settings-countries.php:1169
 msgid "C&aacute;diz"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1144
+#: classes/models/settings/class-settings-countries.php:1170
 msgid "Cantabria"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1145
+#: classes/models/settings/class-settings-countries.php:1171
 msgid "Castell&oacute;n"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1146
+#: classes/models/settings/class-settings-countries.php:1172
 msgid "Ceuta"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1147
+#: classes/models/settings/class-settings-countries.php:1173
 msgid "Ciudad Real"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1148
+#: classes/models/settings/class-settings-countries.php:1174
 msgid "C&oacute;rdoba"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1149
+#: classes/models/settings/class-settings-countries.php:1175
 msgid "Cuenca"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1150
+#: classes/models/settings/class-settings-countries.php:1176
 msgid "Girona"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1151
+#: classes/models/settings/class-settings-countries.php:1177
 msgid "Granada"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1152
+#: classes/models/settings/class-settings-countries.php:1178
 msgid "Guadalajara"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1153
+#: classes/models/settings/class-settings-countries.php:1179
 msgid "Gipuzkoa"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1154
+#: classes/models/settings/class-settings-countries.php:1180
 msgid "Huelva"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1155
+#: classes/models/settings/class-settings-countries.php:1181
 msgid "Huesca"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1156
+#: classes/models/settings/class-settings-countries.php:1182
 msgid "Ja&eacute;n"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1157
+#: classes/models/settings/class-settings-countries.php:1183
 msgid "La Rioja"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1158
+#: classes/models/settings/class-settings-countries.php:1184
 msgid "Las Palmas"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1159
+#: classes/models/settings/class-settings-countries.php:1185
 msgid "Le&oacute;n"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1160
+#: classes/models/settings/class-settings-countries.php:1186
 msgid "Lleida"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1161
+#: classes/models/settings/class-settings-countries.php:1187
 msgid "Lugo"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1162
+#: classes/models/settings/class-settings-countries.php:1188
 msgid "Madrid"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1163
+#: classes/models/settings/class-settings-countries.php:1189
 msgid "M&aacute;laga"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1164
+#: classes/models/settings/class-settings-countries.php:1190
 msgid "Melilla"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1165
+#: classes/models/settings/class-settings-countries.php:1191
 msgid "Murcia"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1166
+#: classes/models/settings/class-settings-countries.php:1192
 msgid "Navarra"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1167
+#: classes/models/settings/class-settings-countries.php:1193
 msgid "Ourense"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1168
+#: classes/models/settings/class-settings-countries.php:1194
 msgid "Palencia"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1169
+#: classes/models/settings/class-settings-countries.php:1195
 msgid "Pontevedra"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1170
+#: classes/models/settings/class-settings-countries.php:1196
 msgid "Salamanca"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1171
+#: classes/models/settings/class-settings-countries.php:1197
 msgid "Santa Cruz de Tenerife"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1172
+#: classes/models/settings/class-settings-countries.php:1198
 msgid "Segovia"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1173
+#: classes/models/settings/class-settings-countries.php:1199
 msgid "Sevilla"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1174
+#: classes/models/settings/class-settings-countries.php:1200
 msgid "Soria"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1175
+#: classes/models/settings/class-settings-countries.php:1201
 msgid "Tarragona"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1176
+#: classes/models/settings/class-settings-countries.php:1202
 msgid "Teruel"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1177
+#: classes/models/settings/class-settings-countries.php:1203
 msgid "Toledo"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1178
+#: classes/models/settings/class-settings-countries.php:1204
 msgid "Valencia"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1179
+#: classes/models/settings/class-settings-countries.php:1205
 msgid "Valladolid"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1180
+#: classes/models/settings/class-settings-countries.php:1206
 msgid "Bizkaia"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1181
+#: classes/models/settings/class-settings-countries.php:1207
 msgid "Zamora"
 msgstr ""
 
-#: classes/models/settings/class-settings-countries.php:1182
+#: classes/models/settings/class-settings-countries.php:1208
 msgid "Zaragoza"
 msgstr ""
 
@@ -1998,7 +2123,9 @@ msgid "Send Test Email"
 msgstr ""
 
 #: classes/models/settings/class-settings-emails.php:282
-msgid "You cannot send email with Restaurant menu Emails until init/admin_init has been reached"
+msgid ""
+"You cannot send email with Restaurant menu Emails until init/admin_init has "
+"been reached"
 msgstr ""
 
 #: classes/models/settings/class-settings-emails.php:305
@@ -2010,215 +2137,226 @@ msgid ""
 "Subject: %s\n"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:266
+#: classes/models/settings/class-settings.php:265
 msgid "US Dollars (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:267
+#: classes/models/settings/class-settings.php:266
 msgid "Euros (&euro;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:268
+#: classes/models/settings/class-settings.php:267
 msgid "Pounds Sterling (&pound;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:269
+#: classes/models/settings/class-settings.php:268
 msgid "Australian Dollars (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:270
+#: classes/models/settings/class-settings.php:269
 msgid "Brazilian Real (R&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:271
+#: classes/models/settings/class-settings.php:270
 msgid "Canadian Dollars (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:272
+#: classes/models/settings/class-settings.php:271
 msgid "Czech Koruna"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:273
+#: classes/models/settings/class-settings.php:272
 msgid "Danish Krone"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:274
+#: classes/models/settings/class-settings.php:273
 msgid "Hong Kong Dollar (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:275
+#: classes/models/settings/class-settings.php:274
 msgid "Hungarian Forint"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:276
+#: classes/models/settings/class-settings.php:275
 msgid "Israeli Shekel (&#8362;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:277
+#: classes/models/settings/class-settings.php:276
 msgid "Japanese Yen (&yen;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:278
+#: classes/models/settings/class-settings.php:277
 msgid "Malaysian Ringgits"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:279
+#: classes/models/settings/class-settings.php:278
 msgid "Mexican Peso (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:280
+#: classes/models/settings/class-settings.php:279
 msgid "New Zealand Dollar (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:281
+#: classes/models/settings/class-settings.php:280
 msgid "Norwegian Krone"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:282
+#: classes/models/settings/class-settings.php:281
 msgid "Philippine Pesos"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:283
+#: classes/models/settings/class-settings.php:282
 msgid "Polish Zloty"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:284
+#: classes/models/settings/class-settings.php:283
 msgid "Singapore Dollar (&#36;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:285
+#: classes/models/settings/class-settings.php:284
 msgid "Swedish Krona"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:286
+#: classes/models/settings/class-settings.php:285
 msgid "Swiss Franc"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:287
+#: classes/models/settings/class-settings.php:286
 msgid "Taiwan New Dollars"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:288
+#: classes/models/settings/class-settings.php:287
 msgid "Thai Baht (&#3647;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:289
+#: classes/models/settings/class-settings.php:288
 msgid "Indian Rupee (&#8377;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:290
+#: classes/models/settings/class-settings.php:289
 msgid "Turkish Lira (&#8378;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:291
+#: classes/models/settings/class-settings.php:290
 msgid "Iranian Rial (&#65020;)"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:292
+#: classes/models/settings/class-settings.php:291
 msgid "Russian Rubles"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:732
+#: classes/models/settings/class-settings.php:731
 #, php-format
 msgid "The callback function used for the %s setting is missing."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:812
+#: classes/models/settings/class-settings.php:811
 msgid "Upload File"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:862
+#: classes/models/settings/class-settings.php:861
 msgid "Country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:863
+#: classes/models/settings/class-settings.php:862
 #: templates-functions/restaurant-menu-shop-functions.php:462
 msgid "State / Province"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:864
+#: classes/models/settings/class-settings.php:863
 msgid "Apply rate to whole country, regardless of state / province"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:864
+#: classes/models/settings/class-settings.php:863
 msgid "Country Wide"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:865
+#: classes/models/settings/class-settings.php:864
 msgid "Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:883
-#: classes/models/settings/class-settings.php:932
+#: classes/models/settings/class-settings.php:882
+#: classes/models/settings/class-settings.php:931
 msgid "Choose a country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:900
+#: classes/models/settings/class-settings.php:899
 msgid "Choose a state"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:914
-#: classes/models/settings/class-settings.php:945
+#: classes/models/settings/class-settings.php:913
+#: classes/models/settings/class-settings.php:944
 msgid "Apply to whole country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:917
-#: classes/models/settings/class-settings.php:948
+#: classes/models/settings/class-settings.php:916
+#: classes/models/settings/class-settings.php:947
 msgid "Remove Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:953
+#: classes/models/settings/class-settings.php:952
 msgid "Add Tax Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:979
+#: classes/models/settings/class-settings.php:978
 #, php-format
-msgid "Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" title=\"Renew your license key\">renew your license key</a>."
+msgid ""
+"Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" "
+"title=\"Renew your license key\">renew your license key</a>."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:988
+#: classes/models/settings/class-settings.php:987
 #, php-format
-msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> and verify it."
+msgid ""
+"Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit "
+"account page\">visit your account page</a> and verify it."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:997
+#: classes/models/settings/class-settings.php:996
 #, php-format
-msgid "Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> to manage your license key URLs."
+msgid ""
+"Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" "
+"title=\"Visit account page\">visit your account page</a> to manage your "
+"license key URLs."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1005
+#: classes/models/settings/class-settings.php:1004
 #, php-format
 msgid "This is not a %s."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1010
+#: classes/models/settings/class-settings.php:1009
 #, php-format
-msgid "Your license key has reached its activation limit. <a href=\"%s\">View possible upgrades</a> now."
+msgid ""
+"Your license key has reached its activation limit. <a href=\"%s\">View "
+"possible upgrades</a> now."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1022
+#: classes/models/settings/class-settings.php:1021
 msgid "License key never expires."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1026
+#: classes/models/settings/class-settings.php:1025
 #, php-format
-msgid "Your license key expires soon! It expires on %s. <a href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgid ""
+"Your license key expires soon! It expires on %s. <a href=\"%s\" target="
+"\"_blank\" title=\"Renew license\">Renew your license key</a>."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1033
+#: classes/models/settings/class-settings.php:1032
 #, php-format
 msgid "Your license key expires on %s."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1047
+#: classes/models/settings/class-settings.php:1046
 msgid "Deactivate License"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1110
+#: classes/models/settings/class-settings.php:1109
 msgid "Your transaction failed, please try again or contact site support."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1298
+#: classes/models/settings/class-settings.php:1297
 msgid "Settings updated."
 msgstr ""
 
@@ -2358,23 +2496,29 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: classes/models/shop/class-order.php:248 templates/shop/checkout-cart.php:112
+#: classes/models/shop/class-order.php:248
+#: templates/shop/checkout-cart.php:112
 msgid "Total"
 msgstr ""
 
 #: classes/models/shop/class-order.php:276
-#: classes/models/shop/class-order.php:286
+#: classes/models/shop/class-order.php:292
 #, php-format
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:288
+#: classes/models/shop/class-order.php:294
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:292
+#: classes/models/shop/class-order.php:298
 #, php-format
 msgid "%s by %s"
+msgstr ""
+
+#: classes/models/shop/class-order.php:311
+#, php-format
+msgid "%d item"
 msgstr ""
 
 #: classes/models/shop/class-payments.php:312
@@ -2397,11 +2541,13 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:738 classes/modules/class-post.php:76
+#: classes/models/shop/class-payments.php:738
+#: classes/modules/class-post.php:76
 msgid "Refunded"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:739 classes/modules/class-post.php:85
+#: classes/models/shop/class-payments.php:739
+#: classes/modules/class-post.php:85
 msgid "Failed"
 msgstr ""
 
@@ -2434,7 +2580,9 @@ msgid "Your cart is empty"
 msgstr ""
 
 #: classes/models/shop/class-purchase.php:159
-msgid "Invalid phone number format. error even when I enter the correct number format"
+msgid ""
+"Invalid phone number format. error even when I enter the correct number "
+"format"
 msgstr ""
 
 #: classes/models/shop/class-purchase.php:218
@@ -2587,19 +2735,27 @@ msgid "Payment made via eCheck and will clear automatically in 5-8 days"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:351
-msgid "Payment requires a confirmed customer address and must be accepted manually through PayPal"
+msgid ""
+"Payment requires a confirmed customer address and must be accepted manually "
+"through PayPal"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:354
-msgid "Payment must be accepted manually through PayPal due to international account regulations"
+msgid ""
+"Payment must be accepted manually through PayPal due to international "
+"account regulations"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:357
-msgid "Payment received in non-shop currency and must be accepted manually through PayPal"
+msgid ""
+"Payment received in non-shop currency and must be accepted manually through "
+"PayPal"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:361
-msgid "Payment is being reviewed by PayPal staff as high-risk or in possible violation of government regulations"
+msgid ""
+"Payment is being reviewed by PayPal staff as high-risk or in possible "
+"violation of government regulations"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:364
@@ -2611,11 +2767,14 @@ msgid "PayPal account must be upgraded before this payment can be accepted"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:370
-msgid "PayPal account is not verified. Verify account in order to accept this payment"
+msgid ""
+"PayPal account is not verified. Verify account in order to accept this "
+"payment"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:373
-msgid "Payment is pending for unknown reasons. Contact PayPal support for assistance"
+msgid ""
+"Payment is pending for unknown reasons. Contact PayPal support for assistance"
 msgstr ""
 
 #: classes/models/shop/gateways/paypal-standard.php:404
@@ -2633,7 +2792,7 @@ msgstr ""
 msgid "PayPal Refund Transaction ID: %s"
 msgstr ""
 
-#: classes/models/shop/gateways/paypal.php:203
+#: classes/models/shop/gateways/paypal.php:207
 msgid "Invalid IPN"
 msgstr ""
 
@@ -2675,7 +2834,7 @@ msgstr ""
 msgid "Date Created"
 msgstr ""
 
-#: classes/modules/class-breadcrumbs.php:166
+#: classes/modules/class-breadcrumbs.php:170
 msgid "Page"
 msgstr ""
 
@@ -2702,27 +2861,27 @@ msgid "Parent "
 msgstr ""
 
 #: classes/shortcodes/class-shortcode-category.php:57
-#: classes/shortcodes/class-shortcode-item.php:61
+#: classes/shortcodes/class-shortcode-item.php:66
 msgid "1 column"
 msgstr ""
 
 #: classes/shortcodes/class-shortcode-category.php:58
-#: classes/shortcodes/class-shortcode-item.php:62
+#: classes/shortcodes/class-shortcode-item.php:67
 msgid "2 columns"
 msgstr ""
 
 #: classes/shortcodes/class-shortcode-category.php:59
-#: classes/shortcodes/class-shortcode-item.php:63
+#: classes/shortcodes/class-shortcode-item.php:68
 msgid "3 columns"
 msgstr ""
 
 #: classes/shortcodes/class-shortcode-category.php:60
-#: classes/shortcodes/class-shortcode-item.php:64
+#: classes/shortcodes/class-shortcode-item.php:69
 msgid "4 columns"
 msgstr ""
 
 #: classes/shortcodes/class-shortcode-category.php:61
-#: classes/shortcodes/class-shortcode-item.php:65
+#: classes/shortcodes/class-shortcode-item.php:70
 msgid "6 columns"
 msgstr ""
 
@@ -2730,13 +2889,13 @@ msgstr ""
 #: classes/shortcodes/class-shortcode-category.php:74
 #: classes/shortcodes/class-shortcode-category.php:80
 #: classes/shortcodes/class-shortcode-category.php:86
-#: classes/shortcodes/class-shortcode-item.php:82
-#: classes/shortcodes/class-shortcode-item.php:88
-#: classes/shortcodes/class-shortcode-item.php:94
-#: classes/shortcodes/class-shortcode-item.php:100
-#: classes/shortcodes/class-shortcode-item.php:106
-#: classes/shortcodes/class-shortcode-item.php:112
-#: classes/shortcodes/class-shortcode-item.php:118
+#: classes/shortcodes/class-shortcode-item.php:87
+#: classes/shortcodes/class-shortcode-item.php:93
+#: classes/shortcodes/class-shortcode-item.php:99
+#: classes/shortcodes/class-shortcode-item.php:105
+#: classes/shortcodes/class-shortcode-item.php:111
+#: classes/shortcodes/class-shortcode-item.php:117
+#: classes/shortcodes/class-shortcode-item.php:123
 msgid "Yes"
 msgstr ""
 
@@ -2744,13 +2903,13 @@ msgstr ""
 #: classes/shortcodes/class-shortcode-category.php:74
 #: classes/shortcodes/class-shortcode-category.php:80
 #: classes/shortcodes/class-shortcode-category.php:86
-#: classes/shortcodes/class-shortcode-item.php:82
-#: classes/shortcodes/class-shortcode-item.php:88
-#: classes/shortcodes/class-shortcode-item.php:94
-#: classes/shortcodes/class-shortcode-item.php:100
-#: classes/shortcodes/class-shortcode-item.php:106
-#: classes/shortcodes/class-shortcode-item.php:112
-#: classes/shortcodes/class-shortcode-item.php:118
+#: classes/shortcodes/class-shortcode-item.php:87
+#: classes/shortcodes/class-shortcode-item.php:93
+#: classes/shortcodes/class-shortcode-item.php:99
+#: classes/shortcodes/class-shortcode-item.php:105
+#: classes/shortcodes/class-shortcode-item.php:111
+#: classes/shortcodes/class-shortcode-item.php:117
+#: classes/shortcodes/class-shortcode-item.php:123
 msgid "No"
 msgstr ""
 
@@ -2778,11 +2937,11 @@ msgstr ""
 msgid "Hide on Checkout Page"
 msgstr ""
 
-#: classes/widgets/class-category-widget.php:15
+#: classes/widgets/class-category-widget.php:19
 msgid "Display categories."
 msgstr ""
 
-#: classes/widgets/class-category-widget.php:17
+#: classes/widgets/class-category-widget.php:21
 msgid "Restaurant Menu Categories"
 msgstr ""
 
@@ -2911,7 +3070,9 @@ msgid "Required fields not completed."
 msgstr ""
 
 #: configs/language-admin-js.php:41
-msgid "Are you sure you want to reset your store? This process is <strong><em>not reversible</em></strong>. Please be sure you have a recent backup."
+msgid ""
+"Are you sure you want to reset your store? This process is <strong><em>not "
+"reversible</em></strong>. Please be sure you have a recent backup."
 msgstr ""
 
 #: configs/metaboxes.php:24 templates/common/nutritional.php:9
@@ -2924,9 +3085,9 @@ msgid "Portion Size"
 msgstr ""
 
 #: configs/metaboxes.php:41 configs/metaboxes.php:44
+#: templates/shop/success.php:131
 #: templates-functions/email-restaurant-menu-functions.php:92
 #: templates-functions/email-restaurant-menu-functions.php:152
-#: templates/shop/success.php:131
 msgid "SKU"
 msgstr ""
 
@@ -2958,12 +3119,274 @@ msgstr ""
 msgid "Products"
 msgstr ""
 
+#: templates/common/price-box.php:9
+#, php-format
+msgid "Price: %s"
+msgstr ""
+
+#: templates/common/related-items.php:6
+msgid "You might also like"
+msgstr ""
+
+#: templates/shop/checkout-additional-information.php:3
+msgid "Additional information"
+msgstr ""
+
+#: templates/shop/checkout-additional-information.php:7
+msgid "Shipping address:"
+msgstr ""
+
+#: templates/shop/checkout-additional-information.php:9
+msgid "Enter your address."
+msgstr ""
+
+#: templates/shop/checkout-additional-information.php:15
+msgid "Order notes:"
+msgstr ""
+
+#: templates/shop/checkout-cart.php:15
+msgid "Product"
+msgstr ""
+
+#: templates/shop/checkout-cart.php:17
+msgid "Actions"
+msgstr ""
+
+#: templates/shop/checkout-cart.php:89 templates/shop/success.php:97
+msgid "Subtotal"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:3
+#: templates-functions/restaurant-menu-shop-functions.php:193
+msgid "Credit Card Info"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:7
+#: templates-functions/restaurant-menu-shop-functions.php:197
+msgid "This is a secure SSL encrypted payment."
+msgstr ""
+
+#: templates/shop/get_cc_form.php:12
+#: templates-functions/restaurant-menu-shop-functions.php:202
+msgid "Card Number"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:16
+#: templates-functions/restaurant-menu-shop-functions.php:206
+msgid "The (typically) 16 digits on the front of your credit card."
+msgstr ""
+
+#: templates/shop/get_cc_form.php:17
+#: templates-functions/restaurant-menu-shop-functions.php:207
+msgid "Card number"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:21
+#: templates-functions/restaurant-menu-shop-functions.php:211
+msgid "CVC"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:24
+#: templates-functions/restaurant-menu-shop-functions.php:214
+msgid "The 3 digit (back) or 4 digit (front) value on your card."
+msgstr ""
+
+#: templates/shop/get_cc_form.php:25
+#: templates-functions/restaurant-menu-shop-functions.php:215
+msgid "Security code"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:29
+#: templates-functions/restaurant-menu-shop-functions.php:219
+msgid "Name on the Card"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:32
+#: templates-functions/restaurant-menu-shop-functions.php:222
+msgid "The name printed on the front of your credit card."
+msgstr ""
+
+#: templates/shop/get_cc_form.php:33
+#: templates-functions/restaurant-menu-shop-functions.php:223
+msgid "Card name"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:38
+#: templates-functions/restaurant-menu-shop-functions.php:228
+msgid "Expiration (MM/YY)"
+msgstr ""
+
+#: templates/shop/get_cc_form.php:41
+#: templates-functions/restaurant-menu-shop-functions.php:231
+msgid "The date your credit card expires, typically on the front of the card."
+msgstr ""
+
+#: templates/shop/history.php:11
+msgid "ID"
+msgstr ""
+
+#: templates/shop/history.php:13
+msgid "Amount"
+msgstr ""
+
+#: templates/shop/history.php:14
+msgid "Details"
+msgstr ""
+
+#: templates/shop/history.php:32
+msgid "View Details"
+msgstr ""
+
+#: templates/shop/history.php:54 templates/shop/history.php:67
+msgid "An email with an activation link has been sent."
+msgstr ""
+
+#: templates/shop/history.php:56
+msgid "You have not made any purchases"
+msgstr ""
+
+#: templates/shop/history.php:60
+msgid "You must be logged in to view your purchases."
+msgstr ""
+
+#: templates/shop/history.php:61
+msgid "Login."
+msgstr ""
+
+#: templates/shop/history.php:72
+#, php-format
+msgid ""
+"Your account is pending verification. Please click the link in your email to "
+"activate your account. No email? <a href=\"%s\">Click here</a> to send a new "
+"activation code."
+msgstr ""
+
+#: templates/shop/login.php:10
+msgid "Log into Your Account"
+msgstr ""
+
+#: templates/shop/login.php:14 templates/shop/login.php:15
+msgid "Username or Email"
+msgstr ""
+
+#: templates/shop/login.php:18
+#: templates-functions/restaurant-menu-shop-functions.php:282
+#: templates-functions/restaurant-menu-shop-functions.php:291
+#: templates-functions/restaurant-menu-shop-functions.php:574
+msgid "Password"
+msgstr ""
+
+#: templates/shop/login.php:25
+msgid "Log In"
+msgstr ""
+
+#: templates/shop/login.php:30
+msgid "Lost Password?"
+msgstr ""
+
+#: templates/shop/login.php:37
+msgid "You are already logged in"
+msgstr ""
+
+#: templates/shop/processing.php:2
+#, php-format
+msgid ""
+"Your purchase is processing. This page will reload automatically in 8 "
+"seconds. If it does not, click <a href=\"%s\">here</a>."
+msgstr ""
+
+#: templates/shop/success.php:23
+msgid "The specified receipt ID appears to be invalid"
+msgstr ""
+
+#: templates/shop/success.php:39
+msgid "Payment"
+msgstr ""
+
+#: templates/shop/success.php:46
+msgid "Payment Status"
+msgstr ""
+
+#: templates/shop/success.php:51
+msgid "Payment Key"
+msgstr ""
+
+#: templates/shop/success.php:57
+msgid "Payment Method"
+msgstr ""
+
+#: templates/shop/success.php:85
+msgid "Discount(s)"
+msgstr ""
+
+#: templates/shop/success.php:116
+msgid "Shipping address"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:3
+#: templates-functions/restaurant-menu-shop-functions.php:353
+msgid "Billing Details"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:7
+msgid "Email Address"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:12
+msgid "Email address"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:21
+msgid "Phone Number:"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:25
+msgid "Phone number"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:32
+msgid "First Name"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:37
+msgid "First name"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:45
+msgid "Last Name"
+msgstr ""
+
+#: templates/shop/user-info-fields.php:52
+msgid "Last name"
+msgstr ""
+
+#: templates/widgets/cart/cart-item.php:4
+msgid "remove"
+msgstr ""
+
+#: templates/widgets/cart/index.php:10
+msgid "Number of items in cart"
+msgstr ""
+
+#: templates/widgets/cart/index.php:21 templates/widgets/cart/index.php:31
+msgid "Subtotal:"
+msgstr ""
+
+#: templates/widgets/cart/index.php:22 templates/widgets/cart/index.php:32
+msgid "Estimated Tax:"
+msgstr ""
+
+#: templates/widgets/cart/index.php:29
+#: templates-functions/restaurant-menu-shop-functions.php:602
+msgid "Your cart is empty."
+msgstr ""
+
 #: templates-functions/email-restaurant-menu-functions.php:307
 #, php-format
 msgid "%1$sView it in your browser %2$s"
 msgstr ""
 
-#: templates-functions/restaurant-menu-functions.php:1254
+#: templates-functions/restaurant-menu-functions.php:1225
 msgid "Home"
 msgstr ""
 
@@ -2977,71 +3400,6 @@ msgstr ""
 
 #: templates-functions/restaurant-menu-shop-functions.php:121
 msgid "Free Menu item"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:193
-#: templates/shop/get_cc_form.php:3
-msgid "Credit Card Info"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:197
-#: templates/shop/get_cc_form.php:7
-msgid "This is a secure SSL encrypted payment."
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:202
-#: templates/shop/get_cc_form.php:12
-msgid "Card Number"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:206
-#: templates/shop/get_cc_form.php:16
-msgid "The (typically) 16 digits on the front of your credit card."
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:207
-#: templates/shop/get_cc_form.php:17
-msgid "Card number"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:211
-#: templates/shop/get_cc_form.php:21
-msgid "CVC"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:214
-#: templates/shop/get_cc_form.php:24
-msgid "The 3 digit (back) or 4 digit (front) value on your card."
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:215
-#: templates/shop/get_cc_form.php:25
-msgid "Security code"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:219
-#: templates/shop/get_cc_form.php:29
-msgid "Name on the Card"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:222
-#: templates/shop/get_cc_form.php:32
-msgid "The name printed on the front of your credit card."
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:223
-#: templates/shop/get_cc_form.php:33
-msgid "Card name"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:228
-#: templates/shop/get_cc_form.php:38
-msgid "Expiration (MM/YY)"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:231
-#: templates/shop/get_cc_form.php:41
-msgid "The date your credit card expires, typically on the front of the card."
 msgstr ""
 
 #: templates-functions/restaurant-menu-shop-functions.php:256
@@ -3071,13 +3429,6 @@ msgstr ""
 msgid "The username you will use to log into your account."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:282
-#: templates-functions/restaurant-menu-shop-functions.php:291
-#: templates-functions/restaurant-menu-shop-functions.php:574
-#: templates/shop/login.php:18
-msgid "Password"
-msgstr ""
-
 #: templates-functions/restaurant-menu-shop-functions.php:287
 msgid "The password used to access your account."
 msgstr ""
@@ -3092,11 +3443,6 @@ msgstr ""
 
 #: templates-functions/restaurant-menu-shop-functions.php:303
 msgid "Confirm password"
-msgstr ""
-
-#: templates-functions/restaurant-menu-shop-functions.php:353
-#: templates/shop/user-info-fields.php:3
-msgid "Billing Details"
 msgstr ""
 
 #: templates-functions/restaurant-menu-shop-functions.php:362
@@ -3195,11 +3541,6 @@ msgstr ""
 msgid "Your password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:602
-#: templates/widgets/cart/index.php:29
-msgid "Your cart is empty."
-msgstr ""
-
 #: templates-functions/restaurant-menu-shop-functions.php:712
 msgid "Update Cart"
 msgstr ""
@@ -3231,179 +3572,4 @@ msgstr ""
 
 #: templates-functions/restaurant-menu-shop-functions.php:955
 msgid "Select a Customer"
-msgstr ""
-
-#: templates/common/price-box.php:9
-#, php-format
-msgid "Price: %s"
-msgstr ""
-
-#: templates/common/related-items.php:6
-msgid "You might also like"
-msgstr ""
-
-#: templates/shop/checkout-additional-information.php:3
-msgid "Additional information"
-msgstr ""
-
-#: templates/shop/checkout-additional-information.php:7
-msgid "Shipping address:"
-msgstr ""
-
-#: templates/shop/checkout-additional-information.php:9
-msgid "Enter your address."
-msgstr ""
-
-#: templates/shop/checkout-additional-information.php:15
-msgid "Order notes:"
-msgstr ""
-
-#: templates/shop/checkout-cart.php:15
-msgid "Product"
-msgstr ""
-
-#: templates/shop/checkout-cart.php:17
-msgid "Actions"
-msgstr ""
-
-#: templates/shop/checkout-cart.php:89 templates/shop/success.php:97
-msgid "Subtotal"
-msgstr ""
-
-#: templates/shop/history.php:11
-msgid "ID"
-msgstr ""
-
-#: templates/shop/history.php:13
-msgid "Amount"
-msgstr ""
-
-#: templates/shop/history.php:14
-msgid "Details"
-msgstr ""
-
-#: templates/shop/history.php:32
-msgid "View Details"
-msgstr ""
-
-#: templates/shop/history.php:54 templates/shop/history.php:67
-msgid "An email with an activation link has been sent."
-msgstr ""
-
-#: templates/shop/history.php:56
-msgid "You have not made any purchases"
-msgstr ""
-
-#: templates/shop/history.php:60
-msgid "You must be logged in to view your purchases."
-msgstr ""
-
-#: templates/shop/history.php:61
-msgid "Login."
-msgstr ""
-
-#: templates/shop/history.php:72
-#, php-format
-msgid "Your account is pending verification. Please click the link in your email to activate your account. No email? <a href=\"%s\">Click here</a> to send a new activation code."
-msgstr ""
-
-#: templates/shop/login.php:10
-msgid "Log into Your Account"
-msgstr ""
-
-#: templates/shop/login.php:14 templates/shop/login.php:15
-msgid "Username or Email"
-msgstr ""
-
-#: templates/shop/login.php:25
-msgid "Log In"
-msgstr ""
-
-#: templates/shop/login.php:30
-msgid "Lost Password?"
-msgstr ""
-
-#: templates/shop/login.php:37
-msgid "You are already logged in"
-msgstr ""
-
-#: templates/shop/processing.php:2
-#, php-format
-msgid "Your purchase is processing. This page will reload automatically in 8 seconds. If it does not, click <a href=\"%s\">here</a>."
-msgstr ""
-
-#: templates/shop/success.php:23
-msgid "The specified receipt ID appears to be invalid"
-msgstr ""
-
-#: templates/shop/success.php:39
-msgid "Payment"
-msgstr ""
-
-#: templates/shop/success.php:46
-msgid "Payment Status"
-msgstr ""
-
-#: templates/shop/success.php:51
-msgid "Payment Key"
-msgstr ""
-
-#: templates/shop/success.php:57
-msgid "Payment Method"
-msgstr ""
-
-#: templates/shop/success.php:85
-msgid "Discount(s)"
-msgstr ""
-
-#: templates/shop/success.php:116
-msgid "Shipping address"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:7
-msgid "Email Address"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:12
-msgid "Email address"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:21
-msgid "Phone Number:"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:25
-msgid "Phone number"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:32
-msgid "First Name"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:37
-msgid "First name"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:45
-msgid "Last Name"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:52
-msgid "Last name"
-msgstr ""
-
-#: templates/widgets/cart/cart-item.php:4
-msgid "remove"
-msgstr ""
-
-#: templates/widgets/cart/index.php:10
-msgid "Number of items in cart"
-msgstr ""
-
-#: templates/widgets/cart/index.php:21 templates/widgets/cart/index.php:31
-msgid "Subtotal:"
-msgstr ""
-
-#: templates/widgets/cart/index.php:22 templates/widgets/cart/index.php:32
-msgid "Estimated Tax:"
 msgstr ""
