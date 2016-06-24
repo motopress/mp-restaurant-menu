@@ -661,42 +661,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Remove from cart
 			 */
 			removeFromCart: function() {
-				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {
-				//	e.preventDefault();
-				//
-				//	var $this = $(this), $params = [], tr = $this.closest('tr');
-				//	$params.push(
-				//		{
-				//			name: "is_ajax",
-				//			value: true
-				//		},
-				//		{
-				//			name: "cart_item",
-				//			value: tr.attr('data-cart-key')
-				//		},
-				//		{
-				//			name: "mprm_action",
-				//			value: "remove"
-				//		},
-				//		{
-				//			name: "controller",
-				//			value: "cart"
-				//		}
-				//	);
-				//
-				//	MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-				//		function(data) {
-				//			$('.mprm_cart_amount').html(data.total).text();//.text().html();
-				//			$('.mprm_cart_amount').attr('data-subtotal', data.subtotal);
-				//			$('.mprm_cart_amount').attr('data-total', data.subtotal);
-				//			tr.remove();
-				//		},
-				//		function(data) {
-				//			console.warn('Some error!!!');
-				//			console.warn(data);
-				//		}
-				//	);
-				//});
 			},
 			/**
 			 * Purchase form
@@ -710,7 +674,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						var purchaseForm = document.getElementById('mprm_purchase_form'),
 							formObject = $(purchaseForm);
 
-
 						if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
 							return;
 						}
@@ -719,23 +682,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
 						var $params = $(purchaseForm).serializeArray();
-
-
-						//$.each($params, function(index, value) {
-						//
-						//	value)
-						//});
-
-						//$params.push(
-						//	{
-						//		name: 'controller',
-						//		value: 'cart'
-						//	},
-						//	{
-						//		name: 'mprm_action',
-						//		value: 'purchase'
-						//	}
-						//);
 
 						$.each($params, function(index, element) {
 							if (element) {
@@ -850,7 +796,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Html build function
  */
@@ -1858,7 +1803,6 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 	};
 })(jQuery));
-
 (function($) {
 	"use strict";
 	$(document).ready(function() {

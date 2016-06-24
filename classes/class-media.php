@@ -1099,6 +1099,7 @@ class Media extends Core {
 					break;
 				case"restaurant-menu_page_mprm-customers":
 				case "customize":
+				case "widgets":
 				case "edit-mp_menu_item":
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
