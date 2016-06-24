@@ -324,7 +324,7 @@ function mprm_default_cc_address_fields() {
 		<?php do_action('mprm_cc_billing_top'); ?>
 		<p id="mprm-card-address-wrap">
 			<label for="card_address" class="mprm-label">
-				<?php _e('Billing Address', 'mp-restaurant-menu'); ?>
+<!--				--><?php //_e('Billing Address', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_address')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>

@@ -76,6 +76,13 @@
 
 .mprm-container {
   &.mprm-view-simple-list {
+	> div[class^="mprm-columns-count-"] {
+	  &.mprm-all-items {
+		.mprm-simple-view-column {
+		  margin-bottom: 0;
+		}
+	  }
+	}
 
 	.mprm-columns-count-1 {
 	  column-count: 1;

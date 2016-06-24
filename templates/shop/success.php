@@ -19,7 +19,7 @@ if (isset($can_view) && $can_view && !empty($mprm_receipt_args['error'])) {
 	return;
 }
 if (empty($order)) : ?>
-	<div class="mprm_errors mprm-alert mprm-alert-error">
+	<div class="mprm-errors mprm-alert mprm-alert-error">
 		<?php _e('The specified receipt ID appears to be invalid', 'mp-restaurant-menu'); ?>
 	</div>
 	<?php

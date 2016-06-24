@@ -745,7 +745,7 @@ class Menu_item extends Model {
 				$price = 0;
 			}
 		} elseif (!$variable_pricing) {
-			$price = get_post_meta($post->ID, 'mprm_price', true);
+			$price = get_post_meta($post->ID, 'price', true);
 		}
 		if (isset($price) && (float)$price == 0) {
 			$is_free = true;

@@ -668,33 +668,33 @@ class Media extends Core {
 				)
 			),
 			/** Taxes Settings */
-//			'taxes' => apply_filters('mprm_settings_taxes',
-//				array(
-//					'main' => array(
-//						'tax_settings' => array(
-//							'id' => 'tax_settings',
-//							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
-//							'type' => 'header',
-//						),
-//						'enable_taxes' => array(
-//							'id' => 'enable_taxes',
-//							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
+			'taxes' => apply_filters('mprm_settings_taxes',
+				array(
+					'main' => array(
+						'tax_settings' => array(
+							'id' => 'tax_settings',
+							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
+							'type' => 'header',
+						),
+						'enable_taxes' => array(
+							'id' => 'enable_taxes',
+							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
+							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
 //						'tax_rates' => array(
 //							'id' => 'tax_rates',
 //							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
 //							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
 //							'type' => 'tax_rates',
 //						),
-//						'tax_rate' => array(
-//							'id' => 'tax_rate',
-//							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
-//							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
-//							'type' => 'text',
-//							'size' => 'small',
-//						),
+						'tax_rate' => array(
+							'id' => 'tax_rate',
+							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
+							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'small',
+						),
 //						'prices_include_tax' => array(
 //							'id' => 'prices_include_tax',
 //							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
@@ -723,9 +723,9 @@ class Media extends Core {
 //								'no' => __('Excluding tax', 'mp-restaurant-menu'),
 //							),
 //						),
-//					),
-//				)
-//			),
+					),
+				)
+			),
 			/** Extension Settings */
 			'extensions' => apply_filters('mprm_settings_extensions',
 				array()
@@ -1037,9 +1037,9 @@ class Media extends Core {
 			'checkout' => apply_filters('mprm_settings_sections_styles', array(
 				'main' => __('Checkout Settings', 'mp-restaurant-menu'),
 			)),
-//			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
-//				'main' => __('Tax Settings', 'mp-restaurant-menu'),
-//			)),
+			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
+				'main' => __('Tax Settings', 'mp-restaurant-menu'),
+			)),
 			'extensions' => apply_filters('mprm_settings_sections_extensions', array(
 				'main' => __('Main', 'mp-restaurant-menu')
 			)),
@@ -1336,6 +1336,7 @@ class Media extends Core {
 		if (is_embed()) {
 			return $template;
 		}
+
 		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
 			foreach ($this->taxonomy_names as $taxonomy_name) {
 				if (basename($template) != "taxonomy-$taxonomy_name.php") {
@@ -1408,7 +1409,7 @@ class Media extends Core {
 		$tabs['checkout'] = __('Checkout Settings', 'mp-restaurant-menu');
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
-//		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
+		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
 		if (!empty($settings['extensions'])) {
 			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}

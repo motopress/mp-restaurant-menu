@@ -223,6 +223,7 @@ class Settings extends Model {
 							'discover' => 'Discover',
 							'paypal' => 'PayPal',
 						),
+					'checkout_include_tax' => 'no',
 					'checkout_label' => 'Purchase',
 					'add_to_cart_text' => 'Add to Cart',
 					'buy_now_text' => 'Buy Now'
@@ -722,70 +723,70 @@ class Settings extends Model {
 				$states = $this->get('settings_countries')->get_states_list();
 				break;
 			case 'CA' :
-				$states =  $this->get('settings_countries')->get_provinces_list();
+				$states = $this->get('settings_countries')->get_provinces_list();
 				break;
 			case 'AU' :
-				$states =  $this->get('settings_countries')->get_australian_states_list();
+				$states = $this->get('settings_countries')->get_australian_states_list();
 				break;
 			case 'BD' :
-				$states =  $this->get('settings_countries')->get_bangladeshi_states_list();
+				$states = $this->get('settings_countries')->get_bangladeshi_states_list();
 				break;
 			case 'BG' :
-				$states =  $this->get('settings_countries')->get_bulgarian_states_list();
+				$states = $this->get('settings_countries')->get_bulgarian_states_list();
 				break;
 			case 'BR' :
-				$states =  $this->get('settings_countries')->get_brazil_states_list();
+				$states = $this->get('settings_countries')->get_brazil_states_list();
 				break;
 			case 'CN' :
-				$states =  $this->get('settings_countries')->get_chinese_states_list();
+				$states = $this->get('settings_countries')->get_chinese_states_list();
 				break;
 			case 'HK' :
-				$states =  $this->get('settings_countries')->get_hong_kong_states_list();
+				$states = $this->get('settings_countries')->get_hong_kong_states_list();
 				break;
 			case 'HU' :
-				$states =  $this->get('settings_countries')->get_hungary_states_list();
+				$states = $this->get('settings_countries')->get_hungary_states_list();
 				break;
 			case 'ID' :
-				$states =  $this->get('settings_countries')->get_indonesian_states_list();
+				$states = $this->get('settings_countries')->get_indonesian_states_list();
 				break;
 			case 'IN' :
-				$states =  $this->get('settings_countries')->get_indian_states_list();
+				$states = $this->get('settings_countries')->get_indian_states_list();
 				break;
 			case 'IR' :
-				$states =  $this->get('settings_countries')->get_iranian_states_list();
+				$states = $this->get('settings_countries')->get_iranian_states_list();
 				break;
 			case 'IT' :
-				$states =  $this->get('settings_countries')->get_italian_states_list();
+				$states = $this->get('settings_countries')->get_italian_states_list();
 				break;
 			case 'JP' :
-				$states =  $this->get('settings_countries')->get_japanese_states_list();
+				$states = $this->get('settings_countries')->get_japanese_states_list();
 				break;
 			case 'MX' :
-				$states =  $this->get('settings_countries')->get_mexican_states_list();
+				$states = $this->get('settings_countries')->get_mexican_states_list();
 				break;
 			case 'MY' :
-				$states =  $this->get('settings_countries')->get_malaysian_states_list();
+				$states = $this->get('settings_countries')->get_malaysian_states_list();
 				break;
 			case 'NP' :
-				$states =  $this->get('settings_countries')->get_nepalese_states_list();
+				$states = $this->get('settings_countries')->get_nepalese_states_list();
 				break;
 			case 'NZ' :
-				$states =  $this->get('settings_countries')->get_new_zealand_states_list();
+				$states = $this->get('settings_countries')->get_new_zealand_states_list();
 				break;
 			case 'PE' :
-				$states =  $this->get('settings_countries')->get_peruvian_states_list();
+				$states = $this->get('settings_countries')->get_peruvian_states_list();
 				break;
 			case 'TH' :
-				$states =  $this->get('settings_countries')->get_thailand_states_list();
+				$states = $this->get('settings_countries')->get_thailand_states_list();
 				break;
 			case 'TR' :
-				$states =  $this->get('settings_countries')->get_turkey_states_list();
+				$states = $this->get('settings_countries')->get_turkey_states_list();
 				break;
 			case 'ZA' :
-				$states =  $this->get('settings_countries')->get_south_african_states_list();
+				$states = $this->get('settings_countries')->get_south_african_states_list();
 				break;
 			case 'ES' :
-				$states =  $this->get('settings_countries')->get_spain_states_list();
+				$states = $this->get('settings_countries')->get_spain_states_list();
 				break;
 			default :
 				$states = array();
@@ -818,7 +819,7 @@ class Settings extends Model {
 		$rates = $this->get_tax_rates();
 		ob_start(); ?>
 		<p><?php echo $args['desc']; ?></p>
-		<table id="tax_rates" class="wp-list-table widefat fixed posts">
+		<table id="mprm-tax-rates" class="wp-list-table widefat fixed posts">
 			<thead>
 			<tr>
 				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>

@@ -65,6 +65,7 @@ class Hooks extends Core {
 	 * Install templates actions
 	 */
 	public static function install_templates_actions() {
+
 		self::install_menu_item_grid_actions();
 		self::install_menu_item_list_actions();
 		self::install_menu_item_simple_list_actions();
@@ -761,12 +762,7 @@ class Hooks extends Core {
 		add_action('mprm_cart_fee_rows_after', 'mprm_cart_fee_rows_after');
 		add_action('mprm_cart_items_after', 'mprm_cart_items_after');
 		add_action('mprm_cart_footer_buttons', 'mprm_cart_footer_buttons');
-		add_action('mprm_checkout_table_subtotal_first', 'mprm_checkout_table_subtotal_first');
-		add_action('mprm_checkout_table_subtotal_last', 'mprm_checkout_table_subtotal_last');
-		add_action('mprm_checkout_table_discount_first', 'mprm_checkout_table_discount_first');
-		add_action('mprm_checkout_table_discount_last', 'mprm_checkout_table_discount_last');
-		add_action('mprm_checkout_table_tax_first', 'mprm_checkout_table_tax_first');
-		add_action('mprm_checkout_table_tax_last', 'mprm_checkout_table_tax_last');
+
 		add_action('mprm_checkout_table_footer_first', 'mprm_checkout_table_footer_first');
 		add_action('mprm_checkout_table_footer_last', 'mprm_checkout_table_footer_last');
 		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');

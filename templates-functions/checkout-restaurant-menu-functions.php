@@ -1,6 +1,8 @@
 <?php
-use \mp_restaurant_menu\classes\models;
-use \mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\View;
+
+
 
 /**
  * @return mixed|void

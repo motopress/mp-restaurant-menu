@@ -91,7 +91,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 //			$classes[] = 'mp_menu_item-tag-' . $value->slug;
 //		}
 //	}
-	if ( !is_search() && !is_tax('mp_ingredient') ) {
+	if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
 		if (false !== ($key = array_search('hentry', $classes))) {
 			unset($classes[$key]);
 		}

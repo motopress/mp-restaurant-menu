@@ -746,11 +746,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						});
 
 						$('.mprm-cart-ajax').show();
-
+						$('.mprm-errors').remove();
 						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 							function(data) {
-								$('.mprm_errors').remove();
-
 								if (data.errors) {
 									$('#mprm_final_total_wrap').before(data.errors);
 								} else {
@@ -758,13 +756,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 								}
 							},
 							function(data) {
-								$('.mprm_errors').remove();
 								if (data.error) {
 									$('#mprm_final_total_wrap').before(data.errors);
 								}
 								$('.mprm-cart-ajax').remove();
-
-								//	$('.mprm-error').hide();
 								console.warn('Some error!!!');
 								console.warn(data);
 							}

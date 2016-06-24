@@ -1771,6 +1771,7 @@ there.
 }
 #mprm_checkout_cart td.mprm_cart_actions .mprm-item-quantity {
   width: 25%;
+  min-width: 40px;
 }
 #mprm_checkout_form_wrap fieldset {
   border: 1px solid #eee;
@@ -1865,6 +1866,9 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
+}
+.mprm-container.mprm-view-simple-list > div[class^="mprm-columns-count-"].mprm-all-items .mprm-simple-view-column {
+  margin-bottom: 0;
 }
 .mprm-container.mprm-view-simple-list .mprm-columns-count-1 {
   -webkit-column-count: 1;

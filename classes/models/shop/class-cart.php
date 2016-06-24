@@ -430,6 +430,24 @@ class Cart extends Model {
 		$label = '';
 		$price_id = isset($options['price_id']) ? $options['price_id'] : false;
 		if (!$this->get('menu_item')->is_free($item_id, $price_id) && !$this->get('taxes')->menu_item_is_tax_exclusive($item_id)) {
+
+			if ($this->get('taxes')->prices_show_tax_on_checkout() && !$this->get('taxes')->prices_include_tax()) {
+				$price += $this->get_cart_item_tax($item_id, $options, $price);
+			}
+			if (!$this->get('taxes')->prices_show_tax_on_checkout() && $this->get('taxes')->prices_include_tax()) {
+				$price -= $this->get_cart_item_tax($item_id, $options, $price);
+			}
+			if ($this->get('taxes')->display_tax_rate()) {
+				$label = '&nbsp;&ndash;&nbsp;';
+				if ($this->get('taxes')->prices_show_tax_on_checkout()) {
+					$label .= sprintf(__('includes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				} else {
+					$label .= sprintf(__('excludes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				}
+				$label = apply_filters('mprm_cart_item_tax_description', $label, $item_id, $options);
+			}
+		}
+		if (!empty($price) && $price_id === false) {
 			if ($this->get('taxes')->prices_show_tax_on_checkout() && !$this->get('taxes')->prices_include_tax()) {
 				$price += $this->get_cart_item_tax($item_id, $options, $price);
 			}
