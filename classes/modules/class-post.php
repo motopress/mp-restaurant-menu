@@ -200,6 +200,7 @@ class Post extends Module {
 				return $post_id;
 			}
 		}
+
 		if (isset($_POST['mprm_update'])) {
 			if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
 				$this->get('payments')->update_payment_details($_POST);

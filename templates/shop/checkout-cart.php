@@ -1,8 +1,6 @@
 <?php
 global $post;
 use mp_restaurant_menu\classes\models\Cart as Cart;
-use mp_restaurant_menu\classes\models\Menu_item as Menu_item;
-use mp_restaurant_menu\classes\models\Formatting as Formatting;
 use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 ?>
@@ -22,6 +20,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<?php do_action('mprm_cart_items_before'); ?>
 	<?php if ($cart_items && !empty($cart_items)) : ?>
 		<?php foreach ($cart_items as $key => $item) : ?>
+
+			<?php do_action('mprm_cart_item_before', $item); ?>
+
 			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($key) . '_' . esc_attr($item['id']); ?>" data-cart-key="<?php echo esc_attr($key) ?>" data-menu-item-id="<?php echo esc_attr($item['id']); ?>">
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
 				<td class="mprm_cart_item_name">
@@ -52,6 +53,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 				</td>
 				<?php do_action('mprm_checkout_table_body_last', $item); ?>
 			</tr>
+
+			<?php do_action('mprm_cart_item_after', $item); ?>
+
 		<?php endforeach; ?>
 	<?php endif; ?>
 	<?php do_action('mprm_cart_items_middle'); ?>

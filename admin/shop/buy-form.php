@@ -48,4 +48,5 @@
 		<input type="hidden" name="mprm_redirect_to_checkout" id="mprm_redirect_to_checkout" value="1">
 	<?php endif; ?>
 	<?php do_action('mprm_purchase_link_end', $post->ID, $args); ?>
-</form><!--end #<?php echo esc_attr($form_id); ?>-->
+</form>
+<!--end #<?php echo esc_attr($form_id); ?>-->

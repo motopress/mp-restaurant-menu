@@ -6,8 +6,9 @@ $cart_quantity = mprm_get_cart_quantity();
 $display = $cart_quantity > 0 ? '' : ' style="display:none;"';
 ?>
 	<div class="mprm-cart-content">
-		<p class="mprm-cart-number-of-items"<?php echo $display; ?>
-		><?php _e('Number of items in cart', 'mp-restaurant-menu'); ?>: <span class="mprm-cart-quantity"><?php echo $cart_quantity; ?></span></p>
+		<p class="mprm-cart-number-of-items"<?php echo $display; ?> >
+			<?php _e('Number of items in cart', 'mp-restaurant-menu'); ?>: <span class="mprm-cart-quantity"><?php echo $cart_quantity; ?></span>
+		</p>
 		<ul class="mprm-cart">
 			<?php if ($cart_items) : ?>
 

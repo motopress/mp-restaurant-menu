@@ -3,7 +3,6 @@ use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View;
 
 
-
 /**
  * @return mixed|void
  */
@@ -95,7 +94,7 @@ function mprm_checkout_final_total() {
 	?>
 	<p id="mprm_final_total_wrap">
 		<strong><?php _e('Purchase Total:', 'mp-restaurant-menu'); ?></strong>
-		<span class="mprm_cart_amount" data-subtotal="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>" data-total="<?php echo models\Cart::get_instance()->get_cart_subtotal(); ?>"><?php models\Cart::get_instance()->cart_total(); ?></span>
+		<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_get_cart_subtotal(); ?>" data-total="<?php echo mprm_get_cart_subtotal(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?></span>
 	</p>
 	<?php
 }

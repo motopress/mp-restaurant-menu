@@ -3,38 +3,36 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\models\Settings;
-use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
+use mp_restaurant_menu\classes\Shortcodes;
 
 /**
  * Class main state
  */
 class Core {
+	protected static $instance;
+	protected $taxonomy_names;
+	protected $post_types;
+	protected $posts = array();
 	/**
 	 * Current state
 	 */
 	private $state;
-
 	private $version;
-
-	protected $taxonomy_names;
-
-	protected $post_types;
-
-	protected $posts = array();
-
-	protected static $instance;
 
 	/**
 	 * Core constructor.
 	 */
 	public function __construct() {
+
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
 		$this->taxonomy_names = array(
 			'menu_category' => 'mp_menu_category',
 			'menu_tag' => 'mp_menu_tag',
 			'ingredient' => 'mp_ingredient'
 		);
+
 		$this->post_types = array(
 			'menu_item' => 'mp_menu_item',
 			'order' => 'mprm_order'
@@ -43,13 +41,27 @@ class Core {
 	}
 
 	/**
-	 * @return Core
+	 *  Get plugin version
 	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
+	public function init_plugin_version() {
+		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
+		if (!$this->version) {
+			$pluginObject = get_plugin_data($filePath);
+			$this->version = $pluginObject['Version'];
 		}
-		return self::$instance;
+	}
+
+	/**
+	 * Check for ajax post
+	 *
+	 * @return bool
+	 */
+	static function is_ajax() {
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function get_version() {
@@ -112,7 +124,7 @@ class Core {
 		Controller::get_instance()->install();
 		// Include plugin Preprocessors files
 		Preprocessor::install();
-		// Include plugin Modules files 
+		// Include plugin Modules files
 		Module::install();
 		// Include shortcodes
 		Shortcodes::install();
@@ -134,32 +146,6 @@ class Core {
 	}
 
 	/**
-	 * Get model instace
-	 *
-	 * @param bool|false $type
-	 *
-	 * @return bool|mixed
-	 */
-	public function get($type = false) {
-		$state = false;
-		if ($type) {
-			$state = $this->get_model($type);
-		}
-		return $state;
-	}
-
-	/**
-	 *  Get plugin version
-	 */
-	public function init_plugin_version() {
-		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
-		if (!$this->version) {
-			$pluginObject = get_plugin_data($filePath);
-			$this->version = $pluginObject['Version'];
-		}
-	}
-
-	/**
 	 * Install current state
 	 *
 	 * @param $name
@@ -170,29 +156,60 @@ class Core {
 	}
 
 	/**
-	 * Route plugin url
+	 * @return Core
 	 */
-	public function wp_ajax_route_url() {
-		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
-		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
-		if (!empty($action)) {
-			// call controller
-			Preprocessor::get_instance()->call_controller($action, $controller);
-			die();
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Include all files from folder
+	 *
+	 * @param string $folder
+	 * @param boolean $inFolder
+	 */
+	static function include_all($folder, $inFolder = true) {
+		if (file_exists($folder)) {
+			$includeArr = scandir($folder);
+			foreach ($includeArr as $include) {
+				if (!is_dir($folder . "/" . $include)) {
+					include_once($folder . "/" . $include);
+				} else {
+					if ($include != "." && $include != ".." && $inFolder) {
+						Core::include_all($folder . "/" . $include);
+					}
+				}
+			}
 		}
 	}
 
 	/**
-	 * Check for ajax post
+	 * Get model instance
 	 *
-	 * @return bool
+	 * @param bool|false $type
+	 *
+	 * @return bool|mixed
 	 */
-	static function is_ajax() {
-		if (defined('DOING_AJAX') && DOING_AJAX) {
-			return true;
-		} else {
-			return false;
+	public function get($type = false ) {
+		$state = false;
+		if ($type) {
+			$state = $this->get_model($type);
 		}
+		return $state;
+	}
+
+	/**
+	 * Check and return current state
+	 *
+	 * @param string $type
+	 *
+	 * @return boolean
+	 */
+	public function get_model($type = null) {
+		return Core::get_instance()->get_state()->get_model($type);
 	}
 
 	/**
@@ -205,6 +222,28 @@ class Core {
 			return $this->state;
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * Set state
+	 *
+	 * @param object $state
+	 */
+	public function set_state($state) {
+		$this->state = $state;
+	}
+
+	/**
+	 * Route plugin url
+	 */
+	public function wp_ajax_route_url() {
+		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
+		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
+		if (!empty($action) && !empty($controller)) {
+			// call controller
+			Preprocessor::get_instance()->call_controller($action, $controller);
+			die();
 		}
 	}
 
@@ -229,17 +268,6 @@ class Core {
 	}
 
 	/**
-	 * Check and return current state
-	 *
-	 * @param string $type
-	 *
-	 * @return boolean
-	 */
-	public function get_model($type = null) {
-		return Core::get_instance()->get_state()->get_model($type);
-	}
-
-	/**
 	 * Get preprocessor
 	 *
 	 * @param $type
@@ -248,15 +276,6 @@ class Core {
 	 */
 	public function get_preprocessor($type = NULL) {
 		return Core::get_instance()->get_state()->get_preprocessor($type);
-	}
-
-	/**
-	 * Set state
-	 *
-	 * @param object $state
-	 */
-	public function set_state($state) {
-		$this->state = $state;
 	}
 
 	/**
@@ -273,23 +292,14 @@ class Core {
 	}
 
 	/**
-	 * Include all files from folder
 	 *
-	 * @param string $folder
-	 * @param boolean $inFolder
 	 */
-	static function include_all($folder, $inFolder = true) {
-		if (file_exists($folder)) {
-			$includeArr = scandir($folder);
-			foreach ($includeArr as $include) {
-				if (!is_dir($folder . "/" . $include)) {
-					include_once($folder . "/" . $include);
-				} else {
-					if ($include != "." && $include != ".." && $inFolder) {
-						Core::include_all($folder . "/" . $include);
-					}
-				}
-			}
-		}
+	private function __clone() {
+	}
+
+	/**
+	 *
+	 */
+	private function __wakeup() {
 	}
 }

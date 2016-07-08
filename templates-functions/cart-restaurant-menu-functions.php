@@ -1,6 +1,6 @@
 <?php
-use \mp_restaurant_menu\classes\models;
-use \mp_restaurant_menu\classes\View as View;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\View as View;
 
 /**
  * @return mixed|void
@@ -136,7 +136,6 @@ function mprm_get_variable_prices($menu_item_id = 0) {
 	if (empty($menu_item_id)) {
 		return false;
 	}
-
 	$menu_item = new models\Menu_item($menu_item_id);
 	return $menu_item->get_prices($menu_item_id);
 }
@@ -178,6 +177,9 @@ function mprm_update_cart_button() {
 	<?php
 }
 
+/**
+ * save cart button
+ */
 function mprm_save_cart_button() {
 	if (mprm_is_cart_saving_disabled())
 		return;
@@ -189,4 +191,14 @@ function mprm_save_cart_button() {
 	<?php endif; ?>
 	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
 	<?php
+}
+
+/**
+ * @param $ID
+ * @param $options
+ *
+ * @return bool
+ */
+function mprm_item_in_cart($ID, $options) {
+	return models\Cart::get_instance()->item_in_cart($ID, $options);
 }

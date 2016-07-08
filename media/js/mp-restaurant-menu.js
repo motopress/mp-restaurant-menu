@@ -122,6 +122,27 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				});
 			},
 			/**
+			 * Parse URI
+			 * @param url
+			 * @param name
+			 * @returns {*}
+			 */
+			getParameterByName: function(url, name) {
+				var vars = [], hash;
+				var hashes = url.slice(url.indexOf('?') + 1).split('&');
+				for (var i = 0; i < hashes.length; i++) {
+					hash = hashes[i].split('=');
+					vars.push(hash[0]);
+					vars[hash[0]] = hash[1];
+				}
+				if ((typeof name) !== "undefined") {
+					return vars[name];
+				}
+				return vars;
+			},
+			/**
+			 * Deprecated
+			 *
 			 * Call Tool tip
 			 *
 			 * @param selector
@@ -199,6 +220,13 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				var popup = new jBox('Modal', params);
 				popup.open();
 			},
+			/**
+			 * Deprecated
+			 *
+			 * @param text
+			 * @param type
+			 * @param timeOut
+			 */
 			callNotice: function(text, type, timeOut) {
 				var color,
 					Notice = {};
@@ -244,6 +272,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				state.doActionForObj(name, container, "show");
 			},
 			/**
+			 * Deprecated
 			 * Show block group
 			 * @param name (value attr data-display)
 			 * @param container (parent where search)
@@ -326,7 +355,11 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				}
 				return result;
 			},
-
+			/**
+			 * Validate form
+			 * @param formSelectorByID
+			 * @returns {boolean}
+			 */
 			validateForm: function(formSelectorByID) {
 				if (formSelectorByID) {
 

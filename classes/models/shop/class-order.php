@@ -786,6 +786,7 @@ final class Order extends Model {
 			$this->update_meta('_mprm_order_total', $this->total);
 			$this->update_meta('_mprm_order_tax', $this->tax);
 			$this->menu_items = array_values($this->menu_items);
+
 			$new_meta = array(
 				'menu_items' => $this->menu_items,
 				'cart_details' => $this->cart_details,
@@ -793,6 +794,7 @@ final class Order extends Model {
 				'currency' => $this->currency,
 				'user_info' => $this->user_info,
 			);
+
 			$meta = $this->get_meta();
 			$merged_meta = array_merge($meta, $new_meta);
 			// Only save the payment meta if it's changed

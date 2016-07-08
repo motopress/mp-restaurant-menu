@@ -1,4 +1,4 @@
-<?php use\mp_restaurant_menu\classes\View as View;
+<?php use mp_restaurant_menu\classes\View as View;
 
 $customer = mprm_get_customer($id);
 ?>

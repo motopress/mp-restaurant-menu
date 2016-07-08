@@ -1829,6 +1829,10 @@ there.
 .mprm-clear:after {
   clear: both;
 }
+.mprm-hidden {
+  display: none;
+  opacity: 0;
+}
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;

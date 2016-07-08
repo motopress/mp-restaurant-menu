@@ -558,9 +558,15 @@ function get_column_class($type,$view = 'default') {
 function mprm_get_purchase_link($params) {
 	return models\Menu_item::get_instance()->get_purchase_link($params);
 }
-
-function mprm_get_purchase_template() {
-	mprm_get_template('common/buy/default');
+/**
+ * Get purchase template
+*
+*@param string $template
+* return html
+ */
+function mprm_get_purchase_template($template = "default") {
+	$template = empty($template)? "default" : $template;
+	mprm_get_template("common/buy/{$template}");
 }
 
 /**
@@ -570,7 +576,7 @@ function mprm_before_category_list_header() {
 }
 
 /**
- * Bafore Category list footer
+ * Before Category list footer
  */
 function mprm_before_category_list_footer() {
 }
