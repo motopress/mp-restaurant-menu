@@ -1,0 +1,41 @@
+.mprm-spinner-preload {
+  box-sizing: border-box;
+  height: 60px;
+  width: 60px;
+  margin: 80px;
+  border: 0 solid #e0e0e0;
+  border-radius: 50%;
+  box-shadow: 0 -20px 0 24px #e0e0e0 inset;
+  visibility: hidden;
+}
+.mprm-spinner-preload.small {
+  margin: 0;
+  height: 25px;
+  width: 25px;
+  box-shadow: 0 -7px 0 8px #e0e0e0 inset;
+}
+.mprm-spinner-preload.is-active {
+  -webkit-animation: rotate 1s infinite linear;
+          animation: rotate 1s infinite linear;
+  visibility: visible;
+}
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}

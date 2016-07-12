@@ -1,10 +1,10 @@
 <?php
 global $mprm_receipt_args;
-use \mp_restaurant_menu\classes\models\Payments as Payments;
-use \mp_restaurant_menu\classes\models\Gateways as Gateways;
-use \mp_restaurant_menu\classes\models\Taxes as Taxes;
-use \mp_restaurant_menu\classes\models\Cart as Cart;
-use \mp_restaurant_menu\classes\models\Misc as Misc;
+use mp_restaurant_menu\classes\models\Cart as Cart;
+use mp_restaurant_menu\classes\models\Gateways as Gateways;
+use mp_restaurant_menu\classes\models\Misc as Misc;
+use mp_restaurant_menu\classes\models\Payments as Payments;
+use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 // No key found
 if (empty($payment_key)) { ?>
@@ -141,13 +141,14 @@ if (isset($need_login) && $need_login) {
 				<?php if (!apply_filters('mprm_user_can_view_receipt_item', true, $item)) : ?>
 					<?php continue; // Skip this item if can't view it ?>
 				<?php endif; ?>
+
+				<?php do_action('mprm-success-page-cart-item-before', $item['id'], $order) ?>
+
 				<?php if (empty($item['in_bundle'])) : ?>
+
 					<tr>
 						<td>
-							<?php
-							$price_id = Cart::get_instance()->get_cart_item_price_id($item);
-							//	$menu_item_files = mprm_get_menu_item_files($item['id'], $price_id);
-							?>
+							<?php $price_id = Cart::get_instance()->get_cart_item_price_id($item); ?>
 							<div class="mprm_purchase_receipt_product_name">
 								<?php echo esc_html($item['name']); ?>
 								<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
@@ -163,6 +164,7 @@ if (isset($need_login) && $need_login) {
 						<?php endif; ?>
 						<?php if (Cart::get_instance()->item_quantities_enabled()) { ?>
 							<td><?php echo $item['quantity']; ?></td>
+
 						<?php } ?>
 						<td>
 							<?php if (empty($item['in_bundle'])) : // Only show price when product is not part of a bundle ?>
@@ -171,6 +173,9 @@ if (isset($need_login) && $need_login) {
 						</td>
 					</tr>
 				<?php endif; ?>
+
+				<?php do_action('mprm-success-page-cart-item-after', $item['id'], $order) ?>
+
 			<?php endforeach; ?>
 		<?php endif; ?>
 		<?php if (($fees = Payments::get_instance()->get_payment_fees($order->ID, 'item'))) : ?>

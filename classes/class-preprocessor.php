@@ -1,9 +1,8 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\Core;
-use mp_restaurant_menu\classes\libs\GUMP;
 use mp_restaurant_menu\classes\libs\FB;
+use mp_restaurant_menu\classes\libs\GUMP;
 
 /**
  * Class Preprocessor

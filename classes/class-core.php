@@ -193,7 +193,7 @@ class Core {
 	 *
 	 * @return bool|mixed
 	 */
-	public function get($type = false ) {
+	public function get($type = false) {
 		$state = false;
 		if ($type) {
 			$state = $this->get_model($type);

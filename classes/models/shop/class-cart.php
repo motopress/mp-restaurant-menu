@@ -577,6 +577,7 @@ class Cart extends Model {
 	 * @return mixed
 	 */
 	public function cart_subtotal() {
+
 		$price = $this->get('menu_item')->currency_filter(mprm_format_amount($this->get_cart_subtotal()));
 		return $price;
 	}
@@ -762,6 +763,7 @@ class Cart extends Model {
 		$total = $subtotal - $discounts + $cart_tax + $fees;
 		if ($total < 0)
 			$total = 0.00;
+
 		return (float)apply_filters('mprm_get_cart_total', $total);
 	}
 
