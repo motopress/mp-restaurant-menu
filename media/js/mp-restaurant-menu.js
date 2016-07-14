@@ -123,6 +123,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			},
 			/**
 			 * Parse URI
+			 *
 			 * @param url
 			 * @param name
 			 * @returns {*}
@@ -138,6 +139,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				if ((typeof name) !== "undefined") {
 					return vars[name];
 				}
+
 				return vars;
 			},
 			/**
@@ -644,7 +646,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Update item quantities
 			 * @param event
 			 */
-			update_item_quantities: function(event) {
+			update_item_quantities: function() {
 				$('.mprm-item-quantity').on('change', function() {
 
 					var $this = $(this),

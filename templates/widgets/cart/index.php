@@ -13,9 +13,7 @@ $display = $cart_quantity > 0 ? '' : ' style="display:none;"';
 			<?php if ($cart_items) : ?>
 
 				<?php foreach ($cart_items as $key => $item) : ?>
-
 					<?php echo mprm_get_cart_item_template($key, $item, false); ?>
-
 				<?php endforeach; ?>
 
 				<?php if (mprm_use_taxes()) : ?>

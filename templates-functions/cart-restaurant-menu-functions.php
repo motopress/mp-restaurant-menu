@@ -59,7 +59,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 		$title .= (mprm_has_variable_prices($item['id'])) ? ' <span class="mprm-cart-item-separator">-</span> ' . mprm_get_price_name($id, $item['options']) : mprm_get_price_name($id, $item['options']);
 	}
 
-	$item = View::get_instance()->render_html('widgets/cart/cart-item', array(), false);
+	$item = View::get_instance()->render_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id), false);
 
 	$item = str_replace('{item_title}', $title, $item);
 	$item = str_replace('{item_amount}', mprm_currency_filter(mprm_format_amount($price)), $item);

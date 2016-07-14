@@ -1036,7 +1036,7 @@ function mprm_customers_dropdown($data) {
  * @return mixed
  */
 function mprm_text($data) {
-	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
+	return View::get_instance()->render_html('../admin/settings/text', $data, false);
 }
 
 /**
