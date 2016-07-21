@@ -30,7 +30,7 @@ class Menu_item extends Store_item {
 	public function __construct($_id = false, $_args = array()) {
 		parent::__construct();
 		if ($_id) {
-			$menu_item = \WP_Post::get_instance($_id);
+			$menu_item = get_post($_id);
 			return $this->setup_menu_item($menu_item);
 		}
 	}
@@ -594,20 +594,13 @@ class Menu_item extends Store_item {
 	 * @return bool
 	 */
 	private function update_meta($meta_key = '', $meta_value = '') {
-		global $wpdb;
 		if (empty($meta_key) || empty($meta_value)) {
 			return false;
 		}
 		// Make sure if it needs to be serialized, we do
 		$meta_value = maybe_serialize($meta_value);
-		if (is_numeric($meta_value)) {
-			$value_type = is_float($meta_value) ? '%f' : '%d';
-		} else {
-			$value_type = "'%s'";
-		}
-		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = {$value_type} WHERE post_id = {$this->ID} AND meta_key = '%s'", $meta_value, $meta_key);
 
-		if ($wpdb->query($sql)) {
+		if (update_post_meta($this->ID, $meta_key, $meta_value)) {
 			clean_post_cache($this->ID);
 			return true;
 		}

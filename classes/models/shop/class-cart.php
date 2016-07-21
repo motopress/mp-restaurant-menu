@@ -119,7 +119,7 @@ class Cart extends Model {
 					return false;
 				if (!isset($to_add['id']) || empty($to_add['id']))
 					return false;
-				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled()) {
+				if ($this->item_in_cart($to_add['id'], $to_add['options']) && !$this->item_quantities_enabled()) {
 					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
 					if (is_array($quantity)) {
 						$cart[$key]['quantity'] += $quantity[$key];
@@ -621,7 +621,7 @@ class Cart extends Model {
 			$discount = $this->get('discount')->get_cart_item_discount_amount($item);
 			$discount = apply_filters('mprm_get_cart_content_details_item_discount_amount', $discount, $item);
 
-			$quantity = $this->get_cart_item_quantity($item['id'], $item['options']);
+			$quantity = $this->get_cart_item_quantity($item['id'], $item['options'], $key);
 			$fees = $this->get_cart_fees('fee', $item['id']);
 
 			$subtotal = $item_price * $quantity;
@@ -662,12 +662,17 @@ class Cart extends Model {
 	 *
 	 * @param int $menu_item_id
 	 * @param array $options
+	 * @param int /null $position
 	 *
 	 * @return mixed|void
 	 */
-	public function get_cart_item_quantity($menu_item_id = 0, $options = array()) {
+	public function get_cart_item_quantity($menu_item_id = 0, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();
-		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		if (is_null($position)) {
+			$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		} else {
+			$key = $position;
+		}
 		$quantity = isset($cart[$key]['quantity']) && $this->item_quantities_enabled() ? $cart[$key]['quantity'] : 1;
 		if ($quantity < 1)
 			$quantity = 1;
@@ -890,12 +895,18 @@ class Cart extends Model {
 	 * @param int $menu_item_id
 	 * @param int $quantity
 	 * @param array $options
+	 * @param int /null $position
 	 *
 	 * @return mixed|void
 	 */
-	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array()) {
+	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();
-		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+
+		if (is_null($position)) {
+			$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		} else {
+			$key = $position;
+		}
 
 		if ($quantity < 1) {
 			$quantity = 1;

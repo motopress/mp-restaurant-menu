@@ -4,7 +4,6 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Menu;
-use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 
 /**
@@ -1250,20 +1249,47 @@ class Media extends Core {
 	 * Register all post type
 	 */
 	public function register_all_post_type() {
-		Post::get_instance()->register_post_type(array(
-			'post_type' => $this->get_post_type('menu_item'),
-			'titles' => array('many' => 'menu items', 'single' => 'menu item'),
-			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
-			'slug' => 'menu',
+		if (post_type_exists($this->get_post_type('menu_item'))) {
+			return;
+		}
+
+		register_post_type($this->get_post_type('menu_item'), array(
+			'label' => 'mp_menu_item',
+			'labels' =>
+				array(
+					'name' => 'Menu items',
+					'singular_name' => 'Menu item',
+					'add_new' => 'Add New',
+					'add_new_item' => 'Add New Menu item',
+					'edit_item' => 'Edit Menu item',
+					'new_item' => 'New Menu item',
+					'all_items' => 'All Menu items',
+					'view_item' => 'View Menu item',
+					'search_items' => 'Search Menu item',
+					'not_found' => 'No menu items found',
+					'not_found_in_trash' => 'No menu items found in Trash',
+					'parent_item_colon' => 'media',
+					'menu_name' => 'Menu items',
+				),
+			'public' => true,
+			'has_archive' => true,
+			'show_ui' => true,
+			'show_in_menu' => false,
 			'capability_type' => 'product',
-			'map_meta_cap' => true
+			'menu_position' => 21,
+			'hierarchical' => false,
+			'map_meta_cap' => true,
+
+			'rewrite' =>
+				array(
+					'slug' => 'menu',
+					'with_front' => true,
+					'hierarchical' => true,
+				),
+			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
+			'show_in_admin_bar' => true,
 		));
-//		Post::get_instance()->register_post_type(array(
-//			'post_type' => $this->get_post_type('order'),
-//			'titles' => array('many' => 'orders', 'single' => 'order'),
-//			'supports' => array('title', 'comments', 'custom-fields'),
-//			'slug' => 'menu'
-//		));
+
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),
@@ -1305,6 +1331,10 @@ class Media extends Core {
 	 * Register all taxonomies
 	 */
 	public function register_all_taxonomies() {
+		if (taxonomy_exists($this->get_tax_name('menu_category'))) {
+			return;
+		}
+
 		$menu_item = $this->get_post_type('menu_item');
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
@@ -1421,3 +1451,4 @@ class Media extends Core {
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}
 }
+

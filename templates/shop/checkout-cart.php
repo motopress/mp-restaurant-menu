@@ -44,7 +44,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 				</td>
 				<td class="mprm_cart_actions">
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
-						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $key; ?>-quantity" data-key="<?php echo $key; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options']); ?>"/>
+						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $key; ?>-quantity" data-key="<?php echo $key; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $key); ?>"/>
 						<input type="hidden" name="mprm-cart-menu-item[]" value="<?php echo $item['id']; ?>"/>
 						<input type="hidden" name="mprm-cart-menu-item-<?php echo $key; ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
 					<?php endif; ?>

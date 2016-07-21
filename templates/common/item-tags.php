@@ -4,10 +4,12 @@ if (empty($tags)) {
 } ?>
 <?php if (!empty($tags)): ?>
 	<p class="mprm-tags">
-		<?php if (!empty($tags)):
-			foreach ($tags as $tag) {
-				?>
-				<span class="mprm-tag <?php echo 'mprm-tag-' . $tag->slug; ?>"><?php echo $tag->name ?></span>
-			<?php } endif; ?>
+		<?php foreach ($tags as $tag) {
+			if (!is_object($tag)) {
+				continue;
+			}
+			?>
+			<span class="mprm-tag <?php echo 'mprm-tag-' . $tag->slug; ?>"><?php echo $tag->name ?></span>
+		<?php } ?>
 	</p>
 <?php endif; ?>

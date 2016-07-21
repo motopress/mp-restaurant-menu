@@ -52,7 +52,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	$remove_url = mprm_remove_item_url($cart_key);
 	$title = get_the_title($id);
 	$options = !empty($item['options']) ? $item['options'] : array();
-	$quantity = mprm_get_cart_item_quantity($id, $options);
+	$quantity = mprm_get_cart_item_quantity($id, $options, $cart_key);
 	$price = mprm_get_cart_item_price($id, $options);
 
 	if (!empty($options)) {
@@ -79,11 +79,12 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 /**
  * @param int $menu_item_id
  * @param array $options
+ * @param int /null $options
  *
  * @return mixed|void
  */
-function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array()) {
-	return models\Cart::get_instance()->get_cart_item_quantity($menu_item_id, $options);
+function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array(), $position = NULL) {
+	return models\Cart::get_instance()->get_cart_item_quantity($menu_item_id, $options, $position);
 }
 
 /**

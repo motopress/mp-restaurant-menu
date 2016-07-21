@@ -99,8 +99,9 @@ class Checkout extends Model {
 	 * @return mixed|void
 	 */
 	public function get_checkout_uri() {
-		$uri = $this->get('settings')->get_option('purchase_page', false);
-		$uri = isset($uri) ? get_permalink($uri) : NULL;
+		$purchase_page_id = $this->get('settings')->get_option('purchase_page', false);
+		$uri = !empty($purchase_page_id) ? get_permalink((int)$purchase_page_id) : NULL;
+
 		if (!empty($args)) {
 			// Check for backward compatibility
 			if (is_string($args))
@@ -108,6 +109,7 @@ class Checkout extends Model {
 			$args = wp_parse_args($args);
 			$uri = add_query_arg($args, $uri);
 		}
+
 		$scheme = defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN ? 'https' : 'admin';
 		$ajax_url = admin_url('admin-ajax.php', $scheme);
 		if ((!preg_match('/^https/', $uri) && preg_match('/^https/', $ajax_url) && $this->get('settings')->is_ajax_enabled()) || $this->get('settings')->is_ssl_enforced()) {

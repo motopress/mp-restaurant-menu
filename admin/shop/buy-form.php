@@ -1,4 +1,4 @@
-<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" method="post">
+<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
 	<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 	<div class="mprm_purchase_submit_wrapper">
 		<?php

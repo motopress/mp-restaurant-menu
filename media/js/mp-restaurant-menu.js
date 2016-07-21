@@ -561,12 +561,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 				$('.mprm-add-to-cart.mprm-has-js').on('click', function(e) {
 					e.preventDefault();
-					var $this = $(this), form = $this.closest('form');
+					var $this = $(this), form = $(this).closest('form');
 					var $params = form.serializeArray();
 					$params.push({
 						name: "is_ajax",
 						value: true
 					});
+
 					if ($('.widget_mprm_cart_widget').length) {
 						$params.push({
 							name: "cart",
@@ -660,7 +661,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						controller: 'cart',
 						quantity: quantity,
 						menu_item_id: menu_item_id,
-						options: options
+						options: options,
+						position: key
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
