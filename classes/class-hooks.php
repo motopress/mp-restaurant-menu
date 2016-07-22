@@ -40,11 +40,6 @@ class Hooks extends Core {
 	 */
 	public static function install_hooks() {
 		add_action('init', array(self::get_instance(), 'init'), 0);
-		if (Core::get_instance()->is_ajax()) {
-			self::get_instance()->init();
-		}
-
-
 		add_action('admin_init', array(self::get_instance(), 'admin_init'));
 		add_action('admin_menu', array(Media::get_instance(), 'admin_menu'));
 		// in load theme
@@ -64,52 +59,6 @@ class Hooks extends Core {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Init hook
-	 */
-	public function init() {
-
-		//Register custom post types
-		Post::get_instance()->register_post_status();
-
-		//Add PayPal listener
-		Paypal_standart::get_instance()->listen_for_paypal_ipn();
-		Paypal::get_instance()->listen_for_paypal_ipn();
-
-		//Check if Theme Supports Post Thumbnails
-		if (!current_theme_supports('post-thumbnails')) {
-			add_theme_support('post-thumbnails');
-		}
-
-		// Register attachment sizes
-		$this->get('image')->add_image_sizes();
-
-		// Image downsize
-		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
-
-		// Register custom post type and taxonomies
-		Media::get_instance()->register_all_post_type();
-		Media::get_instance()->register_all_taxonomies();
-		// Include template
-		add_filter('template_include', array(Media::get_instance(), 'template_include'));
-		// post_class filter
-		add_filter('post_class', 'mprm_post_class', 20, 3);
-		// Route url
-		Core::get_instance()->wp_ajax_route_url();
-		// Shortcodes
-		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
-		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
-		add_shortcode('mprm_cart', array(Shortcode_Cart::get_instance(), 'render_shortcode'));
-		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
-		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
-		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
-		// Integrate in motopress
-		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
-		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
-		//Adding shop class body
-		add_filter('body_class', 'mprm_add_body_classes');
 	}
 
 	/**
@@ -822,6 +771,52 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
+	}
+
+	/**
+	 * Init hook
+	 */
+	public function init() {
+
+		//Register custom post types
+		Post::get_instance()->register_post_status();
+
+		//Add PayPal listener
+		Paypal_standart::get_instance()->listen_for_paypal_ipn();
+		Paypal::get_instance()->listen_for_paypal_ipn();
+
+		//Check if Theme Supports Post Thumbnails
+		if (!current_theme_supports('post-thumbnails')) {
+			add_theme_support('post-thumbnails');
+		}
+
+		// Register attachment sizes
+		$this->get('image')->add_image_sizes();
+
+		// Image downsize
+		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
+
+		// Register custom post type and taxonomies
+		Media::get_instance()->register_all_post_type();
+		Media::get_instance()->register_all_taxonomies();
+		// Include template
+		add_filter('template_include', array(Media::get_instance(), 'template_include'));
+		// post_class filter
+		add_filter('post_class', 'mprm_post_class', 20, 3);
+		// Route url
+		Core::get_instance()->wp_ajax_route_url();
+		// Shortcodes
+		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_cart', array(Shortcode_Cart::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
+		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
+		// Integrate in motopress
+		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
+		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+		//Adding shop class body
+		add_filter('body_class', 'mprm_add_body_classes');
 	}
 
 	/**
