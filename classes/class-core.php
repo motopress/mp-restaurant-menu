@@ -134,7 +134,6 @@ class Core {
 		$this->include_all(MP_RM_TEMPLATES_FUNCTIONS);
 		// Include templates actions
 		$this->include_all(MP_RM_TEMPLATES_ACTIONS);
-
 		// init all hooks
 		Hooks::install_hooks();
 		// install templates actions
@@ -184,6 +183,7 @@ class Core {
 			}
 		}
 	}
+
 
 	/**
 	 * Get model instance
