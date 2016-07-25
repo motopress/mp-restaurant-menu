@@ -19,11 +19,11 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<tbody>
 	<?php do_action('mprm_cart_items_before'); ?>
 	<?php if ($cart_items && !empty($cart_items)) : ?>
-		<?php foreach ($cart_items as $key => $item) : ?>
+		<?php foreach ($cart_items as $index => $item) : ?>
 
-			<?php do_action('mprm_cart_item_before', $item); ?>
+			<?php do_action('mprm_cart_item_before', $item, $index); ?>
 
-			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($key) . '_' . esc_attr($item['id']); ?>" data-cart-key="<?php echo esc_attr($key) ?>" data-menu-item-id="<?php echo esc_attr($item['id']); ?>">
+			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($index) . '_' . esc_attr($item['id']); ?>" data-cart-key="<?php echo esc_attr($index) ?>" data-menu-item-id="<?php echo esc_attr($item['id']); ?>">
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
 				<td class="mprm_cart_item_name">
 					<?php
@@ -44,17 +44,17 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 				</td>
 				<td class="mprm_cart_actions">
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
-						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $key; ?>-quantity" data-key="<?php echo $key; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $key); ?>"/>
+						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $index; ?>-quantity" data-key="<?php echo $index; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $index); ?>"/>
 						<input type="hidden" name="mprm-cart-menu-item[]" value="<?php echo $item['id']; ?>"/>
-						<input type="hidden" name="mprm-cart-menu-item-<?php echo $key; ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
+						<input type="hidden" name="mprm-cart-menu-item-<?php echo $index; ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
 					<?php endif; ?>
-					<?php do_action('mprm_cart_actions', $item, $key); ?>
-					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($key)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
+					<?php do_action('mprm_cart_actions', $item, $index); ?>
+					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($index)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 				</td>
 				<?php do_action('mprm_checkout_table_body_last', $item); ?>
 			</tr>
 
-			<?php do_action('mprm_cart_item_after', $item); ?>
+			<?php do_action('mprm_cart_item_after', $item, $index); ?>
 
 		<?php endforeach; ?>
 	<?php endif; ?>

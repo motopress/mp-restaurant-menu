@@ -163,9 +163,9 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_excerpt', 60);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_tags', 70);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_price', 80);
-		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 85);
+		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_after_content', 85);
 
-		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_after_content', 90);
+		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_footer', 95);
 		/**
 		 * After Menu item grid
