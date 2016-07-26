@@ -113,13 +113,19 @@ class Cart extends Model {
 		}
 
 		if (!empty($items)) {
+
 			foreach ($items as $item) {
 				$to_add = apply_filters('mprm_add_to_cart_item', $item);
-				if (!is_array($to_add))
+
+				if (!is_array($to_add)) {
 					return false;
-				if (!isset($to_add['id']) || empty($to_add['id']))
+				}
+
+				if (!isset($to_add['id']) || empty($to_add['id'])) {
 					return false;
-				if ($this->item_in_cart($to_add['id'], $to_add['options']) && !$this->item_quantities_enabled()) {
+				}
+
+				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
 					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
 					if (is_array($quantity)) {
 						$cart[$key]['quantity'] += $quantity[$key];
@@ -130,12 +136,14 @@ class Cart extends Model {
 					$cart[] = $to_add;
 				}
 			}
+
 		}
 
 		$this->get('session')->set('mprm_cart', $cart);
 
 		do_action('mprm_post_add_to_cart', $item_id, $options);
-		// Clear all the checkout errors, if any
+
+		// Clear all errors
 		$this->get('errors')->clear_errors();
 		return count($cart) - 1;
 	}
