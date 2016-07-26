@@ -25,15 +25,15 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 			<tr class="mprm_cart_item" id="mprm_cart_item_<?php echo esc_attr($index) . '_' . esc_attr($item['id']); ?>" data-cart-key="<?php echo esc_attr($index) ?>" data-menu-item-id="<?php echo esc_attr($item['id']); ?>">
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
+
 				<td class="mprm_cart_item_name">
-					<?php
-					if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) {
-						echo '<div class="mprm_cart_item_image">';
-						echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail'));
-						echo '</div>';
-					}
+					<?php if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) { ?>
+						<div class="mprm_cart_item_image">
+							<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); ?>
+						</div>
+					<?php }
 					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
-					<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+					<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>"><span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span></a>
 					<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
 				</td>
 				<td class="mprm_cart_item_price">
@@ -42,6 +42,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 					do_action('mprm_checkout_cart_item_price_after', $item);
 					?>
 				</td>
+
 				<td class="mprm_cart_actions">
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $index; ?>-quantity" data-key="<?php echo $index; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $index); ?>"/>
@@ -51,6 +52,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 					<?php do_action('mprm_cart_actions', $item, $index); ?>
 					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($index)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 				</td>
+
 				<?php do_action('mprm_checkout_table_body_last', $item); ?>
 			</tr>
 
