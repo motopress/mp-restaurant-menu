@@ -35,6 +35,7 @@ define('MP_RM_DEBUG', FALSE);
 
 
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
+
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));

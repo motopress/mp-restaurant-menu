@@ -130,17 +130,20 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			 */
 			getParameterByName: function(url, name) {
 				var vars = [], hash;
-				var hashes = url.slice(url.indexOf('?') + 1).split('&');
-				for (var i = 0; i < hashes.length; i++) {
-					hash = hashes[i].split('=');
-					vars.push(hash[0]);
-					vars[hash[0]] = hash[1];
+				if (url) {
+					var hashes = url.slice(url.indexOf('?') + 1).split('&');
+					for (var i = 0; i < hashes.length; i++) {
+						hash = hashes[i].split('=');
+						vars.push(hash[0]);
+						vars[hash[0]] = hash[1];
+					}
+					if ((typeof name) !== "undefined") {
+						return vars[name];
+					}
+					return vars;
+				} else {
+					return false;
 				}
-				if ((typeof name) !== "undefined") {
-					return vars[name];
-				}
-
-				return vars;
 			},
 			/**
 			 * Deprecated
@@ -309,35 +312,38 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				} else {
 					arrayBlocks = container.find('[data-display]');
 				}
-				arrayBlocks.each(function() {
-					var value = $(this),
-						find = [],
-						searchArray,
-						attrValues = value.attr("data-display").split(","); //construct array attrs
-					$.each(attrValues, function(key, value) { //each attrs array
-						attrValues[key] = $.trim(value); //trim space around value
-					});
-					searchArray = name.split(",");
-					$.each(searchArray, function(keySearch, search) {
-						$.extend(find, state.inArray(attrValues, search));
-					});
-					if (!_.isEmpty(find)) {
-						if (!hided && action === "show") {
-							arrayBlocks.addClass("hidden"); //hide all
-							hided = true; //change hide status
+				if (arrayBlocks) {
+					arrayBlocks.each(function() {
+						var value = $(this),
+							find = [],
+							searchArray,
+							attrValues = value.attr("data-display").split(","); //construct array attrs
+						$.each(attrValues, function(key, value) { //each attrs array
+							attrValues[key] = $.trim(value); //trim space around value
+						});
+						searchArray = name.split(",");
+						$.each(searchArray, function(keySearch, search) {
+							$.extend(find, state.inArray(attrValues, search));
+						});
+						if (!_.isEmpty(find)) {
+							if (!hided && action === "show") {
+								arrayBlocks.addClass("hidden"); //hide all
+								hided = true; //change hide status
+							}
+							switch (action) {
+								case "show":
+								case "some-show":
+									value.removeClass("hidden"); //show find element
+									break;
+								case "hide":
+									value.addClass("hidden"); //show find element
+									break;
+							}
+							result = true; //change element by name status
 						}
-						switch (action) {
-							case "show":
-							case "some-show":
-								value.removeClass("hidden"); //show find element
-								break;
-							case "hide":
-								value.addClass("hidden"); //show find element
-								break;
-						}
-						result = true; //change element by name status
-					}
-				});
+					});
+				}
+
 				if (!result) { // if not find element by parameter name
 					console.warn("The element with attribute 'data-display = " + name + "' is not find");
 				}
@@ -706,47 +712,49 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				$(document).on('click', '#mprm_purchase_form #mprm_purchase_submit input[type=submit]', function(e) {
 
 					var form = $(this).parents('form');
-					if (!form.hasClass('mprm-no-js')) {
+					if (form.length) {
+						if (!form.hasClass('mprm-no-js')) {
 
-						var purchaseForm = document.getElementById('mprm_purchase_form'),
-							formObject = $(purchaseForm);
+							var purchaseForm = document.getElementById('mprm_purchase_form'),
+								formObject = $(purchaseForm);
 
-						if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
-							return;
+							if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
+								return;
+							}
+
+							e.preventDefault();
+
+							$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
+							var $params = $(purchaseForm).serializeArray();
+
+							$.each($params, function(index, element) {
+								if (element) {
+									if (element.name == "mprm_action" && element.value == "gateway_select") {
+										$params.splice(index, 1);
+									}
+								}
+							});
+
+							$('.mprm-cart-ajax').show();
+							$('.mprm-errors').remove();
+							MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+								function(data) {
+									if (data.errors) {
+										$('#mprm_final_total_wrap').before(data.errors);
+									} else {
+										$('#mprm_purchase_form').submit();
+									}
+								},
+								function(data) {
+									if (data.error) {
+										$('#mprm_final_total_wrap').before(data.errors);
+									}
+									$('.mprm-cart-ajax').remove();
+									console.warn('Some error!!!');
+									console.warn(data);
+								}
+							);
 						}
-
-						e.preventDefault();
-
-						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
-						var $params = $(purchaseForm).serializeArray();
-
-						$.each($params, function(index, element) {
-							if (element) {
-								if (element.name == "mprm_action" && element.value == "gateway_select") {
-									$params.splice(index, 1);
-								}
-							}
-						});
-
-						$('.mprm-cart-ajax').show();
-						$('.mprm-errors').remove();
-						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-							function(data) {
-								if (data.errors) {
-									$('#mprm_final_total_wrap').before(data.errors);
-								} else {
-									$('#mprm_purchase_form').submit();
-								}
-							},
-							function(data) {
-								if (data.error) {
-									$('#mprm_final_total_wrap').before(data.errors);
-								}
-								$('.mprm-cart-ajax').remove();
-								console.warn('Some error!!!');
-								console.warn(data);
-							}
-						);
 					}
 				});
 
@@ -1840,9 +1848,11 @@ MP_RM_Registry.register("Theme", (function($) {
 		}
 	};
 })(jQuery));
+
 (function($) {
 	"use strict";
 	$(document).ready(function() {
+
 		// if edit and add menu_item
 		if ('mp_menu_item' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Menu-Item").init();
@@ -1891,5 +1901,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ($('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();
 		}
+
+
 	});
 }(jQuery));
