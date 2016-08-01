@@ -792,6 +792,7 @@ class Settings extends Model {
 				$states = array();
 				break;
 		endswitch;
+
 		return apply_filters('mprm_shop_states', $states, $country);
 	}
 

@@ -1539,3 +1539,11 @@ function render_term_header($data) {
 function mprm_grid_container_class(){
 	return apply_filters('mprm-row-class','mprm-row');
 }
+/**
+ * Preloader
+*
+*@param string $class
+ */
+function mprm_get_preloader($class=''){
+mprm_get_template('common/preloader', array('class' => $class));
+}

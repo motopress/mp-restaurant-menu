@@ -166,6 +166,9 @@ class Media extends Core {
 		}
 	}
 
+	/**
+	 * Register settings
+	 */
 	public function register_settings() {
 		if (false == get_option('mprm_settings')) {
 			add_option('mprm_settings');
@@ -362,20 +365,7 @@ class Media extends Core {
 							'std' => '.',
 						),
 					),
-//					'api' => array(
-//						'api_settings' => array(
-//							'id' => 'api_settings',
-//							'name' => '<h3>' . __('API Settings', 'mp-restaurant-menu') . '</h3>',
-//							'desc' => '',
-//							'type' => 'header',
-//						),
-//						'api_allow_user_keys' => array(
-//							'id' => 'api_allow_user_keys',
-//							'name' => __('Allow User Keys', 'mp-restaurant-menu'),
-//							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//					),
+//
 				)
 			),
 			/** Payment Gateways Settings */

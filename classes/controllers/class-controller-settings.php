@@ -29,13 +29,14 @@ class Controller_Settings extends Controller {
 	 */
 	public function action_content() {
 		$data = $this->get('settings')->get_config_settings();
-		//$data
+		// $data
 		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
 		$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
 		$key = 'main';
 		$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
 		$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
 		$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
+
 		View::get_instance()->render_html('settings', $data);
 	}
 
