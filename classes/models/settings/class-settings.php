@@ -19,7 +19,6 @@ class Settings extends Model {
 	public function get_config_settings() {
 		$settings = array('tabs' => array());
 		$config_settings = $this->get_config('settings');
-		//$save_settings = $this->get_settings();
 		foreach ($config_settings['tabs'] as $tabs => $setting) {
 			$settings['tabs'][$tabs] = $setting;
 		}
@@ -205,7 +204,6 @@ class Settings extends Model {
 							'paypal' => '1',
 							'manual' => '1',
 						),
-
 					'item_quantities' => '1',
 					'shipping_address' => '1',
 					'enable_ajax_cart' => '1',
@@ -273,7 +271,6 @@ class Settings extends Model {
 		if (empty($mprm_options)) {
 			$mprm_options = Settings::get_instance()->get_settings();
 		}
-
 		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
 		$value = apply_filters('mprm_get_option', $value, $key, $default);
 		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
