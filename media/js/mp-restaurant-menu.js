@@ -1784,7 +1784,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
-				$('.mprm-item-gallery').magnificPopup({
+ 				$('.type-mp_menu_item .gallery-item').magnificPopup({
 					delegate: 'a',
 					type: 'image',
 					tLoading: 'Loading image #%curr%...',
@@ -1805,8 +1805,6 @@ MP_RM_Registry.register("Theme", (function($) {
 						duration: 300 // don't foget to change the duration also in CSS
 					}
 				});
-
-
 			},
 			viewParams: function(parent, view) {
 				switch (view) {
@@ -1898,10 +1896,8 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ($('.mprm-widget-view').length) {
 			MP_RM_Registry._get("Theme").customizeWidget();
 		}
-		if ($('.mprm-item-gallery').length) {
+		if ($('.gallery-item').length) {
 			MP_RM_Registry._get("Theme").init();
 		}
-
-
 	});
 }(jQuery));

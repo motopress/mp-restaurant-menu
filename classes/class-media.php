@@ -228,12 +228,7 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						/*'view_settings' => array(
-							'id' => 'view_settings',
-							'name' => '<h3>' . __('View', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),*/
+
 						'category_view' => array(
 							'id' => 'category_view',
 							'name' => __('Category Layout', 'mp-restaurant-menu'),
@@ -244,6 +239,16 @@ class Media extends Core {
 							),
 							'chosen' => false,
 							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
+						),
+						'template_mode' => array(
+							'id' => 'template_mode',
+							'name' => __('Template Mode', 'mp-restaurant-menu'),
+							'options' => array(
+								'theme' => __('Theme', 'mp-restaurant-menu'),
+								'plugin' => __('Plugin', 'mp-restaurant-menu')
+							),
+							'desc' => 'Choose a page template to control the appearance of your single event and column page.',
+							'type' => 'select',
 						),
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',
@@ -1346,40 +1351,98 @@ class Media extends Core {
 	}
 
 	/**
+	 * Single template
+	 *
+	 * @param $single_template
+	 *
+	 * @return mixed
+	 */
+	public function single_template($query) {
+		global $post;
+
+		if (is_embed()) {
+			return;
+		}
+
+//		if (!empty($post) && in_array($post->post_type, array_values($this->post_types))) {
+//			add_action('loop_start', array($this, 'setup_pseudo_template'));
+//		}
+
+		if (!empty($post) && in_array($post->post_type, array_values($this->post_types))) {
+			add_filter('the_content', array($this, 'single_content'), 20, 2);
+		}
+
+//		return $single_template;
+	}
+
+	/**
+	 *
+	 * @param $content
+	 *
+	 * @return mixed
+	 */
+	public function single_content($content) {
+		global $post;
+		$append_content = '';
+		if (is_tax() && is_archive()) {
+			return $content;
+		}
+
+		switch ($post->post_type) {
+			case $this->post_types['menu_item']:
+
+				$append_content .= $this->get_view()->render_html('theme-support/single-' . $this->post_types['menu_item'], array(), false);
+
+				break;
+			case $this->post_types['order']:
+				$append_content .= $this->get_view()->render_html('', array(), false);
+				break;
+			default:
+				break;
+		}
+
+		return $content . $append_content;
+	}
+
+	/**
 	 * Template include
 	 *
 	 * @param string $template
 	 *
 	 * @return string
 	 */
+
 	public function template_include($template) {
 		global $post, $taxonomy;
+
 		if (is_embed()) {
 			return $template;
 		}
+		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
 
-		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
-			foreach ($this->taxonomy_names as $taxonomy_name) {
-				if (basename($template) != "taxonomy-$taxonomy_name.php") {
-					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
-					if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
-						$template = $path;
+		if ($template_mode == 'plugin') {
+			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
+				foreach ($this->taxonomy_names as $taxonomy_name) {
+					if (basename($template) != "taxonomy-$taxonomy_name.php") {
+						$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
+						if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
+							$template = $path;
+						}
+					}
+				}
+			}
+
+			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
+				foreach ($this->post_types as $post_type) {
+					if (basename($template) != "single-$post_type.php") {
+						$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
+						if ($post->post_type == $post_type && file_exists($path)) {
+							$template = $path;
+						}
 					}
 				}
 			}
 		}
-
-		if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
-			foreach ($this->post_types as $post_type) {
-				if (basename($template) != "single-$post_type.php") {
-					$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
-					if ($post->post_type == $post_type && file_exists($path)) {
-						$template = $path;
-					}
-				}
-			}
-		}
-
 		return $template;
 	}
 

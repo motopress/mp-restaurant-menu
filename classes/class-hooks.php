@@ -10,6 +10,7 @@ use mp_restaurant_menu\classes\models\Payments;
 use mp_restaurant_menu\classes\models\Paypal;
 use mp_restaurant_menu\classes\models\Paypal_standart;
 use mp_restaurant_menu\classes\models\Purchase;
+use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\models\Test_Manual_payment;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
@@ -20,6 +21,7 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_Checkout;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_history;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
+use mp_timetable\plugin_core\classes\Core;
 
 /**
  * Class Hooks
@@ -41,6 +43,7 @@ class Hooks extends Core {
 	public static function install_hooks() {
 		add_action('init', array(self::get_instance(), 'init'), 0);
 		add_action('admin_init', array(self::get_instance(), 'admin_init'));
+		add_action('after_setup_theme', array(self::get_instance(), 'restaurant_menu_support'));
 		add_action('admin_menu', array(Media::get_instance(), 'admin_menu'));
 		// in load theme
 		add_action('wp_enqueue_scripts', array(Media::get_instance(), 'enqueue_scripts'));
@@ -72,7 +75,9 @@ class Hooks extends Core {
 		self::install_menu_items_actions();
 		self::install_category_grid_actions();
 		self::install_category_list_actions();
+
 		self::install_menu_item_actions();
+
 		self::install_category_actions();
 		self::install_tag_actions();
 		self::install_cart_actions();
@@ -480,6 +485,10 @@ class Hooks extends Core {
 	 * Install menu item actions
 	 */
 	public static function install_menu_item_actions() {
+		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
+		if($template_mode == 'theme'){
+
+		}
 		/**
 		 * output Wordpress standard them  wrapper
 		 */
@@ -774,6 +783,13 @@ class Hooks extends Core {
 	}
 
 	/**
+	 * Support
+	 */
+	public function restaurant_menu_support() {
+		add_theme_support('mp-restaurant-menu');
+	}
+
+	/**
 	 * Init hook
 	 */
 	public function init() {
@@ -799,12 +815,18 @@ class Hooks extends Core {
 		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
+
 		// Include template
-		add_filter('template_include', array(Media::get_instance(), 'template_include'));
+		add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
+//		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
+		add_action('loop_start', array(Media::get_instance(), 'single_template'));
+
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
+
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
+
 		// Shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
@@ -812,9 +834,11 @@ class Hooks extends Core {
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
+
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
 	}

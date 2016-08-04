@@ -183,7 +183,16 @@ function mprm_get_related_items() {
 		return $related_items;
 	}
 }
-
+/**
+* @return array
+ */
+function mprm_get_gallery(){
+	global $post;
+	if(empty($post)){
+		return array();
+	}
+	return Core::get_instance()->get('menu_item')->get_gallery($post->ID);
+}
 /**
  * @return string
  */
