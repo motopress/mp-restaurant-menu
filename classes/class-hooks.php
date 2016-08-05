@@ -21,7 +21,6 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_Checkout;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_history;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_Item;
 use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
-use mp_timetable\plugin_core\classes\Core;
 
 /**
  * Class Hooks
@@ -86,9 +85,14 @@ class Hooks extends Core {
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
 		Payments::get_instance()->init_action();
-		//Paypal::get_instance()->init_action();
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
+
+		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
+		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
+		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'is_theme_mode'), 10, 3);
+		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
+
 	}
 
 	/**
@@ -486,8 +490,12 @@ class Hooks extends Core {
 	 */
 	public static function install_menu_item_actions() {
 		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
-		if($template_mode == 'theme'){
-
+		if ($template_mode == 'theme') {
+			add_action('mprm_menu_item_single_theme_view', 'get_gallery_theme_view', 5);
+			add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
+			add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 15);
+			add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 20);
+			add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 25);
 		}
 		/**
 		 * output Wordpress standard them  wrapper

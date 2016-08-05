@@ -278,7 +278,34 @@ class Core {
 	}
 
 	/**
+	 *  Theme mode
+	 *
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	public function is_theme_mode($value) {
+		if (current_theme_supports('mprm-templates')) {
+			$value = 'plugin';
+		}
+		return $value;
+	}
+
+	/**
+	 * @param $params
+	 *
+	 * @return array
+	 */
+	public function available_theme_mode($params) {
+		if (current_theme_supports('mprm-templates')) {
+			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
+		}
+		return $params;
+	}
+
+	/**
 	 * Get data from config files
+	 *`
 	 *
 	 * @param $name
 	 *

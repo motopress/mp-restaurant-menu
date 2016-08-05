@@ -277,6 +277,7 @@ class Settings extends Model {
 	}
 
 	/**
+	 * Get instance
 	 * @return Settings
 	 */
 	public static function get_instance() {
@@ -794,6 +795,7 @@ class Settings extends Model {
 	}
 
 	/**
+	 *  Shop country
 	 * @return mixed|void
 	 */
 	public function get_shop_country() {

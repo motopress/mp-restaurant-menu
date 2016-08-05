@@ -228,7 +228,6 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-
 						'category_view' => array(
 							'id' => 'category_view',
 							'name' => __('Category Layout', 'mp-restaurant-menu'),
@@ -243,9 +242,10 @@ class Media extends Core {
 						'template_mode' => array(
 							'id' => 'template_mode',
 							'name' => __('Template Mode', 'mp-restaurant-menu'),
-							'options' => array(
-								'theme' => __('Theme', 'mp-restaurant-menu'),
-								'plugin' => __('Plugin', 'mp-restaurant-menu')
+							'options' => apply_filters('mprm_available_theme_mode',
+								array('theme' => __('Theme', 'mp-restaurant-menu'),
+									'plugin' => __('Plugin', 'mp-restaurant-menu')
+								)
 							),
 							'desc' => 'Choose a page template to control the appearance of your single event and column page.',
 							'type' => 'select',
@@ -1014,7 +1014,6 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_sections_general', array(
 				'main' => __('General', 'mp-restaurant-menu'),
 				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
-//				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateways', 'mp-restaurant-menu'),
@@ -1040,11 +1039,7 @@ class Media extends Core {
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
 				'main' => __('Button Text', 'mp-restaurant-menu'),
-//				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
-//				'button_text' => __('Button Text', 'mp-restaurant-menu'),
-//				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
-//				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
-				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
+				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu')
 			)),
 		);
 		$sections = apply_filters('mprm_settings_sections', $sections);
