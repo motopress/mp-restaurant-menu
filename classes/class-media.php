@@ -1348,8 +1348,6 @@ class Media extends Core {
 	/**
 	 * Single template
 	 *
-	 * @param $single_template
-	 *
 	 * @return mixed
 	 */
 	public function single_template($query) {
@@ -1358,16 +1356,21 @@ class Media extends Core {
 		if (is_embed()) {
 			return;
 		}
-
-//		if (!empty($post) && in_array($post->post_type, array_values($this->post_types))) {
-//			add_action('loop_start', array($this, 'setup_pseudo_template'));
-//		}
-
-		if (!empty($post) && in_array($post->post_type, array_values($this->post_types))) {
+		if (!empty($post) && in_array($post->post_type, array_values($this->post_types)) && $this->template_mode() == 'theme') {
 			add_filter('the_content', array($this, 'single_content'), 20, 2);
 		}
 
-//		return $single_template;
+	}
+
+	/**
+	 * @return mixed|string|void
+	 */
+	public function template_mode() {
+		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
+		if (current_theme_supports('mp-restaurant-menu')) {
+			return 'plugin';
+		}
+		return $template_mode;
 	}
 
 	/**
@@ -1413,20 +1416,8 @@ class Media extends Core {
 		if (is_embed()) {
 			return $template;
 		}
-		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
 
-		if ($template_mode == 'plugin') {
-			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
-				foreach ($this->taxonomy_names as $taxonomy_name) {
-					if (basename($template) != "taxonomy-$taxonomy_name.php") {
-						$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
-						if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
-							$template = $path;
-						}
-					}
-				}
-			}
-
+		if ($this->template_mode() == 'plugin') {
 			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
 				foreach ($this->post_types as $post_type) {
 					if (basename($template) != "single-$post_type.php") {
@@ -1434,6 +1425,17 @@ class Media extends Core {
 						if ($post->post_type == $post_type && file_exists($path)) {
 							$template = $path;
 						}
+					}
+				}
+			}
+		}
+		
+		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
+			foreach ($this->taxonomy_names as $taxonomy_name) {
+				if (basename($template) != "taxonomy-$taxonomy_name.php") {
+					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
+					if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
+						$template = $path;
 					}
 				}
 			}

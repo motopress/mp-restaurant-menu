@@ -1,4 +1,6 @@
 <?php
+use mp_restaurant_menu\classes\models;
+
 /**
  * Price template part
  */
@@ -75,3 +77,4 @@ function get_gallery_theme_view() {
 		echo gallery_shortcode($args);
 	}
 }
+

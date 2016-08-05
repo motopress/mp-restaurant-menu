@@ -284,8 +284,8 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function is_theme_mode($value) {
-		if (current_theme_supports('mprm-templates')) {
+	public function settings_template_mode($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'plugin';
 		}
 		return $value;
@@ -297,7 +297,7 @@ class Core {
 	 * @return array
 	 */
 	public function available_theme_mode($params) {
-		if (current_theme_supports('mprm-templates')) {
+		if (current_theme_supports('mp-restaurant-menu')) {
 			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
 		}
 		return $params;

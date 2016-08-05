@@ -10,7 +10,6 @@ use mp_restaurant_menu\classes\models\Payments;
 use mp_restaurant_menu\classes\models\Paypal;
 use mp_restaurant_menu\classes\models\Paypal_standart;
 use mp_restaurant_menu\classes\models\Purchase;
-use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\models\Test_Manual_payment;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
@@ -42,7 +41,6 @@ class Hooks extends Core {
 	public static function install_hooks() {
 		add_action('init', array(self::get_instance(), 'init'), 0);
 		add_action('admin_init', array(self::get_instance(), 'admin_init'));
-		add_action('after_setup_theme', array(self::get_instance(), 'restaurant_menu_support'));
 		add_action('admin_menu', array(Media::get_instance(), 'admin_menu'));
 		// in load theme
 		add_action('wp_enqueue_scripts', array(Media::get_instance(), 'enqueue_scripts'));
@@ -90,9 +88,8 @@ class Hooks extends Core {
 
 		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
-		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'is_theme_mode'), 10, 3);
+		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'settings_template_mode'), 10, 3);
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
-
 	}
 
 	/**
@@ -489,14 +486,15 @@ class Hooks extends Core {
 	 * Install menu item actions
 	 */
 	public static function install_menu_item_actions() {
-		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
-		if ($template_mode == 'theme') {
-			add_action('mprm_menu_item_single_theme_view', 'get_gallery_theme_view', 5);
-			add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
-			add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 15);
-			add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 20);
-			add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 25);
-		}
+
+		add_action('mprm_menu_item_single_theme_view', 'get_gallery_theme_view', 5);
+
+		add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
+		add_action('mprm_menu_item_single_theme_view', 'mprm_get_purchase_template', 15);
+		add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 20);
+		add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 25);
+		add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 30);
+
 		/**
 		 * output Wordpress standard them  wrapper
 		 */
@@ -788,13 +786,6 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
-	}
-
-	/**
-	 * Support
-	 */
-	public function restaurant_menu_support() {
-		add_theme_support('mp-restaurant-menu');
 	}
 
 	/**
