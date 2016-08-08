@@ -1428,18 +1428,19 @@ class Media extends Core {
 					}
 				}
 			}
-		}
-		
-		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
-			foreach ($this->taxonomy_names as $taxonomy_name) {
-				if (basename($template) != "taxonomy-$taxonomy_name.php") {
-					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
-					if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
-						$template = $path;
+			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
+				foreach ($this->taxonomy_names as $taxonomy_name) {
+					if (basename($template) != "taxonomy-$taxonomy_name.php") {
+						$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
+						if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
+							$template = $path;
+						}
 					}
 				}
 			}
 		}
+
+
 		return $template;
 	}
 

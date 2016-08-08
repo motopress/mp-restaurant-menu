@@ -86,10 +86,7 @@ class Hooks extends Core {
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
 
-		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
-		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
-		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'settings_template_mode'), 10, 3);
-		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
+
 	}
 
 	/**
@@ -840,6 +837,12 @@ class Hooks extends Core {
 
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
+
+		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
+		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
+
+		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'settings_template_mode'), 10, 3);
+		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
 	}
 
 	/**
@@ -859,7 +862,6 @@ class Hooks extends Core {
 		add_filter('get_search_query', array($this, 'mprm_order_search_label'));
 		add_filter('query_vars', array($this, 'add_custom_query_var'));
 		add_action('parse_query', array($this, 'mprm_search_custom_fields'));
-
 
 		add_action('admin_head', array($this, 'edit_screen_title'));
 

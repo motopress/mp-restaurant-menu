@@ -257,7 +257,7 @@ class Menu_category extends Term {
 	public function create_custom_category_list($thelist = '', $separator = '', $parents = '') {
 		global $post, $wp_rewrite;
 
-		if ($post->post_type === $this->post_types['menu_item'] && !is_admin()) {
+		if (!empty($post) && $post->post_type === $this->post_types['menu_item'] && !is_admin()) {
 			$thelist = '';
 
 			$rel = (is_object($wp_rewrite) && $wp_rewrite->using_permalinks()) ? 'rel="category tag"' : 'rel="category"';

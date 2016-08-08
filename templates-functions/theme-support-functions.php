@@ -1,5 +1,4 @@
 <?php
-use mp_restaurant_menu\classes\models;
 
 /**
  * Price template part
@@ -50,20 +49,21 @@ function get_nutritional_theme_view() {
 function get_related_items_theme_view() {
 	$related_items = mprm_get_related_items();
 	if (!empty($related_items)) { ?>
-		<h3 class=" "><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
-		<ul>
-			<?php foreach ($related_items as $related_item) { ?>
-				<li>
-					<a href="<?php echo get_permalink($related_item) ?>">
-						<?php if (has_post_thumbnail($related_item)):
-							echo get_the_post_thumbnail($related_item, apply_filters('mprm-related-item-image-size', 'thumbnail'));
-						endif; ?>
-						<p><?php echo get_the_title($related_item) ?></p>
-					</a>
-				</li>
-			<?php } ?>
-		</ul>
-
+		<div class="mprm-related-items">
+			<h3 class=" "><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
+			<ul >
+				<?php foreach ($related_items as $related_item) { ?>
+					<li>
+						<a href="<?php echo get_permalink($related_item) ?>">
+							<?php if (has_post_thumbnail($related_item)):
+								echo get_the_post_thumbnail($related_item, apply_filters('mprm-related-item-image-size', 'thumbnail'));
+							endif; ?>
+							<span><?php echo get_the_title($related_item) ?></span>
+						</a>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
 	<?php }
 }
 
