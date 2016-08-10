@@ -405,6 +405,10 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-row .mprm-columns:first-child.type-mp_menu_item {
   padding-right: 0.5em;
 }
+.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
   list-style: none;
   width: 100%;
@@ -655,6 +659,10 @@ there.
 .mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-header.only-text {
   padding: 0 0 1rem;
 }
+.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
   margin: 0 0 1em 0;
   list-style: none;
@@ -732,6 +740,9 @@ there.
 .widget-area .mprm-side.mprm-left-side {
   width: 40%;
   margin-right: 1em;
+}
+.widget-area .mprm-side.mprm-left-side img {
+  height: auto;
 }
 .mprm-related-items ul {
   list-style-type: none;
@@ -1493,6 +1504,11 @@ there.
 .mprm-main-wrapper .mprm-list,
 .mprm-container .mprm-list {
   list-style: outside none none;
+}
+.mprm-main-wrapper .mprm-list.mprm-flex-container-simple-view,
+.mprm-container .mprm-list.mprm-flex-container-simple-view {
+  margin: 0;
+  padding: 0;
 }
 .mprm-main-wrapper .mprm-list li,
 .mprm-container .mprm-list li {
