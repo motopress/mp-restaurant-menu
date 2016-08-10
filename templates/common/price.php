@@ -4,5 +4,5 @@ if (empty($price)) {
 }
 if (!empty($price)) :
 	$price = mprm_currency_filter(mprm_format_amount($price)); ?>
-	<span class="mprm-price"><?php echo $price ?></span>
+	<p><span class="mprm-price"><?php echo $price ?></span></p>
 <?php endif;

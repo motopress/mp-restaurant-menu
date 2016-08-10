@@ -1,179 +1,3 @@
-/**
- * Twenty Fourteen specific styles
- */
-.twentyfourteen .tfmp {
-  padding: 12px 10px 0;
-  max-width: 474px;
-  margin: 0 auto;
-}
-.twentyfourteen .tfmp .product .entry-summary {
-  padding: 0 !important;
-  margin: 0 0 1.618em !important;
-}
-.twentyfourteen .tfmp div.product.hentry.has-post-thumbnail {
-  margin-top: 0;
-}
-.twentyfourteen .tfmp .product .images img {
-  margin-bottom: 1em;
-}
-.twentyeleven .mprm-container .mprm-item-image img {
-  width: 100%;
-}
-.twentyeleven .mp-menu-item .mprm-sidebar .mprm-title,
-.twentyeleven .mp-menu-item .mprm-sidebar .mprm-price {
-  font-size: 1.2rem;
-}
-.twentyeleven .mprm-link {
-  text-decoration: none;
-}
-.twentyeleven .mprm-header-content .mprm-header-title {
-  font-size: 1.5rem;
-}
-.twentyeleven .mprm-header-content .mprm-title {
-  font-size: 1.5rem;
-}
-.twentyeleven .mprm-item-title {
-  font-size: 1.2rem;
-}
-.twentyeleven .mprm-category-content .mprm-title {
-  font-size: 1.5rem;
-}
-.twentyeleven .mprm-header .mprm-title {
-  font-size: 1.5rem;
-}
-.mprm-shortcode-items.twentyeleven .mprm-proportions .mprm-title,
-.mprm-shortcode-items.twentyeleven .mprm-ingredients .mprm-title,
-.mprm-shortcode-items.twentyeleven .mprm-nutrition .mprm-title {
-  font-size: 0.8rem;
-  line-height: 1.6;
-}
-.mprm-shortcode-items.twentyeleven .mprm-title {
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-.twentytwelve .mprm-header-content .mprm-header-title {
-  font-size: 1.5rem;
-}
-.twentytwelve .mprm-header-content .mprm-title {
-  font-size: 1.5rem;
-}
-.twentytwelve ul {
-  list-style: disc outside;
-}
-.twentythirteen h1 {
-  margin: 0;
-}
-.twentythirteen ul {
-  padding: 0;
-}
-.twentythirteen .mprm-main-wrapper {
-  padding: 40px 0;
-}
-.twentythirteen #comments h3#reply-title {
-  padding: 0 30px;
-}
-.twentythirteen #comments form#commentform {
-  padding: 30px;
-}
-@media screen and (min-width: 673px) {
-  .twentyfourteen .tfmp {
-    padding-right: 30px;
-    padding-left: 30px;
-  }
-}
-@media screen and (min-width: 1040px) {
-  .twentyfourteen .tfmp {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-}
-@media screen and (min-width: 1110px) {
-  .twentyfourteen .tfmp {
-    padding-right: 30px;
-    padding-left: 30px;
-  }
-}
-@media screen and (min-width: 1218px) {
-  .twentyfourteen .tfmp {
-    margin-right: 54px;
-  }
-  .full-width .twentyfourteen .tfmp {
-    margin-right: auto;
-  }
-}
-/**
- * Twenty Fifteen specific styles
- */
-.twentyfifteen .t15mp {
-  padding-left: 7.6923%;
-  padding-right: 7.6923%;
-  padding-top: 7.6923%;
-  margin-bottom: 7.6923%;
-  background: #fff;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
-}
-.twentyfifteen .t15mp .page-title {
-  margin-left: 0;
-}
-.twentyfifteen.mprm-widget-items .mprm-header .mprm-title {
-  font-size: 3rem;
-}
-.twentyfifteen .mprm-header-content .mprm-title,
-.twentyfifteen .mprm-header-content .mprm-header-title {
-  font-size: 3rem;
-}
-@media screen and (min-width: 38.75em) {
-  .twentyfifteen .t15mp {
-    margin-right: 7.6923%;
-    margin-left: 7.6923%;
-    margin-top: 8.3333%;
-  }
-}
-@media screen and (min-width: 59.6875em) {
-  .twentyfifteen .t15mp {
-    margin-left: 8.3333%;
-    margin-right: 8.3333%;
-    padding: 10%;
-  }
-  .single-product .twentyfifteen .entry-summary {
-    padding: 0 !important;
-  }
-}
-/**
- * Twenty Sixteen specific styles
- */
-.twentysixteen .site-main {
-  margin-right: 7.6923%;
-  margin-left: 7.6923%;
-}
-.twentysixteen.content-area {
-  float: none;
-  margin: 0;
-  width: 100%;
-}
-.twentysixteen .entry-summary {
-  margin-right: 0;
-  margin-left: 0;
-}
-@media screen and (min-width: 44.375em) {
-  .twentysixteen .site-main {
-    margin-right: 7.6923%;
-  }
-}
-@media screen and (min-width: 56.875em) {
-  .twentysixteen .site-main {
-    margin-right: 0;
-    margin-left: 0;
-  }
-  .no-sidebar .twentysixteen .site-main {
-    margin-right: 15%;
-    margin-left: 15%;
-  }
-  .no-sidebar .twentysixteen .entry-summary {
-    margin-right: 0;
-    margin-left: 0;
-  }
-}
 /*
 * Skeleton V2.0.4
 * Copyright 2014, Dave Gamache
@@ -492,17 +316,6 @@ there.
 .mprm-container.mprm-shortcode-items .mprm-link {
   outline: none;
 }
-.mprm-container.mprm-shortcode-items .mprm-title,
-.mprm-container.mprm-shortcode-items .mprm-ingredients,
-.mprm-container.mprm-shortcode-items .mprm-proportions,
-.mprm-container.mprm-shortcode-items .mprm-tags,
-.mprm-container.mprm-shortcode-items .mprm-excerpt,
-.mprm-container.mprm-shortcode-items .mprm_menu_item_buy_button {
-  margin-bottom: 1rem;
-}
-.mprm-container.mprm-shortcode-items .mprm_menu_item_buy_button {
-  margin-top: 1rem;
-}
 .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-header {
   position: relative;
   width: 100%;
@@ -528,57 +341,9 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-header.only-text {
   padding: 0 0 2rem;
 }
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-header.only-text .mprm-title {
-  margin: 0;
-}
 .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-image {
   height: auto;
   width: 100%;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-title {
-  margin: 1rem 0;
-  padding: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-excerpt {
-  line-height: 1.1;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-price {
-  font-weight: bold;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header {
   position: relative;
@@ -605,9 +370,6 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header.only-text {
   padding: 0 0 2rem;
 }
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header.only-text .mprm-title {
-  margin: 0;
-}
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-side.mprm-left-side {
   float: left;
 }
@@ -617,51 +379,6 @@ there.
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-image {
   margin: 0 2rem 2rem 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-title {
-  margin: 0 0 1rem 0;
-  padding: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-excerpt {
-  line-height: 1.1;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-list .mprm-price {
-  font-weight: bold;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-header {
   position: relative;
@@ -685,15 +402,10 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-header.only-text {
   padding: 0 0 1rem;
 }
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-header.only-text .mprm-title {
-  margin: 0;
-}
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-row .mprm-columns:first-child.type-mp_menu_item {
   padding-right: 0.5em;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
-  padding: 0;
-  margin: 0;
   list-style: none;
   width: 100%;
   display: -webkit-box;
@@ -706,10 +418,6 @@ there.
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item {
   margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item .mprm-title {
-  margin: 0;
-  padding: 0;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item.mprm-dots {
   border-bottom: 1px dotted #e0e0e0;
@@ -762,45 +470,7 @@ there.
     display: none;
   }
 }
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0 0 1em 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
 /* =============== Widget style start ========*/
-.mprm-container .mprm_menu_item_buy_button {
-  margin-top: 1rem;
-}
 .mprm-container.mprm-widget-categories {
   margin: 0;
 }
@@ -925,61 +595,6 @@ there.
 .mprm-container.mprm-widget-items.mprm-view-grid .mprm-link {
   outline: none;
 }
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-title {
-  margin: 0;
-  padding: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-excerpt {
-  line-height: 1.1;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-price {
-  font-weight: bold;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-title,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-ingredients,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-proportions,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-tags,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-excerpt,
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm_menu_item_buy_button {
-  margin-bottom: 1rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-grid .mprm-title {
-  margin-top: 0.5rem;
-}
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-header {
   position: relative;
   width: 100%;
@@ -1018,58 +633,6 @@ there.
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-link {
   outline: none;
 }
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-title {
-  margin: 0;
-  padding: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.5rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-excerpt {
-  line-height: 1.1;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-price {
-  font-weight: bold;
-}
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-title,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-ingredients,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-proportions,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-tags,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-excerpt,
-.mprm-container.mprm-widget-items.mprm-view-list .mprm_menu_item_buy_button {
-  margin-bottom: 1rem;
-}
 .mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-header {
   position: relative;
   width: 100%;
@@ -1092,20 +655,8 @@ there.
 .mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-header.only-text {
   padding: 0 0 1rem;
 }
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-header.only-text .mprm-title {
-  margin-bottom: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-title,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-proportions,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-tags,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-excerpt,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm_menu_item_buy_button {
-  margin-bottom: 1rem;
-}
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
   margin: 0 0 1em 0;
-  padding: 0;
   list-style: none;
   width: 100%;
   display: -webkit-box;
@@ -1175,46 +726,19 @@ there.
     display: none;
   }
 }
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
+.widget-area .mprm_widget > :first-child {
+  margin-bottom: 2em;
 }
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-  margin: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-proportions .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.2;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-proportions .mprm-list .mprm-proportion {
-  font-style: italic;
-  margin: 0;
-}
-.mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
+.widget-area .mprm-side.mprm-left-side {
+  width: 40%;
+  margin-right: 1em;
 }
 .mprm-related-items ul {
   list-style-type: none;
 }
 .mprm-related-items ul li {
   margin-bottom: 10px;
+  display: inline-block;
 }
 .mprm-main-wrapper.mp_menu_item .mprm-post-content {
   margin-bottom: 2rem;
@@ -1306,7 +830,6 @@ there.
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-price-box,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-proportions,
-.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm_menu_item_buy_button,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-nutrition,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items {
@@ -1324,9 +847,6 @@ there.
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients .mprm-ingredients-delimiter {
   display: none;
-}
-.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items .mprm-title {
-  margin: 0 0 1rem;
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items .mprm-related-items-list {
   list-style: outside none none;
@@ -1399,7 +919,6 @@ there.
 }
 .mprm-main-wrapper .mprm-header.with-image .mprm-header-content .mprm-title .mprm-icon {
   margin: 0 1rem 0 0;
-  font-size: 1.2em;
 }
 .mprm-main-wrapper .mprm-header.only-text {
   padding: 0 0 2rem;
@@ -1426,36 +945,16 @@ there.
   outline: none;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-item-title,
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients,
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-tags {
+.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients {
   margin-bottom: 0.5rem;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8em;
-  line-height: 1.1;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredient,
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
   float: left;
   margin: 0;
 }
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
   display: none;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-price {
-  font-weight: bold;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-image {
   margin: 0 2rem 2rem 0;
@@ -1484,39 +983,11 @@ there.
   outline: none;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-item-title,
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients,
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-tags {
+.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients {
   margin-bottom: 0.5rem;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-item-title > a {
   outline: none;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients .mprm-list {
-  list-style: outside none none;
-  margin: 0;
-  padding: 0;
-  font-size: 80%;
-  line-height: 1.1;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients .mprm-list .mprm-ingredient,
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
-  margin: 0;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  margin: 0 0.25rem;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-tags .mprm-tag {
-  font-size: 0.75em;
-  line-height: 1;
-  border: 1px solid #606060;
-  padding: 0 0.5rem;
-}
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-price {
-  font-weight: bold;
 }
 /*Buy button color*/
 .mprm-submit.plain {
@@ -2005,4 +1476,54 @@ there.
 }
 .mprm-container .mprm-row {
   padding-bottom: 4%;
+}
+.mprm-container .mprm-row .hentry {
+  margin: 0;
+  padding: 0;
+}
+.type-mp_menu_item h2.mprm-title,
+.mprm-main-wrapper h2.mprm-title,
+.mprm-container h2.mprm-title,
+.type-mp_menu_item h3.mprm-title,
+.mprm-main-wrapper h3.mprm-title,
+.mprm-container h3.mprm-title {
+  margin: 0;
+  padding: 0;
+}
+.mprm-main-wrapper .mprm-list,
+.mprm-container .mprm-list {
+  list-style: outside none none;
+}
+.mprm-main-wrapper .mprm-list li,
+.mprm-container .mprm-list li {
+  display: inline-block;
+}
+.mprm-main-wrapper .mprm-list .mprm-ingredient,
+.mprm-container .mprm-list .mprm-ingredient {
+  margin: 0;
+}
+.mprm-main-wrapper .mprm-list .mprm-proportion,
+.mprm-container .mprm-list .mprm-proportion {
+  display: list-item;
+  font-style: italic;
+  margin: 0;
+}
+.mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter,
+.mprm-container .mprm-list .mprm-ingredients-delimiter {
+  margin: 0;
+}
+.mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter:last-child,
+.mprm-container .mprm-list .mprm-ingredients-delimiter:last-child {
+  display: none;
+}
+.mprm-main-wrapper .mprm-price,
+.mprm-container .mprm-price {
+  font-weight: bold;
+}
+.mprm-main-wrapper .mprm-tags .mprm-tag,
+.mprm-container .mprm-tags .mprm-tag {
+  border: 1px solid #606060;
+  padding: 0 0.5em;
+  display: inline-block;
+  margin-top: 0.5em;
 }

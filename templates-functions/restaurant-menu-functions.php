@@ -91,7 +91,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 //			$classes[] = 'mp_menu_item-tag-' . $value->slug;
 //		}
 //	}
-	if(classes\Media::get_instance()->template_mode() == 'plugin'){
+	if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
 		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
 			if (false !== ($key = array_search('hentry', $classes))) {
 				unset($classes[$key]);
@@ -99,6 +99,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 		}
 	}
 	$classes[] = 'mp-menu-item';
+	$classes[] = 'type-post';
 	return $classes;
 }
 
@@ -879,12 +880,12 @@ function mprm_menu_items_header() {
 				<?php if (!empty($icon)): ?>
 					<i class="<?php echo $icon ?> mprm-icon"></i>
 				<?php endif; ?>
-				<h2><?php echo $title ?></h2>
+				<h2 class="mprm-title"><?php echo $title ?></h2>
 			</div>
 		<?php } else { ?>
-			<div class="mprm-header only-text">
-				<h2><?php echo $title ?></h2>
-			</div>
+<!--			<div class="mprm-header only-text">-->
+				<h2 class="mprm-title"><p><?php echo $title ?></p></h2>
+<!--			</div>-->
 			<?php
 		}
 	}
@@ -1148,7 +1149,7 @@ function mprm_category_menu_item_after_content(){
 function mprm_menu_item_grid_image() {
 	$post_options = mprm_get_menu_item_options();
 	if (mprm_get_feat_image() && !empty($post_options['image'])) {
-		echo $post_options['image'];
+		echo '<p>'.$post_options['image'].'</p>';
 	}
 }
 
@@ -1266,7 +1267,7 @@ function mprm_before_menu_item_header() {
  * Shortcode header
  */
 function mprm_menu_item_header() { ?>
-	<h1 class="mprm-header-title"><?php the_title() ?></h1>
+	<h2 class="mprm-title"><?php the_title() ?></h2>
 	<?php
 	if (apply_filters('mprm-item-breadcrumbs', true)) {
 		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => __('Home', 'mp-restaurant-menu')));

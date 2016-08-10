@@ -1,8 +1,7 @@
 <div class="wrap mprm-settings">
 	<form method="<?php echo esc_attr(apply_filters('mprm_settings_form_method_tab_' . urlencode($active_tab), 'post')); ?>" id="mainform" action="options.php" enctype="multipart/form-data">
 		<h2 class="nav-tab-wrapper mprm-nav-tab-wrapper">
-			<?php
-			foreach ($settings_tabs as $tab_id => $tab_name) {
+			<?php foreach ($settings_tabs as $tab_id => $tab_name) {
 				$tab_url = add_query_arg(array(
 					'settings-updated' => false,
 					'tab' => $tab_id,

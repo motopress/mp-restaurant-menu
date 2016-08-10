@@ -16,7 +16,7 @@ function get_price_theme_view() {
 function get_ingredients_theme_view() {
 	$ingredients = mprm_get_ingredients();
 	if (!empty($ingredients)) { ?>
-		<h3 class=" "><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+		<h3 class="mprm-title"><p><?php _e('Ingredients', 'mp-restaurant-menu'); ?></p></h3>
 		<ul>
 			<?php foreach ($ingredients as $ingredient) { ?>
 				<li>
@@ -34,7 +34,7 @@ function get_nutritional_theme_view() {
 	$nutritional = mprm_get_nutritional();
 
 	if (!empty($nutritional)) { ?>
-		<h3 class=" "><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+		<h3 class="mprm-title"><p><?php _e('Nutritional', 'mp-restaurant-menu'); ?></p></h3>
 		<ul>
 			<?php foreach ($nutritional as $nutrition) { ?>
 				<li> <?php echo $nutrition['title'] . ': ' . $nutrition['val'] ?></li>
@@ -51,7 +51,7 @@ function get_related_items_theme_view() {
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
 			<h3 class=" "><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
-			<ul >
+			<ul>
 				<?php foreach ($related_items as $related_item) { ?>
 					<li>
 						<a href="<?php echo get_permalink($related_item) ?>">

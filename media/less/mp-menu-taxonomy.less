@@ -23,7 +23,6 @@
 		  color: inherit;
 		  .mprm-icon {
 			margin: 0 1rem 0 0;
-			font-size: 1.2em;
 		  }
 		}
 	  }
@@ -59,23 +58,17 @@
 		  outline: none;
 		}
 	  }
-	  .mprm-item-title, .mprm-ingredients, .mprm-tags {
+	  .mprm-item-title, .mprm-ingredients {
 		margin-bottom: 0.5rem;
 	  }
 
 	  .mprm-ingredients {
 		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 0.8em;
-		  line-height: 1.1;
 		  .mprm-ingredient, .mprm-ingredients-delimiter {
 			float: left;
 			margin: 0;
 		  }
 		  .mprm-ingredients-delimiter {
-			margin: 0 0.25rem;
 			&:last-child {
 			  display: none;
 			}
@@ -83,18 +76,6 @@
 		}
 	  }
 
-	  .mprm-tags {
-		.mprm-tag {
-		  font-size: 0.75em;
-		  line-height: 1;
-		  border: 1px solid #606060;
-		  padding: 0 0.5rem;
-		}
-	  }
-
-	  .mprm-price {
-		font-weight: bold;
-	  }
 	}
   }
 
@@ -117,11 +98,9 @@
 		  }
 		}
 	  }
-
 	  .mprm-content {
 		overflow: hidden;
 		min-width: 1rem;
-
 		.mprm-item-title {
 		  margin: 0;
 		  padding: 0;
@@ -129,46 +108,11 @@
 			outline: none;
 		  }
 		}
-
-		.mprm-item-title, .mprm-ingredients, .mprm-tags {
+		.mprm-item-title, .mprm-ingredients {
 		  margin-bottom: 0.5rem;
 		}
-
 		.mprm-item-title > a {
 		  outline: none;
-		}
-
-		.mprm-ingredients {
-		  .mprm-list {
-			list-style: outside none none;
-			margin: 0;
-			padding: 0;
-			font-size: 80%;
-			line-height: 1.1;
-			.mprm-ingredient, .mprm-ingredients-delimiter {
-			  float: left;
-			  margin: 0;
-			}
-			.mprm-ingredients-delimiter {
-			  margin: 0 0.25rem;
-			  &:last-child {
-				display: none;
-			  }
-			}
-		  }
-		}
-
-		.mprm-tags {
-		  .mprm-tag {
-			font-size: 0.75em;
-			line-height: 1;
-			border: 1px solid #606060;
-			padding: 0 0.5rem;
-		  }
-		}
-
-		.mprm-price {
-		  font-weight: bold;
 		}
 	  }
 	}

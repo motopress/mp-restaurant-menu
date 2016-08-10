@@ -1517,20 +1517,6 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 				});
 			},
 			/**
-			 * Is mew img
-			 *
-			 * @param {type} id
-			 * @returns {Boolean}
-			 */
-			isNewImg: function(order) {
-				var image = $('.mp_menu_images li.mprm-image[data-key="' + order + '"]');
-				if (parseInt(image.attr('new_image'))) {
-					return true;
-				} else {
-					return false;
-				}
-			},
-			/**
 			 * Open add media frame
 			 *
 			 * @returns {Boolean}
@@ -1784,7 +1770,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
- 				$('.type-mp_menu_item .gallery-item').magnificPopup({
+				$('.type-mp_menu_item .gallery-item').magnificPopup({
 					delegate: 'a',
 					type: 'image',
 					tLoading: 'Loading image #%curr%...',
