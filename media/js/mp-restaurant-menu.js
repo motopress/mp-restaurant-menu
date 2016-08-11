@@ -1770,7 +1770,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
-				$('.type-mp_menu_item .gallery-item').magnificPopup({
+				$('.type-mp_menu_item .gallery-item,.type-mp_menu_item .mprm-item-gallery').magnificPopup({
 					delegate: 'a',
 					type: 'image',
 					tLoading: 'Loading image #%curr%...',
@@ -1882,7 +1882,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ($('.mprm-widget-view').length) {
 			MP_RM_Registry._get("Theme").customizeWidget();
 		}
-		if ($('.gallery-item').length) {
+		if ($('.gallery-item').length || $('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();
 		}
 	});

@@ -814,8 +814,8 @@ class Hooks extends Core {
 
 		// Include template
 		add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
-//		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
-		add_action('loop_start', array(Media::get_instance(), 'single_template'));
+		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
+//		add_action('loop_start', array(Media::get_instance(), 'single_template'));
 
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);

@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <?php mprm_get_taxonomy(); ?>
 <?php do_action('mprm_tag_before_wrapper'); ?>
-<div <?php post_class(apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
+<div <?php post_class('mprm-remove-hentry '.apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
 	<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-tag-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-tag') ?> ">
 		<?php
 		/**
@@ -47,7 +47,7 @@
 			<?php foreach (mprm_get_menu_items_by_term() as $term => $data) {
 				foreach ($data['posts'] as $key => $post):?>
 					<?php setup_postdata($post); ?>
-					<div <?php post_class('mprm-row') ?>>
+					<div <?php post_class('mprm-remove-hentry '.'mprm-row') ?>>
 						<?php
 						do_action('mprm_before_taxonomy_list');
 						do_action('mprm_taxonomy_list');

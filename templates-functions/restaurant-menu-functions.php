@@ -77,29 +77,24 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
-	//$menu_item = get_post($post_id);
-//	$categories = get_the_terms( $menu_item->ID, 'mp_menu_category' );
-//	if ( ! empty( $categories ) ) {
-//		foreach ( $categories as $key => $value ) {
-//			$classes[] = 'mp_menu_item-cat-' . $value->slug;
-//		}
-//	}
-	// add tag slugs
-//	$tags = get_the_terms( $menu_item->ID, 'mp_menu_tag' );
-//	if ( ! empty( $tags ) ) {
-//		foreach ( $tags as $key => $value ) {
-//			$classes[] = 'mp_menu_item-tag-' . $value->slug;
-//		}
-//	}
-	if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
+
+
+    if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
 		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
 			if (false !== ($key = array_search('hentry', $classes))) {
 				unset($classes[$key]);
 			}
 		}
-	}
+		}
+		if ( in_array('mprm-remove-hentry',$classes)) {
+			if (false !== ($key = array_search('hentry', $classes))) {
+				unset($classes[$key]);
+			}
+		}
+
 	$classes[] = 'mp-menu-item';
 	$classes[] = 'type-post';
+
 	return $classes;
 }
 
@@ -722,7 +717,7 @@ function mprm_before_taxonomy_grid() { ?>
  */
 function mprm_single_category_grid_header() {
 	?>
-	<div <?php post_class('mprm-four mprm-columns') ?>>
+	<div <?php post_class('mprm-remove-hentry '.'mprm-four mprm-columns') ?>>
 	<?php
 }
 
@@ -917,7 +912,7 @@ function mprm_menu_item_list_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		?>
-		<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php
 	}
 }
@@ -929,10 +924,10 @@ function mprm_menu_item_simple_list_header() {
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		 if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
 			?>
-			<div <?php post_class(); ?> >
+			<div <?php post_class('mprm-remove-hentry '); ?> >
 			<?php
 		}else{?>
-			<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+			<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php }
 	}
 }
@@ -1111,7 +1106,7 @@ function mprm_menu_item_grid_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		?>
-		<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php
 	}
 }

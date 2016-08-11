@@ -740,22 +740,12 @@ there.
     display: none;
   }
 }
-.widget-area .mprm_widget > :first-child {
-  margin-bottom: 2em;
-}
-.widget-area .mprm-side.mprm-left-side {
+.mprm_widget .mprm-side.mprm-left-side {
   width: 40%;
   margin-right: 1em;
 }
-.widget-area .mprm-side.mprm-left-side img {
+.mprm_widget .mprm-side.mprm-left-side img {
   height: auto;
-}
-.mprm-related-items ul {
-  list-style-type: none;
-}
-.mprm-related-items ul li {
-  margin-bottom: 10px;
-  display: inline-block;
 }
 .mprm-main-wrapper.mp_menu_item .mprm-post-content {
   margin-bottom: 2rem;
@@ -845,8 +835,16 @@ there.
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar {
   box-sizing: border-box;
 }
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list {
+  list-style: inherit;
+}
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list .mprm-ingredient,
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list .mprm-ingredients-delimiter {
+  display: list-item;
+}
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-price-box,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-proportions,
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm_menu_item_buy_button,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-nutrition,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items {
@@ -864,6 +862,9 @@ there.
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients .mprm-ingredients-delimiter {
   display: none;
+}
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items .mprm-title {
+  margin: 0 0 1rem;
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items .mprm-related-items-list {
   list-style: outside none none;
@@ -967,7 +968,6 @@ there.
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredient,
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter {
-  float: left;
   margin: 0;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
@@ -1498,6 +1498,9 @@ there.
   margin: 0;
   padding: 0;
 }
+.type-mp_menu_item.hentry .mprm-related-items span {
+  display: inline-block;
+}
 .mprm-main-wrapper .mprm-list,
 .mprm-container .mprm-list {
   list-style: outside none none;
@@ -1507,13 +1510,16 @@ there.
   margin: 0;
   padding: 0;
 }
-.mprm-main-wrapper .mprm-list li,
-.mprm-container .mprm-list li {
+.mprm-main-wrapper .mprm-list li.mprm-tag,
+.mprm-container .mprm-list li.mprm-tag {
   display: inline-block;
 }
 .mprm-main-wrapper .mprm-list .mprm-ingredient,
-.mprm-container .mprm-list .mprm-ingredient {
+.mprm-container .mprm-list .mprm-ingredient,
+.mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter,
+.mprm-container .mprm-list .mprm-ingredients-delimiter {
   margin: 0;
+  display: inline-block;
 }
 .mprm-main-wrapper .mprm-list .mprm-proportion,
 .mprm-container .mprm-list .mprm-proportion {

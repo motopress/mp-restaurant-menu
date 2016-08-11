@@ -1,14 +1,5 @@
-.mprm-related-items {
-  ul {
-	list-style-type: none;
-	li {
-	  margin-bottom: 10px;
-	  display: inline-block;
-	}
-  }
-}
-
 .mprm-main-wrapper.mp_menu_item {
+
   .mprm-post-content {
 	margin-bottom: 2rem;
 	*zoom: 1;
@@ -109,8 +100,13 @@
 
 	.mprm-sidebar {
 	  box-sizing: border-box;
-
-	  .mprm-price-box, .mprm-proportions,  .mprm-ingredients, .mprm-nutrition, .mprm-related-items {
+	  .mprm-list {
+		list-style: inherit;
+		.mprm-ingredient, .mprm-ingredients-delimiter {
+		  display: list-item;
+		}
+	  }
+	  .mprm-price-box, .mprm-proportions, .mprm_menu_item_buy_button, .mprm-ingredients, .mprm-nutrition, .mprm-related-items {
 		margin-bottom: 2rem;
 	  }
 
@@ -130,10 +126,9 @@
 	  }
 
 	  .mprm-related-items {
-
-		//.mprm-title {
-		//  margin: 0 0 1rem;
-		//}
+		.mprm-title {
+		  margin: 0 0 1rem;
+		}
 		.mprm-related-items-list {
 		  list-style: outside none none;
 		  margin: 0;

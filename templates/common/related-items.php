@@ -5,13 +5,13 @@ if (!empty($related_items)) {
 	<div class="mprm-related-items">
 		<h2 class="mprm-title"><?php _e('You might also like', 'mp-restaurant-menu') ?></h2>
 		<ul class="mprm-related-items-list">
-			<?php foreach ($related_items as $post): ?>
+			<?php foreach ($related_items as $related_item): ?>
 				<li class="mprm-related-item">
-					<a href="<?php echo get_permalink($post) ?>">
-						<?php if (has_post_thumbnail($post)):
-							echo get_the_post_thumbnail($post, apply_filters('mprm-related-item-image-size', 'mprm-middle'));
+					<a href="<?php echo get_permalink($related_item) ?>" title="<?php echo get_the_title($related_item) ?>">
+						<?php if (has_post_thumbnail($related_item)):
+							echo get_the_post_thumbnail($related_item, apply_filters('mprm-related-item-image-size', 'mprm-middle'));
 						endif; ?>
-						<p class="mprm-related-title"><?php echo get_the_title($post) ?></p>
+						<p class="mprm-related-title"><?php echo get_the_title($related_item) ?></p>
 					</a>
 				</li>
 			<?php endforeach; ?>

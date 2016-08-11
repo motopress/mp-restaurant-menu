@@ -51,10 +51,10 @@ function get_related_items_theme_view() {
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
 			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
-			<ul>
+			<p>
 				<?php foreach ($related_items as $related_item) { ?>
-					<li>
-						<a href="<?php echo get_permalink($related_item) ?>">
+					<span>
+						<a href="<?php echo get_permalink($related_item) ?>" title="<?php echo get_the_title($related_item) ?>">
 							<?php
 							if (has_post_thumbnail($related_item)) {
 								echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
@@ -62,9 +62,9 @@ function get_related_items_theme_view() {
 								<span><?php echo get_the_title($related_item) ?></span>
 							<?php } ?>
 						</a>
-					</li>
+					</span>
 				<?php } ?>
-			</ul>
+			</p>
 		</div>
 	<?php }
 }
