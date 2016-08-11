@@ -1,1 +1,1 @@
-<h2 class="mprm-title"><p><?php echo $mprm_menu_item->post_title ?></p></h2>
+<h2 class="mprm-title"><?php echo $mprm_menu_item->post_title ?></h2>

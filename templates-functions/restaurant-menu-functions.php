@@ -884,7 +884,7 @@ function mprm_menu_items_header() {
 			</div>
 		<?php } else { ?>
 <!--			<div class="mprm-header only-text">-->
-				<h2 class="mprm-title"><p><?php echo $title ?></p></h2>
+				<h2 class="mprm-title"><?php echo $title ?></h2>
 <!--			</div>-->
 			<?php
 		}
@@ -1149,7 +1149,7 @@ function mprm_category_menu_item_after_content(){
 function mprm_menu_item_grid_image() {
 	$post_options = mprm_get_menu_item_options();
 	if (mprm_get_feat_image() && !empty($post_options['image'])) {
-		echo '<p>'.$post_options['image'].'</p>';
+		echo $post_options['image'];
 	}
 }
 

@@ -5,7 +5,7 @@ if (empty($ingredients)) {
 if ($ingredients) { ?>
 	<div class="mprm-ingredients">
 		<?php if (is_single() && apply_filters('mprm-show-title-ingredients', (empty($mprm_title_ingredients) ? true : false))) : ?>
-			<h3 class="mprm-title"><p><?php _e('Ingredients', 'mp-restaurant-menu') ?></p></h3>
+			<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu') ?></h3>
 		<?php endif; ?>
 
 		<ul class="mprm-list">
@@ -17,6 +17,7 @@ if ($ingredients) { ?>
 				<li class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></li>
 			<?php endforeach; ?>
 		</ul>
+		<div class="mprm-clear"></div>
 	</div>
 	<?php
 }

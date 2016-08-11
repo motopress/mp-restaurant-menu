@@ -11,7 +11,7 @@ if (!empty($mprm_view_args['categ_name']) && 'none' !== $mprm_view_args['categ_n
 		</div>
 	<?php } else { ?>
 		<!--		<div class="mprm-header only-text">-->
-		<h2 class="mprm-title"><p><?php echo $title ?></p></h2>
+		<h2 class="mprm-title"><?php echo $title ?></h2>
 		<!--		</div>-->
 		<?php
 	}

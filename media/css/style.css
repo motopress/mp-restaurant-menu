@@ -405,7 +405,7 @@ there.
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-row .mprm-columns:first-child.type-mp_menu_item {
   padding-right: 0.5em;
 }
-.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-ingredients .mprm-list {
+.mprm-container.mprm-shortcode-items.mprm-view-simple-list .mprm-list {
   margin: 0 0 1em 0;
   padding: 0;
 }
@@ -419,6 +419,9 @@ there.
   -webkit-flex-flow: row wrap;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
+}
+.mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view.mprm-list {
+  margin: 0;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item {
   margin: 0;
@@ -674,6 +677,9 @@ there.
   -webkit-flex-flow: row wrap;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
+}
+.mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view.mprm-list {
+  margin: 0;
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view .mprm-flex-item {
   margin: 0;
@@ -1489,15 +1495,6 @@ there.
   padding-bottom: 4%;
 }
 .mprm-container .mprm-row .hentry {
-  margin: 0;
-  padding: 0;
-}
-.type-mp_menu_item h2.mprm-title,
-.mprm-main-wrapper h2.mprm-title,
-.mprm-container h2.mprm-title,
-.type-mp_menu_item h3.mprm-title,
-.mprm-main-wrapper h3.mprm-title,
-.mprm-container h3.mprm-title {
   margin: 0;
   padding: 0;
 }
