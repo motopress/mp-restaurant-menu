@@ -37,16 +37,6 @@
 }
 
 .mprm-main-wrapper, .mprm-container {
-
-  .mprm-content-container {
-	&.mprm-title-big {
-	  font-size: 120%;
-	}
-	margin: 0 0 1rem 0;
-	&.mprm-add-topping {
-	  margin: 8px 0;
-	}
-  }
   a.mprm-link {
 	text-decoration: none;
 	outline: none;
@@ -62,6 +52,24 @@
 	  border: none;
 	  color: inherit;
 	}
+  }
+  .mprm-content-container {
+	margin: 0 0 4px 0;
+	&.mprm-title-big {
+	  font-size: 120%;
+	  margin: 8px 0;
+	  &:first-child {
+		margin-top: 0;
+	  }
+	}
+	&.mprm-add-topping {
+	  margin: 8px 0;
+	}
+
+	.mprm-price-container {
+	  margin: 8px 0;
+	}
+
   }
 
   .mprm_menu_item_buy_button {
@@ -85,6 +93,7 @@
 }
 
 .mprm_widget {
+
   .mprm-main-wrapper, .mprm-container {
 	a.mprm-link {
 	  text-decoration: none;

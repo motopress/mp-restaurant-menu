@@ -750,6 +750,22 @@ there.
 .mprm_widget .mprm-side.mprm-left-side img {
   height: auto;
 }
+.mprm_widget .mprm-container .mprm-row a.mprm-link {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+}
+.mprm_widget .mprm-container .mprm-row a.mprm-link:focus,
+.mprm_widget .mprm-container .mprm-row a.mprm-link:visited,
+.mprm_widget .mprm-container .mprm-row a.mprm-link:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+}
 .mprm-main-wrapper.mp_menu_item .mprm-post-content {
   margin-bottom: 2rem;
   *zoom: 1;
@@ -1393,18 +1409,6 @@ there.
 .mprm_purchase_submit_wrapper .mprm-content-container {
   margin: 8px 0;
 }
-.mprm-main-wrapper .mprm-content-container,
-.mprm-container .mprm-content-container {
-  margin: 0 0 1rem 0;
-}
-.mprm-main-wrapper .mprm-content-container.mprm-title-big,
-.mprm-container .mprm-content-container.mprm-title-big {
-  font-size: 120%;
-}
-.mprm-main-wrapper .mprm-content-container.mprm-add-topping,
-.mprm-container .mprm-content-container.mprm-add-topping {
-  margin: 8px 0;
-}
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;
@@ -1424,6 +1428,27 @@ there.
   box-shadow: none;
   border: none;
   color: inherit;
+}
+.mprm-main-wrapper .mprm-content-container,
+.mprm-container .mprm-content-container {
+  margin: 0 0 4px 0;
+}
+.mprm-main-wrapper .mprm-content-container.mprm-title-big,
+.mprm-container .mprm-content-container.mprm-title-big {
+  font-size: 120%;
+  margin: 8px 0;
+}
+.mprm-main-wrapper .mprm-content-container.mprm-title-big:first-child,
+.mprm-container .mprm-content-container.mprm-title-big:first-child {
+  margin-top: 0;
+}
+.mprm-main-wrapper .mprm-content-container.mprm-add-topping,
+.mprm-container .mprm-content-container.mprm-add-topping {
+  margin: 8px 0;
+}
+.mprm-main-wrapper .mprm-content-container .mprm-price-container,
+.mprm-container .mprm-content-container .mprm-price-container {
+  margin: 8px 0;
 }
 .mprm-main-wrapper .mprm_menu_item_buy_button form a,
 .mprm-container .mprm_menu_item_buy_button form a {
