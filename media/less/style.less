@@ -31,6 +31,7 @@
 }
 
 .mprm-main-wrapper, .mprm-container {
+
   a.mprm-link {
 	text-decoration: none;
 	outline: none;
@@ -62,6 +63,46 @@
 		  outline: none;
 		  box-shadow: none;
 		  border: none;
+		}
+	  }
+	}
+  }
+}
+
+.mprm_widget {
+  .mprm-main-wrapper, .mprm-container {
+	a.mprm-link {
+	  text-decoration: none;
+	  outline: none;
+	  box-shadow: none;
+	  border: none;
+	  color: inherit;
+	  &:focus,
+	  &:visited,
+	  &:hover {
+		text-decoration: none;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		color: inherit;
+	  }
+	}
+
+	.mprm_menu_item_buy_button {
+	  form {
+		a {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		  &:focus,
+		  &:visited,
+		  &:hover {
+			text-decoration: none;
+			outline: none;
+			box-shadow: none;
+			border: none;
+		  }
 		}
 	  }
 	}

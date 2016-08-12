@@ -842,6 +842,9 @@ there.
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list .mprm-ingredients-delimiter {
   display: list-item;
 }
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list .mprm-nutrition-item {
+  display: list-item;
+}
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-price-box,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-proportions,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm_menu_item_buy_button,
@@ -1414,6 +1417,44 @@ there.
 .mprm-container .mprm_menu_item_buy_button form a:visited,
 .mprm-main-wrapper .mprm_menu_item_buy_button form a:hover,
 .mprm-container .mprm_menu_item_buy_button form a:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.mprm_widget .mprm-main-wrapper a.mprm-link,
+.mprm_widget .mprm-container a.mprm-link {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+}
+.mprm_widget .mprm-main-wrapper a.mprm-link:focus,
+.mprm_widget .mprm-container a.mprm-link:focus,
+.mprm_widget .mprm-main-wrapper a.mprm-link:visited,
+.mprm_widget .mprm-container a.mprm-link:visited,
+.mprm_widget .mprm-main-wrapper a.mprm-link:hover,
+.mprm_widget .mprm-container a.mprm-link:hover {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+}
+.mprm_widget .mprm-main-wrapper .mprm_menu_item_buy_button form a,
+.mprm_widget .mprm-container .mprm_menu_item_buy_button form a {
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.mprm_widget .mprm-main-wrapper .mprm_menu_item_buy_button form a:focus,
+.mprm_widget .mprm-container .mprm_menu_item_buy_button form a:focus,
+.mprm_widget .mprm-main-wrapper .mprm_menu_item_buy_button form a:visited,
+.mprm_widget .mprm-container .mprm_menu_item_buy_button form a:visited,
+.mprm_widget .mprm-main-wrapper .mprm_menu_item_buy_button form a:hover,
+.mprm_widget .mprm-container .mprm_menu_item_buy_button form a:hover {
   text-decoration: none;
   outline: none;
   box-shadow: none;

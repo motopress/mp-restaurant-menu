@@ -77,7 +77,9 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
+    $custom_class = 'mprm-'.classes\Media::get_instance()->template_mode().'-mode';
 
+	$classes[] =  $custom_class;
 
     if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
 		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
@@ -85,12 +87,19 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 				unset($classes[$key]);
 			}
 		}
-		}
-		if ( in_array('mprm-remove-hentry',$classes)) {
-			if (false !== ($key = array_search('hentry', $classes))) {
+	}
+
+	if ( in_array('mprm-remove-hentry',$classes)) {
+		if (false !== ($key = array_search('hentry', $classes))) {
 				unset($classes[$key]);
+		}
+		if(!empty($custom_class)){
+			if (false !== ($key = array_search($custom_class, $classes))) {
+					unset($classes[$key]);
 			}
 		}
+	}
+
 
 	$classes[] = 'mp-menu-item';
 	$classes[] = 'type-post';
