@@ -4,14 +4,14 @@
 		<?php
 		$class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));
 		if (!$is_ajax_disabled) { ?>
-			<p>
+			<div class="mprm-content-container">
 				<a href="#" class="mprm-add-to-cart mprm-has-js <?php echo esc_attr($class) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?>>
 					<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
 					<span class="mprm-loading">
 					<i class="mprm-icon-spinner mprm-icon-spin"></i>
 				</span>
 				</a>
-			</p>
+			</div>
 
 		<?php } else { ?>
 			<p>

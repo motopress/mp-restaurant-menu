@@ -1,4 +1,4 @@
-/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
+/*globals jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -10,11 +10,8 @@ window.MP_RM_Registry = (function() {
 	 * @private
 	 */
 	function _testModule(module) {
-		if (module.getInstance && typeof module.getInstance === 'function') {
-			return true;
-		} else {
-			return false;
-		}
+
+		return (typeof module.getInstance) === 'function';
 	}
 
 	/**
@@ -97,7 +94,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			/**
 			 * WP Ajax
 			 *
-			 * @param {object} params
+			 * @param {Object} params
 			 * @param {function} callbackSuccess
 			 * @param {function} callbackError
 			 * @returns {undefined}
@@ -145,51 +142,12 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					return false;
 				}
 			},
-			/**
-			 * Deprecated
-			 *
-			 * Call Tool tip
-			 *
-			 * @param selector
-			 * @param text
-			 * @param timeOut
-			 * @returns {jBox}
-			 */
-			callTooltip: function(selector, text, timeOut) {
-				if (_.isUndefined(timeOut)) {
-					timeOut = 5;
-				}
-				if (_.isUndefined(selector)) {
-					console.warn("Parameter 'selector' not find");
-				}
-				if (_.isUndefined(text)) {
-					console.warn("Parameter 'text' not find");
-				}
-				var tooltip = new jBox('Tooltip', {
-					content: text,
-					target: selector,
-					closeOnEsc: true,
-					adjustPosition: "flip",
-					adjustTracker: true,
-					reposition: true,
-					closeOnClick: "body",
-					maxWidth: 200,
-					onOpen: function() {
-						if (timeOut > 0) {
-							setTimeout(function() {
-								tooltip.close();
-							}, timeOut * 1000);
-						}
-					}
-				});
-				tooltip.open();
-				return tooltip;
-			},
+
 			/**
 			 * Open popup window function
-			 *
 			 * @param start_content
 			 * @param open_callback
+			 * @param args
 			 */
 			callModal: function(start_content, open_callback, args) {
 				start_content = (_.isEmpty(start_content)) ? spinner : start_content;
@@ -225,49 +183,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				var popup = new jBox('Modal', params);
 				popup.open();
 			},
-			/**
-			 * Deprecated
-			 *
-			 * @param text
-			 * @param type
-			 * @param timeOut
-			 */
-			callNotice: function(text, type, timeOut) {
-				var color,
-					Notice = {};
-				switch (type) {
-					case "done":
-						color = "green";
-						break;
-					case "error":
-						color = "red";
-						break;
-					default:
-						color = "green";
-						break;
-				}
-				if (_.isEmpty(timeOut)) {
-					timeOut = 3;
-				}
-				text = (_.isEmpty(text)) ? "" : text;
-				var notice = new jBox('Notice', {
-					content: text,
-					color: color,
-					theme: "NoticeBorder",
-					attributes: {
-						x: 'left',
-						y: 'bottom'
-					},
-					animation: {open: 'slide:bottom', close: 'slide:left'},
-					onOpen: function() {
-						Notice = this;
-						setTimeout(function() {
-							Notice.close();
-						}, timeOut * 1000);
-					}
-				});
-				notice.open();
-			},
+
 			/**
 			 * Show block group
 			 * @param name (value attr data-display)
@@ -275,15 +191,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			 */
 			showBlocks: function(name, container) {
 				state.doActionForObj(name, container, "show");
-			},
-			/**
-			 * Deprecated
-			 * Show block group
-			 * @param name (value attr data-display)
-			 * @param container (parent where search)
-			 */
-			showSomeBlock: function(name, container) {
-				state.doActionForObj(name, container, "some-show");
 			},
 			/**
 			 * Hide block group
@@ -567,8 +474,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 				$('.mprm-add-to-cart.mprm-has-js').on('click', function(e) {
 					e.preventDefault();
-					var $this = $(this), form = $(this).closest('form');
+					var $this = $(this);
+					var form = $this.closest('form');
 					var $params = form.serializeArray();
+
 					$params.push({
 						name: "is_ajax",
 						value: true
@@ -651,7 +560,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			},
 			/**
 			 * Update item quantities
-			 * @param event
 			 */
 			update_item_quantities: function() {
 				$('.mprm-item-quantity').on('change', function() {
@@ -672,6 +580,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						/**
+						 *
+						 * @param {Object[]}data
+						 */
 						function(data) {
 							$('.mprm_cart_subtotal_amount').each(function() {
 								var element = $(this);
@@ -737,6 +649,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 							$('.mprm-cart-ajax').show();
 							$('.mprm-errors').remove();
+
 							MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 								function(data) {
 									if (data.errors) {
@@ -783,7 +696,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							$('#mprm_checkout_form_wrap').html(data.html);
+							$this.html(data.html);
 
 						},
 						function(data) {
@@ -797,6 +710,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				$('#mprm_checkout_form_wrap').on('click', '#mprm_login_submit,[name="mprm_login_submit"]', function(e) {
 					e.preventDefault();
 					$('.mprm-errors').remove();
+
 					var $params = {
 						action: 'login_ajax',
 						controller: 'customer',
@@ -808,6 +722,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						/**
+						 *
+						 * @param {Object} data
+						 */
 						function(data) {
 							if (data.redirect) {
 								window.location = data.redirect_url;
@@ -861,13 +779,8 @@ MP_RM_Registry.register("Order", (function($) {
 				state.recalculate_total();
 				state.changeOrderBaseCountry();
 				state.changeCustomer();
-				//state.changeStatus();
 			},
-			//changeStatus: function() {
-			//	$('select[name="mprm-order-status"]').on('change', function() {
-			//		$('#post_status').val($(this).val());
-			//	})
-			//},
+
 			/**
 			 * Change order Base Country
 			 */
@@ -1609,30 +1522,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 					console.log(e);
 				}
 			},
-			/**
-			 * add_atribute
-			 *
-			 * @param {type} $params
-			 * @param {type} callback
-			 */
-			removeImg: function($params, callback) {
-				var $args = {
-					controller: "menu_item",
-					action: "delete_gallery_img"
-				};
-				$.extend($args, $params);
-				MP_RM_Registry._get('MP_RM_Functions').wpAjax($args,
-					function(data) {
-						if (!_.isUndefined(callback) && _.isFunction(callback)) {
-							callback(data);
-						}
-					},
-					function(data) {
-						console.warn('Some error!!!');
-						console.warn(data);
-					}
-				);
-			},
+
 			quickEdit: function() {
 				$(document).on('click', '#the-list .editinline', function(event) {
 
@@ -1700,7 +1590,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 					emptyIcon: true,
 					hasSearch: true
 				}).on('change', function() {
-					//console.log($(this));
+
 				});
 
 				// remove icon
@@ -1729,9 +1619,9 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 				if (this.window === undefined) {
 					// Create the media frame.
 					this.window = wp.media.frames.menu_itemable_file = wp.media({
-						title: window.mprm_admin_vars.choose_image,
+						title: mprm_admin_vars.choose_image,
 						button: {
-							text: window.mprm_admin_vars.use_image
+							text: mprm_admin_vars.use_image
 						},
 						multiple: false
 					});

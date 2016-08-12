@@ -50,7 +50,7 @@ function get_related_items_theme_view() {
 	$related_items = mprm_get_related_items();
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
-			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
+			<div class="mprm-content-container mprm-title-big"><b><?php _e('You might also like', 'mp-restaurant-menu') ?></b></div>
 			<p>
 				<?php foreach ($related_items as $related_item) { ?>
 					<span>

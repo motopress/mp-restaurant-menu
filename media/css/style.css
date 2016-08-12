@@ -1387,6 +1387,14 @@ there.
   display: none;
   opacity: 0;
 }
+.mprm-main-wrapper .mprm-content-container,
+.mprm-container .mprm-content-container {
+  margin: 0 0 1rem 0;
+}
+.mprm-main-wrapper .mprm-content-container.mprm-title-big,
+.mprm-container .mprm-content-container.mprm-title-big {
+  font-size: 120%;
+}
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;
