@@ -853,6 +853,9 @@ there.
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-related-items {
   margin-bottom: 2rem;
 }
+.mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm_menu_item_buy_button p {
+  margin-bottom: 2rem;
+}
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-proportions .mprm-title,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients .mprm-title,
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-nutrition .mprm-title,
