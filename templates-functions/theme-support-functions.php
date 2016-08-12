@@ -36,9 +36,11 @@ function get_nutritional_theme_view() {
 	if (!empty($nutritional)) { ?>
 		<h3 class="mprm-title"><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
 		<ul>
-			<?php foreach ($nutritional as $nutrition) { ?>
-				<li> <?php echo $nutrition['title'] . ': ' . $nutrition['val'] ?></li>
-			<?php } ?>
+			<?php foreach ($nutritional as $nutrition) {
+				if (!empty($nutrition['val'])) { ?>
+					<li> <?php echo $nutrition['title'] . ': ' . $nutrition['val'] ?></li>
+				<?php }
+			} ?>
 		</ul>
 	<?php }
 }
@@ -50,7 +52,7 @@ function get_related_items_theme_view() {
 	$related_items = mprm_get_related_items();
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
-			<div class="mprm-content-container mprm-title-big"><b><?php _e('You might also like', 'mp-restaurant-menu') ?></b></div>
+			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
 			<p>
 				<?php foreach ($related_items as $related_item) { ?>
 					<span>

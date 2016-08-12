@@ -30,12 +30,22 @@
   opacity: 0;
 }
 
+.mprm_purchase_submit_wrapper {
+  .mprm-content-container {
+	margin: 8px 0;
+  }
+}
+
 .mprm-main-wrapper, .mprm-container {
+
   .mprm-content-container {
 	&.mprm-title-big {
 	  font-size: 120%;
 	}
 	margin: 0 0 1rem 0;
+	&.mprm-add-topping {
+	  margin: 8px 0;
+	}
   }
   a.mprm-link {
 	text-decoration: none;
@@ -200,7 +210,13 @@
 }
 
 .mprm-main-wrapper, .mprm-container {
-
+  .mprm-ingredients {
+	.mprm-ingredients-delimiter {
+	  &:last-child {
+		display: none;
+	  }
+	}
+  }
   .mprm-list {
 	&.mprm-flex-container-simple-view {
 	  margin: 0;
@@ -222,11 +238,7 @@
 	.mprm-ingredients-delimiter {
 	  margin: 0;
 	}
-	.mprm-ingredients-delimiter {
-	  &:last-child {
-		display: none;
-	  }
-	}
+
   }
   .mprm-price {
 	font-weight: bold;

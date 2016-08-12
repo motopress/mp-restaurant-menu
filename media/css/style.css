@@ -634,6 +634,9 @@ there.
   overflow: hidden;
   min-width: 1rem;
 }
+.mprm-container.mprm-widget-items.mprm-view-list .mprm-side.mprm-right-side .mprm-content-container .mprm-title-big {
+  margin-top: 0;
+}
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-image {
   margin: 0 2rem 1rem 0;
 }
@@ -1387,6 +1390,9 @@ there.
   display: none;
   opacity: 0;
 }
+.mprm_purchase_submit_wrapper .mprm-content-container {
+  margin: 8px 0;
+}
 .mprm-main-wrapper .mprm-content-container,
 .mprm-container .mprm-content-container {
   margin: 0 0 1rem 0;
@@ -1394,6 +1400,10 @@ there.
 .mprm-main-wrapper .mprm-content-container.mprm-title-big,
 .mprm-container .mprm-content-container.mprm-title-big {
   font-size: 120%;
+}
+.mprm-main-wrapper .mprm-content-container.mprm-add-topping,
+.mprm-container .mprm-content-container.mprm-add-topping {
+  margin: 8px 0;
 }
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
@@ -1553,6 +1563,10 @@ there.
 .type-mp_menu_item.hentry .mprm-related-items span {
   display: inline-block;
 }
+.mprm-main-wrapper .mprm-ingredients .mprm-ingredients-delimiter:last-child,
+.mprm-container .mprm-ingredients .mprm-ingredients-delimiter:last-child {
+  display: none;
+}
 .mprm-main-wrapper .mprm-list,
 .mprm-container .mprm-list {
   list-style: outside none none;
@@ -1582,10 +1596,6 @@ there.
 .mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter,
 .mprm-container .mprm-list .mprm-ingredients-delimiter {
   margin: 0;
-}
-.mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter:last-child,
-.mprm-container .mprm-list .mprm-ingredients-delimiter:last-child {
-  display: none;
 }
 .mprm-main-wrapper .mprm-price,
 .mprm-container .mprm-price {
