@@ -31,6 +31,7 @@ class Term extends Model {
 	public function get_terms($taxonomy, $ids = array()) {
 		global $mprm_view_args;
 		$terms = array();
+
 		if (!empty($ids)) {
 			if (!is_array($ids)) {
 				$cat_ids = explode(',', $ids);
