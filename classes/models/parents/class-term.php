@@ -43,6 +43,18 @@ class Term extends Model {
 		} else if (empty($mprm_view_args['categ']) && empty($mprm_view_args['tags_list'])) {
 			$terms = get_terms($taxonomy);
 		}
-		return $terms;
+
+		return array_filter($terms, array($this, 'filter_array'));
+	}
+
+	/**
+	 * Filter terms array (false/empty/null)
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
+	public function filter_array($value) {
+		return ($value !== null && $value !== false && $value !== '');
 	}
 }
