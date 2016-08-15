@@ -111,6 +111,8 @@ class Formatting extends Model {
 	}
 
 	/**
+	 * Formatting amount $decimals(true/false)
+	 *
 	 * @param $amount
 	 * @param bool $decimals
 	 *
@@ -119,6 +121,7 @@ class Formatting extends Model {
 	public function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
 		// Format the amount
 		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
 			$whole = substr($amount, 0, $sep_found);
