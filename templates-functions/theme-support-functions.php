@@ -14,36 +14,39 @@ function get_price_theme_view() {
  * Ingredients template part
  */
 function get_ingredients_theme_view() {
-	$ingredients = mprm_get_ingredients();
-	if (!empty($ingredients)) { ?>
-		<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
-		<ul>
-			<?php foreach ($ingredients as $ingredient) { ?>
-				<li>
-					<?php echo $ingredient->name ?>
-				</li>
-			<?php } ?>
-		</ul>
-	<?php }
-}
+	$ingredients = mprm_get_ingredients(); ?>
+	<div class="mprm-ingredients mprm-content-container">
+		<?php if (!empty($ingredients)) { ?>
+			<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+			<?php foreach ($ingredients as $ingredient):
+				if (!is_object($ingredient)) {
+					continue;
+				} ?>
+				<span class="mprm-ingredient"><?php echo $ingredient->name ?></span>
+				<span class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></span>
+			<?php endforeach;
+		} ?>
+	</div>
+<?php }
 
 /**
  * Nutritional template part
  */
-function get_nutritional_theme_view() {
-	$nutritional = mprm_get_nutritional();
+function get_nutritional_theme_view() { ?>
+	<div class="mprm-nutrition mprm-content-container">
+		<?php
+		$nutritional = mprm_get_nutritional();
 
-	if (!empty($nutritional)) { ?>
-		<h3 class="mprm-title"><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
-		<ul>
-			<?php foreach ($nutritional as $nutrition) {
-				if (!empty($nutrition['val'])) { ?>
-					<li> <?php echo $nutrition['title'] . ': ' . $nutrition['val'] ?></li>
-				<?php }
-			} ?>
-		</ul>
-	<?php }
-}
+		if (!empty($nutritional)) { ?>
+			<h3 class="mprm-title"><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+			<?php foreach ($nutritional as $info): ?>
+				<?php if (!empty($info['val'])): ?>
+					<span class="mprm-nutrition-item"><?php echo mprm_get_nutrition_label(strtolower($info['title'])) . apply_filters('mprm-nutritional-delimiter', ': ') . $info['val']; ?></span>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		<?php } ?>
+	</div>
+<?php }
 
 /**
  * Related items template part

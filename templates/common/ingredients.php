@@ -11,13 +11,7 @@ if ($ingredients) { ?>
 		<?php endif; ?>
 
 		<?php if (mprm_get_template_mode() == "theme") {
-			foreach ($ingredients as $ingredient):
-				if (!is_object($ingredient)) {
-					continue;
-				} ?>
-				<span class="mprm-ingredient"><?php echo $ingredient->name ?></span>
-				<span class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></span>
-			<?php endforeach;
+
 		} else { ?>
 			<ul class="mprm-list">
 				<?php foreach ($ingredients as $ingredient):

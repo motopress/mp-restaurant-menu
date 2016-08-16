@@ -513,11 +513,7 @@ class Media extends Core {
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
-						/*'email_settings_header' => array(
-							'id' => 'email_settings_header',
-							'name' => '<h3>' . __('Email Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),*/
+
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
