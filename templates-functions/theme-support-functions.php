@@ -82,3 +82,9 @@ function get_gallery_theme_view() {
 	}
 }
 
+/**
+ * @return mixed|string|void
+ */
+function mprm_get_template_mode() {
+	return \mp_restaurant_menu\classes\Media::get_instance()->template_mode();
+}

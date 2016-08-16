@@ -599,7 +599,9 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_left', 10);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_image', 15);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_left', 20);
+
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_right', 25);
+
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_header_title', 30);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_ingredients', 35);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_tags', 40);
@@ -813,7 +815,7 @@ class Hooks extends Core {
 		Media::get_instance()->register_all_taxonomies();
 
 		// Include template
-		add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
+		add_filter('template_include', array(Media::get_instance(), 'template_include'));
 		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
 //		add_action('loop_start', array(Media::get_instance(), 'single_template'));
 

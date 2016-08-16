@@ -1,35 +1,10 @@
 <?php
-use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes;
+use mp_restaurant_menu\classes\Core;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\modules\Breadcrumbs;
+use mp_restaurant_menu\classes\View;
 
-/**
- * Add class wrapper
- */
-function mprm_theme_wrapper_before() {
-	$template = get_option('template');
-	switch ($template) {
-		case 'twentyeleven' :
-			echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
-			break;
-		case 'twentytwelve' :
-			echo '<div id="primary" class="site-content"><div id="content" role="main" class="twentytwelve">';
-			break;
-		case 'twentythirteen' :
-			echo '<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">';
-			break;
-		case 'twentyfourteen' :
-			echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfmp">';
-			break;
-		case 'twentyfifteen' :
-			echo '<div id="primary" role="main" class="content-area twentyfifteen"><div id="main" class="site-main t15mp">';
-			break;
-		case 'twentysixteen' :
-			echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
-			break;
-		default :
-			echo '<div id="container"><div id="content" role="main">';
-			break;
-	}
-}
 
 
 /**
@@ -107,6 +82,38 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	return $classes;
 }
 
+/**
+ * Add class wrapper
+ */
+function mprm_theme_wrapper_before() {
+	$template = get_option('template');
+	switch ($template) {
+		case 'twentyeleven' :
+			echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
+			break;
+		case 'twentytwelve' :
+			echo '<div id="primary" class="site-content"><div id="content" role="main" class="twentytwelve">';
+			break;
+		case 'twentythirteen' :
+			echo '<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">';
+			break;
+		case 'twentyfourteen' :
+			echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfmp">';
+			break;
+		case 'twentyfifteen' :
+			echo '<div id="primary" role="main" class="content-area twentyfifteen"><div id="main" class="site-main t15mp">';
+			break;
+		case 'twentysixteen' :
+			echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
+			break;
+		default :
+			echo '<div id="container"><div id="content" role="main">';
+			break;
+	}
+}
+/**
+* Theme wrapper after
+ */
 function mprm_theme_wrapper_after() {
 	$template = get_option('template');
 	switch ($template) {
@@ -677,6 +684,7 @@ function mprm_taxonomy_list_before_right() {
 	?>
 	<div class="mprm-content">
 <?php }
+
 function mprm_taxonomy_list_after_right() { ?>
 	</div>
 	<?php
@@ -745,8 +753,7 @@ function mprm_single_category_grid_wrapper_start() {
 	<div class="mprm-description">
 	<?php
 }
-function mprm_single_category_grid_wrapper_end() {
-	?>
+function mprm_single_category_grid_wrapper_end() {	?>
 	</div>
 	<?php
 }
@@ -887,9 +894,9 @@ function mprm_menu_items_header() {
 				<h2 class="mprm-title"><?php echo $title ?></h2>
 			</div>
 		<?php } else { ?>
-<!--			<div class="mprm-header only-text">-->
+			<div class="mprm-header only-text">
 				<h2 class="mprm-title"><?php echo $title ?></h2>
-<!--			</div>-->
+			</div>
 			<?php
 		}
 	}

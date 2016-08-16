@@ -3,7 +3,7 @@ $related_items = mprm_get_related_items();
 if (!empty($related_items)) {
 	?>
 	<div class="mprm-related-items">
-		<div class="mprm-content-container mprm-title-big"><b><?php _e('You might also like', 'mp-restaurant-menu') ?></b></div>
+		<h3 class="mprm-title"><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
 		<ul class="mprm-related-items-list">
 			<?php foreach ($related_items as $related_item): ?>
 				<li class="mprm-related-item">

@@ -1435,25 +1435,25 @@ there.
   border: none;
   color: inherit;
 }
-.mprm-main-wrapper .mprm-content-container,
-.mprm-container .mprm-content-container {
+.mprm-main-wrapper .mprm-theme-mode .mprm-content-container,
+.mprm-container .mprm-theme-mode .mprm-content-container {
   margin: 0 0 4px 0;
 }
-.mprm-main-wrapper .mprm-content-container.mprm-title-big,
-.mprm-container .mprm-content-container.mprm-title-big {
+.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-title-big,
+.mprm-container .mprm-theme-mode .mprm-content-container.mprm-title-big {
   font-size: 120%;
   margin: 8px 0;
 }
-.mprm-main-wrapper .mprm-content-container.mprm-title-big:first-child,
-.mprm-container .mprm-content-container.mprm-title-big:first-child {
+.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-title-big:first-child,
+.mprm-container .mprm-theme-mode .mprm-content-container.mprm-title-big:first-child {
   margin-top: 0;
 }
-.mprm-main-wrapper .mprm-content-container.mprm-add-topping,
-.mprm-container .mprm-content-container.mprm-add-topping {
+.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-add-topping,
+.mprm-container .mprm-theme-mode .mprm-content-container.mprm-add-topping {
   margin: 8px 0;
 }
-.mprm-main-wrapper .mprm-content-container .mprm-price-container,
-.mprm-container .mprm-content-container .mprm-price-container {
+.mprm-main-wrapper .mprm-theme-mode .mprm-content-container .mprm-price-container,
+.mprm-container .mprm-theme-mode .mprm-content-container .mprm-price-container {
   margin: 8px 0;
 }
 .mprm-main-wrapper .mprm_menu_item_buy_button form a,

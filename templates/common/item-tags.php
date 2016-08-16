@@ -12,5 +12,6 @@ if (empty($tags)) {
 			?>
 			<span class="mprm-tag <?php echo 'mprm-tag-' . $tag->slug; ?>"><?php echo $tag->name ?></span>
 		<?php } ?>
+
 	</div>
 <?php endif; ?>

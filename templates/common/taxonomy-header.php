@@ -8,8 +8,8 @@ if (mprm_has_category_image()) {
 		</div>
 	</div>
 <?php } else { ?>
-	<!--	<div class="mprm-header only-text">-->
-	<h1 class="mprm-title"><?php echo esc_html($mprm_term->name); ?></h1>
-	<!--	</div>-->
+	<div class="mprm-header only-text">
+		<h1 class="mprm-title"><?php echo esc_html($mprm_term->name); ?></h1>
+	</div>
 	<?php
 }

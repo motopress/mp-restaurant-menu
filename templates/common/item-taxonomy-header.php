@@ -10,9 +10,9 @@ if (!empty($mprm_view_args['categ_name']) && 'none' !== $mprm_view_args['categ_n
 			</div>
 		</div>
 	<?php } else { ?>
-		<!--		<div class="mprm-header only-text">-->
-		<div class="mprm-content-container mprm-title-big"><b><?php echo $title ?></b></div>
-		<!--		</div>-->
+		<div class="mprm-header only-text">
+			<div class="mprm-content-container mprm-title-big"><b><?php echo $title ?></b></div>
+		</div>
 		<?php
 	}
 }
