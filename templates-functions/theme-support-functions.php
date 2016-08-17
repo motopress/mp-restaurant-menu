@@ -17,7 +17,7 @@ function get_ingredients_theme_view() {
 	$ingredients = mprm_get_ingredients(); ?>
 	<?php if (!empty($ingredients)) { ?>
 		<div class="mprm-ingredients mprm-content-container">
-			<div class="mprm-content-container mprm-title-big"><b><?php _e('Ingredients', 'mp-restaurant-menu'); ?></b></div>
+			<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($ingredients as $ingredient):
 				if (!is_object($ingredient)) {
 					continue;
@@ -36,7 +36,7 @@ function get_attributes_theme_view() {
 	$attributes = mprm_get_attributes();
 	if ($attributes) { ?>
 		<div class="mprm-proportions mprm-content-container">
-			<div class="mprm-content-container mprm-title-big"><b><?php _e('Portion Size', 'mp-restaurant-menu'); ?></b></div>
+			<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info['val'])): ?>
 					<div class="mprm-proportion"><?php echo $info['val']; ?></div>
@@ -54,7 +54,7 @@ function get_nutritional_theme_view() {
 	$nutritional = mprm_get_nutritional();
 	if (!empty($nutritional)) { ?>
 		<div class="mprm-nutrition mprm-content-container">
-			<div class="mprm-content-container mprm-title-big"><b><?php _e('Nutritional', 'mp-restaurant-menu'); ?></b></div>
+			<h3><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info['val'])): ?>
 					<span class="mprm-nutrition-item"><?php echo mprm_get_nutrition_label(strtolower($info['title'])) . apply_filters('mprm-nutritional-delimiter', ': ') . $info['val']; ?></span>

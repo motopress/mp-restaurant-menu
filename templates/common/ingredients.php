@@ -2,15 +2,15 @@
 if (empty($ingredients)) {
 	$ingredients = mprm_get_ingredients();
 }
+$template_mode = mprm_get_template_mode();
+$template_mode_class = ($template_mode == "theme") ? 'mprm-content-container' : '';
+
 if ($ingredients) { ?>
-
-
-	<div class="mprm-ingredients mprm-content-container">
+	<div class="mprm-ingredients <?php echo $template_mode_class?>">
 		<?php if (is_single() && apply_filters('mprm-show-title-ingredients', (empty($mprm_title_ingredients) ? true : false))) : ?>
 			<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu') ?></h3>
 		<?php endif; ?>
-
-		<?php if (mprm_get_template_mode() == "theme") {
+		<?php if ($template_mode == "theme") {
 			foreach ($ingredients as $ingredient):
 				if (!is_object($ingredient)) {
 					continue;
@@ -30,9 +30,6 @@ if ($ingredients) { ?>
 			</ul>
 			<div class="mprm-clear"></div>
 		<?php } ?>
-
 	</div>
-
 	<?php
-
 }

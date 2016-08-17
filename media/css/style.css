@@ -1428,6 +1428,9 @@ there.
   margin: 8px 0;
   font-size: 120%;
 }
+.hentry .mprm-content-container .mprm-nutrition-item {
+  display: block;
+}
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;
@@ -1526,7 +1529,7 @@ there.
   border: none;
 }
 .mprm-container.mprm-view-simple-list > div[class^="mprm-columns-count-"].mprm-all-items .mprm-simple-view-column {
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 .mprm-container.mprm-view-simple-list .mprm-columns-count-1 {
   -webkit-column-count: 1;

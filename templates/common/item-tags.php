@@ -1,9 +1,13 @@
 <?php
 if (empty($tags)) {
 	$tags = mprm_get_tags();
-} ?>
-<?php if (!empty($tags)): ?>
-	<div class="mprm-tags-wrapper mprm-content-container mprm-tags">
+}
+$template_mode = mprm_get_template_mode();
+$template_mode_class = ($template_mode == "theme") ? 'mprm-content-container' : '';
+
+
+if (!empty($tags)): ?>
+	<div class="mprm-tags-wrapper mprm-tags <?php echo $template_mode_class ?>">
 
 		<?php foreach ($tags as $tag) {
 			if (!is_object($tag)) {
