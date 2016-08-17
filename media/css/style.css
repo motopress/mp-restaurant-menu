@@ -1415,6 +1415,19 @@ there.
 .mprm_purchase_submit_wrapper .mprm-content-container {
   margin: 8px 0;
 }
+.mprm-content-container.mprm-ingredients {
+  margin: 0 0 4px 0;
+}
+.mprm-content-container.mprm-nutrition {
+  margin: 0 0 4px 0;
+}
+.mprm-content-container.mprm-tags-wrapper {
+  margin: 0 0 4px 0;
+}
+.mprm-content-container.mprm-title-big {
+  margin: 8px 0;
+  font-size: 120%;
+}
 .mprm-main-wrapper a.mprm-link,
 .mprm-container a.mprm-link {
   text-decoration: none;
@@ -1435,25 +1448,25 @@ there.
   border: none;
   color: inherit;
 }
-.mprm-main-wrapper .mprm-theme-mode .mprm-content-container,
-.mprm-container .mprm-theme-mode .mprm-content-container {
+.mprm-main-wrapper .mprm-content-container,
+.mprm-container .mprm-content-container {
   margin: 0 0 4px 0;
 }
-.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-title-big,
-.mprm-container .mprm-theme-mode .mprm-content-container.mprm-title-big {
+.mprm-main-wrapper .mprm-content-container.mprm-title-big,
+.mprm-container .mprm-content-container.mprm-title-big {
   font-size: 120%;
   margin: 8px 0;
 }
-.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-title-big:first-child,
-.mprm-container .mprm-theme-mode .mprm-content-container.mprm-title-big:first-child {
+.mprm-main-wrapper .mprm-content-container.mprm-title-big:first-child,
+.mprm-container .mprm-content-container.mprm-title-big:first-child {
   margin-top: 0;
 }
-.mprm-main-wrapper .mprm-theme-mode .mprm-content-container.mprm-add-topping,
-.mprm-container .mprm-theme-mode .mprm-content-container.mprm-add-topping {
+.mprm-main-wrapper .mprm-content-container.mprm-add-topping,
+.mprm-container .mprm-content-container.mprm-add-topping {
   margin: 8px 0;
 }
-.mprm-main-wrapper .mprm-theme-mode .mprm-content-container .mprm-price-container,
-.mprm-container .mprm-theme-mode .mprm-content-container .mprm-price-container {
+.mprm-main-wrapper .mprm-content-container .mprm-price-container,
+.mprm-container .mprm-content-container .mprm-price-container {
   margin: 8px 0;
 }
 .mprm-main-wrapper .mprm_menu_item_buy_button form a,

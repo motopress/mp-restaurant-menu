@@ -36,6 +36,22 @@
   }
 }
 
+.mprm-content-container {
+  &.mprm-ingredients {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-nutrition {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-tags-wrapper {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-title-big {
+	margin: 8px 0;
+	font-size: 120%;
+  }
+}
+
 .mprm-main-wrapper, .mprm-container {
   a.mprm-link {
 	text-decoration: none;
@@ -53,25 +69,26 @@
 	  color: inherit;
 	}
   }
-  .mprm-theme-mode {
-	.mprm-content-container {
-	  margin: 0 0 4px 0;
-	  &.mprm-title-big {
-		font-size: 120%;
-		margin: 8px 0;
-		&:first-child {
-		  margin-top: 0;
-		}
-	  }
-	  &.mprm-add-topping {
-		margin: 8px 0;
-	  }
 
-	  .mprm-price-container {
-		margin: 8px 0;
+  .mprm-content-container {
+	margin: 0 0 4px 0;
+	&.mprm-title-big {
+	  font-size: 120%;
+	  margin: 8px 0;
+	  &:first-child {
+		margin-top: 0;
 	  }
 	}
+	&.mprm-add-topping {
+	  margin: 8px 0;
+	}
 
+	.mprm-price-container {
+	  margin: 8px 0;
+	}
+  }
+
+  .mprm-theme-mode {
   }
 
   .mprm_menu_item_buy_button {

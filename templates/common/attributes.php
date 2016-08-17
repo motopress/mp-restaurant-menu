@@ -8,7 +8,6 @@ if ($attributes) { ?>
 			<h3 class="mprm-title"><?php _e('Portion Size', 'mp-restaurant-menu') ?></h3>
 		<?php endif; ?>
 		<?php if (mprm_get_template_mode() == "theme") {
-
 			foreach ($attributes as $info): ?>
 				<?php if (!empty($info['val'])): ?>
 					<div class="mprm-proportion"><?php echo $info['val']; ?></div>

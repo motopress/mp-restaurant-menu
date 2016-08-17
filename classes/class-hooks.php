@@ -489,8 +489,9 @@ class Hooks extends Core {
 		add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
 		add_action('mprm_menu_item_single_theme_view', 'mprm_get_purchase_template', 15);
 		add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 20);
-		add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 25);
-		add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 30);
+//		add_action('mprm_menu_item_single_theme_view', 'get_attributes_theme_view', 25);
+		add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 30);
+		add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 35);
 
 		/**
 		 * output Wordpress standard them  wrapper
