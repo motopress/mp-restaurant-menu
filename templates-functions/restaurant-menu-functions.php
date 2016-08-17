@@ -77,7 +77,6 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 
 
 	$classes[] = 'mp-menu-item';
-	$classes[] = 'type-post';
 
 	return $classes;
 }
