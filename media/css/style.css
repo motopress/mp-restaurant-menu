@@ -994,7 +994,8 @@ there.
   outline: none;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-item-title,
-.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients {
+.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients,
+.mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-tags {
   margin-bottom: 0.5rem;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredient,
@@ -1610,9 +1611,8 @@ there.
 .type-mp_menu_item.hentry .mprm-related-items span {
   display: inline-block;
 }
-.mprm-main-wrapper .mprm-ingredients .mprm-ingredients-delimiter:last-child,
-.mprm-container .mprm-ingredients .mprm-ingredients-delimiter:last-child {
-  display: none;
+.mprm-ingredients .mprm-ingredients-delimiter:last-child {
+  display: none !important;
 }
 .mprm-main-wrapper .mprm-list,
 .mprm-container .mprm-list {

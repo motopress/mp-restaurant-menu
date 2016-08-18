@@ -1220,6 +1220,8 @@ class Media extends Core {
 	}
 
 	/**
+	 * Add js
+	 *
 	 * @param bool $type
 	 */
 	public function add_plugin_js($type = false) {
@@ -1240,7 +1242,6 @@ class Media extends Core {
 		if (post_type_exists($this->get_post_type('menu_item'))) {
 			return;
 		}
-
 		register_post_type($this->get_post_type('menu_item'), array(
 			'label' => 'mp_menu_item',
 			'labels' =>
@@ -1277,7 +1278,6 @@ class Media extends Core {
 			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
 			'show_in_admin_bar' => true,
 		));
-
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),

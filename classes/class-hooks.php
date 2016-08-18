@@ -846,6 +846,7 @@ class Hooks extends Core {
 
 		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'settings_template_mode'), 10, 3);
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
+		add_filter('mprm_settings_general', array($this, 'filter_options'), 10, 1);
 	}
 
 	/**
@@ -1339,6 +1340,24 @@ class Hooks extends Core {
 		unset($actions['inline hide-if-no-js']);
 
 		return $actions;
+	}
+
+	/**
+	 * Filter settings options
+	 *
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
+	public function filter_options($args) {
+
+		if (isset($args['main']['category_view'])) {
+			if (mprm_get_option('template_mode') == 'theme') {
+				unset($args['main']['category_view']);
+			}
+		}
+
+		return $args;
 	}
 
 	/**
