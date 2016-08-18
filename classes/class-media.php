@@ -243,11 +243,11 @@ class Media extends Core {
 							'id' => 'template_mode',
 							'name' => __('Template Mode', 'mp-restaurant-menu'),
 							'options' => apply_filters('mprm_available_theme_mode',
-								array('theme' => __('Theme', 'mp-restaurant-menu'),
-									'plugin' => __('Plugin', 'mp-restaurant-menu')
+								array('theme' => __('Theme Mode', 'mp-restaurant-menu'),
+									'plugin' => __('Developer Mode', 'mp-restaurant-menu')
 								)
 							),
-							'desc' => 'Choose a page template to control the appearance of your single event and column page.',
+							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
 							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
 							'type' => 'select',
 
