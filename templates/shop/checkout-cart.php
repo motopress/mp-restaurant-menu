@@ -4,7 +4,7 @@ use mp_restaurant_menu\classes\models\Cart as Cart;
 use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 ?>
-<table id="mprm_checkout_cart" <?php ECHO !$is_ajax_disabled ? 'class="ajaxed"' : '' ?>>
+<table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed"' : '' ?>>
 
 	<thead>
 	<tr class="mprm_cart_header_row">
@@ -33,7 +33,11 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 						</div>
 					<?php }
 					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
-					<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>"><span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span></a>
+					<div>
+						<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+							<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+						</a>
+					</div>
 					<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
 				</td>
 				<td class="mprm_cart_item_price">

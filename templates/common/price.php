@@ -11,6 +11,8 @@ if (!empty($price)) :
 			</div>
 		</div>
 	<?php } else { ?>
-		<span class="mprm-price"><?php echo $price ?></span>
+		<div class="mprm-price-container">
+			<span class="mprm-price"><?php echo $price ?></span>
+		</div>
 	<?php }
 endif;

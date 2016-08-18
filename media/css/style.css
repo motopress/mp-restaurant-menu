@@ -1648,10 +1648,6 @@ there.
 .mprm-container .mprm-list .mprm-ingredients-delimiter {
   margin: 0;
 }
-.mprm-main-wrapper .mprm-price,
-.mprm-container .mprm-price {
-  font-weight: bold;
-}
 .mprm-main-wrapper .mprm-tags .mprm-tag,
 .mprm-container .mprm-tags .mprm-tag {
   border: 1px solid #606060;

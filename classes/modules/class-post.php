@@ -136,7 +136,7 @@ class Post extends Module {
 		$status = register_post_type($params['post_type'], $args);
 		if (!is_wp_error($status)) {
 			return true;
-		}
+		}else{}
 	}
 
 	/**

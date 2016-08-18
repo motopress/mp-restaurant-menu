@@ -248,7 +248,9 @@ class Media extends Core {
 								)
 							),
 							'desc' => 'Choose a page template to control the appearance of your single event and column page.',
+							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
 							'type' => 'select',
+
 						),
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',

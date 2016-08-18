@@ -1,9 +1,5 @@
 <?php
-use mp_restaurant_menu\classes;
-use mp_restaurant_menu\classes\Core;
-use mp_restaurant_menu\classes\models;
-use mp_restaurant_menu\classes\modules\Breadcrumbs;
-use mp_restaurant_menu\classes\View;
+use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
 
 
 
@@ -52,9 +48,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
-    $custom_class = 'mprm-'.classes\Media::get_instance()->template_mode().'-mode';
 
-	$classes[] =  $custom_class;
 
     if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
 		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
@@ -75,7 +69,9 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 		}
 	}
 
+    $custom_class = 'mprm-'.classes\Media::get_instance()->template_mode().'-mode';
 
+	$classes[] =  $custom_class;
 	$classes[] = 'mp-menu-item';
 
 	return $classes;
@@ -1277,7 +1273,7 @@ function mprm_before_menu_item_header() {
  * Shortcode header
  */
 function mprm_menu_item_header() { ?>
-	<h2 class="mprm-title"><?php the_title() ?></h2>
+	<h1 class="mprm-header-title"><?php the_title() ?></h1>
 	<?php
 	if (apply_filters('mprm-item-breadcrumbs', true)) {
 		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => __('Home', 'mp-restaurant-menu')));

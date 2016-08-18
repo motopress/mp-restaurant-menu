@@ -591,12 +591,18 @@ class Settings extends Model {
 		} else {
 			$placeholder = '';
 		}
+		if (isset($args['readonly']) && ($args['readonly'] == true)) {
+			$disabled = 'disabled="disabled"';
+		} else {
+			$disabled = '';
+		}
+
 		if (isset($args['chosen'])) {
 			$chosen = 'class="mprm-chosen"';
 		} else {
 			$chosen = '';
 		}
-		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $disabled . ' name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
 		foreach ($args['options'] as $option => $name) {
 			$selected = selected($option, $value, false);
 			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
