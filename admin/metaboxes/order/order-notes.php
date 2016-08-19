@@ -19,8 +19,7 @@ $order_id = $order->ID;
 	</div>
 	<textarea name="mprm-order-note" id="mprm-order-note" class="large-text"></textarea>
 	<p>
-		<button id="mprm-add-order-note" class="button button-secondary right"
-		        data-order-id="<?php echo absint($order_id); ?>"><?php _e('Add Note', 'mp-restaurant-menu'); ?></button>
+		<button id="mprm-add-order-note" class="button button-secondary right" data-order-id="<?php echo absint($order_id); ?>"><?php _e('Add Note', 'mp-restaurant-menu'); ?></button>
 	</p>
 	<div class="mprm-clear"></div>
 </div>

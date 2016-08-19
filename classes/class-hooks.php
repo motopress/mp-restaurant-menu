@@ -489,7 +489,7 @@ class Hooks extends Core {
 		add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
 		add_action('mprm_menu_item_single_theme_view', 'mprm_get_purchase_template', 15);
 		add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 20);
-//		add_action('mprm_menu_item_single_theme_view', 'get_attributes_theme_view', 25);
+		add_action('mprm_menu_item_single_theme_view', 'get_attributes_theme_view', 25);
 		add_action('mprm_menu_item_single_theme_view', 'get_nutritional_theme_view', 30);
 		add_action('mprm_menu_item_single_theme_view', 'get_related_items_theme_view', 35);
 
@@ -786,6 +786,7 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
+
 	}
 
 	/**
@@ -844,7 +845,8 @@ class Hooks extends Core {
 		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
 
-		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'settings_template_mode'), 10, 3);
+		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'filter_template_mode'), 10, 3);
+		add_filter('mprm_get_option_button_style', array(Core::get_instance(), 'filter_button_style'), 10, 3);
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
 		add_filter('mprm_settings_general', array($this, 'filter_options'), 10, 1);
 	}
@@ -855,7 +857,6 @@ class Hooks extends Core {
 	public function admin_init() {
 
 		// install metaboxes
-
 		$this->get('menu_item')->init_metaboxes();
 
 		add_filter('post_updated_messages', array($this, 'post_updated_messages'));
@@ -887,6 +888,7 @@ class Hooks extends Core {
 
 		add_action('admin_notices', array($this, 'show_admin_notices'));
 		add_action('admin_notices', array($this, 'admin_notices_action'));
+
 		add_filter('post_row_actions', array($this, 'remove_row_actions'), 10, 2);
 
 		add_action('save_post', array(Post::get_instance(), 'save'));
@@ -919,6 +921,7 @@ class Hooks extends Core {
 		add_action('current_screen', array(Media::get_instance(), 'current_screen'));
 		//add media in admin WP
 		add_action('admin_enqueue_scripts', array(Media::get_instance(), "admin_enqueue_scripts"));
+
 		register_importer('mprm-importer', 'Restaurant Menu', __('Import menu items, categories, images and other data.', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
 		//Emails
 		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
@@ -1075,12 +1078,7 @@ class Hooks extends Core {
 	 * @param $post_type
 	 */
 	public function quick_edit($column_name, $post_type) {
-//
-//static $printNonce = TRUE;
-//		if ( $printNonce ) {
-//			$printNonce = FALSE;
-//			wp_nonce_field( plugin_basename( __FILE__ ), 'book_edit_nonce' );
-//		}
+
 		switch ($post_type) {
 			case "{$this->post_types['menu_item']}":
 				$this->get_view()->render_html('../admin/quick-edit/menu-item', array('column_name' => $column_name), true);
@@ -1249,7 +1247,7 @@ class Hooks extends Core {
 	 * @return mixed
 	 */
 	public function post_updated_messages($messages) {
-		global $post, $post_ID;
+		global $post;
 		$messages['mprm_order'] = array(
 			0 => '', // Unused. Messages start at index 1.
 			1 => __('Order updated.', 'mp-restaurant-menu'),
@@ -1358,13 +1356,5 @@ class Hooks extends Core {
 		}
 
 		return $args;
-	}
-
-	/**
-	 * @param $post_id
-	 * @param $product
-	 */
-	private function quick_edit_save($post_id, $product) {
-
 	}
 }

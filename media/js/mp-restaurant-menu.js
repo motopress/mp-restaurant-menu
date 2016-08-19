@@ -584,7 +584,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						/**
 						 *
-						 * @param {Object[json]}data
+						 * @param {Object}data
 						 */
 						function(data) {
 							$('.mprm_cart_subtotal_amount').each(function() {

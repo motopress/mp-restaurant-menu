@@ -165,6 +165,9 @@ function mprm_show_gateways() {
 	return models\Gateways::get_instance()->show_gateways();
 }
 
+/**
+ * Get cc form
+ */
 function mprm_get_cc_form() {
 	ob_start(); ?>
 	<?php do_action('mprm_before_cc_fields'); ?>
@@ -473,7 +476,6 @@ function mprm_print_errors() {
 
 function mprm_purchase_form_after_submit() {
 }
-
 
 function mprm_get_login_fields() {
 	$color = mprm_get_option('checkout_color', 'gray');

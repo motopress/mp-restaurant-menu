@@ -266,11 +266,8 @@ there.
           transform: scale(1.2, 1.2);
 }
 .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-menu-category:before {
-  background-color: rgba(70, 70, 70, 0.7);
-  background-image: inherit;
-  background-position: center center;
-  background-repeat: no-repeat;
   background-size: cover;
+  background: rgba(70, 70, 70, 0.7) inherit no-repeat center center;
   content: "";
   height: 100%;
   left: 0;
@@ -526,10 +523,7 @@ there.
           transform: scale(1.2, 1.2);
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category:before {
-  background-color: rgba(70, 70, 70, 0.7);
-  background-image: inherit;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: rgba(70, 70, 70, 0.7) inherit no-repeat center center;
   background-size: cover;
   content: "";
   height: 100%;
@@ -755,6 +749,7 @@ there.
 }
 .mprm_widget .mprm-side.mprm-left-side img {
   height: auto;
+  width: 100%;
 }
 .mprm_widget .mprm-container .mprm-row a.mprm-link {
   text-decoration: none;
@@ -1121,9 +1116,8 @@ there.
 .mprm-plugin-styles .mprm-submit.gray:active,
 .mprm-plugin-styles input.mprm-submit.gray:active {
   color: #333333;
-  background: #ebebeb;
+  background: #ebebeb none;
   border-color: #adadad;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.white,
 .mprm-plugin-styles input.mprm-submit.white {
@@ -1138,9 +1132,8 @@ there.
 .mprm-plugin-styles .mprm-submit.white:active,
 .mprm-plugin-styles input.mprm-submit.white:active {
   color: #333333;
-  background: #ebebeb;
+  background: #ebebeb none;
   border-color: #adadad;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.blue,
 .mprm-plugin-styles input.mprm-submit.blue {
@@ -1155,9 +1148,8 @@ there.
 .mprm-plugin-styles .mprm-submit.blue:active,
 .mprm-plugin-styles input.mprm-submit.blue:active {
   color: #ffffff;
-  background: #3276b1;
+  background: #3276b1 none;
   border-color: #285e8e;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.red,
 .mprm-plugin-styles input.mprm-submit.red {
@@ -1172,9 +1164,8 @@ there.
 .mprm-plugin-styles .mprm-submit.red:active,
 .mprm-plugin-styles input.mprm-submit.red:active {
   color: #ffffff;
-  background: #d2322d;
+  background: #d2322d none;
   border-color: #ac2925;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.green,
 .mprm-plugin-styles input.mprm-submit.green {
@@ -1189,9 +1180,8 @@ there.
 .mprm-plugin-styles .mprm-submit.green:active,
 .mprm-plugin-styles input.mprm-submit.green:active {
   color: #ffffff;
-  background: #47a447;
+  background: #47a447 none;
   border-color: #398439;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.yellow,
 .mprm-plugin-styles input.mprm-submit.yellow {
@@ -1206,9 +1196,8 @@ there.
 .mprm-plugin-styles .mprm-submit.yellow:active,
 .mprm-plugin-styles input.mprm-submit.yellow:active {
   color: #ffffff;
-  background: #ed9c28;
+  background: #ed9c28 none;
   border-color: #d58512;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.orange,
 .mprm-plugin-styles input.mprm-submit.orange {
@@ -1223,9 +1212,8 @@ there.
 .mprm-plugin-styles .mprm-submit.orange:active,
 .mprm-plugin-styles input.mprm-submit.orange:active {
   color: #ffffff;
-  background: #e59016;
+  background: #e59016 none;
   border-color: #d58512;
-  background-image: none;
 }
 .mprm-plugin-styles .mprm-submit.dark-gray,
 .mprm-plugin-styles input.mprm-submit.dark-gray {
@@ -1240,9 +1228,8 @@ there.
 .mprm-plugin-styles .mprm-submit.dark-gray:active,
 .mprm-plugin-styles input.mprm-submit.dark-gray:active {
   color: #ffffff;
-  background: #333;
+  background: #333 none;
   border-color: #adadad;
-  background-image: none;
 }
 .mprm-cart-added-alert {
   color: #567622;

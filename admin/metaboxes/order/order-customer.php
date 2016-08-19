@@ -1,5 +1,5 @@
 <?php
-use  mp_restaurant_menu\classes\View as View;
+use mp_restaurant_menu\classes\View as View;
 
 global $post;
 $order = mprm_get_order_object($post);
@@ -15,8 +15,6 @@ $phone = esc_attr($order->phone_number); ?>
 		<p class="mprm-customer-information">
 			<?php View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_id)) ?>
 		</p>
-
-
 	</div>
 	<div class="mprm-columns mprm-six">
 		<a href="#new" class="mprm-new-customer"
@@ -36,8 +34,8 @@ $phone = esc_attr($order->phone_number); ?>
 	</div>
 
 	<div class="mprm-columns mprm-three">
-		<strong><?php _e('Phone nunber:', 'mp-restaurant-menu'); ?></strong>&nbsp;
-		<input type="tel" name="mprm-new-phone-number" value="" class="medium-text"/>
+		<strong><?php _e('Phone number:', 'mp-restaurant-menu'); ?></strong>&nbsp;
+		<input type="text" name="mprm-new-phone-number" value="" class="medium-text"/>
 	</div>
 
 	<div class="mprm-columns mprm-three">

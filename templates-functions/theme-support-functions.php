@@ -14,19 +14,24 @@ function get_price_theme_view() {
  * Ingredients template part
  */
 function get_ingredients_theme_view() {
-	$ingredients = mprm_get_ingredients(); ?>
-	<?php if (!empty($ingredients)) { ?>
-		<div class="mprm-ingredients mprm-content-container">
-			<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+	$ingredients = mprm_get_ingredients();
+	do_action('mprm_ingredients_theme_view_before', $ingredients);
+	if (!empty($ingredients)) { ?>
+		<!--		<div class="mprm-ingredients mprm-content-container">-->
+		<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+		<ul>
 			<?php foreach ($ingredients as $ingredient):
 				if (!is_object($ingredient)) {
 					continue;
 				} ?>
-				<span class="mprm-ingredient"><?php echo $ingredient->name ?></span>
-				<span class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></span>
+				<li><?php echo $ingredient->name ?></li>
+				<!--				<li class="mprm-ingredients-delimiter">--><?php //echo apply_filters('mprm_ingredients_delimiter', '/');
+				?><!--</li>-->
 			<?php endforeach; ?>
-		</div>
+			<!--		</div>-->
+		</ul>
 	<?php }
+	do_action('mprm_ingredients_theme_view_after', $ingredients);
 }
 
 /**
@@ -34,17 +39,19 @@ function get_ingredients_theme_view() {
  */
 function get_attributes_theme_view() {
 	$attributes = mprm_get_attributes();
+	do_action('mprm_attributes_theme_view_before', $attributes);
 	if ($attributes) { ?>
-		<div class="mprm-proportions mprm-content-container">
-			<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
+		<ul>
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info['val'])): ?>
-					<div class="mprm-proportion"><?php echo $info['val']; ?></div>
+					<li><?php echo $info['val']; ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 		<?php
 	}
+	do_action('mprm_attributes_theme_view_before', $attributes);
 }
 
 /**
@@ -52,16 +59,20 @@ function get_attributes_theme_view() {
  */
 function get_nutritional_theme_view() {
 	$nutritional = mprm_get_nutritional();
+	do_action('mprm_nutritional_theme_view_before', $nutritional);
+
 	if (!empty($nutritional)) { ?>
-		<div class="mprm-nutrition mprm-content-container">
-			<h3><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+		<ul>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info['val'])): ?>
-					<span class="mprm-nutrition-item"><?php echo mprm_get_nutrition_label(strtolower($info['title'])) . apply_filters('mprm-nutritional-delimiter', ': ') . $info['val']; ?></span>
+					<li><?php echo mprm_get_nutrition_label(strtolower($info['title'])) . apply_filters('mprm-nutritional-delimiter', ': ') . $info['val']; ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 	<?php }
+
+	do_action('mprm_nutritional_theme_view_before', $nutritional);
 }
 
 /**
@@ -72,20 +83,16 @@ function get_related_items_theme_view() {
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
 			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
-			<p>
-				<?php foreach ($related_items as $related_item) { ?>
-					<span>
-						<a href="<?php echo get_permalink($related_item) ?>" title="<?php echo get_the_title($related_item) ?>">
-							<?php
-							if (has_post_thumbnail($related_item)) {
-								echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
-							} else { ?>
-								<span><?php echo get_the_title($related_item) ?></span>
-							<?php } ?>
-						</a>
-					</span>
-				<?php } ?>
-			</p>
+			<?php foreach ($related_items as $related_item) { ?>
+				<a href="<?php echo get_permalink($related_item) ?>" title="<?php echo get_the_title($related_item) ?>">
+					<?php
+					if (has_post_thumbnail($related_item)) {
+						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
+					} else { ?>
+						<span><?php echo get_the_title($related_item) ?></span>
+					<?php } ?>
+				</a>
+			<?php } ?>
 		</div>
 	<?php }
 }

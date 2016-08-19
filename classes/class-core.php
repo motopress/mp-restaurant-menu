@@ -92,6 +92,7 @@ class Core {
 		if (isset($this->taxonomy_names[$value])) {
 			return $this->taxonomy_names[$value];
 		}
+		return false;
 	}
 
 	/**
@@ -105,6 +106,7 @@ class Core {
 		if (isset($this->post_types[$value])) {
 			return $this->post_types[$value];
 		}
+		return false;
 	}
 
 	/**
@@ -184,7 +186,6 @@ class Core {
 		}
 	}
 
-
 	/**
 	 * Get model instance
 	 *
@@ -211,10 +212,11 @@ class Core {
 		return Core::get_instance()->get_state()->get_model($type);
 	}
 
+
 	/**
 	 * Get State
 	 *
-	 * @return object/bool State
+	 * @return bool/Object
 	 */
 	public function get_state() {
 		if ($this->state) {
@@ -284,7 +286,7 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function settings_template_mode($value) {
+	public function filter_template_mode($value) {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'plugin';
 		}
@@ -292,6 +294,28 @@ class Core {
 	}
 
 	/**
+	 *  Theme mode
+	 *
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	public function filter_button_style($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
+			$value = 'button';
+		}
+
+		if (Media::get_instance()->template_mode() == 'theme') {
+			$value = 'mprm-button';
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 *  Available theme
+	 *
 	 * @param $params
 	 *
 	 * @return array
@@ -315,17 +339,12 @@ class Core {
 		if (!empty($name)) {
 			return require(MP_RM_CONFIGS_PATH . "{$name}.php");
 		}
+		return array();
 	}
 
 	/**
 	 *
 	 */
 	private function __clone() {
-	}
-
-	/**
-	 *
-	 */
-	private function __wakeup() {
 	}
 }
