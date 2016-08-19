@@ -5,9 +5,14 @@
  */
 function get_price_theme_view() {
 	$price = mprm_get_price();
+
+	do_action('mprm_price_theme_view_before', $price);
+
 	if (!empty($price)) { ?>
 		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo mprm_currency_filter(mprm_format_amount($price)) ?></b></span></p>
 	<?php }
+	
+	do_action('mprm_price_theme_view_after', $price);
 }
 
 /**
@@ -51,7 +56,7 @@ function get_attributes_theme_view() {
 		<?php
 	}
 
-	do_action('mprm_attributes_theme_view_before', $attributes);
+	do_action('mprm_attributes_theme_view_after', $attributes);
 }
 
 /**
@@ -72,7 +77,7 @@ function get_nutritional_theme_view() {
 		</ul>
 	<?php }
 
-	do_action('mprm_nutritional_theme_view_before', $nutritional);
+	do_action('mprm_nutritional_theme_view_after', $nutritional);
 }
 
 /**
@@ -98,7 +103,7 @@ function get_related_items_theme_view() {
 		</div>
 	<?php }
 
-	do_action('mprm_related_items_theme_view_before', $related_items);
+	do_action('mprm_related_items_theme_view_after', $related_items);
 }
 
 /**
@@ -113,6 +118,8 @@ function get_gallery_theme_view() {
 }
 
 /**
+ * Get template mode
+ *
  * @return mixed|string|void
  */
 function mprm_get_template_mode() {
