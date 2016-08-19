@@ -1750,6 +1750,10 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ('mprm_order' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Order").init();
 		}
+		if ($('.mprm-select-chosen').length) {
+			MP_RM_Registry._get("Order").initChosen();
+		}
+
 		if ($('.mprm-add-to-cart').length) {
 			MP_RM_Registry._get('Menu-Shop').addToCart();
 		}

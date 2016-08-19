@@ -11,7 +11,7 @@ function get_price_theme_view() {
 	if (!empty($price)) { ?>
 		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo mprm_currency_filter(mprm_format_amount($price)) ?></b></span></p>
 	<?php }
-	
+
 	do_action('mprm_price_theme_view_after', $price);
 }
 

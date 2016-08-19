@@ -342,7 +342,7 @@ class Media extends Core {
 							'name' => __('Currency', 'mp-restaurant-menu'),
 							'desc' => __('Choose your currency. <i>Note that some payment gateways have currency restrictions.</i>', 'mp-restaurant-menu'),
 							'type' => 'select',
-							'options' => Settings::get_instance()->get_currencies(),
+							'options' => Settings::get_instance()->get_currencies_with_symbols(),
 							'chosen' => true,
 						),
 						'currency_position' => array(
@@ -1096,6 +1096,8 @@ class Media extends Core {
 					wp_enqueue_media();
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
+					$this->enqueue_script('mprm-chosen', "libs/chosen.jquery{$prefix}.js", array("jquery"), '1.1.0');
 					break;
 				case "edit-mp_menu_category":
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
