@@ -1,26 +1,24 @@
 <form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
 	<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 	<div class="mprm_purchase_submit_wrapper">
-		<?php
-		$class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));
+		<?php $class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));
 		if (!$is_ajax_disabled) { ?>
-			<div class="mprm-content-container">
-				<a href="#" class="mprm-add-to-cart mprm-has-js <?php echo esc_attr($class) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?>>
+			<p <?php echo $button_display ?>>
+				<a href="#" class="mprm-add-to-cart mprm-has-js <?php echo esc_attr($class) ?>"
+				   data-action="mprm_add_to_cart"
+				   data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?>>
 					<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
 					<span class="mprm-loading">
 					<i class="mprm-icon-spinner mprm-icon-spin"></i>
 				</span>
 				</a>
-			</div>
-
+			</p>
 		<?php } else { ?>
 			<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 		<?php } ?>
-
-		<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>" <?php echo $checkout_display ?>>
-			<?php _e('Checkout', 'mp-restaurant-menu') ?>
-		</a>
-
+		<p <?php echo $checkout_display ?>>
+			<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>">    <?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+		</p>
 		<?php if (!$is_ajax_disabled) : ?>
 			<span class="mprm-cart-ajax-alert">
 					<span class="mprm-cart-added-alert" style="display: none;">

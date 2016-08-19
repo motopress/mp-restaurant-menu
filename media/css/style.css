@@ -1067,8 +1067,8 @@ there.
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
-.mprm-pluign-mode .mprm-submit,
-.mprm-pluign-mode input.mprm-submit {
+.mprm-plugin-mode .mprm-submit,
+.mprm-plugin-mode input.mprm-submit {
   text-decoration: none;
   outline: none;
   box-shadow: none;
@@ -1595,7 +1595,7 @@ there.
   margin: 0;
   padding: 0;
 }
-.type-mp_menu_item.hentry .mprm-related-items span {
+.type-mp_menu_item.hentry .mprm-related-items > a {
   display: inline-block;
 }
 .mprm-ingredients .mprm-ingredients-delimiter:last-child {

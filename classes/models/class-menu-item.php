@@ -2,6 +2,7 @@
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
+use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\models\parents\Store_item;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\View;
@@ -483,7 +484,6 @@ class Menu_item extends Store_item {
 			$button_display = '';
 			$checkout_display = 'style="display:none;"';
 		}
-
 		// Collect any form IDs we've displayed already so we can avoid duplicate IDs
 		if (isset($mprm_displayed_form_ids[$post->ID])) {
 			$mprm_displayed_form_ids[$post->ID]++;
@@ -496,7 +496,7 @@ class Menu_item extends Store_item {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
 		$args = apply_filters('mprm_purchase_link_args', $args);
-		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-form',
+		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->template_mode() . '-form',
 			array(
 				'args' => $args,
 				'form_id' => $form_id,

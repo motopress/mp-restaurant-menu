@@ -16,8 +16,8 @@ function get_price_theme_view() {
 function get_ingredients_theme_view() {
 	$ingredients = mprm_get_ingredients();
 	do_action('mprm_ingredients_theme_view_before', $ingredients);
+
 	if (!empty($ingredients)) { ?>
-		<!--		<div class="mprm-ingredients mprm-content-container">-->
 		<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($ingredients as $ingredient):
@@ -25,12 +25,10 @@ function get_ingredients_theme_view() {
 					continue;
 				} ?>
 				<li><?php echo $ingredient->name ?></li>
-				<!--				<li class="mprm-ingredients-delimiter">--><?php //echo apply_filters('mprm_ingredients_delimiter', '/');
-				?><!--</li>-->
 			<?php endforeach; ?>
-			<!--		</div>-->
 		</ul>
 	<?php }
+
 	do_action('mprm_ingredients_theme_view_after', $ingredients);
 }
 
@@ -40,6 +38,7 @@ function get_ingredients_theme_view() {
 function get_attributes_theme_view() {
 	$attributes = mprm_get_attributes();
 	do_action('mprm_attributes_theme_view_before', $attributes);
+
 	if ($attributes) { ?>
 		<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
 		<ul>
@@ -51,6 +50,7 @@ function get_attributes_theme_view() {
 		</ul>
 		<?php
 	}
+
 	do_action('mprm_attributes_theme_view_before', $attributes);
 }
 
@@ -80,6 +80,8 @@ function get_nutritional_theme_view() {
  */
 function get_related_items_theme_view() {
 	$related_items = mprm_get_related_items();
+	do_action('mprm_related_items_theme_view_before', $related_items);
+
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
 			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
@@ -95,6 +97,8 @@ function get_related_items_theme_view() {
 			<?php } ?>
 		</div>
 	<?php }
+
+	do_action('mprm_related_items_theme_view_before', $related_items);
 }
 
 /**
