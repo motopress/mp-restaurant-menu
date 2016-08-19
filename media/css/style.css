@@ -1067,8 +1067,8 @@ there.
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
-.mprm-plugin-styles .mprm-submit,
-.mprm-plugin-styles input.mprm-submit {
+.mprm-pluign-mode .mprm-submit,
+.mprm-pluign-mode input.mprm-submit {
   text-decoration: none;
   outline: none;
   box-shadow: none;

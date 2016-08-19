@@ -457,12 +457,13 @@ class Purchase extends Model {
 	 */
 	public function purchase_form_validate_phone() {
 		$number = sanitize_text_field($_POST['phone_number']);
-		$regex = "/(\+?\d[- .]*){7,13}/i";
-		$valid = preg_match($regex, $number) ? true : false;
-		if (!$valid) {
-			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
-		}
-		return $valid ? $number : false;
+//		$regex = "/(\+?\d[- .]*){7,13}/i";
+//		$valid = preg_match($regex, $number) ? true : false;
+//		if (!$valid) {
+//			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
+//		}
+//		return $valid ? $number : false;
+		return $number;
 	}
 
 	public function purchase_form_validate_agree_to_terms() {
