@@ -671,7 +671,7 @@ class Media extends Core {
 						'enable_taxes' => array(
 							'id' => 'enable_taxes',
 							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
-							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to enable taxes on purchases.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 //						'tax_rates' => array(
@@ -682,8 +682,8 @@ class Media extends Core {
 //						),
 						'tax_rate' => array(
 							'id' => 'tax_rate',
-							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
-							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
+							'name' => __('Tax Rate', 'mp-restaurant-menu'),
+							'desc' => __('Specify a tax rate percentage (e.g. 10%). All customers will be charged this rate.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 						),
