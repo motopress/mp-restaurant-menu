@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
 Tags: restaurant, menu
 Requires at least: 3.6
-Tested up to: 4.5.3
+Tested up to: 4.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,10 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 6. Lightbox of Menu item' Gallery Images
 
 == Changelog ==
+
+= 2.0.0 =
+* We improved compatibility with your theme styles in this update. If you still stick to a previous version, simply change the template mode option in the plugin settings.
+* Minor bugfixes
 
 = 1.1.4 =
 * Added the ability to display menu items in the simplified list view

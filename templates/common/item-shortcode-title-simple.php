@@ -11,7 +11,7 @@ if (empty($price) && !empty($mprm_view_args['price'])) {
 
 ?>
 <ul class="mprm-list <?php echo $price_wrapper_class . ' ' . $price_position_class ?>">
-	<li class="mprm-flex-item"><strong><?php echo $mprm_menu_item->post_title ?></strong></li>
+	<li class="mprm-flex-item"><?php echo $mprm_menu_item->post_title ?></li>
 	<li class="mprm-flex-item mprm-dots"></li>
 	<li class="mprm-flex-item mprm-price"><?php echo $price ?></li>
 </ul>
