@@ -38,6 +38,7 @@ class Store_item extends Model {
 			$price = substr($price, 1); // Remove proceeding "-" -
 		}
 		$symbol = $this->get('settings')->get_currency_symbol($currency);
+
 		if ($position == 'before'):
 			switch ($currency):
 				case "GBP" :
@@ -54,7 +55,7 @@ class Store_item extends Model {
 					$formatted = $symbol . $price;
 					break;
 				default :
-					$formatted = $currency . ' ' . $price;
+					$formatted = $symbol . ' ' . $price;
 					break;
 			endswitch;
 			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_before', $formatted, $currency, $price);
@@ -73,11 +74,12 @@ class Store_item extends Model {
 					$formatted = $price . $symbol;
 					break;
 				default :
-					$formatted = $price . ' ' . $currency;
+					$formatted = $price . ' ' . $symbol;
 					break;
 			endswitch;
 			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_after', $formatted, $currency, $price);
 		endif;
+
 		if ($negative) {
 			// Prepend the mins sign before the currency sign
 			$formatted = '-' . $formatted;
