@@ -119,6 +119,11 @@ class Formatting extends Model {
 	public function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
+		if (!is_numeric($amount)) {
+			$amount = 0;
+		}
+
 		// Format the amount
 		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
 			$whole = substr($amount, 0, $sep_found);
@@ -137,6 +142,7 @@ class Formatting extends Model {
 			$amount = 0;
 		}
 		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
+
 		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
 		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 	}

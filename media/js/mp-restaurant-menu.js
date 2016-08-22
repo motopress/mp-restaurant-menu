@@ -495,8 +495,17 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 
 						function(data) {
-							form.find('.mprm_go_to_checkout').show();
-							form.find('.mprm-add-to-cart').hide();
+							$('.mprm_go_to_checkout', form).show();
+							$('.mprm_go_to_checkout', form).parent().show();
+
+							$('.mprm-add-to-cart', form).hide();
+							$('.mprm-add-to-cart', form).parent().hide();
+
+
+							// form.find('.mprm_go_to_checkout').show();
+							// form.find('.mprm-add-to-cart').hide();
+							//
+
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
 							if (!data.redirect) {
 								$('.mprm-cart-added-alert', form).fadeIn();

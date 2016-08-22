@@ -18,14 +18,14 @@
 		<?php } ?>
 		<p <?php echo $checkout_display ?>>
 			<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>">    <?php _e('Checkout', 'mp-restaurant-menu') ?></a>
-		</p>
-		<?php if (!$is_ajax_disabled) : ?>
-			<span class="mprm-cart-ajax-alert">
+			<?php if (!$is_ajax_disabled) : ?>
+				<span class="mprm-cart-ajax-alert">
 					<span class="mprm-cart-added-alert" style="display: none;">
 						<i class="mprm-icon-ok"></i> <?php _e('Added to cart', 'mp-restaurant-menu'); ?>
 					</span>
 			</span>
-		<?php endif; ?>
+			<?php endif; ?>
+		</p>
 		<?php if (!$is_free): ?>
 			<?php if ($display_tax_rate && $prices_include_tax) {
 				echo '<span class="mprm_purchase_tax_rate">' . sprintf(__('Includes %1$s&#37; tax', 'mp-restaurant-menu'), $tax_rate * 100) . '</span>';
