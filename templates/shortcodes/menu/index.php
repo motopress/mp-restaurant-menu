@@ -4,7 +4,7 @@ $i = 1;
 ?>
 <div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 	<?php if ($view == 'simple-list'){ ?>
-	<div class="mprm-columns-count-<?php echo $col ?>">
+	<div class="mprm-columns-count-<?php echo $col ?> <?php echo empty($data['term'])? 'mprm-all-items':''?>" >
 		<?php } ?>
 		<?php foreach ($term_data as $term => $data) {
 			if (in_array($view, array('list', 'grid'))) {

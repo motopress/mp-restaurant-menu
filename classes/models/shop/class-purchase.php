@@ -133,41 +133,6 @@ class Purchase extends Model {
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
 
-	public function process_purchase_login() {
-		$is_ajax = isset($_POST['mprm_ajax']);
-		$user_data = $this->purchase_form_validate_user_login();
-		if ($this->get('errors')->get_errors() || $user_data['user_id'] < 1) {
-			if ($is_ajax) {
-				do_action('mprm_ajax_checkout_errors');
-				wp_die();
-			} else {
-				wp_redirect($_SERVER['HTTP_REFERER']);
-				exit;
-			}
-		}
-		$this->get('customer')->log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
-		if ($is_ajax) {
-			//wp_die();
-		} else {
-			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
-		}
-	}
-
-	/**
-	 * Validate phone
-	 *
-	 * @return bool|string
-	 */
-	public function purchase_form_validate_phone() {
-		$number = sanitize_text_field($_POST['phone_number']);
-		$regex = "/(\+?\d[- .]*){7,13}/i";
-		$valid = preg_match($regex, $number) ? true : false;
-		if (!$valid) {
-			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
-		}
-		return $valid ? $number : false;
-	}
-
 	/**
 	 * @return array|bool
 	 */
@@ -275,371 +240,6 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('invalid_discount', __('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
 		}
 		return implode(', ', $discounts);
-	}
-
-	public function purchase_form_validate_agree_to_terms() {
-		// Validate agree to terms
-		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
-			// User did not agree
-			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
-		}
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function purchase_form_required_fields() {
-		$required_fields = array(
-			'mprm_email' => array(
-				'error_id' => 'invalid_email',
-				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
-			),
-			'mprm_first' => array(
-				'error_id' => 'invalid_first_name',
-				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
-			)
-		);
-		// Let payment gateways and other extensions determine if address fields should be required
-		$require_address = apply_filters('mprm_require_billing_address', $this->get('taxes')->use_taxes() && $this->get('cart')->get_cart_total());
-		if ($require_address) {
-			$required_fields['card_zip'] = array(
-				'error_id' => 'invalid_zip_code',
-				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
-			);
-			$required_fields['card_city'] = array(
-				'error_id' => 'invalid_city',
-				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
-			);
-			$required_fields['billing_country'] = array(
-				'error_id' => 'invalid_country',
-				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
-			);
-			$required_fields['card_state'] = array(
-				'error_id' => 'invalid_state',
-				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
-			);
-		}
-		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function purchase_form_validate_logged_in_user() {
-		global $user_ID;
-		// Start empty array to collect valid user data
-		$valid_user_data = array(
-			// Assume there will be errors
-			'user_id' => -1
-		);
-		// Verify there is a user_ID
-		if ($user_ID > 0) {
-			// Get the logged in user data
-			$user_data = get_userdata($user_ID);
-			// Loop through required fields and show error messages
-			foreach ($this->purchase_form_required_fields() as $field_name => $value) {
-				if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
-					$this->get('errors')->set_error($value['error_id'], $value['error_message']);
-				}
-			}
-			// Verify data
-			if ($user_data) {
-				// Collected logged in user data
-				$valid_user_data = array(
-					'user_id' => $user_ID,
-					'user_email' => isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : $user_data->user_email,
-					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field($_POST['mprm_first']) : $user_data->first_name,
-					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field($_POST['mprm_last']) : $user_data->last_name,
-				);
-				if (!is_email($valid_user_data['user_email'])) {
-					$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
-				}
-			} else {
-				// Set invalid user error
-				$this->get('errors')->set_error('invalid_user', __('The user information is invalid', 'mp-restaurant-menu'));
-			}
-		}
-		// Return user data
-		return $valid_user_data;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function purchase_form_validate_new_user() {
-		$registering_new_user = false;
-		// Start an empty array to collect valid user data
-		$valid_user_data = array(
-			// Assume there will be errors
-			'user_id' => -1,
-			// Get first name
-			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field($_POST["mprm_first"]) : '',
-			// Get last name
-			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field($_POST["mprm_last"]) : '',
-		);
-		// Check the new user's credentials against existing ones
-		$user_login = isset($_POST["mprm_user_login"]) ? trim($_POST["mprm_user_login"]) : false;
-		$user_email = isset($_POST['mprm_email']) ? trim($_POST['mprm_email']) : false;
-		$user_pass = isset($_POST["mprm_user_pass"]) ? trim($_POST["mprm_user_pass"]) : false;
-		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? trim($_POST["mprm_user_pass_confirm"]) : false;
-		// Loop through required fields and show error messages
-		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
-			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
-				$this->get('errors')->set_error($value['error_id'], $value['error_message']);
-			}
-		}
-		// Check if we have an username to register
-		if ($user_login && strlen($user_login) > 0) {
-			$registering_new_user = true;
-			// We have an user name, check if it already exists
-			if (username_exists($user_login)) {
-				// Username already registered
-				$this->get('errors')->set_error('username_unavailable', __('Username already taken', 'mp-restaurant-menu'));
-				// Check if it's valid
-			} else if (!$this->get('customer')->validate_username($user_login)) {
-				// Invalid username
-				if (is_multisite())
-					$this->get('errors')->set_error('username_invalid', __('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
-				else
-					$this->get('errors')->set_error('username_invalid', __('Invalid username', 'mp-restaurant-menu'));
-			} else {
-				// All the checks have run and it's good to go
-				$valid_user_data['user_login'] = $user_login;
-			}
-		} else {
-			if ($this->get('misc')->no_guest_checkout()) {
-				$this->get('errors')->set_error('registration_required', __('You must register or login to complete your purchase', 'mp-restaurant-menu'));
-			}
-		}
-		// Check if we have an email to verify
-		if ($user_email && strlen($user_email) > 0) {
-			// Validate email
-			if (!is_email($user_email)) {
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
-				// Check if email exists
-			} else if (email_exists($user_email) && $registering_new_user) {
-				$this->get('errors')->set_error('email_used', __('Email already used', 'mp-restaurant-menu'));
-			} else {
-				// All the checks have run and it's good to go
-				$valid_user_data['user_email'] = $user_email;
-			}
-		} else {
-			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
-		}
-		// Check password
-		if ($user_pass && $pass_confirm) {
-			// Verify confirmation matches
-			if ($user_pass != $pass_confirm) {
-				// Passwords do not match
-				$this->get('errors')->set_error('password_mismatch', __('Passwords don\'t match', 'mp-restaurant-menu'));
-			} else {
-				// All is good to go
-				$valid_user_data['user_pass'] = $user_pass;
-			}
-		} else {
-			// Password or confirmation missing
-			if (!$user_pass && $registering_new_user) {
-				// The password is invalid
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
-			} else if (!$pass_confirm && $registering_new_user) {
-				// Confirmation password is invalid
-				$this->get('errors')->set_error('confirmation_empty', __('Enter the password confirmation', 'mp-restaurant-menu'));
-			}
-		}
-		return $valid_user_data;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function purchase_form_validate_user_login() {
-		// Start an array to collect valid user data
-		$valid_user_data = array(
-			// Assume there will be errors
-			'user_id' => -1
-		);
-		// Username
-		if (empty($_POST['mprm_user_login']) && $this->get('misc')->no_guest_checkout()) {
-			$this->get('errors')->set_error('must_log_in', __('You must login or register to complete your purchase', 'mp-restaurant-menu'));
-			return $valid_user_data;
-		}
-		// Get the user by login
-		$user_data = get_user_by('login', strip_tags($_POST['mprm_user_login']));
-		// Check if user exists
-		if ($user_data) {
-			// Get password
-			$user_pass = isset($_POST["mprm_user_pass"]) ? $_POST["mprm_user_pass"] : false;
-			// Check user_pass
-			if ($user_pass) {
-				// Check if password is valid
-				if (!wp_check_password($user_pass, $user_data->user_pass, $user_data->ID)) {
-					// Incorrect password
-					$this->get('errors')->set_error(
-						'password_incorrect',
-						sprintf(
-							__('The password you entered is incorrect. %sReset Password%s', 'mp-restaurant-menu'),
-							'<a href="' . wp_lostpassword_url($this->get('checkout')->get_checkout_uri()) . '" title="' . __('Lost Password', 'mp-restaurant-menu') . '">',
-							'</a>'
-						)
-					);
-					// All is correct
-				} else {
-					// Repopulate the valid user data array
-					$valid_user_data = array(
-						'user_id' => $user_data->ID,
-						'user_login' => $user_data->user_login,
-						'user_email' => $user_data->user_email,
-						'user_first' => $user_data->first_name,
-						'user_last' => $user_data->last_name,
-						'user_pass' => $user_pass,
-					);
-				}
-			} else {
-				// Empty password
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
-			}
-		} else {
-			// no username
-			$this->get('errors')->set_error('username_incorrect', __('The username you entered does not exist', 'mp-restaurant-menu'));
-		}
-		return $valid_user_data;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function purchase_form_validate_guest_user() {
-		// Start an array to collect valid user data
-		$valid_user_data = array(
-			// Set a default id for guests
-			'user_id' => 0,
-		);
-		// Show error message if user must be logged in
-		if ($this->get('settings')->logged_in_only()) {
-			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
-		}
-		// Get the guest email
-		$guest_email = isset($_POST['mprm_email']) ? $_POST['mprm_email'] : false;
-		// Check email
-		if ($guest_email && strlen($guest_email) > 0) {
-			// Validate email
-			if (!is_email($guest_email)) {
-				// Invalid email
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
-			} else {
-				// All is good to go
-				$valid_user_data['user_email'] = $guest_email;
-			}
-		} else {
-			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
-		}
-		// Loop through required fields and show error messages
-		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
-			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
-				$this->get('errors')->set_error($value['error_id'], $value['error_message']);
-			}
-		}
-		return $valid_user_data;
-	}
-
-	/**
-	 * @param array $user_data
-	 *
-	 * @return int|\WP_Error
-	 */
-	public function register_and_login_new_user($user_data = array()) {
-		// Verify the array
-		if (empty($user_data))
-			return -1;
-		if ($this->get('errors')->get_errors())
-			return -1;
-		$user_args = apply_filters('mprm_insert_user_args', array(
-			'user_login' => isset($user_data['user_login']) ? $user_data['user_login'] : '',
-			'user_pass' => isset($user_data['user_pass']) ? $user_data['user_pass'] : '',
-			'user_email' => isset($user_data['user_email']) ? $user_data['user_email'] : '',
-			'first_name' => isset($user_data['user_first']) ? $user_data['user_first'] : '',
-			'last_name' => isset($user_data['user_last']) ? $user_data['user_last'] : '',
-			'user_registered' => date('Y-m-d H:i:s'),
-			'role' => get_option('default_role')
-		), $user_data);
-		// Insert new user
-		$user_id = wp_insert_user($user_args);
-		// Validate inserted user
-		if (is_wp_error($user_id))
-			return -1;
-		// Allow themes and plugins to filter the user data
-		$user_data = apply_filters('mprm_insert_user_data', $user_data, $user_args);
-		// Allow themes and plugins to hook
-		do_action('mprm_insert_user', $user_id, $user_data);
-		// Login new user
-		$this->get('customer')->log_user_in($user_id, $user_data['user_login'], $user_data['user_pass']);
-		// Return user id
-		return $user_id;
-	}
-
-	/**
-	 * @param array $valid_data
-	 *
-	 * @return bool
-	 */
-	public function get_purchase_form_user($valid_data = array()) {
-		// Initialize user
-		$user = false;
-		$is_ajax = defined('DOING_AJAX') && DOING_AJAX;
-		if (is_user_logged_in()) {
-			// Set the valid user as the logged in collected data
-			$user = $valid_data['logged_in_user'];
-		} else if ($valid_data['need_new_user'] === true || $valid_data['need_user_login'] === true) {
-			// New user registration
-			if ($valid_data['need_new_user'] === true) {
-				// Set user
-				$user = $valid_data['new_user_data'];
-				// Register and login new user
-				$user['user_id'] = $this->register_and_login_new_user($user);
-				// User login
-			} else if ($valid_data['need_user_login'] === true && !$is_ajax) {
-				// Set user
-				$user = $valid_data['login_user_data'];
-				// Login user
-				$this->get('customer')->log_user_in($user['user_id'], $user['user_login'], $user['user_pass']);
-			}
-		}
-		// Check guest checkout
-		if (false === $user && false === $this->get('misc')->no_guest_checkout()) {
-			// Set user
-			$user = $valid_data['guest_user_data'];
-		}
-		// Verify we have an user
-		if (false === $user || empty($user)) {
-			// Return false
-			return false;
-		}
-		// Get user first name
-		if (!isset($user['user_first']) || strlen(trim($user['user_first'])) < 1) {
-			$user['user_first'] = isset($_POST["mprm_first"]) ? strip_tags(trim($_POST["mprm_first"])) : '';
-		}
-		// Get user last name
-		if (!isset($user['user_last']) || strlen(trim($user['user_last'])) < 1) {
-			$user['user_last'] = isset($_POST["mprm_last"]) ? strip_tags(trim($_POST["mprm_last"])) : '';
-		}
-		// Get the user's billing address details
-		$user['address'] = array();
-		$user['address']['line1'] = !empty($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : false;
-		$user['address']['line2'] = !empty($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : false;
-		$user['address']['city'] = !empty($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : false;
-		$user['address']['state'] = !empty($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : false;
-		$user['address']['country'] = !empty($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : false;
-		$user['address']['zip'] = !empty($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : false;
-		if (empty($user['address']['country']))
-			$user['address'] = false; // Country will always be set if address fields are present
-		if (!empty($user['user_id']) && $user['user_id'] > 0 && !empty($user['address'])) {
-			// Store the address in the user's meta so the cart can be pre-populated with it on return purchases
-			update_user_meta($user['user_id'], '_mprm_user_address', $user['address']);
-		}
-		// Return valid user
-		return $user;
 	}
 
 	/**
@@ -848,6 +448,407 @@ class Purchase extends Model {
 		if (!isset ($zip_regex[$country_code]) || preg_match("/" . $zip_regex[$country_code] . "/i", $zip))
 			$ret = true;
 		return apply_filters('mprm_is_zip_valid', $ret, $zip, $country_code);
+	}
+
+	/**
+	 * Validate phone
+	 *
+	 * @return bool|string
+	 */
+	public function purchase_form_validate_phone() {
+		$number = sanitize_text_field($_POST['phone_number']);
+//		$regex = "/(\+?\d[- .]*){7,13}/i";
+//		$valid = preg_match($regex, $number) ? true : false;
+//		if (!$valid) {
+//			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
+//		}
+//		return $valid ? $number : false;
+		return $number;
+	}
+
+	public function purchase_form_validate_agree_to_terms() {
+		// Validate agree to terms
+		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
+			// User did not agree
+			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function purchase_form_validate_logged_in_user() {
+		global $user_ID;
+		// Start empty array to collect valid user data
+		$valid_user_data = array(
+			// Assume there will be errors
+			'user_id' => -1
+		);
+		// Verify there is a user_ID
+		if ($user_ID > 0) {
+			// Get the logged in user data
+			$user_data = get_userdata($user_ID);
+			// Loop through required fields and show error messages
+			foreach ($this->purchase_form_required_fields() as $field_name => $value) {
+				if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
+					$this->get('errors')->set_error($value['error_id'], $value['error_message']);
+				}
+			}
+			// Verify data
+			if ($user_data) {
+				// Collected logged in user data
+				$valid_user_data = array(
+					'user_id' => $user_ID,
+					'user_email' => isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : $user_data->user_email,
+					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field($_POST['mprm_first']) : $user_data->first_name,
+					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field($_POST['mprm_last']) : $user_data->last_name,
+				);
+				if (!is_email($valid_user_data['user_email'])) {
+					$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				}
+			} else {
+				// Set invalid user error
+				$this->get('errors')->set_error('invalid_user', __('The user information is invalid', 'mp-restaurant-menu'));
+			}
+		}
+		// Return user data
+		return $valid_user_data;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function purchase_form_required_fields() {
+		$required_fields = array(
+			'mprm_email' => array(
+				'error_id' => 'invalid_email',
+				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
+			),
+			'mprm_first' => array(
+				'error_id' => 'invalid_first_name',
+				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
+			)
+		);
+		// Let payment gateways and other extensions determine if address fields should be required
+		$require_address = apply_filters('mprm_require_billing_address', $this->get('taxes')->use_taxes() && $this->get('cart')->get_cart_total());
+		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
+			$required_fields['card_zip'] = array(
+				'error_id' => 'invalid_zip_code',
+				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
+			);
+			$required_fields['card_city'] = array(
+				'error_id' => 'invalid_city',
+				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
+			);
+			$required_fields['billing_country'] = array(
+				'error_id' => 'invalid_country',
+				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
+			);
+			$required_fields['card_state'] = array(
+				'error_id' => 'invalid_state',
+				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
+			);
+		}
+		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function purchase_form_validate_new_user() {
+		$registering_new_user = false;
+		// Start an empty array to collect valid user data
+		$valid_user_data = array(
+			// Assume there will be errors
+			'user_id' => -1,
+			// Get first name
+			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field($_POST["mprm_first"]) : '',
+			// Get last name
+			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field($_POST["mprm_last"]) : '',
+		);
+		// Check the new user's credentials against existing ones
+		$user_login = isset($_POST["mprm_user_login"]) ? trim($_POST["mprm_user_login"]) : false;
+		$user_email = isset($_POST['mprm_email']) ? trim($_POST['mprm_email']) : false;
+		$user_pass = isset($_POST["mprm_user_pass"]) ? trim($_POST["mprm_user_pass"]) : false;
+		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? trim($_POST["mprm_user_pass_confirm"]) : false;
+		// Loop through required fields and show error messages
+		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
+			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
+				$this->get('errors')->set_error($value['error_id'], $value['error_message']);
+			}
+		}
+		// Check if we have an username to register
+		if ($user_login && strlen($user_login) > 0) {
+			$registering_new_user = true;
+			// We have an user name, check if it already exists
+			if (username_exists($user_login)) {
+				// Username already registered
+				$this->get('errors')->set_error('username_unavailable', __('Username already taken', 'mp-restaurant-menu'));
+				// Check if it's valid
+			} else if (!$this->get('customer')->validate_username($user_login)) {
+				// Invalid username
+				if (is_multisite())
+					$this->get('errors')->set_error('username_invalid', __('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
+				else
+					$this->get('errors')->set_error('username_invalid', __('Invalid username', 'mp-restaurant-menu'));
+			} else {
+				// All the checks have run and it's good to go
+				$valid_user_data['user_login'] = $user_login;
+			}
+		} else {
+			if ($this->get('misc')->no_guest_checkout()) {
+				$this->get('errors')->set_error('registration_required', __('You must register or login to complete your purchase', 'mp-restaurant-menu'));
+			}
+		}
+		// Check if we have an email to verify
+		if ($user_email && strlen($user_email) > 0) {
+			// Validate email
+			if (!is_email($user_email)) {
+				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				// Check if email exists
+			} else if (email_exists($user_email) && $registering_new_user) {
+				$this->get('errors')->set_error('email_used', __('Email already used', 'mp-restaurant-menu'));
+			} else {
+				// All the checks have run and it's good to go
+				$valid_user_data['user_email'] = $user_email;
+			}
+		} else {
+			// No email
+			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+		}
+		// Check password
+		if ($user_pass && $pass_confirm) {
+			// Verify confirmation matches
+			if ($user_pass != $pass_confirm) {
+				// Passwords do not match
+				$this->get('errors')->set_error('password_mismatch', __('Passwords don\'t match', 'mp-restaurant-menu'));
+			} else {
+				// All is good to go
+				$valid_user_data['user_pass'] = $user_pass;
+			}
+		} else {
+			// Password or confirmation missing
+			if (!$user_pass && $registering_new_user) {
+				// The password is invalid
+				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+			} else if (!$pass_confirm && $registering_new_user) {
+				// Confirmation password is invalid
+				$this->get('errors')->set_error('confirmation_empty', __('Enter the password confirmation', 'mp-restaurant-menu'));
+			}
+		}
+		return $valid_user_data;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function purchase_form_validate_user_login() {
+		// Start an array to collect valid user data
+		$valid_user_data = array(
+			// Assume there will be errors
+			'user_id' => -1
+		);
+		// Username
+		if (empty($_POST['mprm_user_login']) && $this->get('misc')->no_guest_checkout()) {
+			$this->get('errors')->set_error('must_log_in', __('You must login or register to complete your purchase', 'mp-restaurant-menu'));
+			return $valid_user_data;
+		}
+		// Get the user by login
+		$user_data = get_user_by('login', strip_tags($_POST['mprm_user_login']));
+		// Check if user exists
+		if ($user_data) {
+			// Get password
+			$user_pass = isset($_POST["mprm_user_pass"]) ? $_POST["mprm_user_pass"] : false;
+			// Check user_pass
+			if ($user_pass) {
+				// Check if password is valid
+				if (!wp_check_password($user_pass, $user_data->user_pass, $user_data->ID)) {
+					// Incorrect password
+					$this->get('errors')->set_error(
+						'password_incorrect',
+						sprintf(
+							__('The password you entered is incorrect. %sReset Password%s', 'mp-restaurant-menu'),
+							'<a href="' . wp_lostpassword_url($this->get('checkout')->get_checkout_uri()) . '" title="' . __('Lost Password', 'mp-restaurant-menu') . '">',
+							'</a>'
+						)
+					);
+					// All is correct
+				} else {
+					// Repopulate the valid user data array
+					$valid_user_data = array(
+						'user_id' => $user_data->ID,
+						'user_login' => $user_data->user_login,
+						'user_email' => $user_data->user_email,
+						'user_first' => $user_data->first_name,
+						'user_last' => $user_data->last_name,
+						'user_pass' => $user_pass,
+					);
+				}
+			} else {
+				// Empty password
+				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+			}
+		} else {
+			// no username
+			$this->get('errors')->set_error('username_incorrect', __('The username you entered does not exist', 'mp-restaurant-menu'));
+		}
+		return $valid_user_data;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function purchase_form_validate_guest_user() {
+		// Start an array to collect valid user data
+		$valid_user_data = array(
+			// Set a default id for guests
+			'user_id' => 0,
+		);
+		// Show error message if user must be logged in
+		if ($this->get('settings')->logged_in_only()) {
+			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
+		}
+		// Get the guest email
+		$guest_email = isset($_POST['mprm_email']) ? $_POST['mprm_email'] : false;
+		// Check email
+		if ($guest_email && strlen($guest_email) > 0) {
+			// Validate email
+			if (!is_email($guest_email)) {
+				// Invalid email
+				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+			} else {
+				// All is good to go
+				$valid_user_data['user_email'] = $guest_email;
+			}
+		} else {
+			// No email
+			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+		}
+		// Loop through required fields and show error messages
+		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
+			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
+				$this->get('errors')->set_error($value['error_id'], $value['error_message']);
+			}
+		}
+		return $valid_user_data;
+	}
+
+	public function process_purchase_login() {
+		$is_ajax = isset($_POST['mprm_ajax']);
+		$user_data = $this->purchase_form_validate_user_login();
+		if ($this->get('errors')->get_errors() || $user_data['user_id'] < 1) {
+			if ($is_ajax) {
+				do_action('mprm_ajax_checkout_errors');
+				wp_die();
+			} else {
+				wp_redirect($_SERVER['HTTP_REFERER']);
+				exit;
+			}
+		}
+		$this->get('customer')->log_user_in($user_data['user_id'], $user_data['user_login'], $user_data['user_pass']);
+		if ($is_ajax) {
+			//wp_die();
+		} else {
+			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
+		}
+	}
+
+	/**
+	 * @param array $valid_data
+	 *
+	 * @return bool
+	 */
+	public function get_purchase_form_user($valid_data = array()) {
+		// Initialize user
+		$user = false;
+		$is_ajax = defined('DOING_AJAX') && DOING_AJAX;
+		if (is_user_logged_in()) {
+			// Set the valid user as the logged in collected data
+			$user = $valid_data['logged_in_user'];
+		} else if ($valid_data['need_new_user'] === true || $valid_data['need_user_login'] === true) {
+			// New user registration
+			if ($valid_data['need_new_user'] === true) {
+				// Set user
+				$user = $valid_data['new_user_data'];
+				// Register and login new user
+				$user['user_id'] = $this->register_and_login_new_user($user);
+				// User login
+			} else if ($valid_data['need_user_login'] === true && !$is_ajax) {
+				// Set user
+				$user = $valid_data['login_user_data'];
+				// Login user
+				$this->get('customer')->log_user_in($user['user_id'], $user['user_login'], $user['user_pass']);
+			}
+		}
+		// Check guest checkout
+		if (false === $user && false === $this->get('misc')->no_guest_checkout()) {
+			// Set user
+			$user = $valid_data['guest_user_data'];
+		}
+		// Verify we have an user
+		if (false === $user || empty($user)) {
+			// Return false
+			return false;
+		}
+		// Get user first name
+		if (!isset($user['user_first']) || strlen(trim($user['user_first'])) < 1) {
+			$user['user_first'] = isset($_POST["mprm_first"]) ? strip_tags(trim($_POST["mprm_first"])) : '';
+		}
+		// Get user last name
+		if (!isset($user['user_last']) || strlen(trim($user['user_last'])) < 1) {
+			$user['user_last'] = isset($_POST["mprm_last"]) ? strip_tags(trim($_POST["mprm_last"])) : '';
+		}
+		// Get the user's billing address details
+		$user['address'] = array();
+		$user['address']['line1'] = !empty($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : false;
+		$user['address']['line2'] = !empty($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : false;
+		$user['address']['city'] = !empty($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : false;
+		$user['address']['state'] = !empty($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : false;
+		$user['address']['country'] = !empty($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : false;
+		$user['address']['zip'] = !empty($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : false;
+		if (empty($user['address']['country']))
+			$user['address'] = false; // Country will always be set if address fields are present
+		if (!empty($user['user_id']) && $user['user_id'] > 0 && !empty($user['address'])) {
+			// Store the address in the user's meta so the cart can be pre-populated with it on return purchases
+			update_user_meta($user['user_id'], '_mprm_user_address', $user['address']);
+		}
+		// Return valid user
+		return $user;
+	}
+
+	/**
+	 * @param array $user_data
+	 *
+	 * @return int|\WP_Error
+	 */
+	public function register_and_login_new_user($user_data = array()) {
+		// Verify the array
+		if (empty($user_data))
+			return -1;
+		if ($this->get('errors')->get_errors())
+			return -1;
+		$user_args = apply_filters('mprm_insert_user_args', array(
+			'user_login' => isset($user_data['user_login']) ? $user_data['user_login'] : '',
+			'user_pass' => isset($user_data['user_pass']) ? $user_data['user_pass'] : '',
+			'user_email' => isset($user_data['user_email']) ? $user_data['user_email'] : '',
+			'first_name' => isset($user_data['user_first']) ? $user_data['user_first'] : '',
+			'last_name' => isset($user_data['user_last']) ? $user_data['user_last'] : '',
+			'user_registered' => date('Y-m-d H:i:s'),
+			'role' => get_option('default_role')
+		), $user_data);
+		// Insert new user
+		$user_id = wp_insert_user($user_args);
+		// Validate inserted user
+		if (is_wp_error($user_id))
+			return -1;
+		// Allow themes and plugins to filter the user data
+		$user_data = apply_filters('mprm_insert_user_data', $user_data, $user_args);
+		// Allow themes and plugins to hook
+		do_action('mprm_insert_user', $user_id, $user_data);
+		// Login new user
+		$this->get('customer')->log_user_in($user_id, $user_data['user_login'], $user_data['user_pass']);
+		// Return user id
+		return $user_id;
 	}
 
 	/**

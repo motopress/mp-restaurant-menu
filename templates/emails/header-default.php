@@ -57,6 +57,7 @@ $header_content_h1 = "
 	<title><?php echo get_bloginfo('name'); ?></title>
 </head>
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="<?php echo $body; ?>">
+
 <div style="<?php echo $wrapper; ?>">
 	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
 		<tr>

@@ -9,7 +9,7 @@ $term_data = mprm_get_term_menu_items(); ?>
 
 	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 		<?php if ($view == 'simple-list'){ ?>
-		<div class="mprm-columns-count-<?php echo $col ?>">
+		<div class="mprm-columns-count-<?php echo $col ?> <?php echo empty($data['term']) ? 'mprm-all-items' : '' ?>">
 			<?php } ?>
 			<?php foreach ($term_data as $term => $data) {
 

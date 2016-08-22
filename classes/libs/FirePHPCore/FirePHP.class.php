@@ -619,6 +619,11 @@ class FirePHP {
 	 * @param array $options
 	 *
 	 * @return true
+
+	 * @param array $options
+	 *
+	 * @return true
+	 * @throws \Exception
 	 */
 	public function dump($Key, $Variable,
 

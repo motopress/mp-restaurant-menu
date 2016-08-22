@@ -8,6 +8,7 @@ use mp_restaurant_menu\classes\Model;
  * @package mp_restaurant_menu\classes\models
  */
 class Cart extends Model {
+
 	protected static $instance;
 
 	/**
@@ -44,6 +45,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Add item to cart
+	 *
 	 * @param $item_id
 	 * @param array $options
 	 *
@@ -58,11 +61,13 @@ class Cart extends Model {
 			return false;
 		}
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
+
 		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
 		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
 			// Forces to the first price ID if none is specified and menu_item has variable prices
 			$options['price_id'] = '0';
 		}
+
 		if (isset($options['quantity'])) {
 			if (is_array($options['quantity'])) {
 				$quantity = array();
@@ -76,7 +81,8 @@ class Cart extends Model {
 		} else {
 			$quantity = 1;
 		}
-		// If the price IDs are a string and is a coma separted list, make it an array (allows custom add to cart URLs)
+
+		// If the price IDs are a string and is a coma separated list, make it an array (allows custom add to cart URLs)
 		if (isset($options['price_id']) && !is_array($options['price_id']) && false !== strpos($options['price_id'], ',')) {
 			$options['price_id'] = explode(',', $options['price_id']);
 		}
@@ -105,14 +111,21 @@ class Cart extends Model {
 				'quantity' => $quantity
 			);
 		}
+
 		if (!empty($items)) {
+
 			foreach ($items as $item) {
 				$to_add = apply_filters('mprm_add_to_cart_item', $item);
-				if (!is_array($to_add))
+
+				if (!is_array($to_add)) {
 					return false;
-				if (!isset($to_add['id']) || empty($to_add['id']))
+				}
+
+				if (!isset($to_add['id']) || empty($to_add['id'])) {
 					return false;
-				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled()) {
+				}
+
+				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
 					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
 					if (is_array($quantity)) {
 						$cart[$key]['quantity'] += $quantity[$key];
@@ -123,10 +136,14 @@ class Cart extends Model {
 					$cart[] = $to_add;
 				}
 			}
+
 		}
+
 		$this->get('session')->set('mprm_cart', $cart);
+
 		do_action('mprm_post_add_to_cart', $item_id, $options);
-		// Clear all the checkout errors, if any
+
+		// Clear all errors
 		$this->get('errors')->clear_errors();
 		return count($cart) - 1;
 	}
@@ -189,7 +206,7 @@ class Cart extends Model {
 				}
 			}
 		}
-		return false; // Not found
+		return false;
 	}
 
 	/**
@@ -260,6 +277,9 @@ class Cart extends Model {
 		return apply_filters('mprm_generate_cart_token', md5(mt_rand() . time()));
 	}
 
+	/**
+	 * Empty cart
+	 */
 	public function empty_cart() {
 		$this->get('session')->set('mprm_cart', NULL);
 		$this->get('session')->set('mprm_cart_fees', NULL);
@@ -296,6 +316,9 @@ class Cart extends Model {
 		return apply_filters('mprm_get_cart_token', $token, $user_id);
 	}
 
+	/**
+	 * Delete saved carts
+	 */
 	public function delete_saved_carts() {
 		global $wpdb;
 		$start = date('Y-m-d', strtotime('-7 days'));
@@ -430,6 +453,24 @@ class Cart extends Model {
 		$label = '';
 		$price_id = isset($options['price_id']) ? $options['price_id'] : false;
 		if (!$this->get('menu_item')->is_free($item_id, $price_id) && !$this->get('taxes')->menu_item_is_tax_exclusive($item_id)) {
+
+			if ($this->get('taxes')->prices_show_tax_on_checkout() && !$this->get('taxes')->prices_include_tax()) {
+				$price += $this->get_cart_item_tax($item_id, $options, $price);
+			}
+			if (!$this->get('taxes')->prices_show_tax_on_checkout() && $this->get('taxes')->prices_include_tax()) {
+				$price -= $this->get_cart_item_tax($item_id, $options, $price);
+			}
+			if ($this->get('taxes')->display_tax_rate()) {
+				$label = '&nbsp;&ndash;&nbsp;';
+				if ($this->get('taxes')->prices_show_tax_on_checkout()) {
+					$label .= sprintf(__('includes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				} else {
+					$label .= sprintf(__('excludes %s tax', 'mp-restaurant-menu'), $this->get('taxes')->get_formatted_tax_rate());
+				}
+				$label = apply_filters('mprm_cart_item_tax_description', $label, $item_id, $options);
+			}
+		}
+		if (!empty($price) && $price_id === false) {
 			if ($this->get('taxes')->prices_show_tax_on_checkout() && !$this->get('taxes')->prices_include_tax()) {
 				$price += $this->get_cart_item_tax($item_id, $options, $price);
 			}
@@ -481,6 +522,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart item tax
+	 *
 	 * @param int $menu_item_id
 	 * @param array $options
 	 * @param string $subtotal
@@ -542,11 +585,14 @@ class Cart extends Model {
 	 * @return mixed
 	 */
 	public function cart_subtotal() {
+
 		$price = $this->get('menu_item')->currency_filter(mprm_format_amount($this->get_cart_subtotal()));
 		return $price;
 	}
 
 	/**
+	 * Get cart total
+	 *
 	 * @return mixed|void
 	 */
 	public function get_cart_subtotal() {
@@ -556,33 +602,46 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart content details
+	 *
 	 * @return array|bool
 	 */
 	public function get_cart_content_details() {
 		global $mprm_is_last_cart_item, $mprm_flat_discount_total;
+
 		$cart_items = $this->get_cart_contents();
+
 		if (empty($cart_items)) {
 			return false;
 		}
 		$details = array();
 		$length = count($cart_items) - 1;
+
 		foreach ($cart_items as $key => $item) {
+
 			if ($key >= $length) {
 				$mprm_is_last_cart_item = true;
 			}
+
 			$item['quantity'] = $this->item_quantities_enabled() ? absint($item['quantity']) : 1;
 			$item_price = $this->get_cart_item_price($item['id'], $item['options']);
+
 			$discount = $this->get('discount')->get_cart_item_discount_amount($item);
 			$discount = apply_filters('mprm_get_cart_content_details_item_discount_amount', $discount, $item);
-			$quantity = $this->get_cart_item_quantity($item['id'], $item['options']);
+
+			$quantity = $this->get_cart_item_quantity($item['id'], $item['options'], $key);
 			$fees = $this->get_cart_fees('fee', $item['id']);
+
 			$subtotal = $item_price * $quantity;
+
 			$tax = $this->get_cart_item_tax($item['id'], $item['options'], $subtotal - $discount);
+
 			if ($this->get('taxes')->prices_include_tax()) {
 				$subtotal -= round($tax, $this->get('formatting')->currency_decimal_filter());
 			}
+
 			$total = $subtotal - $discount + $tax;
-			// Do not allow totals to go negatve
+			// Do not allow totals to go negative
 			if ($total < 0) {
 				$total = 0;
 			}
@@ -603,18 +662,25 @@ class Cart extends Model {
 				$mprm_flat_discount_total = 0.00;
 			}
 		}
-		return $details;
+		return apply_filters('mprm_cart_content_details', $details);
 	}
 
 	/**
+	 * Cart item quantity
+	 *
 	 * @param int $menu_item_id
 	 * @param array $options
+	 * @param int /null $position
 	 *
 	 * @return mixed|void
 	 */
-	public function get_cart_item_quantity($menu_item_id = 0, $options = array()) {
+	public function get_cart_item_quantity($menu_item_id = 0, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();
-		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		if (is_null($position)) {
+			$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		} else {
+			$key = $position;
+		}
 		$quantity = isset($cart[$key]['quantity']) && $this->item_quantities_enabled() ? $cart[$key]['quantity'] : 1;
 		if ($quantity < 1)
 			$quantity = 1;
@@ -622,6 +688,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart fees
+	 *
 	 * @param string $type
 	 * @param int $menu_item_id
 	 *
@@ -632,6 +700,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart items subtotal
+	 *
 	 * @param $items
 	 *
 	 * @return mixed|void
@@ -653,6 +723,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart has discounts
+	 *
 	 * @return mixed|void
 	 */
 	public function cart_has_discounts() {
@@ -664,6 +736,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart Discounts
+	 *
 	 * @return array|bool
 	 */
 	public function get_cart_discounts() {
@@ -673,6 +747,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart total
+	 *
 	 * @param bool $echo
 	 *
 	 * @return mixed|void
@@ -686,6 +762,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart total
+	 *
 	 * @param bool $discounts
 	 *
 	 * @return float
@@ -698,6 +776,7 @@ class Cart extends Model {
 		$total = $subtotal - $discounts + $cart_tax + $fees;
 		if ($total < 0)
 			$total = 0.00;
+
 		return (float)apply_filters('mprm_get_cart_total', $total);
 	}
 
@@ -824,12 +903,18 @@ class Cart extends Model {
 	 * @param int $menu_item_id
 	 * @param int $quantity
 	 * @param array $options
+	 * @param int /null $position
 	 *
 	 * @return mixed|void
 	 */
-	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array()) {
+	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();
-		$key = $this->get_item_position_in_cart($menu_item_id, $options);
+
+		if (is_null($position)) {
+			$key = $this->get_item_position_in_cart($menu_item_id, $options);
+		} else {
+			$key = $position;
+		}
 
 		if ($quantity < 1) {
 			$quantity = 1;

@@ -106,7 +106,7 @@
 		], 'Chinese-food': [
 			'mprm-icon-chinese-food1',
 			'mprm-icon-chinese-food2'
-		], 'Coffeе': [
+		], 'Coffee': [
 			'mprm-icon-coffe',
 			'mprm-icon-coffe-hot'
 		], 'Cooking': [
@@ -119,7 +119,7 @@
 		], 'Cup': [
 			'mprm-icon-cup-1',
 			'mprm-icon-cup-2',
-			'mprm-icon-cup-3',
+			'mprm-icon-cup-3'
 		], 'Cutlery': [
 			'mprm-icon-cutlery-1',
 			'mprm-icon-cutlery-2',

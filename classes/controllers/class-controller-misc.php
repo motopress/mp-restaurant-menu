@@ -2,9 +2,6 @@
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
-use mp_restaurant_menu\classes\Core;
-
-use mp_restaurant_menu\classes\View;
 
 /**
  * Class Controller_misc

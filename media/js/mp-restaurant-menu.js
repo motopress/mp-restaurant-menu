@@ -1,4 +1,4 @@
-/*global jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
+/* globals jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -10,11 +10,8 @@ window.MP_RM_Registry = (function() {
 	 * @private
 	 */
 	function _testModule(module) {
-		if (module.getInstance && typeof module.getInstance === 'function') {
-			return true;
-		} else {
-			return false;
-		}
+
+		return (typeof module.getInstance) === 'function';
 	}
 
 	/**
@@ -97,10 +94,10 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			/**
 			 * WP Ajax
 			 *
-			 * @param {object} params
+			 * @param {Object} params
 			 * @param {function} callbackSuccess
 			 * @param {function} callbackError
-			 * @returns {undefined}
+			 * @returns {Object}
 			 */
 			wpAjax: function(params, callbackSuccess, callbackError) {
 				params.mprm_action = params.action;
@@ -122,48 +119,35 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				});
 			},
 			/**
-			 * Call Tool tip
+			 * Parse URI
 			 *
-			 * @param selector
-			 * @param text
-			 * @param timeOut
-			 * @returns {jBox}
+			 * @param url
+			 * @param name
+			 * @returns {*}
 			 */
-			callTooltip: function(selector, text, timeOut) {
-				if (_.isUndefined(timeOut)) {
-					timeOut = 5;
-				}
-				if (_.isUndefined(selector)) {
-					console.warn("Parameter 'selector' not find");
-				}
-				if (_.isUndefined(text)) {
-					console.warn("Parameter 'text' not find");
-				}
-				var tooltip = new jBox('Tooltip', {
-					content: text,
-					target: selector,
-					closeOnEsc: true,
-					adjustPosition: "flip",
-					adjustTracker: true,
-					reposition: true,
-					closeOnClick: "body",
-					maxWidth: 200,
-					onOpen: function() {
-						if (timeOut > 0) {
-							setTimeout(function() {
-								tooltip.close();
-							}, timeOut * 1000);
-						}
+			getParameterByName: function(url, name) {
+				var vars = [], hash;
+				if (url) {
+					var hashes = url.slice(url.indexOf('?') + 1).split('&');
+					for (var i = 0; i < hashes.length; i++) {
+						hash = hashes[i].split('=');
+						vars.push(hash[0]);
+						vars[hash[0]] = hash[1];
 					}
-				});
-				tooltip.open();
-				return tooltip;
+					if ((typeof name) !== "undefined") {
+						return vars[name];
+					}
+					return vars;
+				} else {
+					return false;
+				}
 			},
+
 			/**
 			 * Open popup window function
-			 *
 			 * @param start_content
 			 * @param open_callback
+			 * @param args
 			 */
 			callModal: function(start_content, open_callback, args) {
 				start_content = (_.isEmpty(start_content)) ? spinner : start_content;
@@ -199,42 +183,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				var popup = new jBox('Modal', params);
 				popup.open();
 			},
-			callNotice: function(text, type, timeOut) {
-				var color,
-					Notice = {};
-				switch (type) {
-					case "done":
-						color = "green";
-						break;
-					case "error":
-						color = "red";
-						break;
-					default:
-						color = "green";
-						break;
-				}
-				if (_.isEmpty(timeOut)) {
-					timeOut = 3;
-				}
-				text = (_.isEmpty(text)) ? "" : text;
-				var notice = new jBox('Notice', {
-					content: text,
-					color: color,
-					theme: "NoticeBorder",
-					attributes: {
-						x: 'left',
-						y: 'bottom'
-					},
-					animation: {open: 'slide:bottom', close: 'slide:left'},
-					onOpen: function() {
-						Notice = this;
-						setTimeout(function() {
-							Notice.close();
-						}, timeOut * 1000);
-					}
-				});
-				notice.open();
-			},
+
 			/**
 			 * Show block group
 			 * @param name (value attr data-display)
@@ -242,14 +191,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			 */
 			showBlocks: function(name, container) {
 				state.doActionForObj(name, container, "show");
-			},
-			/**
-			 * Show block group
-			 * @param name (value attr data-display)
-			 * @param container (parent where search)
-			 */
-			showSomeBlock: function(name, container) {
-				state.doActionForObj(name, container, "some-show");
 			},
 			/**
 			 * Hide block group
@@ -278,35 +219,40 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				} else {
 					arrayBlocks = container.find('[data-display]');
 				}
-				arrayBlocks.each(function() {
-					var value = $(this),
-						find = [],
-						searchArray,
-						attrValues = value.attr("data-display").split(","); //construct array attrs
-					$.each(attrValues, function(key, value) { //each attrs array
-						attrValues[key] = $.trim(value); //trim space around value
-					});
-					searchArray = name.split(",");
-					$.each(searchArray, function(keySearch, search) {
-						$.extend(find, state.inArray(attrValues, search));
-					});
-					if (!_.isEmpty(find)) {
-						if (!hided && action === "show") {
-							arrayBlocks.addClass("hidden"); //hide all
-							hided = true; //change hide status
+				if (arrayBlocks) {
+					arrayBlocks.each(function() {
+						var value = $(this),
+							find = [],
+							searchArray,
+							attrValues = value.attr("data-display").split(","); //construct array attrs
+						$.each(attrValues, function(key, value) { //each attrs array
+							attrValues[key] = $.trim(value); //trim space around value
+						});
+						searchArray = name.split(",");
+
+						$.each(searchArray, function(keySearch, search) {
+							$.extend(find, state.inArray(attrValues, search));
+						});
+
+						if (!_.isEmpty(find)) {
+							if (!hided && action === "show") {
+								arrayBlocks.addClass("hidden"); //hide all
+								hided = true; //change hide status
+							}
+							switch (action) {
+								case "show":
+								case "some-show":
+									value.removeClass("hidden"); //show find element
+									break;
+								case "hide":
+									value.addClass("hidden"); //show find element
+									break;
+							}
+							result = true; //change element by name status
 						}
-						switch (action) {
-							case "show":
-							case "some-show":
-								value.removeClass("hidden"); //show find element
-								break;
-							case "hide":
-								value.addClass("hidden"); //show find element
-								break;
-						}
-						result = true; //change element by name status
-					}
-				});
+					});
+				}
+
 				if (!result) { // if not find element by parameter name
 					console.warn("The element with attribute 'data-display = " + name + "' is not find");
 				}
@@ -326,7 +272,11 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				}
 				return result;
 			},
-
+			/**
+			 * Validate form
+			 * @param formSelectorByID
+			 * @returns {boolean}
+			 */
 			validateForm: function(formSelectorByID) {
 				if (formSelectorByID) {
 
@@ -526,12 +476,15 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 				$('.mprm-add-to-cart.mprm-has-js').on('click', function(e) {
 					e.preventDefault();
-					var $this = $(this), form = $this.closest('form');
+					var $this = $(this);
+					var form = $this.closest('form');
 					var $params = form.serializeArray();
+
 					$params.push({
 						name: "is_ajax",
 						value: true
 					});
+
 					if ($('.widget_mprm_cart_widget').length) {
 						$params.push({
 							name: "cart",
@@ -542,8 +495,17 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 
 						function(data) {
-							form.find('.mprm_go_to_checkout').show();
-							form.find('.mprm-add-to-cart').hide();
+							$('.mprm_go_to_checkout', form).show();
+							$('.mprm_go_to_checkout', form).parent().show();
+
+							$('.mprm-add-to-cart', form).hide();
+							$('.mprm-add-to-cart', form).parent().hide();
+
+
+							// form.find('.mprm_go_to_checkout').show();
+							// form.find('.mprm-add-to-cart').hide();
+							//
+
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
 							if (!data.redirect) {
 								$('.mprm-cart-added-alert', form).fadeIn();
@@ -609,9 +571,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			},
 			/**
 			 * Update item quantities
-			 * @param event
 			 */
-			update_item_quantities: function(event) {
+			update_item_quantities: function() {
 				$('.mprm-item-quantity').on('change', function() {
 
 					var $this = $(this),
@@ -625,10 +586,15 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						controller: 'cart',
 						quantity: quantity,
 						menu_item_id: menu_item_id,
-						options: options
+						options: options,
+						position: key
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						/**
+						 *
+						 * @param {Object}data
+						 */
 						function(data) {
 							$('.mprm_cart_subtotal_amount').each(function() {
 								var element = $(this);
@@ -661,42 +627,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Remove from cart
 			 */
 			removeFromCart: function() {
-				//$('.mprm_cart_actions .mprm_cart_remove_item_btn').on('click', function(e) {
-				//	e.preventDefault();
-				//
-				//	var $this = $(this), $params = [], tr = $this.closest('tr');
-				//	$params.push(
-				//		{
-				//			name: "is_ajax",
-				//			value: true
-				//		},
-				//		{
-				//			name: "cart_item",
-				//			value: tr.attr('data-cart-key')
-				//		},
-				//		{
-				//			name: "mprm_action",
-				//			value: "remove"
-				//		},
-				//		{
-				//			name: "controller",
-				//			value: "cart"
-				//		}
-				//	);
-				//
-				//	MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-				//		function(data) {
-				//			$('.mprm_cart_amount').html(data.total).text();//.text().html();
-				//			$('.mprm_cart_amount').attr('data-subtotal', data.subtotal);
-				//			$('.mprm_cart_amount').attr('data-total', data.subtotal);
-				//			tr.remove();
-				//		},
-				//		function(data) {
-				//			console.warn('Some error!!!');
-				//			console.warn(data);
-				//		}
-				//	);
-				//});
 			},
 			/**
 			 * Purchase form
@@ -705,70 +635,49 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				$(document).on('click', '#mprm_purchase_form #mprm_purchase_submit input[type=submit]', function(e) {
 
 					var form = $(this).parents('form');
-					if (!form.hasClass('mprm-no-js')) {
+					if (form.length) {
+						if (!form.hasClass('mprm-no-js')) {
 
-						var purchaseForm = document.getElementById('mprm_purchase_form'),
-							formObject = $(purchaseForm);
+							var purchaseForm = document.getElementById('mprm_purchase_form');
 
+							if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
+								return;
+							}
 
-						if (!MP_RM_Registry._get('MP_RM_Functions').validateForm('mprm_purchase_form')) {
-							return;
+							e.preventDefault();
+
+							$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
+							var $params = $(purchaseForm).serializeArray();
+
+							$.each($params, function(index, element) {
+								if (element) {
+									if (element.name == "mprm_action" && element.value == "gateway_select") {
+										$params.splice(index, 1);
+									}
+								}
+							});
+
+							$('.mprm-cart-ajax').show();
+							$('.mprm-errors').remove();
+
+							MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+								function(data) {
+									if (data.errors) {
+										$('#mprm_final_total_wrap').before(data.errors);
+									} else {
+										$('#mprm_purchase_form').submit();
+									}
+								},
+								function(data) {
+									if (data.error) {
+										$('#mprm_final_total_wrap').before(data.errors);
+									}
+									$('.mprm-cart-ajax').remove();
+									console.warn('Some error!!!');
+									console.warn(data);
+								}
+							);
 						}
-
-						e.preventDefault();
-
-						$(this).after('<span class="mprm-cart-ajax"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>');
-						var $params = $(purchaseForm).serializeArray();
-
-
-						//$.each($params, function(index, value) {
-						//
-						//	value)
-						//});
-
-						//$params.push(
-						//	{
-						//		name: 'controller',
-						//		value: 'cart'
-						//	},
-						//	{
-						//		name: 'mprm_action',
-						//		value: 'purchase'
-						//	}
-						//);
-
-						$.each($params, function(index, element) {
-							if (element) {
-								if (element.name == "mprm_action" && element.value == "gateway_select") {
-									$params.splice(index, 1);
-								}
-							}
-						});
-
-						$('.mprm-cart-ajax').show();
-
-						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-							function(data) {
-								$('.mprm_errors').remove();
-
-								if (data.errors) {
-									$('#mprm_final_total_wrap').before(data.errors);
-								} else {
-									$('#mprm_purchase_form').submit();
-								}
-							},
-							function(data) {
-								$('.mprm_errors').remove();
-								if (data.error) {
-									$('#mprm_final_total_wrap').before(data.errors);
-								}
-								$('.mprm-cart-ajax').remove();
-
-								//	$('.mprm-error').hide();
-								console.warn('Some error!!!');
-								console.warn(data);
-							}
-						);
 					}
 				});
 
@@ -777,7 +686,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Terms show/hide
 			 */
 			showTerms: function() {
-				$('#mprm_show_terms .mprm_terms_links').on('click', function(e) {
+				$('#mprm_show_terms').find('.mprm_terms_links').on('click', function(e) {
 					e.preventDefault();
 					$(this).parents('#mprm_show_terms').find('.mprm_terms_links').toggle();
 					$('#mprm_terms').toggle();
@@ -797,7 +706,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							$('#mprm_checkout_form_wrap').html(data.html);
+							$this.html(data.html);
 
 						},
 						function(data) {
@@ -811,6 +720,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				$('#mprm_checkout_form_wrap').on('click', '#mprm_login_submit,[name="mprm_login_submit"]', function(e) {
 					e.preventDefault();
 					$('.mprm-errors').remove();
+
 					var $params = {
 						action: 'login_ajax',
 						controller: 'customer',
@@ -822,6 +732,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						/**
+						 *
+						 * @param {Object} data
+						 */
 						function(data) {
 							if (data.redirect) {
 								window.location = data.redirect_url;
@@ -831,7 +745,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						},
 						function(data) {
 							if (data.data.html) {
-								$('#mprm_checkout_form_wrap .mprm-login-fields').after(data.data.html);
+								$('#mprm_checkout_form_wrap').find('.mprm-login-fields').after(data.data.html);
 							} else {
 								console.warn('Some error!!!');
 								console.warn(data);
@@ -855,7 +769,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 		}
 	};
 })(jQuery));
-
 /**
  * Html build function
  */
@@ -876,13 +789,8 @@ MP_RM_Registry.register("Order", (function($) {
 				state.recalculate_total();
 				state.changeOrderBaseCountry();
 				state.changeCustomer();
-				//state.changeStatus();
 			},
-			//changeStatus: function() {
-			//	$('select[name="mprm-order-status"]').on('change', function() {
-			//		$('#post_status').val($(this).val());
-			//	})
-			//},
+
 			/**
 			 * Change order Base Country
 			 */
@@ -1028,7 +936,7 @@ MP_RM_Registry.register("Order", (function($) {
 					}
 
 					var count = $('.mprm-row.item').length;
-					var clone = $('#mprm-purchased-wrapper .mprm-row.item:last').clone();
+					var clone = $('#mprm-purchased-wrapper').find('.mprm-row.item:last').clone();
 
 					clone.find('.menu_item span').html('<a href="post.php?post=' + menu_item_id + '&action=edit"></a>');
 					clone.find('.item span a').text(menu_item_title);
@@ -1058,18 +966,16 @@ MP_RM_Registry.register("Order", (function($) {
 
 					$('.mprm-order-recalc-totals').show();
 				})
-
 			},
 			/**
 			 *  Recalculate order total
 			 */
 			recalculate_total: function() {
-
 				$('#mprm-order-recalc-total').on('click', function(e) {
 					e.preventDefault();
 
 					var total = 0,
-						purchased = $('#mprm-purchased-wrapper .mprm-row.item .mprm-order-detail-amount');
+						purchased = $('#mprm-purchased-wrapper').find('.mprm-row.item .mprm-order-detail-amount');
 
 					if (purchased.length) {
 						purchased.each(function() {
@@ -1106,23 +1012,22 @@ MP_RM_Registry.register("Order", (function($) {
 
 					if (confirm(mprm_admin_vars.delete_payment_menu_item)) {
 						var key = $(this).data('key');
-
+						var orderRemovedInput = $('input[name="mprm-order-removed"]');
 						//var purchase_id = $('.mprm-order-id').val();
 						var menu_item_id = $('input[name="mprm-order-details[' + key + '][id]"]').val();
 						var price_id = $('input[name="mprm-order-details[' + key + '][price_id]"]').val();
 						var quantity = $('input[name="mprm-order-details[' + key + '][quantity]"]').val();
 						var amount = $('input[name="mprm-order-details[' + key + '][amount]"]').val();
 
-						var currently_removed = $('input[name="mprm-order-removed"]').val();
+						var currently_removed = orderRemovedInput.val();
 						currently_removed = $.parseJSON(currently_removed);
 						if (currently_removed.length < 1) {
 							currently_removed = {};
 						}
 
-						var removed_item = [{'id': menu_item_id, 'price_id': price_id, 'quantity': quantity, 'amount': amount, 'cart_index': key}];
-						currently_removed[key] = removed_item;
+						currently_removed[key] = [{'id': menu_item_id, 'price_id': price_id, 'quantity': quantity, 'amount': amount, 'cart_index': key}];
 
-						$('input[name="mprm-order-removed"]').val(JSON.stringify(currently_removed));
+						orderRemovedInput.val(JSON.stringify(currently_removed));
 
 						$(this).parents('.mprm-row').remove();
 
@@ -1133,12 +1038,6 @@ MP_RM_Registry.register("Order", (function($) {
 					return false;
 
 				});
-
-				$('#mprm-purchased-wrapper').on('click', '.mprm-order-remove-menu-item', function() {
-					console.log('X');
-
-				});
-
 			},
 			/**
 			 * Change customer in dropdown
@@ -1153,6 +1052,10 @@ MP_RM_Registry.register("Order", (function($) {
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+						/**
+						 *
+						 * @param {Object} data
+						 */
 						function(data) {
 							$('.mprm-customer-information').html(data.customer_information);
 						},
@@ -1168,17 +1071,20 @@ MP_RM_Registry.register("Order", (function($) {
 			 * Add new customer
 			 */
 			addCustomer: function() {
+				var customerInfoRow = $('.customer-info.mprm-row');
+				var newCustomerRow = $('.new-customer.mprm-row');
+				var newCustomerInputObject = $('[name="mprm-new-customer"]');
 
 				$('.mprm-new-customer').on('click', function() {
-					$('.customer-info.mprm-row').hide();
-					$('.new-customer.mprm-row').show();
-					$('[name="mprm-new-customer"]').val(1);
+					customerInfoRow.hide();
+					newCustomerRow.show();
+					newCustomerInputObject.val(1);
 				});
 
 				$('.mprm-new-customer-cancel').on('click', function() {
-					$('.customer-info.mprm-row').show();
-					$('.new-customer.mprm-row').hide();
-					$('[name="mprm-new-customer"]').val(0);
+					customerInfoRow.show();
+					newCustomerRow.hide();
+					newCustomerInputObject.val(0);
 				});
 
 				$('.mprm-new-customer-save').on('click', function(e) {
@@ -1194,14 +1100,14 @@ MP_RM_Registry.register("Order", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							$('.customer-info.mprm-row').show();
-							$('.new-customer.mprm-row').hide();
+							customerInfoRow.show();
+							newCustomerRow.hide();
 							$('[name="customer-id"]').replaceWith(data.html);
 							$('.mprm-customer-information').html(data.customer_information);
 						},
 						function(data) {
-							$('.customer-info.mprm-row').show();
-							$('.new-customer.mprm-row').hide();
+							customerInfoRow.show();
+							newCustomerRow.hide();
 							console.warn('Some error!!!');
 							console.warn(data);
 						}
@@ -1214,7 +1120,7 @@ MP_RM_Registry.register("Order", (function($) {
 			initChosen: function() {
 				var selector = $('.mprm-select-chosen');
 				if (selector.length) {
-					$.each(selector, function(index, element) {
+					$.each(selector, function() {
 						var text_single = typeof $(this).attr('data-text_single') !== "undefined" ? $(this).attr('data-text_single') : mprm_admin_vars.one_option;
 						var text_multiple = typeof $(this).attr('data-text_multiple') !== "undefined" ? $(this).attr('data-text_multiple') : mprm_admin_vars.one_or_more_option;
 						$(this).chosen({
@@ -1289,7 +1195,8 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 				$('#rm_settings').on('submit', function() {
 					var params = $(this).serializeArray();
 					$('#setting-error-settings_updated:visible').remove();
-					state.saveSettings(params, function($data) {
+
+					state.saveSettings(params, function() {
 						var $message = $('#setting-error-settings_updated').clone();
 						$message.removeClass('hidden');
 						$('.wrap #settings-title').after($message);
@@ -1297,6 +1204,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 							$(this).parent().remove();
 						});
 					});
+
 					return false;
 				});
 				state.changeBaseCountry();
@@ -1306,8 +1214,8 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 			/**
 			 * add_atribute
 			 *
-			 * @param {type} $params
-			 * @param {type} callback
+			 * @param {Object} $params
+			 * @param {function} callback
 			 */
 			saveSettings: function($params, callback) {
 				MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
@@ -1421,17 +1329,15 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						file_frame.on('insert', function() {
 
 							var selection = file_frame.state().get('selection');
-							selection.each(function(attachment, index) {
+							selection.each(function(attachment) {
 								attachment = attachment.toJSON();
 								window.formfield.val(attachment.url);
 							});
 						});
-
 						// Finally, open the modal
 						file_frame.open();
 					});
 					// WP 3.5+ uploader
-					var file_frame;
 					window.formfield = '';
 				}
 
@@ -1511,7 +1417,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 				state.refreshImages();
 
 				// Image ordering
-				$('#mprm-menu-item-gallery .mp_menu_images').sortable({
+				$('#mprm-menu-item-gallery').find('.mp_menu_images').sortable({
 					items: 'li.mprm-image',
 					cursor: 'move',
 					scrollSensitivity: 40,
@@ -1532,20 +1438,6 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 				});
 			},
 			/**
-			 * Is mew img
-			 *
-			 * @param {type} id
-			 * @returns {Boolean}
-			 */
-			isNewImg: function(order) {
-				var image = $('.mp_menu_images li.mprm-image[data-key="' + order + '"]');
-				if (parseInt(image.attr('new_image'))) {
-					return true;
-				} else {
-					return false;
-				}
-			},
-			/**
 			 * Open add media frame
 			 *
 			 * @returns {Boolean}
@@ -1564,7 +1456,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 					this.window.on('select', function() {
 						var $data = self.window.state().get('selection').toJSON();
 						// biuld gallery html
-						$('#mprm-menu-item-gallery .mp_menu_images').append(state._buildImages($data));
+						$('#mprm-menu-item-gallery').find('.mp_menu_images').append(state._buildImages($data));
 						state.imagesInit();
 					});
 				}
@@ -1578,11 +1470,12 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 			 */
 			refreshImages: function() {
 				var ids = [];
-				$('#mprm-menu-item-gallery .mp_menu_images li.mprm-image').each(function(key, value) {
+				var menuItemGallery = $('#mprm-menu-item-gallery');
+				menuItemGallery.find('.mp_menu_images li.mprm-image').each(function(key, value) {
 					ids[key] = $(value).attr('data-attachment_id');
 					$(value).attr('data-key', key);
 				});
-				$('#mprm-menu-item-gallery input[name="mp_menu_gallery"]').val(ids.join(','));
+				menuItemGallery.find(' input[name="mp_menu_gallery"]').val(ids.join(','));
 			},
 			/**
 			 * Build images
@@ -1619,10 +1512,10 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 												tag: "a",
 												attrs: {
 													"class": "mprm-delete",
-													title: window.mprm_admin_vars.delete_img,
+													title: mprm_admin_vars.delete_img,
 													href: "#"
 												},
-												content: window.mprm_admin_vars.delete
+												content: mprm_admin_vars.delete
 											}
 										]
 									}
@@ -1638,34 +1531,10 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 					console.log(e);
 				}
 			},
-			/**
-			 * add_atribute
-			 *
-			 * @param {type} $params
-			 * @param {type} callback
-			 */
-			removeImg: function($params, callback) {
-				var $args = {
-					controller: "menu_item",
-					action: "delete_gallery_img"
-				};
-				$.extend($args, $params);
-				MP_RM_Registry._get('MP_RM_Functions').wpAjax($args,
-					function(data) {
-						if (!_.isUndefined(callback) && _.isFunction(callback)) {
-							callback(data);
-						}
-					},
-					function(data) {
-						console.warn('Some error!!!');
-						console.warn(data);
-					}
-				);
-			},
-			quickEdit: function() {
-				$(document).on('click', '#the-list .editinline', function(event) {
 
-					//event.preventDefault();
+			quickEdit: function() {
+				$(document).on('click', '#the-list .editinline', function() {
+
 					var parent = $(this).closest('tr');
 					var post_id = parent.attr('id').replace(/\D/ig, '');
 
@@ -1729,7 +1598,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 					emptyIcon: true,
 					hasSearch: true
 				}).on('change', function() {
-					//console.log($(this));
+
 				});
 
 				// remove icon
@@ -1743,7 +1612,8 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 				});
 
 				$('.remove_image_button').on('click', function() {
-					$('#menu_category_thumbnail img').attr('src', $('#menu_category_thumbnail img').attr('data-placeholder'));
+					var categoryThumbnail = $('#menu_category_thumbnail');
+					categoryThumbnail.find('img').attr('src', categoryThumbnail.find('img').attr('data-placeholder'));
 					$('#menu_category_thumbnail_id').val('');
 					$('.remove_image_button').hide();
 					return false;
@@ -1758,9 +1628,9 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 				if (this.window === undefined) {
 					// Create the media frame.
 					this.window = wp.media.frames.menu_itemable_file = wp.media({
-						title: window.mprm_admin_vars.choose_image,
+						title: mprm_admin_vars.choose_image,
 						button: {
-							text: window.mprm_admin_vars.use_image
+							text: mprm_admin_vars.use_image
 						},
 						multiple: false
 					});
@@ -1769,7 +1639,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 					this.window.on('select', function() {
 						var attachment = self.window.state().get('selection').first().toJSON();
 						$('#menu_category_thumbnail_id').val(attachment.id);
-						$('#menu_category_thumbnail img').attr('src', attachment.sizes.thumbnail.url);
+						$('#menu_category_thumbnail').find('img').attr('src', attachment.sizes.thumbnail.url);
 						$('.remove_image_button').show();
 					});
 				}
@@ -1799,7 +1669,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
-				$('.mprm-item-gallery').magnificPopup({
+				$('.type-mp_menu_item .gallery-item,.type-mp_menu_item .mprm-item-gallery').magnificPopup({
 					delegate: 'a',
 					type: 'image',
 					tLoading: 'Loading image #%curr%...',
@@ -1820,8 +1690,6 @@ MP_RM_Registry.register("Theme", (function($) {
 						duration: 300 // don't foget to change the duration also in CSS
 					}
 				});
-
-
 			},
 			viewParams: function(parent, view) {
 				switch (view) {
@@ -1840,7 +1708,7 @@ MP_RM_Registry.register("Theme", (function($) {
 				}
 			},
 			customizeWidget: function() {
-				$.each($('.mprm-widget-view'), function(index, element) {
+				$.each($('.mprm-widget-view'), function() {
 					var parent = $(this).parents('.widget-content');
 					var view = $(this).val();
 					state.viewParams(parent, view);
@@ -1867,6 +1735,7 @@ MP_RM_Registry.register("Theme", (function($) {
 (function($) {
 	"use strict";
 	$(document).ready(function() {
+
 		// if edit and add menu_item
 		if ('mp_menu_item' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Menu-Item").init();
@@ -1890,6 +1759,10 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ('mprm_order' === $(window.post_type).val()) {
 			MP_RM_Registry._get("Order").init();
 		}
+		if ($('.mprm-select-chosen').length) {
+			MP_RM_Registry._get("Order").initChosen();
+		}
+
 		if ($('.mprm-add-to-cart').length) {
 			MP_RM_Registry._get('Menu-Shop').addToCart();
 		}
@@ -1912,7 +1785,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		if ($('.mprm-widget-view').length) {
 			MP_RM_Registry._get("Theme").customizeWidget();
 		}
-		if ($('.mprm-item-gallery').length) {
+		if ($('.gallery-item').length || $('.mprm-item-gallery').length) {
 			MP_RM_Registry._get("Theme").init();
 		}
 	});

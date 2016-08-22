@@ -10,6 +10,9 @@ use mp_restaurant_menu\classes\Model;
 class Settings_countries extends Model {
 	protected static $instance;
 
+	/**
+	 * @return Settings_countries
+	 */
 	public static function get_instance() {
 		if (null === self::$instance) {
 			self::$instance = new self();

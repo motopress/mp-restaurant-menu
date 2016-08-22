@@ -1,8 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes;
 
-use mp_restaurant_menu\classes\Core;
-
 /**
  * Controller class
  */

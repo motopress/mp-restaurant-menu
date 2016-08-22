@@ -1,9 +1,5 @@
 <?php
 namespace mp_restaurant_menu\classes;
-
-//model
-use mp_restaurant_menu\classes\Model;
-
 /**
  * Singleton factory
  */

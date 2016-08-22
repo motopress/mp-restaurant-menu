@@ -94,8 +94,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				<div class="price mprm-columns <?php echo $column ?>">
 					<?php
 
-					echo mprm_text(
-						array(
+					echo mprm_text(array(
 							'name' => 'mprm-order-menu-item-amount',
 							'id' => 'mprm-order-menu-item-amount',
 							'label' => __('Item Price: ', 'mp-restaurant-menu'),

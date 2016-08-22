@@ -262,7 +262,6 @@ class Discount extends Model {
 	 * @return mixed|void
 	 */
 	public function get_discounted_amount($code, $base_price) {
-		$amount = $base_price;
 		$discount_id = $this->get_discount_id_by_code($code);
 		if ($discount_id) {
 			$type = $this->get_discount_type($discount_id);

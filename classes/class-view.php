@@ -5,6 +5,7 @@ namespace mp_restaurant_menu\classes;
  */
 class View {
 	private $data;
+
 	protected static $instance;
 
 	/**

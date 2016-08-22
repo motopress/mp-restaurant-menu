@@ -1,4 +1,4 @@
-<?php use \mp_restaurant_menu\classes\models; ?>
+<?php use mp_restaurant_menu\classes\models; ?>
 	<fieldset id="mprm_checkout_user_info">
 		<span class="mprm-payment-details-label"><legend><?php echo apply_filters('mprm_checkout_personal_info_text', __('Billing Details', 'mp-restaurant-menu')); ?></legend></span>
 		<?php do_action('mprm_purchase_form_before_email'); ?>
@@ -22,7 +22,7 @@
 					<span class="mprm-required-indicator">*</span>
 					<span class="phone-type"></span>
 				</label>
-				<input type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
+				<input type="text" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
 			</p>
 		<?php endif; ?>
 

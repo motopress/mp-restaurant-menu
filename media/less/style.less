@@ -3,13 +3,14 @@
 @overlay: rgba(70, 70, 70, 0.7);
 @padding-default: 4%;
 
-@import 'theme.less';
+//@import 'theme.less';
 @import 'grid.less';
 @import 'shortcode.less';
 @import 'widget.less';
 @import 'menu-item-single.less';
 @import 'mp-menu-taxonomy.less';
 @import 'shop.less';
+@import 'loader.less';
 
 .mprm-clear {
   *zoom: 1;
@@ -21,6 +22,41 @@
   }
   &:after {
 	clear: both;
+  }
+}
+
+.mprm-hidden {
+  display: none;
+  opacity: 0;
+}
+
+.mprm_purchase_submit_wrapper {
+  .mprm-content-container {
+	margin: 8px 0;
+  }
+}
+
+.mprm-content-container {
+  &.mprm-ingredients {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-nutrition {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-tags-wrapper {
+	margin: 0 0 4px 0;
+  }
+  &.mprm-title-big {
+	margin: 8px 0;
+	font-size: 120%;
+  }
+}
+
+.hentry {
+  .mprm-content-container {
+	.mprm-nutrition-item {
+	  display: block;
+	}
   }
 }
 
@@ -42,6 +78,22 @@
 	}
   }
 
+  .mprm-content-container {
+	margin: 0 0 4px 0;
+	&.mprm-title-big {
+	  font-size: 120%;
+	  margin: 8px 0;
+	  &:first-child {
+		margin-top: 0;
+	  }
+	}
+	&.mprm-add-topping {
+	  margin: 8px 0;
+	}
+	.mprm-price-container {
+	  margin: 8px 0;
+	}
+  }
   .mprm_menu_item_buy_button {
 	form {
 	  a {
@@ -60,22 +112,58 @@
 	  }
 	}
   }
-  //&.mprm-shortcode-items {
-  //a, a.mprm-link {
-  //
-  //  &:focus,
-  //  &:visited,
-  //  &:hover {
-  //	* {
-  //	  color: initial;
-  //	}
-  //  }
-  //}
-  //}
+}
+
+.mprm_widget {
+
+  .mprm-main-wrapper, .mprm-container {
+	a.mprm-link {
+	  text-decoration: none;
+	  outline: none;
+	  box-shadow: none;
+	  border: none;
+	  color: inherit;
+	  &:focus,
+	  &:visited,
+	  &:hover {
+		text-decoration: none;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		color: inherit;
+	  }
+	}
+
+	.mprm_menu_item_buy_button {
+	  form {
+		a {
+		  text-decoration: none;
+		  outline: none;
+		  box-shadow: none;
+		  border: none;
+		  &:focus,
+		  &:visited,
+		  &:hover {
+			text-decoration: none;
+			outline: none;
+			box-shadow: none;
+			border: none;
+		  }
+		}
+	  }
+	}
+  }
 }
 
 .mprm-container {
   &.mprm-view-simple-list {
+	> div[class^="mprm-columns-count-"] {
+	  &.mprm-all-items {
+		.mprm-simple-view-column {
+		  margin-bottom: 8px;
+		}
+	  }
+	}
 
 	.mprm-columns-count-1 {
 	  column-count: 1;
@@ -134,6 +222,67 @@
   padding: 0;
   position: relative;
   .mprm-row {
+	.hentry {
+	  margin: 0;
+	  padding: 0;
+	}
 	padding-bottom: @padding-default;
+  }
+}
+
+.type-mp_menu_item {
+  &.hentry {
+	.mprm-related-items {
+	  > a {
+		display: inline-block;
+	  }
+	}
+  }
+}
+
+.mprm-ingredients {
+  .mprm-ingredients-delimiter {
+	&:last-child {
+	  display: none !important;
+	}
+  }
+}
+
+.mprm-main-wrapper, .mprm-container {
+  .mprm-list {
+	//list-style: none inherit none !important;
+	list-style: none inside none !important;
+	&.mprm-flex-container-simple-view {
+	  margin: 0;
+	  padding: 0;
+	  &:first-child {
+		margin: 8px 0 0 0;
+	  }
+	}
+	//list-style: outside none none;
+	li.mprm-tag {
+	  display: inline-block;
+	}
+	.mprm-ingredient, .mprm-ingredients-delimiter {
+	  margin: 0;
+	  display: inline-block;
+	}
+	.mprm-proportion {
+	  display: list-item;
+	  font-style: italic;
+	  margin: 0;
+	}
+	.mprm-ingredients-delimiter {
+	  margin: 0;
+	}
+
+  }
+  .mprm-tags {
+	.mprm-tag {
+	  border: 1px solid #606060;
+	  padding: 0 0.5em;
+	  display: inline-block;
+	  margin-top: 0.5em;
+	}
   }
 }

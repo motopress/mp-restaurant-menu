@@ -18,16 +18,18 @@
 
 				var shortCode = $('[name="shortcode_name"]').val();
 				if (shortCode === 'mprm_items') {
+					var elementsMenuItems = $('[name="item_ids"],[name="feat_img"],select[name="categ_name"]');
+					var elementsCategoryItems = $('input[name="categ_name"],[name="price_pos"]');
 					switch ($(this).val()) {
 						case"simple-list" :
-							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').addClass('hidden');
-							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').removeClass('hidden');
+							elementsMenuItems.parents('.mprm-line').addClass('hidden');
+							elementsCategoryItems.parents('.mprm-line').removeClass('hidden');
 							break;
 						case"grid" :
 						case"list" :
 						default:
-							$('[name="item_ids"],[name="feat_img"],select[name="categ_name"]').parents('.mprm-line').removeClass('hidden');
-							$('input[name="categ_name"],[name="price_pos"]').parents('.mprm-line').addClass('hidden');
+							elementsMenuItems.parents('.mprm-line').removeClass('hidden');
+							elementsCategoryItems.parents('.mprm-line').addClass('hidden');
 							break;
 					}
 				}
@@ -93,7 +95,7 @@
 			image: url + '/../img/shortcode-icon.png',
 			//icon: 'dashicons-carrot',
 			onclick: function() {
-				MP_RM_Registry._get("MP_RM_Functions").callModal('', function(container) {
+				MP_RM_Registry._get("MP_RM_Functions").callModal('', function() {
 						//callback open
 						var jbox = this;
 						MP_RM_Registry._get("MP_RM_Functions").wpAjax(
@@ -116,18 +118,6 @@
 									editor.insertContent(shortcode);
 									jbox.close();
 								});
-								//if ($(".spectrum").length) {
-								//	$(".spectrum").each(function(key, value) {
-								//		$(value).spectrum({
-								//			cancelText: window.mprm_admin_vars.cancel,
-								//			chooseText: window.mprm_admin_vars.choose,
-								//			showAlpha: true,
-								//			change: function(color) {
-								//				$(value).val(color.toRgbString());
-								//			}
-								//		});
-								//	});
-								//}
 							},
 							function(data) {
 								console.warn(data);

@@ -1,35 +1,6 @@
 <?php
 use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
 
-/**
- * Add class wrapper
- */
-function mprm_theme_wrapper_before() {
-	$template = get_option('template');
-	switch ($template) {
-		case 'twentyeleven' :
-			echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
-			break;
-		case 'twentytwelve' :
-			echo '<div id="primary" class="site-content"><div id="content" role="main" class="twentytwelve">';
-			break;
-		case 'twentythirteen' :
-			echo '<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">';
-			break;
-		case 'twentyfourteen' :
-			echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfmp">';
-			break;
-		case 'twentyfifteen' :
-			echo '<div id="primary" role="main" class="content-area twentyfifteen"><div id="main" class="site-main t15mp">';
-			break;
-		case 'twentysixteen' :
-			echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
-			break;
-		default :
-			echo '<div id="container"><div id="content" role="main">';
-			break;
-	}
-}
 
 
 /**
@@ -77,29 +48,67 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
-	//$menu_item = get_post($post_id);
-//	$categories = get_the_terms( $menu_item->ID, 'mp_menu_category' );
-//	if ( ! empty( $categories ) ) {
-//		foreach ( $categories as $key => $value ) {
-//			$classes[] = 'mp_menu_item-cat-' . $value->slug;
-//		}
-//	}
-	// add tag slugs
-//	$tags = get_the_terms( $menu_item->ID, 'mp_menu_tag' );
-//	if ( ! empty( $tags ) ) {
-//		foreach ( $tags as $key => $value ) {
-//			$classes[] = 'mp_menu_item-tag-' . $value->slug;
-//		}
-//	}
-	if ( !is_search() && !is_tax('mp_ingredient') ) {
-		if (false !== ($key = array_search('hentry', $classes))) {
-			unset($classes[$key]);
+
+
+    if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
+		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
+			if (false !== ($key = array_search('hentry', $classes))) {
+				unset($classes[$key]);
+			}
 		}
 	}
+
+	if ( in_array('mprm-remove-hentry',$classes)) {
+		if (false !== ($key = array_search('hentry', $classes))) {
+				unset($classes[$key]);
+		}
+		if(!empty($custom_class)){
+			if (false !== ($key = array_search($custom_class, $classes))) {
+					unset($classes[$key]);
+			}
+		}
+	}
+
+    $custom_class = 'mprm-'.classes\Media::get_instance()->template_mode().'-mode';
+
+	$classes[] =  $custom_class;
 	$classes[] = 'mp-menu-item';
+
 	return $classes;
 }
 
+/**
+ * Add class wrapper
+ */
+function mprm_theme_wrapper_before() {
+	$template = get_option('template');
+	switch ($template) {
+		case 'twentyeleven' :
+			echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
+			break;
+		case 'twentytwelve' :
+			echo '<div id="primary" class="site-content"><div id="content" role="main" class="twentytwelve">';
+			break;
+		case 'twentythirteen' :
+			echo '<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">';
+			break;
+		case 'twentyfourteen' :
+			echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfmp">';
+			break;
+		case 'twentyfifteen' :
+			echo '<div id="primary" role="main" class="content-area twentyfifteen"><div id="main" class="site-main t15mp">';
+			break;
+		case 'twentysixteen' :
+			echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
+			break;
+		default :
+			echo '<div id="container"><div id="content" role="main">';
+			break;
+	}
+}
+/**
+* Theme wrapper after
+ */
 function mprm_theme_wrapper_after() {
 	$template = get_option('template');
 	switch ($template) {
@@ -183,7 +192,16 @@ function mprm_get_related_items() {
 		return $related_items;
 	}
 }
-
+/**
+* @return array
+ */
+function mprm_get_gallery(){
+	global $post;
+	if(empty($post)){
+		return array();
+	}
+	return Core::get_instance()->get('menu_item')->get_gallery($post->ID);
+}
 /**
  * @return string
  */
@@ -558,9 +576,15 @@ function get_column_class($type,$view = 'default') {
 function mprm_get_purchase_link($params) {
 	return models\Menu_item::get_instance()->get_purchase_link($params);
 }
-
-function mprm_get_purchase_template() {
-	mprm_get_template('common/buy/default');
+/**
+ * Get purchase template
+*
+*@param string $template
+* return html
+ */
+function mprm_get_purchase_template($template = "default") {
+	$template = empty($template)? "default" : $template;
+	mprm_get_template("common/buy/{$template}");
 }
 
 /**
@@ -570,7 +594,7 @@ function mprm_before_category_list_header() {
 }
 
 /**
- * Bafore Category list footer
+ * Before Category list footer
  */
 function mprm_before_category_list_footer() {
 }
@@ -655,6 +679,7 @@ function mprm_taxonomy_list_before_right() {
 	?>
 	<div class="mprm-content">
 <?php }
+
 function mprm_taxonomy_list_after_right() { ?>
 	</div>
 	<?php
@@ -704,7 +729,7 @@ function mprm_before_taxonomy_grid() { ?>
  */
 function mprm_single_category_grid_header() {
 	?>
-	<div <?php post_class('mprm-four mprm-columns') ?>>
+	<div <?php post_class('mprm-remove-hentry '.'mprm-four mprm-columns') ?>>
 	<?php
 }
 
@@ -723,8 +748,7 @@ function mprm_single_category_grid_wrapper_start() {
 	<div class="mprm-description">
 	<?php
 }
-function mprm_single_category_grid_wrapper_end() {
-	?>
+function mprm_single_category_grid_wrapper_end() {	?>
 	</div>
 	<?php
 }
@@ -862,11 +886,11 @@ function mprm_menu_items_header() {
 				<?php if (!empty($icon)): ?>
 					<i class="<?php echo $icon ?> mprm-icon"></i>
 				<?php endif; ?>
-				<h2><?php echo $title ?></h2>
+				<h2 class="mprm-title"><?php echo $title ?></h2>
 			</div>
 		<?php } else { ?>
 			<div class="mprm-header only-text">
-				<h2><?php echo $title ?></h2>
+				<h2 class="mprm-title"><?php echo $title ?></h2>
 			</div>
 			<?php
 		}
@@ -899,7 +923,7 @@ function mprm_menu_item_list_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		?>
-		<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php
 	}
 }
@@ -911,10 +935,10 @@ function mprm_menu_item_simple_list_header() {
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		 if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
 			?>
-			<div <?php post_class(); ?> >
+			<div <?php post_class('mprm-remove-hentry '); ?> >
 			<?php
 		}else{?>
-			<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+			<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php }
 	}
 }
@@ -1093,7 +1117,7 @@ function mprm_menu_item_grid_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		?>
-		<div <?php post_class(get_column_class($mprm_view_args['col'])); ?>>
+		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
 		<?php
 	}
 }
@@ -1532,4 +1556,12 @@ function render_term_header($data) {
  */
 function mprm_grid_container_class(){
 	return apply_filters('mprm-row-class','mprm-row');
+}
+/**
+ * Preloader
+*
+*@param string $class
+ */
+function mprm_get_preloader($class=''){
+mprm_get_template('common/preloader', array('class' => $class));
 }

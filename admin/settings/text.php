@@ -11,7 +11,7 @@ $defaults = array(
 	'autocomplete' => '',
 	'data' => false
 );
-$args = wp_parse_args($args, $defaults);
+$args = wp_parse_args($data, $defaults);
 $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class'])));
 $disabled = '';
 if ($args['disabled']) {
@@ -25,7 +25,9 @@ if (!empty($args['data'])) {
 }
 ?>
 <span id="mprm-<?php echo sanitize_key($args['name']) ?>-wrap">
-	<label class="mprm-label" for="<?php echo sanitize_key($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
+
+	<label class="mprm-label" style="<?php echo empty($args['label']) ? 'display:none' : '' ?>" for="<?php echo sanitize_key($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
+
 	<?php
 	if (!empty($args['desc'])) { ?>
 		<span class="mprm-description"><?php echo esc_html($args['desc']) ?></span>

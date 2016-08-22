@@ -16,17 +16,6 @@ if (!class_exists('WP_List_Table')) {
  */
 class Customer_Reports extends \WP_List_Table {
 	protected static $instance;
-
-	/**
-	 * @return Customer_Reports
-	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * Number of items per page
 	 *
@@ -34,7 +23,6 @@ class Customer_Reports extends \WP_List_Table {
 	 * @since 1.5
 	 */
 	public $per_page = 30;
-
 	/**
 	 * Number of customers found
 	 *
@@ -42,7 +30,6 @@ class Customer_Reports extends \WP_List_Table {
 	 * @since 1.7
 	 */
 	public $count = 0;
-
 	/**
 	 * Total customers
 	 *
@@ -58,8 +45,6 @@ class Customer_Reports extends \WP_List_Table {
 	 * @see WP_List_Table::__construct()
 	 */
 	public function __construct() {
-		global $status, $page;
-
 		// Set parent defaults
 		parent::__construct(array(
 			'singular' => __('Customer', 'mp-restaurant-menu'),
@@ -67,6 +52,16 @@ class Customer_Reports extends \WP_List_Table {
 			'ajax' => false,
 		));
 
+	}
+
+	/**
+	 * @return Customer_Reports
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
 	}
 
 	/**
@@ -94,18 +89,6 @@ class Customer_Reports extends \WP_List_Table {
 			<?php submit_button($text, 'button', false, false, array('ID' => 'search-submit')); ?>
 		</p>
 		<?php
-	}
-
-	/**
-	 * Gets the name of the primary column.
-	 *
-	 * @since 2.5
-	 * @access protected
-	 *
-	 * @return string Name of the primary column.
-	 */
-	protected function get_primary_column_name() {
-		return 'name';
 	}
 
 	/**
@@ -165,6 +148,40 @@ class Customer_Reports extends \WP_List_Table {
 	}
 
 	/**
+	 * Outputs the reporting views
+	 *
+	 * @access public
+	 * @since 1.5
+	 *
+	 * @param string $which
+	 */
+	public function bulk_actions($which = '') {
+		// These aren't really bulk actions but this outputs the markup in the right place
+	}
+
+	/**
+	 *
+	 */
+	public function prepare_items() {
+
+		$columns = $this->get_columns();
+		$hidden = array(); // No hidden columns
+		$sortable = $this->get_sortable_columns();
+
+		$this->_column_headers = array($columns, $hidden, $sortable);
+
+		$this->items = $this->reports_data();
+
+		$this->total = count(Customer::get_instance()->get_customers(array('fields' => array('id'), 'number' => NULL)));
+
+		$this->set_pagination_args(array(
+			'total_items' => $this->total,
+			'per_page' => $this->per_page,
+			'total_pages' => ceil($this->total / $this->per_page),
+		));
+	}
+
+	/**
 	 * Retrieve the table columns
 	 *
 	 * @access public
@@ -202,40 +219,6 @@ class Customer_Reports extends \WP_List_Table {
 	}
 
 	/**
-	 * Outputs the reporting views
-	 *
-	 * @access public
-	 * @since 1.5
-	 *
-	 * @param string $which
-	 */
-	public function bulk_actions($which = '') {
-		// These aren't really bulk actions but this outputs the markup in the right place
-	}
-
-	/**
-	 * Retrieve the current page number
-	 *
-	 * @access public
-	 * @since 1.5
-	 * @return int Current page number
-	 */
-	public function get_paged() {
-		return isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
-	}
-
-	/**
-	 * Retrieves the search query string
-	 *
-	 * @access public
-	 * @since 1.7
-	 * @return mixed string If search is present, false otherwise
-	 */
-	public function get_search() {
-		return !empty($_REQUEST['s']) ? urldecode(trim($_REQUEST['s'])) : false;
-	}
-
-	/**
 	 * Build all the reports data
 	 *
 	 * @access public
@@ -245,8 +228,6 @@ class Customer_Reports extends \WP_List_Table {
 	 * @return array $reports_data All the data for customer reports
 	 */
 	public function reports_data() {
-		global $wpdb;
-
 		$data = array();
 		$paged = $this->get_paged();
 		$offset = $this->per_page * ($paged - 1);
@@ -302,24 +283,36 @@ class Customer_Reports extends \WP_List_Table {
 	}
 
 	/**
+	 * Retrieve the current page number
 	 *
+	 * @access public
+	 * @since 1.5
+	 * @return int Current page number
 	 */
-	public function prepare_items() {
+	public function get_paged() {
+		return isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
+	}
 
-		$columns = $this->get_columns();
-		$hidden = array(); // No hidden columns
-		$sortable = $this->get_sortable_columns();
+	/**
+	 * Retrieves the search query string
+	 *
+	 * @access public
+	 * @since 1.7
+	 * @return mixed string If search is present, false otherwise
+	 */
+	public function get_search() {
+		return !empty($_REQUEST['s']) ? urldecode(trim($_REQUEST['s'])) : false;
+	}
 
-		$this->_column_headers = array($columns, $hidden, $sortable);
-
-		$this->items = $this->reports_data();
-
-		$this->total = count(Customer::get_instance()->get_customers(array('fields' => array('id'), 'number' => NULL)));
-
-		$this->set_pagination_args(array(
-			'total_items' => $this->total,
-			'per_page' => $this->per_page,
-			'total_pages' => ceil($this->total / $this->per_page),
-		));
+	/**
+	 * Gets the name of the primary column.
+	 *
+	 * @since 2.5
+	 * @access protected
+	 *
+	 * @return string Name of the primary column.
+	 */
+	protected function get_primary_column_name() {
+		return 'name';
 	}
 }

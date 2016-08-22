@@ -11,7 +11,8 @@ $featured_image = mprm_get_feat_image();
 			<a href="<?php echo get_term_link($mprm_term); ?>" class="mprm-link"><?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo $icon ?>"></i><?php endif;
 				if (!empty($mprm_view_args['categ_name'])) :
 					echo $mprm_term->name;
-				endif; ?></a></h2>
+				endif; ?></a>
+		</h2>
 		<?php if (!empty($mprm_view_args['categ_descr'])) {
 			$desc_length = isset($mprm_view_args['desc_length']) ? $mprm_view_args['desc_length'] : -1;
 			$description = mprm_cut_str($desc_length, $mprm_term->description);

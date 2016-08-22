@@ -2,7 +2,6 @@
 
 .mprm-container {
   &.mprm-shortcode-categories {
-
 	margin: 2rem 0;
 
 	&.mprm-view-list {
@@ -26,12 +25,13 @@
 			  margin: 0 1rem 0 0;
 			  font-size: 1.2em;
 			}
-		  }
-		  .mprm-category-description {
-			margin: 1rem 0 0;
-			padding: 0;
-			font-size: 0.8em;
-			line-height: 1.1;
+			.mprm-category-description {
+			  margin: 1rem 0 0;
+			  padding: 0;
+			  font-size: 0.8em;
+			  line-height: 1.1;
+			  color: inherit;
+			}
 		  }
 		}
 	  }
@@ -57,6 +57,7 @@
 		  background-position: center center;
 		  background-repeat: no-repeat;
 		  background-size: cover;
+		  //background: @overlay inherit no-repeat center center;
 		  content: "";
 		  height: 100%;
 		  left: 0;
@@ -95,6 +96,7 @@
 			  padding: 0;
 			  font-size: 0.8em;
 			  line-height: 1.1;
+			  color: inherit;
 			}
 		  }
 		}
@@ -107,12 +109,6 @@
 	margin: 2rem 0;
 	.mprm-link {
 	  outline: none;
-	}
-	.mprm-title, .mprm-ingredients, .mprm-proportions, .mprm-tags, .mprm-excerpt, .mprm_menu_item_buy_button {
-	  margin-bottom: 1rem;
-	}
-	.mprm_menu_item_buy_button {
-	  margin-top: 1rem;
 	}
 	&.mprm-view-grid {
 	  .mprm-header {
@@ -136,13 +132,12 @@
 			  }
 			}
 		  }
-
 		}
 		&.only-text {
 		  padding: 0 0 2rem;
-		  .mprm-title {
-			margin: 0;
-		  }
+		  //.mprm-title {
+		  //margin: 0;
+		  //}
 		}
 	  }
 	  .mprm-image {
@@ -150,57 +145,10 @@
 		width: 100%;
 	  }
 
-	  .mprm-title {
-		margin: 1rem 0;
-		padding: 0;
-	  }
-	  .mprm-ingredients {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 80%;
-		  line-height: 1.1;
-		  .mprm-ingredient, .mprm-ingredients-delimiter {
-			float: left;
-			margin: 0;
-		  }
-		  .mprm-ingredients-delimiter {
-			margin: 0 0.25rem;
-			&:last-child {
-			  display: none;
-			}
-		  }
-		}
-	  }
-	  .mprm-excerpt {
-		line-height: 1.1;
-	  }
-	  .mprm-proportions {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 0.8em;
-		  line-height: 1.2;
-		  .mprm-proportion {
-			font-style: italic;
-			margin: 0;
-		  }
-		}
-	  }
-
-	  .mprm-tags {
-		.mprm-tag {
-		  font-size: 0.75em;
-		  line-height: 1;
-		  border: 1px solid #606060;
-		  padding: 0 0.5rem;
-		}
-	  }
-	  .mprm-price {
-		font-weight: bold;
-	  }
+	  //.mprm-title {
+	  //margin: 1rem 0;
+	  //padding: 0;
+	  //}
 	}
 
 	&.mprm-view-list {
@@ -228,9 +176,9 @@
 		}
 		&.only-text {
 		  padding: 0 0 2rem;
-		  .mprm-title {
-			margin: 0;
-		  }
+		  //.mprm-title {
+		  //margin: 0;
+		  //}
 		}
 	  }
 	  .mprm-side {
@@ -245,57 +193,11 @@
 	  .mprm-image {
 		margin: 0 2rem 2rem 0;
 	  }
-
-	  .mprm-title {
-		margin: 0 0 1rem 0;
-		padding: 0;
-	  }
-	  .mprm-ingredients {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 80%;
-		  line-height: 1.1;
-		  .mprm-ingredient, .mprm-ingredients-delimiter {
-			float: left;
-			margin: 0;
-		  }
-		  .mprm-ingredients-delimiter {
-			margin: 0 0.25rem;
-			&:last-child {
-			  display: none;
-			}
-		  }
-		}
-	  }
-	  .mprm-excerpt {
-		line-height: 1.1;
-	  }
-	  .mprm-proportions {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 0.8em;
-		  line-height: 1.2;
-		  .mprm-proportion {
-			font-style: italic;
-			margin: 0;
-		  }
-		}
-	  }
-	  .mprm-tags {
-		.mprm-tag {
-		  font-size: 0.75em;
-		  line-height: 1;
-		  border: 1px solid #606060;
-		  padding: 0 0.5rem;
-		}
-	  }
-	  .mprm-price {
-		font-weight: bold;
-	  }
+	  //
+	  //.mprm-title {
+	  //margin: 0 0 1rem 0;
+	  //padding: 0;
+	  //}
 	}
 
 	&.mprm-view-simple-list {
@@ -313,20 +215,15 @@
 			position: relative;
 			text-align: center;
 			.mprm-title {
-
 			  .mprm-icon {
 				margin: 0 1rem 0 0;
 				font-size: 1.2em;
 			  }
 			}
 		  }
-
 		}
 		&.only-text {
 		  padding: 0 0 1rem;
-		  .mprm-title {
-			margin: 0;
-		  }
 		}
 	  }
 
@@ -337,21 +234,24 @@
 		  }
 		}
 	  }
-
+	  .mprm-list {
+		margin: 0 0 1em 0;
+		padding: 0;
+	  }
 	  .type-mp_menu_item {
 		.mprm-flex-container-simple-view {
-		  padding: 0;
-		  margin: 0;
+		  &.mprm-list {
+			margin: 0;
+			&:first-child {
+			  margin: 8px 0 0 0;
+			}
+		  }
 		  list-style: none;
 		  width: 100%;
 		  display: flex;
 		  flex-flow: row wrap;
 		  .mprm-flex-item {
 			margin: 0;
-			.mprm-title {
-			  margin: 0;
-			  padding: 0;
-			}
 			&.mprm-dots {
 			  border-bottom: 1px dotted #e0e0e0;
 			  flex: 1;
@@ -414,47 +314,7 @@
 		}
 
 	  }
-	  .mprm-ingredients {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0 0 1em 0;
-		  padding: 0;
-		  font-size: 80%;
-		  line-height: 1.1;
-		  .mprm-ingredient, .mprm-ingredients-delimiter {
-			float: left;
-			margin: 0;
-		  }
-		  .mprm-ingredients-delimiter {
-			margin: 0 0.25rem;
-			&:last-child {
-			  display: none;
-			}
-		  }
-		}
-	  }
-	  .mprm-proportions {
-		.mprm-list {
-		  list-style: outside none none;
-		  margin: 0;
-		  padding: 0;
-		  font-size: 0.8em;
-		  line-height: 1.2;
-		  .mprm-proportion {
-			font-style: italic;
-			margin: 0;
-		  }
-		}
-	  }
 
-	  .mprm-tags {
-		.mprm-tag {
-		  font-size: 0.75em;
-		  line-height: 1;
-		  border: 1px solid #606060;
-		  padding: 0 0.5rem;
-		}
-	  }
 	}
   }
 }

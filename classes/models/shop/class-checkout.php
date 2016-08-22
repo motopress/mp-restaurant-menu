@@ -48,15 +48,6 @@ class Checkout extends Model {
 	/**
 	 * @return mixed|void
 	 */
-	public function get_success_page_uri() {
-		$page_id = $this->get('settings')->get_option('success_page', 0);
-		$page_id = absint($page_id);
-		return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
-	}
-
-	/**
-	 * @return mixed|void
-	 */
 	public function is_success_page() {
 		$is_success_page = $this->get('settings')->get_option('success_page', false);
 		$is_success_page = isset($is_success_page) ? is_page($is_success_page) : false;
@@ -81,25 +72,10 @@ class Checkout extends Model {
 	/**
 	 * @return mixed|void
 	 */
-	public function get_checkout_uri() {
-		$uri = $this->get('settings')->get_option('purchase_page', false);
-		$uri = isset($uri) ? get_permalink($uri) : NULL;
-		if (!empty($args)) {
-			// Check for backward compatibility
-			if (is_string($args))
-				$args = str_replace('?', '', $args);
-			$args = wp_parse_args($args);
-			$uri = add_query_arg($args, $uri);
-		}
-		$scheme = defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN ? 'https' : 'admin';
-		$ajax_url = admin_url('admin-ajax.php', $scheme);
-		if ((!preg_match('/^https/', $uri) && preg_match('/^https/', $ajax_url) && $this->get('settings')->is_ajax_enabled()) || $this->get('settings')->is_ssl_enforced()) {
-			$uri = preg_replace('/^http:/', 'https:', $uri);
-		}
-		if ($this->get('settings')->get_option('no_cache_checkout', false)) {
-			$uri = $this->get('settings')->add_cache_busting($uri);
-		}
-		return apply_filters('mprm_get_checkout_uri', $uri);
+	public function get_success_page_uri() {
+		$page_id = $this->get('settings')->get_option('success_page', 0);
+		$page_id = absint($page_id);
+		return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 	}
 
 	/**
@@ -117,6 +93,32 @@ class Checkout extends Model {
 			$redirect = add_query_arg($args, $redirect);
 		}
 		wp_redirect(apply_filters('mprm_send_back_to_checkout', $redirect, $args));
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function get_checkout_uri() {
+		$purchase_page_id = $this->get('settings')->get_option('purchase_page', false);
+		$uri = !empty($purchase_page_id) ? get_permalink((int)$purchase_page_id) : NULL;
+
+		if (!empty($args)) {
+			// Check for backward compatibility
+			if (is_string($args))
+				$args = str_replace('?', '', $args);
+			$args = wp_parse_args($args);
+			$uri = add_query_arg($args, $uri);
+		}
+
+		$scheme = defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN ? 'https' : 'admin';
+		$ajax_url = admin_url('admin-ajax.php', $scheme);
+		if ((!preg_match('/^https/', $uri) && preg_match('/^https/', $ajax_url) && $this->get('settings')->is_ajax_enabled()) || $this->get('settings')->is_ssl_enforced()) {
+			$uri = preg_replace('/^http:/', 'https:', $uri);
+		}
+		if ($this->get('settings')->get_option('no_cache_checkout', false)) {
+			$uri = $this->get('settings')->add_cache_busting($uri);
+		}
+		return apply_filters('mprm_get_checkout_uri', $uri);
 	}
 
 	/**
@@ -383,7 +385,8 @@ class Checkout extends Model {
 		);
 		// Let payment gateways and other extensions determine if address fields should be required
 		$require_address = apply_filters('mprm_require_billing_address', $this->get('taxes')->use_taxes() && $this->get('cart')->get_cart_total());
-		if ($require_address) {
+		// $this->get('settings')->get_option('taxes_cc_form', false) later
+		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
 			$required_fields['card_zip'] = array(
 				'error_id' => 'invalid_zip_code',
 				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')

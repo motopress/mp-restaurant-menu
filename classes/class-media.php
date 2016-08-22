@@ -4,7 +4,6 @@ namespace mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models\Settings;
 use mp_restaurant_menu\classes\models\Settings_emails;
 use mp_restaurant_menu\classes\modules\Menu;
-use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\modules\Taxonomy;
 
 /**
@@ -167,6 +166,9 @@ class Media extends Core {
 		}
 	}
 
+	/**
+	 * Register settings
+	 */
 	public function register_settings() {
 		if (false == get_option('mprm_settings')) {
 			add_option('mprm_settings');
@@ -226,12 +228,6 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						/*'view_settings' => array(
-							'id' => 'view_settings',
-							'name' => '<h3>' . __('View', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),*/
 						'category_view' => array(
 							'id' => 'category_view',
 							'name' => __('Category Layout', 'mp-restaurant-menu'),
@@ -242,6 +238,19 @@ class Media extends Core {
 							),
 							'chosen' => false,
 							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
+						),
+						'template_mode' => array(
+							'id' => 'template_mode',
+							'name' => __('Template Mode', 'mp-restaurant-menu'),
+							'options' => apply_filters('mprm_available_theme_mode',
+								array('theme' => __('Theme Mode', 'mp-restaurant-menu'),
+									'plugin' => __('Developer Mode', 'mp-restaurant-menu')
+								)
+							),
+							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
+							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
+							'type' => 'select',
+
 						),
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',
@@ -333,7 +342,7 @@ class Media extends Core {
 							'name' => __('Currency', 'mp-restaurant-menu'),
 							'desc' => __('Choose your currency. <i>Note that some payment gateways have currency restrictions.</i>', 'mp-restaurant-menu'),
 							'type' => 'select',
-							'options' => Settings::get_instance()->get_currencies(),
+							'options' => Settings::get_instance()->get_currencies_with_symbols(),
 							'chosen' => true,
 						),
 						'currency_position' => array(
@@ -363,20 +372,7 @@ class Media extends Core {
 							'std' => '.',
 						),
 					),
-//					'api' => array(
-//						'api_settings' => array(
-//							'id' => 'api_settings',
-//							'name' => '<h3>' . __('API Settings', 'mp-restaurant-menu') . '</h3>',
-//							'desc' => '',
-//							'type' => 'header',
-//						),
-//						'api_allow_user_keys' => array(
-//							'id' => 'api_allow_user_keys',
-//							'name' => __('Allow User Keys', 'mp-restaurant-menu'),
-//							'desc' => __('Check this box to allow all users to generate API keys. Users with the \'manage_shop_settings\' capability are always allowed to generate keys.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//					),
+//
 				)
 			),
 			/** Payment Gateways Settings */
@@ -519,11 +515,7 @@ class Media extends Core {
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
-						/*'email_settings_header' => array(
-							'id' => 'email_settings_header',
-							'name' => '<h3>' . __('Email Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),*/
+
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
@@ -668,33 +660,33 @@ class Media extends Core {
 				)
 			),
 			/** Taxes Settings */
-//			'taxes' => apply_filters('mprm_settings_taxes',
-//				array(
-//					'main' => array(
-//						'tax_settings' => array(
-//							'id' => 'tax_settings',
-//							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
-//							'type' => 'header',
-//						),
-//						'enable_taxes' => array(
-//							'id' => 'enable_taxes',
-//							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
-//							'desc' => __('Check this to enable taxes on purchases.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
+			'taxes' => apply_filters('mprm_settings_taxes',
+				array(
+					'main' => array(
+						'tax_settings' => array(
+							'id' => 'tax_settings',
+							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
+							'type' => 'header',
+						),
+						'enable_taxes' => array(
+							'id' => 'enable_taxes',
+							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
+							'desc' => __('Check this box to enable taxes on purchases.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
 //						'tax_rates' => array(
 //							'id' => 'tax_rates',
 //							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
 //							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
 //							'type' => 'tax_rates',
 //						),
-//						'tax_rate' => array(
-//							'id' => 'tax_rate',
-//							'name' => __('Fallback Tax Rate', 'mp-restaurant-menu'),
-//							'desc' => __('Enter a percentage, such as 6.5. Customers not in a specific rate will be charged this rate.', 'mp-restaurant-menu'),
-//							'type' => 'text',
-//							'size' => 'small',
-//						),
+						'tax_rate' => array(
+							'id' => 'tax_rate',
+							'name' => __('Tax Rate', 'mp-restaurant-menu'),
+							'desc' => __('Specify a tax rate percentage (e.g. 10%). All customers will be charged this rate.', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'small',
+						),
 //						'prices_include_tax' => array(
 //							'id' => 'prices_include_tax',
 //							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
@@ -723,9 +715,9 @@ class Media extends Core {
 //								'no' => __('Excluding tax', 'mp-restaurant-menu'),
 //							),
 //						),
-//					),
-//				)
-//			),
+					),
+				)
+			),
 			/** Extension Settings */
 			'extensions' => apply_filters('mprm_settings_extensions',
 				array()
@@ -1020,7 +1012,6 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_sections_general', array(
 				'main' => __('General', 'mp-restaurant-menu'),
 				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
-//				'api' => __('API Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateways', 'mp-restaurant-menu'),
@@ -1037,20 +1028,16 @@ class Media extends Core {
 			'checkout' => apply_filters('mprm_settings_sections_styles', array(
 				'main' => __('Checkout Settings', 'mp-restaurant-menu'),
 			)),
-//			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
-//				'main' => __('Tax Settings', 'mp-restaurant-menu'),
-//			)),
+			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
+				'main' => __('Tax Settings', 'mp-restaurant-menu'),
+			)),
 			'extensions' => apply_filters('mprm_settings_sections_extensions', array(
 				'main' => __('Main', 'mp-restaurant-menu')
 			)),
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
 				'main' => __('Button Text', 'mp-restaurant-menu'),
-//				'checkout' => __('Checkout Settings', 'mp-restaurant-menu'),
-//				'button_text' => __('Button Text', 'mp-restaurant-menu'),
-//				'file_menu_items' => __('File Menu items', 'mp-restaurant-menu'),
-//				'accounting' => __('Accounting Settings', 'mp-restaurant-menu'),
-				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu'),
+				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu')
 			)),
 		);
 		$sections = apply_filters('mprm_settings_sections', $sections);
@@ -1099,6 +1086,7 @@ class Media extends Core {
 					break;
 				case"restaurant-menu_page_mprm-customers":
 				case "customize":
+				case "widgets":
 				case "edit-mp_menu_item":
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
@@ -1108,6 +1096,8 @@ class Media extends Core {
 					wp_enqueue_media();
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
+					$this->enqueue_style('mprm-chosen', 'lib/chosen.min.css');
+					$this->enqueue_script('mprm-chosen', "libs/chosen.jquery{$prefix}.js", array("jquery"), '1.1.0');
 					break;
 				case "edit-mp_menu_category":
 					$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
@@ -1232,6 +1222,8 @@ class Media extends Core {
 	}
 
 	/**
+	 * Add js
+	 *
 	 * @param bool $type
 	 */
 	public function add_plugin_js($type = false) {
@@ -1249,20 +1241,45 @@ class Media extends Core {
 	 * Register all post type
 	 */
 	public function register_all_post_type() {
-		Post::get_instance()->register_post_type(array(
-			'post_type' => $this->get_post_type('menu_item'),
-			'titles' => array('many' => 'menu items', 'single' => 'menu item'),
-			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
-			'slug' => 'menu',
+		if (post_type_exists($this->get_post_type('menu_item'))) {
+			return;
+		}
+		register_post_type($this->get_post_type('menu_item'), array(
+			'label' => 'mp_menu_item',
+			'labels' =>
+				array(
+					'name' => 'Menu items',
+					'singular_name' => 'Menu item',
+					'add_new' => 'Add New',
+					'add_new_item' => 'Add New Menu item',
+					'edit_item' => 'Edit Menu item',
+					'new_item' => 'New Menu item',
+					'all_items' => 'All Menu items',
+					'view_item' => 'View Menu item',
+					'search_items' => 'Search Menu item',
+					'not_found' => 'No menu items found',
+					'not_found_in_trash' => 'No menu items found in Trash',
+					'parent_item_colon' => 'media',
+					'menu_name' => 'Menu items',
+				),
+			'public' => true,
+			'has_archive' => true,
+			'show_ui' => true,
+			'show_in_menu' => false,
 			'capability_type' => 'product',
-			'map_meta_cap' => true
+			'menu_position' => 21,
+			'hierarchical' => false,
+			'map_meta_cap' => true,
+
+			'rewrite' =>
+				array(
+					'slug' => 'menu',
+					'with_front' => true,
+					'hierarchical' => true,
+				),
+			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
+			'show_in_admin_bar' => true,
 		));
-//		Post::get_instance()->register_post_type(array(
-//			'post_type' => $this->get_post_type('order'),
-//			'titles' => array('many' => 'orders', 'single' => 'order'),
-//			'supports' => array('title', 'comments', 'custom-fields'),
-//			'slug' => 'menu'
-//		));
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),
@@ -1304,6 +1321,10 @@ class Media extends Core {
 	 * Register all taxonomies
 	 */
 	public function register_all_taxonomies() {
+		if (taxonomy_exists($this->get_tax_name('menu_category'))) {
+			return;
+		}
+
 		$menu_item = $this->get_post_type('menu_item');
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
@@ -1325,38 +1346,103 @@ class Media extends Core {
 	}
 
 	/**
+	 * Single template
+	 *
+	 * @param $template *
+	 *
+	 * @return mixed
+	 */
+	public function single_template($template) {
+		global $post;
+
+		if (is_embed()) {
+			return;
+		}
+
+		if (!empty($post) && in_array($post->post_type, array_values($this->post_types)) && $this->template_mode() == 'theme') {
+			add_filter('the_content', array($this, 'single_content'), 20, 2);
+		}
+		return $template;
+	}
+
+	/**
+	 * @return mixed|string|void
+	 */
+	public function template_mode() {
+		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
+		if (current_theme_supports('mp-restaurant-menu')) {
+			return 'plugin';
+		}
+		return $template_mode;
+	}
+
+	/**
+	 *
+	 * @param $content
+	 *
+	 * @return mixed
+	 */
+	public function single_content($content) {
+		global $post;
+		$append_content = '';
+		if (is_tax() && is_archive()) {
+			return $content;
+		}
+
+		switch ($post->post_type) {
+			case $this->post_types['menu_item']:
+
+				$append_content .= $this->get_view()->render_html('theme-support/single-' . $this->post_types['menu_item'], array(), false);
+
+				break;
+			case $this->post_types['order']:
+				$append_content .= $this->get_view()->render_html('', array(), false);
+				break;
+			default:
+				break;
+		}
+
+		return $content . $append_content;
+	}
+
+	/**
 	 * Template include
 	 *
 	 * @param string $template
 	 *
 	 * @return string
 	 */
+
 	public function template_include($template) {
 		global $post, $taxonomy;
+
 		if (is_embed()) {
 			return $template;
 		}
-		if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
-			foreach ($this->taxonomy_names as $taxonomy_name) {
-				if (basename($template) != "taxonomy-$taxonomy_name.php") {
-					$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
-					if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
-						$template = $path;
+
+		if ($this->template_mode() == 'plugin') {
+			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
+				foreach ($this->post_types as $post_type) {
+					if (basename($template) != "single-$post_type.php") {
+						$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
+						if ($post->post_type == $post_type && file_exists($path)) {
+							$template = $path;
+						}
+					}
+				}
+			}
+			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
+				foreach ($this->taxonomy_names as $taxonomy_name) {
+					if (basename($template) != "taxonomy-$taxonomy_name.php") {
+						$path = MP_RM_TEMPLATES_PATH . "taxonomy-$taxonomy_name.php";
+						if (is_tax($taxonomy_name) && $taxonomy == $taxonomy_name && file_exists($path)) {
+							$template = $path;
+						}
 					}
 				}
 			}
 		}
 
-		if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
-			foreach ($this->post_types as $post_type) {
-				if (basename($template) != "single-$post_type.php") {
-					$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
-					if ($post->post_type == $post_type && file_exists($path)) {
-						$template = $path;
-					}
-				}
-			}
-		}
 
 		return $template;
 	}
@@ -1408,7 +1494,7 @@ class Media extends Core {
 		$tabs['checkout'] = __('Checkout Settings', 'mp-restaurant-menu');
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
-//		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
+		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
 		if (!empty($settings['extensions'])) {
 			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}
@@ -1419,3 +1505,4 @@ class Media extends Core {
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}
 }
+

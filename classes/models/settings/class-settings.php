@@ -19,7 +19,6 @@ class Settings extends Model {
 	public function get_config_settings() {
 		$settings = array('tabs' => array());
 		$config_settings = $this->get_config('settings');
-		//$save_settings = $this->get_settings();
 		foreach ($config_settings['tabs'] as $tabs => $setting) {
 			$settings['tabs'][$tabs] = $setting;
 		}
@@ -46,144 +45,32 @@ class Settings extends Model {
 	}
 
 	/**
-	 * Currency symbol
+	 * Currency
 	 *
-	 * @param string $currency
+	 * @default USD
 	 *
-	 * @return string
+	 * @return mixed|void
 	 */
-	public function get_currency_symbol($currency = '') {
-		if (!$currency) {
-			$currency = $this->get_settings('currency_code');
+	public function get_currency() {
+		$currency = $this->get_option('currency', 'USD');
+		return apply_filters('mprm_currency', $currency);
+	}
+
+	/**
+	 * @param string $key
+	 * @param bool $default
+	 *
+	 * @return mixed|void
+	 */
+	public function get_option($key = '', $default = false) {
+		global $mprm_options;
+
+		if (empty($mprm_options)) {
+			$mprm_options = Settings::get_instance()->get_settings();
 		}
-		switch ($currency) {
-			case 'AED' :
-				$currency_symbol = 'د.إ';
-				break;
-			case 'AUD' :
-			case 'ARS' :
-			case 'CAD' :
-			case 'CLP' :
-			case 'COP' :
-			case 'HKD' :
-			case 'MXN' :
-			case 'NZD' :
-			case 'SGD' :
-			case 'USD' :
-				$currency_symbol = '&#36;';
-				break;
-			case 'BDT':
-				$currency_symbol = '&#2547;&nbsp;';
-				break;
-			case 'BGN' :
-				$currency_symbol = '&#1083;&#1074;.';
-				break;
-			case 'BRL' :
-				$currency_symbol = '&#82;&#36;';
-				break;
-			case 'CHF' :
-				$currency_symbol = '&#67;&#72;&#70;';
-				break;
-			case 'CNY' :
-			case 'JPY' :
-			case 'RMB' :
-				$currency_symbol = '&yen;';
-				break;
-			case 'CZK' :
-				$currency_symbol = '&#75;&#269;';
-				break;
-			case 'DKK' :
-				$currency_symbol = 'DKK';
-				break;
-			case 'DOP' :
-				$currency_symbol = 'RD&#36;';
-				break;
-			case 'EGP' :
-				$currency_symbol = 'EGP';
-				break;
-			case 'EUR' :
-				$currency_symbol = '&euro;';
-				break;
-			case 'GBP' :
-				$currency_symbol = '&pound;';
-				break;
-			case 'HRK' :
-				$currency_symbol = 'Kn';
-				break;
-			case 'HUF' :
-				$currency_symbol = '&#70;&#116;';
-				break;
-			case 'IDR' :
-				$currency_symbol = 'Rp';
-				break;
-			case 'ILS' :
-				$currency_symbol = '&#8362;';
-				break;
-			case 'INR' :
-				$currency_symbol = 'Rs.';
-				break;
-			case 'ISK' :
-				$currency_symbol = 'Kr.';
-				break;
-			case 'KIP' :
-				$currency_symbol = '&#8365;';
-				break;
-			case 'KRW' :
-				$currency_symbol = '&#8361;';
-				break;
-			case 'MYR' :
-				$currency_symbol = '&#82;&#77;';
-				break;
-			case 'NGN' :
-				$currency_symbol = '&#8358;';
-				break;
-			case 'NOK' :
-				$currency_symbol = '&#107;&#114;';
-				break;
-			case 'NPR' :
-				$currency_symbol = 'Rs.';
-				break;
-			case 'PHP' :
-				$currency_symbol = '&#8369;';
-				break;
-			case 'PLN' :
-				$currency_symbol = '&#122;&#322;';
-				break;
-			case 'PYG' :
-				$currency_symbol = '&#8370;';
-				break;
-			case 'RON' :
-				$currency_symbol = 'lei';
-				break;
-			case 'RUB' :
-				$currency_symbol = '&#1088;&#1091;&#1073;.';
-				break;
-			case 'SEK' :
-				$currency_symbol = '&#107;&#114;';
-				break;
-			case 'THB' :
-				$currency_symbol = '&#3647;';
-				break;
-			case 'TRY' :
-				$currency_symbol = '&#8378;';
-				break;
-			case 'TWD' :
-				$currency_symbol = '&#78;&#84;&#36;';
-				break;
-			case 'UAH' :
-				$currency_symbol = '&#8372;';
-				break;
-			case 'VND' :
-				$currency_symbol = '&#8363;';
-				break;
-			case 'ZAR' :
-				$currency_symbol = '&#82;';
-				break;
-			default :
-				$currency_symbol = '';
-				break;
-		}
-		return $currency_symbol;
+		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
+		$value = apply_filters('mprm_get_option', $value, $key, $default);
+		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
 	}
 
 	/**
@@ -199,13 +86,13 @@ class Settings extends Model {
 			$default_settings =
 				array(
 					'currency' => 'USD',
+					'template_mode' => 'theme',
 					'customer_phone' => '1',
 					'gateways' =>
 						array(
 							'paypal' => '1',
 							'manual' => '1',
 						),
-
 					'item_quantities' => '1',
 					'shipping_address' => '1',
 					'enable_ajax_cart' => '1',
@@ -223,6 +110,7 @@ class Settings extends Model {
 							'discover' => 'Discover',
 							'paypal' => 'PayPal',
 						),
+					'checkout_include_tax' => 'no',
 					'checkout_label' => 'Purchase',
 					'add_to_cart_text' => 'Add to Cart',
 					'buy_now_text' => 'Buy Now'
@@ -249,36 +137,7 @@ class Settings extends Model {
 	}
 
 	/**
-	 * Currency
-	 *
-	 * @default USD
-	 *
-	 * @return mixed|void
-	 */
-	public function get_currency() {
-		$currency = $this->get_option('currency', 'USD');
-		return apply_filters('mprm_currency', $currency);
-	}
-
-	/**
-	 * @param string $key
-	 * @param bool $default
-	 *
-	 * @return mixed|void
-	 */
-	public function get_option($key = '', $default = false) {
-		global $mprm_options;
-
-		if (empty($mprm_options)) {
-			$mprm_options = Settings::get_instance()->get_settings();
-		}
-
-		$value = !empty($mprm_options[$key]) ? $mprm_options[$key] : $default;
-		$value = apply_filters('mprm_get_option', $value, $key, $default);
-		return apply_filters('mprm_get_option_' . $key, $value, $key, $default);
-	}
-
-	/**
+	 * Get instance
 	 * @return Settings
 	 */
 	public static function get_instance() {
@@ -289,41 +148,369 @@ class Settings extends Model {
 	}
 
 	/**
+	 * Currencies with currenc symbol
+	 * @return mixed|void
+	 */
+	public function get_currencies_with_symbols() {
+		$currencies = $this->get_currencies();
+		foreach ($currencies as $key => $currency) {
+			$currencies[$key] = $currency . " ({$this->get_currency_symbol($key)})";
+		}
+		return apply_filters('mprm_currencies_with_symbols', $currencies);
+	}
+
+	/**
 	 * Get list currencies
 	 *
 	 * @return mixed|void
 	 */
 	public function get_currencies() {
 		$currencies = array(
-			'USD' => __('US Dollars (&#36;)', 'mp-restaurant-menu'),
-			'EUR' => __('Euros (&euro;)', 'mp-restaurant-menu'),
-			'GBP' => __('Pounds Sterling (&pound;)', 'mp-restaurant-menu'),
-			'AUD' => __('Australian Dollars (&#36;)', 'mp-restaurant-menu'),
-			'BRL' => __('Brazilian Real (R&#36;)', 'mp-restaurant-menu'),
-			'CAD' => __('Canadian Dollars (&#36;)', 'mp-restaurant-menu'),
-			'CZK' => __('Czech Koruna', 'mp-restaurant-menu'),
-			'DKK' => __('Danish Krone', 'mp-restaurant-menu'),
-			'HKD' => __('Hong Kong Dollar (&#36;)', 'mp-restaurant-menu'),
-			'HUF' => __('Hungarian Forint', 'mp-restaurant-menu'),
-			'ILS' => __('Israeli Shekel (&#8362;)', 'mp-restaurant-menu'),
-			'JPY' => __('Japanese Yen (&yen;)', 'mp-restaurant-menu'),
-			'MYR' => __('Malaysian Ringgits', 'mp-restaurant-menu'),
-			'MXN' => __('Mexican Peso (&#36;)', 'mp-restaurant-menu'),
-			'NZD' => __('New Zealand Dollar (&#36;)', 'mp-restaurant-menu'),
-			'NOK' => __('Norwegian Krone', 'mp-restaurant-menu'),
-			'PHP' => __('Philippine Pesos', 'mp-restaurant-menu'),
-			'PLN' => __('Polish Zloty', 'mp-restaurant-menu'),
-			'SGD' => __('Singapore Dollar (&#36;)', 'mp-restaurant-menu'),
-			'SEK' => __('Swedish Krona', 'mp-restaurant-menu'),
-			'CHF' => __('Swiss Franc', 'mp-restaurant-menu'),
-			'TWD' => __('Taiwan New Dollars', 'mp-restaurant-menu'),
-			'THB' => __('Thai Baht (&#3647;)', 'mp-restaurant-menu'),
-			'INR' => __('Indian Rupee (&#8377;)', 'mp-restaurant-menu'),
-			'TRY' => __('Turkish Lira (&#8378;)', 'mp-restaurant-menu'),
-			'RIAL' => __('Iranian Rial (&#65020;)', 'mp-restaurant-menu'),
-			'RUB' => __('Russian Rubles', 'mp-restaurant-menu')
+			'AED' => __('United Arab Emirates dirham', 'mp-restaurant-menu'),
+			'AFN' => __('Afghan afghani', 'mp-restaurant-menu'),
+			'ALL' => __('Albanian lek', 'mp-restaurant-menu'),
+			'AMD' => __('Armenian dram', 'mp-restaurant-menu'),
+			'ANG' => __('Netherlands Antillean guilder', 'mp-restaurant-menu'),
+			'AOA' => __('Angolan kwanza', 'mp-restaurant-menu'),
+			'ARS' => __('Argentine peso', 'mp-restaurant-menu'),
+			'AUD' => __('Australian dollar', 'mp-restaurant-menu'),
+			'AWG' => __('Aruban florin', 'mp-restaurant-menu'),
+			'AZN' => __('Azerbaijani manat', 'mp-restaurant-menu'),
+			'BAM' => __('Bosnia and Herzegovina convertible mark', 'mp-restaurant-menu'),
+			'BBD' => __('Barbadian dollar', 'mp-restaurant-menu'),
+			'BDT' => __('Bangladeshi taka', 'mp-restaurant-menu'),
+			'BGN' => __('Bulgarian lev', 'mp-restaurant-menu'),
+			'BHD' => __('Bahraini dinar', 'mp-restaurant-menu'),
+			'BIF' => __('Burundian franc', 'mp-restaurant-menu'),
+			'BMD' => __('Bermudian dollar', 'mp-restaurant-menu'),
+			'BND' => __('Brunei dollar', 'mp-restaurant-menu'),
+			'BOB' => __('Bolivian boliviano', 'mp-restaurant-menu'),
+			'BRL' => __('Brazilian real', 'mp-restaurant-menu'),
+			'BSD' => __('Bahamian dollar', 'mp-restaurant-menu'),
+			'BTC' => __('Bitcoin', 'mp-restaurant-menu'),
+			'BTN' => __('Bhutanese ngultrum', 'mp-restaurant-menu'),
+			'BWP' => __('Botswana pula', 'mp-restaurant-menu'),
+			'BYR' => __('Belarusian ruble', 'mp-restaurant-menu'),
+			'BZD' => __('Belize dollar', 'mp-restaurant-menu'),
+			'CAD' => __('Canadian dollar', 'mp-restaurant-menu'),
+			'CDF' => __('Congolese franc', 'mp-restaurant-menu'),
+			'CHF' => __('Swiss franc', 'mp-restaurant-menu'),
+			'CLP' => __('Chilean peso', 'mp-restaurant-menu'),
+			'CNY' => __('Chinese yuan', 'mp-restaurant-menu'),
+			'COP' => __('Colombian peso', 'mp-restaurant-menu'),
+			'CRC' => __('Costa Rican col&oacute;n', 'mp-restaurant-menu'),
+			'CUC' => __('Cuban convertible peso', 'mp-restaurant-menu'),
+			'CUP' => __('Cuban peso', 'mp-restaurant-menu'),
+			'CVE' => __('Cape Verdean escudo', 'mp-restaurant-menu'),
+			'CZK' => __('Czech koruna', 'mp-restaurant-menu'),
+			'DJF' => __('Djiboutian franc', 'mp-restaurant-menu'),
+			'DKK' => __('Danish krone', 'mp-restaurant-menu'),
+			'DOP' => __('Dominican peso', 'mp-restaurant-menu'),
+			'DZD' => __('Algerian dinar', 'mp-restaurant-menu'),
+			'EGP' => __('Egyptian pound', 'mp-restaurant-menu'),
+			'ERN' => __('Eritrean nakfa', 'mp-restaurant-menu'),
+			'ETB' => __('Ethiopian birr', 'mp-restaurant-menu'),
+			'EUR' => __('Euro', 'mp-restaurant-menu'),
+			'FJD' => __('Fijian dollar', 'mp-restaurant-menu'),
+			'FKP' => __('Falkland Islands pound', 'mp-restaurant-menu'),
+			'GBP' => __('Pound sterling', 'mp-restaurant-menu'),
+			'GEL' => __('Georgian lari', 'mp-restaurant-menu'),
+			'GGP' => __('Guernsey pound', 'mp-restaurant-menu'),
+			'GHS' => __('Ghana cedi', 'mp-restaurant-menu'),
+			'GIP' => __('Gibraltar pound', 'mp-restaurant-menu'),
+			'GMD' => __('Gambian dalasi', 'mp-restaurant-menu'),
+			'GNF' => __('Guinean franc', 'mp-restaurant-menu'),
+			'GTQ' => __('Guatemalan quetzal', 'mp-restaurant-menu'),
+			'GYD' => __('Guyanese dollar', 'mp-restaurant-menu'),
+			'HKD' => __('Hong Kong dollar', 'mp-restaurant-menu'),
+			'HNL' => __('Honduran lempira', 'mp-restaurant-menu'),
+			'HRK' => __('Croatian kuna', 'mp-restaurant-menu'),
+			'HTG' => __('Haitian gourde', 'mp-restaurant-menu'),
+			'HUF' => __('Hungarian forint', 'mp-restaurant-menu'),
+			'IDR' => __('Indonesian rupiah', 'mp-restaurant-menu'),
+			'ILS' => __('Israeli new shekel', 'mp-restaurant-menu'),
+			'IMP' => __('Manx pound', 'mp-restaurant-menu'),
+			'INR' => __('Indian rupee', 'mp-restaurant-menu'),
+			'IQD' => __('Iraqi dinar', 'mp-restaurant-menu'),
+			'IRR' => __('Iranian rial', 'mp-restaurant-menu'),
+			'ISK' => __('Icelandic kr&oacute;na', 'mp-restaurant-menu'),
+			'JEP' => __('Jersey pound', 'mp-restaurant-menu'),
+			'JMD' => __('Jamaican dollar', 'mp-restaurant-menu'),
+			'JOD' => __('Jordanian dinar', 'mp-restaurant-menu'),
+			'JPY' => __('Japanese yen', 'mp-restaurant-menu'),
+			'KES' => __('Kenyan shilling', 'mp-restaurant-menu'),
+			'KGS' => __('Kyrgyzstani som', 'mp-restaurant-menu'),
+			'KHR' => __('Cambodian riel', 'mp-restaurant-menu'),
+			'KMF' => __('Comorian franc', 'mp-restaurant-menu'),
+			'KPW' => __('North Korean won', 'mp-restaurant-menu'),
+			'KRW' => __('South Korean won', 'mp-restaurant-menu'),
+			'KWD' => __('Kuwaiti dinar', 'mp-restaurant-menu'),
+			'KYD' => __('Cayman Islands dollar', 'mp-restaurant-menu'),
+			'KZT' => __('Kazakhstani tenge', 'mp-restaurant-menu'),
+			'LAK' => __('Lao kip', 'mp-restaurant-menu'),
+			'LBP' => __('Lebanese pound', 'mp-restaurant-menu'),
+			'LKR' => __('Sri Lankan rupee', 'mp-restaurant-menu'),
+			'LRD' => __('Liberian dollar', 'mp-restaurant-menu'),
+			'LSL' => __('Lesotho loti', 'mp-restaurant-menu'),
+			'LYD' => __('Libyan dinar', 'mp-restaurant-menu'),
+			'MAD' => __('Moroccan dirham', 'mp-restaurant-menu'),
+			'MDL' => __('Moldovan leu', 'mp-restaurant-menu'),
+			'MGA' => __('Malagasy ariary', 'mp-restaurant-menu'),
+			'MKD' => __('Macedonian denar', 'mp-restaurant-menu'),
+			'MMK' => __('Burmese kyat', 'mp-restaurant-menu'),
+			'MNT' => __('Mongolian t&ouml;gr&ouml;g', 'mp-restaurant-menu'),
+			'MOP' => __('Macanese pataca', 'mp-restaurant-menu'),
+			'MRO' => __('Mauritanian ouguiya', 'mp-restaurant-menu'),
+			'MUR' => __('Mauritian rupee', 'mp-restaurant-menu'),
+			'MVR' => __('Maldivian rufiyaa', 'mp-restaurant-menu'),
+			'MWK' => __('Malawian kwacha', 'mp-restaurant-menu'),
+			'MXN' => __('Mexican peso', 'mp-restaurant-menu'),
+			'MYR' => __('Malaysian ringgit', 'mp-restaurant-menu'),
+			'MZN' => __('Mozambican metical', 'mp-restaurant-menu'),
+			'NAD' => __('Namibian dollar', 'mp-restaurant-menu'),
+			'NGN' => __('Nigerian naira', 'mp-restaurant-menu'),
+			'NIO' => __('Nicaraguan c&oacute;rdoba', 'mp-restaurant-menu'),
+			'NOK' => __('Norwegian krone', 'mp-restaurant-menu'),
+			'NPR' => __('Nepalese rupee', 'mp-restaurant-menu'),
+			'NZD' => __('New Zealand dollar', 'mp-restaurant-menu'),
+			'OMR' => __('Omani rial', 'mp-restaurant-menu'),
+			'PAB' => __('Panamanian balboa', 'mp-restaurant-menu'),
+			'PEN' => __('Peruvian nuevo sol', 'mp-restaurant-menu'),
+			'PGK' => __('Papua New Guinean kina', 'mp-restaurant-menu'),
+			'PHP' => __('Philippine peso', 'mp-restaurant-menu'),
+			'PKR' => __('Pakistani rupee', 'mp-restaurant-menu'),
+			'PLN' => __('Polish z&#x142;oty', 'mp-restaurant-menu'),
+			'PRB' => __('Transnistrian ruble', 'mp-restaurant-menu'),
+			'PYG' => __('Paraguayan guaran&iacute;', 'mp-restaurant-menu'),
+			'QAR' => __('Qatari riyal', 'mp-restaurant-menu'),
+			'RON' => __('Romanian leu', 'mp-restaurant-menu'),
+			'RSD' => __('Serbian dinar', 'mp-restaurant-menu'),
+			'RUB' => __('Russian ruble', 'mp-restaurant-menu'),
+			'RWF' => __('Rwandan franc', 'mp-restaurant-menu'),
+			'SAR' => __('Saudi riyal', 'mp-restaurant-menu'),
+			'SBD' => __('Solomon Islands dollar', 'mp-restaurant-menu'),
+			'SCR' => __('Seychellois rupee', 'mp-restaurant-menu'),
+			'SDG' => __('Sudanese pound', 'mp-restaurant-menu'),
+			'SEK' => __('Swedish krona', 'mp-restaurant-menu'),
+			'SGD' => __('Singapore dollar', 'mp-restaurant-menu'),
+			'SHP' => __('Saint Helena pound', 'mp-restaurant-menu'),
+			'SLL' => __('Sierra Leonean leone', 'mp-restaurant-menu'),
+			'SOS' => __('Somali shilling', 'mp-restaurant-menu'),
+			'SRD' => __('Surinamese dollar', 'mp-restaurant-menu'),
+			'SSP' => __('South Sudanese pound', 'mp-restaurant-menu'),
+			'STD' => __('S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra', 'mp-restaurant-menu'),
+			'SYP' => __('Syrian pound', 'mp-restaurant-menu'),
+			'SZL' => __('Swazi lilangeni', 'mp-restaurant-menu'),
+			'THB' => __('Thai baht', 'mp-restaurant-menu'),
+			'TJS' => __('Tajikistani somoni', 'mp-restaurant-menu'),
+			'TMT' => __('Turkmenistan manat', 'mp-restaurant-menu'),
+			'TND' => __('Tunisian dinar', 'mp-restaurant-menu'),
+			'TOP' => __('Tongan pa&#x2bb;anga', 'mp-restaurant-menu'),
+			'TRY' => __('Turkish lira', 'mp-restaurant-menu'),
+			'TTD' => __('Trinidad and Tobago dollar', 'mp-restaurant-menu'),
+			'TWD' => __('New Taiwan dollar', 'mp-restaurant-menu'),
+			'TZS' => __('Tanzanian shilling', 'mp-restaurant-menu'),
+			'UAH' => __('Ukrainian hryvnia', 'mp-restaurant-menu'),
+			'UGX' => __('Ugandan shilling', 'mp-restaurant-menu'),
+			'USD' => __('United States dollar', 'mp-restaurant-menu'),
+			'UYU' => __('Uruguayan peso', 'mp-restaurant-menu'),
+			'UZS' => __('Uzbekistani som', 'mp-restaurant-menu'),
+			'VEF' => __('Venezuelan bol&iacute;var', 'mp-restaurant-menu'),
+			'VND' => __('Vietnamese &#x111;&#x1ed3;ng', 'mp-restaurant-menu'),
+			'VUV' => __('Vanuatu vatu', 'mp-restaurant-menu'),
+			'WST' => __('Samoan t&#x101;l&#x101;', 'mp-restaurant-menu'),
+			'XAF' => __('Central African CFA franc', 'mp-restaurant-menu'),
+			'XCD' => __('East Caribbean dollar', 'mp-restaurant-menu'),
+			'XOF' => __('West African CFA franc', 'mp-restaurant-menu'),
+			'XPF' => __('CFP franc', 'mp-restaurant-menu'),
+			'YER' => __('Yemeni rial', 'mp-restaurant-menu'),
+			'ZAR' => __('South African rand', 'mp-restaurant-menu'),
+			'ZMW' => __('Zambian kwacha', 'mp-restaurant-menu'),
 		);
 		return apply_filters('mprm_currencies', $currencies);
+	}
+
+	/**
+	 * Currency symbol
+	 *
+	 * @param string $currency
+	 *
+	 * @return string
+	 */
+	public function get_currency_symbol($currency = '') {
+		if (!$currency) {
+			$currency = $this->get_settings('currency_code');
+		}
+		$currency_symbol_array =
+			array(
+				'AED' => '&#x62f;.&#x625;',
+				'AFN' => '&#x60b;',
+				'ALL' => 'L',
+				'AMD' => 'AMD',
+				'ANG' => '&fnof;',
+				'AOA' => 'Kz',
+				'ARS' => '&#36;',
+				'AUD' => '&#36;',
+				'AWG' => '&fnof;',
+				'AZN' => 'AZN',
+				'BAM' => 'KM',
+				'BBD' => '&#36;',
+				'BDT' => '&#2547;&nbsp;',
+				'BGN' => '&#1083;&#1074;.',
+				'BHD' => '.&#x62f;.&#x628;',
+				'BIF' => 'Fr',
+				'BMD' => '&#36;',
+				'BND' => '&#36;',
+				'BOB' => 'Bs.',
+				'BRL' => '&#82;&#36;',
+				'BSD' => '&#36;',
+				'BTC' => '&#3647;',
+				'BTN' => 'Nu.',
+				'BWP' => 'P',
+				'BYR' => 'Br',
+				'BZD' => '&#36;',
+				'CAD' => '&#36;',
+				'CDF' => 'Fr',
+				'CHF' => '&#67;&#72;&#70;',
+				'CLP' => '&#36;',
+				'CNY' => '&yen;',
+				'COP' => '&#36;',
+				'CRC' => '&#x20a1;',
+				'CUC' => '&#36;',
+				'CUP' => '&#36;',
+				'CVE' => '&#36;',
+				'CZK' => '&#75;&#269;',
+				'DJF' => 'Fr',
+				'DKK' => 'DKK',
+				'DOP' => 'RD&#36;',
+				'DZD' => '&#x62f;.&#x62c;',
+				'EGP' => 'EGP',
+				'ERN' => 'Nfk',
+				'ETB' => 'Br',
+				'EUR' => '&euro;',
+				'FJD' => '&#36;',
+				'FKP' => '&pound;',
+				'GBP' => '&pound;',
+				'GEL' => '&#x10da;',
+				'GGP' => '&pound;',
+				'GHS' => '&#x20b5;',
+				'GIP' => '&pound;',
+				'GMD' => 'D',
+				'GNF' => 'Fr',
+				'GTQ' => 'Q',
+				'GYD' => '&#36;',
+				'HKD' => '&#36;',
+				'HNL' => 'L',
+				'HRK' => 'Kn',
+				'HTG' => 'G',
+				'HUF' => '&#70;&#116;',
+				'IDR' => 'Rp',
+				'ILS' => '&#8362;',
+				'IMP' => '&pound;',
+				'INR' => '&#8377;',
+				'IQD' => '&#x639;.&#x62f;',
+				'IRR' => '&#xfdfc;',
+				'ISK' => 'Kr.',
+				'JEP' => '&pound;',
+				'JMD' => '&#36;',
+				'JOD' => '&#x62f;.&#x627;',
+				'JPY' => '&yen;',
+				'KES' => 'KSh',
+				'KGS' => '&#x43b;&#x432;',
+				'KHR' => '&#x17db;',
+				'KMF' => 'Fr',
+				'KPW' => '&#x20a9;',
+				'KRW' => '&#8361;',
+				'KWD' => '&#x62f;.&#x643;',
+				'KYD' => '&#36;',
+				'KZT' => 'KZT',
+				'LAK' => '&#8365;',
+				'LBP' => '&#x644;.&#x644;',
+				'LKR' => '&#xdbb;&#xdd4;',
+				'LRD' => '&#36;',
+				'LSL' => 'L',
+				'LYD' => '&#x644;.&#x62f;',
+				'MAD' => '&#x62f;.&#x645;.',
+				'MDL' => 'L',
+				'MGA' => 'Ar',
+				'MKD' => '&#x434;&#x435;&#x43d;',
+				'MMK' => 'Ks',
+				'MNT' => '&#x20ae;',
+				'MOP' => 'P',
+				'MRO' => 'UM',
+				'MUR' => '&#x20a8;',
+				'MVR' => '.&#x783;',
+				'MWK' => 'MK',
+				'MXN' => '&#36;',
+				'MYR' => '&#82;&#77;',
+				'MZN' => 'MT',
+				'NAD' => '&#36;',
+				'NGN' => '&#8358;',
+				'NIO' => 'C&#36;',
+				'NOK' => '&#107;&#114;',
+				'NPR' => '&#8360;',
+				'NZD' => '&#36;',
+				'OMR' => '&#x631;.&#x639;.',
+				'PAB' => 'B/.',
+				'PEN' => 'S/.',
+				'PGK' => 'K',
+				'PHP' => '&#8369;',
+				'PKR' => '&#8360;',
+				'PLN' => '&#122;&#322;',
+				'PRB' => '&#x440;.',
+				'PYG' => '&#8370;',
+				'QAR' => '&#x631;.&#x642;',
+				'RMB' => '&yen;',
+				'RON' => 'lei',
+				'RSD' => '&#x434;&#x438;&#x43d;.',
+				'RUB' => '&#8381;',
+				'RWF' => 'Fr',
+				'SAR' => '&#x631;.&#x633;',
+				'SBD' => '&#36;',
+				'SCR' => '&#x20a8;',
+				'SDG' => '&#x62c;.&#x633;.',
+				'SEK' => '&#107;&#114;',
+				'SGD' => '&#36;',
+				'SHP' => '&pound;',
+				'SLL' => 'Le',
+				'SOS' => 'Sh',
+				'SRD' => '&#36;',
+				'SSP' => '&pound;',
+				'STD' => 'Db',
+				'SYP' => '&#x644;.&#x633;',
+				'SZL' => 'L',
+				'THB' => '&#3647;',
+				'TJS' => '&#x405;&#x41c;',
+				'TMT' => 'm',
+				'TND' => '&#x62f;.&#x62a;',
+				'TOP' => 'T&#36;',
+				'TRY' => '&#8378;',
+				'TTD' => '&#36;',
+				'TWD' => '&#78;&#84;&#36;',
+				'TZS' => 'Sh',
+				'UAH' => '&#8372;',
+				'UGX' => 'UGX',
+				'USD' => '&#36;',
+				'UYU' => '&#36;',
+				'UZS' => 'UZS',
+				'VEF' => 'Bs F',
+				'VND' => '&#8363;',
+				'VUV' => 'Vt',
+				'WST' => 'T',
+				'XAF' => 'Fr',
+				'XCD' => '&#36;',
+				'XOF' => 'Fr',
+				'XPF' => 'Fr',
+				'YER' => '&#xfdfc;',
+				'ZAR' => '&#82;',
+				'ZMW' => 'ZK',
+			);
+		if (empty($currency_symbol_array[$currency])) {
+			$currency_symbol = '';
+		} else {
+			$currency_symbol = $currency_symbol_array[$currency];
+		}
+		return $currency_symbol;
 	}
 
 	/**
@@ -592,12 +779,18 @@ class Settings extends Model {
 		} else {
 			$placeholder = '';
 		}
-		if (isset($args['chosen'])) {
-			$chosen = 'class="mprm-chosen"';
+		if (isset($args['readonly']) && ($args['readonly'] == true)) {
+			$disabled = 'disabled="disabled"';
+		} else {
+			$disabled = '';
+		}
+
+		if (isset($args['chosen']) && $args['chosen']) {
+			$chosen = 'class="mprm-chosen mprm-select-chosen"';
 		} else {
 			$chosen = '';
 		}
-		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
+		$html = '<select id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $disabled . ' name="mprm_settings[' . esc_attr($args['id']) . ']" ' . $chosen . 'data-placeholder="' . esc_html($placeholder) . '" />';
 		foreach ($args['options'] as $option => $name) {
 			$selected = selected($option, $value, false);
 			$html .= '<option value="' . esc_attr($option) . '" ' . $selected . '>' . esc_html($name) . '</option>';
@@ -722,79 +915,81 @@ class Settings extends Model {
 				$states = $this->get('settings_countries')->get_states_list();
 				break;
 			case 'CA' :
-				$states =  $this->get('settings_countries')->get_provinces_list();
+				$states = $this->get('settings_countries')->get_provinces_list();
 				break;
 			case 'AU' :
-				$states =  $this->get('settings_countries')->get_australian_states_list();
+				$states = $this->get('settings_countries')->get_australian_states_list();
 				break;
 			case 'BD' :
-				$states =  $this->get('settings_countries')->get_bangladeshi_states_list();
+				$states = $this->get('settings_countries')->get_bangladeshi_states_list();
 				break;
 			case 'BG' :
-				$states =  $this->get('settings_countries')->get_bulgarian_states_list();
+				$states = $this->get('settings_countries')->get_bulgarian_states_list();
 				break;
 			case 'BR' :
-				$states =  $this->get('settings_countries')->get_brazil_states_list();
+				$states = $this->get('settings_countries')->get_brazil_states_list();
 				break;
 			case 'CN' :
-				$states =  $this->get('settings_countries')->get_chinese_states_list();
+				$states = $this->get('settings_countries')->get_chinese_states_list();
 				break;
 			case 'HK' :
-				$states =  $this->get('settings_countries')->get_hong_kong_states_list();
+				$states = $this->get('settings_countries')->get_hong_kong_states_list();
 				break;
 			case 'HU' :
-				$states =  $this->get('settings_countries')->get_hungary_states_list();
+				$states = $this->get('settings_countries')->get_hungary_states_list();
 				break;
 			case 'ID' :
-				$states =  $this->get('settings_countries')->get_indonesian_states_list();
+				$states = $this->get('settings_countries')->get_indonesian_states_list();
 				break;
 			case 'IN' :
-				$states =  $this->get('settings_countries')->get_indian_states_list();
+				$states = $this->get('settings_countries')->get_indian_states_list();
 				break;
 			case 'IR' :
-				$states =  $this->get('settings_countries')->get_iranian_states_list();
+				$states = $this->get('settings_countries')->get_iranian_states_list();
 				break;
 			case 'IT' :
-				$states =  $this->get('settings_countries')->get_italian_states_list();
+				$states = $this->get('settings_countries')->get_italian_states_list();
 				break;
 			case 'JP' :
-				$states =  $this->get('settings_countries')->get_japanese_states_list();
+				$states = $this->get('settings_countries')->get_japanese_states_list();
 				break;
 			case 'MX' :
-				$states =  $this->get('settings_countries')->get_mexican_states_list();
+				$states = $this->get('settings_countries')->get_mexican_states_list();
 				break;
 			case 'MY' :
-				$states =  $this->get('settings_countries')->get_malaysian_states_list();
+				$states = $this->get('settings_countries')->get_malaysian_states_list();
 				break;
 			case 'NP' :
-				$states =  $this->get('settings_countries')->get_nepalese_states_list();
+				$states = $this->get('settings_countries')->get_nepalese_states_list();
 				break;
 			case 'NZ' :
-				$states =  $this->get('settings_countries')->get_new_zealand_states_list();
+				$states = $this->get('settings_countries')->get_new_zealand_states_list();
 				break;
 			case 'PE' :
-				$states =  $this->get('settings_countries')->get_peruvian_states_list();
+				$states = $this->get('settings_countries')->get_peruvian_states_list();
 				break;
 			case 'TH' :
-				$states =  $this->get('settings_countries')->get_thailand_states_list();
+				$states = $this->get('settings_countries')->get_thailand_states_list();
 				break;
 			case 'TR' :
-				$states =  $this->get('settings_countries')->get_turkey_states_list();
+				$states = $this->get('settings_countries')->get_turkey_states_list();
 				break;
 			case 'ZA' :
-				$states =  $this->get('settings_countries')->get_south_african_states_list();
+				$states = $this->get('settings_countries')->get_south_african_states_list();
 				break;
 			case 'ES' :
-				$states =  $this->get('settings_countries')->get_spain_states_list();
+				$states = $this->get('settings_countries')->get_spain_states_list();
 				break;
 			default :
 				$states = array();
 				break;
 		endswitch;
+
 		return apply_filters('mprm_shop_states', $states, $country);
 	}
 
 	/**
+	 *  Shop country
 	 * @return mixed|void
 	 */
 	public function get_shop_country() {
@@ -818,7 +1013,7 @@ class Settings extends Model {
 		$rates = $this->get_tax_rates();
 		ob_start(); ?>
 		<p><?php echo $args['desc']; ?></p>
-		<table id="tax_rates" class="wp-list-table widefat fixed posts">
+		<table id="mprm-tax-rates" class="wp-list-table widefat fixed posts">
 			<thead>
 			<tr>
 				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>

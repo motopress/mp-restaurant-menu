@@ -165,6 +165,9 @@ function mprm_show_gateways() {
 	return models\Gateways::get_instance()->show_gateways();
 }
 
+/**
+ * Get cc form
+ */
 function mprm_get_cc_form() {
 	ob_start(); ?>
 	<?php do_action('mprm_before_cc_fields'); ?>
@@ -324,7 +327,7 @@ function mprm_default_cc_address_fields() {
 		<?php do_action('mprm_cc_billing_top'); ?>
 		<p id="mprm-card-address-wrap">
 			<label for="card_address" class="mprm-label">
-				<?php _e('Billing Address', 'mp-restaurant-menu'); ?>
+				<!--				--><?php //_e('Billing Address', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_address')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
@@ -473,7 +476,6 @@ function mprm_print_errors() {
 
 function mprm_purchase_form_after_submit() {
 }
-
 
 function mprm_get_login_fields() {
 	$color = mprm_get_option('checkout_color', 'gray');
@@ -1036,7 +1038,7 @@ function mprm_customers_dropdown($data) {
  * @return mixed
  */
 function mprm_text($data) {
-	return View::get_instance()->render_html('../admin/settings/text', array('args' => $data), false);
+	return View::get_instance()->render_html('../admin/settings/text', $data, false);
 }
 
 /**
@@ -1164,4 +1166,25 @@ function mprm_get_view_price_position() {
 	return $price_position;
 }
 
+/**
+ * @param int $_id
+ *
+ * @return bool|mixed|void
+ */
+function mprm_get_default_variable_price($_id = 0) {
 
+	if (!mprm_has_variable_prices($_id)) {
+		return false;
+	}
+
+	$prices = mprm_get_variable_prices($_id);
+	$default_price_id = get_post_meta($_id, '_mprm_default_price_id', true);
+	if (!empty($prices)) {
+		if ($default_price_id === '' || !isset($prices[$default_price_id])) {
+			$default_price_id = current(array_keys($prices));
+		}
+	}
+
+	return apply_filters('mprm_variable_default_price_id', absint($default_price_id), $_id);
+
+}

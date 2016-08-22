@@ -2,39 +2,35 @@
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Session;
-use mp_restaurant_menu\classes\models\Settings;
-use mp_restaurant_menu\classes\Shortcodes;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
 
 /**
  * Class main state
  */
 class Core {
+	protected static $instance;
+	protected $taxonomy_names;
+	protected $post_types;
+	protected $posts = array();
 	/**
 	 * Current state
 	 */
 	private $state;
-
 	private $version;
-
-	protected $taxonomy_names;
-
-	protected $post_types;
-
-	protected $posts = array();
-
-	protected static $instance;
 
 	/**
 	 * Core constructor.
 	 */
 	public function __construct() {
+
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
 		$this->taxonomy_names = array(
 			'menu_category' => 'mp_menu_category',
 			'menu_tag' => 'mp_menu_tag',
 			'ingredient' => 'mp_ingredient'
 		);
+
 		$this->post_types = array(
 			'menu_item' => 'mp_menu_item',
 			'order' => 'mprm_order'
@@ -43,13 +39,27 @@ class Core {
 	}
 
 	/**
-	 * @return Core
+	 *  Get plugin version
 	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
+	public function init_plugin_version() {
+		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
+		if (!$this->version) {
+			$pluginObject = get_plugin_data($filePath);
+			$this->version = $pluginObject['Version'];
 		}
-		return self::$instance;
+	}
+
+	/**
+	 * Check for ajax post
+	 *
+	 * @return bool
+	 */
+	static function is_ajax() {
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function get_version() {
@@ -82,6 +92,7 @@ class Core {
 		if (isset($this->taxonomy_names[$value])) {
 			return $this->taxonomy_names[$value];
 		}
+		return false;
 	}
 
 	/**
@@ -95,6 +106,7 @@ class Core {
 		if (isset($this->post_types[$value])) {
 			return $this->post_types[$value];
 		}
+		return false;
 	}
 
 	/**
@@ -112,7 +124,7 @@ class Core {
 		Controller::get_instance()->install();
 		// Include plugin Preprocessors files
 		Preprocessor::install();
-		// Include plugin Modules files 
+		// Include plugin Modules files
 		Module::install();
 		// Include shortcodes
 		Shortcodes::install();
@@ -128,13 +140,54 @@ class Core {
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
-		$mprm_options = Settings::get_instance()->get_settings();
+
 		Session::get_instance()->maybe_start_session();
 		Session::get_instance()->init();
 	}
 
 	/**
-	 * Get model instace
+	 * Install current state
+	 *
+	 * @param $name
+	 */
+	public function install_state($name) {
+		// Include plugin state
+		Core::get_instance()->set_state(new State_Factory($name));
+	}
+
+	/**
+	 * @return Core
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Include all files from folder
+	 *
+	 * @param string $folder
+	 * @param boolean $inFolder
+	 */
+	static function include_all($folder, $inFolder = true) {
+		if (file_exists($folder)) {
+			$includeArr = scandir($folder);
+			foreach ($includeArr as $include) {
+				if (!is_dir($folder . "/" . $include)) {
+					include_once($folder . "/" . $include);
+				} else {
+					if ($include != "." && $include != ".." && $inFolder) {
+						Core::include_all($folder . "/" . $include);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get model instance
 	 *
 	 * @param bool|false $type
 	 *
@@ -149,24 +202,37 @@ class Core {
 	}
 
 	/**
-	 *  Get plugin version
+	 * Check and return current state
+	 *
+	 * @param string $type
+	 *
+	 * @return boolean
 	 */
-	public function init_plugin_version() {
-		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
-		if (!$this->version) {
-			$pluginObject = get_plugin_data($filePath);
-			$this->version = $pluginObject['Version'];
+	public function get_model($type = null) {
+		return Core::get_instance()->get_state()->get_model($type);
+	}
+
+
+	/**
+	 * Get State
+	 *
+	 * @return bool/Object
+	 */
+	public function get_state() {
+		if ($this->state) {
+			return $this->state;
+		} else {
+			return false;
 		}
 	}
 
 	/**
-	 * Install current state
+	 * Set state
 	 *
-	 * @param $name
+	 * @param object $state
 	 */
-	public function install_state($name) {
-		// Include plugin state
-		Core::get_instance()->set_state(new State_Factory($name));
+	public function set_state($state) {
+		$this->state = $state;
 	}
 
 	/**
@@ -175,36 +241,10 @@ class Core {
 	public function wp_ajax_route_url() {
 		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
 		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
-		if (!empty($action)) {
+		if (!empty($action) && !empty($controller)) {
 			// call controller
 			Preprocessor::get_instance()->call_controller($action, $controller);
 			die();
-		}
-	}
-
-	/**
-	 * Check for ajax post
-	 *
-	 * @return bool
-	 */
-	static function is_ajax() {
-		if (defined('DOING_AJAX') && DOING_AJAX) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Get State
-	 *
-	 * @return object/bool State
-	 */
-	public function get_state() {
-		if ($this->state) {
-			return $this->state;
-		} else {
-			return false;
 		}
 	}
 
@@ -229,17 +269,6 @@ class Core {
 	}
 
 	/**
-	 * Check and return current state
-	 *
-	 * @param string $type
-	 *
-	 * @return boolean
-	 */
-	public function get_model($type = null) {
-		return Core::get_instance()->get_state()->get_model($type);
-	}
-
-	/**
 	 * Get preprocessor
 	 *
 	 * @param $type
@@ -251,16 +280,56 @@ class Core {
 	}
 
 	/**
-	 * Set state
+	 *  Theme mode
 	 *
-	 * @param object $state
+	 * @param $value
+	 *
+	 * @return string
 	 */
-	public function set_state($state) {
-		$this->state = $state;
+	public function filter_template_mode($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
+			$value = 'plugin';
+		}
+		return $value;
+	}
+
+	/**
+	 *  Theme mode
+	 *
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	public function filter_button_style($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
+			$value = 'button';
+		}
+
+		if (Media::get_instance()->template_mode() == 'theme') {
+			$value = 'mprm-button';
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 *  Available theme
+	 *
+	 * @param $params
+	 *
+	 * @return array
+	 */
+	public function available_theme_mode($params) {
+		if (current_theme_supports('mp-restaurant-menu')) {
+			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
+		}
+		return $params;
 	}
 
 	/**
 	 * Get data from config files
+	 *`
 	 *
 	 * @param $name
 	 *
@@ -270,26 +339,12 @@ class Core {
 		if (!empty($name)) {
 			return require(MP_RM_CONFIGS_PATH . "{$name}.php");
 		}
+		return array();
 	}
 
 	/**
-	 * Include all files from folder
 	 *
-	 * @param string $folder
-	 * @param boolean $inFolder
 	 */
-	static function include_all($folder, $inFolder = true) {
-		if (file_exists($folder)) {
-			$includeArr = scandir($folder);
-			foreach ($includeArr as $include) {
-				if (!is_dir($folder . "/" . $include)) {
-					include_once($folder . "/" . $include);
-				} else {
-					if ($include != "." && $include != ".." && $inFolder) {
-						Core::include_all($folder . "/" . $include);
-					}
-				}
-			}
-		}
+	private function __clone() {
 	}
 }

@@ -1,0 +1,49 @@
+.mprm-spinner-loader {
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+}
+.mprm-spinner-loader.mprm-is-active > div {
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+.mprm-spinner-loader > div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+}
+.mprm-spinner-loader > div.rect2 {
+  animation-delay: -1.1s;
+}
+.mprm-spinner-loader > div.rect3 {
+  animation-delay: -1s;
+}
+.mprm-spinner-loader > div.rect4 {
+  animation-delay: -0.9s;
+}
+.mprm-spinner-loader > div.rect5 {
+  animation-delay: -0.8s;
+}
+@-webkit-keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+  }
+}
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1);
+  }
+}

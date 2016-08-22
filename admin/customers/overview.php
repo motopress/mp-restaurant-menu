@@ -37,7 +37,7 @@ endif;
 			<p class="mprm-class-telephone"><label for="mprm-telephone">
 					<?php _e('Telephone:', 'mp-restaurant-menu'); ?>
 				</label>
-				<input class="mprm-input large-text" type="tel" pattern="(\+?\d[- .]*){7,13}" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
+				<input class="mprm-input large-text" type="text" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
 			</p>
 			<p class="mprm-class-wp-user">
 				<label for="mprm-user">

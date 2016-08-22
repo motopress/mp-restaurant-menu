@@ -1,10 +1,10 @@
 <?php
 global $mprm_receipt_args;
-use \mp_restaurant_menu\classes\models\Payments as Payments;
-use \mp_restaurant_menu\classes\models\Gateways as Gateways;
-use \mp_restaurant_menu\classes\models\Taxes as Taxes;
-use \mp_restaurant_menu\classes\models\Cart as Cart;
-use \mp_restaurant_menu\classes\models\Misc as Misc;
+use mp_restaurant_menu\classes\models\Cart as Cart;
+use mp_restaurant_menu\classes\models\Gateways as Gateways;
+use mp_restaurant_menu\classes\models\Misc as Misc;
+use mp_restaurant_menu\classes\models\Payments as Payments;
+use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 // No key found
 if (empty($payment_key)) { ?>
@@ -19,7 +19,7 @@ if (isset($can_view) && $can_view && !empty($mprm_receipt_args['error'])) {
 	return;
 }
 if (empty($order)) : ?>
-	<div class="mprm_errors mprm-alert mprm-alert-error">
+	<div class="mprm-errors mprm-alert mprm-alert-error">
 		<?php _e('The specified receipt ID appears to be invalid', 'mp-restaurant-menu'); ?>
 	</div>
 	<?php
@@ -141,17 +141,18 @@ if (isset($need_login) && $need_login) {
 				<?php if (!apply_filters('mprm_user_can_view_receipt_item', true, $item)) : ?>
 					<?php continue; // Skip this item if can't view it ?>
 				<?php endif; ?>
+
+				<?php do_action('mprm-success-page-cart-item-before', $item['id'], $order) ?>
+
 				<?php if (empty($item['in_bundle'])) : ?>
+
 					<tr>
 						<td>
-							<?php
-							$price_id = Cart::get_instance()->get_cart_item_price_id($item);
-							//	$menu_item_files = mprm_get_menu_item_files($item['id'], $price_id);
-							?>
-							<div class="mprm_purchase_receipt_product_name">
+							<?php $price_id = Cart::get_instance()->get_cart_item_price_id($item); ?>
+							<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo get_post_type($item['id']) ?>">
 								<?php echo esc_html($item['name']); ?>
 								<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
-									<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+									<span class="mprm_purchase_receipt_price_name ">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
 								<?php endif; ?>
 							</div>
 							<?php if ($receipt_args['notes']) : ?>
@@ -163,6 +164,7 @@ if (isset($need_login) && $need_login) {
 						<?php endif; ?>
 						<?php if (Cart::get_instance()->item_quantities_enabled()) { ?>
 							<td><?php echo $item['quantity']; ?></td>
+
 						<?php } ?>
 						<td>
 							<?php if (empty($item['in_bundle'])) : // Only show price when product is not part of a bundle ?>
@@ -171,6 +173,9 @@ if (isset($need_login) && $need_login) {
 						</td>
 					</tr>
 				<?php endif; ?>
+
+				<?php do_action('mprm-success-page-cart-item-after', $item['id'], $order) ?>
+
 			<?php endforeach; ?>
 		<?php endif; ?>
 		<?php if (($fees = Payments::get_instance()->get_payment_fees($order->ID, 'item'))) : ?>

@@ -246,4 +246,72 @@ class Menu_category extends Term {
 		}
 		return $options;
 	}
+
+	/**
+	 * @param string $thelist
+	 * @param string $separator
+	 * @param string $parents
+	 *
+	 * @return mixed|void
+	 */
+	public function create_custom_category_list($thelist = '', $separator = '', $parents = '') {
+		global $post, $wp_rewrite;
+
+		if (!empty($post) && $post->post_type === $this->post_types['menu_item'] && !is_admin()) {
+			$thelist = '';
+
+			$rel = (is_object($wp_rewrite) && $wp_rewrite->using_permalinks()) ? 'rel="category tag"' : 'rel="category"';
+			$categories = get_the_terms($post->ID, $this->taxonomy_names['menu_category']);
+
+			if (!empty($categories)) {
+				if ('' == $separator) {
+					$thelist .= '<ul class="post-categories">';
+					foreach ($categories as $category) {
+						$thelist .= "\n\t<li>";
+						switch (strtolower($parents)) {
+							case 'multiple':
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, true, $separator);
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+								break;
+							case 'single':
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '"  ' . $rel . '>';
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, false, $separator);
+								$thelist .= $category->name . '</a></li>';
+								break;
+							case '':
+							default:
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+						}
+					}
+					$thelist .= '</ul>';
+				} else {
+					$i = 0;
+					foreach ($categories as $category) {
+						if (0 < $i)
+							$thelist .= $separator;
+						switch (strtolower($parents)) {
+							case 'multiple':
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, true, $separator);
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+								break;
+							case 'single':
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, false, $separator);
+								$thelist .= "$category->name</a>";
+								break;
+							case '':
+							default:
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+						}
+						++$i;
+					}
+				}
+			}
+		}
+		return apply_filters('mprm_the_category', $thelist, $separator, $parents);
+	}
 }

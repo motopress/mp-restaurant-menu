@@ -25,27 +25,6 @@ class Emails extends Model {
 	}
 
 	/**
-	 * Get email body
-	 *
-	 * @param int $payment_id
-	 * @param array $payment_data
-	 *
-	 * @return mixed|void
-	 */
-	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
-		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
-		$default_email_body .= __("Thank you for your purchase. Your order details are shown below for your reference:", "mp-restaurant-menu") . "\n";
-		$default_email_body .= "{menu_item_list}\n";
-		$default_email_body .= "Total: {price}\n\n";
-		$default_email_body .= "{receipt_link}";
-		$email = $this->get('settings')->get_option('purchase_receipt', false);
-		$email = $email ? stripslashes($email) : $default_email_body;
-		$email_body = apply_filters('mprm_email_template_wpautop', true) ? wpautop($email) : $email;
-		$email_body = apply_filters('mprm_purchase_receipt_' . $this->get('settings_emails')->get_template(), $email_body, $payment_id, $payment_data);
-		return apply_filters('mprm_purchase_receipt', $email_body, $payment_id, $payment_data);
-	}
-
-	/**
 	 * Preview emails template
 	 *
 	 * @param $message
@@ -88,35 +67,6 @@ class Emails extends Model {
 		$message = apply_filters('mprm_email_preview_template_tags', $message);
 
 		return apply_filters('mprm_email_template_wpautop', true) ? wpautop($message) : $message;
-	}
-
-	/**
-	 * Test email
-	 */
-	public function email_test_purchase_receipt() {
-		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
-		$from_name = apply_filters('mprm_purchase_from_name', $from_name, 0, array());
-
-		$from_email = $this->get('settings')->get_option('from_name', get_bloginfo('admin_email'));
-		$from_email = apply_filters('mprm_test_purchase_from_address', $from_email, 0, array());
-
-		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt1', 'mp-restaurant-menu'));
-		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
-		$subject = mprm_do_email_tags($subject, 0);
-
-		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt1', 'mp-restaurant-menu'));
-		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
-
-		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
-		$message = mprm_do_email_tags($this->get_email_body_content(0, array()), 0);
-
-		$emails = $this->get('settings_emails');
-		$emails->__set('from_name', $from_name);
-		$emails->__set('from_email', $from_email);
-		$emails->__set('heading', $heading);
-		$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), 0, array());
-		$emails->__set('headers', $headers);
-		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
 	}
 
 	/**
@@ -216,6 +166,28 @@ class Emails extends Model {
 	}
 
 	/**
+	 * Get email body
+	 *
+	 * @param int $payment_id
+	 * @param array $payment_data
+	 *
+	 * @return mixed|void
+	 */
+	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
+		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
+		$default_email_body .= __("Thank you for your purchase. Your order details are shown below for your reference:", "mp-restaurant-menu") . "\n";
+		$default_email_body .= "{menu_item_list}\n";
+		$default_email_body .= "Total: {price}\n\n";
+		$default_email_body .= "{receipt_link}";
+		$email = $this->get('settings')->get_option('purchase_receipt', false);
+		$email = $email ? stripslashes($email) : $default_email_body;
+		$email_body = apply_filters('mprm_email_template_wpautop', true) ? wpautop($email) : $email;
+		$email_body = apply_filters('mprm_purchase_receipt_' . $this->get('settings_emails')->get_template(), $email_body, $payment_id, $payment_data);
+
+		return apply_filters('mprm_purchase_receipt', $email_body, $payment_id, $payment_data);
+	}
+
+	/**
 	 * Admin notices disabled
 	 *
 	 * @param int $payment_id
@@ -269,6 +241,46 @@ class Emails extends Model {
 		// Remove the test email query arg
 		wp_redirect(remove_query_arg('mprm_action'));
 		exit;
+	}
+
+	/**
+	 * Test email
+	 */
+	public function email_test_purchase_receipt() {
+		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
+		$from_name = apply_filters('mprm_purchase_from_name', $from_name, 0, array());
+
+		$from_email = $this->get('settings')->get_option('from_name', get_bloginfo('admin_email'));
+		$from_email = apply_filters('mprm_test_purchase_from_address', $from_email, 0, array());
+
+		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
+		$subject = mprm_do_email_tags($subject, 0);
+
+		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
+
+		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
+		$message = mprm_do_email_tags($this->get_email_body_content(0, array()), 0);
+
+		$emails = $this->get('settings_emails');
+		$emails->__set('from_name', $from_name);
+		$emails->__set('from_email', $from_email);
+		$emails->__set('heading', $heading);
+		$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), 0, array());
+		$emails->__set('headers', $headers);
+		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
+	}
+
+	/**
+	 * Admin emails notice
+	 * @return mixed|void
+	 */
+	public function get_admin_notice_emails() {
+		$emails = $this->get('settings')->get_option('admin_notice_emails', false);
+		$emails = strlen(trim($emails)) > 0 ? $emails : get_bloginfo('admin_email');
+		$emails = array_map('trim', explode("\n", $emails));
+		return apply_filters('mprm_admin_notice_emails', $emails);
 	}
 
 	/**
@@ -370,17 +382,6 @@ class Emails extends Model {
 	}
 
 	/**
-	 * Admin emails notice
-	 * @return mixed|void
-	 */
-	public function get_admin_notice_emails() {
-		$emails = $this->get('settings')->get_option('admin_notice_emails', false);
-		$emails = strlen(trim($emails)) > 0 ? $emails : get_bloginfo('admin_email');
-		$emails = array_map('trim', explode("\n", $emails));
-		return apply_filters('mprm_admin_notice_emails', $emails);
-	}
-
-	/**
 	 * New user notification
 	 *
 	 * @param int $user_id
@@ -440,17 +441,6 @@ class Emails extends Model {
 	}
 
 	/**
-	 * Exists tags
-	 *
-	 * @param $tag
-	 *
-	 * @return bool
-	 */
-	public function email_tag_exists($tag) {
-		return array_key_exists($tag, $this->tags);
-	}
-
-	/**
 	 * @return mixed
 	 */
 	public function get_tags() {
@@ -499,6 +489,17 @@ class Emails extends Model {
 	}
 
 	/**
+	 * Exists tags
+	 *
+	 * @param $tag
+	 *
+	 * @return bool
+	 */
+	public function email_tag_exists($tag) {
+		return array_key_exists($tag, $this->tags);
+	}
+
+	/**
 	 * Setup  emails tags
 	 */
 	public function mprm_setup_email_tags() {
@@ -544,11 +545,11 @@ class Emails extends Model {
 				'description' => __('The price of the purchase before taxes', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_subtotal'
 			),
-			/*array(
+			array(
 				'tag' => 'tax',
 				'description' => __('The taxed amount of the purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_tax'
-			),*/
+			),
 			array(
 				'tag' => 'price',
 				'description' => __('The total price of the purchase', 'mp-restaurant-menu'),
@@ -579,12 +580,12 @@ class Emails extends Model {
 				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_link'
 			),
-//			array(
-//				'tag' => 'discount_codes',
-//				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
-//				'function' => 'mprm_email_tag_discount_codes'
-//			),
 			/*array(
+				'tag' => 'discount_codes',
+				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_discount_codes'
+			),
+			array(
 				'tag' => 'ip_address',
 				'description' => __('The buyer\'s IP Address', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_ip_address'

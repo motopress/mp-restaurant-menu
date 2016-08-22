@@ -30,7 +30,11 @@ function mprm_email_tag_exists($tag) {
 	return models\Emails::get_instance()->email_tag_exists($tag);
 }
 
-
+/**
+ *
+ * Get email tags
+ * @return mixed
+ */
 function mprm_get_email_tags() {
 	return models\Emails::get_instance()->get_tags();
 }
@@ -69,7 +73,9 @@ function mprm_do_email_tags($content, $order_id) {
 	return $content;
 }
 
-
+/**
+ *
+ */
 function mprm_load_email_tags() {
 	do_action('mprm_add_email_tags');
 }
@@ -105,7 +111,7 @@ function mprm_email_tag_menu_item_list($order_id) {
 			$price_id = mprm_get_cart_item_price_id($item);
 			if ($show_names) {
 
-				$title = '<strong>' . get_the_title($item['id']) . '</strong>';
+				$title = '<strong class="mprm-' . get_post($item['id'])->post_type . '">' . get_the_title($item['id']) . '</strong>';
 
 				if (!empty($quantity) && $quantity > 1) {
 					$title .= "&nbsp;&ndash;&nbsp;" . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));

@@ -2,7 +2,8 @@
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
-use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\models\parents\Store_item;
 use mp_restaurant_menu\classes\modules\Post;
 use mp_restaurant_menu\classes\View;
 
@@ -10,7 +11,7 @@ use mp_restaurant_menu\classes\View;
  * Class Menu_item
  * @package mp_restaurant_menu\classes\models
  */
-class Menu_item extends Model {
+class Menu_item extends Store_item {
 	protected static $instance;
 	private $bundled_menu_items;
 
@@ -30,9 +31,10 @@ class Menu_item extends Model {
 	public function __construct($_id = false, $_args = array()) {
 		parent::__construct();
 		if ($_id) {
-			$menu_item = \WP_Post::get_instance($_id);
+			$menu_item = get_post($_id);
 			return $this->setup_menu_item($menu_item);
 		}
+
 	}
 
 	/**
@@ -178,9 +180,7 @@ class Menu_item extends Model {
 			if (empty($this->type)) {
 				$this->type = 'default';
 			}
-
 		}
-
 		return apply_filters('mprm_get_menu_item_type', $this->type, $this->ID);
 
 	}
@@ -220,22 +220,6 @@ class Menu_item extends Model {
 		return $posts;
 	}
 
-	/**
-	 * Get featured image
-	 *
-	 * @param \WP_Post $post
-	 * @param bool $type
-	 *
-	 * @return false|string
-	 */
-	public function get_featured_image(\WP_Post $post, $type = false) {
-		$id = get_post_thumbnail_id($post);
-		if ($type) {
-			return wp_get_attachment_image_url($id, $type, false);
-		} else {
-			return wp_get_attachment_url($id);
-		}
-	}
 
 	/**
 	 * @param int $menu_item_id
@@ -262,68 +246,6 @@ class Menu_item extends Model {
 		return apply_filters('mprm_final_price', $price, $menu_item_id, $user_purchase_info);
 	}
 
-	/**
-	 * @param string $price
-	 * @param string $currency
-	 *
-	 * @return mixed|string|void
-	 */
-	public function currency_filter($price = '', $currency = '') {
-		if (empty($currency)) {
-			$currency = $this->get('settings')->get_currency();
-		}
-		$position = $this->get('settings')->get_option('currency_position', 'before');
-		$negative = $price < 0;
-		if ($negative) {
-			$price = substr($price, 1); // Remove proceeding "-" -
-		}
-		$symbol = $this->get('settings')->get_currency_symbol($currency);
-		if ($position == 'before'):
-			switch ($currency):
-				case "GBP" :
-				case "BRL" :
-				case "EUR" :
-				case "USD" :
-				case "AUD" :
-				case "CAD" :
-				case "HKD" :
-				case "MXN" :
-				case "NZD" :
-				case "SGD" :
-				case "JPY" :
-					$formatted = $symbol . $price;
-					break;
-				default :
-					$formatted = $currency . ' ' . $price;
-					break;
-			endswitch;
-			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_before', $formatted, $currency, $price);
-		else :
-			switch ($currency) :
-				case "GBP" :
-				case "BRL" :
-				case "EUR" :
-				case "USD" :
-				case "AUD" :
-				case "CAD" :
-				case "HKD" :
-				case "MXN" :
-				case "SGD" :
-				case "JPY" :
-					$formatted = $price . $symbol;
-					break;
-				default :
-					$formatted = $price . ' ' . $currency;
-					break;
-			endswitch;
-			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_after', $formatted, $currency, $price);
-		endif;
-		if ($negative) {
-			// Prepend the mins sign before the currency sign
-			$formatted = '-' . $formatted;
-		}
-		return $formatted;
-	}
 
 	/**
 	 * Get category menu items
@@ -478,96 +400,6 @@ class Menu_item extends Model {
 		return $options;
 	}
 
-	/**
-	 * Get menu item class
-	 *
-	 * @param int $id
-	 * @param bool $format
-	 *
-	 * @return string
-	 */
-	public function get_price($id, $format = false) {
-		$price = get_post_meta($id, 'price', true);
-		if ($format) {
-			$price = $this->get_formatting_price($price);
-		}
-		return $price;
-	}
-
-	/**
-	 * @param $amount
-	 * @param bool $decimals
-	 *
-	 * @return mixed|void
-	 */
-	public function get_formatting_price($amount, $decimals = true) {
-		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
-		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-		// Format the amount
-		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
-			$whole = substr($amount, 0, $sep_found);
-			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
-			$amount = $whole . '.' . $part;
-		}
-		// Strip , from the amount (if set as the thousands separator)
-		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
-			$amount = str_replace(',', '', $amount);
-		}
-		// Strip ' ' from the amount (if set as the thousands separator)
-		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
-			$amount = str_replace(' ', '', $amount);
-		}
-		if (empty($amount)) {
-			$amount = 0;
-		}
-		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
-		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
-		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
-	}
-
-	/**
-	 * Get attributes
-	 *
-	 * @param \WP_Post $post
-	 *
-	 * @return array/void
-	 */
-	public function get_attributes(\WP_Post $post) {
-		$attributes = get_post_meta($post->ID, 'attributes', true);
-		if (!$this->is_arr_values_empty($attributes)) {
-			return $attributes;
-		} else {
-			return array();
-		}
-	}
-
-	/**
-	 * Is nutritional empty
-	 *
-	 * @param array $data
-	 *
-	 * @return boolean
-	 */
-	public function is_arr_values_empty($data) {
-		if ($data === false || $data == NULL)
-			return true;
-		if (is_array($data) && !empty($data)) {
-			$empty_count = 0;
-			foreach ($data as $item) {
-				if (!empty($item) && is_array($item)) {
-					foreach ($item as $key => $value) {
-						if ($key == 'val' && empty($value)) {
-							$empty_count++;
-						}
-					}
-				}
-			}
-			if (count($data) == $empty_count) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * @param $args
@@ -653,7 +485,6 @@ class Menu_item extends Model {
 			$button_display = '';
 			$checkout_display = 'style="display:none;"';
 		}
-
 		// Collect any form IDs we've displayed already so we can avoid duplicate IDs
 		if (isset($mprm_displayed_form_ids[$post->ID])) {
 			$mprm_displayed_form_ids[$post->ID]++;
@@ -666,7 +497,7 @@ class Menu_item extends Model {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
 		$args = apply_filters('mprm_purchase_link_args', $args);
-		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-form',
+		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->template_mode() . '-form',
 			array(
 				'args' => $args,
 				'form_id' => $form_id,
@@ -701,122 +532,6 @@ class Menu_item extends Model {
 		return apply_filters('mprm_get_button_behavior', $button_behavior, $post_id);
 	}
 
-	/**
-	 * @param $post_id
-	 *
-	 * @return bool
-	 */
-	public function has_variable_prices($post_id) {
-		$ret = get_post_meta($post_id, '_variable_pricing', true);
-
-		return (bool)apply_filters('mprm_has_variable_prices', $ret, $post_id);
-	}
-
-	/**
-	 * @param $post_id
-	 *
-	 * @return bool
-	 */
-	public function is_single_price_mode($post_id) {
-		$ret = get_post_meta($post_id, '_mprm_price_options_mode', true);
-
-		return (bool)apply_filters('mprm_single_price_option_mode', $ret, $post_id);
-	}
-
-	/**
-	 * @param bool $price_id
-	 * @param $post_id
-	 *
-	 * @return bool
-	 */
-	public function is_free($price_id = false, $post_id) {
-		global $post;
-		if (empty($post)) {
-			$post = get_post($post_id);
-		}
-		$is_free = false;
-		$variable_pricing = $this->has_variable_prices($post->ID);
-		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
-			$price = $this->get('menu_item')->get_price_option_amount($post->ID, $price_id);
-		} elseif ($variable_pricing && $price_id === false) {
-			$lowest_price = (float)$this->get_price_option($post->ID, 'min');
-			$highest_price = (float)$this->get_price_option($post->ID, 'max');
-			if ($lowest_price === 0.00 && $highest_price === 0.00) {
-				$price = 0;
-			}
-		} elseif (!$variable_pricing) {
-			$price = get_post_meta($post->ID, 'mprm_price', true);
-		}
-		if (isset($price) && (float)$price == 0) {
-			$is_free = true;
-		}
-		return (bool)apply_filters('mprm_is_free_menu_item', $is_free, $post->ID, $price_id);
-	}
-
-	/**
-	 * @param int $menu_item_id
-	 * @param string $type
-	 *
-	 * @return string
-	 */
-	public function get_price_option($menu_item_id = 0, $type = 'max') {
-		$price_type = 0.00;
-		$max = 0;
-		$id = 0;
-		if (empty($menu_item_id))
-			$menu_item_id = get_the_ID();
-		if (!$this->has_variable_prices($menu_item_id)) {
-			return $this->get_price($menu_item_id);
-		}
-		$prices = $this->get_variable_prices($menu_item_id);
-
-		if (!empty($prices)) {
-			foreach ($prices as $key => $price) {
-				if (empty($price['amount'])) {
-					continue;
-				}
-				if ($type == 'min') {
-					if (!isset($min)) {
-						$min = $price['amount'];
-					} else {
-						$min = min($min, $price['amount']);
-					}
-					if ($price['amount'] == $min) {
-						$id = $key;
-					}
-				} elseif ($type == 'max') {
-					$max = max($max, $price['amount']);
-					if ($price['amount'] == $max) {
-						$id = $key;
-					}
-				}
-			}
-			$price_type = $prices[$id]['amount'];
-		}
-		return $this->get('formatting')->sanitize_amount($price_type);
-	}
-
-	/**
-	 * @param int $menu_item_id
-	 *
-	 * @return bool|mixed|void
-	 */
-	public function get_variable_prices($menu_item_id = 0) {
-		if (empty($menu_item_id)) {
-			return false;
-		}
-		return $this->get_prices($menu_item_id);
-	}
-
-	/**
-	 * @param $post_id
-	 *
-	 * @return mixed|void
-	 */
-	public function get_prices($post_id) {
-		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
-		return apply_filters('mprm_get_variable_prices', $prices, $post_id);
-	}
 
 	/**
 	 * @param int $menu_item
@@ -842,21 +557,6 @@ class Menu_item extends Model {
 		return null;
 	}
 
-	/**
-	 * @param int $menu_item_id
-	 * @param int $price_id
-	 *
-	 * @return mixed|void
-	 */
-	public function get_price_option_amount($menu_item_id = 0, $price_id = 0) {
-		$prices = $this->get_variable_prices($menu_item_id);
-		$amount = 0.00;
-		if ($prices && is_array($prices)) {
-			if (isset($prices[$price_id]))
-				$amount = $prices[$price_id]['amount'];
-		}
-		return apply_filters('mprm_get_price_option_amount', $this->get('formatting')->sanitize_amount($amount), $menu_item_id, $price_id);
-	}
 
 	/**
 	 * @param int $quantity
@@ -895,20 +595,13 @@ class Menu_item extends Model {
 	 * @return bool
 	 */
 	private function update_meta($meta_key = '', $meta_value = '') {
-		global $wpdb;
 		if (empty($meta_key) || empty($meta_value)) {
 			return false;
 		}
 		// Make sure if it needs to be serialized, we do
 		$meta_value = maybe_serialize($meta_value);
-		if (is_numeric($meta_value)) {
-			$value_type = is_float($meta_value) ? '%f' : '%d';
-		} else {
-			$value_type = "'%s'";
-		}
-		$sql = $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = {$value_type} WHERE post_id = {$this->ID} AND meta_key = '%s'", $meta_value, $meta_key);
 
-		if ($wpdb->query($sql)) {
+		if (update_post_meta($this->ID, $meta_key, $meta_value)) {
 			clean_post_cache($this->ID);
 			return true;
 		}
@@ -1046,22 +739,6 @@ class Menu_item extends Model {
 		return $search_params;
 	}
 
-	/**
-	 * @param int $menu_item_id
-	 * @param int $price_id
-	 * @param int $payment_id
-	 *
-	 * @return mixed|void
-	 */
-	public function get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
-		$prices = $this->get_variable_prices($menu_item_id);
-		$price_name = '';
-		if ($prices && is_array($prices)) {
-			if (isset($prices[$price_id]))
-				$price_name = $prices[$price_id]['name'];
-		}
-		return apply_filters('mprm_get_price_option_name', $price_name, $menu_item_id, $payment_id, $price_id);
-	}
 
 	/**
 	 * @param bool $lowercase

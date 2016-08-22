@@ -3,7 +3,6 @@ namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
 use mp_restaurant_menu\classes\Core;
-
 use mp_restaurant_menu\classes\View;
 
 /**
@@ -102,8 +101,8 @@ class Controller_cart extends Controller {
 			$menu_item_id = absint($_POST['menu_item_id']);
 			$quantity = absint($_POST['quantity']);
 			$options = json_decode(stripslashes($_POST['options']), true);
-
-			$this->get('cart')->set_cart_item_quantity($menu_item_id, absint($_POST['quantity']), $options);
+			$position = $_POST['position'];
+			$this->get('cart')->set_cart_item_quantity($menu_item_id, absint($_POST['quantity']), $options, $position);
 			$total = $this->get('cart')->get_cart_total();
 
 			$this->date['data'] = array(

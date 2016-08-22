@@ -136,6 +136,7 @@ class Post extends Module {
 		$status = register_post_type($params['post_type'], $args);
 		if (!is_wp_error($status)) {
 			return true;
+		} else {
 		}
 	}
 
@@ -181,10 +182,12 @@ class Post extends Module {
 			return $post_id;
 		}
 		$nonce = $_POST['mp-restaurant-menu' . '_nonce_box'];
+
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
 			return $post_id;
 		}
+
 		// Check autosave
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post_id;
@@ -200,6 +203,7 @@ class Post extends Module {
 				return $post_id;
 			}
 		}
+
 		if (isset($_POST['mprm_update'])) {
 			if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
 				$this->get('payments')->update_payment_details($_POST);
@@ -208,7 +212,13 @@ class Post extends Module {
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
+
 				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
+
+				if ($metabox['name'] == 'price') {
+					$value = floatval($value);
+				}
+
 				if (is_array($value)) {
 					$mydata = $value;
 				} else {
