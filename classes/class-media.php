@@ -1347,7 +1347,9 @@ class Media extends Core {
 
 	/**
 	 * Single template
-	 * @param $template*
+	 *
+	 * @param $template *
+	 *
 	 * @return mixed
 	 */
 	public function single_template($template) {

@@ -785,7 +785,7 @@ class Settings extends Model {
 			$disabled = '';
 		}
 
-		if (isset($args['chosen'])) {
+		if (isset($args['chosen']) && $args['chosen']) {
 			$chosen = 'class="mprm-chosen mprm-select-chosen"';
 		} else {
 			$chosen = '';
