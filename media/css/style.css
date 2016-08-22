@@ -1615,6 +1615,10 @@ there.
 .mprm-container .mprm-list {
   list-style: none inside none !important;
 }
+.mprm-main-wrapper .mprm-list > li,
+.mprm-container .mprm-list > li {
+  list-style: none inside none !important;
+}
 .mprm-main-wrapper .mprm-list.mprm-flex-container-simple-view,
 .mprm-container .mprm-list.mprm-flex-container-simple-view {
   margin: 0;

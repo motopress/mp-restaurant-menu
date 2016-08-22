@@ -250,8 +250,10 @@
 
 .mprm-main-wrapper, .mprm-container {
   .mprm-list {
-	//list-style: none inherit none !important;
 	list-style: none inside none !important;
+	> li {
+	  list-style: none inside none !important;
+	}
 	&.mprm-flex-container-simple-view {
 	  margin: 0;
 	  padding: 0;
