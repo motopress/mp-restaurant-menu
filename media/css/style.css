@@ -245,11 +245,12 @@ there.
   margin: 0 1rem 0 0;
   font-size: 1.2em;
 }
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-description {
+.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-content .mprm-category-description {
   margin: 1rem 0 0;
   padding: 0;
   font-size: 0.8em;
   line-height: 1.1;
+  color: inherit;
 }
 .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-menu-category {
   background-size: 0 0;
@@ -309,6 +310,7 @@ there.
   padding: 0;
   font-size: 0.8em;
   line-height: 1.1;
+  color: inherit;
 }
 .mprm-container.mprm-shortcode-items {
   margin: 2rem 0;
@@ -510,6 +512,7 @@ there.
   padding: 0;
   font-size: 0.8em;
   line-height: 1.1;
+  color: inherit;
 }
 .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-menu-category {
   background-size: 0 0;
@@ -569,6 +572,7 @@ there.
   padding: 0;
   font-size: 0.8em;
   line-height: 1.1;
+  color: inherit;
 }
 .mprm-container.mprm-widget-items {
   margin: 0;
@@ -674,7 +678,7 @@ there.
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .type-mp_menu_item .mprm-flex-container-simple-view {
   margin: 0 0 1em 0;
-  list-style: none;
+  list-style: none inside none !important;
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1609,7 +1613,7 @@ there.
 }
 .mprm-main-wrapper .mprm-list,
 .mprm-container .mprm-list {
-  list-style: outside none none;
+  list-style: none inside none !important;
 }
 .mprm-main-wrapper .mprm-list.mprm-flex-container-simple-view,
 .mprm-container .mprm-list.mprm-flex-container-simple-view {

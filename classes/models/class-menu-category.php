@@ -262,7 +262,7 @@ class Menu_category extends Term {
 
 			$rel = (is_object($wp_rewrite) && $wp_rewrite->using_permalinks()) ? 'rel="category tag"' : 'rel="category"';
 			$categories = get_the_terms($post->ID, $this->taxonomy_names['menu_category']);
-			
+
 			if (!empty($categories)) {
 				if ('' == $separator) {
 					$thelist .= '<ul class="post-categories">';
