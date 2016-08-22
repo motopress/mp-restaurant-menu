@@ -499,7 +499,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							$('.mprm_go_to_checkout', form).parent().show();
 
 							$('.mprm-add-to-cart', form).hide();
-							$('.mprm-add-to-cart', form).parent().hide();
+							$('.mprm-add-to-cart', form).parent('p').hide();
 
 
 							// form.find('.mprm_go_to_checkout').show();
