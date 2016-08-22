@@ -86,6 +86,7 @@ class Settings extends Model {
 			$default_settings =
 				array(
 					'currency' => 'USD',
+					'template_mode' => 'theme',
 					'customer_phone' => '1',
 					'gateways' =>
 						array(

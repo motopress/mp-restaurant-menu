@@ -287,26 +287,28 @@ class Menu_category extends Term {
 				$thelist .= '</ul>';
 			} else {
 				$i = 0;
-				foreach ($categories as $category) {
-					if (0 < $i)
-						$thelist .= $separator;
-					switch (strtolower($parents)) {
-						case 'multiple':
-							if ($category->parent)
-								$thelist .= get_category_parents($category->parent, true, $separator);
-							$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
-							break;
-						case 'single':
-							$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
-							if ($category->parent)
-								$thelist .= get_category_parents($category->parent, false, $separator);
-							$thelist .= "$category->name</a>";
-							break;
-						case '':
-						default:
-							$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+				if (!empty($categories)) {
+					foreach ($categories as $category) {
+						if (0 < $i)
+							$thelist .= $separator;
+						switch (strtolower($parents)) {
+							case 'multiple':
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, true, $separator);
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+								break;
+							case 'single':
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
+								if ($category->parent)
+									$thelist .= get_category_parents($category->parent, false, $separator);
+								$thelist .= "$category->name</a>";
+								break;
+							case '':
+							default:
+								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+						}
+						++$i;
 					}
-					++$i;
 				}
 			}
 
