@@ -895,6 +895,7 @@ there.
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-list {
   margin: 0.5rem 0 1rem 2.5rem;
+  padding: 0;
 }
 .mprm-main-wrapper.mp_menu_item .content-wrapper .mprm-sidebar .mprm-ingredients .mprm-ingredients-delimiter {
   display: none;
@@ -1611,12 +1612,36 @@ there.
 .mprm-ingredients .mprm-ingredients-delimiter:last-child {
   display: none !important;
 }
-.mprm-main-wrapper .mprm-list,
-.mprm-container .mprm-list {
+.mprm-main-wrapper .mprm-plugin-mode .mprm-price-box,
+.mprm-container .mprm-plugin-mode .mprm-price-box,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-tags-wrapper,
+.mprm-container .mprm-plugin-mode .mprm-tags-wrapper,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-proportions,
+.mprm-container .mprm-plugin-mode .mprm-proportions,
+.mprm-main-wrapper .mprm-plugin-mode .mprm_menu_item_buy_button,
+.mprm-container .mprm-plugin-mode .mprm_menu_item_buy_button,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-ingredients,
+.mprm-container .mprm-plugin-mode .mprm-ingredients,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-nutrition,
+.mprm-container .mprm-plugin-mode .mprm-nutrition,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-related-items,
+.mprm-container .mprm-plugin-mode .mprm-related-items,
+.mprm-main-wrapper .mprm-plugin-mode .mprm-price-container,
+.mprm-container .mprm-plugin-mode .mprm-price-container {
+  margin-bottom: 0.5em;
+}
+.mprm-main-wrapper .mprm-plugin-mode .mprm-list,
+.mprm-container .mprm-plugin-mode .mprm-list {
+  padding: 0;
+  margin: 0;
+  list-style-position: inside;
+}
+.mprm-main-wrapper.mprm-theme-mode .mprm-list,
+.mprm-container.mprm-theme-mode .mprm-list {
   list-style: none inside none !important;
 }
-.mprm-main-wrapper .mprm-list > li,
-.mprm-container .mprm-list > li {
+.mprm-main-wrapper.mprm-theme-mode .mprm-list > li,
+.mprm-container.mprm-theme-mode .mprm-list > li {
   list-style: none inside none !important;
 }
 .mprm-main-wrapper .mprm-list.mprm-flex-container-simple-view,

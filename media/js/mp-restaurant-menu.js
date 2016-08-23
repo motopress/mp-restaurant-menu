@@ -501,11 +501,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							$('.mprm-add-to-cart', form).hide();
 							$('.mprm-add-to-cart', form).parent('p').hide();
 
-
-							// form.find('.mprm_go_to_checkout').show();
-							// form.find('.mprm-add-to-cart').hide();
-							//
-
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
 							if (!data.redirect) {
 								$('.mprm-cart-added-alert', form).fadeIn();
@@ -1669,6 +1664,9 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
+				if ((typeof $.magnificPopup) == 'undefined') {
+					return;
+				}
 				$('.type-mp_menu_item .gallery-item,.type-mp_menu_item .mprm-item-gallery').magnificPopup({
 					delegate: 'a',
 					type: 'image',
