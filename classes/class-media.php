@@ -344,6 +344,7 @@ class Media extends Core {
 							'type' => 'select',
 							'options' => Settings::get_instance()->get_currencies_with_symbols(),
 							'chosen' => true,
+							'std' => 'USD'
 						),
 						'currency_position' => array(
 							'id' => 'currency_position',
