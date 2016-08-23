@@ -176,6 +176,10 @@ class Core {
 			$includeArr = scandir($folder);
 			foreach ($includeArr as $include) {
 				if (!is_dir($folder . "/" . $include)) {
+					$extension = pathinfo($include, PATHINFO_EXTENSION);
+					if ($extension != 'php') {
+						continue;
+					}
 					include_once($folder . "/" . $include);
 				} else {
 					if ($include != "." && $include != ".." && $inFolder) {
