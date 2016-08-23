@@ -330,7 +330,7 @@ class Media extends Core {
 //							'type' => 'header',
 //						)
 					),
-					'currency' => array(
+					'section_currency' => array(
 						/*'currency_settings' => array(
 							'id' => 'currency_settings',
 							'name' => '<h3>' . __('Currency Settings', 'mp-restaurant-menu') . '</h3>',
@@ -1011,7 +1011,7 @@ class Media extends Core {
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
 				'main' => __('General', 'mp-restaurant-menu'),
-				'currency' => __('Currency Settings', 'mp-restaurant-menu'),
+				'section_currency' => __('Currency Settings', 'mp-restaurant-menu'),
 			)),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateways', 'mp-restaurant-menu'),
