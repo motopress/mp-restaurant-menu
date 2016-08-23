@@ -1350,7 +1350,7 @@ class Hooks extends Core {
 	public function filter_options($args) {
 
 		if (isset($args['main']['category_view'])) {
-			if (mprm_get_option('template_mode') == 'theme' || current_theme_supports('mp-restaurant-menu')) {
+			if (mprm_get_option('template_mode') == 'theme') {
 				unset($args['main']['category_view']);
 			}
 		}
