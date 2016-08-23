@@ -766,7 +766,6 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm_widget .mprm-container .mprm-row a.mprm-link:focus,
 .mprm_widget .mprm-container .mprm-row a.mprm-link:visited,
@@ -775,7 +774,6 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm-main-wrapper.mp_menu_item .mprm-post-content {
   margin-bottom: 2rem;
@@ -1495,7 +1493,6 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm_widget .mprm-main-wrapper a.mprm-link:focus,
 .mprm_widget .mprm-container a.mprm-link:focus,
@@ -1507,7 +1504,6 @@ there.
   outline: none;
   box-shadow: none;
   border: none;
-  color: inherit;
 }
 .mprm_widget .mprm-main-wrapper .mprm_menu_item_buy_button form a,
 .mprm_widget .mprm-container .mprm_menu_item_buy_button form a {
