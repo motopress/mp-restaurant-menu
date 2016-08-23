@@ -55,6 +55,9 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 == Changelog ==
 
+= 2.0.1 =
+* Bug fix: fixed style issue
+
 = 2.0.0 =
 * We improved compatibility with your theme styles in this update. If you still stick to a previous version, simply change the template mode option in the plugin settings.
 * Minor bugfixes and improvements

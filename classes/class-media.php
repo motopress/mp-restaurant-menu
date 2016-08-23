@@ -1271,7 +1271,7 @@ class Media extends Core {
 			'menu_position' => 21,
 			'hierarchical' => false,
 			'map_meta_cap' => true,
-
+			'show_in_nav_menus' => false,
 			'rewrite' =>
 				array(
 					'slug' => 'menu',
@@ -1331,13 +1331,15 @@ class Media extends Core {
 			'taxonomy' => $this->get_tax_name('menu_category'),
 			'object_type' => array($menu_item),
 			'titles' => array('many' => 'menu categories', 'single' => 'menu category'),
-			'slug' => 'menu-category'
+			'slug' => 'menu-category',
+			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_tag'),
 			'object_type' => array($menu_item),
 			'titles' => array('many' => 'menu tags', 'single' => 'menu tag'),
-			'slug' => 'menu-tag'
+			'slug' => 'menu-tag',
+			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('ingredient'),
