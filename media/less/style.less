@@ -254,12 +254,18 @@
 	  margin-bottom: 0.5em;
 	}
 	.mprm-list {
+	  &.mprm-flex-container-simple-view {
+		list-style: none inside none !important;
+		> li {
+		  list-style: none inside none !important;
+		}
+	  }
 	  padding: 0;
 	  margin: 0;
 	  list-style-position: inside;
 	}
   }
-  &.mprm-theme-mode {
+  .mprm-theme-mode {
 	.mprm-list {
 	  list-style: none inside none !important;
 	  > li {

@@ -24,10 +24,10 @@ while (have_posts()) : the_post(); ?>
 			</div>
 		</div>
 	</div>
-	<?php
-endwhile;
+<?php endwhile; ?>
 
-do_action('mprm-after-main-wrapper');
+<div class="mprm-clear"></div>
+<?php do_action('mprm-after-main-wrapper');
 if (is_single() && (!is_tax() || !is_archive()) && ('twentyfourteen' === get_option('template'))) {
 	get_sidebar();
 }

@@ -71,11 +71,12 @@ do_action('mprm-single-category-before-wrapper');
 			<?php endif; ?>
 		</div>
 	</div>
+	<div class="mprm-clear"></div>
 <?php
 do_action('mprm-single-category-after-wrapper');
 
 if (is_tax() && ('twentyfourteen' === get_option('template'))) {
 	get_sidebar();
-}
+} ?>
 
-get_footer(); ?>
+<?php get_footer(); ?>
