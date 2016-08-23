@@ -1667,7 +1667,6 @@ there.
 .mprm-main-wrapper .mprm-list .mprm-proportion,
 .mprm-container .mprm-list .mprm-proportion {
   display: list-item;
-  font-style: italic;
   margin: 0;
 }
 .mprm-main-wrapper .mprm-list .mprm-ingredients-delimiter,
