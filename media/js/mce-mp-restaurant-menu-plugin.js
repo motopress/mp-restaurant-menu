@@ -14,26 +14,23 @@
 		}
 
 		function change_shortcode_view() {
-			$('#mprm-shortcode-form').on('change', 'select[name="view"]', function() {
-
-				var shortCode = $('[name="shortcode_name"]').val();
-				if (shortCode === 'mprm_items') {
-					var elementsMenuItems = $('[name="item_ids"],[name="feat_img"],select[name="categ_name"]');
-					var elementsCategoryItems = $('input[name="categ_name"],[name="price_pos"]');
-					switch ($(this).val()) {
-						case"simple-list" :
-							elementsMenuItems.parents('.mprm-line').addClass('hidden');
-							elementsCategoryItems.parents('.mprm-line').removeClass('hidden');
-							break;
-						case"grid" :
-						case"list" :
-						default:
-							elementsMenuItems.parents('.mprm-line').removeClass('hidden');
-							elementsCategoryItems.parents('.mprm-line').addClass('hidden');
-							break;
-					}
+			var shortCode = $('[name="shortcode_name"]').val();
+			if (shortCode === 'mprm_items') {
+				var elementsMenuItems = $('[name="item_ids"],[name="feat_img"],select[name="categ_name"]');
+				var elementsCategoryItems = $('input[name="categ_name"],[name="price_pos"]');
+				switch ($('*[data-display="mprm_items"] select[name="view"]').val()) {
+					case"simple-list" :
+						elementsMenuItems.parents('.mprm-line').addClass('hidden');
+						elementsCategoryItems.parents('.mprm-line').removeClass('hidden');
+						break;
+					case"grid" :
+					case"list" :
+					default:
+						elementsMenuItems.parents('.mprm-line').removeClass('hidden');
+						elementsCategoryItems.parents('.mprm-line').addClass('hidden');
+						break;
 				}
-			});
+			}
 		}
 
 		/**
@@ -109,6 +106,8 @@
 								init_change_shortcode_type();
 								init_checkbox();
 								change_shortcode_view();
+								$('#mprm-shortcode-form').on('change', '*[data-display="mprm_items"] select[name="view"]', change_shortcode_view);
+								$('#mprm-shortcode-form').on('change', 'select[name="shortcode_name"]', change_shortcode_view);
 								inti_insert_button(function(params) {
 									var shortcode = wp.shortcode.string({
 										tag: params.name,
