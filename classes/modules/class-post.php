@@ -216,7 +216,7 @@ class Post extends Module {
 				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
 
 				if ($metabox['name'] == 'price') {
-					$value = floatval($value);
+					$value = floatval(str_replace(',', '.', $value));
 				}
 
 				if (is_array($value)) {

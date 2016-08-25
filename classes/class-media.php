@@ -358,8 +358,8 @@ class Media extends Core {
 						),
 						'thousands_separator' => array(
 							'id' => 'thousands_separator',
-							'name' => __('Thousands Separator', 'mp-restaurant-menu'),
-							'desc' => __('The symbol (usually , or .) to separate thousands', 'mp-restaurant-menu'),
+							'name' => __('Thousand Separator', 'mp-restaurant-menu'),
+							'desc' => __('Thousand separator of displayed prices', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => ',',
@@ -367,7 +367,7 @@ class Media extends Core {
 						'decimal_separator' => array(
 							'id' => 'decimal_separator',
 							'name' => __('Decimal Separator', 'mp-restaurant-menu'),
-							'desc' => __('The symbol (usually , or .) to separate decimal points', 'mp-restaurant-menu'),
+							'desc' => __('Decimal separator of displayed prices', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => '.',

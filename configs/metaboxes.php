@@ -15,7 +15,7 @@ return array(
 		'title' => __('Price', 'mp-restaurant-menu'),
 		'context' => 'normal',
 		'priority' => 'low',
-		'callback_args' => array('description' => __('Price', 'mp-restaurant-menu')),
+		'callback_args' => array('description' => __('Price in monetary decimal (.) format without thousand separators and currency symbols', 'mp-restaurant-menu')),
 		'callback' => array($this->get('menu_item'), 'render_meta_box')
 	),
 	array(

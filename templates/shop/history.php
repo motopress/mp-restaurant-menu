@@ -50,9 +50,6 @@ if (!mprm_user_pending_verification()) { ?>
 			<?php do_action('mprm_after_purchase_history'); ?>
 			<?php wp_reset_postdata(); ?>
 		<?php } else { ?>
-			<p class="mprm-account-pending mprm_success">
-				<?php _e('An email with an activation link has been sent.', 'mp-restaurant-menu'); ?>
-			</p>
 			<p class="mprm-no-purchases"><?php _e('You have not made any purchases', 'mp-restaurant-menu'); ?></p>
 		<?php }
 	} else { ?>

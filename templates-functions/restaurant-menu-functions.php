@@ -207,7 +207,7 @@ function mprm_get_gallery(){
  */
 function mprm_get_price() {
 	global $post;
-	return models\Menu_item::get_instance()->get_price($post->ID, true);
+	return models\Menu_item::get_instance()->get_price($post->ID, false);
 }
 
 /**

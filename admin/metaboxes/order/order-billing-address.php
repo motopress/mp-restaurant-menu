@@ -38,7 +38,7 @@ $address = $order->address; ?>
 						'selected' => $address['country'],
 						'show_option_all' => false,
 						'show_option_none' => false,
-						'chosen' => true,
+						'chosen' => false,
 						'placeholder' => __('Select a country', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a country', 'mp-restaurant-menu'))
 					));
@@ -58,7 +58,7 @@ $address = $order->address; ?>
 						'selected' => $address['state'],
 						'show_option_all' => false,
 						'show_option_none' => false,
-						'chosen' => true,
+						'chosen' => false,
 						'placeholder' => __('Select a state', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a state', 'mp-restaurant-menu'))
 					));

@@ -55,6 +55,9 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 == Changelog ==
 
+= 2.0.2 =
+* Bug fix: fixed an issue with empty price
+
 = 2.0.1 =
 * Bug fix: fixed style issue
 

@@ -79,7 +79,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					echo mprm_menu_item_dropdown(array(
 						'name' => 'mprm-order-menu-item-select',
 						'id' => 'mprm-order-menu-item-select',
-						'chosen' => true
+						'chosen' => false
 					));
 					?>
 				</div>
