@@ -79,7 +79,11 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					echo mprm_menu_item_dropdown(array(
 						'name' => 'mprm-order-menu-item-select',
 						'id' => 'mprm-order-menu-item-select',
-						'chosen' => false
+						'chosen' => true,
+						'show_option_all' => false,
+						'show_option_none' => false,
+						'placeholder' => __('Select a Menu item', 'mp-restaurant-menu'),
+						'data_attr' => array('text_single' => __('Select a Menu item', 'mp-restaurant-menu'))
 					));
 					?>
 				</div>

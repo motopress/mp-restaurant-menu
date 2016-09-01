@@ -777,7 +777,7 @@ MP_RM_Registry.register("Order", (function($) {
 				state.hideElementOrder();
 				state.addComment();
 				state.removeComment();
-				state.initChosen();
+				// state.initChosen();
 				state.addCustomer();
 				state.removeMenuItem();
 				state.addMenuItem();
@@ -1114,17 +1114,20 @@ MP_RM_Registry.register("Order", (function($) {
 			 */
 			initChosen: function() {
 				var selector = $('.mprm-select-chosen');
+
 				if (selector.length) {
 					$.each(selector, function() {
-						var text_single = typeof $(this).attr('data-text_single') !== "undefined" ? $(this).attr('data-text_single') : mprm_admin_vars.one_option;
-						var text_multiple = typeof $(this).attr('data-text_multiple') !== "undefined" ? $(this).attr('data-text_multiple') : mprm_admin_vars.one_or_more_option;
-						$(this).chosen({
+						var selectObject = $(this) ;
+						var text_single = typeof selectObject.attr('data-text_single') !== "undefined" ? selectObject.attr('data-text_single') : mprm_admin_vars.one_option;
+						var text_multiple = typeof selectObject.attr('data-text_multiple') !== "undefined" ? selectObject.attr('data-text_multiple') : mprm_admin_vars.one_or_more_option;
+						selectObject.chosen({
 							inherit_select_classes: true,
 							placeholder_text_single: text_single,
 							placeholder_text_multiple: text_multiple
 						});
 					});
 				}
+
 			},
 			/**
 			 * Remove comment

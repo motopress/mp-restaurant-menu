@@ -273,8 +273,9 @@ class Store_item extends Model {
 	 * @return mixed|void
 	 */
 	public function get_formatting_price($amount, $decimals = true) {
-		/*$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
+		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
+
 		// Format the amount
 		if ($decimal_sep == ',' && false !== ($sep_found = strpos($amount, $decimal_sep))) {
 			$whole = substr($amount, 0, $sep_found);
@@ -289,14 +290,18 @@ class Store_item extends Model {
 		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(' ', '', $amount);
 		}
+
 		if (empty($amount)) {
 			$amount = 0;
 		}
+
 		$decimals = apply_filters('mprm_format_amount_decimals', $decimals ? 2 : 0, $amount);
+
 		$formatted = number_format($amount, $decimals, $decimal_sep, $thousands_sep);
-		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);*/
+
+		return apply_filters('mprm_format_amount', $formatted, $amount, $decimals, $decimal_sep, $thousands_sep);
 		
-		return mprm_format_amount($amount, $decimals);
+//		return $this->get('formatting')->format_amount($amount, $decimals);
 	}
 
 	/**
