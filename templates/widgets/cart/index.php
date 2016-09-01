@@ -24,7 +24,6 @@ $display = $cart_quantity > 0 ? '' : ' style="display:none;"';
 				<li class="cart_item mprm_checkout"><a href="<?php echo mprm_get_checkout_uri(); ?>"><?php _e('Checkout', 'mp-restaurant-menu'); ?></a></li>
 
 			<?php else : ?>
-
 				<li class="cart_item empty"><?php echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); ?></li>
 				<?php if (mprm_use_taxes()) : ?>
 					<li class="cart_item mprm-cart-meta mprm_subtotal" style="display:none;"><?php echo __('Subtotal:', 'mp-restaurant-menu') . " <span class='subtotal'>" . mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())); ?></span></li>

@@ -11,6 +11,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php do_action('mprm_checkout_table_header_first'); ?>
 		<th class="mprm_cart_item_name"><?php _e('Product', 'mp-restaurant-menu'); ?></th>
 		<th class="mprm_cart_item_price"><?php _e('Price', 'mp-restaurant-menu'); ?></th>
+		<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
+			<th class="mprm_cart_quantities"><?php _e('Quantities', 'mp-restaurant-menu'); ?></th>
+		<?php endif; ?>
 		<th class="mprm_cart_actions"><?php _e('Actions', 'mp-restaurant-menu'); ?></th>
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>
@@ -46,13 +49,15 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 					do_action('mprm_checkout_cart_item_price_after', $item);
 					?>
 				</td>
-
-				<td class="mprm_cart_actions">
-					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
+				<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
+					<td class="mprm_cart_quantities">
 						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $index; ?>-quantity" data-key="<?php echo $index; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $index); ?>"/>
 						<input type="hidden" name="mprm-cart-menu-item[]" value="<?php echo $item['id']; ?>"/>
 						<input type="hidden" name="mprm-cart-menu-item-<?php echo $index; ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
-					<?php endif; ?>
+					</td>
+				<?php endif; ?>
+
+				<td class="mprm_cart_actions">
 					<?php do_action('mprm_cart_actions', $item, $index); ?>
 					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($index)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 				</td>

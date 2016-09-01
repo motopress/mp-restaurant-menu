@@ -163,7 +163,9 @@ function mprm_get_cart_item_price_id($item = array()) {
 }
 
 function mprm_cart_empty() {
-	echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
+	if (empty(models\Cart::get_instance()->get_cart_contents())) {
+		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
+	}
 }
 
 function mprm_update_cart_button() {

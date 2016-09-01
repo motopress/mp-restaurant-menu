@@ -372,8 +372,15 @@ class Media extends Core {
 							'size' => 'small',
 							'std' => '.',
 						),
+						'number_decimals' => array(
+							'id' => 'number_decimals',
+							'name' => __('Number of Decimals', 'mp-restaurant-menu'),
+							'desc' => __('Number of decimal points shown in displayed prices', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'small',
+							'std' => '2',
+						)
 					),
-//
 				)
 			),
 			/** Payment Gateways Settings */
@@ -1249,19 +1256,19 @@ class Media extends Core {
 			'label' => 'mp_menu_item',
 			'labels' =>
 				array(
-					'name' => 'Menu items',
-					'singular_name' => 'Menu item',
-					'add_new' => 'Add New',
-					'add_new_item' => 'Add New Menu item',
-					'edit_item' => 'Edit Menu item',
-					'new_item' => 'New Menu item',
-					'all_items' => 'All Menu items',
-					'view_item' => 'View Menu item',
-					'search_items' => 'Search Menu item',
-					'not_found' => 'No menu items found',
-					'not_found_in_trash' => 'No menu items found in Trash',
-					'parent_item_colon' => 'media',
-					'menu_name' => 'Menu items',
+					'name' => __('Menu items', 'mp-restaurant-menu'),
+					'singular_name' => __('Menu item', 'mp-restaurant-menu'),
+					'add_new' => __('Add New', 'mp-restaurant-menu'),
+					'add_new_item' => __('Add New Menu item', 'mp-restaurant-menu'),
+					'edit_item' => __('Edit Menu item', 'mp-restaurant-menu'),
+					'new_item' => __('New Menu item', 'mp-restaurant-menu'),
+					'all_items' => __('All Menu items', 'mp-restaurant-menu'),
+					'view_item' => __('View Menu item', 'mp-restaurant-menu'),
+					'search_items' => __('Search Menu item', 'mp-restaurant-menu'),
+					'not_found' => __('No menu items found', 'mp-restaurant-menu'),
+					'not_found_in_trash' => __('No menu items found in Trash', 'mp-restaurant-menu'),
+					'parent_item_colon' => __('media', 'mp-restaurant-menu'),
+					'menu_name' => __('Menu items', 'mp-restaurant-menu'),
 				),
 			'public' => true,
 			'has_archive' => true,
@@ -1281,6 +1288,7 @@ class Media extends Core {
 			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
 			'show_in_admin_bar' => true,
 		));
+
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),
@@ -1327,24 +1335,25 @@ class Media extends Core {
 		}
 
 		$menu_item = $this->get_post_type('menu_item');
+
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => 'menu categories', 'single' => 'menu category'),
+			'titles' => array('many' => __('menu categories', 'mp-restaurant-menu'), 'single' => __('menu category', 'mp-restaurant-menu')),
 			'slug' => 'menu-category',
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_tag'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => 'menu tags', 'single' => 'menu tag'),
+			'titles' => array('many' => __('menu tags', 'mp-restaurant-menu'), 'single' => __('menu tag', 'mp-restaurant-menu')),
 			'slug' => 'menu-tag',
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('ingredient'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => 'ingredients', 'single' => 'ingredient'),
+			'titles' => array('many' => __('ingredients', 'mp-restaurant-menu'), 'single' => __('ingredient', 'mp-restaurant-menu')),
 		));
 	}
 
@@ -1358,9 +1367,6 @@ class Media extends Core {
 	public function single_template($template) {
 		global $post;
 
-		if (is_embed()) {
-			return;
-		}
 
 		if (!empty($post) && in_array($post->post_type, array_values($this->post_types)) && $this->template_mode() == 'theme') {
 			add_filter('the_content', array($this, 'single_content'), 20, 2);

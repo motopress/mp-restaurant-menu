@@ -102,6 +102,7 @@ class Settings extends Model {
 					'currency_position' => 'before',
 					'thousands_separator' => ',',
 					'decimal_separator' => '.',
+					'number_decimals' => '2',
 					'accepted_cards' =>
 						array(
 							'mastercard' => 'Mastercard',

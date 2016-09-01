@@ -30,7 +30,7 @@ class Purchase extends Model {
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {
 			$valid_data = false;
-			$this->get('errors')->set_error('empty_cart', __('Your cart is empty', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('empty_cart', __('Your cart is empty.', 'mp-restaurant-menu'));
 		} else {
 			// Validate the form $_POST data
 			$valid_data = $this->purchase_form_validate_fields();
