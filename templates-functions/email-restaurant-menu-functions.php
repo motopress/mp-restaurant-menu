@@ -134,7 +134,6 @@ function mprm_email_tag_menu_item_list($order_id) {
 				$menu_item_list .= ' &mdash; <small>' . mprm_get_menu_item_notes($item['id']) . '</small>';
 			}
 
-
 			if ($show_names) {
 				$menu_item_list .= '</li>';
 			}

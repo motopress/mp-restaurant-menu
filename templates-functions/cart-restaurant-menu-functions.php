@@ -45,10 +45,7 @@ function mprm_get_cart_subtotal() {
  * @return mixed|void
  */
 function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
-	global $post;
-
 	$id = is_array($item) ? $item['id'] : $item;
-
 	$remove_url = mprm_remove_item_url($cart_key);
 	$title = get_the_title($id);
 	$options = !empty($item['options']) ? $item['options'] : array();
@@ -162,12 +159,19 @@ function mprm_get_cart_item_price_id($item = array()) {
 	return $price_id;
 }
 
+/**
+ * Cart empty
+ */
 function mprm_cart_empty() {
-	if (empty(models\Cart::get_instance()->get_cart_contents())) {
+	$cart_contents = models\Cart::get_instance()->get_cart_contents();
+	if (empty($cart_contents)) {
 		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
 	}
 }
 
+/**
+ * Cart button
+ */
 function mprm_update_cart_button() {
 	if (!models\Cart::get_instance()->item_quantities_enabled())
 		return;

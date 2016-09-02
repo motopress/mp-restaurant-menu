@@ -1,8 +1,5 @@
 <?php
 use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
-
-
-
 /**
  * Add class shortocode/widget wrapper class
  * @return string
@@ -48,8 +45,6 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
-
-
     if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
 		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
 			if (false !== ($key = array_search('hentry', $classes))) {
@@ -578,9 +573,8 @@ function mprm_get_purchase_link($params) {
 }
 /**
  * Get purchase template
-*
+ *
 *@param string $template
-* return html
  */
 function mprm_get_purchase_template($template = "default") {
 	$template = empty($template)? "default" : $template;
@@ -966,6 +960,17 @@ function mprm_menu_item_list_right_header() {
 	?>
 	<div class="mprm-side <?php echo $feat_img ? ' mprm-right-side' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : ""; ?>">
 	<?php
+}
+/**
+* @return bool
+ */
+function mprm_is_menu_item_image(){
+	$post_options = mprm_get_menu_item_options();
+	if (!mprm_get_feat_image() || empty($post_options['image'])) {
+		return false;
+	}else{
+		return true;
+	}
 }
 /**
  * Get featured image
