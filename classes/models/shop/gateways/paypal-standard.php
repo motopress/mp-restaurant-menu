@@ -50,7 +50,6 @@ class Paypal_standart extends Model {
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		} else {
 			// Only send to PayPal if the pending payment is created successfully
-			// 'mprm_action' => 'ipn_listener', 'controller' => 'cart'
 			$listener_url = add_query_arg(array('mprm-listener' => 'IPN'), home_url('index.php'));
 			// Get the success url
 			$return_url = add_query_arg(array(

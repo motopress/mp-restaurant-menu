@@ -284,6 +284,9 @@ class Store_item extends Model {
 	 * @return array/void
 	 */
 	public function get_attributes(\WP_Post $post) {
+		if (empty($post)) {
+			return array();
+		}
 		$attributes = get_post_meta($post->ID, 'attributes', true);
 		if (!$this->is_arr_values_empty($attributes)) {
 			return $attributes;

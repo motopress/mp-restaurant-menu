@@ -54,6 +54,7 @@ class Shortcode_success extends Shortcodes {
 		$data['payment_key'] = $payment_key;
 		$user_can_view = $this->get('misc')->can_view_receipt($payment_key);
 		$payment_id = $this->get('payments')->get_payment_id(array('search_key' => 'payment_key', 'value' => $payment_key));
+
 		// Key was provided, but user is logged out. Offer them the ability to login and view the receipt
 		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('payments')->is_guest_payment($payment_id)) {
 			$mprm_login_redirect = $this->get('misc')->get_current_page_url();

@@ -600,6 +600,9 @@ class Emails extends Model {
 
 	}
 
+	/**
+	 * Action action
+	 */
 	public function init_action() {
 		add_action('init', 'mprm_load_email_tags', -999);
 		add_action('mprm_add_email_tags', array($this, 'mprm_setup_email_tags'));

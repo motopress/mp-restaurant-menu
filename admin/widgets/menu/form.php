@@ -88,6 +88,12 @@
 	<input id="<?php echo $widget_object->get_field_id('ingredients') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('ingredients') ?>" <?php echo isset($ingredients) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('ingredients') ?>"><?php _e('Show ingredients', 'mp-restaurant-menu'); ?></label>
 </p>
+
+<p class="mprm-widget-buy <?php echo ($view !== 'simple-list') ? '' : 'hidden' ?>">
+	<input id="<?php echo $widget_object->get_field_id('buy') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('buy') ?>" <?php echo isset($buy) ? 'checked=""' : '' ?> />
+	<label for="<?php echo $widget_object->get_field_id('buy') ?>"><?php _e('Show buy button', 'mp-restaurant-menu'); ?></label>
+</p>
+
 <p>
 	<input id="<?php echo $widget_object->get_field_id('link_item') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('link_item') ?>" <?php echo isset($link_item) ? 'checked=""' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('link_item') ?>"><?php _e('Link item', 'mp-restaurant-menu'); ?></label>

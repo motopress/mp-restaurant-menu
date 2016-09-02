@@ -98,6 +98,9 @@ class Settings_emails extends Model {
 		return apply_filters('mprm_email_templates', $templates);
 	}
 
+	/**
+	 * Generate email template preview
+	 */
 	public function email_template_preview() {
 		if (!current_user_can('manage_shop_settings')) {
 			return;
@@ -110,6 +113,9 @@ class Settings_emails extends Model {
 		echo ob_get_clean();
 	}
 
+	/**
+	 * Display email template preview
+	 */
 	public function display_email_template_preview() {
 		if (empty($_GET['mprm_action'])) {
 			return;

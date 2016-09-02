@@ -5,40 +5,67 @@
 		var mprmTitle = 'Insert Restaurant Menu Shortcode';
 
 		/**
-		 * init change shortcode type
+		 * Init change shortcode type
 		 */
 		function init_change_shortcode_type() {
-			$('[name=shortcode_name]').off('change').on('change', function() {
-				MP_RM_Registry._get('MP_RM_Functions').showBlocks($(this).val());
+			$(document).on('change', '[name=shortcode_name]', function() {
+				var type = $(this).val();
+				load_shortcode_data(type);
 			});
 		}
 
-		function change_shortcode_view() {
-			var shortCode = $('[name="shortcode_name"]').val();
-			if (shortCode === 'mprm_items') {
-				var elementsMenuItems = $('[name="item_ids"],[name="feat_img"],select[name="categ_name"]');
-				var elementsCategoryItems = $('input[name="categ_name"],[name="price_pos"]');
-				switch ($('*[data-display="mprm_items"] select[name="view"]').val()) {
-					case"simple-list" :
-						elementsMenuItems.parents('.mprm-line').addClass('hidden');
-						elementsCategoryItems.parents('.mprm-line').removeClass('hidden');
-						break;
-					case"grid" :
-					case"list" :
-					default:
-						elementsMenuItems.parents('.mprm-line').removeClass('hidden');
-						elementsCategoryItems.parents('.mprm-line').addClass('hidden');
-						break;
-				}
+		/**
+		 * Load shortcode data(Json)
+		 * @param type
+		 */
+		function load_shortcode_data(type) {
+
+			if (_.isUndefined(type)) {
+				type = 'categories';
 			}
+
+			var $params = {
+				action: 'get_shortcode_by_type',
+				controller: 'popup',
+				type: type
+			};
+
+			MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+				function(data) {
+					$('#mprm-shortcode-html-container').html(data.html);
+				},
+				function(data) {
+					console.warn('Some error!!!');
+					console.warn(data);
+				}
+			);
 		}
 
 		/**
-		 * init shortcode button
+		 * Shortcode view
+		 */
+		function change_shortcode_view() {
+			$(document).on('change', '[name="view"]', function() {
+				var view = $(this).val();
+				if (view == 'simple-list') {
+					$('[name="price_pos"]', '.mprm-line').parents('div.mprm-line').removeClass('mprm-hidden');
+					$('[name="buy"]', '.mprm-line').parents('div.mprm-line').addClass('mprm-hidden');
+					$('[name="categ_name"] option[value="with_img"]', '.mprm-line').addClass('mprm-hidden');
+				} else {
+					$('[name="price_pos"]', '.mprm-line').parents('div.mprm-line').addClass('mprm-hidden');
+					$('[name="buy"]', '.mprm-line').parents('div.mprm-line').removeClass('mprm-hidden');
+					$('[name="categ_name"] option[value="with_img"]', '.mprm-line').removeClass('mprm-hidden');
+				}
+			});
+		}
+
+		/**
+		 * Init shortcode button
+		 *
 		 * @param callBack
 		 */
-		function inti_insert_button(callBack) {
-			$('[data-selector=insert_shortcode]').off("click").on('click', function() {
+		function init_insert_button(callBack) {
+			$(document).on('click', '[data-selector=insert_shortcode]', function() {
 				var params = parse_form($('[data-selector=shortcode-form]'));
 				if (_.isFunction(callBack)) {
 					callBack(params);
@@ -50,7 +77,7 @@
 		 * init Checkbox change
 		 */
 		function init_checkbox() {
-			$('[data-selector=shortcode-form]').find('input[type=checkbox]').off('change').on('change', function() {
+			$(document).on('click', '[data-selector=shortcode-form] input[type=checkbox]', function() {
 				if ($(this).attr('checked')) {
 					$(this).val('1');
 				} else {
@@ -61,6 +88,7 @@
 
 		/**
 		 * Parse form function
+		 *
 		 * @param form
 		 * @returns {{}}
 		 */
@@ -69,6 +97,7 @@
 				attrs: {},
 				name: ''
 			};
+
 			form.find('[data-selector=data-line]').each(function(key, value) {
 				if ($(value).is(':visible')) {
 					var data_item = $(value).find('[data-selector=form_data]');
@@ -82,9 +111,9 @@
 				}
 			});
 			params.name = $('[data-selector=shortcode_name]').val();
+
 			return params;
 		}
-
 
 		//Gallery Button
 		editor.addButton('mp_add_menu', {
@@ -102,13 +131,11 @@
 							},
 							function(data) {
 								jbox.setContent(data);
-								MP_RM_Registry._get('MP_RM_Functions').showBlocks('mprm_categories');
 								init_change_shortcode_type();
 								init_checkbox();
 								change_shortcode_view();
-								$('#mprm-shortcode-form').on('change', '*[data-display="mprm_items"] select[name="view"]', change_shortcode_view);
-								$('#mprm-shortcode-form').on('change', 'select[name="shortcode_name"]', change_shortcode_view);
-								inti_insert_button(function(params) {
+
+								init_insert_button(function(params) {
 									var shortcode = wp.shortcode.string({
 										tag: params.name,
 										attrs: params.attrs,
@@ -117,6 +144,7 @@
 									editor.insertContent(shortcode);
 									jbox.close();
 								});
+
 							},
 							function(data) {
 								console.warn(data);

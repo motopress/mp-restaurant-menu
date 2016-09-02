@@ -66,6 +66,7 @@ class Media extends Core {
 	 * Registered page in admin wp
 	 */
 	public function admin_menu() {
+		global $submenu;
 		// get taxonomy names
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
@@ -153,9 +154,8 @@ class Media extends Core {
 
 		$this->register_settings();
 
-
 		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids')));
-		global $submenu;
+
 		foreach ($submenu as $key => $value) {
 			if (isset($submenu[$key][5])) {
 				if ($submenu[$key][5][2] == 'edit.php?post_type=mprm_order') {

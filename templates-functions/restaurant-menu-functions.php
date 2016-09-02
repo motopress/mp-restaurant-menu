@@ -252,9 +252,12 @@ function mprm_get_category_options($id = false) {
  *
  * @return array
  */
-function mprm_get_menu_item_options(\WP_Post $post = NULL) {
+function mprm_get_menu_item_options($post = NULL) {
 	global $mprm_menu_item;
 	$post = empty($post) ? $mprm_menu_item : $post;
+	if(empty($post)){
+		return  array();
+	}
 	return classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
 }
 

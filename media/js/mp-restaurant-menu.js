@@ -5,6 +5,7 @@ window.MP_RM_Registry = (function() {
 
 	/**
 	 * Test module
+	 *
 	 * @param module
 	 * @returns {boolean}
 	 * @private
@@ -16,6 +17,7 @@ window.MP_RM_Registry = (function() {
 
 	/**
 	 * Register module
+	 *
 	 * @param name
 	 * @param module
 	 */
@@ -29,6 +31,7 @@ window.MP_RM_Registry = (function() {
 
 	/**
 	 * Register modules
+	 *
 	 * @param map
 	 */
 	function MP_RM_RegistryMap(map) {
@@ -45,7 +48,8 @@ window.MP_RM_Registry = (function() {
 	}
 
 	/**
-	 * Unregister
+	 * Unregister module
+	 *
 	 * @param name
 	 */
 	function unregister(name) {
@@ -54,6 +58,7 @@ window.MP_RM_Registry = (function() {
 
 	/**
 	 * Get instance module
+	 *
 	 * @param name
 	 * @returns {*|wp.mce.View}
 	 */
@@ -182,80 +187,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 				}
 				var popup = new jBox('Modal', params);
 				popup.open();
-			},
-
-			/**
-			 * Show block group
-			 * @param name (value attr data-display)
-			 * @param container (parent where search)
-			 */
-			showBlocks: function(name, container) {
-				state.doActionForObj(name, container, "show");
-			},
-			/**
-			 * Hide block group
-			 * @param name (value attr data-display)
-			 * @param container (parent where search)
-			 */
-			hideBlocks: function(name, container) {
-				state.doActionForObj(name, container, "hide");
-			},
-			/**
-			 * Do action for obj
-			 *
-			 * @param {type} name
-			 * @param {type} container
-			 * @param {type} action
-			 */
-			doActionForObj: function(name, container, action) {
-				if (_.isUndefined(action)) {
-					action = "show";
-				}
-				var hided = false, //hide status
-					result = false, //find element by name status
-					arrayBlocks; //Array of block
-				if (_.isUndefined(container)) { //if parameter parent exist
-					arrayBlocks = $('[data-display]');
-				} else {
-					arrayBlocks = container.find('[data-display]');
-				}
-				if (arrayBlocks) {
-					arrayBlocks.each(function() {
-						var value = $(this),
-							find = [],
-							searchArray,
-							attrValues = value.attr("data-display").split(","); //construct array attrs
-						$.each(attrValues, function(key, value) { //each attrs array
-							attrValues[key] = $.trim(value); //trim space around value
-						});
-						searchArray = name.split(",");
-
-						$.each(searchArray, function(keySearch, search) {
-							$.extend(find, state.inArray(attrValues, search));
-						});
-
-						if (!_.isEmpty(find)) {
-							if (!hided && action === "show") {
-								arrayBlocks.addClass("hidden"); //hide all
-								hided = true; //change hide status
-							}
-							switch (action) {
-								case "show":
-								case "some-show":
-									value.removeClass("hidden"); //show find element
-									break;
-								case "hide":
-									value.addClass("hidden"); //show find element
-									break;
-							}
-							result = true; //change element by name status
-						}
-					});
-				}
-
-				if (!result) { // if not find element by parameter name
-					console.warn("The element with attribute 'data-display = " + name + "' is not find");
-				}
 			},
 			/**
 			 * In array
@@ -1694,19 +1625,23 @@ MP_RM_Registry.register("Theme", (function($) {
 			},
 			viewParams: function(parent, view) {
 				switch (view) {
+
 					case "simple-list" :
 						parent.find('.mprm-widget-feat_img').addClass('hidden');
-						parent.find(' select.mprm-widget-categ_name option[value="with_img"]').change('only_text').addClass('hidden');
+						parent.find('.mprm-widget-buy').addClass('hidden');
+						parent.find('select.mprm-widget-categ_name option[value="with_img"]').change('only_text').addClass('hidden');
 						parent.find('.mprm-widget-price_pos').removeClass('hidden');
 						break;
 					case "grid" :
 					case "list" :
 					default:
 						parent.find('.mprm-widget-feat_img').removeClass('hidden');
-						parent.find(' select.mprm-widget-categ_name option[value="with_img"]').change('only_text').removeClass('hidden');
+						parent.find('.mprm-widget-buy').removeClass('hidden');
+						parent.find('select.mprm-widget-categ_name option[value="with_img"]').change('only_text').removeClass('hidden');
 						parent.find('.mprm-widget-price_pos').addClass('hidden');
 						break;
 				}
+
 			},
 			customizeWidget: function() {
 				$.each($('.mprm-widget-view'), function() {

@@ -137,6 +137,12 @@ class Shortcode_Item extends Shortcodes {
 				'default' => 1,
 				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
 			),
+			'buy' => array(
+				'type' => 'radio-buttons',
+				'label' => __('Show buy button', 'mp-restaurant-menu'),
+				'default' => 1,
+				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+			),
 			'link_item' => array(
 				'type' => 'radio-buttons',
 				'label' => __('Link item', 'mp-restaurant-menu'),

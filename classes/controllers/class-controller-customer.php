@@ -113,6 +113,9 @@ class Controller_customer extends Controller {
 		$this->send_json($this->date);
 	}
 
+	/**
+	 *  Content
+	 */
 	public function action_content() {
 		if (!empty($_REQUEST['view']) && !empty($_REQUEST['id'])) {
 			$view = sanitize_text_field($_REQUEST['view']);
@@ -122,6 +125,9 @@ class Controller_customer extends Controller {
 		}
 	}
 
+	/**
+	 * Update customer
+	 */
 	public function action_update_customer() {
 		$result = false;
 		$gump = new GUMP();
@@ -169,6 +175,9 @@ class Controller_customer extends Controller {
 		}
 	}
 
+	/**
+	 * Action delete
+	 */
 	public function action_delete() {
 		$customer_edit_role = apply_filters('mprm_edit_customers_role', 'edit_shop_payments');
 

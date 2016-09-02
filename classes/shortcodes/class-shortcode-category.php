@@ -98,6 +98,7 @@ class Shortcode_Category extends Shortcodes {
 			)
 		);
 		$mprm_categories = new \MPCEObject('mprm_categories', __('Menu Categories', 'mp-restaurant-menu'), '', $attributes);
+
 		$motopressCELibrary->addObject($mprm_categories, 'other');
 	}
 }
