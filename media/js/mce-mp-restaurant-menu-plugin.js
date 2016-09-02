@@ -131,10 +131,6 @@
 							},
 							function(data) {
 								jbox.setContent(data);
-								init_change_shortcode_type();
-								init_checkbox();
-								change_shortcode_view();
-
 								init_insert_button(function(params) {
 									var shortcode = wp.shortcode.string({
 										tag: params.name,
@@ -144,13 +140,13 @@
 									editor.insertContent(shortcode);
 									jbox.close();
 								});
-
 							},
 							function(data) {
 								console.warn(data);
 							}
 						);
-					}, {
+					},
+					{
 						title: mprmTitle,
 						width: 500,
 						height: 600
@@ -158,5 +154,10 @@
 				);
 			}
 		});
+
+		init_change_shortcode_type();
+		init_checkbox();
+		change_shortcode_view();
+
 	});
 })(window.jQuery);
