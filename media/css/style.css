@@ -1499,19 +1499,19 @@ there.
   box-shadow: none;
   border: none;
 }
-.mprm-container.mprm-view-list .mprm_menu_item_buy_button form.mprm_purchase_form {
+.mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form.mprm_purchase_form {
   margin: 0 0 0 -webkit-calc(150px);
   margin: 0 0 0 calc(150px);
 }
-.mprm-container.mprm-view-list .mprm_menu_item_buy_button form.mprm_purchase_form .mprm_purchase_submit_wrapper,
-.mprm-container.mprm-view-list .mprm_menu_item_buy_button form.mprm_purchase_form .mprm-section {
+.mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form.mprm_purchase_form .mprm_purchase_submit_wrapper,
+.mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form.mprm_purchase_form .mprm-section {
   margin-left: 2rem;
 }
-.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button form {
+.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form {
   margin: 0 0 0 40%;
 }
-.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button form > div,
-.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button form .mprm_purchase_submit_wrapper {
+.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form > div,
+.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form .mprm_purchase_submit_wrapper {
   margin-left: 1rem;
 }
 .mprm_widget .mprm-main-wrapper a.mprm-link,

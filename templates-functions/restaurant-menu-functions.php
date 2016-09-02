@@ -962,14 +962,17 @@ function mprm_menu_item_list_right_header() {
 	<?php
 }
 /**
-* @return bool
+ * Is menu item image
+ *
+ * @return bool
  */
 function mprm_is_menu_item_image(){
 	$post_options = mprm_get_menu_item_options();
-	if (!mprm_get_feat_image() || empty($post_options['image'])) {
-		return false;
-	}else{
+	$feat_img = mprm_get_feat_image();
+	if (!$feat_img || empty($post_options['image'])) {
 		return true;
+	}else{
+		return false;
 	}
 }
 /**

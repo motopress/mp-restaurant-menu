@@ -117,11 +117,13 @@
 .mprm-container {
   &.mprm-view-list {
 	.mprm_menu_item_buy_button {
-	  form {
-		&.mprm_purchase_form {
-		  margin: 0 0 0 calc(150px);
-		  .mprm_purchase_submit_wrapper, .mprm-section {
-			margin-left: 2rem;
+	  &.mprm-with-image {
+		form {
+		  &.mprm_purchase_form {
+			margin: 0 0 0 calc(150px);
+			.mprm_purchase_submit_wrapper, .mprm-section {
+			  margin-left: 2rem;
+			}
 		  }
 		}
 	  }
@@ -133,10 +135,12 @@
   .mprm-container {
 	&.mprm-view-list {
 	  .mprm_menu_item_buy_button {
-		form {
-		  margin: 0 0 0 40%;
-		  > div, .mprm_purchase_submit_wrapper {
-			margin-left: 1rem;
+		&.mprm-with-image {
+		  form {
+			margin: 0 0 0 40%;
+			> div, .mprm_purchase_submit_wrapper {
+			  margin-left: 1rem;
+			}
 		  }
 		}
 	  }
