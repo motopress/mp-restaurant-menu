@@ -1511,7 +1511,8 @@ there.
   margin: 0 0 0 40%;
 }
 .mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form > div,
-.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form .mprm_purchase_submit_wrapper {
+.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form .mprm_purchase_submit_wrapper,
+.mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form .mprm-section {
   margin-left: 1rem;
 }
 .mprm_widget .mprm-main-wrapper a.mprm-link,
