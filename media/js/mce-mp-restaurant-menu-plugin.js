@@ -64,12 +64,16 @@
 		 *
 		 * @param callBack
 		 */
-		function init_insert_button(callBack) {
-			$(document).off('click.insert').on('click.insert', '[data-selector=insert_shortcode]', function() {
+		function init_insert_button() {
+			$(document).on('click.insert', '[data-selector=insert_shortcode]', function() {
 				var params = parse_form($('[data-selector=shortcode-form]'));
-				if (_.isFunction(callBack)) {
-					callBack(params);
-				}
+				var shortcode = wp.shortcode.string({
+					tag: params.name,
+					attrs: params.attrs,
+					type: "single"
+				});
+				editor.insertContent(shortcode);
+				jbox.close();
 			});
 		}
 
@@ -77,16 +81,13 @@
 		 * init Checkbox change
 		 */
 		function init_checkbox() {
-			console.log('111');
 			$(document).on('click', '[data-selector="shortcode-form"] input[type="checkbox"]', function() {
-				console.log('222');
 				if ($(this).attr('checked')) {
 					$(this).val('1');
 				} else {
 					$(this).val('');
 				}
 			});
-
 		}
 
 		/**
@@ -104,11 +105,12 @@
 			form.find('[data-selector=data-line]').each(function(key, value) {
 				if ($(value).is(':visible')) {
 					var data_item = $(value).find('[data-selector=form_data]');
-					if (data_item.length && !_.isNull(data_item.val()) && data_item.val() !== "") {
+					//&& !_.isNull(data_item.val()) && data_item.val() !== ""
+					if (data_item.length ) {
 						if (_.isArray(data_item.val())) {
 							params.attrs[data_item.attr('name')] = data_item.val().join(',');
 						} else {
-							params.attrs[data_item.attr('name')] = data_item.val();
+							params.attrs[data_item.attr('name')] = _.isNull(data_item.val()) ? '' : data_item.val();
 						}
 					}
 				}
@@ -126,7 +128,7 @@
 			onclick: function() {
 				MP_RM_Registry._get("MP_RM_Functions").callModal('', function() {
 						//callback open
-						var jbox = this;
+						window.jbox = this;
 						MP_RM_Registry._get("MP_RM_Functions").wpAjax(
 							{
 								controller: "popup",
@@ -134,15 +136,6 @@
 							},
 							function(data) {
 								jbox.setContent(data);
-								init_insert_button(function(params) {
-									var shortcode = wp.shortcode.string({
-										tag: params.name,
-										attrs: params.attrs,
-										type: "single"
-									});
-									editor.insertContent(shortcode);
-									jbox.close();
-								});
 							},
 							function(data) {
 								console.warn(data);
@@ -158,9 +151,13 @@
 			}
 		});
 
+		/**
+		 * Init handlers
+		 */
 		init_change_shortcode_type();
 		init_checkbox();
 		change_shortcode_view();
+		init_insert_button();
 
 	});
 })(window.jQuery);
