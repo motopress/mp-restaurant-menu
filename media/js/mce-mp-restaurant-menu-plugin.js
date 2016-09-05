@@ -85,7 +85,7 @@
 				if ($(this).attr('checked')) {
 					$(this).val('1');
 				} else {
-					$(this).val('');
+					$(this).val('0');
 				}
 			});
 		}
@@ -105,8 +105,8 @@
 			form.find('[data-selector=data-line]').each(function(key, value) {
 				if ($(value).is(':visible')) {
 					var data_item = $(value).find('[data-selector=form_data]');
-					//&& !_.isNull(data_item.val()) && data_item.val() !== ""
-					if (data_item.length ) {
+
+					if (data_item.length) {
 						if (_.isArray(data_item.val())) {
 							params.attrs[data_item.attr('name')] = data_item.val().join(',');
 						} else {
