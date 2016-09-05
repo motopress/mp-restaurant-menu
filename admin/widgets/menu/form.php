@@ -90,7 +90,7 @@
 </p>
 
 <p class="mprm-widget-buy <?php echo ($view !== 'simple-list') ? '' : 'hidden' ?>">
-	<input id="<?php echo $widget_object->get_field_id('buy') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('buy') ?>" <?php echo isset($buy) ? 'checked=""' : '' ?> />
+	<input id="<?php echo $widget_object->get_field_id('buy') ?>" class="checkbox" type="checkbox" name="<?php echo $widget_object->get_field_name('buy') ?>" <?php echo isset($buy) ? 'checked="checked"' : '' ?> />
 	<label for="<?php echo $widget_object->get_field_id('buy') ?>"><?php _e('Show buy button', 'mp-restaurant-menu'); ?></label>
 </p>
 

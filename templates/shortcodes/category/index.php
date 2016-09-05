@@ -1,5 +1,6 @@
 <div class="<?php echo apply_filters('mprm-shortcode-category-wrapper-class', 'mprm-container mprm-shortcode-categories mprm-view-' . $view . mprm_popular_theme_class()) ?>">
-	<?php $categories = mprm_get_categories();
+	<?php
+	$categories = mprm_get_categories();
 	if (!empty($categories)) {
 		$categories = array_values($categories);
 		$last_key = array_search(end($categories), $categories);

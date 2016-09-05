@@ -99,14 +99,18 @@ class Menu_item_widget extends \WP_Widget {
 		global $mprm_view_args, $mprm_widget_args;
 		Media::get_instance()->add_plugin_js('widget');
 		$data = $this->get_data($instance);
+
 		if ($data['view'] == 'simple-list') {
 			$data['feat_img'] = '';
 			$data['buy'] = '0';
 			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
 		}
+
+
 		$mprm_view_args = $data;
 		$mprm_view_args['action_path'] = "widgets/menu/{$data['view']}/item";
 		$mprm_widget_args = $args;
+
 		View::get_instance()->render_html("widgets/menu/index", $data, true);
 	}
 }

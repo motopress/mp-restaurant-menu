@@ -7,9 +7,7 @@
  */
 do_action('mprm_before_shortcode_menu_item_simple-list');
 
-
 do_action('mprm_shortcode_menu_item_simple-list');
-
 
 /**
  * mprm_after_menu_item_simple-list hook
