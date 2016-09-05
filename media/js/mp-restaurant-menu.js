@@ -811,11 +811,13 @@ MP_RM_Registry.register("Order", (function($) {
 				});
 
 				$('#mprm-order-add-menu-item').on('click', function(e) {
+
 					e.preventDefault();
 
 					var order_menu_item_select = $('[name="mprm-order-menu-item-select"]'),
 						order_menu_item_quantity = $('#mprm-order-menu-item-quantity'),
 						order_menu_item_amount = $('[name="mprm-order-menu-item-amount"]');
+
 					var menu_item_id = order_menu_item_select.val(),
 						menu_item_title = $('[name="mprm-order-menu-item-select"] option:selected').text(),
 						quantity = order_menu_item_quantity.val(),

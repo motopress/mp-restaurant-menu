@@ -348,6 +348,26 @@ function is_mprm_taxonomy_grid() {
  */
 function mprm_get_term_menu_items() {
 	global $taxonomy, $mprm_view_args;
+
+	if(!isset($mprm_view_args['buy']) && in_array($mprm_view_args['view'],array('grid','list'))){
+		$matches = array();
+
+		if ((bool)preg_match_all("/shortcodes(.*)?menu/", $mprm_view_args['action_path'], $matches)) {
+			remove_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
+			remove_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
+		}
+		if ((bool)preg_match_all("/widgets(.*)?menu(.*)/", $mprm_view_args['action_path'], $matches)) {
+			remove_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
+			remove_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
+		}
+
+	}else{
+		    add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
+			add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
+			add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
+			add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
+	}
+
 	if (empty($mprm_view_args)) {
 		$mprm_view_args = array();
 		if ($taxonomy === 'mp_menu_category') {
@@ -357,7 +377,9 @@ function mprm_get_term_menu_items() {
 			$mprm_view_args['tags_list'] = mprm_get_taxonomy()->term_id;
 		}
 	}
+
 	$mprm_items = models\Menu_item::get_instance()->get_menu_items($mprm_view_args);
+
 	return $mprm_items;
 }
 
@@ -378,7 +400,9 @@ function mprm_get_menu_items_by_term() {
 }
 
 /**
- * @param $template
+ * Get template
+ *
+*@param $template
  * @param null $data
  * @param bool $output
  */
@@ -412,7 +436,7 @@ function the_mprm_widget_title() {
 }
 
 /**
- * Afater widget title
+ * After widget title
  *
  * @global array $mprm_widget_args
  */
@@ -626,7 +650,7 @@ function mprm_before_taxonomy_grid_header() {
 }
 
 /**
- * Bafore Category grid footer
+ * Before Category grid footer
  */
 function mprm_before_taxonomy_grid_footer() {
 }
@@ -1379,7 +1403,7 @@ function mprm_menu_item_content_comments() {
 }
 
 /**
- * Before menu item slidebar
+ * Before menu item sidebar
  */
 function mprm_before_menu_item_sidebar() {
 	?>
@@ -1390,28 +1414,28 @@ function mprm_before_menu_item_sidebar() {
 /**
  * Menu items proportions
  */
-function mprm_menu_item_slidebar_attributes() {
+function mprm_menu_item_sidebar_attributes() {
 	mprm_get_template('common/attributes');
 }
 
 /**
  * Menu item sidebar ingredients
  */
-function mprm_menu_item_slidebar_ingredients() {
+function mprm_menu_item_sidebar_ingredients() {
 	mprm_get_template('common/ingredients', array('mprm_title_ingredients' => false));
 }
 
 /**
- * Menu item slidebar nutritional
+ * Menu item sidebar nutritional
  */
-function mprm_menu_item_slidebar_nutritional() {
+function mprm_menu_item_sidebar_nutritional() {
 	mprm_get_template('common/nutritional', array('mprm_title_nutritional' => false));
 }
 
 /**
- * Menu item slidebar around items
+ * Menu item sidebar around items
  */
-function mprm_menu_item_slidebar_related_items() {
+function mprm_menu_item_sidebar_related_items() {
 	mprm_get_template('common/related-items');
 }
 
@@ -1528,7 +1552,7 @@ function mprm_get_error_html() {
  * @param $data
  * @param $col
  *
- * @return array
+ * @return void
  */
 function create_grid_by_posts($data, $col) {
 	global $post;

@@ -65,7 +65,7 @@
 		 * @param callBack
 		 */
 		function init_insert_button(callBack) {
-			$(document).on('click', '[data-selector=insert_shortcode]', function() {
+			$(document).off('click.insert').on('click.insert', '[data-selector=insert_shortcode]', function() {
 				var params = parse_form($('[data-selector=shortcode-form]'));
 				if (_.isFunction(callBack)) {
 					callBack(params);
@@ -77,13 +77,16 @@
 		 * init Checkbox change
 		 */
 		function init_checkbox() {
-			$(document).on('click', '[data-selector=shortcode-form] input[type=checkbox]', function() {
+			console.log('111');
+			$(document).on('click', '[data-selector="shortcode-form"] input[type="checkbox"]', function() {
+				console.log('222');
 				if ($(this).attr('checked')) {
 					$(this).val('1');
 				} else {
 					$(this).val('');
 				}
 			});
+
 		}
 
 		/**
