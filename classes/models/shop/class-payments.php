@@ -408,6 +408,7 @@ class Payments extends Parent_query {
 						'quantity' => (int)$deleted_menu_item['quantity'],
 						'price_id' => (int)$price_id,
 						'item_price' => (float)$deleted_menu_item['amount'],
+						'cart_index' => !isset($deleted_menu_item['cart_index']) ? false : $deleted_menu_item['cart_index']
 					);
 
 					$payment->remove_menu_item($deleted_menu_item['id'], $args);
@@ -540,7 +541,6 @@ class Payments extends Parent_query {
 		}
 		$payment->save();
 		do_action('mprm_updated_edited_purchase', $payment_id);
-
 	}
 
 	/**

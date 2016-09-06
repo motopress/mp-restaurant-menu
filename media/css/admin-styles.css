@@ -247,6 +247,9 @@ there.
 #mprm-tax-rates th {
   padding: 15px 10px;
 }
+#mprm-purchased-wrapper > :nth-child(odd) {
+  background-color: #f9f9f9;
+}
 .mprm-alert {
   border-radius: 2px;
   margin-bottom: 20px;

@@ -29,7 +29,6 @@ class Controller_Settings extends Controller {
 	 */
 	public function action_content() {
 		$data = $this->get('settings')->get_config_settings();
-		// $data
 		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
 		$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
 		$key = 'main';
@@ -48,6 +47,9 @@ class Controller_Settings extends Controller {
 		$this->send_json($data);
 	}
 
+	/**
+	 *  State list
+	 */
 	public function action_get_state_list() {
 		$data = array();
 		$country = $_REQUEST['country'];
@@ -60,6 +62,9 @@ class Controller_Settings extends Controller {
 		Settings_emails::get_instance()->display_email_template_preview();
 	}
 
+	/**
+	 * Test email
+	 */
 	public function action_send_test_email() {
 		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'mprm-test-email')) {
 			return;
@@ -71,6 +76,9 @@ class Controller_Settings extends Controller {
 		exit;
 	}
 
+	/**
+	 *  Create pages
+	 */
 	public function action_create_pages() {
 		$this->get('settings')->create_settings_pages();
 		$this->get('settings')->set_option('enable_ecommerce', true);
@@ -78,9 +86,11 @@ class Controller_Settings extends Controller {
 		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
 	}
 
+	/**
+	 * Skip create pages
+	 */
 	public function action_skip_create_pages() {
 		update_option('mprm_install_page', true);
 		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
-
 	}
 }

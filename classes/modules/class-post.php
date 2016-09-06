@@ -10,6 +10,7 @@ use mp_restaurant_menu\classes\Module;
  */
 class Post extends Module {
 	protected static $instance;
+
 	private $metaboxes;
 
 	/**
@@ -136,7 +137,6 @@ class Post extends Module {
 		$status = register_post_type($params['post_type'], $args);
 		if (!is_wp_error($status)) {
 			return true;
-		} else {
 		}
 	}
 
@@ -205,10 +205,11 @@ class Post extends Module {
 		}
 
 		if (isset($_POST['mprm_update'])) {
-			if ($_POST['post_type'] == 'mprm_order' && (bool)$_POST['mprm_update']) {
+			if (($_POST['post_type'] == $this->post_types['order']) && (bool)$_POST['mprm_update']) {
 				$this->get('payments')->update_payment_details($_POST);
 			}
 		}
+
 		foreach ($this->metaboxes as $metabox) {
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {

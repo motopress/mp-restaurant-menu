@@ -34,7 +34,6 @@ class Menu_item extends Store_item {
 			$menu_item = get_post($_id);
 			return $this->setup_menu_item($menu_item);
 		}
-
 	}
 
 	/**

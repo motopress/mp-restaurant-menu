@@ -809,7 +809,9 @@ MP_RM_Registry.register("Order", (function($) {
 					);
 
 				});
-
+				/**
+				 * Add menu item
+				 */
 				$('#mprm-order-add-menu-item').on('click', function(e) {
 
 					e.preventDefault();
@@ -823,8 +825,8 @@ MP_RM_Registry.register("Order", (function($) {
 						quantity = order_menu_item_quantity.val(),
 						amount = order_menu_item_amount.val(),
 						price_id = 0,
-						price_name = false;
-
+						price_name = false,
+						tax = 0;
 
 					if (menu_item_id < 1) {
 						return false;
@@ -834,7 +836,14 @@ MP_RM_Registry.register("Order", (function($) {
 						amount = 0;
 					}
 
+					if (mprm_admin_vars.rate > 1) {
+						// Convert to a number we can use
+						mprm_admin_vars.rate = mprm_admin_vars.rate / 100;
+					}
+
+
 					amount = parseFloat(amount);
+
 					if (isNaN(amount)) {
 						alert(mprm_admin_vars.numeric_item_price);
 						return false;
@@ -851,10 +860,13 @@ MP_RM_Registry.register("Order", (function($) {
 						}
 					}
 
-
 					amount = amount.toFixed(mprm_admin_vars.currency_decimals);
 
-					var formatted_amount = amount + mprm_admin_vars.currency_sign;
+					tax = (amount * mprm_admin_vars.rate).toFixed(mprm_admin_vars.currency_decimals);
+
+					var formatted_amount = (parseFloat(amount) + parseFloat(tax)) + mprm_admin_vars.currency_sign;
+
+
 					if ('before' === mprm_admin_vars.currency_pos) {
 						formatted_amount = mprm_admin_vars.currency_sign + amount;
 					}
@@ -866,17 +878,24 @@ MP_RM_Registry.register("Order", (function($) {
 					var count = $('.mprm-row.item').length;
 					var clone = $('#mprm-purchased-wrapper').find('.mprm-row.item:last').clone();
 
+
 					clone.find('.menu_item span').html('<a href="post.php?post=' + menu_item_id + '&action=edit"></a>');
 					clone.find('.item span a').text(menu_item_title);
+
 					clone.find('.price-text').text(formatted_amount);
+
 					clone.find('.item-quantity').text(quantity);
+
 					clone.find('.item-price').text(mprm_admin_vars.currency_sign + ( amount / quantity ).toFixed(mprm_admin_vars.currency_decimals));
+
 					clone.find('input.mprm-order-detail-id').val(menu_item_id);
 					clone.find('input.mprm-order-detail-price-id').val(price_id);
 					clone.find('input.mprm-order-detail-item-price').val(item_price);
-					clone.find('input.mprm-order-detail-amount').val(amount);
+					clone.find('input.mprm-order-detail-amount').val((parseFloat(amount) + parseFloat(tax)).toFixed(mprm_admin_vars.currency_decimals));
+					clone.find('input.mprm-order-detail-tax').val(tax);
 					clone.find('input.mprm-order-detail-quantity').val(quantity);
 					clone.find('input.mprm-order-detail-has-log').val(0);
+
 
 					// Replace the name / id attributes
 					clone.find('input').each(function() {
@@ -903,7 +922,8 @@ MP_RM_Registry.register("Order", (function($) {
 					e.preventDefault();
 
 					var total = 0,
-						purchased = $('#mprm-purchased-wrapper').find('.mprm-row.item .mprm-order-detail-amount');
+						purchased = $('#mprm-purchased-wrapper').find('.mprm-row.item .mprm-order-detail-amount'),
+						tax = 0.00;
 
 					if (purchased.length) {
 						purchased.each(function() {
@@ -917,7 +937,14 @@ MP_RM_Registry.register("Order", (function($) {
 						});
 					}
 
+					if ($('.mprm-order-detail-tax').length) {
+						$('.mprm-order-detail-tax', '#mprm-purchased-wrapper').each(function() {
+							tax += parseFloat($(this).val());
+						});
+					}
+
 					$('input[name="mprm-order-total"]').val(total.toFixed(mprm_admin_vars.currency_decimals));
+					$('input[name="mprm-order-tax"]').val(tax.toFixed(mprm_admin_vars.currency_decimals));
 
 					$('.mprm-order-recalc-totals').hide();
 				});
@@ -959,12 +986,12 @@ MP_RM_Registry.register("Order", (function($) {
 
 						$(this).parents('.mprm-row').remove();
 
-						// Flag the Downloads section as changed
+						// Flag the Menu items section as changed
 						$('#mprm-order-menu-items-changed').val(1);
+
 						$('.mprm-order-recalc-totals').show();
 					}
 					return false;
-
 				});
 			},
 			/**
@@ -1050,7 +1077,7 @@ MP_RM_Registry.register("Order", (function($) {
 
 				if (selector.length) {
 					$.each(selector, function() {
-						var selectObject = $(this) ;
+						var selectObject = $(this);
 						var text_single = typeof selectObject.attr('data-text_single') !== "undefined" ? selectObject.attr('data-text_single') : mprm_admin_vars.one_option;
 						var text_multiple = typeof selectObject.attr('data-text_multiple') !== "undefined" ? selectObject.attr('data-text_multiple') : mprm_admin_vars.one_or_more_option;
 						selectObject.chosen({

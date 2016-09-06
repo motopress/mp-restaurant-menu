@@ -23,13 +23,14 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					$item_price = isset($cart_item['item_price']) ? $cart_item['item_price'] : $price;
 					$price_id = isset($cart_item['item_number']['options']['price_id']) ? $cart_item['item_number']['options']['price_id'] : null;
 					$quantity = isset($cart_item['quantity']) && $cart_item['quantity'] > 0 ? $cart_item['quantity'] : 1;
+					$tax = isset($cart_item['tax']) ? $cart_item['tax'] : 0;
 
 					if (false === $price) {
 						$price = mprm_get_menu_item_final_price($item_id, $user_info, null);
 					}
 					?>
 					<div class="item mprm-columns <?php echo $column ?>">
-							<span>
+							<span class="mprm-<?php echo get_post_type($item_id) ?>">
 								<a href="<?php echo admin_url('post.php?post=' . $item_id . '&action=edit'); ?>">
 									<?php echo get_the_title($item_id);
 									if (isset($cart_items[$key]['item_number']) && isset($cart_items[$key]['item_number']['options'])) {
@@ -46,7 +47,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 						<input type="hidden" name="mprm-order-details[<?php echo $key; ?>][item_price]" class="mprm-order-detail-item-price" value="<?php echo esc_attr($item_price); ?>"/>
 						<input type="hidden" name="mprm-order-details[<?php echo $key; ?>][amount]" class="mprm-order-detail-amount" value="<?php echo esc_attr($price); ?>"/>
 						<input type="hidden" name="mprm-order-details[<?php echo $key; ?>][quantity]" class="mprm-order-detail-quantity" value="<?php echo esc_attr($quantity); ?>"/>
-
+						<input type="hidden" name="mprm-order-details[<?php echo $key; ?>][tax]" class="mprm-order-detail-tax" value="<?php echo esc_attr($tax); ?>"/>
 					</div>
 
 					<?php if (mprm_item_quantities_enabled()) : ?>
@@ -111,9 +112,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				<div class="actions mprm-columns <?php echo $column ?>">
 					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php printf(__('Add %s to Payment', 'mp-restaurant-menu'), mprm_get_label_singular()); ?></a>
 				</div>
-
 			</div>
-
 			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-menu-items-changed" value=""/>
 			<input type="hidden" name="mprm-order-removed" id="mprm-order-removed" value="{}"/>
 

@@ -29,6 +29,7 @@ return $language = array(
 	'numeric_item_price' => __('Item price must be numeric', 'mp-restaurant-menu'),
 	'numeric_quantity' => __('Quantity must be numeric', 'mp-restaurant-menu'),
 	'currency' => mprm_get_currency(),
+	'rate' => mprm_get_option('tax_rate', 0),
 	'currency_sign' => mprm_currency_filter(''),
 	'currency_pos' => mprm_get_option('currency_position', 'before'),
 	'currency_decimals' => mprm_currency_decimal_filter(),

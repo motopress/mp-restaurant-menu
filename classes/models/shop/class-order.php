@@ -91,6 +91,8 @@ final class Order extends Model {
 	 * Order constructor.
 	 *
 	 * @param bool $payment_id
+	 *
+	 * @return void|mixed
 	 */
 	public function __construct($payment_id = false) {
 		parent::__construct();
@@ -947,24 +949,56 @@ final class Order extends Model {
 			'cart_index' => false,
 		);
 		$args = wp_parse_args($args, $defaults);
-		$menu_item = new Menu_item($menu_item_id);
+
 		// Bail if this post isn't a menu_item
-		if (!$menu_item || $menu_item->post_type !== 'mp_menu_item') {
+		if (get_post_type($menu_item_id) != $this->post_types['menu_item']) {
 			return false;
 		}
+		$menu_item = new Menu_item($menu_item_id);
+
+		if (!$menu_item) {
+			return false;
+		}
+
+		$this->check_remove_args($menu_item_id, $args);
+
+		if (false === $args['cart_index']) {
+			$found_cart_key = $this->search_cart_key($menu_item_id, $args);
+		} else {
+			$found_cart_key = $this->check_cart_index(absint($args['cart_index']), $menu_item_id);
+		}
+		// exit if cart key false
+		if ($found_cart_key === false) {
+			return false;
+		}
+
+		$this->apply_remove_args($menu_item_id, $args, $found_cart_key);
+
+		return true;
+	}
+
+	/**
+	 * Check remove args
+	 *
+	 * @param $menu_item_id
+	 * @param $args
+	 */
+	public function check_remove_args($menu_item_id, $args) {
 		foreach ($this->menu_items as $key => $item) {
 			if ($menu_item_id != $item['id']) {
 				continue;
 			}
+
 			if (false !== $args['price_id']) {
 				if (isset($item['options']['price_id']) && $args['price_id'] != $item['options']['price_id']) {
 					continue;
 				}
 			} elseif (false !== $args['cart_index']) {
 				$cart_index = absint($args['cart_index']);
+
 				$cart_item = !empty($this->cart_details[$cart_index]) ? $this->cart_details[$cart_index] : false;
 				if (!empty($cart_item)) {
-					// If the cart index item isn't the same menu_item ID, don't remove it
+					// If the cart index item isn't the same item ID, don't remove it
 					if ($cart_item['id'] != $item['id']) {
 						continue;
 					}
@@ -974,7 +1008,9 @@ final class Order extends Model {
 					}
 				}
 			}
+
 			$item_quantity = $this->menu_items[$key]['quantity'];
+
 			if ($item_quantity > $args['quantity']) {
 				$this->menu_items[$key]['quantity'] -= $args['quantity'];
 				break;
@@ -983,68 +1019,57 @@ final class Order extends Model {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Search cart key
+	 *
+	 * @param $menu_item_id
+	 * @param $args
+	 *
+	 * @return int|string
+	 */
+	public function search_cart_key($menu_item_id, $args) {
 		$found_cart_key = false;
-		if (false === $args['cart_index']) {
-			foreach ($this->cart_details as $cart_key => $item) {
-				if ($menu_item_id != $item['id']) {
+		foreach ($this->cart_details as $cart_key => $item) {
+			if ($menu_item_id != $item['id']) {
+				continue;
+			}
+			if (false !== $args['price_id']) {
+				if (isset($item['item_number']['options']['price_id']) && $args['price_id'] != $item['item_number']['options']['price_id']) {
 					continue;
 				}
-				if (false !== $args['price_id']) {
-					if (isset($item['item_number']['options']['price_id']) && $args['price_id'] != $item['item_number']['options']['price_id']) {
-						continue;
-					}
+			}
+
+			if (false !== $args['item_price']) {
+				if (isset($item['item_price']) && $args['item_price'] != $item['item_price']) {
+					continue;
 				}
-				if (false !== $args['item_price']) {
-					if (isset($item['item_price']) && $args['item_price'] != $item['item_price']) {
-						continue;
-					}
-				}
-				$found_cart_key = $cart_key;
-				break;
 			}
-		} else {
-			$cart_index = absint($args['cart_index']);
-			if (!array_key_exists($cart_index, $this->cart_details)) {
-				return false; // Invalid cart index passed.
-			}
-			if ($this->cart_details[$cart_index]['id'] !== $menu_item_id) {
-				return false; // We still need the proper Menu item ID to be sure.
-			}
-			$found_cart_key = $cart_index;
+
+			$found_cart_key = $cart_key;
+			break;
 		}
-		$orig_quantity = $this->cart_details[$found_cart_key]['quantity'];
-		if ($orig_quantity > $args['quantity']) {
-			$this->cart_details[$found_cart_key]['quantity'] -= $args['quantity'];
-			$item_price = $this->cart_details[$found_cart_key]['item_price'];
-			$tax = $this->cart_details[$found_cart_key]['tax'];
-			$discount = !empty($this->cart_details[$found_cart_key]['discount']) ? $this->cart_details[$found_cart_key]['discount'] : 0;
-			// The total reduction equals the number removed * the item_price
-			$total_reduced = round($item_price * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
-			$tax_reduced = round(($tax / $orig_quantity) * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
-			$new_quantity = $this->cart_details[$found_cart_key]['quantity'];
-			$new_tax = $this->cart_details[$found_cart_key]['tax'] - $tax_reduced;
-			$new_subtotal = $new_quantity * $item_price;
-			$new_discount = 0;
-			$new_total = 0;
-			$this->cart_details[$found_cart_key]['subtotal'] = $new_subtotal;
-			$this->cart_details[$found_cart_key]['discount'] = $new_discount;
-			$this->cart_details[$found_cart_key]['tax'] = $new_tax;
-			$this->cart_details[$found_cart_key]['price'] = $new_subtotal - $new_discount + $new_tax;
-		} else {
-			$total_reduced = $this->cart_details[$found_cart_key]['item_price'];
-			$tax_reduced = $this->cart_details[$found_cart_key]['tax'];
-			unset($this->cart_details[$found_cart_key]);
+		return $found_cart_key;
+	}
+
+	/***
+	 * Check cart index exists
+	 *
+	 * @param $cart_index
+	 * @param $item_id
+	 *
+	 * @return bool
+	 */
+	public function check_cart_index($cart_index, $item_id) {
+		if (!array_key_exists($cart_index, $this->cart_details)) {
+			return false; // Invalid cart index passed.
 		}
-		$pending_args = $args;
-		$pending_args['id'] = $menu_item_id;
-		$pending_args['amount'] = $total_reduced;
-		$pending_args['price_id'] = false !== $args['price_id'] ? $args['price_id'] : false;
-		$pending_args['quantity'] = $args['quantity'];
-		$pending_args['action'] = 'remove';
-		$this->pending['menu_items'][] = $pending_args;
-		$this->decrease_subtotal($total_reduced);
-		$this->decrease_tax($tax_reduced);
-		return true;
+
+		if ((int)$this->cart_details[$cart_index]['id'] !== (int)$item_id) {
+			return false; // We still need the proper Menu item ID to be sure.
+		}
+		return $cart_index;
 	}
 
 	/**
@@ -1714,6 +1739,48 @@ final class Order extends Model {
 	 */
 	public function array_convert() {
 		return get_object_vars($this);
+	}
+
+	/**
+	 * @param $item_id
+	 * @param $args
+	 * @param $found_cart_key
+	 */
+	public function apply_remove_args($item_id, $args, $found_cart_key) {
+		$orig_quantity = $this->cart_details[$found_cart_key]['quantity'];
+
+		if ($orig_quantity > $args['quantity']) {
+			$this->cart_details[$found_cart_key]['quantity'] -= $args['quantity'];
+			$item_price = $this->cart_details[$found_cart_key]['item_price'];
+			$tax = $this->cart_details[$found_cart_key]['tax'];
+			$discount = !empty($this->cart_details[$found_cart_key]['discount']) ? $this->cart_details[$found_cart_key]['discount'] : 0;
+			// The total reduction equals the number removed * the item_price
+			$total_reduced = round($item_price * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
+			$tax_reduced = round(($tax / $orig_quantity) * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
+			$new_quantity = $this->cart_details[$found_cart_key]['quantity'];
+			$new_tax = $this->cart_details[$found_cart_key]['tax'] - $tax_reduced;
+			$new_subtotal = $new_quantity * $item_price;
+			$new_discount = 0;
+			$new_total = 0;
+			$this->cart_details[$found_cart_key]['subtotal'] = $new_subtotal;
+			$this->cart_details[$found_cart_key]['discount'] = $new_discount;
+			$this->cart_details[$found_cart_key]['tax'] = $new_tax;
+			$this->cart_details[$found_cart_key]['price'] = $new_subtotal - $new_discount + $new_tax;
+		} else {
+			$total_reduced = $this->cart_details[$found_cart_key]['item_price'];
+			$tax_reduced = $this->cart_details[$found_cart_key]['tax'];
+			unset($this->cart_details[$found_cart_key]);
+		}
+
+		$pending_args = $args;
+		$pending_args['id'] = $item_id;
+		$pending_args['amount'] = $total_reduced;
+		$pending_args['price_id'] = false !== $args['price_id'] ? $args['price_id'] : false;
+		$pending_args['quantity'] = $args['quantity'];
+		$pending_args['action'] = 'remove';
+		$this->pending['menu_items'][] = $pending_args;
+		$this->decrease_subtotal($total_reduced);
+		$this->decrease_tax($tax_reduced);
 	}
 
 	/**
