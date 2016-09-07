@@ -7,7 +7,9 @@ use mp_restaurant_menu\classes\Controller as Controller;
  * Class Controller_menu_item
  */
 class Controller_menu_item extends Controller {
+
 	protected static $instance;
+
 	private $date;
 
 	/**

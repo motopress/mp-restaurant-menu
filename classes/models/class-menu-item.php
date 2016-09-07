@@ -401,6 +401,8 @@ class Menu_item extends Store_item {
 
 
 	/**
+	 * Purchase link
+	 *
 	 * @param $args
 	 *
 	 * @return mixed|void

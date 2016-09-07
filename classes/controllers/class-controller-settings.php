@@ -12,6 +12,7 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\controllers
  */
 class Controller_Settings extends Controller {
+
 	protected static $instance;
 
 	/**
@@ -28,7 +29,6 @@ class Controller_Settings extends Controller {
 	 * Action content
 	 */
 	public function action_content() {
-		$data = $this->get('settings')->get_config_settings();
 		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
 		$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
 		$key = 'main';

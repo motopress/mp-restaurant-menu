@@ -147,6 +147,26 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					return false;
 				}
 			},
+			/**
+			 * String convert to Bool
+			 * @param string
+			 * @returns {boolean}
+			 */
+			stringToBoolean: function(string) {
+				switch (string.toLowerCase().trim()) {
+					case "true":
+					case "yes":
+					case "1":
+						return true;
+					case "false":
+					case "no":
+					case "0":
+					case null:
+						return false;
+					default:
+						return Boolean(string);
+				}
+			},
 
 			/**
 			 * Open popup window function
@@ -519,7 +539,10 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						/**
 						 *
-						 * @param {Object}data
+						 * @param {Object} data
+						 * @param {string} data.taxes
+						 * @param {string} data.subtotal
+						 * @param {string} data.total
 						 */
 						function(data) {
 							$('.mprm_cart_subtotal_amount').each(function() {
@@ -661,6 +684,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						/**
 						 *
 						 * @param {Object} data
+						 * @param {string} data.redirect_url
+						 * @param {string} data.redirect
 						 */
 						function(data) {
 							if (data.redirect) {
@@ -811,6 +836,15 @@ MP_RM_Registry.register("Order", (function($) {
 				});
 				/**
 				 * Add menu item
+				 * @param {Object} mprm_admin_vars
+				 * @param {String} mprm_admin_vars.numeric_item_price
+				 * @param {Number} mprm_admin_vars.currency_decimals
+				 * @param {String} mprm_admin_vars.currency_sign
+				 * @param {String} mprm_admin_vars.enable_taxes
+				 * @param {String} mprm_admin_vars.quantities_enabled
+				 * @param {String} mprm_admin_vars.currency_pos
+				 * @param {String} mprm_admin_vars.numeric_tax
+				 * @param {String} mprm_admin_vars.numeric_quantity
 				 */
 				$('#mprm-order-add-menu-item').on('click', function(e) {
 
@@ -836,12 +870,6 @@ MP_RM_Registry.register("Order", (function($) {
 						amount = 0;
 					}
 
-					if (mprm_admin_vars.rate > 1) {
-						// Convert to a number we can use
-						mprm_admin_vars.rate = mprm_admin_vars.rate / 100;
-					}
-
-
 					amount = parseFloat(amount);
 
 					if (isNaN(amount)) {
@@ -860,12 +888,31 @@ MP_RM_Registry.register("Order", (function($) {
 						}
 					}
 
+					var formatted_item_price = ( amount / quantity ).toFixed(mprm_admin_vars.currency_decimals) + mprm_admin_vars.currency_sign;
+
+					if ('before' === mprm_admin_vars.currency_pos) {
+						formatted_item_price = mprm_admin_vars.currency_sign + ( amount / quantity ).toFixed(mprm_admin_vars.currency_decimals);
+					}
+
+					if (MP_RM_Registry._get('MP_RM_Functions').stringToBoolean(mprm_admin_vars.enable_taxes)) {
+						if (mprm_admin_vars.rate > 1) {
+							// Convert to a number we can use
+							var rate = mprm_admin_vars.rate / 100;
+
+							if (!isNaN(rate)) {
+								tax = amount * rate;
+								amount = parseFloat(amount) + parseFloat(tax)
+							} else {
+								alert(mprm_admin_vars.numeric_tax);
+								return false;
+							}
+						}
+					}
+
 					amount = amount.toFixed(mprm_admin_vars.currency_decimals);
 
-					tax = (amount * mprm_admin_vars.rate).toFixed(mprm_admin_vars.currency_decimals);
-
-					var formatted_amount = (parseFloat(amount) + parseFloat(tax)) + mprm_admin_vars.currency_sign;
-
+					// formatted amount
+					var formatted_amount = amount + mprm_admin_vars.currency_sign;
 
 					if ('before' === mprm_admin_vars.currency_pos) {
 						formatted_amount = mprm_admin_vars.currency_sign + amount;
@@ -878,24 +925,19 @@ MP_RM_Registry.register("Order", (function($) {
 					var count = $('.mprm-row.item').length;
 					var clone = $('#mprm-purchased-wrapper').find('.mprm-row.item:last').clone();
 
-
 					clone.find('.menu_item span').html('<a href="post.php?post=' + menu_item_id + '&action=edit"></a>');
 					clone.find('.item span a').text(menu_item_title);
-
 					clone.find('.price-text').text(formatted_amount);
-
 					clone.find('.item-quantity').text(quantity);
-
-					clone.find('.item-price').text(mprm_admin_vars.currency_sign + ( amount / quantity ).toFixed(mprm_admin_vars.currency_decimals));
+					clone.find('.item-price').text(formatted_item_price);
 
 					clone.find('input.mprm-order-detail-id').val(menu_item_id);
 					clone.find('input.mprm-order-detail-price-id').val(price_id);
 					clone.find('input.mprm-order-detail-item-price').val(item_price);
-					clone.find('input.mprm-order-detail-amount').val((parseFloat(amount) + parseFloat(tax)).toFixed(mprm_admin_vars.currency_decimals));
+					clone.find('input.mprm-order-detail-amount').val(amount);
 					clone.find('input.mprm-order-detail-tax').val(tax);
 					clone.find('input.mprm-order-detail-quantity').val(quantity);
 					clone.find('input.mprm-order-detail-has-log').val(0);
-
 
 					// Replace the name / id attributes
 					clone.find('input').each(function() {
@@ -1206,8 +1248,10 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					}
 				});
 			},
+			
 			settingsUpload: function() {
 				// Settings Upload field JS
+
 				if (typeof wp === "undefined" || '1' !== mprm_admin_vars.new_media_ui) {
 					//Old Thickbox uploader
 					var mprm_settings_upload_button = $('.mprm_settings_upload_button');
@@ -1226,8 +1270,8 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						window.mprm_send_to_editor = window.send_to_editor;
 						window.send_to_editor = function(html) {
 							if (window.formfield) {
-								var imgurl = $('a', '<div>' + html + '</div>').attr('href');
-								window.formfield.val(imgurl);
+								var imageUrl = $('a', '<div>' + html + '</div>').attr('href');
+								window.formfield.val(imageUrl);
 								window.clearInterval(window.tbframe_interval);
 								tb_remove();
 							} else {
@@ -1287,6 +1331,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 						file_frame.on('insert', function() {
 
 							var selection = file_frame.state().get('selection');
+
 							selection.each(function(attachment) {
 								attachment = attachment.toJSON();
 								window.formfield.val(attachment.url);
