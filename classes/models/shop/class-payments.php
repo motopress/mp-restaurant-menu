@@ -152,6 +152,7 @@ class Payments extends Parent_query {
 
 		$payment = $this->get('order');
 		$session = $this->get('session')->get_session_by_key('mprm_purchase');
+
 		if (is_array($payment_data['cart_details']) && !empty($payment_data['cart_details'])) {
 			foreach ($payment_data['cart_details'] as $item) {
 				$args = array(
@@ -345,6 +346,8 @@ class Payments extends Parent_query {
 
 		$address = array_map('trim', $data['mprm-order-address'][0]);
 
+		$shipping_address = trim($data['mprm-order-delivery']);
+
 		$curr_total = $this->get('formatting')->sanitize_amount($payment->total);
 		$new_total = $this->get('formatting')->sanitize_amount($_POST['mprm-order-total']);
 		$tax = isset($_POST['mprm-order-tax']) ? $this->get('formatting')->sanitize_amount($_POST['mprm-order-tax']) : 0;
@@ -511,6 +514,8 @@ class Payments extends Parent_query {
 		$payment->first_name = $first_name;
 		$payment->last_name = $last_name;
 		$payment->address = $address;
+
+		$payment->shipping_address = $shipping_address;
 
 		$payment->total = $new_total;
 		$payment->tax = $tax;

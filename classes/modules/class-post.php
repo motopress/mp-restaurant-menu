@@ -63,22 +63,7 @@ class Post extends Module {
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop('Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
-//		register_post_status('mprm-processing', array(
-//			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
-//			'public' => false,
-//			'exclude_from_search' => false,
-//			'show_in_admin_all_list' => true,
-//			'show_in_admin_status_list' => true,
-//			'label_count' => _n_noop('Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'mp-restaurant-menu')
-//		));
-//		register_post_status('mprm-cancelled', array(
-//			'label' => _x('Cancelled', 'Order status', 'mp-restaurant-menu'),
-//			'public' => true,
-//			'exclude_from_search' => false,
-//			'show_in_admin_all_list' => true,
-//			'show_in_admin_status_list' => true,
-//			'label_count' => _n_noop('Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'mp-restaurant-menu')
-//		));
+
 		register_post_status('mprm-cooking', array(
 			'label' => _x('Cooking', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,

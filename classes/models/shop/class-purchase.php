@@ -23,10 +23,12 @@ class Purchase extends Model {
 
 	/**
 	 * Purchase form
+	 *
+	 * @return void|boolean
 	 */
 	public function process_purchase_form() {
-
 		do_action('mprm_pre_process_purchase');
+
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {
 			$valid_data = false;
@@ -59,7 +61,6 @@ class Purchase extends Model {
 				do_action('mprm_ajax_checkout_errors');
 				$this->get('misc')->mprm_die();
 			} else {
-
 				return false;
 			}
 		}
@@ -183,6 +184,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Purchase form validate gateway
+	 *
 	 * @return string
 	 */
 	public function purchase_form_validate_gateway() {
@@ -200,6 +203,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Purchase form validate discounts
+	 *
 	 * @return string
 	 */
 	public function purchase_form_validate_discounts() {
@@ -243,6 +248,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Purchase form validate cc
+	 *
 	 * @return array
 	 */
 	public function purchase_form_validate_cc() {
@@ -466,6 +473,9 @@ class Purchase extends Model {
 		return $number;
 	}
 
+	/**
+	 * Validate agree to terms
+	 */
 	public function purchase_form_validate_agree_to_terms() {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
@@ -516,6 +526,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Required fields
+	 *
 	 * @return mixed|void
 	 */
 	public function purchase_form_required_fields() {
@@ -553,6 +565,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate new user
+	 *
 	 * @return array
 	 */
 	public function purchase_form_validate_new_user() {
@@ -640,6 +654,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate user login
+	 *
 	 * @return array
 	 */
 	public function purchase_form_validate_user_login() {
@@ -696,6 +712,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate guest user
+	 *
 	 * @return array
 	 */
 	public function purchase_form_validate_guest_user() {
@@ -733,6 +751,9 @@ class Purchase extends Model {
 		return $valid_user_data;
 	}
 
+	/**
+	 * Process purchase login
+	 */
 	public function process_purchase_login() {
 		$is_ajax = isset($_POST['mprm_ajax']);
 		$user_data = $this->purchase_form_validate_user_login();
@@ -754,6 +775,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Get purchase form user
+	 *
 	 * @param array $valid_data
 	 *
 	 * @return bool
@@ -817,6 +840,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Register and login new user
+	 *
 	 * @param array $user_data
 	 *
 	 * @return int|\WP_Error
@@ -855,6 +880,7 @@ class Purchase extends Model {
 	 * Check purchase email
 	 *
 	 * @param $valid_data
+	 *
 	 * @param $posted
 	 */
 	public function check_purchase_email($valid_data, $posted) {
@@ -890,11 +916,9 @@ class Purchase extends Model {
 		}
 	}
 
-	public function checkout_before_gateway() {
-
-	}
-
 	/**
+	 * Process straight to gateway
+	 *
 	 * @param $data
 	 */
 	public function process_straight_to_gateway($data) {
@@ -909,6 +933,9 @@ class Purchase extends Model {
 		$this->get('gateways')->send_to_gateway($purchase_data['gateway'], $purchase_data);
 	}
 
+	/**
+	 * Init purchase actions
+	 */
 	public function init_action() {
 		add_action('mprm_straight_to_gateway', array($this, 'process_straight_to_gateway'));
 		add_action('mprm_purchase', array($this, 'process_purchase_form'));
@@ -917,6 +944,5 @@ class Purchase extends Model {
 		add_action('mprm_checkout_error_checks', array($this, 'check_purchase_email'), 10, 2);
 		add_action('wp_ajax_mprm_process_checkout_login', array($this, 'process_purchase_login'));
 		add_action('wp_ajax_nopriv_mprm_process_checkout_login', array($this, 'process_purchase_login'));
-		add_action('mprm_checkout_before_gateway', array($this, 'checkout_before_gateway'), 10, 3);
 	}
 }

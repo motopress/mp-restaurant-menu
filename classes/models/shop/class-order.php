@@ -6,9 +6,11 @@ use mp_restaurant_menu\classes\View;
 
 /**
  * Class Order
+ *
  * @package mp_restaurant_menu\classes\models
  */
 final class Order extends Model {
+
 	protected static $instance;
 
 	public $ID = 0;
@@ -103,6 +105,8 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup payment by ID
+	 *
 	 * @param $payment_id
 	 *
 	 * @return bool
@@ -120,14 +124,19 @@ final class Order extends Model {
 		if ('mprm_order' !== $payment->post_type) {
 			return false;
 		}
+
 		// Allow extensions to perform actions before the payment is loaded
 		do_action('mprm_pre_setup_payment', $this, $payment_id);
+
 		// Primary Identifier
 		$this->ID = absint($payment_id);
+
 		// Protected ID that can never be changed
 		$this->_ID = absint($payment_id);
+
 		// We have a payment, get the generic payment_meta item to reduce calls to it
 		$this->payment_meta = $this->get_meta();
+
 		// Status and Dates
 		$this->date = $payment->post_date;
 		$this->completed_date = $this->setup_completed_date();
@@ -142,15 +151,18 @@ final class Order extends Model {
 		$this->fees = $this->setup_fees();
 		$this->cart_details = $this->setup_cart_details();
 		$this->menu_items = $this->setup_menu_items();
+
 		// Currency Based
 		$this->total = $this->setup_total();
 		$this->tax = $this->setup_tax();
 		$this->fees_total = $this->setup_fees_total();
 		$this->subtotal = $this->setup_subtotal();
 		$this->currency = $this->setup_currency();
+
 		// Gateway based
 		$this->gateway = $this->setup_gateway();
 		$this->transaction_id = $this->setup_transaction_id();
+
 		// User based
 		$this->ip = $this->setup_ip();
 		$this->customer_id = $this->setup_customer_id();
@@ -161,22 +173,28 @@ final class Order extends Model {
 		$this->discounts = $this->user_info['discount'];
 		$this->first_name = $this->user_info['first_name'];
 		$this->last_name = $this->user_info['last_name'];
+
 		//additional information
 		$this->phone_number = $this->setup_phone_number();
 		$this->shipping_address = $this->setup_shipping_address();
 		$this->customer_note = $this->setup_customer_note();
+
 		// Other Identifiers
 		$this->key = $this->setup_payment_key();
 		$this->number = $this->setup_payment_number();
 
 		// Additional Attributes
 		$this->has_unlimited_menu_items = $this->setup_has_unlimited();
+
 		// Allow extensions to add items to this object via hook
 		do_action('mprm_setup_payment', $this, $payment_id);
+
 		return true;
 	}
 
 	/**
+	 * Get order meta
+	 *
 	 * @param string $meta_key
 	 * @param bool $single
 	 *
@@ -200,6 +218,8 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup payment key
+	 *
 	 * @return mixed|void
 	 */
 	private function setup_payment_key() {
@@ -385,6 +405,7 @@ final class Order extends Model {
 		);
 		$user_info = isset($this->payment_meta['user_info']) ? maybe_unserialize($this->payment_meta['user_info']) : array();
 		$user_info = wp_parse_args($user_info, $defaults);
+
 		if (empty($user_info)) {
 			// Get the customer, but only if it's been created
 			$customer = new Customer(array('field' => 'id', 'value' => $this->customer_id));
@@ -530,6 +551,7 @@ final class Order extends Model {
 	 */
 	public function init_metaboxes() {
 		//Side meta box
+
 		add_meta_box(
 			'update-order',
 			__('Update Order', 'mp-restaurant-menu'),
@@ -539,6 +561,7 @@ final class Order extends Model {
 			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
+
 		add_meta_box(
 			'order-meta',
 			__('Order Meta', 'mp-restaurant-menu'),
@@ -558,7 +581,6 @@ final class Order extends Model {
 			array('post_type' => $this->get_post_type('order'))
 		);
 
-		//Meta box
 		add_meta_box(
 			'order-purchased',
 			__('Purchased Menu items', 'mp-restaurant-menu'),
@@ -568,6 +590,7 @@ final class Order extends Model {
 			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
+
 		add_meta_box(
 			'customer-notes',
 			__('Order Notes', 'mp-restaurant-menu'),
@@ -577,9 +600,20 @@ final class Order extends Model {
 			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
+
 		add_meta_box(
 			'order-customer',
 			__('Customer Details', 'mp-restaurant-menu'),
+			array($this, 'render_meta_box'),
+			$this->get_post_type('order'),
+			'advanced',
+			'low',
+			array('post_type' => $this->get_post_type('order'))
+		);
+
+		add_meta_box(
+			'order-delivery',
+			__('Delivery details', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -596,6 +630,7 @@ final class Order extends Model {
 			'low',
 			array('post_type' => $this->get_post_type('order'))
 		);
+
 		add_meta_box(
 			'order-notes',
 			__('Payment Notes', 'mp-restaurant-menu'),
@@ -605,18 +640,18 @@ final class Order extends Model {
 			'low',
 			array('post_type' => $this->get_post_type('order'))
 		);
-
-
 	}
 
 	/**
+	 * Render meta box
+	 *
 	 * @param \WP_Post $post
 	 * @param array $params
 	 */
 	public function render_meta_box(\WP_Post $post, array $params) {
 		// add nonce field
 		wp_nonce_field('mp-restaurant-menu' . '_nonce', 'mp-restaurant-menu' . '_nonce_box');
-		// render Metabox html
+		// render Meta-box html
 		$data['name'] = $params['id'];
 		$data['title'] = $params['title'];
 		$data['value'] = get_post_meta($post->ID, $params['id'], true);
@@ -636,7 +671,7 @@ final class Order extends Model {
 		$columns['cb'] = $existing_columns['cb'];
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
-		$columns['order_ship_to'] = __('Ship to', 'mp-restaurant-menu');
+		$columns['order_ship_to'] = __('Delivery', 'mp-restaurant-menu');
 		$columns['order_customer_note'] = __('Order note', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
@@ -653,8 +688,9 @@ final class Order extends Model {
 	 */
 	public function render_order_columns($column) {
 		global $post;
+
 		$this->setup_payment($post->ID);
-		
+
 		switch ($column) {
 			case 'order_status':
 				echo ucfirst($this->get('payments')->get_payment_status($post));
@@ -681,7 +717,6 @@ final class Order extends Model {
 						} else {
 							$username = $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . '<br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
 						}
-
 					}
 				} else {
 					if ($post->billing_first_name || $post->billing_last_name) {
@@ -719,6 +754,7 @@ final class Order extends Model {
 			default:
 				break;
 		}
+
 		return $column;
 	}
 

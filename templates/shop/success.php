@@ -111,6 +111,7 @@ if (isset($need_login) && $need_login) {
 			<td><?php echo $order->customer_note; ?></td>
 		</tr>
 	<?php endif; ?>
+
 	<?php if (!empty($order->shipping_address)) : ?>
 		<tr>
 			<td><strong><?php _e('Shipping address', 'mp-restaurant-menu'); ?></strong></td>
@@ -122,6 +123,7 @@ if (isset($need_login) && $need_login) {
 	</tbody>
 </table>
 <?php do_action('mprm_payment_receipt_after_table', $order, $receipt_args); ?>
+
 <?php if (filter_var($receipt_args['products'], FILTER_VALIDATE_BOOLEAN)) : ?>
 	<h3><?php echo apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')); ?></h3>
 	<table id="mprm_purchase_receipt_products">
