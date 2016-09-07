@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2016-09-02 11:17+0300\n"
-"PO-Revision-Date: 2016-09-02 11:16+0300\n"
+"POT-Creation-Date: 2016-09-07 14:34+0300\n"
+"PO-Revision-Date: 2016-09-07 14:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Search Customers"
 msgstr ""
 
-#: admin/customers/overview.php:22 classes/models/shop/class-order.php:580
+#: admin/customers/overview.php:22 classes/models/shop/class-order.php:582
 msgid "Customer Details"
 msgstr ""
 
@@ -114,17 +114,17 @@ msgid "Import"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:3 admin/quick-edit/menu-item.php:71
-#: templates-functions/restaurant-menu-functions.php:1450
+#: templates-functions/restaurant-menu-functions.php:1479
 msgid "Weight"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:8 admin/quick-edit/menu-item.php:76
-#: templates-functions/restaurant-menu-functions.php:1449
+#: templates-functions/restaurant-menu-functions.php:1478
 msgid "Volume"
 msgstr ""
 
 #: admin/metaboxes/attributes.php:13 admin/quick-edit/menu-item.php:81
-#: templates-functions/restaurant-menu-functions.php:1448
+#: templates-functions/restaurant-menu-functions.php:1477
 msgid "Size"
 msgstr ""
 
@@ -147,37 +147,37 @@ msgid "Add images"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:3 admin/quick-edit/menu-item.php:24
-#: templates-functions/restaurant-menu-functions.php:1428
+#: templates-functions/restaurant-menu-functions.php:1457
 msgid "Calories"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:8 admin/quick-edit/menu-item.php:30
-#: templates-functions/restaurant-menu-functions.php:1429
+#: templates-functions/restaurant-menu-functions.php:1458
 msgid "Cholesterol"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:13 admin/quick-edit/menu-item.php:36
-#: templates-functions/restaurant-menu-functions.php:1430
+#: templates-functions/restaurant-menu-functions.php:1459
 msgid "Fiber"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:18 admin/quick-edit/menu-item.php:42
-#: templates-functions/restaurant-menu-functions.php:1431
+#: templates-functions/restaurant-menu-functions.php:1460
 msgid "Sodium"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:23 admin/quick-edit/menu-item.php:48
-#: templates-functions/restaurant-menu-functions.php:1432
+#: templates-functions/restaurant-menu-functions.php:1461
 msgid "Carbohydrates"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:28 admin/quick-edit/menu-item.php:54
-#: templates-functions/restaurant-menu-functions.php:1433
+#: templates-functions/restaurant-menu-functions.php:1462
 msgid "Fat"
 msgstr ""
 
 #: admin/metaboxes/nutritional.php:33 admin/quick-edit/menu-item.php:59
-#: templates-functions/restaurant-menu-functions.php:1434
+#: templates-functions/restaurant-menu-functions.php:1463
 msgid "Protein"
 msgstr ""
 
@@ -276,40 +276,40 @@ msgstr ""
 msgid "Add Note"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:61
+#: admin/metaboxes/order/order-purchased.php:62
 #: templates/widgets/cart/index.php:23 templates/widgets/cart/index.php:32
 msgid "Total:"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:68
+#: admin/metaboxes/order/order-purchased.php:69
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:15
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:22
 #: classes/models/settings/class-settings.php:1024
-#: configs/language-admin-js.php:36 templates/shop/checkout-cart.php:62
+#: configs/language-admin-js.php:39 templates/shop/checkout-cart.php:62
 #: templates/shop/checkout-cart.php:81
 msgid "Remove"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:85
 #: admin/metaboxes/order/order-purchased.php:86
+#: admin/metaboxes/order/order-purchased.php:87
 #: templates-functions/restaurant-menu-shop-functions.php:1005
 msgid "Select a Menu item"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:93 templates/shop/success.php:134
+#: admin/metaboxes/order/order-purchased.php:94 templates/shop/success.php:134
 msgid "Quantity"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:104
+#: admin/metaboxes/order/order-purchased.php:105
 msgid "Item Price: "
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:112
+#: admin/metaboxes/order/order-purchased.php:113
 #, php-format
 msgid "Add %s to Payment"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:122
+#: admin/metaboxes/order/order-purchased.php:121
 #, php-format
 msgid "No %s included with this purchase"
 msgstr ""
@@ -406,188 +406,208 @@ msgstr ""
 msgid "Show menu items"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:14 admin/popups/add-shortcodes.php:23
-#: admin/widgets/category/form.php:7 admin/widgets/menu/form.php:6
+#: admin/popups/add-shortcodes.php:17
+msgid "Overlay color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:23
+msgid "Hover color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:29
+msgid "Text color"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:35 admin/popups/shortcode-mprm_items.php:76
+#: admin/widgets/menu/form.php:68
+#: classes/shortcodes/class-shortcode-item.php:106
+msgid "Show attributes"
+msgstr ""
+
+#: admin/popups/add-shortcodes.php:43
+msgid "Insert shortcode"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_categories.php:2
+#: admin/popups/shortcode-mprm_items.php:2 admin/widgets/category/form.php:7
+#: admin/widgets/menu/form.php:6
 #: classes/shortcodes/class-shortcode-category.php:52
 #: classes/shortcodes/class-shortcode-item.php:53
 msgid "View mode"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:17 admin/popups/add-shortcodes.php:26
-#: admin/widgets/category/form.php:9 admin/widgets/menu/form.php:9
-#: classes/class-media.php:236
+#: admin/popups/shortcode-mprm_categories.php:5
+#: admin/popups/shortcode-mprm_items.php:5 admin/widgets/category/form.php:9
+#: admin/widgets/menu/form.php:9 classes/class-media.php:236
 #: classes/shortcodes/class-shortcode-category.php:53
-#: classes/shortcodes/class-shortcode-item.php:54 configs/settings.php:12
+#: classes/shortcodes/class-shortcode-item.php:54
 msgid "Grid"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:18 admin/popups/add-shortcodes.php:27
-#: admin/widgets/category/form.php:10 admin/widgets/menu/form.php:10
-#: classes/class-media.php:237
+#: admin/popups/shortcode-mprm_categories.php:6
+#: admin/popups/shortcode-mprm_items.php:6 admin/widgets/category/form.php:10
+#: admin/widgets/menu/form.php:10 classes/class-media.php:237
 #: classes/shortcodes/class-shortcode-category.php:53
-#: classes/shortcodes/class-shortcode-item.php:54 configs/settings.php:16
+#: classes/shortcodes/class-shortcode-item.php:54
 msgid "List"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:28 admin/widgets/menu/form.php:11
-#: classes/shortcodes/class-shortcode-item.php:54
-msgid "Simple list"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:33 admin/widgets/category/form.php:14
+#: admin/popups/shortcode-mprm_categories.php:11
+#: admin/popups/shortcode-mprm_items.php:12 admin/widgets/category/form.php:14
 #: admin/widgets/menu/form.php:15 classes/class-media.php:104
-#: classes/modules/class-post.php:250
+#: classes/modules/class-post.php:251
 #: classes/shortcodes/class-shortcode-category.php:58
 #: classes/shortcodes/class-shortcode-item.php:59
 msgid "Categories"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:45 admin/widgets/menu/form.php:27
-#: classes/class-media.php:111 classes/modules/class-post.php:249
-#: classes/shortcodes/class-shortcode-item.php:63
-msgid "Tags"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:57 admin/widgets/menu/form.php:37
-#: classes/shortcodes/class-shortcode-item.php:67
-msgid "Menu item IDs"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:63 admin/widgets/category/form.php:26
+#: admin/popups/shortcode-mprm_categories.php:23
+#: admin/popups/shortcode-mprm_items.php:42 admin/widgets/category/form.php:26
 #: admin/widgets/menu/form.php:41
 #: classes/shortcodes/class-shortcode-category.php:62
 #: classes/shortcodes/class-shortcode-item.php:71
 msgid "Columns"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:66 admin/widgets/category/form.php:28
+#: admin/popups/shortcode-mprm_categories.php:26
+#: admin/popups/shortcode-mprm_items.php:45 admin/widgets/category/form.php:28
 #: admin/widgets/menu/form.php:43
 msgid "column"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:67 admin/popups/add-shortcodes.php:68
-#: admin/popups/add-shortcodes.php:69 admin/popups/add-shortcodes.php:70
-#: admin/widgets/category/form.php:29 admin/widgets/category/form.php:30
-#: admin/widgets/category/form.php:31 admin/widgets/category/form.php:32
-#: admin/widgets/menu/form.php:44 admin/widgets/menu/form.php:45
-#: admin/widgets/menu/form.php:46 admin/widgets/menu/form.php:47
+#: admin/popups/shortcode-mprm_categories.php:27
+#: admin/popups/shortcode-mprm_categories.php:28
+#: admin/popups/shortcode-mprm_categories.php:29
+#: admin/popups/shortcode-mprm_categories.php:30
+#: admin/popups/shortcode-mprm_items.php:46
+#: admin/popups/shortcode-mprm_items.php:47
+#: admin/popups/shortcode-mprm_items.php:48
+#: admin/popups/shortcode-mprm_items.php:49 admin/widgets/category/form.php:29
+#: admin/widgets/category/form.php:30 admin/widgets/category/form.php:31
+#: admin/widgets/category/form.php:32 admin/widgets/menu/form.php:44
+#: admin/widgets/menu/form.php:45 admin/widgets/menu/form.php:46
+#: admin/widgets/menu/form.php:47
 msgid "columns"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:76
-msgid "Price position:"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:79 admin/widgets/menu/form.php:53
-#: classes/shortcodes/class-shortcode-item.php:94
-msgid "Dotted line and price on the right"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:80 admin/widgets/menu/form.php:54
-#: classes/shortcodes/class-shortcode-item.php:95
-msgid "Price on the right"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:81 admin/widgets/menu/form.php:55
-#: classes/shortcodes/class-shortcode-item.php:96
-msgid "Price next to the title"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:88 admin/popups/add-shortcodes.php:146
-#: admin/widgets/category/form.php:37 admin/widgets/menu/form.php:59
+#: admin/popups/shortcode-mprm_categories.php:35
+#: admin/popups/shortcode-mprm_items.php:66 admin/widgets/category/form.php:37
+#: admin/widgets/menu/form.php:59
 #: classes/shortcodes/class-shortcode-category.php:73
 #: classes/shortcodes/class-shortcode-item.php:82
 msgid "Show category name"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:91 admin/widgets/menu/form.php:61
-#: classes/shortcodes/class-shortcode-item.php:84
-msgid "Only text"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:92 admin/widgets/menu/form.php:62
-#: classes/shortcodes/class-shortcode-item.php:85
-msgid "Title with image"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:93 admin/widgets/menu/form.php:63
-#: classes/shortcodes/class-shortcode-item.php:86
-msgid "Don`t show"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:98 admin/popups/add-shortcodes.php:122
-#: admin/widgets/menu/form.php:68
-#: classes/shortcodes/class-shortcode-item.php:106
-msgid "Show attributes"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:104 admin/widgets/menu/form.php:72
-#: classes/shortcodes/class-shortcode-item.php:112
-msgid "Show featured image"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:110 admin/widgets/menu/form.php:76
-#: classes/shortcodes/class-shortcode-item.php:118
-msgid "Show excerpt"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:116 admin/widgets/menu/form.php:81
-#: classes/shortcodes/class-shortcode-item.php:124
-msgid "Show price"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:128 admin/widgets/menu/form.php:85
-#: classes/shortcodes/class-shortcode-item.php:130
-msgid "Show tags"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:134 admin/widgets/menu/form.php:89
-#: classes/shortcodes/class-shortcode-item.php:136
-msgid "Show ingredients"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:140 admin/widgets/menu/form.php:93
-#: classes/shortcodes/class-shortcode-item.php:142
-msgid "Link item"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:152 admin/widgets/category/form.php:41
+#: admin/popups/shortcode-mprm_categories.php:41
+#: admin/widgets/category/form.php:41
 #: classes/shortcodes/class-shortcode-category.php:79
 msgid "Show category featured image"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:158 admin/widgets/category/form.php:45
+#: admin/popups/shortcode-mprm_categories.php:47
+#: admin/widgets/category/form.php:45
 #: classes/shortcodes/class-shortcode-category.php:85
 msgid "Show category icon"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:164 admin/widgets/category/form.php:49
+#: admin/popups/shortcode-mprm_categories.php:53
+#: admin/widgets/category/form.php:49
 #: classes/shortcodes/class-shortcode-category.php:91
 msgid "Show category description"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:170
-msgid "Overlay color"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:176
-msgid "Hover color"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:182
-msgid "Text color"
-msgstr ""
-
-#: admin/popups/add-shortcodes.php:188 admin/widgets/category/form.php:52
+#: admin/popups/shortcode-mprm_categories.php:59
+#: admin/popups/shortcode-mprm_items.php:127 admin/widgets/category/form.php:52
 #: classes/shortcodes/class-shortcode-category.php:97
 msgid "Description length"
 msgstr ""
 
-#: admin/popups/add-shortcodes.php:196
-msgid "Insert shortcode"
+#: admin/popups/shortcode-mprm_items.php:7 admin/widgets/menu/form.php:11
+#: classes/shortcodes/class-shortcode-item.php:54
+msgid "Simple list"
 msgstr ""
 
-#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:251
+#: admin/popups/shortcode-mprm_items.php:24 admin/widgets/menu/form.php:27
+#: classes/class-media.php:111 classes/modules/class-post.php:250
+#: classes/shortcodes/class-shortcode-item.php:63
+msgid "Tags"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:36 admin/widgets/menu/form.php:37
+#: classes/shortcodes/class-shortcode-item.php:67
+msgid "Menu item IDs"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:55
+msgid "Price position:"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:58 admin/widgets/menu/form.php:53
+#: classes/shortcodes/class-shortcode-item.php:94
+msgid "Dotted line and price on the right"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:59 admin/widgets/menu/form.php:54
+#: classes/shortcodes/class-shortcode-item.php:95
+msgid "Price on the right"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:60 admin/widgets/menu/form.php:55
+#: classes/shortcodes/class-shortcode-item.php:96
+msgid "Price next to the title"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:69 admin/widgets/menu/form.php:61
+#: classes/shortcodes/class-shortcode-item.php:84
+msgid "Only text"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:70 admin/widgets/menu/form.php:62
+#: classes/shortcodes/class-shortcode-item.php:85
+msgid "Title with image"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:71 admin/widgets/menu/form.php:63
+#: classes/shortcodes/class-shortcode-item.php:86
+msgid "Don`t show"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:82 admin/widgets/menu/form.php:72
+#: classes/shortcodes/class-shortcode-item.php:112
+msgid "Show featured image"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:88 admin/widgets/menu/form.php:76
+#: classes/shortcodes/class-shortcode-item.php:118
+msgid "Show excerpt"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:94 admin/widgets/menu/form.php:81
+#: classes/shortcodes/class-shortcode-item.php:124
+msgid "Show price"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:100 admin/widgets/menu/form.php:85
+#: classes/shortcodes/class-shortcode-item.php:130
+msgid "Show tags"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:106 admin/widgets/menu/form.php:89
+#: classes/shortcodes/class-shortcode-item.php:136
+msgid "Show ingredients"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:113 admin/widgets/menu/form.php:94
+#: classes/shortcodes/class-shortcode-item.php:142
+msgid "Show buy button"
+msgstr ""
+
+#: admin/popups/shortcode-mprm_items.php:120 admin/widgets/menu/form.php:99
+#: classes/shortcodes/class-shortcode-item.php:148
+msgid "Link item"
+msgstr ""
+
+#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:252
 #: configs/metaboxes.php:15 templates-functions/theme-support-functions.php:12
 #: templates/shop/checkout-cart.php:13 templates/shop/success.php:136
 msgid "Price"
@@ -623,8 +643,7 @@ msgid "None"
 msgstr ""
 
 #: admin/shop/buy-plugin-form.php:15 admin/shop/buy-theme-form.php:20
-#: configs/settings.php:28 templates/widgets/cart/index.php:24
-#: templates/widgets/cart/index.php:33
+#: templates/widgets/cart/index.php:24 templates/widgets/cart/index.php:33
 msgid "Checkout"
 msgstr ""
 
@@ -644,7 +663,7 @@ msgstr ""
 
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:2
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:2
-#: classes/models/shop/class-order.php:635
+#: classes/models/shop/class-order.php:637
 msgid "Order"
 msgstr ""
 
@@ -672,8 +691,8 @@ msgstr ""
 msgid "Price position"
 msgstr ""
 
-#: admin/widgets/menu/form.php:96
-#: classes/shortcodes/class-shortcode-item.php:148
+#: admin/widgets/menu/form.php:102
+#: classes/shortcodes/class-shortcode-item.php:154
 msgid "Excerpt length"
 msgstr ""
 
@@ -823,7 +842,7 @@ msgstr ""
 msgid "Restaurant Menu"
 msgstr ""
 
-#: classes/class-media.php:89 classes/shortcodes/class-shortcode-item.php:151
+#: classes/class-media.php:89 classes/shortcodes/class-shortcode-item.php:157
 msgid "Menu Items"
 msgstr ""
 
@@ -1343,7 +1362,7 @@ msgstr ""
 msgid "Text shown on the Add to Cart Buttons."
 msgstr ""
 
-#: classes/class-media.php:757 classes/models/class-menu-item.php:432
+#: classes/class-media.php:757 classes/models/class-menu-item.php:433
 #: classes/models/settings/class-settings.php:116
 msgid "Add to Cart"
 msgstr ""
@@ -1487,21 +1506,20 @@ msgid "Large"
 msgstr ""
 
 #: classes/class-media.php:987 classes/class-media.php:1260
-#: classes/models/class-menu-item.php:751
+#: classes/models/class-menu-item.php:752
 msgid "Menu item"
 msgstr ""
 
 #: classes/class-media.php:988 classes/class-media.php:1259
-#: classes/class-media.php:1271 classes/models/class-menu-item.php:752
+#: classes/class-media.php:1271 classes/models/class-menu-item.php:753
 msgid "Menu items"
 msgstr ""
 
 #: classes/class-media.php:1021 classes/class-media.php:1501
-#: configs/settings.php:5
 msgid "General"
 msgstr ""
 
-#: classes/class-media.php:1022 configs/settings.php:8
+#: classes/class-media.php:1022
 msgid "Currency Settings"
 msgstr ""
 
@@ -1783,7 +1801,7 @@ msgid "You do not have permission to edit this payment record"
 msgstr ""
 
 #: classes/models/class-emails.php:213 classes/models/class-errors.php:33
-#: classes/models/shop/class-payments.php:426
+#: classes/models/shop/class-payments.php:428
 #: classes/models/shop/gateways/class-shop-gateways.php:211
 #: classes/models/shop/gateways/manual-payment-class.php:27
 #: classes/models/shop/gateways/paypal-standard.php:28
@@ -2082,19 +2100,19 @@ msgstr ""
 msgid "Remember to update the passwords and roles of imported users."
 msgstr ""
 
-#: classes/models/class-menu-item.php:420
+#: classes/models/class-menu-item.php:421
 #, php-format
 msgid ""
 "No checkout page has been configured. Visit <a href=\"%s\">Settings</a> to "
 "set one."
 msgstr ""
 
-#: classes/models/class-menu-item.php:432
+#: classes/models/class-menu-item.php:433
 #: classes/models/settings/class-settings.php:117
 msgid "Buy Now"
 msgstr ""
 
-#: classes/models/class-menu-item.php:475
+#: classes/models/class-menu-item.php:476
 msgid "Free"
 msgstr ""
 
@@ -3234,128 +3252,128 @@ msgstr ""
 msgid "This discount is not valid for the cart contents."
 msgstr ""
 
-#: classes/models/shop/class-order.php:533
+#: classes/models/shop/class-order.php:535
 msgid "Update Order"
 msgstr ""
 
-#: classes/models/shop/class-order.php:542
+#: classes/models/shop/class-order.php:544
 msgid "Order Meta"
 msgstr ""
 
-#: classes/models/shop/class-order.php:551
+#: classes/models/shop/class-order.php:553
 msgid "Order logs"
 msgstr ""
 
-#: classes/models/shop/class-order.php:562
+#: classes/models/shop/class-order.php:564
 msgid "Purchased Menu items"
 msgstr ""
 
-#: classes/models/shop/class-order.php:571 templates/shop/success.php:110
+#: classes/models/shop/class-order.php:573 templates/shop/success.php:110
 msgid "Order Notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:590
+#: classes/models/shop/class-order.php:592
 msgid "Billing Address"
 msgstr ""
 
-#: classes/models/shop/class-order.php:599
+#: classes/models/shop/class-order.php:601
 msgid "Payment Notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:636
+#: classes/models/shop/class-order.php:638
 msgid "Status"
 msgstr ""
 
-#: classes/models/shop/class-order.php:637
+#: classes/models/shop/class-order.php:639
 msgid "Ship to"
 msgstr ""
 
-#: classes/models/shop/class-order.php:638
+#: classes/models/shop/class-order.php:640
 msgid "Order note"
 msgstr ""
 
-#: classes/models/shop/class-order.php:639
+#: classes/models/shop/class-order.php:641
 msgid "Purchased"
 msgstr ""
 
-#: classes/models/shop/class-order.php:640 templates/shop/history.php:12
+#: classes/models/shop/class-order.php:642 templates/shop/history.php:12
 #: templates/shop/success.php:63
 msgid "Date"
 msgstr ""
 
-#: classes/models/shop/class-order.php:641 templates/shop/checkout-cart.php:130
+#: classes/models/shop/class-order.php:643 templates/shop/checkout-cart.php:130
 msgid "Total"
 msgstr ""
 
-#: classes/models/shop/class-order.php:669
-#: classes/models/shop/class-order.php:685
+#: classes/models/shop/class-order.php:672
+#: classes/models/shop/class-order.php:688
 #, php-format
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:687
+#: classes/models/shop/class-order.php:690
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:691
+#: classes/models/shop/class-order.php:694
 #, php-format
 msgctxt "Order number by X"
 msgid "%s by %s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:704
+#: classes/models/shop/class-order.php:707
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/models/shop/class-payments.php:426
+#: classes/models/shop/class-payments.php:428
 msgid "Error Updating Payment"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:438
+#: classes/models/shop/class-payments.php:440
 msgid "New Customers require a name and email address"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:453
+#: classes/models/shop/class-payments.php:455
 msgid "Error creating new customer"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:848
+#: classes/models/shop/class-payments.php:849
 msgid "Pending"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:849
+#: classes/models/shop/class-payments.php:850
 msgid "Complete"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:850
+#: classes/models/shop/class-payments.php:851
 msgid "Refunded"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:851
+#: classes/models/shop/class-payments.php:852
 msgid "Failed"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:852
+#: classes/models/shop/class-payments.php:853
 msgid "Cooking"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:853
+#: classes/models/shop/class-payments.php:854
 msgid "Shipping"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:854
+#: classes/models/shop/class-payments.php:855
 msgid "Shipped"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1527
+#: classes/models/shop/class-payments.php:1528
 msgid "Guest Bot"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1777
+#: classes/models/shop/class-payments.php:1778
 #, php-format
 msgid "Status changed from %s to %s"
 msgstr ""
@@ -3595,7 +3613,6 @@ msgid "Name"
 msgstr ""
 
 #: classes/models/shop/reports/customer-report-class.php:194
-#: configs/settings.php:29
 msgid "Email"
 msgstr ""
 
@@ -3619,91 +3636,91 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: classes/modules/class-post.php:31
+#: classes/modules/class-post.php:32
 msgctxt "Order status"
 msgid "Pending Payment"
 msgstr ""
 
-#: classes/modules/class-post.php:36
+#: classes/modules/class-post.php:37
 #, php-format
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgid_plural "Pending<span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:40
+#: classes/modules/class-post.php:41
 msgctxt "Order status"
 msgid "Completed"
 msgstr ""
 
-#: classes/modules/class-post.php:45
+#: classes/modules/class-post.php:46
 #, php-format
 msgid "Completed <span class=\"count\">(%s)</span>"
 msgid_plural "Completed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:49
+#: classes/modules/class-post.php:50
 msgctxt "Order status"
 msgid "Refunded"
 msgstr ""
 
-#: classes/modules/class-post.php:54
+#: classes/modules/class-post.php:55
 #, php-format
 msgid "Refunded <span class=\"count\">(%s)</span>"
 msgid_plural "Refunded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:58
+#: classes/modules/class-post.php:59
 msgctxt "Order status"
 msgid "Failed"
 msgstr ""
 
-#: classes/modules/class-post.php:63
+#: classes/modules/class-post.php:64
 #, php-format
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:82
+#: classes/modules/class-post.php:83
 msgctxt "Order status"
 msgid "Cooking"
 msgstr ""
 
-#: classes/modules/class-post.php:87
+#: classes/modules/class-post.php:88
 #, php-format
 msgid "Cooking <span class=\"count\">(%s)</span>"
 msgid_plural "Cooking <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:91
+#: classes/modules/class-post.php:92
 msgctxt "Order status"
 msgid "Shipping"
 msgstr ""
 
-#: classes/modules/class-post.php:96
+#: classes/modules/class-post.php:97
 #, php-format
 msgid "Shipping <span class=\"count\">(%s)</span>"
 msgid_plural "Shipping <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:100
+#: classes/modules/class-post.php:101
 msgctxt "Order status"
 msgid "Shipped"
 msgstr ""
 
-#: classes/modules/class-post.php:105
+#: classes/modules/class-post.php:106
 #, php-format
 msgid "Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:248
+#: classes/modules/class-post.php:249
 msgid "Image"
 msgstr ""
 
@@ -3747,6 +3764,7 @@ msgstr ""
 #: classes/shortcodes/class-shortcode-item.php:132
 #: classes/shortcodes/class-shortcode-item.php:138
 #: classes/shortcodes/class-shortcode-item.php:144
+#: classes/shortcodes/class-shortcode-item.php:150
 msgid "Yes"
 msgstr ""
 
@@ -3761,6 +3779,7 @@ msgstr ""
 #: classes/shortcodes/class-shortcode-item.php:132
 #: classes/shortcodes/class-shortcode-item.php:138
 #: classes/shortcodes/class-shortcode-item.php:144
+#: classes/shortcodes/class-shortcode-item.php:150
 msgid "No"
 msgstr ""
 
@@ -3903,20 +3922,24 @@ msgstr ""
 msgid "Quantity must be numeric"
 msgstr ""
 
-#: configs/language-admin-js.php:37
+#: configs/language-admin-js.php:31
+msgid "Tax must be numeric"
+msgstr ""
+
+#: configs/language-admin-js.php:40
 #, php-format
 msgid "Type to search %s"
 msgstr ""
 
-#: configs/language-admin-js.php:39
+#: configs/language-admin-js.php:42
 msgid "You must choose a method."
 msgstr ""
 
-#: configs/language-admin-js.php:40
+#: configs/language-admin-js.php:43
 msgid "Required fields not completed."
 msgstr ""
 
-#: configs/language-admin-js.php:41
+#: configs/language-admin-js.php:44
 msgid ""
 "Are you sure you want to reset your store? This process is <strong><em>not "
 "reversible</em></strong>. Please be sure you have a recent backup."
@@ -3930,30 +3953,6 @@ msgstr ""
 
 #: configs/metaboxes.php:50
 msgid "Image Gallery"
-msgstr ""
-
-#: configs/settings.php:7
-msgid "General Settings"
-msgstr ""
-
-#: configs/settings.php:21
-msgid "Left"
-msgstr ""
-
-#: configs/settings.php:22
-msgid "Right"
-msgstr ""
-
-#: configs/settings.php:23
-msgid "Left with space"
-msgstr ""
-
-#: configs/settings.php:24
-msgid "Right with space"
-msgstr ""
-
-#: configs/settings.php:27 templates/shop/success.php:126
-msgid "Products"
 msgstr ""
 
 #: templates-functions/cart-restaurant-menu-functions.php:182
@@ -3985,7 +3984,7 @@ msgstr ""
 msgid "%1$sView it in your browser %2$s"
 msgstr ""
 
-#: templates-functions/restaurant-menu-functions.php:1287
+#: templates-functions/restaurant-menu-functions.php:1316
 msgid "Home"
 msgstr ""
 
@@ -4361,6 +4360,10 @@ msgstr ""
 
 #: templates/shop/success.php:116
 msgid "Shipping address"
+msgstr ""
+
+#: templates/shop/success.php:126
+msgid "Products"
 msgstr ""
 
 #: templates/shop/user-info-fields.php:7

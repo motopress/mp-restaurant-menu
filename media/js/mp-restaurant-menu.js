@@ -1248,7 +1248,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 					}
 				});
 			},
-			
+
 			settingsUpload: function() {
 				// Settings Upload field JS
 

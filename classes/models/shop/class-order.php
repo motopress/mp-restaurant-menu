@@ -653,7 +653,8 @@ final class Order extends Model {
 	 */
 	public function render_order_columns($column) {
 		global $post;
-		$order = new $this($post->ID);
+		$this->setup_payment($post->ID);
+		
 		switch ($column) {
 			case 'order_status':
 				echo ucfirst($this->get('payments')->get_payment_status($post));
@@ -664,7 +665,7 @@ final class Order extends Model {
 					$user_info = get_userdata($order_user);
 				}
 				if (!empty($user_info)) {
-					if (empty($order->user_info)) {
+					if (empty($this->user_info)) {
 
 						$username = '<a href="user-edit.php?user_id=' . absint($user_info->ID) . '">';
 						if ($user_info->first_name || $user_info->last_name) {
@@ -674,11 +675,11 @@ final class Order extends Model {
 						}
 						$username .= '</a>';
 					} else {
-						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $order->user_info['email']));
+						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $this->user_info['email']));
 						if (!empty($customer)) {
-							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . ' </a><br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
+							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . ' </a><br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
 						} else {
-							$username = $order->user_info['first_name'] . ' ' . $order->user_info['last_name'] . '<br> <a href="tel:' . $order->phone_number . '">' . $order->phone_number . '</a>';
+							$username = $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . '<br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
 						}
 
 					}
@@ -697,23 +698,23 @@ final class Order extends Model {
 
 				break;
 			case 'order_ship_to':
-				echo $order->shipping_address;
+				echo $this->shipping_address;
 				break;
 			case 'order_customer_note':
-				echo $order->customer_note;
+				echo $this->customer_note;
 				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($order->menu_items), 'mp-restaurant-menu'), count($order->menu_items)), $order) . '</a>';
-				if (sizeof($order->menu_items) > 0) {
+				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this) . '</a>';
+				if (sizeof($this->menu_items) > 0) {
 				}
 				break;
 			case 'order_date' :
-				$date = strtotime($order->date);
+				$date = strtotime($this->date);
 				$value = date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date);
 				echo $value;
 				break;
 			case 'order_total' :
-				echo mprm_currency_filter(mprm_format_amount($order->total));
+				echo mprm_currency_filter(mprm_format_amount($this->total));
 				break;
 			default:
 				break;
@@ -1070,6 +1071,48 @@ final class Order extends Model {
 			return false; // We still need the proper Menu item ID to be sure.
 		}
 		return $cart_index;
+	}
+
+	/**
+	 * @param $item_id
+	 * @param $args
+	 * @param $found_cart_key
+	 */
+	public function apply_remove_args($item_id, $args, $found_cart_key) {
+		$orig_quantity = $this->cart_details[$found_cart_key]['quantity'];
+
+		if ($orig_quantity > $args['quantity']) {
+			$this->cart_details[$found_cart_key]['quantity'] -= $args['quantity'];
+			$item_price = $this->cart_details[$found_cart_key]['item_price'];
+			$tax = $this->cart_details[$found_cart_key]['tax'];
+			$discount = !empty($this->cart_details[$found_cart_key]['discount']) ? $this->cart_details[$found_cart_key]['discount'] : 0;
+			// The total reduction equals the number removed * the item_price
+			$total_reduced = round($item_price * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
+			$tax_reduced = round(($tax / $orig_quantity) * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
+			$new_quantity = $this->cart_details[$found_cart_key]['quantity'];
+			$new_tax = $this->cart_details[$found_cart_key]['tax'] - $tax_reduced;
+			$new_subtotal = $new_quantity * $item_price;
+			$new_discount = 0;
+			$new_total = 0;
+			$this->cart_details[$found_cart_key]['subtotal'] = $new_subtotal;
+			$this->cart_details[$found_cart_key]['discount'] = $new_discount;
+			$this->cart_details[$found_cart_key]['tax'] = $new_tax;
+			$this->cart_details[$found_cart_key]['price'] = $new_subtotal - $new_discount + $new_tax;
+		} else {
+			$total_reduced = $this->cart_details[$found_cart_key]['item_price'];
+			$tax_reduced = $this->cart_details[$found_cart_key]['tax'];
+			unset($this->cart_details[$found_cart_key]);
+		}
+
+		$pending_args = $args;
+		$pending_args['id'] = $item_id;
+		$pending_args['amount'] = $total_reduced;
+		$pending_args['price_id'] = false !== $args['price_id'] ? $args['price_id'] : false;
+		$pending_args['quantity'] = $args['quantity'];
+		$pending_args['action'] = 'remove';
+		$this->pending['menu_items'][] = $pending_args;
+		$this->decrease_subtotal($total_reduced);
+		$this->decrease_tax($tax_reduced);
 	}
 
 	/**
@@ -1739,48 +1782,6 @@ final class Order extends Model {
 	 */
 	public function array_convert() {
 		return get_object_vars($this);
-	}
-
-	/**
-	 * @param $item_id
-	 * @param $args
-	 * @param $found_cart_key
-	 */
-	public function apply_remove_args($item_id, $args, $found_cart_key) {
-		$orig_quantity = $this->cart_details[$found_cart_key]['quantity'];
-
-		if ($orig_quantity > $args['quantity']) {
-			$this->cart_details[$found_cart_key]['quantity'] -= $args['quantity'];
-			$item_price = $this->cart_details[$found_cart_key]['item_price'];
-			$tax = $this->cart_details[$found_cart_key]['tax'];
-			$discount = !empty($this->cart_details[$found_cart_key]['discount']) ? $this->cart_details[$found_cart_key]['discount'] : 0;
-			// The total reduction equals the number removed * the item_price
-			$total_reduced = round($item_price * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
-			$tax_reduced = round(($tax / $orig_quantity) * $args['quantity'], $this->get('formatting')->currency_decimal_filter());
-			$new_quantity = $this->cart_details[$found_cart_key]['quantity'];
-			$new_tax = $this->cart_details[$found_cart_key]['tax'] - $tax_reduced;
-			$new_subtotal = $new_quantity * $item_price;
-			$new_discount = 0;
-			$new_total = 0;
-			$this->cart_details[$found_cart_key]['subtotal'] = $new_subtotal;
-			$this->cart_details[$found_cart_key]['discount'] = $new_discount;
-			$this->cart_details[$found_cart_key]['tax'] = $new_tax;
-			$this->cart_details[$found_cart_key]['price'] = $new_subtotal - $new_discount + $new_tax;
-		} else {
-			$total_reduced = $this->cart_details[$found_cart_key]['item_price'];
-			$tax_reduced = $this->cart_details[$found_cart_key]['tax'];
-			unset($this->cart_details[$found_cart_key]);
-		}
-
-		$pending_args = $args;
-		$pending_args['id'] = $item_id;
-		$pending_args['amount'] = $total_reduced;
-		$pending_args['price_id'] = false !== $args['price_id'] ? $args['price_id'] : false;
-		$pending_args['quantity'] = $args['quantity'];
-		$pending_args['action'] = 'remove';
-		$this->pending['menu_items'][] = $pending_args;
-		$this->decrease_subtotal($total_reduced);
-		$this->decrease_tax($tax_reduced);
 	}
 
 	/**
