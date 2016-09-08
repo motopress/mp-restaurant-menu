@@ -471,19 +471,19 @@ class Media extends Core {
 							'id' => 'shipping_address',
 							'name' => __('Enable Shipping', 'mp-restaurant-menu'),
 							'desc' => __('Check this box to display shipping address field on the checkout page.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
+							'type' => 'checkbox'
 						),
 						'enforce_ssl' => array(
 							'id' => 'enforce_ssl',
 							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
 							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
+							'type' => 'checkbox'
 						),
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
 							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
 							'desc' => __('Users must be logged-in to purchase menu items.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
+							'type' => 'checkbox'
 						),
 						'show_register_form' => array(
 							'id' => 'show_register_form',
@@ -496,26 +496,25 @@ class Media extends Core {
 								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
 								'login' => __('Login Form Only', 'mp-restaurant-menu'),
 								'none' => __('None', 'mp-restaurant-menu'),
-							),
+							)
 						),
 						'enable_ajax_cart' => array(
 							'id' => 'enable_ajax_cart',
 							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
 							'desc' => __('Check this box to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-							'std' => '1',
+							'type' => 'checkbox'
 						),
 						'redirect_on_add' => array(
 							'id' => 'redirect_on_add',
 							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
 							'desc' => __('Immediately redirect to checkout after adding an item to the cart.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
+							'type' => 'checkbox'
 						),
 						'item_quantities' => array(
 							'id' => 'item_quantities',
 							'name' => __('Items Amount', 'mp-restaurant-menu'),
 							'desc' => __('Allow items amount to be changed on the checkout page.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
+							'type' => 'checkbox'
 						),
 					)
 				)

@@ -691,9 +691,11 @@ class Settings extends Model {
 		} else {
 			$name = 'name="mprm_settings[' . esc_attr($args['id']) . ']"';
 		}
+		$placeholder = !isset($args['placeholder']) ? '' : $args['placeholder'];
+
 		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
 		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
+		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" ' . $name . ' placeholder="' . esc_attr(stripslashes($placeholder)) . '"' . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
 		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 		echo $html;
 	}

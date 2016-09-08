@@ -121,7 +121,7 @@ class Formatting extends Model {
 	public function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');
 		$decimal_sep = $this->get('settings')->get_option('decimal_separator', '.');
-		$number_decimals = $this->get('settings')->get_option('number_decimals', '2');
+		$number_decimals = $this->get('settings')->get_option('number_decimals', '');
 
 		if (!is_numeric($amount)) {
 			$amount = 0;
