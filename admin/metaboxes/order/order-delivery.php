@@ -1,5 +1,8 @@
-<?php global $post;
+<?php
+
+global $post;
 $order = mprm_get_order_object($post);
+
 ?>
 <?php do_action('mprm_delivery_details_before') ?>
 
