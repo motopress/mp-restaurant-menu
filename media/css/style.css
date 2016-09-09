@@ -1297,6 +1297,7 @@ there.
   background: #fff;
 }
 #mprm_checkout_cart td {
+  vertical-align: middle;
   text-align: left;
   border: 1px solid #eee;
   color: #404040;
