@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2016-09-07 14:34+0300\n"
-"PO-Revision-Date: 2016-09-07 14:33+0300\n"
+"POT-Creation-Date: 2016-09-09 15:45+0300\n"
+"PO-Revision-Date: 2016-09-09 15:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Search Customers"
 msgstr ""
 
-#: admin/customers/overview.php:22 classes/models/shop/class-order.php:582
+#: admin/customers/overview.php:22 classes/models/shop/class-order.php:606
 msgid "Customer Details"
 msgstr ""
 
@@ -285,8 +285,8 @@ msgstr ""
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:15
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:22
 #: classes/models/settings/class-settings.php:1024
-#: configs/language-admin-js.php:39 templates/shop/checkout-cart.php:62
-#: templates/shop/checkout-cart.php:81
+#: configs/language-admin-js.php:39 templates/shop/checkout-cart.php:63
+#: templates/shop/checkout-cart.php:82
 msgid "Remove"
 msgstr ""
 
@@ -296,7 +296,7 @@ msgstr ""
 msgid "Select a Menu item"
 msgstr ""
 
-#: admin/metaboxes/order/order-purchased.php:94 templates/shop/success.php:134
+#: admin/metaboxes/order/order-purchased.php:94 templates/shop/success.php:136
 msgid "Quantity"
 msgstr ""
 
@@ -339,7 +339,7 @@ msgid "Fees"
 msgstr ""
 
 #: admin/metaboxes/order/update-order.php:75
-#: templates/shop/checkout-cart.php:120 templates/shop/success.php:91
+#: templates/shop/checkout-cart.php:121 templates/shop/success.php:91
 msgid "Tax"
 msgstr ""
 
@@ -455,7 +455,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:11
 #: admin/popups/shortcode-mprm_items.php:12 admin/widgets/category/form.php:14
 #: admin/widgets/menu/form.php:15 classes/class-media.php:104
-#: classes/modules/class-post.php:251
+#: classes/modules/class-post.php:236
 #: classes/shortcodes/class-shortcode-category.php:58
 #: classes/shortcodes/class-shortcode-item.php:59
 msgid "Categories"
@@ -528,7 +528,7 @@ msgid "Simple list"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:24 admin/widgets/menu/form.php:27
-#: classes/class-media.php:111 classes/modules/class-post.php:250
+#: classes/class-media.php:111 classes/modules/class-post.php:235
 #: classes/shortcodes/class-shortcode-item.php:63
 msgid "Tags"
 msgstr ""
@@ -607,9 +607,9 @@ msgstr ""
 msgid "Link item"
 msgstr ""
 
-#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:252
+#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:237
 #: configs/metaboxes.php:15 templates-functions/theme-support-functions.php:12
-#: templates/shop/checkout-cart.php:13 templates/shop/success.php:136
+#: templates/shop/checkout-cart.php:15 templates/shop/success.php:138
 msgid "Price"
 msgstr ""
 
@@ -617,7 +617,7 @@ msgstr ""
 #: configs/metaboxes.php:44
 #: templates-functions/email-restaurant-menu-functions.php:122
 #: templates-functions/email-restaurant-menu-functions.php:186
-#: templates/shop/success.php:131
+#: templates/shop/success.php:133
 msgid "SKU"
 msgstr ""
 
@@ -663,7 +663,7 @@ msgstr ""
 
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:2
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:2
-#: classes/models/shop/class-order.php:637
+#: classes/models/shop/class-order.php:672
 msgid "Order"
 msgstr ""
 
@@ -1720,7 +1720,7 @@ msgid "The password you entered is incorrect"
 msgstr ""
 
 #: classes/controllers/class-controller-customer.php:82
-#: classes/models/shop/class-purchase.php:693
+#: classes/models/shop/class-purchase.php:709
 msgid "The username you entered does not exist"
 msgstr ""
 
@@ -1801,7 +1801,7 @@ msgid "You do not have permission to edit this payment record"
 msgstr ""
 
 #: classes/models/class-emails.php:213 classes/models/class-errors.php:33
-#: classes/models/shop/class-payments.php:428
+#: classes/models/shop/class-payments.php:431
 #: classes/models/shop/gateways/class-shop-gateways.php:211
 #: classes/models/shop/gateways/manual-payment-class.php:27
 #: classes/models/shop/gateways/paypal-standard.php:28
@@ -3185,32 +3185,32 @@ msgid "excludes %s tax"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:379
-#: classes/models/shop/class-purchase.php:525
+#: classes/models/shop/class-purchase.php:537
 msgid "Please enter a valid email address"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:383
-#: classes/models/shop/class-purchase.php:529
+#: classes/models/shop/class-purchase.php:541
 msgid "Please enter your first name"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:392
-#: classes/models/shop/class-purchase.php:537
+#: classes/models/shop/class-purchase.php:549
 msgid "Please enter your zip / postal code"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:396
-#: classes/models/shop/class-purchase.php:541
+#: classes/models/shop/class-purchase.php:553
 msgid "Please enter your billing city"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:400
-#: classes/models/shop/class-purchase.php:545
+#: classes/models/shop/class-purchase.php:557
 msgid "Please select your billing country"
 msgstr ""
 
 #: classes/models/shop/class-checkout.php:404
-#: classes/models/shop/class-purchase.php:549
+#: classes/models/shop/class-purchase.php:561
 msgid "Please enter billing state / province"
 msgstr ""
 
@@ -3252,224 +3252,228 @@ msgstr ""
 msgid "This discount is not valid for the cart contents."
 msgstr ""
 
-#: classes/models/shop/class-order.php:535
+#: classes/models/shop/class-order.php:557
 msgid "Update Order"
 msgstr ""
 
-#: classes/models/shop/class-order.php:544
+#: classes/models/shop/class-order.php:567
 msgid "Order Meta"
 msgstr ""
 
-#: classes/models/shop/class-order.php:553
+#: classes/models/shop/class-order.php:576
 msgid "Order logs"
 msgstr ""
 
-#: classes/models/shop/class-order.php:564
+#: classes/models/shop/class-order.php:586
 msgid "Purchased Menu items"
 msgstr ""
 
-#: classes/models/shop/class-order.php:573 templates/shop/success.php:110
+#: classes/models/shop/class-order.php:596 templates/shop/success.php:110
 msgid "Order Notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:592
+#: classes/models/shop/class-order.php:616
+msgid "Delivery details"
+msgstr ""
+
+#: classes/models/shop/class-order.php:626
 msgid "Billing Address"
 msgstr ""
 
-#: classes/models/shop/class-order.php:601
+#: classes/models/shop/class-order.php:636
 msgid "Payment Notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:638
+#: classes/models/shop/class-order.php:673
 msgid "Status"
 msgstr ""
 
-#: classes/models/shop/class-order.php:639
-msgid "Ship to"
+#: classes/models/shop/class-order.php:674
+msgid "Delivery"
 msgstr ""
 
-#: classes/models/shop/class-order.php:640
+#: classes/models/shop/class-order.php:675
 msgid "Order note"
 msgstr ""
 
-#: classes/models/shop/class-order.php:641
+#: classes/models/shop/class-order.php:676
 msgid "Purchased"
 msgstr ""
 
-#: classes/models/shop/class-order.php:642 templates/shop/history.php:12
+#: classes/models/shop/class-order.php:677 templates/shop/history.php:12
 #: templates/shop/success.php:63
 msgid "Date"
 msgstr ""
 
-#: classes/models/shop/class-order.php:643 templates/shop/checkout-cart.php:130
+#: classes/models/shop/class-order.php:678 templates/shop/checkout-cart.php:131
 msgid "Total"
 msgstr ""
 
-#: classes/models/shop/class-order.php:672
-#: classes/models/shop/class-order.php:688
+#: classes/models/shop/class-order.php:708
+#: classes/models/shop/class-order.php:723
 #, php-format
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:690
+#: classes/models/shop/class-order.php:725
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:694
+#: classes/models/shop/class-order.php:729
 #, php-format
 msgctxt "Order number by X"
 msgid "%s by %s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:707
+#: classes/models/shop/class-order.php:742
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/models/shop/class-payments.php:428
+#: classes/models/shop/class-payments.php:431
 msgid "Error Updating Payment"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:440
+#: classes/models/shop/class-payments.php:443
 msgid "New Customers require a name and email address"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:455
+#: classes/models/shop/class-payments.php:458
 msgid "Error creating new customer"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:849
+#: classes/models/shop/class-payments.php:854
 msgid "Pending"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:850
+#: classes/models/shop/class-payments.php:855
 msgid "Complete"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:851
+#: classes/models/shop/class-payments.php:856
 msgid "Refunded"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:852
+#: classes/models/shop/class-payments.php:857
 msgid "Failed"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:853
+#: classes/models/shop/class-payments.php:858
 msgid "Cooking"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:854
+#: classes/models/shop/class-payments.php:859
 msgid "Shipping"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:855
+#: classes/models/shop/class-payments.php:860
 msgid "Shipped"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1528
+#: classes/models/shop/class-payments.php:1533
 msgid "Guest Bot"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1778
+#: classes/models/shop/class-payments.php:1783
 #, php-format
 msgid "Status changed from %s to %s"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:33
+#: classes/models/shop/class-purchase.php:35
 #: templates-functions/cart-restaurant-menu-functions.php:168
 #: templates/widgets/cart/index.php:27
 msgid "Your cart is empty."
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:196
+#: classes/models/shop/class-purchase.php:199
 msgid "The selected payment gateway is not enabled"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:218
+#: classes/models/shop/class-purchase.php:223
 msgid "Enter discount"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:240
+#: classes/models/shop/class-purchase.php:245
 msgid "One or more of the discounts you entered is invalid"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:253
+#: classes/models/shop/class-purchase.php:260
 msgid "The zip / postal code you entered for your billing address is invalid"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:473
+#: classes/models/shop/class-purchase.php:483
 msgid "You must agree to the terms of use"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:507
-#: classes/models/shop/class-purchase.php:607
-#: classes/models/shop/class-purchase.php:718
+#: classes/models/shop/class-purchase.php:517
+#: classes/models/shop/class-purchase.php:621
+#: classes/models/shop/class-purchase.php:736
 msgid "Invalid email"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:511
+#: classes/models/shop/class-purchase.php:521
 msgid "The user information is invalid"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:586
+#: classes/models/shop/class-purchase.php:600
 msgid "Username already taken"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:591
+#: classes/models/shop/class-purchase.php:605
 msgid "Invalid username. Only lowercase letters (a-z) and numbers are allowed"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:593
+#: classes/models/shop/class-purchase.php:607
 msgid "Invalid username"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:600
+#: classes/models/shop/class-purchase.php:614
 msgid "You must register or login to complete your purchase"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:610
+#: classes/models/shop/class-purchase.php:624
 msgid "Email already used"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:617
-#: classes/models/shop/class-purchase.php:725
+#: classes/models/shop/class-purchase.php:631
+#: classes/models/shop/class-purchase.php:743
 msgid "Enter an email"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:624
+#: classes/models/shop/class-purchase.php:638
 msgid "Passwords don't match"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:633
-#: classes/models/shop/class-purchase.php:689
+#: classes/models/shop/class-purchase.php:647
+#: classes/models/shop/class-purchase.php:705
 msgid "Enter a password"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:636
+#: classes/models/shop/class-purchase.php:650
 msgid "Enter the password confirmation"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:653
+#: classes/models/shop/class-purchase.php:669
 msgid "You must login or register to complete your purchase"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:670
+#: classes/models/shop/class-purchase.php:686
 #, php-format
 msgid "The password you entered is incorrect. %sReset Password%s"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:671 templates/shop/login.php:29
+#: classes/models/shop/class-purchase.php:687 templates/shop/login.php:29
 msgid "Lost Password"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:709
+#: classes/models/shop/class-purchase.php:727
 msgid "You must be logged into an account to purchase"
 msgstr ""
 
-#: classes/models/shop/class-purchase.php:889
+#: classes/models/shop/class-purchase.php:915
 msgid "An internal error has occurred, please try again or contact support."
 msgstr ""
 
@@ -3608,7 +3612,7 @@ msgid "(Pending Verification)"
 msgstr ""
 
 #: classes/models/shop/reports/customer-report-class.php:193
-#: templates/shop/success.php:129
+#: templates/shop/success.php:131
 msgid "Name"
 msgstr ""
 
@@ -3684,43 +3688,43 @@ msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:83
+#: classes/modules/class-post.php:68
 msgctxt "Order status"
 msgid "Cooking"
 msgstr ""
 
-#: classes/modules/class-post.php:88
+#: classes/modules/class-post.php:73
 #, php-format
 msgid "Cooking <span class=\"count\">(%s)</span>"
 msgid_plural "Cooking <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:92
+#: classes/modules/class-post.php:77
 msgctxt "Order status"
 msgid "Shipping"
 msgstr ""
 
-#: classes/modules/class-post.php:97
+#: classes/modules/class-post.php:82
 #, php-format
 msgid "Shipping <span class=\"count\">(%s)</span>"
 msgid_plural "Shipping <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:101
+#: classes/modules/class-post.php:86
 msgctxt "Order status"
 msgid "Shipped"
 msgstr ""
 
-#: classes/modules/class-post.php:106
+#: classes/modules/class-post.php:91
 #, php-format
 msgid "Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:249
+#: classes/modules/class-post.php:234
 msgid "Image"
 msgstr ""
 
@@ -4251,19 +4255,19 @@ msgstr ""
 msgid "Order notes:"
 msgstr ""
 
-#: templates/shop/checkout-cart.php:12
+#: templates/shop/checkout-cart.php:14
 msgid "Product"
 msgstr ""
 
-#: templates/shop/checkout-cart.php:15
+#: templates/shop/checkout-cart.php:17
 msgid "Quantities"
 msgstr ""
 
-#: templates/shop/checkout-cart.php:17
+#: templates/shop/checkout-cart.php:19
 msgid "Actions"
 msgstr ""
 
-#: templates/shop/checkout-cart.php:104 templates/shop/success.php:97
+#: templates/shop/checkout-cart.php:105 templates/shop/success.php:97
 msgid "Subtotal"
 msgstr ""
 
@@ -4358,11 +4362,11 @@ msgstr ""
 msgid "Discount(s)"
 msgstr ""
 
-#: templates/shop/success.php:116
+#: templates/shop/success.php:117
 msgid "Shipping address"
 msgstr ""
 
-#: templates/shop/success.php:126
+#: templates/shop/success.php:128
 msgid "Products"
 msgstr ""
 
