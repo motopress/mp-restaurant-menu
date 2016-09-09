@@ -18,7 +18,7 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>
 	</thead>
-	
+
 	<tbody>
 	<?php do_action('mprm_cart_items_before'); ?>
 
