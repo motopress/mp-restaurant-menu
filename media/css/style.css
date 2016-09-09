@@ -1291,7 +1291,6 @@ there.
 #mprm_checkout_cart thead th {
   background: #fafafa;
   text-align: left;
-  word-break: break-all;
 }
 #mprm_checkout_cart tfoot th {
   text-align: right;
@@ -1327,7 +1326,7 @@ there.
 #mprm_checkout_cart.mprm-table-column-3 td.mprm_cart_actions {
   width: 20%;
 }
-#mprm_checkout_cart td.mprm_cart_item_name {
+#mprm_checkout_cart td.mprm_cart_item_name .mprm_cart_item_name_wrapper {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1337,7 +1336,7 @@ there.
       -ms-flex-align: center;
           align-items: center;
 }
-#mprm_checkout_cart td.mprm_cart_item_name img {
+#mprm_checkout_cart td.mprm_cart_item_name .mprm_cart_item_name_wrapper img {
   margin-right: 10px;
   max-width: 75px;
 }

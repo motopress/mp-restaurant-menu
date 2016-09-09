@@ -32,17 +32,19 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
 
 				<td class="mprm_cart_item_name">
-					<?php if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) { ?>
-						<div class="mprm_cart_item_image">
-							<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); ?>
-						</div>
-					<?php }
-					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
+					<div class="mprm_cart_item_name_wrapper">
+						<?php if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) { ?>
+							<div class="mprm_cart_item_image">
+								<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); ?>
+							</div>
+						<?php }
+						$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
 
-					<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
-						<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
-					</a>
-					<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
+						<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+							<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+						</a>
+						<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
+					</div>
 				</td>
 				<td class="mprm_cart_item_price">
 					<?php

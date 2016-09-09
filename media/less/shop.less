@@ -219,7 +219,6 @@
 	th {
 	  background: #fafafa;
 	  text-align: left;
-	  word-break: break-all;
 	}
   }
   tfoot {
@@ -242,6 +241,7 @@
 	}
   }
   &.mprm-table-column-4 {
+
 	td.mprm_cart_quantities {
 	  width: 20%;
 	  input {
@@ -255,6 +255,7 @@
 	td.mprm_cart_actions {
 	  width: 20%
 	}
+
   }
   &.mprm-table-column-3 {
 	td.mprm_cart_item_price {
@@ -265,11 +266,13 @@
 	}
   }
   td.mprm_cart_item_name {
-	display: flex;
-	align-items: center;
-	img {
-	  margin-right: 10px;
-	  max-width: 75px;
+	.mprm_cart_item_name_wrapper {
+	  display: flex;
+	  align-items: center;
+	  img {
+		margin-right: 10px;
+		max-width: 75px;
+	  }
 	}
   }
 }
