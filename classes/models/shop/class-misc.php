@@ -6,6 +6,7 @@ use mp_restaurant_menu\classes\Model;
 
 /**
  * Class Misc
+ *
  * @package mp_restaurant_menu\classes\models
  */
 class Misc extends Model {

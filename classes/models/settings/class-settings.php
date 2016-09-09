@@ -514,10 +514,8 @@ class Settings extends Model {
 		return $currency_symbol;
 	}
 
-	/**
-	 * @param array $args
-	 */
-	public function header_callback($args = array()) {
+
+	public function header_callback() {
 		echo '';
 	}
 
@@ -1012,7 +1010,7 @@ class Settings extends Model {
 	 * @param $args
 	 */
 	public function tax_rates_callback($args) {
-		global $mprm_options;
+		//	global $mprm_options;
 		$rates = $this->get_tax_rates();
 		ob_start(); ?>
 		<p><?php echo $args['desc']; ?></p>
@@ -1394,110 +1392,8 @@ class Settings extends Model {
 	}
 
 	/**
-	 * @param $args
+	 * Create pages with shortcode
 	 */
-	public function license_key_callback($args) {
-		global $mprm_options;
-		$messages = array();
-		$license = get_option($args['options']['is_valid_license_option']);
-		if (isset($mprm_options[$args['id']])) {
-			$value = $mprm_options[$args['id']];
-		} else {
-			$value = isset($args['std']) ? $args['std'] : '';
-		}
-		if (!empty($license) && is_object($license)) {
-			// activate_license 'invalid' on anything other than valid, so if there was an error capture it
-			if (false === $license->success) {
-				switch ($license->error) {
-					case 'expired' :
-						$class = 'error';
-						$messages[] = sprintf(
-							__('Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'mp-restaurant-menu'),
-							date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
-							'https://easydigitalmenu_items.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
-						);
-						$license_status = 'license-' . $class . '-notice';
-						break;
-					case 'missing' :
-						$class = 'error';
-						$messages[] = sprintf(
-							__('Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'mp-restaurant-menu'),
-							'https://easydigitalmenu_items.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
-						);
-						$license_status = 'license-' . $class . '-notice';
-						break;
-					case 'invalid' :
-					case 'site_inactive' :
-						$class = 'error';
-						$messages[] = sprintf(
-							__('Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'mp-restaurant-menu'),
-							$args['name'],
-							'https://easydigitalmenu_items.com/your-account?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
-						);
-						$license_status = 'license-' . $class . '-notice';
-						break;
-					case 'item_name_mismatch' :
-						$class = 'error';
-						$messages[] = sprintf(__('This is not a %s.', 'mp-restaurant-menu'), $args['name']);
-						$license_status = 'license-' . $class . '-notice';
-						break;
-					case 'no_activations_left':
-						$class = 'error';
-						$messages[] = sprintf(__('Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'mp-restaurant-menu'), 'https://easydigitalmenu_items.com/your-account/');
-						$license_status = 'license-' . $class . '-notice';
-						break;
-				}
-			} else {
-				switch ($license->license) {
-					case 'valid' :
-					default:
-						$class = 'valid';
-						$now = current_time('timestamp');
-						$expiration = strtotime($license->expires, current_time('timestamp'));
-						if ('lifetime' === $license->expires) {
-							$messages[] = __('License key never expires.', 'mp-restaurant-menu');
-							$license_status = 'license-lifetime-notice';
-						} elseif ($expiration > $now && $expiration - $now < (DAY_IN_SECONDS * 30)) {
-							$messages[] = sprintf(
-								__('Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'mp-restaurant-menu'),
-								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp'))),
-								'https://easydigitalmenu_items.com/checkout/?license_key=' . $value . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew'
-							);
-							$license_status = 'license-expires-soon-notice';
-						} else {
-							$messages[] = sprintf(
-								__('Your license key expires on %s.', 'mp-restaurant-menu'),
-								date_i18n(get_option('date_format'), strtotime($license->expires, current_time('timestamp')))
-							);
-							$license_status = 'license-expiration-date-notice';
-						}
-						break;
-				}
-			}
-		} else {
-			$license_status = null;
-		}
-		$size = (isset($args['size']) && !is_null($args['size'])) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . sanitize_html_class($size) . '-text" id="mprm_settings[' . sanitize_key($args['id']) . ']" name="mprm_settings[' . sanitize_key($args['id']) . ']" value="' . esc_attr($value) . '"/>';
-		if ((is_object($license) && 'valid' == $license->license) || 'valid' == $license) {
-			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __('Deactivate License', 'mp-restaurant-menu') . '"/>';
-		}
-		$html .= '<label for="mprm_settings[' . sanitize_key($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
-		if (!empty($messages)) {
-			foreach ($messages as $message) {
-				$html .= '<div class="mprm-license-data mprm-license-' . $class . '">';
-				$html .= '<p>' . $message . '</p>';
-				$html .= '</div>';
-			}
-		}
-		wp_nonce_field(sanitize_key($args['id']) . '-nonce', sanitize_key($args['id']) . '-nonce');
-		if (isset($license_status)) {
-			echo '<div class="' . $license_status . '">' . $html . '</div>';
-		} else {
-			echo '<div class="license-null">' . $html . '</div>';
-		}
-	}
-
 	public function create_settings_pages() {
 		$purchase_page_id = wp_insert_post(
 			array(
@@ -1511,7 +1407,6 @@ class Settings extends Model {
 		if ($purchase_page_id) {
 			$this->set_option('purchase_page', $purchase_page_id);
 		}
-
 
 		$success_page_id = wp_insert_post(
 			array(
@@ -1552,8 +1447,6 @@ class Settings extends Model {
 		if ($failure_page_id) {
 			$this->set_option('failure_page', $failure_page_id);
 		}
-
-
 	}
 
 	/**

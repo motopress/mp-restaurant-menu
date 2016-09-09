@@ -74,7 +74,7 @@ function mprm_do_email_tags($content, $order_id) {
 }
 
 /**
- *
+ * Load emails tags
  */
 function mprm_load_email_tags() {
 	do_action('mprm_add_email_tags');
@@ -125,10 +125,8 @@ function mprm_email_tag_menu_item_list($order_id) {
 //				if ($price_id !== null) {
 //					$title .= "&nbsp;&ndash;&nbsp;" . mprm_item_quantities_enabled();
 //				}
-
 				$menu_item_list .= '<li>' . apply_filters('mprm_email_receipt_menu_item_title', $title, $item, $price_id, $order_id) . '<br/>';
 			}
-
 
 			if ('' != mprm_get_menu_item_notes($item['id'])) {
 				$menu_item_list .= ' &mdash; <small>' . mprm_get_menu_item_notes($item['id']) . '</small>';
@@ -255,7 +253,7 @@ function mprm_get_email_names($user_info) {
  *
  * @return string
  */
-function mprm_email_tag_fullname($order_id) {
+function mprm_email_tag_full_name($order_id) {
 	$payment = new models\Order($order_id);
 	$user_info = $payment->user_info;
 
@@ -395,11 +393,11 @@ function mprm_email_tag_payment_method($order_id) {
 
 
 /**
- * @param $order_id
+ * Tag site name
  *
  * @return string
  */
-function mprm_email_tag_sitename($order_id) {
+function mprm_email_tag_site_name() {
 	return wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
 }
 

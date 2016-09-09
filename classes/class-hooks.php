@@ -723,10 +723,7 @@ class Hooks extends Core {
 			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
 		}
 		add_action('mprm_cart_empty', 'mprm_cart_empty');
-		add_action('mprm_before_purchase_form', 'mprm_before_purchase_form');
-		add_action('mprm_after_purchase_form', 'mprm_after_purchase_form');
-		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
-		add_action('mprm_checkout_form_bottom', 'mprm_checkout_form_bottom');
+
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
@@ -752,10 +749,6 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_after_submit', 'mprm_purchase_form_after_submit');
 		add_action('mprm_ajax_checkout_errors', 'mprm_print_errors');
 		add_action('mprm_cc_form', 'mprm_get_cc_form');
-		add_action('mprm_before_cc_fields', 'mprm_before_cc_fields');
-		add_action('mprm_after_cc_fields', 'mprm_after_cc_fields');
-		add_action('mprm_before_cc_expiration', 'mprm_before_cc_expiration');
-		add_action('mprm_after_cc_expiration', 'mprm_after_cc_expiration');
 
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
@@ -781,10 +774,13 @@ class Hooks extends Core {
 		add_action('mprm_checkout_table_footer_first', 'mprm_checkout_table_footer_first');
 		add_action('mprm_checkout_table_footer_last', 'mprm_checkout_table_footer_last');
 		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');
-		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
 		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
 		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
 		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
+
+		add_action('mprm_checkout_additional_information', 'mprm_checkout_delivery_address', 5);
+		add_action('mprm_checkout_additional_information', 'mprm_checkout_order_note', 10);
+
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
 
 	}

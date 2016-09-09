@@ -1,4 +1,5 @@
-<?php namespace mp_restaurant_menu\classes\models;
+<?php
+namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Hooks;
 use mp_restaurant_menu\classes\Model;

@@ -161,13 +161,13 @@ class Taxes extends Model {
 
 	/**
 	 * Cart need tax address
+	 *
 	 * @return bool
 	 */
 	public function cart_needs_tax_address_fields() {
 		if (!$this->is_cart_taxed()) {
 			return false;
 		}
-		//return !did_action('mprm_after_cc_fields', 'mprm_default_cc_address_fields');
 	}
 
 	/**

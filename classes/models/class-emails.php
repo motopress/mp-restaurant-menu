@@ -5,9 +5,11 @@ use mp_restaurant_menu\classes\Model;
 
 /**
  * Class Emails
+ *
  * @package mp_restaurant_menu\classes\models
  */
 class Emails extends Model {
+
 	protected static $instance;
 
 	private $tags;
@@ -214,15 +216,6 @@ class Emails extends Model {
 		}
 		$this->email_purchase_receipt($purchase_id, false);
 
-		//$menu_items = $this->get('payments')->get_payment_meta_cart_details($purchase_id, true);
-//		if (is_array($menu_items)) {
-//			foreach ($menu_items as $menu_item) {
-//				$limit = mprm_get_file_menu_item_limit($menu_item['id']);
-//				if (!empty($limit)) {
-//					mprm_set_file_menu_item_limit_override($menu_item['id'], $purchase_id);
-//				}
-//			}
-//		}
 		wp_redirect(add_query_arg(array('mprm-message' => 'email_sent', 'mprm-action' => false, 'purchase_id' => false)));
 		exit;
 	}
@@ -518,7 +511,7 @@ class Emails extends Model {
 			array(
 				'tag' => 'fullname',
 				'description' => __("The buyer's full name, first and last", 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_fullname'
+				'function' => 'mprm_email_tag_full_name'
 			),
 			array(
 				'tag' => 'username',
@@ -573,7 +566,7 @@ class Emails extends Model {
 			array(
 				'tag' => 'sitename',
 				'description' => __('Your site name', 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_sitename'
+				'function' => 'mprm_email_tag_site_name'
 			),
 			array(
 				'tag' => 'receipt_link',

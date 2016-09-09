@@ -18,9 +18,10 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>
 	</thead>
-
+	
 	<tbody>
 	<?php do_action('mprm_cart_items_before'); ?>
+
 	<?php if ($cart_items && !empty($cart_items)) : ?>
 		<?php foreach ($cart_items as $index => $item) : ?>
 
@@ -36,11 +37,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 						</div>
 					<?php }
 					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
-					<div>
-						<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
-							<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
-						</a>
-					</div>
+					<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+						<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+					</a>
 					<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
 				</td>
 				<td class="mprm_cart_item_price">
@@ -117,8 +116,8 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<tr class="mprm_cart_footer_row mprm_cart_tax_row"<?php if (!Taxes::get_instance()->is_cart_taxed()) echo ' style="display:none;"'; ?>>
 			<?php do_action('mprm_checkout_table_tax_first'); ?>
 			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_tax">
-				<?php _e('Tax', 'mp-restaurant-menu'); ?>
-				:&nbsp;<span class="mprm_cart_tax_amount" data-tax="<?php echo Cart::get_instance()->get_cart_tax(); ?>">
+				<?php _e('Tax', 'mp-restaurant-menu'); ?>:&nbsp;
+				<span class="mprm_cart_tax_amount" data-tax="<?php echo Cart::get_instance()->get_cart_tax(); ?>">
 					<?php echo esc_html(Cart::get_instance()->cart_tax()); ?>
 				</span>
 			</th>

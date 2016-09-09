@@ -1,9 +1,6 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
-// Exit if accessed directly
-if (!defined('ABSPATH')) exit;
-
 // Load WP_List_Table if not loaded
 if (!class_exists('WP_List_Table')) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';

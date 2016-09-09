@@ -1,7 +1,7 @@
 <?php
 use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
 /**
- * Add class shortocode/widget wrapper class
+ * Add class shortcode/widget wrapper class
  * @return string
  */
 function mprm_popular_theme_class() {

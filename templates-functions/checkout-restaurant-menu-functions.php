@@ -99,6 +99,9 @@ function mprm_checkout_final_total() {
 	<?php
 }
 
+/**
+ *
+ */
 function mprm_checkout_hidden_fields() {
 	?>
 	<?php if (is_user_logged_in()) { ?>
@@ -109,3 +112,30 @@ function mprm_checkout_hidden_fields() {
 	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
 	<?php
 }
+
+/**
+ *  Delivery address default
+ */
+function mprm_checkout_delivery_address() {
+	if (mprm_get_option('shipping_address')): ?>
+		<p id="mprm-address-wrap">
+			<label for="shipping_address" class="mprm-label">
+				<?php _e('Shipping address:', 'mp-restaurant-menu'); ?>
+			</label>
+			<input type="text" name="shipping_address" value="" class="medium-text" placeholder="<?php _e('Enter your address.', 'mp-restaurant-menu'); ?>"/>
+		</p>
+	<?php endif;
+}
+
+/**
+ * Checkout order note
+ */
+function mprm_checkout_order_note() {
+	?>
+	<p id="mprm-phone-number-wrap">
+		<label for="customer_note" class="mprm-label">
+			<?php _e('Order notes:', 'mp-restaurant-menu'); ?>
+		</label>
+		<textarea type="text" name="customer_note" id="customer_note" class="phone-number mprm-input"></textarea>
+	</p>
+<? }

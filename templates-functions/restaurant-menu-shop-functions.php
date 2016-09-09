@@ -3,30 +3,6 @@ use mp_restaurant_menu\classes\Core as Core;
 use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View as View;
 
-function mprm_before_purchase_form() {
-}
-
-function mprm_after_purchase_form() {
-}
-
-function mprm_checkout_form_top() {
-}
-
-function mprm_checkout_form_bottom() {
-}
-
-function mprm_before_cc_fields() {
-}
-
-function mprm_before_cc_expiration() {
-}
-
-function mprm_after_cc_expiration() {
-}
-
-function mprm_after_cc_fields() {
-}
-
 /**
  * @return bool|mixed
  */
@@ -63,9 +39,13 @@ function mprm_get_menu_item_notes($menu_item_id = 0) {
 	return $menu_item->get_notes();
 }
 
+/**
+ * Select payment mode
+ */
 function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways(true);
 	$page_URL = models\Misc::get_instance()->get_current_page_url();
+
 	do_action('mprm_payment_mode_top'); ?>
 
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
@@ -74,8 +54,7 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?>
-					<legend></span>
+			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
 			<?php
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
@@ -101,7 +80,6 @@ function mprm_payment_mode_select() {
 	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
 	<?php do_action('mprm_payment_mode_bottom');
 }
-
 
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
