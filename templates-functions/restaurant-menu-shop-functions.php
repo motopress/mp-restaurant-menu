@@ -74,8 +74,7 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?>
-					<legend></span>
+			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
 			<?php
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
