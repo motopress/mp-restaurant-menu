@@ -1602,3 +1602,16 @@ function mprm_grid_container_class(){
 function mprm_get_preloader($class=''){
 mprm_get_template('common/preloader', array('class' => $class));
 }
+/**
+ * Get post menu restaurant
+*
+*@param $type
+ *
+*@return bool|string
+ */
+function mprm_get_post_type($type){
+	if(empty($type)){
+		return false;
+	}
+	return Core::get_instance()->get_post_type($type);
+}

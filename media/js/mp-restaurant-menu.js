@@ -1,4 +1,5 @@
-/* globals jQuery:false, MP_RM_Registry:false, _:false,console:false,wp:false,jBox:false,mprm_admin_vars:false*/
+/* jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/* globals jQuery:false, MP_RM_Registry:false, _:false,wp:false,jBox:false,mprm_admin_vars:false,tb_show:false,tb_remove:false,magnificPopup:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -245,9 +246,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 						});
 						$("input", formObject).off('keypress').on("keypress", function(event) {
 							var type = $(this).attr("type");
-							if (/date|email|month|number|search|tel|text|time|url|week/.test(type)
-								&& event.keyCode == 13) {
-							} else {
+							if (!(/date|email|month|number|search|tel|text|time|url|week/.test(type) && event.keyCode === 13)) {
 								$(this).removeClass('mprm-form-error');
 							}
 						});
@@ -475,7 +474,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			changeGateway: function() {
 				$('input[name=payment-mode]', '#mprm_purchase_form').on('change', function() {
 					$('#mprm_purchase_form_wrap').html('');
-					state.loadGateway()
+					state.loadGateway();
 				});
 			},
 			/**
@@ -568,8 +567,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							console.warn(data);
 						}
 					);
-
-
 				});
 			},
 			/**
@@ -600,7 +597,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 							$.each($params, function(index, element) {
 								if (element) {
-									if (element.name == "mprm_action" && element.value == "gateway_select") {
+									if (element.name === "mprm_action" && element.value === "gateway_select") {
 										$params.splice(index, 1);
 									}
 								}
@@ -707,8 +704,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 				});
 
 			}
-
-		}
+		};
 	}
 
 	return {
@@ -769,7 +765,7 @@ MP_RM_Registry.register("Order", (function($) {
 							} else {
 								stateSelect.find("option").remove();
 								$.each(data, function(i, value) {
-									stateSelect.append($('<option>').text(value).attr('value', i))
+									stateSelect.append($('<option>').text(value).attr('value', i));
 								});
 								stateSelect.trigger("chosen:updated");
 								stateSelect.parents('#mprm-order-address-state-wrap').show();
@@ -780,7 +776,7 @@ MP_RM_Registry.register("Order", (function($) {
 							console.warn(data);
 						}
 					);
-				})
+				});
 			},
 			/**
 			 * Add comment
@@ -801,7 +797,7 @@ MP_RM_Registry.register("Order", (function($) {
 							$('.mprm-no-order-notes').hide();
 							$('#mprm-order-notes-inner').append(data.html);
 							$('#mprm-order-note').val('');
-							state.removeComment()
+							state.removeComment();
 						},
 						function(data) {
 							console.warn('Some error!!!');
@@ -901,7 +897,7 @@ MP_RM_Registry.register("Order", (function($) {
 
 							if (!isNaN(rate)) {
 								tax = amount * rate;
-								amount = parseFloat(amount) + parseFloat(tax)
+								amount = parseFloat(amount) + parseFloat(tax);
 							} else {
 								alert(mprm_admin_vars.numeric_tax);
 								return false;
@@ -954,7 +950,7 @@ MP_RM_Registry.register("Order", (function($) {
 					$(clone).insertAfter('#mprm-purchased-wrapper .mprm-row.item:last');
 
 					$('.mprm-order-recalc-totals').show();
-				})
+				});
 			},
 			/**
 			 *  Recalculate order total
@@ -1170,7 +1166,7 @@ MP_RM_Registry.register("Order", (function($) {
 				$('#post_status').find('option').remove();
 				$('select[name="mprm-order-status"]').find('option').clone().appendTo($('#post_status'));
 			}
-		}
+		};
 	}
 
 	return {
@@ -1368,8 +1364,8 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 								$parentTr.next().show();
 								stateSelect.remove('option');
 								$.each(data, function(i, value) {
-									stateSelect.append($('<option>').text(value).attr('value', i))
-								})
+									stateSelect.append($('<option>').text(value).attr('value', i));
+								});
 							}
 						},
 						function(data) {
@@ -1377,7 +1373,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 							console.warn(data);
 						}
 					);
-				})
+				});
 			}
 		};
 	}
@@ -1448,10 +1444,10 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 			openMediaWindow: function() {
 				if (this.window === undefined) {
 					this.window = wp.media({
-						title: window.mprm_admin_vars.insert_media,
+						title: mprm_admin_vars.insert_media,
 						library: {type: 'image'},
 						multiple: true,
-						button: {text: window.mprm_admin_vars.insert}
+						button: {text: mprm_admin_vars.insert}
 					});
 
 					var self = this;
@@ -1572,7 +1568,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 					editParent.find('[name="attributes[size][val]"]').val(size);
 					editParent.find('[name="attributes[weight][val]"]').val(weight);
 
-				})
+				});
 			}
 		};
 	}
@@ -1625,7 +1621,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 			/**
 			 * Open upload window
 			 *
-			 * @returns {undefined}
+			 * @returns {void}
 			 */
 			openUploadWindow: function() {
 				if (this.window === undefined) {
@@ -1672,7 +1668,7 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
-				if ((typeof $.magnificPopup) == 'undefined') {
+				if ((typeof $.magnificPopup) === 'undefined') {
 					return;
 				}
 				$('.type-mp_menu_item .gallery-item,.type-mp_menu_item .mprm-item-gallery').magnificPopup({
@@ -1706,8 +1702,6 @@ MP_RM_Registry.register("Theme", (function($) {
 						parent.find('select.mprm-widget-categ_name option[value="with_img"]').change('only_text').addClass('hidden');
 						parent.find('.mprm-widget-price_pos').removeClass('hidden');
 						break;
-					case "grid" :
-					case "list" :
 					default:
 						parent.find('.mprm-widget-feat_img').removeClass('hidden');
 						parent.find('.mprm-widget-buy').removeClass('hidden');

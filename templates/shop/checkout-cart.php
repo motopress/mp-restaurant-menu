@@ -5,7 +5,6 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 ?>
 <table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed"' : '' ?>>
-
 	<thead>
 	<tr class="mprm_cart_header_row">
 		<?php do_action('mprm_checkout_table_header_first'); ?>
@@ -18,7 +17,6 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>
 	</thead>
-
 	<tbody>
 	<?php do_action('mprm_cart_items_before'); ?>
 
@@ -68,7 +66,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 		<?php endforeach; ?>
 	<?php endif; ?>
+
 	<?php do_action('mprm_cart_items_middle'); ?>
+
 	<?php if (Cart::get_instance()->cart_has_fees()) : ?>
 		<?php foreach (Cart::get_instance()->get_cart_fees() as $fee_id => $fee) : ?>
 			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">
@@ -86,16 +86,19 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<?php endif; ?>
 	<?php do_action('mprm_cart_items_after'); ?>
 	</tbody>
+
 	<tfoot>
+
 	<?php if (has_action('mprm_cart_footer_buttons')) : ?>
-		<tr class="mprm_cart_footer_row<?php if (mprm_is_cart_saving_disabled()) {
-			echo ' mprm-no-js';
-		} ?>">
+		<tr class="mprm_cart_footer_row<?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?>">
 			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>">
 				<?php do_action('mprm_cart_footer_buttons'); ?>
 			</th>
 		</tr>
 	<?php endif; ?>
+
+	<?php do_action('mprm_checkout_table_subtotal_before'); ?>
+
 	<?php if (Taxes::get_instance()->use_taxes() && !Taxes::get_instance()->prices_include_tax()) : ?>
 		<tr class="mprm_cart_footer_row mprm_cart_subtotal_row"<?php if (!Taxes::get_instance()->use_taxes()) echo ' style="display:none;"'; ?>>
 			<?php do_action('mprm_checkout_table_subtotal_first'); ?>
@@ -105,6 +108,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 			<?php do_action('mprm_checkout_table_subtotal_last'); ?>
 		</tr>
 	<?php endif; ?>
+
+	<?php do_action('mprm_checkout_table_subtotal_after'); ?>
+
 	<tr class="mprm_cart_footer_row mprm_cart_discount_row" <?php if (!Cart::get_instance()->cart_has_discounts()) echo ' style="display:none;"'; ?>>
 		<?php do_action('mprm_checkout_table_discount_first'); ?>
 		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_discount">
@@ -112,6 +118,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		</th>
 		<?php do_action('mprm_checkout_table_discount_last'); ?>
 	</tr>
+
+	<?php do_action('mprm_checkout_table_discount_after'); ?>
+
 	<?php if (Taxes::get_instance()->use_taxes()) : ?>
 		<tr class="mprm_cart_footer_row mprm_cart_tax_row"<?php if (!Taxes::get_instance()->is_cart_taxed()) echo ' style="display:none;"'; ?>>
 			<?php do_action('mprm_checkout_table_tax_first'); ?>
@@ -124,6 +133,9 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 			<?php do_action('mprm_checkout_table_tax_last'); ?>
 		</tr>
 	<?php endif; ?>
+
+	<?php do_action('mprm_checkout_table_tax_after'); ?>
+
 	<tr class="mprm_cart_footer_row">
 		<?php do_action('mprm_checkout_table_footer_first'); ?>
 		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>:
@@ -133,5 +145,6 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 		</th>
 		<?php do_action('mprm_checkout_table_footer_last'); ?>
 	</tr>
+
 	</tfoot>
 </table>

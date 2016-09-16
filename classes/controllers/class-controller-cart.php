@@ -114,6 +114,7 @@ class Controller_cart extends Controller {
 			);
 
 			$this->date['success'] = true;
+
 			$this->date['data'] = apply_filters('mprm_ajax_cart_item_quantity_response', $this->date['data']);
 
 			$this->send_json($this->date);

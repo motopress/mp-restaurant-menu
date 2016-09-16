@@ -361,8 +361,11 @@ class Emails extends Model {
 		$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
 		$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
 		$default_email_body .= $menu_item_list . "\n\n";
+
 		$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";
+
 		$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . html_entity_decode(mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($payment_id))), ENT_COMPAT, 'UTF-8') . "\n";
+
 		$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . " " . $gateway . "\n\n";
 		$default_email_body .= __('Thank you', 'mp-restaurant-menu');
 		$email = $this->get('settings')->get_option('sale_notification', false);

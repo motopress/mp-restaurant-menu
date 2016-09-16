@@ -1,4 +1,5 @@
-<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
+<form id="<?php echo $data['form_id']; ?>" class="mprm_purchase_form mprm_purchase_<?php echo $post->ID; ?>" data-id="<?php echo $post->ID ?>" method="post">
+
 	<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 	<div class="mprm_purchase_submit_wrapper">
 		<?php $class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));
@@ -13,6 +14,7 @@
 			<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 		<?php } ?>
 		<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?>" <?php echo $checkout_display ?>>    <?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+
 		<?php if (!$is_ajax_disabled) : ?>
 			<span class="mprm-cart-ajax-alert">
 					<span class="mprm-cart-added-alert" style="display: none;">
@@ -20,6 +22,7 @@
 					</span>
 			</span>
 		<?php endif; ?>
+
 		<?php if (!$is_free): ?>
 			<?php if ($display_tax_rate && $prices_include_tax) {
 				echo '<span class="mprm_purchase_tax_rate">' . sprintf(__('Includes %1$s&#37; tax', 'mp-restaurant-menu'), $tax_rate * 100) . '</span>';
@@ -44,4 +47,3 @@
 	<?php endif; ?>
 	<?php do_action('mprm_purchase_link_end', $post->ID, $args); ?>
 </form>
-<!--end #<?php echo esc_attr($form_id); ?>-->

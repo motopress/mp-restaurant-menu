@@ -88,12 +88,12 @@ class Purchase extends Model {
 		// Setup purchase information
 		$purchase_data = array(
 			'menu_items' => $this->get('cart')->get_cart_contents(),
-			'fees' => $this->get('cart')->get_cart_fees(),        // Any arbitrary fees that have been added to the cart
-			'subtotal' => $this->get('cart')->get_cart_subtotal(),    // Amount before taxes and discounts
-			'discount' => $this->get('cart')->get_cart_discounted_amount(), // Discounted amount
-			'tax' => $this->get('cart')->get_cart_tax(),               // Taxed amount
-			'price' => $this->get('cart')->get_cart_total(),    // Amount after taxes
-			'purchase_key' => strtolower(md5($user['user_email'] . date('Y-m-d H:i:s') . $auth_key . uniqid('mprm', true))),  // Unique key
+			'fees' => $this->get('cart')->get_cart_fees(),
+			'subtotal' => $this->get('cart')->get_cart_subtotal(),
+			'discount' => $this->get('cart')->get_cart_discounted_amount(),
+			'tax' => $this->get('cart')->get_cart_tax(),
+			'price' => $this->get('cart')->get_cart_total(),
+			'purchase_key' => strtolower(md5($user['user_email'] . date('Y-m-d H:i:s') . $auth_key . uniqid('mprm', true))),
 			'user_email' => $user['user_email'],
 			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
 			'user_info' => stripslashes_deep($user_info),

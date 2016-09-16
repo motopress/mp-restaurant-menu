@@ -1335,6 +1335,7 @@ there.
 }
 .mprm-payment-icons .payment-icon {
   max-height: 30px;
+  display: inline-block;
 }
 .mprm-payment-mode-label,
 .mprm-payment-details-label,
@@ -1345,7 +1346,18 @@ there.
   margin-bottom: 15px;
 }
 .mprm_cart_item_image {
-  display: inline;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .mprm_cart_item_image img {
   margin-right: 10px;

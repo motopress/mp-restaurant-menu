@@ -733,7 +733,7 @@ final class Order extends Model {
 
 				break;
 			case 'order_ship_to':
-				echo $this->shipping_address;
+				echo apply_filters('mprm_orders_list_delivery', $this->shipping_address);
 				break;
 			case 'order_customer_note':
 				echo $this->customer_note;
