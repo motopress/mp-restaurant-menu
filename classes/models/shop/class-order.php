@@ -730,7 +730,6 @@ final class Order extends Model {
 				if ($post->billing_email) {
 					echo '<small class="meta email"><a href="' . esc_url('mailto:' . $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
-
 				break;
 			case 'order_ship_to':
 				echo apply_filters('mprm_orders_list_delivery', $this->shipping_address);

@@ -7,7 +7,7 @@ function get_price_theme_view() {
 	$price = mprm_get_price();
 
 	do_action('mprm_price_theme_view_before', $price);
-	
+
 	if (!empty($price)) { ?>
 		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo mprm_currency_filter(mprm_format_amount($price)) ?></b></span></p>
 	<?php }

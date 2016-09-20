@@ -610,17 +610,7 @@ function mprm_get_purchase_template($template = "default") {
 	mprm_get_template("common/buy/{$template}");
 }
 
-/**
- * Before Category list header
- */
-function mprm_before_category_list_header() {
-}
 
-/**
- * Before Category list footer
- */
-function mprm_before_category_list_footer() {
-}
 
 /**
  * @global array $mprm_view_args
@@ -632,30 +622,8 @@ function mprm_category_list_item() {
 	mprm_get_template('shortcodes/category/list/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
 
-/**
- * After Category list header
- */
-function mprm_after_category_list_header() {
-}
-
-/**
- * After Category list footer
- */
-function mprm_after_category_list_footer() {
-}
 
 /*  =============GRID ===============*/
-/**
- * Before Category grid header
- */
-function mprm_before_taxonomy_grid_header() {
-}
-
-/**
- * Before Category grid footer
- */
-function mprm_before_taxonomy_grid_footer() {
-}
 
 function mprm_taxonomy_grid_item() {
 	global $mprm_view_args, $mprm_term;
@@ -669,17 +637,8 @@ function mprm_shortcode_grid_item() {
 	mprm_get_template('shortcodes/category/grid/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
 
-/**
- * After Category grid header
- */
-function mprm_after_taxonomy_grid_header() {
-}
 
-/**
- * After Category grid footer
- */
-function mprm_after_taxonomy_grid_footer() {
-}
+
 
 /*  ========= Taxonomy list start ===========  */
 /**
@@ -690,12 +649,6 @@ function mprm_single_category_list_header() {
 	<div class="mprm-category-item-list mprm-column mprm-column-3">
 	<div class="mprm">
 	<?php
-}
-
-function mprm_taxonomy_list_before_left() {
-}
-
-function mprm_taxonomy_list_after_left() {
 }
 
 function mprm_taxonomy_list_before_right() {
@@ -741,12 +694,6 @@ function mprm_single_category_list_footer() {
 }
 
 /*  ========= Taxonomy list end ===========  */
-/**
- * Before category grid
- */
-function mprm_before_taxonomy_grid() { ?>
-<?php }
-
 /**
  * Category grid header
  */
@@ -813,35 +760,12 @@ function mprm_single_category_grid_footer() {
 }
 
 /**
- * After category grid
- */
-function mprm_after_taxonomy_grid() {
-}
-
-/**
- * Before category header
- */
-function mprm_before_category_header() {
-}
-
-/**
  * Category header
  */
 function mprm_category_header() {
 	mprm_get_template('common/taxonomy-header');
 }
 
-/**
- * After category header
- */
-function mprm_after_category_header() {
-}
-
-/**
- * Before tag list
- */
-function mprm_before_tag_list() {
-}
 
 /**
  * Single tag list header
@@ -883,17 +807,6 @@ function mprm_single_tag_list_footer() {
 	<?php
 }
 
-/**
- * After tag list
- */
-function mprm_after_tag_list() {
-}
-
-/**
- * Before menu_items header
- */
-function mprm_before_menu_items_header() {
-}
 
 /**
  * Shortcode header
@@ -920,23 +833,6 @@ function mprm_menu_items_header() {
 	}
 }
 
-/**
- * After menu_items header
- */
-function mprm_after_menu_items_header() {
-}
-
-/**
- * Before Menu item Grid header
- */
-function mprm_before_menu_item_list_header() {
-}
-
-/**
- * Before Menu item Grid footer
- */
-function mprm_before_menu_item_list_footer() {
-}
 
 /**
  * Menu item Grid header
@@ -1122,30 +1018,8 @@ function mprm_menu_item_simple_list_footer() {
 	<?php
 }
 
-/**
- * After Menu item
- */
-function mprm_after_menu_item_list_header() {
-}
-
-/**
- * After item Grid footer
- */
-function mprm_after_menu_item_list_footer() {
-}
 
 /*   ======= GRID   ======== */
-/**
- * Before Menu item Grid header
- */
-function mprm_before_menu_item_grid_header() {
-}
-
-/**
- * Before Menu item Grid footer
- */
-function mprm_before_menu_item_grid_footer() {
-}
 
 /**
  * Menu item Grid header
@@ -1249,7 +1123,6 @@ function mprm_menu_item_grid_attributes() {
 /**
  * Menu item Grid excerpt
  *
- *
  */
 function mprm_menu_item_grid_excerpt() {
 	global $mprm_view_args;
@@ -1279,20 +1152,6 @@ function mprm_menu_item_grid_footer() {
 	?>
 	</div>
 	<?php
-}
-
-/**
- * After Menu item
- *
- */
-function mprm_after_menu_item_grid_header() {
-}
-
-/**
- * After item Grid footer
- *
- */
-function mprm_after_menu_item_grid_footer() {
 }
 
 /**
@@ -1327,12 +1186,6 @@ function mprm_after_menu_item_header() { ?>
 }
 
 /**
- * Before Menu item gallery
- */
-function mprm_before_menu_item_gallery() {
-}
-
-/**
  * Menu item gallery
  */
 function mprm_menu_item_gallery() {
@@ -1361,12 +1214,6 @@ function mprm_purchase_link() {
 			mprm_get_template("common/buy/{$data['template']}");
 		}
 	}
-}
-
-/**
- * Menu item gallery
- */
-function mprm_after_menu_item_gallery() {
 }
 
 /**
@@ -1586,7 +1433,6 @@ function render_term_header($data) {
 		mprm_get_template('common/item-taxonomy-header');
 	}
 }
-
 
 /**
 * @return mixed|void
