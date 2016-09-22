@@ -46,13 +46,17 @@ function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways(true);
 	$page_URL = models\Misc::get_instance()->get_current_page_url();
 
+	do_action('mprm_checkout_summary_table','mprm_checkout_summary_table');
+
 	do_action('mprm_payment_mode_top'); ?>
 
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
 	<?php } ?>
+
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
+
 		<div id="mprm-payment-mode-wrap">
 			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
 			<?php
@@ -67,6 +71,7 @@ function mprm_payment_mode_select() {
 			do_action('mprm_payment_mode_after_gateways');
 			?>
 		</div>
+
 		<?php do_action('mprm_payment_mode_after_gateways_wrap'); ?>
 	</fieldset>
 	<fieldset id="mprm_payment_mode_submit" class="mprm-no-js">
@@ -78,11 +83,16 @@ function mprm_payment_mode_select() {
 		</form>
 	<?php } ?>
 	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
+
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
+/**
+ * Purchase_form
+ */
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
+
 	/**
 	 * Hooks in at the top of the purchase form
 	 *

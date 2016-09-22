@@ -4,7 +4,6 @@ use mp_restaurant_menu\classes\models\Cart as Cart;
 use mp_restaurant_menu\classes\models\Gateways as Gateways;
 use mp_restaurant_menu\classes\models\Misc as Misc;
 use mp_restaurant_menu\classes\models\Payments as Payments;
-use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 // No key found
 if (empty($payment_key)) { ?>
@@ -105,7 +104,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php do_action('mprm_success_page_subtotal_after', $order) ?>
 
-	<?php if (Taxes::get_instance()->use_taxes()) : ?>
+	<?php if (mprm_use_taxes()) : ?>
 		<tr>
 			<td><strong><?php _e('Tax', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo Payments::get_instance()->payment_tax($order->ID); ?></td>

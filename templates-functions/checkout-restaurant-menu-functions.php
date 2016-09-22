@@ -2,7 +2,6 @@
 use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View;
 
-
 /**
  * @return mixed|void
  */
@@ -98,6 +97,7 @@ function mprm_checkout_final_total() {
 	</p>
 	<?php
 }
+
 function mprm_checkout_hidden_fields() {
 	?>
 	<?php if (is_user_logged_in()) { ?>
@@ -135,3 +135,40 @@ function mprm_checkout_order_note() {
 		<textarea type="text" name="customer_note" id="customer_note" class="phone-number mprm-input"></textarea>
 	</p>
 <? }
+
+function mprm_checkout_summary_table() {
+	?>
+	<table class="mprm-table">
+		<tr>
+			<th><?php _e('Order totals:', 'mp-restaurant-menu'); ?></th>
+		</tr>
+
+		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
+		<tr>
+			<td class=""><span><?php _e('Subtotal:', 'mp-restaurant-menu'); ?></span><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
+		</tr>
+		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
+
+
+		<?php do_action('mprm_checkout_table_tax_before'); ?>
+		<?php if (mprm_use_taxes()) : ?>
+			<tr <?php if (!mprm_is_cart_taxed()) echo ' style="display:none;"'; ?>>
+				<td>
+					<span><?php _e('Tax:', 'mp-restaurant-menu'); ?></span>
+					<span class="mprm_cart_tax_amount" data-tax="<?php echo mprm_get_cart_tax(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) ?></span>
+				</td>
+			</tr>
+		<?php endif; ?>
+		<?php do_action('mprm_checkout_table_tax_after'); ?>
+
+		<?php do_action('mprm_checkout_table_total_before'); ?>
+		<tr>
+			<td>
+				<span><?php _e('Total:', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm_cart_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) ?></span>
+			</td>
+		</tr>
+		<?php do_action('mprm_checkout_table_total_after'); ?>
+
+	</table>
+<?php }

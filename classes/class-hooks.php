@@ -188,8 +188,6 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 70);
 
 
-
-
 		/**
 		 * Menu widget item list
 		 *
@@ -278,8 +276,8 @@ class Hooks extends Core {
 	 */
 	public static function install_menu_items_actions() {
 		/**
-
-		/**
+		 *
+		 * /**
 		 * Menu_items header
 		 *
 		 * @see mprm_menu_items_header()
@@ -400,7 +398,6 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_content_author()
 		 * @see mprm_menu_item_content_comments()
 		 */
-		//add_action('mprm_menu_item_content', 'mprm_menu_item_price', 5);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content', 10);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content_author', 20);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content_comments', 30);
@@ -577,6 +574,7 @@ class Hooks extends Core {
 		add_action('mprm_cart_fee_rows_before', 'mprm_cart_fee_rows_before');
 		add_action('mprm_cart_fee_rows_after', 'mprm_cart_fee_rows_after');
 		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');
+		add_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table');
 		add_action('mprm_checkout_additional_information', 'mprm_checkout_delivery_address', 5);
 		add_action('mprm_checkout_additional_information', 'mprm_checkout_order_note', 10);
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);

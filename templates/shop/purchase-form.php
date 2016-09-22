@@ -1,13 +1,15 @@
 <?php
-use \mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\models;
 
 $payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
+
 /**
  * Hooks in at the top of the purchase form
  *
  * @since 1.4
  */
 do_action('mprm_purchase_form_top');
+
 if (models\Checkout::get_instance()->can_checkout()) {
 	do_action('mprm_purchase_form_before_register_login');
 	$show_register_form = mprm_get_option('show_register_form', 'none');
@@ -30,7 +32,6 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	 */
 	do_action('mprm_purchase_form_before_cc_form');
 	if (mprm_get_cart_total() > 0) {
-		// Load the credit card form and allow gateways to load their own if they wish
 		if (has_action('mprm_' . $payment_mode . '_cc_form')) {
 			do_action('mprm_' . $payment_mode . '_cc_form');
 		} else {
@@ -44,7 +45,7 @@ if (models\Checkout::get_instance()->can_checkout()) {
 	 */
 	do_action('mprm_purchase_form_after_cc_form');
 } else {
-	// Can't checkout
 	do_action('mprm_purchase_form_no_access');
 }
+
 do_action('mprm_purchase_form_bottom');

@@ -1,7 +1,6 @@
 <?php
 global $post;
 use mp_restaurant_menu\classes\models\Cart as Cart;
-use mp_restaurant_menu\classes\models\Taxes as Taxes;
 
 ?>
 <table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed"' : '' ?>>
@@ -29,15 +28,21 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 				<?php do_action('mprm_checkout_table_body_first', $item); ?>
 
 				<td class="mprm_cart_item_name">
+					<?php $item_title = Cart::get_instance()->get_cart_item_name($item); ?>
 					<?php if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) { ?>
 						<div class="mprm_cart_item_image">
 							<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); ?>
+							<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+								<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+							</a>
 						</div>
-					<?php }
-					$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
-					<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
-						<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
-					</a>
+					<?php } else { ?>
+						<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+							<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
+						</a>
+					<?php } ?>
+
+
 					<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
 				</td>
 				<td class="mprm_cart_item_price">
@@ -86,65 +91,4 @@ use mp_restaurant_menu\classes\models\Taxes as Taxes;
 	<?php endif; ?>
 	<?php do_action('mprm_cart_items_after'); ?>
 	</tbody>
-
-	<tfoot>
-
-	<?php if (has_action('mprm_cart_footer_buttons')) : ?>
-		<tr class="mprm_cart_footer_row<?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?>">
-			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>">
-				<?php do_action('mprm_cart_footer_buttons'); ?>
-			</th>
-		</tr>
-	<?php endif; ?>
-
-	<?php do_action('mprm_checkout_table_subtotal_before'); ?>
-
-	<?php if (Taxes::get_instance()->use_taxes() && !Taxes::get_instance()->prices_include_tax()) : ?>
-		<tr class="mprm_cart_footer_row mprm_cart_subtotal_row"<?php if (!Taxes::get_instance()->use_taxes()) echo ' style="display:none;"'; ?>>
-			<?php do_action('mprm_checkout_table_subtotal_first'); ?>
-			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_subtotal">
-				<?php _e('Subtotal', 'mp-restaurant-menu'); ?>:&nbsp;<span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())); ?></span>
-			</th>
-			<?php do_action('mprm_checkout_table_subtotal_last'); ?>
-		</tr>
-	<?php endif; ?>
-
-	<?php do_action('mprm_checkout_table_subtotal_after'); ?>
-
-	<tr class="mprm_cart_footer_row mprm_cart_discount_row" <?php if (!Cart::get_instance()->cart_has_discounts()) echo ' style="display:none;"'; ?>>
-		<?php do_action('mprm_checkout_table_discount_first'); ?>
-		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_discount">
-			<?php // mprm_cart_discounts_html(); ?>
-		</th>
-		<?php do_action('mprm_checkout_table_discount_last'); ?>
-	</tr>
-
-	<?php do_action('mprm_checkout_table_discount_after'); ?>
-
-	<?php if (Taxes::get_instance()->use_taxes()) : ?>
-		<tr class="mprm_cart_footer_row mprm_cart_tax_row"<?php if (!Taxes::get_instance()->is_cart_taxed()) echo ' style="display:none;"'; ?>>
-			<?php do_action('mprm_checkout_table_tax_first'); ?>
-			<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_tax">
-				<?php _e('Tax', 'mp-restaurant-menu'); ?>:&nbsp;
-				<span class="mprm_cart_tax_amount" data-tax="<?php echo Cart::get_instance()->get_cart_tax(); ?>">
-					<?php echo esc_html(Cart::get_instance()->cart_tax()); ?>
-				</span>
-			</th>
-			<?php do_action('mprm_checkout_table_tax_last'); ?>
-		</tr>
-	<?php endif; ?>
-
-	<?php do_action('mprm_checkout_table_tax_after'); ?>
-
-	<tr class="mprm_cart_footer_row">
-		<?php do_action('mprm_checkout_table_footer_first'); ?>
-		<th colspan="<?php echo Cart::get_instance()->checkout_cart_columns(); ?>" class="mprm_cart_total"><?php _e('Total', 'mp-restaurant-menu'); ?>:
-			<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>" data-total="<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>">
-				<?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?>
-			</span>
-		</th>
-		<?php do_action('mprm_checkout_table_footer_last'); ?>
-	</tr>
-
-	</tfoot>
 </table>

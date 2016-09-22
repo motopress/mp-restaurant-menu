@@ -1393,7 +1393,6 @@ class Payments extends Parent_query {
 	 */
 	public function get_payment_tax($payment_id = 0, $payment_meta = false) {
 		$payment = new Order($payment_id);
-
 		return $payment->tax;
 	}
 

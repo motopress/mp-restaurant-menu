@@ -1593,6 +1593,7 @@ final class Order extends Model {
 			'post_date_gmt' => !empty($this->date) ? get_gmt_from_date($this->date) : null,
 			'post_parent' => $this->parent_payment,
 		), $payment_data);
+
 		// Create a blank payment
 		$payment_id = wp_insert_post($args);
 		if (!empty($payment_id)) {
@@ -1627,6 +1628,7 @@ final class Order extends Model {
 				}
 			}
 			$this->update_meta('_mprm_order_meta', $this->payment_meta);
+
 			$this->new = true;
 		}
 		return $this->ID;
