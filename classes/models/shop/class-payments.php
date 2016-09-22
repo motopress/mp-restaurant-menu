@@ -346,7 +346,7 @@ class Payments extends Parent_query {
 
 		$address = array_map('trim', $data['mprm-order-address'][0]);
 
-		$shipping_address = trim($data['mprm-order-delivery']);
+		$shipping_address = empty($data['mprm-order-delivery']) ? '' : trim($data['mprm-order-delivery']);
 
 		$curr_total = $this->get('formatting')->sanitize_amount($payment->total);
 		$new_total = $this->get('formatting')->sanitize_amount($_POST['mprm-order-total']);
