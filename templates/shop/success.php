@@ -94,7 +94,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php if (filter_var($receipt_args['price'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<td><strong><?php _e('Subtotal', 'mp-restaurant-menu'); ?></strong></td>
+			<td><strong><?php _e('Subtotal', 'mp-restaurant-menu'); ?> </strong></td>
 			<td>
 				<?php echo Payments::get_instance()->payment_subtotal($order->ID); ?>
 			</td>

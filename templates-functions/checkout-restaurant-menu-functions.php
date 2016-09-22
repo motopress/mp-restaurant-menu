@@ -145,7 +145,7 @@ function mprm_checkout_summary_table() {
 
 		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
 		<tr>
-			<td class=""><span><?php _e('Subtotal:', 'mp-restaurant-menu'); ?></span><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
+			<td class=""><span><?php _e('Subtotal:', 'mp-restaurant-menu'); ?> </span><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
 
