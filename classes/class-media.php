@@ -1451,7 +1451,6 @@ class Media extends Core {
 			}
 		}
 
-
 		return $template;
 	}
 

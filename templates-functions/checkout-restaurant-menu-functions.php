@@ -136,39 +136,35 @@ function mprm_checkout_order_note() {
 	</p>
 <? }
 
-function mprm_checkout_summary_table() {
-	?>
+/**
+ * Summary table
+ */
+function mprm_checkout_summary_table() { ?>
+	<span class="mprm-payment-details-label"><legend><?php _e('Order totals', 'mp-restaurant-menu'); ?></legend></span>
 	<table class="mprm-table">
-		<tr>
-			<th><?php _e('Order totals:', 'mp-restaurant-menu'); ?></th>
-		</tr>
-
 		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
 		<tr>
-			<td class=""><span><?php _e('Subtotal:', 'mp-restaurant-menu'); ?> </span><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
+			<td class=""><span><?php _e('Subtotal', 'mp-restaurant-menu'); ?> </span></td>
+			<td><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
-
 
 		<?php do_action('mprm_checkout_table_tax_before'); ?>
 		<?php if (mprm_use_taxes()) : ?>
 			<tr <?php if (!mprm_is_cart_taxed()) echo ' style="display:none;"'; ?>>
-				<td>
-					<span><?php _e('Tax:', 'mp-restaurant-menu'); ?></span>
-					<span class="mprm_cart_tax_amount" data-tax="<?php echo mprm_get_cart_tax(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) ?></span>
-				</td>
+				<td><span><?php _e('Tax', 'mp-restaurant-menu'); ?></span></td>
+				<td><span class="mprm_cart_tax_amount" data-tax="<?php echo mprm_get_cart_tax(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) ?></span></td>
 			</tr>
 		<?php endif; ?>
 		<?php do_action('mprm_checkout_table_tax_after'); ?>
 
 		<?php do_action('mprm_checkout_table_total_before'); ?>
-		<tr>
+		<tr class="mprm-checkout-total">
 			<td>
-				<span><?php _e('Total:', 'mp-restaurant-menu'); ?></span>
-				<span class="mprm_cart_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) ?></span>
+				<span><b><?php _e('Total', 'mp-restaurant-menu'); ?></b></span>
 			</td>
+			<td><span class="mprm_cart_amount"><b><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) ?></b></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_total_after'); ?>
-
 	</table>
 <?php }

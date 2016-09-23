@@ -1,5 +1,4 @@
-/* jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/* globals jQuery:false, MP_RM_Registry:false, _:false,wp:false,jBox:false,mprm_admin_vars:false,tb_show:false,tb_remove:false,magnificPopup:false*/
+/* globals jQuery:false, MP_RM_Registry:false, _:false,wp:false,jBox:false,mprm_admin_vars:false,tb_show:false,tb_remove:false,confirm:false,console:false,alert:false,magnificPopup:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -241,7 +240,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 						formObject.find('input').each(function() {
 							if (!this.validity.valid) {
 								$(this).focus();
-
 							}
 						});
 						$("input", formObject).off('keypress').on("keypress", function(event) {
@@ -1131,7 +1129,7 @@ MP_RM_Registry.register("Order", (function($) {
 			 * Remove comment
 			 */
 			removeComment: function() {
-				$('.mprm-delete-order-note').off('click').on('click', function(e) {
+				$(document).on('click.remove_order_note', '.mprm-delete-order-note', function(e) {
 					e.preventDefault();
 					var note_id = $(this).attr('data-note-id');
 					var $params = {
@@ -1141,7 +1139,7 @@ MP_RM_Registry.register("Order", (function($) {
 						note_id: note_id
 					};
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						function(data) {
+						function() {
 							$('#mprm-payment-note-' + note_id).remove();
 
 							if ($('.mprm-payment-note').length < 1) {
@@ -1159,12 +1157,13 @@ MP_RM_Registry.register("Order", (function($) {
 			 * Edit post hide
 			 */
 			hideElementOrder: function() {
+				var postStatusBlock = $('#post_status');
 				$('#submitdiv').hide();
 				$('#order-log').hide();
 				$('#titlewrap').parents('#post-body-content').hide();
 				$('#commentstatusdiv').parent().hide();
-				$('#post_status').find('option').remove();
-				$('select[name="mprm-order-status"]').find('option').clone().appendTo($('#post_status'));
+				postStatusBlock.find('option').remove();
+				$('select[name="mprm-order-status"]').find('option').clone().appendTo(postStatusBlock);
 			}
 		};
 	}
@@ -1408,7 +1407,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 			 * Gallery Init
 			 */
 			imagesInit: function() {
-				$('.mp_menu_images a.mprm-delete').off('click').on('click', function() {
+				$(document).on('click.mprm_delete_img', '.mp_menu_images a.mprm-delete', function() {
 					$(this).parents('li.mprm-image').remove();
 					state.refreshImages();
 					return false;

@@ -44,11 +44,12 @@ function mprm_get_menu_item_notes($menu_item_id = 0) {
  */
 function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways(true);
-	$page_URL = models\Misc::get_instance()->get_current_page_url();
+	$page_URL = models\Misc::get_instance()->get_current_page_url(); ?>
 
-	do_action('mprm_checkout_summary_table','mprm_checkout_summary_table');
-
-	do_action('mprm_payment_mode_top'); ?>
+	<fieldset id="mprm_payment_summary_table">
+		<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
+	</fieldset>
+	<?php do_action('mprm_payment_mode_top'); ?>
 
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">

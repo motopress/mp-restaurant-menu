@@ -276,8 +276,6 @@ class Hooks extends Core {
 	 */
 	public static function install_menu_items_actions() {
 		/**
-		 *
-		 * /**
 		 * Menu_items header
 		 *
 		 * @see mprm_menu_items_header()
@@ -299,8 +297,6 @@ class Hooks extends Core {
 		 * @see mprm_taxonomy_grid_footer()
 		 */
 		add_action('mprm_shortcode_category_grid', 'mprm_shortcode_grid_item', 10);
-
-
 	}
 
 	/**
@@ -317,15 +313,7 @@ class Hooks extends Core {
 		 * @see mprm_category_list_footer()
 		 */
 		add_action('mprm_shortcode_category_list', 'mprm_category_list_item', 10);
-		/*add_action('mprm_shortcode_category_list', 'mprm_category_list_title', 10);
-		add_action('mprm_shortcode_category_list', 'mprm_category_list_description', 20);
-		add_action('mprm_shortcode_category_list', 'mprm_category_list_footer', 30);*/
-		/**
-		 * After Category list
-		 *
-		 * @see mprm_after_category_list_header
-		 * @see mprm_after_category_list_footer
-		 */
+
 		/**
 		 * Category list
 		 *
