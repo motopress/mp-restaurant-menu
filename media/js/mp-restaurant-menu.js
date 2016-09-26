@@ -170,6 +170,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 
 			/**
 			 * Open popup window function
+			 *
 			 * @param start_content
 			 * @param open_callback
 			 * @param args
@@ -237,7 +238,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 					if (typeof form.checkValidity === "function" && false === form.checkValidity()) {
 						formObject.find(":invalid").addClass('mprm-form-error');
 
-						formObject.find('input').each(function() {
+						formObject.find('input').not(":submit, :reset, :image, [disabled], :hidden").each(function() {
 							if (!this.validity.valid) {
 								$(this).focus();
 							}
@@ -248,6 +249,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 								$(this).removeClass('mprm-form-error');
 							}
 						});
+
 						return false;
 					} else {
 						return true;
@@ -268,6 +270,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Html build function
  */
@@ -405,6 +408,7 @@ MP_RM_Registry.register("HtmlBuilder", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Html build function
  */
@@ -714,6 +718,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Html build function
  */
@@ -1177,6 +1182,7 @@ MP_RM_Registry.register("Order", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Menu settings module
  */
@@ -1386,6 +1392,7 @@ MP_RM_Registry.register("Menu-Settings", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Menu item module
  */
@@ -1581,6 +1588,7 @@ MP_RM_Registry.register("Menu-Item", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Category module
  */
@@ -1656,6 +1664,7 @@ MP_RM_Registry.register("Menu-Category", (function($) {
 		}
 	};
 })(jQuery));
+
 /**
  * Theme module
  */
