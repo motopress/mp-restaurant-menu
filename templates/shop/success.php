@@ -142,12 +142,15 @@ if (isset($need_login) && $need_login) {
 	<table id="mprm_purchase_receipt_products">
 		<thead>
 		<th><?php _e('Name', 'mp-restaurant-menu'); ?></th>
+
 		<?php if (Misc::get_instance()->use_skus()) { ?>
 			<th><?php _e('SKU', 'mp-restaurant-menu'); ?></th>
 		<?php } ?>
+
 		<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 			<th><?php _e('Quantity', 'mp-restaurant-menu'); ?></th>
 		<?php endif; ?>
+
 		<th><?php _e('Price', 'mp-restaurant-menu'); ?></th>
 		</thead>
 		<tbody>
@@ -178,12 +181,11 @@ if (isset($need_login) && $need_login) {
 							<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
 						<?php endif; ?>
 						<?php if (Cart::get_instance()->item_quantities_enabled()) { ?>
-							<td><?php echo $item['quantity']; ?></td>
-
+							<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
 						<?php } ?>
 						<td>
 							<?php if (empty($item['in_bundle'])) : ?>
-								<?php echo mprm_currency_filter(mprm_format_amount($item['price'])); ?>
+								<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
 							<?php endif; ?>
 						</td>
 					</tr>

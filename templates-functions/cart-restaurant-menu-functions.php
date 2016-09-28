@@ -229,3 +229,12 @@ function mprm_is_cart_taxed() {
 function mprm_get_checkout_cart_columns() {
 	return models\Cart::get_instance()->checkout_cart_columns();
 }
+
+/**
+ * Get cart contents
+ *
+ * @return mixed|void
+ */
+function mprm_get_cart_contents() {
+	return models\Cart::get_instance()->get_cart_contents();
+}

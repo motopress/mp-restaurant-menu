@@ -237,9 +237,18 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 
 					if (typeof form.checkValidity === "function" && false === form.checkValidity()) {
 						formObject.find(":invalid").addClass('mprm-form-error');
-
+						// var firstField = false;
 						formObject.find('input').not(":submit, :reset, :image, [disabled], :hidden").each(function() {
 							if (!this.validity.valid) {
+
+								// if (!firstField) {
+								// 	$('html, body').animate({
+								// 		scrollTop: $(this).offset().top
+								// 	}, 2000);
+								//
+								// 	firstField = true;
+								// }
+
 								$(this).focus();
 							}
 						});

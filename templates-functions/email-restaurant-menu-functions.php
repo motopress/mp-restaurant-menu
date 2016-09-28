@@ -116,6 +116,8 @@ function mprm_email_tag_menu_item_list($order_id) {
 				if (!empty($quantity) && $quantity > 1) {
 					$title .= "&nbsp;&ndash;&nbsp;" . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));
 //					$title .= "&nbsp;&ndash;&nbsp;" . __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
+				} else {
+					$title .= "&nbsp;&ndash;&nbsp;" . mprm_currency_filter(mprm_format_amount($item['item_price']));
 				}
 
 				if (!empty($sku)) {
