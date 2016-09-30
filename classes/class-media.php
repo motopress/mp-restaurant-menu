@@ -1370,6 +1370,7 @@ class Media extends Core {
 		if (!empty($post) && in_array($post->post_type, array_values($this->post_types)) && $this->template_mode() == 'theme') {
 			add_filter('the_content', array($this, 'single_content'), 20, 2);
 		}
+
 		return $template;
 	}
 

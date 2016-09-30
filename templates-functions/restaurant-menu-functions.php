@@ -1461,3 +1461,17 @@ function mprm_get_post_type($type){
 	}
 	return Core::get_instance()->get_post_type($type);
 }
+/**
+ * Get post meta with default settings
+ *
+ * @param $post_id
+ * @param $key
+ * @param bool $single
+ * @param bool $default
+ *
+ * @return bool|mixed
+*/
+function mprm_get_post_meta($post_id, $key, $single=false, $default= false){
+	$post_meta = get_post_meta($post_id, $key, $single);
+	return empty($post_meta) ? $default : $post_meta;
+}
