@@ -18,7 +18,7 @@
 		<?php if (mprm_get_option('customer_phone')): ?>
 			<p id="mprm-phone-number-wrap">
 				<label for="phone_number" class="mprm-label">
-					<?php _e('Phone Number:', 'mp-restaurant-menu'); ?>
+					<?php _e('Phone Number', 'mp-restaurant-menu'); ?>
 					<span class="mprm-required-indicator">*</span>
 					<span class="phone-type"></span>
 				</label>
