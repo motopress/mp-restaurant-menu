@@ -43,7 +43,7 @@ $phone = esc_attr($order->phone_number); ?>
 		<a href="#save" class="mprm-new-customer-save"><?php _e('Save a customer', 'mp-restaurant-menu'); ?></a>&nbsp;|&nbsp;
 		<a href="#cancel" class="mprm-new-customer-cancel mprm-delete"><?php _e('Cancel', 'mp-restaurant-menu'); ?></a>
 		<p>
-			<small><em>*<?php _e('Click "Save Payment" to create new customer', 'mp-restaurant-menu'); ?></em></small>
+			<small><em>*<?php _e('Click "Save Order" to create new customer', 'mp-restaurant-menu'); ?></em></small>
 		</p>
 	</div>
 </div>

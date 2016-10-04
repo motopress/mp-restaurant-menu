@@ -36,7 +36,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php if (filter_var($receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<th><strong><?php _e('Payment', 'mp-restaurant-menu'); ?>:</strong></th>
+			<th><strong><?php _e('Order', 'mp-restaurant-menu'); ?>:</strong></th>
 			<th><?php echo Payments::get_instance()->get_payment_number($order->ID); ?></th>
 		</tr>
 	<?php endif; ?>
