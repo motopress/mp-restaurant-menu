@@ -28,12 +28,6 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
 class Hooks extends Core {
 	protected static $instance;
 
-	/**
-	 * Hooks constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
 
 	/**
 	 * Init all hooks in projects
@@ -79,6 +73,7 @@ class Hooks extends Core {
 		self::install_tag_actions();
 		self::install_cart_actions();
 		self::install_checkout_actions();
+
 		Test_Manual_payment::get_instance()->init_action();
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
@@ -528,6 +523,8 @@ class Hooks extends Core {
 			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
 		}
 		add_action('mprm_cart_empty', 'mprm_cart_empty');
+
+		add_action('mprm_success_page_cart_item', 'mprm_success_page_cart_item', 10, 2);
 
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');

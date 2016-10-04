@@ -139,6 +139,7 @@ if (isset($need_login) && $need_login) {
 
 <?php if (filter_var($receipt_args['products'], FILTER_VALIDATE_BOOLEAN)) : ?>
 	<h3><?php echo apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')); ?></h3>
+
 	<table id="mprm_purchase_receipt_products">
 		<thead>
 		<th><?php _e('Name', 'mp-restaurant-menu'); ?></th>
@@ -155,6 +156,7 @@ if (isset($need_login) && $need_login) {
 		</thead>
 		<tbody>
 		<?php if ($cart) : ?>
+
 			<?php foreach ($cart as $key => $item) : ?>
 				<?php if (!apply_filters('mprm_user_can_view_receipt_item', true, $item)) : ?>
 					<?php continue; ?>
@@ -164,37 +166,16 @@ if (isset($need_login) && $need_login) {
 
 				<?php if (empty($item['in_bundle'])) : ?>
 
-					<tr>
-						<td>
-							<?php $price_id = Cart::get_instance()->get_cart_item_price_id($item); ?>
-							<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo get_post_type($item['id']) ?>">
-								<?php echo esc_html($item['name']); ?>
-								<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
-									<span class="mprm_purchase_receipt_price_name ">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
-								<?php endif; ?>
-							</div>
-							<?php if ($receipt_args['notes']) : ?>
-								<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop(mprm_get_menu_item_notes($item['id'])); ?></div>
-							<?php endif; ?>
-						</td>
-						<?php if (Misc::get_instance()->use_skus()) : ?>
-							<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
-						<?php endif; ?>
-						<?php if (Cart::get_instance()->item_quantities_enabled()) { ?>
-							<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
-						<?php } ?>
-						<td>
-							<?php if (empty($item['in_bundle'])) : ?>
-								<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
-							<?php endif; ?>
-						</td>
-					</tr>
+					<?php do_action('mprm_success_page_cart_item',$item, $order) ?>
+
 				<?php endif; ?>
 
 				<?php do_action('mprm-success-page-cart-item-after', $item['id'], $order) ?>
 
 			<?php endforeach; ?>
+
 		<?php endif; ?>
+
 		<?php if (($fees = Payments::get_instance()->get_payment_fees($order->ID, 'item'))) : ?>
 			<?php foreach ($fees as $fee) : ?>
 				<tr>

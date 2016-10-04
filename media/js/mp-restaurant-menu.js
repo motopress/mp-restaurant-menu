@@ -415,6 +415,7 @@ MP_RM_Registry.register("HtmlBuilder", (function($) {
 MP_RM_Registry.register("Menu-Shop", (function($) {
 	"use strict";
 	var state;
+	var delayTimer;
 
 	function createInstance() {
 		return {
@@ -520,56 +521,62 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 * Update item quantities
 			 */
 			update_item_quantities: function() {
+
+
 				$('.mprm-item-quantity').on('change', function() {
+					var stepper = this;
+					clearTimeout(delayTimer);
+					delayTimer = setTimeout(function() {
+						var $this = $(stepper),
+							quantity = $this.val(),
+							key = $this.data('key'),
+							menu_item_id = $this.closest('.mprm_cart_item').data('menu-item-id'),
+							options = $this.parent().find('input[name="mprm-cart-menu-item-' + key + '-options"]').val();
 
-					var $this = $(this),
-						quantity = $this.val(),
-						key = $this.data('key'),
-						menu_item_id = $this.closest('.mprm_cart_item').data('menu-item-id'),
-						options = $this.parent().find('input[name="mprm-cart-menu-item-' + key + '-options"]').val();
+						var $params = {
+							action: 'update_cart_item_quantity',
+							controller: 'cart',
+							quantity: quantity,
+							menu_item_id: menu_item_id,
+							options: options,
+							position: key
+						};
 
-					var $params = {
-						action: 'update_cart_item_quantity',
-						controller: 'cart',
-						quantity: quantity,
-						menu_item_id: menu_item_id,
-						options: options,
-						position: key
-					};
+						MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
+							/**
+							 *
+							 * @param {Object} data
+							 * @param {string} data.taxes
+							 * @param {string} data.subtotal
+							 * @param {string} data.total
+							 */
+							function(data) {
+								$('.mprm_cart_subtotal_amount').each(function() {
+									var element = $(this);
+									element.text(data.subtotal);
+									element.attr('data-subtotal', data.subtotal);
+									element.attr('data-total', data.subtotal);
+								});
 
-					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
-						/**
-						 *
-						 * @param {Object} data
-						 * @param {string} data.taxes
-						 * @param {string} data.subtotal
-						 * @param {string} data.total
-						 */
-						function(data) {
-							$('.mprm_cart_subtotal_amount').each(function() {
-								var element = $(this);
-								element.text(data.subtotal);
-								element.attr('data-subtotal', data.subtotal);
-								element.attr('data-total', data.subtotal);
-							});
+								$('.mprm_cart_tax_amount').each(function() {
+									$(this).text(data.taxes);
+								});
 
-							$('.mprm_cart_tax_amount').each(function() {
-								$(this).text(data.taxes);
-							});
-
-							$('.mprm_cart_amount').each(function() {
-								var element = $(this);
-								element.text(data.total);
-								element.attr('data-subtotal', data.total);
-								element.attr('data-total', data.total);
-							});
-						},
-						function(data) {
-							console.warn('Some error!!!');
-							console.warn(data);
-						}
-					);
+								$('.mprm_cart_amount').each(function() {
+									var element = $(this);
+									element.text(data.total);
+									element.attr('data-subtotal', data.total);
+									element.attr('data-total', data.total);
+								});
+							},
+							function(data) {
+								console.warn('Some error!!!');
+								console.warn(data);
+							}
+						);
+					}, 1000);
 				});
+
 			},
 			/**
 			 * Remove from cart

@@ -238,3 +238,54 @@ function mprm_get_checkout_cart_columns() {
 function mprm_get_cart_contents() {
 	return models\Cart::get_instance()->get_cart_contents();
 }
+
+/**
+ * Success cart cart item
+ *
+ * @param $item
+ * @param $order
+ *
+ * @return bool/mixed
+ */
+function mprm_success_page_cart_item($item, $order) {
+	$menu_item_notes = mprm_get_menu_item_notes($item['id']);
+	$post_type = get_post_type($item['id']);
+
+	if ($post_type != mprm_get_post_type('menu_item')) {
+		return true;
+	}
+
+	?>
+
+	<tr>
+		<td>
+			<?php $price_id = models\Cart::get_instance()->get_cart_item_price_id($item); ?>
+
+			<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo $post_type ?>">
+				<?php echo esc_html($item['name']); ?>
+				<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
+					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+				<?php endif; ?>
+			</div>
+
+			<?php if (!empty($menu_item_notes)) : ?>
+				<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop($menu_item_notes); ?></div>
+			<?php endif; ?>
+
+		</td>
+
+		<?php if (models\Misc::get_instance()->use_skus()) : ?>
+			<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
+		<?php endif; ?>
+
+		<?php if (models\Cart::get_instance()->item_quantities_enabled()) { ?>
+			<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
+		<?php } ?>
+		<td>
+			<?php if (empty($item['in_bundle'])) : ?>
+				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+
+<?php }

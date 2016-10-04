@@ -30,8 +30,11 @@
   opacity: 0;
 }
 
-.mprm-error {
-
+.mprm-required {
+  &:after {
+	content: " *";
+	color: red;
+  }
 }
 
 .mprm_purchase_submit_wrapper {

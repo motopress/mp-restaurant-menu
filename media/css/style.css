@@ -1427,6 +1427,10 @@ there.
   display: none;
   opacity: 0;
 }
+.mprm-required:after {
+  content: " *";
+  color: red;
+}
 .mprm_purchase_submit_wrapper .mprm-content-container {
   margin: 8px 0;
 }

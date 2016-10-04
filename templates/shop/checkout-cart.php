@@ -3,6 +3,7 @@ global $post;
 use mp_restaurant_menu\classes\models\Cart as Cart;
 
 ?>
+
 <table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed"' : '' ?>>
 	<thead>
 	<tr class="mprm_cart_header_row">
