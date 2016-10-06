@@ -8,6 +8,14 @@ class Capabilities extends Core {
 	protected static $instance;
 
 	/**
+	 * Get things going
+	 *
+	 */
+	public function __construct() {
+		add_filter('map_meta_cap', array($this, 'meta_caps'), 10, 4);
+	}
+
+	/**
 	 * @return Capabilities
 	 */
 	public static function get_instance() {
@@ -18,19 +26,9 @@ class Capabilities extends Core {
 	}
 
 	/**
-	 * Get things going
-	 *
-	 * @since 1.4.4
-	 */
-	public function __construct() {
-		add_filter('map_meta_cap', array($this, 'meta_caps'), 10, 4);
-	}
-
-	/**
 	 * Add new shop roles with default WP caps
 	 *
 	 * @access public
-	 * @since 1.4.4
 	 * @return void
 	 */
 	public function add_roles() {
@@ -87,7 +85,6 @@ class Capabilities extends Core {
 	 * Add new shop-specific capabilities
 	 *
 	 * @access public
-	 * @since  1.4.4
 	 * @global \WP_Roles $wp_roles
 	 * @return void
 	 */
@@ -138,7 +135,6 @@ class Capabilities extends Core {
 	 * Gets the core post type capabilities
 	 *
 	 * @access public
-	 * @since  1.4.4
 	 * @return array $capabilities Core post type capabilities
 	 */
 	public function get_core_caps() {
@@ -204,7 +200,6 @@ class Capabilities extends Core {
 	 * Remove core post type capabilities (called on uninstall)
 	 *
 	 * @access public
-	 * @since 1.5.2
 	 * @return void
 	 */
 	public function remove_caps() {

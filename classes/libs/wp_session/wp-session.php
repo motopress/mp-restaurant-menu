@@ -7,7 +7,6 @@
  *
  * @package WordPress
  * @subpackage Session
- * @since   3.7.0
  */
 namespace mp_restaurant_menu\classes\libs;
 /**

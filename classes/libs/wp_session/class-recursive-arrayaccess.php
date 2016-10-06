@@ -7,14 +7,12 @@
  *
  * @package WordPress
  * @subpackage Session
- * @since 3.6.0
  */
 namespace mp_restaurant_menu\classes\libs;
 /**
  * Recursive array class to allow multidimensional array access.
  *
  * @package WordPress
- * @since 3.6.0
  */
 class Recursive_ArrayAccess implements \ArrayAccess {
 	/**

@@ -61,7 +61,6 @@ class Errors extends Model {
 	 * Retrieves all error messages stored during the checkout process.
 	 * If errors exist, they are returned.
 	 *
-	 * @since 1.0
 	 * @return mixed array if errors are present, false if none found
 	 */
 	public function get_errors() {
@@ -73,7 +72,6 @@ class Errors extends Model {
 	 *
 	 * Stores an error in a session var.
 	 *
-	 * @since 1.0
 	 *
 	 * @param int $error_id ID of the error being set
 	 * @param string $error_message Message to store with the error
@@ -92,7 +90,6 @@ class Errors extends Model {
 	/**
 	 * Clears all stored errors.
 	 *
-	 * @since 1.0
 	 * @return void
 	 */
 	public function clear_errors() {
@@ -100,9 +97,8 @@ class Errors extends Model {
 	}
 
 	/**
-	 * Removes (unsets) a stored error
+	 * Removes (unset) a stored error
 	 *
-	 * @since 1.3.4
 	 *
 	 * @param int $error_id ID of the error being set
 	 *

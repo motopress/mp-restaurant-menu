@@ -1,20 +1,18 @@
 <?php
 /**
- * WordPress session managment.
+ * WordPress session management.
  *
  * Standardizes WordPress session data using database-backed options for storage.
  * for storing user session information.
  *
  * @package WordPress
  * @subpackage Session
- * @since   3.7.0
  */
 namespace mp_restaurant_menu\classes\libs;
 /**
  * WordPress Session class for managing user session data.
  *
  * @package WordPress
- * @since   3.7.0
  */
 final class WP_Session extends Recursive_ArrayAccess implements \Iterator, \Countable {
 	/**

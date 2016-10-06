@@ -10,6 +10,13 @@ class Export extends Core {
 	protected static $instance;
 
 	/**
+	 * Export constructor.
+	 */
+	function __construct() {
+		parent::__construct();
+	}
+
+	/**
 	 * @return Export
 	 */
 	public static function get_instance() {
@@ -17,13 +24,6 @@ class Export extends Core {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Export constructor.
-	 */
-	function __construct() {
-		parent::__construct();
 	}
 
 	/**
@@ -53,7 +53,6 @@ class Export extends Core {
 		/**
 		 * Fires at the beginning of an export, before any headers are sent.
 		 *
-		 * @since 2.3.0
 		 *
 		 * @param array $args An array of export arguments.
 		 */
@@ -141,7 +140,6 @@ class Export extends Core {
 		<rss version="2.0"
 		     xmlns:excerpt="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/excerpt/"
 		     xmlns:content="http://purl.org/rss/1.0/modules/content/"
-		     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 		     xmlns:dc="http://purl.org/dc/elements/1.1/"
 		     xmlns:wp="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/">
 			<channel>
@@ -193,7 +191,6 @@ class Export extends Core {
 									/**
 									 * Filter the post content used for WXR exports.
 									 *
-									 * @since 2.5.0
 									 *
 									 * @param string $post_content Content of the current post.
 									 */
@@ -203,7 +200,6 @@ class Export extends Core {
 									/**
 									 * Filter the post excerpt used for WXR exports.
 									 *
-									 * @since 2.6.0
 									 *
 									 * @param string $post_excerpt Excerpt for the current post.
 									 */
@@ -325,6 +321,22 @@ class Export extends Core {
 	}
 
 	/**
+	 * Return the URL of the site
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return string Site URL.
+	 */
+	public function mptt_site_url() {
+		// Multisite: the base URL.
+		if (is_multisite())
+			return network_home_url();
+		// WordPress (single site): the blog URL.
+		else
+			return get_bloginfo_rss('url');
+	}
+
+	/**
 	 * Output list of authors with posts
 	 *
 	 * @since 3.1.0
@@ -359,48 +371,6 @@ class Export extends Core {
 	}
 
 	/**
-	 * Return the URL of the site
-	 *
-	 * @since 2.5.0
-	 *
-	 * @return string Site URL.
-	 */
-	public function mptt_site_url() {
-		// Multisite: the base URL.
-		if (is_multisite())
-			return network_home_url();
-		// WordPress (single site): the blog URL.
-		else
-			return get_bloginfo_rss('url');
-	}
-
-	/**
-	 * Output a term_description XML tag from a given term object
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param object $term Term Object
-	 */
-	public function mptt_term_description($term) {
-		if (empty($term->description))
-			return;
-		echo '<wp:term_description>' . $this->mptt_cdata($term->description) . '</wp:term_description>';
-	}
-
-	/**
-	 * Output a term_name XML tag from a given term object
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param object $term Term Object
-	 */
-	public function mptt_term_name($term) {
-		if (empty($term->name))
-			return;
-		echo '<wp:term_name>' . $this->mptt_cdata($term->name) . '</wp:term_name>';
-	}
-
-	/**
 	 * Wrap given string in XML CDATA tag.
 	 *
 	 * @since 2.1.0
@@ -419,6 +389,48 @@ class Export extends Core {
 	}
 
 	/**
+	 * Output a term_name XML tag from a given term object
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param object $term Term Object
+	 */
+	public function mptt_term_name($term) {
+		if (empty($term->name))
+			return;
+		echo '<wp:term_name>' . $this->mptt_cdata($term->name) . '</wp:term_name>';
+	}
+
+	/**
+	 * Output a term_description XML tag from a given term object
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param object $term Term Object
+	 */
+	public function mptt_term_description($term) {
+		if (empty($term->description))
+			return;
+		echo '<wp:term_description>' . $this->mptt_cdata($term->description) . '</wp:term_description>';
+	}
+
+	/**
+	 * Output list of taxonomy terms, in XML tag format, associated with a post
+	 *
+	 */
+	public function mptt_post_taxonomy() {
+		$post = get_post();
+		$taxonomies = get_object_taxonomies($post->post_type);
+		if (empty($taxonomies)) {
+			return;
+		}
+		$terms = wp_get_object_terms($post->ID, $taxonomies);
+		foreach ((array)$terms as $term) {
+			echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . $this->mptt_cdata($term->name) . "</category>\n";
+		}
+	}
+
+	/**
 	 *
 	 * @param bool $return_me
 	 * @param string $meta_key
@@ -429,21 +441,5 @@ class Export extends Core {
 		if ('_edit_lock' == $meta_key)
 			$return_me = true;
 		return $return_me;
-	}
-
-	/**
-	 * Output list of taxonomy terms, in XML tag format, associated with a post
-	 *
-	 * @since 2.3.0
-	 */
-	public function mptt_post_taxonomy() {
-		$post = get_post();
-		$taxonomies = get_object_taxonomies($post->post_type);
-		if (empty($taxonomies))
-			return;
-		$terms = wp_get_object_terms($post->ID, $taxonomies);
-		foreach ((array)$terms as $term) {
-			echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . $this->mptt_cdata($term->name) . "</category>\n";
-		}
 	}
 }
