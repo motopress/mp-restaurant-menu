@@ -14,6 +14,8 @@ use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 
+$local = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? FALSE : TRUE;
+
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
@@ -31,7 +33,7 @@ define('MP_RM_LIBS_PATH', MP_RM_CLASSES_PATH . 'libs/');
 define('MP_RM_CONFIGS_PATH', MP_RM_PLUGIN_PATH . 'configs/');
 define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
-define('MP_RM_DEBUG', false);
+define('MP_RM_DEBUG', $local);
 
 
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
