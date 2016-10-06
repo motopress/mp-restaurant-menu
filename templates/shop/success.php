@@ -59,6 +59,7 @@ if (isset($need_login) && $need_login) {
 			<td><?php echo Gateways::get_instance()->get_gateway_checkout_label(Payments::get_instance()->get_payment_gateway($order->ID)); ?></td>
 		</tr>
 	<?php endif; ?>
+
 	<?php if (filter_var($receipt_args['date'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Date', 'mp-restaurant-menu'); ?>:</strong></td>
