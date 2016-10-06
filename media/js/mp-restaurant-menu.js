@@ -250,6 +250,10 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 							}
 						});
 
+						$("select", formObject).off('change').on("change", function() {
+							$(this).removeClass('mprm-form-error');
+						});
+
 						return false;
 					} else {
 						return true;

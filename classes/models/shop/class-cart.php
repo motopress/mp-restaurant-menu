@@ -561,13 +561,14 @@ class Cart extends Model {
 	 * @return mixed|void
 	 */
 	public function remove_cart_fee_url($fee_id = '') {
-		global $post;
+
 		if (defined('DOING_AJAX')) {
 			$current_page = $this->get('checkout')->get_checkout_uri();
 		} else {
 			$current_page = $this->get('misc')->get_current_page_url();
 		}
 		$remove_url = add_query_arg(array('fee' => $fee_id, 'mprm_action' => 'remove_fee', 'nocache' => 'true'), $current_page);
+
 		return apply_filters('mprm_remove_fee_url', $remove_url);
 	}
 

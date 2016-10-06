@@ -562,6 +562,7 @@ class Discount extends Model {
 					$value = $user_data->ID;
 				}
 			}
+
 			if ($user_found) {
 				$query_args = array(
 					'post_type' => 'mprm_order',
@@ -576,7 +577,6 @@ class Discount extends Model {
 				);
 				$payments = get_posts($query_args); // Get all payments with matching email
 			}
-//			}
 			if ($payments) {
 				foreach ($payments as $payment) {
 					$payment = new Menu_item($payment);

@@ -194,15 +194,18 @@ class Payments extends Parent_query {
 		if (isset($payment_data['post_date'])) {
 			$payment->date = $payment_data['post_date'];
 		}
+
 		if ($this->get('settings')->get_option('enable_sequential')) {
 			$number = $this->get_next_payment_number();
 			$payment->number = $this->format_payment_number($number);
 			update_option('mprm_last_payment_number', $number);
 		}
+
 		// Clear the user's purchased cache
 		delete_transient('mprm_user_' . $payment_data['user_info']['id'] . '_purchases');
 		$payment->save();
 		do_action('mprm_insert_payment', $payment->ID, $payment_data);
+
 		if (!empty($payment->ID)) {
 			return $payment->ID;
 		}
@@ -1786,7 +1789,6 @@ class Payments extends Parent_query {
 	/**
 	 * Reduces earnings and sales stats when a purchase is refunded
 	 *
-	 * @since 1.8.2
 	 *
 	 * @param int $payment_id the ID number of the payment
 	 * @param string $new_status the status of the payment, probably "publish"
@@ -1803,7 +1805,6 @@ class Payments extends Parent_query {
 	 * Flushes the current user's purchase history transient when a payment status
 	 * is updated
 	 *
-	 * @since 1.2.2
 	 *
 	 * @param int $payment_id the ID number of the payment
 	 * @param string $new_status the status of the payment, probably "publish"
@@ -1866,7 +1867,6 @@ class Payments extends Parent_query {
 			}
 		}
 	}
-
 
 	public function init_action() {
 		add_action('mprm_pre_get_order', array($this, 'date_filter_pre'));

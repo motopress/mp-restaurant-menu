@@ -874,6 +874,7 @@ final class Order extends Model {
 			'tax' => 0.00,
 			'fees' => array(),
 		);
+
 		$args = wp_parse_args(apply_filters('mprm_payment_add_menu_item_args', $args, $menu_item->get_ID()), $defaults);
 		// Allow overriding the price
 		if (false !== $args['item_price']) {
@@ -1759,7 +1760,7 @@ final class Order extends Model {
 	}
 
 	private function delete_sales_logs() {
-		global $mprm_logs;
+//		global $mprm_logs;
 		// Remove related sale log entries
 //		$mprm_logs->delete_logs(
 //			null,

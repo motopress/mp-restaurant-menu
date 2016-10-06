@@ -141,6 +141,7 @@ class Customer extends Model {
 	 */
 	public function get_customers($args = array()) {
 		global $wpdb;
+		$fields = '*';
 		$default_args = array(
 			'number' => 30,
 			'offset' => 0,
@@ -338,13 +339,14 @@ class Customer extends Model {
 			return false;
 		}
 		$status = $status === 'mprm-complete' ? 'publish' : $status;
+		$paged = 1;
+
 		if ($pagination) {
-			if (get_query_var('paged'))
+			if (get_query_var('paged')) {
 				$paged = get_query_var('paged');
-			else if (get_query_var('page'))
+			} else if (get_query_var('page')) {
 				$paged = get_query_var('page');
-			else
-				$paged = 1;
+			}
 		}
 		$args = array(
 			'user' => $user,
@@ -403,7 +405,7 @@ class Customer extends Model {
 	/**
 	 * @param string $user
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	public function get_purchase_stats_by_user($user = '') {
 		if (is_email($user)) {
@@ -412,13 +414,18 @@ class Customer extends Model {
 			$field = 'user_id';
 		}
 		$stats = array();
-		$customer = get_user_by($field, $user);
-		$this->setup_customer($customer);
-		if ($customer) {
-			$stats['purchases'] = absint($this->purchase_count);
-			$stats['total_spent'] = $this->get('formatting')->sanitize_amount($this->purchase_value);
+
+		if (!empty($field)) {
+			$customer = get_user_by($field, $user);
+			$this->setup_customer($customer);
+			if ($customer) {
+				$stats['purchases'] = absint($this->purchase_count);
+				$stats['total_spent'] = $this->get('formatting')->sanitize_amount($this->purchase_value);
+			}
+			return (array)apply_filters('mprm_purchase_stats_by_user', $stats, $user);
 		}
-		return (array)apply_filters('mprm_purchase_stats_by_user', $stats, $user);
+
+		return false;
 	}
 
 	/**
