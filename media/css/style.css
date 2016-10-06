@@ -1250,7 +1250,7 @@ there.
   width: 100%;
 }
 #mprm_checkout_wrap .mprm-required-indicator {
-  color: #b94a48;
+  color: red;
   display: inline;
 }
 #mprm_checkout_wrap .mprm-label {
