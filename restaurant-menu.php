@@ -14,7 +14,7 @@ use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 
-$local = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? FALSE : TRUE;
+$local = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? TRUE : FALSE;
 
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
