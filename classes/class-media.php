@@ -300,43 +300,9 @@ class Media extends Core {
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
-//						'locale_settings' => array(
-//							'id' => 'locale_settings',
-//							'name' => '<h3>' . __('Store Location', 'mp-restaurant-menu') . '</h3>',
-//							'desc' => '',
-//							'type' => 'header',
-//						),
-//						'base_country' => array(
-//							'id' => 'base_country',
-//							'name' => __('Base Country', 'mp-restaurant-menu'),
-//							'desc' => __('Where does your store operate from?', 'mp-restaurant-menu'),
-//							'type' => 'select',
-//							'options' => Settings::get_instance()->get_country_list(),
-//							'chosen' => true,
-//							'placeholder' => __('Select a country', 'mp-restaurant-menu'),
-//						),
-//						'base_state' => array(
-//							'id' => 'base_state',
-//							'name' => __('Base State / Province', 'mp-restaurant-menu'),
-//							'desc' => __('What state / province does your store operate from?', 'mp-restaurant-menu'),
-//							'type' => 'shop_states',
-//							'chosen' => true,
-//							'placeholder' => __('Select a state', 'mp-restaurant-menu'),
-//						),
-//						'tracking_settings' => array(
-//							'id' => 'tracking_settings',
-//							'name' => '<h3>' . __('Tracking Settings', 'mp-restaurant-menu') . '</h3>',
-//							'desc' => '',
-//							'type' => 'header',
-//						)
+
 					),
 					'section_currency' => array(
-						/*'currency_settings' => array(
-							'id' => 'currency_settings',
-							'name' => '<h3>' . __('Currency Settings', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),*/
 						'currency' => array(
 							'id' => 'currency',
 							'name' => __('Currency', 'mp-restaurant-menu'),
@@ -387,12 +353,7 @@ class Media extends Core {
 			'gateways' => apply_filters('mprm_settings_gateways',
 				array(
 					'main' => array(
-						/*'gateway_settings' => array(
-							'id' => 'api_header',
-							'name' => '<h3>' . __('Gateway Settings', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),*/
+
 						'gateways' => array(
 							'id' => 'gateways',
 							'name' => __('Active Payment Gateways', 'mp-restaurant-menu'),
@@ -429,11 +390,7 @@ class Media extends Core {
 						),
 					),
 					'paypal' => array(
-						/*'paypal_settings' => array(
-							'id' => 'paypal_settings',
-							'name' => '<h3>' . __('PayPal Standard Gateway', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),*/
+
 						'paypal_email' => array(
 							'id' => 'paypal_email',
 							'name' => __('PayPal Email', 'mp-restaurant-menu'),
@@ -1165,7 +1122,7 @@ class Media extends Core {
 		if (empty($version)) {
 			$version = $this->get_version();
 		}
-		wp_enqueue_script($name, MP_RM_JS_URL . $path, $deps, $version);
+		wp_enqueue_script(apply_filters('mprm-script-' . $name, $name), MP_RM_JS_URL . $path, $deps, $version);
 	}
 
 	/**
@@ -1183,6 +1140,7 @@ class Media extends Core {
 		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
 		$this->enqueue_style('mprm-style', 'style.css');
 		wp_enqueue_script('wp-util');
+
 		switch ($post_type) {
 			case"mp_menu_item":
 				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
