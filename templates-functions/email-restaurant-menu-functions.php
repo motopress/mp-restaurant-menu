@@ -1,5 +1,6 @@
 <?php
 use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\View;
 
 /**
  * @param $tag
@@ -22,6 +23,8 @@ function mprm_remove_email_tag($tag) {
 }
 
 /**
+ * Check tag exists
+ *
  * @param $tag
  *
  * @return bool
@@ -31,16 +34,17 @@ function mprm_email_tag_exists($tag) {
 }
 
 /**
- *
  * Get email tags
+ *
  * @return mixed
  */
 function mprm_get_email_tags() {
 	return models\Emails::get_instance()->get_tags();
 }
 
-
 /**
+ * Tags list
+ *
  * @return string
  */
 function mprm_get_emails_tags_list() {
@@ -59,6 +63,8 @@ function mprm_get_emails_tags_list() {
 }
 
 /**
+ * Do email tags
+ *
  * @param $content
  * @param $order_id
  *
@@ -80,70 +86,35 @@ function mprm_load_email_tags() {
 	do_action('mprm_add_email_tags');
 }
 
-
 /**
+ * Do tag menu item list
+ *
  * @param $order_id
  *
  * @return string
  */
 function mprm_email_tag_menu_item_list($order_id) {
 	$payment = new models\Order($order_id);
-
 	$payment_data = $payment->get_meta();
-	$menu_item_list = '<ul>';
-	$cart_items = $payment->cart_details;
+
+	$cart_items = apply_filters('mprm_tag_menu_item_cart_items', $payment->cart_details);
+
 	$email = $payment->email;
 
 	if ($cart_items) {
-		$show_names = apply_filters('mprm_email_show_names', true);
-		$show_links = apply_filters('mprm_email_show_links', true);
 
-		foreach ($cart_items as $item) {
+		$menu_item_list = View::get_instance()->render_html('/emails/menu-item-list',
+			array(
+				'cart_items' => $cart_items,
+				'payment_data' => $payment_data,
+				'email' => $email,
+				'order_id' => $order_id
+			), false);
 
-			if (mprm_use_skus()) {
-				$sku = mprm_get_menu_item_sku($item['id']);
-			}
-
-			if (mprm_item_quantities_enabled()) {
-				$quantity = $item['quantity'];
-			}
-
-			$price_id = mprm_get_cart_item_price_id($item);
-			if ($show_names) {
-
-				$title = '<strong class="mprm-' . get_post($item['id'])->post_type . '">' . get_the_title($item['id']) . '</strong>';
-
-				if (!empty($quantity) && $quantity > 1) {
-					$title .= "&nbsp;&ndash;&nbsp;" . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));
-//					$title .= "&nbsp;&ndash;&nbsp;" . __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
-				} else {
-					$title .= "&nbsp;&ndash;&nbsp;" . mprm_currency_filter(mprm_format_amount($item['item_price']));
-				}
-
-				if (!empty($sku)) {
-					$title .= "&nbsp;&ndash;&nbsp;" . __('SKU', 'mp-restaurant-menu') . ': ' . $sku;
-				}
-//
-//				if ($price_id !== null) {
-//					$title .= "&nbsp;&ndash;&nbsp;" . mprm_item_quantities_enabled();
-//				}
-				$menu_item_list .= '<li>' . apply_filters('mprm_email_receipt_menu_item_title', $title, $item, $price_id, $order_id) . '<br/>';
-			}
-
-			if ('' != mprm_get_menu_item_notes($item['id'])) {
-				$menu_item_list .= ' &mdash; <small>' . mprm_get_menu_item_notes($item['id']) . '</small>';
-			}
-
-			if ($show_names) {
-				$menu_item_list .= '</li>';
-			}
-		}
+		return apply_filters('mprm_email_tag_menu_items_content', $menu_item_list, $order_id);
 	}
-	$menu_item_list .= '</ul>';
-
-	return $menu_item_list;
+	return '';
 }
-
 
 /**
  * @param $order_id
@@ -178,7 +149,6 @@ function mprm_email_tag_menu_item_list_plain($order_id) {
 				$title = get_the_title($item['id']);
 
 				if (!empty($quantity) && $quantity > 1) {
-//					$title .= __('Quantity', 'mp-restaurant-menu') . ': ' . $quantity;
 					$title .= ' ' . $quantity . ' x ' . mprm_currency_filter(mprm_format_amount($item['item_price']));
 				}
 
@@ -267,7 +237,6 @@ function mprm_email_tag_full_name($order_id) {
 	return $email_name['fullname'];
 }
 
-
 /**
  * @param $order_id
  *
@@ -337,7 +306,6 @@ function mprm_email_tag_subtotal($order_id) {
 	return html_entity_decode($subtotal, ENT_COMPAT, 'UTF-8');
 }
 
-
 /**
  * @param $order_id
  *
@@ -348,7 +316,6 @@ function mprm_email_tag_tax($order_id) {
 	$tax = mprm_currency_filter(mprm_format_amount($payment->tax), $payment->currency);
 	return html_entity_decode($tax, ENT_COMPAT, 'UTF-8');
 }
-
 
 /**
  * @param $order_id
@@ -371,7 +338,6 @@ function mprm_email_tag_payment_id($order_id) {
 	return $payment->number;
 }
 
-
 /**
  * @param $order_id
  *
@@ -381,7 +347,6 @@ function mprm_email_tag_receipt_id($order_id) {
 	$payment = new models\Order($order_id);
 	return $payment->key;
 }
-
 
 /**
  * @param $order_id
@@ -393,7 +358,6 @@ function mprm_email_tag_payment_method($order_id) {
 	return models\Gateways::get_instance()->get_gateway_checkout_label($payment->gateway);
 }
 
-
 /**
  * Tag site name
  *
@@ -402,7 +366,6 @@ function mprm_email_tag_payment_method($order_id) {
 function mprm_email_tag_site_name() {
 	return wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
 }
-
 
 /**
  * @param $order_id

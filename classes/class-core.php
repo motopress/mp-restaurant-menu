@@ -9,9 +9,18 @@ use mp_restaurant_menu\classes\modules\MPRM_Widget;
  */
 class Core {
 	protected static $instance;
-	protected $taxonomy_names;
-	protected $post_types;
 	protected $posts = array();
+
+	protected $taxonomy_names = array(
+		'menu_category' => 'mp_menu_category',
+		'menu_tag' => 'mp_menu_tag',
+		'ingredient' => 'mp_ingredient'
+	);
+
+	protected $post_types = array(
+		'menu_item' => 'mp_menu_item',
+		'order' => 'mprm_order'
+	);
 	/**
 	 * Current state
 	 */
@@ -24,17 +33,6 @@ class Core {
 	public function __construct() {
 
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-
-		$this->taxonomy_names = array(
-			'menu_category' => 'mp_menu_category',
-			'menu_tag' => 'mp_menu_tag',
-			'ingredient' => 'mp_ingredient'
-		);
-
-		$this->post_types = array(
-			'menu_item' => 'mp_menu_item',
-			'order' => 'mprm_order'
-		);
 		$this->init_plugin_version();
 	}
 
