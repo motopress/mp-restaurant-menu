@@ -33,7 +33,10 @@ if ($args['placeholder']) {
 }
 $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class']))); ?>
 
-<select name="<?php echo esc_attr($args['name']) ?>" id="<?php esc_attr(mprm_sanitize_key((str_replace('-', '_', $args['id'])))) ?>" class="mprm-select <?php echo $class . $multiple ?> data-placeholder="<?php echo $placeholder . $data_elements ?>>
+<select name="<?php echo esc_attr($args['name']) ?>"
+        id="<?php esc_attr(mprm_sanitize_key((str_replace('-', '_', $args['id'])))) ?>"
+        class="mprm-select <?php echo $class . $multiple ?>"
+        data-placeholder="<?php echo $placeholder ?>" >
 	<?php
 	if ($args['show_option_all']) {
 		if ($args['multiple']) {
