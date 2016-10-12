@@ -59,21 +59,26 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	$item = View::get_instance()->render_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id), false);
 
 	$item = str_replace('{item_title}', $title, $item);
+	$item = str_replace('{cart_item_url}', get_permalink($id), $item);
 	$item = str_replace('{item_amount}', mprm_currency_filter(mprm_format_amount($price)), $item);
 	$item = str_replace('{cart_item_id}', absint($cart_key), $item);
 	$item = str_replace('{item_id}', absint($id), $item);
 	$item = str_replace('{item_quantity}', absint($quantity), $item);
 	$item = str_replace('{remove_url}', $remove_url, $item);
 	$subtotal = '';
+
 	if ($ajax) {
 		$subtotal = mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal()));
 	}
+
 	$item = str_replace('{subtotal}', $subtotal, $item);
 
 	return apply_filters('mprm_cart_item', $item, $id);
 }
 
 /**
+ * Cart item quantity
+ *
  * @param int $menu_item_id
  * @param array $options
  * @param int /null $options
@@ -85,6 +90,8 @@ function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array(), $pos
 }
 
 /**
+ * Cart item price
+ *
  * @param int $menu_item_id
  * @param array $options
  * @param bool $remove_tax_from_inclusive
@@ -96,6 +103,8 @@ function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove
 }
 
 /**
+ * Cart item remove url
+ *
  * @param $cart_key
  *
  * @return mixed|void

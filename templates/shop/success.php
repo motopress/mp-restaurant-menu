@@ -7,18 +7,18 @@ use mp_restaurant_menu\classes\models\Payments as Payments;
 
 // No key found
 if (empty($payment_key)) { ?>
-	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
+	<p class="mprm-notice mprm-notice-error"><?php echo $mprm_receipt_args['error'] ?></p>
 	<?php
 	return;
 }
 if (isset($can_view) && $can_view && !empty($mprm_receipt_args['error'])) {
 	?>
-	<p class="mprm-alert mprm-alert-error"><?php echo $mprm_receipt_args['error'] ?></p>
+	<p class="mprm-notice mprm-notice-error"><?php echo $mprm_receipt_args['error'] ?></p>
 	<?php
 	return;
 }
 if (empty($order)) : ?>
-	<div class="mprm-errors mprm-alert mprm-alert-error">
+	<div class="mprm-errors mprm-notice mprm-notice-error">
 		<?php _e('The specified receipt ID appears to be invalid', 'mp-restaurant-menu'); ?>
 	</div>
 	<?php

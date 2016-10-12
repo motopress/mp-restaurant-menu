@@ -3,7 +3,6 @@
 @overlay: rgba(70, 70, 70, 0.7);
 @padding-default: 4%;
 
-//@import 'theme.less';
 @import 'grid.less';
 @import 'shortcode.less';
 @import 'widget.less';
@@ -35,6 +34,10 @@
 	content: " *";
 	color: red;
   }
+}
+
+.mprm-display-inline {
+  display: inline-block;
 }
 
 .mprm_purchase_submit_wrapper {
@@ -127,7 +130,6 @@
 	  &.mprm-with-image {
 		form {
 		  &.mprm_purchase_form {
-			margin: 0 0 0 calc(150px);
 			.mprm_purchase_submit_wrapper, .mprm-section {
 			  margin-left: 2rem;
 			}
@@ -143,12 +145,8 @@
 	&.mprm-view-list {
 	  .mprm_menu_item_buy_button {
 		&.mprm-with-image {
-		  form {
-			margin: 0 0 0 40%;
-			> div, .mprm_purchase_submit_wrapper, .mprm-section {
-			  margin-left: 1rem;
-			}
-		  }
+		  margin: 0 0 0 40%;
+		  padding-left: 1em;
 		}
 	  }
 	}

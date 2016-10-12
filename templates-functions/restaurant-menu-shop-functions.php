@@ -1091,6 +1091,14 @@ function mprm_get_view_price_position() {
 }
 
 /**
+ * Get restaurant menu View object
+ * @return View
+ */
+function mprm_get_view() {
+	return View::get_instance();
+}
+
+/**
  * @param int $_id
  *
  * @return bool|mixed|void

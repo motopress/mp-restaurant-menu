@@ -651,34 +651,6 @@ class Media extends Core {
 							'type' => 'text',
 							'size' => 'small',
 						),
-//						'prices_include_tax' => array(
-//							'id' => 'prices_include_tax',
-//							'name' => __('Prices entered with tax', 'mp-restaurant-menu'),
-//							'desc' => __('This option affects how you enter prices.', 'mp-restaurant-menu'),
-//							'type' => 'radio',
-//							'std' => 'no',
-//							'options' => array(
-//								'yes' => __('Yes, I will enter prices inclusive of tax', 'mp-restaurant-menu'),
-//								'no' => __('No, I will enter prices exclusive of tax', 'mp-restaurant-menu'),
-//							),
-//						),
-//						'display_tax_rate' => array(
-//							'id' => 'display_tax_rate',
-//							'name' => __('Display Tax Rate on Prices', 'mp-restaurant-menu'),
-//							'desc' => __('Some countries require a notice when product prices include tax.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'checkout_include_tax' => array(
-//							'id' => 'checkout_include_tax',
-//							'name' => __('Display during checkout', 'mp-restaurant-menu'),
-//							'desc' => __('Should prices on the checkout page be shown with or without tax?', 'mp-restaurant-menu'),
-//							'type' => 'select',
-//							'std' => 'no',
-//							'options' => array(
-//								'yes' => __('Including tax', 'mp-restaurant-menu'),
-//								'no' => __('Excluding tax', 'mp-restaurant-menu'),
-//							),
-//						),
 					),
 				)
 			),
@@ -712,14 +684,7 @@ class Media extends Core {
 							'type' => 'text',
 							'std' => __('Add to Cart', 'mp-restaurant-menu'),
 						)
-//					,
-//						'buy_now_text' => array(
-//							'id' => 'buy_now_text',
-//							'name' => __('Buy Now Text', 'mp-restaurant-menu'),
-//							'desc' => __('Text shown on the Buy Now Buttons.', 'mp-restaurant-menu'),
-//							'type' => 'text',
-//							'std' => __('Buy Now', 'mp-restaurant-menu'),
-//						)
+
 					),
 					'file_menu_items' => array(
 						'file_settings' => array(
@@ -737,12 +702,7 @@ class Media extends Core {
 								'redirect' => __('Redirect', 'mp-restaurant-menu'),
 							),
 						),
-//						'symlink_file_menu_items' => array(
-//							'id' => 'symlink_file_menu_items',
-//							'name' => __('Symlink File Menu item?', 'mp-restaurant-menu'),
-//							'desc' => __('Check this if you are delivering really large files or having problems with file menu_items completing.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
+
 						'file_menu_item_limit' => array(
 							'id' => 'file_menu_item_limit',
 							'name' => __('File Menu item Limit', 'mp-restaurant-menu'),
@@ -766,45 +726,6 @@ class Media extends Core {
 							'type' => 'checkbox',
 						),
 					),
-//					'accounting' => array(
-//						'accounting_settings' => array(
-//							'id' => 'accounting_settings',
-//							'name' => '<h3>' . __('Accounting Settings', 'mp-restaurant-menu') . '</h3>',
-//							'type' => 'header',
-//						),
-//						'enable_skus' => array(
-//							'id' => 'enable_skus',
-//							'name' => __('Enable SKU Entry', 'mp-restaurant-menu'),
-//							'desc' => __('Check this box to allow entry of product SKUs. SKUs will be shown on purchase receipt and exported purchase histories.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'enable_sequential' => array(
-//							'id' => 'enable_sequential',
-//							'name' => __('Sequential Order Numbers', 'mp-restaurant-menu'),
-//							'desc' => __('Check this box to enable sequential order numbers.', 'mp-restaurant-menu'),
-//							'type' => 'checkbox',
-//						),
-//						'sequential_start' => array(
-//							'id' => 'sequential_start',
-//							'name' => __('Sequential Starting Number', 'mp-restaurant-menu'),
-//							'desc' => __('The number at which the sequence should begin.', 'mp-restaurant-menu'),
-//							'type' => 'number',
-//							'size' => 'small',
-//							'std' => '1',
-//						),
-//						'sequential_prefix' => array(
-//							'id' => 'sequential_prefix',
-//							'name' => __('Sequential Number Prefix', 'mp-restaurant-menu'),
-//							'desc' => __('A prefix to prepend to all sequential order numbers.', 'mp-restaurant-menu'),
-//							'type' => 'text',
-//						),
-//						'sequential_postfix' => array(
-//							'id' => 'sequential_postfix',
-//							'name' => __('Sequential Number Postfix', 'mp-restaurant-menu'),
-//							'desc' => __('A postfix to append to all sequential order numbers.', 'mp-restaurant-menu'),
-//							'type' => 'text',
-//						),
-//					),
 					'site_terms' => array(
 						'terms_settings' => array(
 							'id' => 'terms_settings',
@@ -1363,7 +1284,6 @@ class Media extends Core {
 
 				break;
 			case $this->post_types['order']:
-				$append_content .= $this->get_view()->render_html('', array(), false);
 				break;
 			default:
 				break;

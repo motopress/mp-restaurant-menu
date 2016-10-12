@@ -347,3 +347,34 @@
 	}
   }
 }
+
+.widget_mprm_cart_widget {
+  .mprm-cart {
+	list-style: none;
+	padding: 0 0 10px 0;
+	.mprm-cart-item {
+	  position: relative;
+	  padding: 10px 25px 10px 0;
+	  .mprm-bold {
+		font-weight: bold;
+	  }
+	  .mprm-remove-from-cart {
+		position: absolute;
+		right: 0;
+		top: 10px;
+		cursor: pointer;
+		color: #fff;
+		border: 1px solid #AEAEAE;
+		border-radius: 15px;
+		background-color: rgba(226, 64, 28, 0.5);
+		font-size: 15px;
+		display: inline-block;
+		padding: 0 5px;
+		&:after {
+		  content: '✖';
+		}
+	  }
+	  border-bottom: 1px solid rgba(0, 0, 0, .05);
+	}
+  }
+}

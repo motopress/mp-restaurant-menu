@@ -25,7 +25,7 @@ class Errors extends Model {
 		$errors = $this->get_errors();
 		if ($errors) {
 			$classes = apply_filters('mprm_error_class', array(
-				'mprm-errors', 'mprm-alert', 'mprm-alert-error'
+				'mprm-errors', 'mprm-notice', 'mprm-notice-error'
 			));
 			echo '<div class="' . implode(' ', $classes) . '">';
 			// Loop error codes and display errors
@@ -45,7 +45,7 @@ class Errors extends Model {
 		if ($errors) {
 
 			$classes = apply_filters('mprm_error_class', array(
-				'mprm-errors', 'mprm-alert', 'mprm-alert-error'
+				'mprm-errors', 'mprm-notice', 'mprm-notice-error'
 			));
 
 			$error_html = View::get_instance()->render_html('shop/errors', array('errors' => $errors, 'classes' => $classes), false);

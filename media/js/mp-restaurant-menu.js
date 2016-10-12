@@ -426,6 +426,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			init: function() {
 
 			},
+			initPreloader: function(view, container) {
+				var marginTop = state.calcMarginPreloader(container);
+			},
+
+			calcMarginPreloader: function(container) {
+
+			},
 			/**
 			 * Add to cart
 			 */
@@ -433,6 +440,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 				$('.mprm-add-to-cart.mprm-has-js').on('click', function(e) {
 					e.preventDefault();
+
 					var $this = $(this);
 					var form = $this.closest('form');
 					var $params = form.serializeArray();
@@ -449,16 +457,19 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						});
 					}
 
+					state.initPreloader('show', form);
+
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 
 						function(data) {
-							$('.mprm_go_to_checkout', form).show();
-							$('.mprm_go_to_checkout', form).parent().show();
+							var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('.mprm-notice');
 
-							$('.mprm-add-to-cart', form).hide();
-							$('.mprm-add-to-cart', form).parent('p').hide();
+							noticeContainer.addClass('mprm-notice-success').removeClass('mprm-hidden');
 
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
+
+							state.initPreloader('hide', form);
+
 							if (!data.redirect) {
 								$('.mprm-cart-added-alert', form).fadeIn();
 								setTimeout(function() {
@@ -469,6 +480,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							}
 						},
 						function(data) {
+							var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('.mprm-notice');
+
+							noticeContainer.addClass('mprm-notice-error').removeClass('mprm-hidden');
+							noticeContainer.find('.mprm-notice-text').text(mprm_admin_vars.default_error);
+
+							state.initPreloader('hide', form);
+
 							console.warn('Some error!!!');
 							console.warn(data);
 						}

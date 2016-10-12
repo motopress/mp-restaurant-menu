@@ -37,6 +37,7 @@ return apply_filters('mprm_admin_vars', array(
 		'currency_decimals' => mprm_currency_decimal_filter(),
 		'new_media_ui' => apply_filters('mprm_use_35_media_ui', 1),
 		'remove_text' => __('Remove', 'mp-restaurant-menu'),
+		'default_error' => __('Some error', 'mp-restaurant-menu'),
 		'type_to_search' => sprintf(__('Type to search %s', 'mp-restaurant-menu'), mprm_get_label_plural()),
 		'quantities_enabled' => mprm_item_quantities_enabled(),
 		'batch_export_no_class' => __('You must choose a method.', 'mp-restaurant-menu'),
