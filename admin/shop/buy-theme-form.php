@@ -1,5 +1,6 @@
 <?php do_action('mprm_purchase_link_form_before', $post->ID, $args) ?>
-	<div class="mprm-display-inline">
+	<div class="mprm-display-inline" style="position: relative;">
+		<?php mprm_get_preloader('small-preloader mprm-hidden'); ?>
 		<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
 			<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 
@@ -10,7 +11,6 @@
 				   data-action="mprm_add_to_cart"
 				   data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?> <?php echo $button_display ?>>
 					<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
-					<span class="mprm-loading"><i class="mprm-icon-spinner mprm-icon-spin"></i></span>
 				</a>
 			<?php } else { ?>
 				<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>

@@ -989,7 +989,7 @@ class Media extends Core {
 					$this->enqueue_script('iconset-mprm-icon', "libs/iconset-mprm-icon{$prefix}.js");
 					$this->enqueue_script('fonticonpicker', "libs/jquery.fonticonpicker{$prefix}.js", array("jquery"), '2.0.0');
 					wp_localize_script("mp-restaurant-menu", 'mprm_admin_vars', $this->get_config('language-admin-js'));
-					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+					$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.min.css');
 					$this->enqueue_style('fonticonpicker', 'lib/jquery.fonticonpicker.min.css');
 					$this->enqueue_style('fonticonpicker.grey', 'lib/jquery.fonticonpicker.grey.min.css');
 					wp_enqueue_media();
@@ -1058,13 +1058,13 @@ class Media extends Core {
 	 */
 	private function add_theme_css() {
 		global $post_type;
-		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.css');
+		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.min.css');
 		$this->enqueue_style('mprm-style', 'style.css');
 		wp_enqueue_script('wp-util');
 
 		switch ($post_type) {
 			case"mp_menu_item":
-				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.css');
+				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.min.css');
 				break;
 			default:
 				break;

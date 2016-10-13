@@ -275,147 +275,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 	};
 })(jQuery));
 
-/**
- * Html build function
- */
-MP_RM_Registry.register("HtmlBuilder", (function($) {
-	"use strict";
-	var state;
-
-	function createInstance() {
-		return {
-			/**
-			 * example json
-			 */
-			_singleHtmlTag: {
-				tag: "div",
-				attrs: {
-					"id": 356,
-					"class": "item",
-					"data-selector": "some-button"
-				},
-				content: "<%= data-key %>"
-			},
-			_htmlStructure: {
-				tag: "div",
-				attrs: {
-					"id": 356,
-					"class": "item",
-					"data-selector": "some-button"
-				},
-				content: {
-					tag: "div",
-					attrs: {
-						"class": "title"
-					},
-					content: "<%= data-key %>"
-				}
-			},
-			_htmlStructureWithArray: {
-				tag: "div",
-				attrs: {
-					"id": 356,
-					"class": "item",
-					"data-selector": "some-button"
-				},
-				content: [{
-					tag: "div",
-					attrs: {
-						"class": "title"
-					},
-					content: "<%= data-key %>"
-				}, {
-					tag: "span",
-					attrs: {
-						"class": "date"
-					},
-					content: "<%= data-key %>"
-				}]
-			},
-			/**
-			 * Generate HTML
-			 *
-			 * @param params - json
-			 * @returns {string|*|n|string}
-			 */
-			generateHTML: function(params) {
-				var content = "",
-					result;
-				if (_.isObject(params)) {
-					var element = document.createElement(params.tag);
-					if (!_.isUndefined(params.attrs)) {
-						$.each(params.attrs, function(key, value) {
-							element.setAttribute(key, value);
-						});
-					}
-					if (_.isArray(params.content)) {
-
-						$.each(params.content, function(key, value) {
-							content += state.generateHTML(value);
-						});
-						$(element).html(content);
-					} else if (_.isObject(params.content)) {
-						content = state.generateHTML(params.content);
-						$(element).html(content);
-					} else {
-						if (!_.isUndefined(params.content)) {
-							$(element).html(params.content);
-						} else {
-							$(element).html("");
-						}
-					}
-					result = $(element).get(0).outerHTML;
-				} else if (_.isString(params)) {
-					result = params;
-				} else {
-					result = false;
-				}
-				return result;
-			},
-			/**
-			 * Put the data to hetml code and return here
-			 *
-			 * @param $template
-			 * @param $data
-			 * @returns {boolean}
-			 */
-			getHtml: function($template, $data) {
-				if (_.isUndefined($template)) {
-					return false;
-				}
-				var result = false;
-				if (_.isUndefined($data)) {
-					if (_.isArray($template)) {
-						result = "";
-						$.each($template, function(key, value) {
-							result += state.generateHTML(value);
-						});
-					} else {
-						result = state.generateHTML($template);
-					}
-				}
-				if (_.isObject($data)) {
-					var template = _.template(result);
-					result = template($data);
-				}
-				return result;
-			}
-		};
-	}
-
-	return {
-		getInstance: function() {
-			if (!state) {
-				state = createInstance();
-			}
-			return state;
-		}
-	};
-})(jQuery));
-
-/**
- * Html build function
- */
 MP_RM_Registry.register("Menu-Shop", (function($) {
 	"use strict";
 	var state;
@@ -427,12 +286,13 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 			},
 			initPreloader: function(view, container) {
-				var marginTop = state.calcMarginPreloader(container);
+				if (view === 'show') {
+					container.parents('.mprm_menu_item_buy_button').find('.mprm-container-preloader .mprm-floating-circle-wrapper').removeClass('mprm-hidden');
+				} else {
+					container.parents('.mprm_menu_item_buy_button').find('.mprm-container-preloader .mprm-floating-circle-wrapper').addClass('mprm-hidden');
+				}
 			},
 
-			calcMarginPreloader: function(container) {
-
-			},
 			/**
 			 * Add to cart
 			 */
@@ -444,7 +304,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					var $this = $(this);
 					var form = $this.closest('form');
 					var $params = form.serializeArray();
-
+					var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('> .mprm-notice');
+					$('.mprm_menu_item_buy_button').find('> .mprm-notice').addClass('mprm-hidden');
 					$params.push({
 						name: "is_ajax",
 						value: true
@@ -462,9 +323,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 
 						function(data) {
-							var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('.mprm-notice');
 
-							noticeContainer.addClass('mprm-notice-success').removeClass('mprm-hidden');
+							noticeContainer.addClass('mprm-notice-success');
+							noticeContainer.removeClass('mprm-hidden');
 
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
 
@@ -599,11 +460,6 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					}, 1000);
 				});
 
-			},
-			/**
-			 * Remove from cart
-			 */
-			removeFromCart: function() {
 			},
 			/**
 			 * Purchase form
@@ -1820,8 +1676,6 @@ MP_RM_Registry.register("Theme", (function($) {
 			MP_RM_Registry._get('Menu-Shop').get_login();
 			MP_RM_Registry._get('Menu-Shop').loginAjax();
 		}
-
-		MP_RM_Registry._get('Menu-Shop').removeFromCart();
 
 		if ($('.mprm-widget-view').length) {
 			MP_RM_Registry._get("Theme").customizeWidget();
