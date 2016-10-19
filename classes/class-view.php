@@ -7,7 +7,9 @@ class View {
 	protected static $instance;
 	protected $template_path;
 	protected $templates_path;
+	protected $prefix = 'mprm';
 	private $data;
+
 
 	public function __construct() {
 		$this->template_path = MP_RM_TEMPLATE_PATH;
@@ -96,7 +98,7 @@ class View {
 		}
 
 		// Allow 3rd party plugins to filter template file from their plugin.
-		$template = apply_filters('mprm_get_template_part', $template, $slug, $name);
+		$template = apply_filters($this->prefix . '_get_template_part', $template, $slug, $name);
 
 		if ($template) {
 			load_template($template, false);
@@ -140,13 +142,13 @@ class View {
 		}
 
 		// Allow 3rd party plugin filter template file from their plugin.
-		$located = apply_filters('mprm_get_template', $located, $template_name, $args, $template_path, $default_path);
+		$located = apply_filters($this->prefix . '_get_template', $located, $template_name, $args, $template_path, $default_path);
 
-		do_action('mprm_before_template_part', $template_name, $template_path, $located, $args);
+		do_action($this->prefix . '_before_template_part', $template_name, $template_path, $located, $args);
 
 		include($located);
 
-		do_action('mprm_after_template_part', $template_name, $template_path, $located, $args);
+		do_action($this->prefix . '_after_template_part', $template_name, $template_path, $located, $args);
 	}
 
 	/**
@@ -178,6 +180,6 @@ class View {
 		}
 
 		// Return what we found.
-		return apply_filters('mprm_locate_template', $template, $template_name, $template_path);
+		return apply_filters($this->prefix . '_locate_template', $template, $template_name, $template_path);
 	}
 }
