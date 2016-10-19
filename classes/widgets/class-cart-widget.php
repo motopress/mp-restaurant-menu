@@ -11,6 +11,13 @@ class Cart_widget extends \WP_Widget {
 	protected static $instance;
 
 	/**
+	 * Cart_widget constructor.
+	 */
+	public function __construct() {
+		parent::__construct('mprm_cart_widget', __('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => __('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
+	}
+
+	/**
 	 * @return Cart_widget
 	 */
 	public static function get_instance() {
@@ -21,13 +28,8 @@ class Cart_widget extends \WP_Widget {
 	}
 
 	/**
-	 * Cart_widget constructor.
-	 */
-	public function __construct() {
-		parent::__construct('mprm_cart_widget', __('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => __('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
-	}
-
-	/**
+	 * Render widget
+	 *
 	 * @see WP_Widget::widget
 	 *
 	 * @param array $args
@@ -52,7 +54,7 @@ class Cart_widget extends \WP_Widget {
 
 		do_action('mprm_before_cart_widget');
 
-		View::get_instance()->render_html('widgets/cart/index', array());
+		View::get_instance()->get_template('widgets/cart/index');
 
 		do_action('mprm_after_cart_widget');
 
@@ -60,6 +62,8 @@ class Cart_widget extends \WP_Widget {
 	}
 
 	/**
+	 * Update data widget
+	 *
 	 * @see WP_Widget::update
 	 *
 	 * @param array $new_instance
@@ -76,7 +80,11 @@ class Cart_widget extends \WP_Widget {
 		return $instance;
 	}
 
-	/** @see WP_Widget::form
+	/**
+	 * Widget form
+	 *
+	 * @see WP_Widget::form
+	 *
 	 * @param array $instance
 	 *
 	 * @return string|void

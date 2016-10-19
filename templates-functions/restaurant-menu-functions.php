@@ -404,12 +404,25 @@ function mprm_get_menu_items_by_term() {
 /**
  * Get template
  *
-*@param $template
+ * @param $template
  * @param null $data
  * @param bool $output
  */
 function mprm_get_template($template, $data = null, $output = true) {
-	classes\View::get_instance()->render_html($template, $data, $output);
+	if($output){
+		echo classes\View::get_instance()->get_template_html($template, $data);
+	}else{
+		classes\View::get_instance()->get_template($template, $data);
+	}
+}
+/**
+ * Template part
+*
+* @param $name
+* @param string $slug
+ */
+function mprm_get_template_part($slug, $name = '') {
+	classes\View::get_instance()->get_template_part($slug, $name );
 }
 
 /**
@@ -455,7 +468,7 @@ function after_mprm_widget() {
 function render_current_html() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['action_path'])) {
-		View::get_instance()->render_html($mprm_view_args['action_path']);
+		View::get_instance()->get_template($mprm_view_args['action_path']);
 	}
 }
 

@@ -307,10 +307,6 @@ class Core {
 			$value = 'button';
 		}
 
-		if (Media::get_instance()->template_mode() == 'theme') {
-			$value = 'mprm-button';
-		}
-
 		return $value;
 	}
 

@@ -86,7 +86,7 @@ function mprm_checkout_submit() { ?>
 }
 
 function mprm_checkout_additional_information() {
-	View::get_instance()->render_html('/shop/checkout-additional-information');
+	View::get_instance()->get_template('/shop/checkout-additional-information');
 }
 
 function mprm_checkout_final_total() {

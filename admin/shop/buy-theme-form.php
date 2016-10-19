@@ -1,6 +1,7 @@
 <?php do_action('mprm_purchase_link_form_before', $post->ID, $args) ?>
-	<div class="mprm-display-inline" style="position: relative;">
+	<div class="mprm-add-menu-item mprm-display-inline" style="position: relative;">
 		<?php mprm_get_preloader('small-preloader mprm-hidden'); ?>
+
 		<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
 			<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 
@@ -9,14 +10,14 @@
 			if (!$is_ajax_disabled) { ?>
 				<a href="#" class="mprm-add-to-cart mprm-has-js <?php echo esc_attr($class) ?> mprm-display-inline"
 				   data-action="mprm_add_to_cart"
-				   data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price . ' ' . $button_display ?> <?php echo $button_display ?>>
+				   data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $data_price ?> >
 					<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
 				</a>
 			<?php } else { ?>
 				<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 			<?php } ?>
 
-			<a href="<?php echo esc_url($checkout_uri) ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline" <?php echo $checkout_display ?>><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+			<a href="<?php echo esc_url($checkout_uri) ?>" style="display: none" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline"><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
 
 			<?php if (!$is_free): ?>
 				<?php if ($display_tax_rate && $prices_include_tax) {
@@ -44,5 +45,6 @@
 			<?php endif; ?>
 			<?php do_action('mprm_purchase_link_end', $post->ID, $args); ?>
 		</form>
+
 	</div>
 <?php do_action('mprm_purchase_link_form_after', $post->ID, $args) ?>

@@ -59,7 +59,7 @@ class Shortcode_success extends Shortcodes {
 		if (!$user_can_view && !empty($payment_key) && !is_user_logged_in() && !$this->get('payments')->is_guest_payment($payment_id)) {
 			$mprm_login_redirect = $this->get('misc')->get_current_page_url();
 			$data['need_login'] = true;
-			$data['login_from'] = View::get_instance()->render_html("shop/login", array(), false);
+			$data['login_from'] = View::get_instance()->get_template("shop/login");
 		}
 		if (!apply_filters('mprm_user_can_view_receipt', $user_can_view, $mprm_receipt_args)) {
 			$data['can_view'] = true;
@@ -81,6 +81,6 @@ class Shortcode_success extends Shortcodes {
 			$data['status'] = $this->get('payments')->get_payment_status($data['payment'], true);
 		}
 
-		return View::get_instance()->render_html("shop/success", $data, false);
+		return View::get_instance()->get_template("shop/success", $data);
 	}
 }

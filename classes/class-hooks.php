@@ -80,8 +80,6 @@ class Hooks extends Core {
 		Payments::get_instance()->init_action();
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
-
-
 	}
 
 	/**

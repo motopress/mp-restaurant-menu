@@ -36,7 +36,7 @@ class Controller_Settings extends Controller {
 		$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
 		$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
 
-		View::get_instance()->render_html('settings', $data);
+		echo View::get_instance()->get_template_html('settings', $data);
 	}
 
 	/**

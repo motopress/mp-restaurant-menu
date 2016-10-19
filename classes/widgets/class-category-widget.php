@@ -1,8 +1,8 @@
 <?php
 namespace mp_restaurant_menu\classes\widgets;
 
-use mp_restaurant_menu\classes\View;
 use mp_restaurant_menu\classes\modules\Taxonomy;
+use mp_restaurant_menu\classes\View;
 
 /**
  * Class Category_widget
@@ -10,16 +10,6 @@ use mp_restaurant_menu\classes\modules\Taxonomy;
  */
 class Category_widget extends \WP_Widget {
 	protected static $instance;
-
-	/**
-	 * @return Category_widget
-	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * Category_widget constructor.
@@ -34,6 +24,31 @@ class Category_widget extends \WP_Widget {
 			'description' => $this->widget_description
 		);
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
+	}
+
+	/**
+	 * @return Category_widget
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 *
+	 * @param array $instance
+	 *
+	 * @return string|void
+	 */
+	public function form($instance) {
+		$data = $this->get_data($instance);
+		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
+		$data['tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
+		$data['categ'] = !empty($instance['categ']) ? $instance['categ'] : array();
+		$data['widget_object'] = $this;
+		View::get_instance()->render_html('../admin/widgets/category/form', $data, true);
 	}
 
 	/**
@@ -62,21 +77,6 @@ class Category_widget extends \WP_Widget {
 	}
 
 	/**
-	 *
-	 * @param array $instance
-	 *
-	 * @return string|void
-	 */
-	public function form($instance) {
-		$data = $this->get_data($instance);
-		$data['categories'] = Taxonomy::get_instance()->get_terms('mp_menu_category');
-		$data['tags'] = Taxonomy::get_instance()->get_terms('mp_menu_tag');
-		$data['categ'] = !empty($instance['categ']) ? $instance['categ'] : array();
-		$data['widget_object'] = $this;
-		View::get_instance()->render_html('../admin/widgets/category/form', $data, true);
-	}
-
-	/**
 	 * Display widget
 	 *
 	 * @param array $args
@@ -88,6 +88,6 @@ class Category_widget extends \WP_Widget {
 		$mprm_view_args = $data;
 		$mprm_view_args['action_path'] = "widgets/category/{$data['view']}/item";
 		$mprm_widget_args = $args;
-		View::get_instance()->render_html("widgets/category/index", $data, true);
+		View::get_instance()->get_template('widgets/category/index', $data);
 	}
 }

@@ -103,13 +103,13 @@ function mprm_email_tag_menu_item_list($order_id) {
 
 	if ($cart_items) {
 
-		$menu_item_list = View::get_instance()->render_html('emails/menu-item-list',
+		$menu_item_list = View::get_instance()->get_template('emails/menu-item-list',
 			array(
 				'cart_items' => $cart_items,
 				'payment_data' => $payment_data,
 				'email' => $email,
 				'order_id' => $order_id
-			), false);
+			));
 
 		return apply_filters('mprm_email_tag_menu_items_content', $menu_item_list, $order_id);
 	}

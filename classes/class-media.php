@@ -1280,7 +1280,7 @@ class Media extends Core {
 		switch ($post->post_type) {
 			case $this->post_types['menu_item']:
 
-				$append_content .= $this->get_view()->render_html('theme-support/single-' . $this->post_types['menu_item'], array(), false);
+				$append_content .= $this->get_view()->get_template('theme-support/single-' . $this->post_types['menu_item']);
 
 				break;
 			case $this->post_types['order']:

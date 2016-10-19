@@ -246,7 +246,7 @@ class Settings_emails extends Model {
 		}
 		$message = $this->text_to_html($message);
 		ob_start();
-		View::get_instance()->render_html('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
+		View::get_instance()->get_template_html('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
 		/**
 		 * Hooks into the email header
 		 *
@@ -263,7 +263,7 @@ class Settings_emails extends Model {
 			 */
 			do_action('mprm_email_template_' . $template);
 		} else {
-			View::get_instance()->render_html('emails/body');
+			View::get_instance()->get_template_html('emails/body');
 		}
 		/**
 		 * Hooks into the body of the email
@@ -271,7 +271,7 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_body', $this);
-		View::get_instance()->render_html('emails/footer-' . $template);
+		View::get_instance()->get_template_html('emails/footer-' . $template);
 		/**
 		 * Hooks into the footer of the email
 		 *

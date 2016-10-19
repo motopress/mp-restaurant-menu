@@ -1618,6 +1618,7 @@ final class Order extends Model {
 				);
 				$customer->create($customer_data);
 			}
+
 			$this->customer_id = $customer->id;
 			$this->pending['customer_id'] = $this->customer_id;
 			$customer->attach_payment($this->ID, false);

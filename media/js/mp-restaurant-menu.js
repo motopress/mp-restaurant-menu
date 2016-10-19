@@ -282,14 +282,17 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 	function createInstance() {
 		return {
-			init: function() {
-
-			},
+			/**
+			 * Init preloader
+			 *
+			 * @param view
+			 * @param container
+			 */
 			initPreloader: function(view, container) {
 				if (view === 'show') {
-					container.parents('.mprm_menu_item_buy_button').find('.mprm-container-preloader .mprm-floating-circle-wrapper').removeClass('mprm-hidden');
+					container.find('.mprm-add-menu-item .mprm-container-preloader .mprm-floating-circle-wrapper').removeClass('mprm-hidden');
 				} else {
-					container.parents('.mprm_menu_item_buy_button').find('.mprm-container-preloader .mprm-floating-circle-wrapper').addClass('mprm-hidden');
+					container.find('.mprm-add-menu-item .mprm-container-preloader .mprm-floating-circle-wrapper').addClass('mprm-hidden');
 				}
 			},
 
@@ -305,7 +308,9 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 					var form = $this.closest('form');
 					var $params = form.serializeArray();
 					var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('> .mprm-notice');
+					var parentContainer = form.parents('.mprm_menu_item_buy_button');
 					$('.mprm_menu_item_buy_button').find('> .mprm-notice').addClass('mprm-hidden');
+
 					$params.push({
 						name: "is_ajax",
 						value: true
@@ -318,18 +323,18 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 						});
 					}
 
-					state.initPreloader('show', form);
+					state.initPreloader('show', parentContainer);
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 
 						function(data) {
 
 							noticeContainer.addClass('mprm-notice-success');
-							noticeContainer.removeClass('mprm-hidden');
+							noticeContainer.removeClass('mprm-hidden mprm-notice-error');
 
 							$('.widget_mprm_cart_widget .mprm-cart-content').html(data.cart);
 
-							state.initPreloader('hide', form);
+							state.initPreloader('hide', parentContainer);
 
 							if (!data.redirect) {
 								$('.mprm-cart-added-alert', form).fadeIn();
@@ -344,9 +349,8 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 							var noticeContainer = form.parents('.mprm_menu_item_buy_button').find('.mprm-notice');
 
 							noticeContainer.addClass('mprm-notice-error').removeClass('mprm-hidden');
-							noticeContainer.find('.mprm-notice-text').text(mprm_admin_vars.default_error);
 
-							state.initPreloader('hide', form);
+							state.initPreloader('hide', parentContainer);
 
 							console.warn('Some error!!!');
 							console.warn(data);

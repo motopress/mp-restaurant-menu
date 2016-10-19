@@ -35,9 +35,7 @@ define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
 define('MP_RM_DEBUG', $local);
 
-
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
-
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
 register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
 add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
@@ -52,8 +50,12 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * MP_Restaurant_Menu_Setup_Plugin constructor.
 	 */
 	public function __construct() {
-		$this->include_all();
+		MP_Restaurant_Menu_Setup_Plugin::include_all();
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);
+		if (!defined('MP_RM_TEMPLATE_PATH')) {
+			define('MP_RM_TEMPLATE_PATH', $this->template_path());
+		}
+
 	}
 
 	/**
@@ -123,6 +125,14 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	}
 
 	/**
+	 * Get the template path.
+	 * @return string
+	 */
+	public function template_path() {
+		return apply_filters('mprm_template_path', 'mp-restaurant-menu/');
+	}
+
+	/**
 	 * @return MP_Restaurant_Menu_Setup_Plugin
 	 */
 	public static function init() {
@@ -137,7 +147,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 */
 	public static function on_activation() {
 		global $wpdb;
-
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();

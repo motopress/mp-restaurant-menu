@@ -146,6 +146,7 @@ class Payments extends Parent_query {
 	 * @return bool
 	 */
 	public function insert_payment($payment_data = array()) {
+
 		if (empty($payment_data)) {
 			return false;
 		}
@@ -203,7 +204,9 @@ class Payments extends Parent_query {
 
 		// Clear the user's purchased cache
 		delete_transient('mprm_user_' . $payment_data['user_info']['id'] . '_purchases');
+
 		$payment->save();
+
 		do_action('mprm_insert_payment', $payment->ID, $payment_data);
 
 		if (!empty($payment->ID)) {
@@ -1869,9 +1872,11 @@ class Payments extends Parent_query {
 	}
 
 	public function init_action() {
+
+		add_action('mprm_insert_payment', array($this, 'insert_payment_action'), 11, 2);
+
 		add_action('mprm_pre_get_order', array($this, 'date_filter_pre'));
 		add_action('mprm_post_get_order', array($this, 'date_filter_post'));
-
 		add_action('mprm_pre_get_order', array($this, 'orderby'));
 		add_action('mprm_pre_get_order', array($this, 'status'));
 		add_action('mprm_pre_get_order', array($this, 'month'));
@@ -1891,5 +1896,25 @@ class Payments extends Parent_query {
 		add_filter('comment_feed_where', array($this, 'hide_payment_notes_from_feeds'), 10, 2);
 		add_filter('comments_clauses', array($this, 'hide_payment_notes_pre_41'), 10, 2);
 		add_action('pre_get_comments', array($this, 'hide_payment_notes'), 10);
+	}
+
+	/**
+	 * Insert action
+	 *
+	 * @param $order_ID
+	 * @param $payment_data
+	 *
+	 * @return bool/void
+	 */
+	public function insert_payment_action($order_ID, $payment_data) {
+		$order = $this->get('order');
+		if ($order->setup_payment($order_ID)) {
+			$gateway = $order->gateway;
+			if ($gateway == 'manual') {
+				do_action('mprm_admin_sale_notice', $order_ID, $payment_data);
+			}
+
+		}
+		return true;
 	}
 }

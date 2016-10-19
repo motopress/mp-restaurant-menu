@@ -485,7 +485,7 @@ class Paypal_standart extends Model {
 		$payment = get_post($payment_id);
 		if ($payment && 'mprm-pending' == $payment->post_status) {
 			$success_page_uri = $this->get('checkout')->get_success_page_uri();
-			$content = View::get_instance()->render_html('shop/processing', array('success_page_uri' => $success_page_uri), false);
+			$content = View::get_instance()->get_template('shop/processing', array('success_page_uri' => $success_page_uri));
 		}
 		return $content;
 	}

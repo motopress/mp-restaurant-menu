@@ -56,7 +56,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 		$title .= (mprm_has_variable_prices($item['id'])) ? ' <span class="mprm-cart-item-separator">-</span> ' . mprm_get_price_name($id, $item['options']) : mprm_get_price_name($id, $item['options']);
 	}
 
-	$item = View::get_instance()->render_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id), false);
+	$item = View::get_instance()->get_template_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id));
 
 	$item = str_replace('{item_title}', $title, $item);
 	$item = str_replace('{cart_item_url}', get_permalink($id), $item);
@@ -189,7 +189,7 @@ function mprm_update_cart_button() {
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
-	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit <?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?> mprm-button<?php echo ' ' . $color . ' ' . $padding; ?>" style="display: none" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit <?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?> button<?php echo ' ' . $color . ' ' . $padding; ?>" style="display: none" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
 	<input type="hidden" name="mprm_action" value="update_cart"/>
 	<?php
 }
@@ -205,9 +205,9 @@ function mprm_save_cart_button() {
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
-		<a class="mprm-cart-saving-button mprm-submit mprm-button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
 	<?php endif; ?>
-	<a class="mprm-cart-saving-button mprm-submit mprm-button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . $color . ' ' . $padding; ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
 	<?php
 }
 

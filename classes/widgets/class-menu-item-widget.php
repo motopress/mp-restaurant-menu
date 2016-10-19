@@ -111,6 +111,6 @@ class Menu_item_widget extends \WP_Widget {
 		$mprm_view_args['action_path'] = "widgets/menu/{$data['view']}/item";
 		$mprm_widget_args = $args;
 
-		View::get_instance()->render_html("widgets/menu/index", $data, true);
+		View::get_instance()->get_template("widgets/menu/index", $data);
 	}
 }

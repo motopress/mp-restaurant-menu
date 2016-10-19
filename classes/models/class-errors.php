@@ -38,6 +38,27 @@ class Errors extends Model {
 	}
 
 	/**
+	 * Get Errors
+	 *
+	 * Retrieves all error messages stored during the checkout process.
+	 * If errors exist, they are returned.
+	 *
+	 * @return mixed array if errors are present, false if none found
+	 */
+	public function get_errors() {
+		return $this->get('session')->get_session_by_key('mprm_errors');
+	}
+
+	/**
+	 * Clears all stored errors.
+	 *
+	 * @return void
+	 */
+	public function clear_errors() {
+		$this->get('session')->set('mprm_errors', null);
+	}
+
+	/**
 	 * @return bool|mixed
 	 */
 	public function get_error_html() {
@@ -48,23 +69,11 @@ class Errors extends Model {
 				'mprm-errors', 'mprm-notice', 'mprm-notice-error'
 			));
 
-			$error_html = View::get_instance()->render_html('shop/errors', array('errors' => $errors, 'classes' => $classes), false);
+			$error_html = View::get_instance()->get_template('shop/errors', array('errors' => $errors, 'classes' => $classes));
 			$this->clear_errors();
 			return $error_html;
 		}
 		return false;
-	}
-
-	/**
-	 * Get Errors
-	 *
-	 * Retrieves all error messages stored during the checkout process.
-	 * If errors exist, they are returned.
-	 *
-	 * @return mixed array if errors are present, false if none found
-	 */
-	public function get_errors() {
-		return $this->get('session')->get_session_by_key('mprm_errors');
 	}
 
 	/**
@@ -85,15 +94,6 @@ class Errors extends Model {
 		}
 		$errors[$error_id] = $error_message;
 		$this->get('session')->set('mprm_errors', $errors);
-	}
-
-	/**
-	 * Clears all stored errors.
-	 *
-	 * @return void
-	 */
-	public function clear_errors() {
-		$this->get('session')->set('mprm_errors', null);
 	}
 
 	/**
