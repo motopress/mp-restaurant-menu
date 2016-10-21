@@ -65,6 +65,8 @@ class Core {
 	}
 
 	/**
+	 * Get post types
+	 *
 	 * @param string $output
 	 *
 	 * @return array
@@ -78,6 +80,23 @@ class Core {
 			return $this->post_types;
 		}
 	}
+	/**
+	 * Get post types
+	 *
+	 * @param string $output
+	 *
+	 * @return array
+	 */
+	public function get_taxonomy_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->taxonomy_names);
+		} elseif ($output == 'value') {
+			return array_values($this->taxonomy_names);
+		} else {
+			return $this->taxonomy_names;
+		}
+	}
+
 
 	/**
 	 * Get taxonomy name
