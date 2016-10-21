@@ -10,30 +10,6 @@ use mp_restaurant_menu\classes\View;
  */
 class Settings_emails extends Model {
 	protected static $instance;
-
-	/**
-	 * @return Settings_emails
-	 */
-	public static function get_instance() {
-		if (null === self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Get things going
-	 *
-	 * @since 2.1
-	 */
-	public function __construct() {
-		if ('none' === $this->get_template()) {
-			$this->html = false;
-		}
-		add_action('mprm_email_send_before', array($this, 'send_before'));
-		add_action('mprm_email_send_after', array($this, 'send_after'));
-	}
-
 	/**
 	 * Holds the from address
 	 *
@@ -76,6 +52,43 @@ class Settings_emails extends Model {
 	 * @since  2.1
 	 */
 	private $heading = '';
+
+	/**
+	 * Get things going
+	 *
+	 * @since 2.1
+	 */
+	public function __construct() {
+		if ('none' === $this->get_template()) {
+			$this->html = false;
+		}
+		add_action('mprm_email_send_before', array($this, 'send_before'));
+		add_action('mprm_email_send_after', array($this, 'send_after'));
+	}
+
+	/**
+	 * Get the enabled email template
+	 *
+	 * @since 2.1
+	 *
+	 * @return string|null
+	 */
+	public function get_template() {
+		if (!$this->template) {
+			$this->template = $this->get('settings')->get_option('email_template', 'default');
+		}
+		return apply_filters('mprm_email_template', $this->template);
+	}
+
+	/**
+	 * @return Settings_emails
+	 */
+	public static function get_instance() {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Set value
@@ -127,105 +140,11 @@ class Settings_emails extends Model {
 			return;
 		}
 		$this->heading = __('Purchase Receipt', 'mp-restaurant-menu');
-		echo $this->build_email($this->get('emails')->email_preview_template_tags($this->get('emails')->get_email_body_content(0, array())));
+
+		$content = $this->get('emails')->get_email_body_content(0, array());
+		$preview_template_tags = $this->get('emails')->email_preview_template_tags($content);
+		echo $this->build_email($preview_template_tags);
 		exit;
-	}
-
-	/**
-	 * Get the email from name
-	 *
-	 * @since 2.1
-	 */
-	public function get_from_name() {
-		if (!$this->from_name) {
-			$this->from_name = $this->get('settings')->get_option('from_name', get_bloginfo('name'));
-		}
-		return apply_filters('mprm_email_from_name', wp_specialchars_decode($this->from_name), $this);
-	}
-
-	/**
-	 * Get the email from address
-	 *
-	 * @since 2.1
-	 */
-	public function get_from_address() {
-		if (!$this->from_address) {
-			$this->from_address = $this->get('settings')->get_option('from_email', get_option('admin_email'));
-		}
-		return apply_filters('mprm_email_from_address', $this->from_address, $this);
-	}
-
-	/**
-	 * Get the email content type
-	 *
-	 * @since 2.1
-	 */
-	public function get_content_type() {
-		if (!$this->content_type && $this->html) {
-			$this->content_type = apply_filters('mprm_email_default_content_type', 'text/html', $this);
-		} else if (!$this->html) {
-			$this->content_type = 'text/plain';
-		}
-		return apply_filters('mprm_email_content_type', $this->content_type, $this);
-	}
-
-	/**
-	 * Get the email headers
-	 *
-	 * @since 2.1
-	 */
-	public function get_headers() {
-		if (!$this->headers) {
-			$this->headers = "From: {$this->get_from_name()} <{$this->get_from_address()}>\r\n";
-			$this->headers .= "Reply-To: {$this->get_from_address()}\r\n";
-			$this->headers .= "Content-Type: {$this->get_content_type()}; charset=utf-8\r\n";
-		}
-		return apply_filters('mprm_email_headers', $this->headers, $this);
-	}
-
-	/**
-	 * Retrieve email templates
-	 *
-	 * @since 2.1
-	 */
-	public function get_templates() {
-		$templates = array(
-			'default' => __('Default Template', 'mp-restaurant-menu'),
-			'none' => __('No template, plain text only', 'mp-restaurant-menu')
-		);
-		return apply_filters('mprm_email_templates', $templates);
-	}
-
-	/**
-	 * Get the enabled email template
-	 *
-	 * @since 2.1
-	 *
-	 * @return string|null
-	 */
-	public function get_template() {
-		if (!$this->template) {
-			$this->template = $this->get('settings')->get_option('email_template', 'default');
-		}
-		return apply_filters('mprm_email_template', $this->template);
-	}
-
-	/**
-	 * Get the header text for the email
-	 *
-	 * @since 2.1
-	 */
-	public function get_heading() {
-		return apply_filters('mprm_email_heading', $this->heading);
-	}
-
-	/**
-	 * @param $content
-	 *
-	 * @return mixed
-	 */
-	public function parse_tags($content) {
-		return $content;
 	}
 
 	/**
@@ -246,7 +165,7 @@ class Settings_emails extends Model {
 		}
 		$message = $this->text_to_html($message);
 		ob_start();
-		View::get_instance()->get_template_html('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
+		View::get_instance()->get_template('emails/header-' . $template, array('header_img' => $header_img, 'heading' => $heading));
 		/**
 		 * Hooks into the email header
 		 *
@@ -263,7 +182,7 @@ class Settings_emails extends Model {
 			 */
 			do_action('mprm_email_template_' . $template);
 		} else {
-			View::get_instance()->get_template_html('emails/body');
+			View::get_instance()->get_template('emails/body');
 		}
 		/**
 		 * Hooks into the body of the email
@@ -271,7 +190,7 @@ class Settings_emails extends Model {
 		 * @since 2.1
 		 */
 		do_action('mprm_email_body', $this);
-		View::get_instance()->get_template_html('emails/footer-' . $template);
+		View::get_instance()->get_template('emails/footer-' . $template);
 		/**
 		 * Hooks into the footer of the email
 		 *
@@ -281,6 +200,42 @@ class Settings_emails extends Model {
 		$body = ob_get_clean();
 		$message = str_replace('{email}', $message, $body);
 		return apply_filters('mprm_email_message', $message, $this);
+	}
+
+	/**
+	 * Get the header text for the email
+	 *
+	 * @since 2.1
+	 */
+	public function get_heading() {
+		return apply_filters('mprm_email_heading', $this->heading);
+	}
+
+	/**
+	 * Converts text to formatted HTML. This is primarily for turning line breaks into <p> and <br/> tags.
+	 *
+	 * @param $message
+	 *
+	 * @return string
+	 */
+	public function text_to_html($message) {
+		if ('text/html' == $this->content_type || true === $this->html) {
+			$message = wpautop($message);
+		}
+		return $message;
+	}
+
+	/**
+	 * Retrieve email templates
+	 *
+	 * @since 2.1
+	 */
+	public function get_templates() {
+		$templates = array(
+			'default' => __('Default Template', 'mp-restaurant-menu'),
+			'none' => __('No template, plain text only', 'mp-restaurant-menu')
+		);
+		return apply_filters('mprm_email_templates', $templates);
 	}
 
 	/**
@@ -336,6 +291,67 @@ class Settings_emails extends Model {
 	}
 
 	/**
+	 * @param $content
+	 *
+	 * @return mixed
+	 */
+	public function parse_tags($content) {
+		return $content;
+	}
+
+	/**
+	 * Get the email headers
+	 *
+	 * @since 2.1
+	 */
+	public function get_headers() {
+		if (!$this->headers) {
+			$this->headers = "From: {$this->get_from_name()} <{$this->get_from_address()}>\r\n";
+			$this->headers .= "Reply-To: {$this->get_from_address()}\r\n";
+			$this->headers .= "Content-Type: {$this->get_content_type()}; charset=utf-8\r\n";
+		}
+		return apply_filters('mprm_email_headers', $this->headers, $this);
+	}
+
+	/**
+	 * Get the email from name
+	 *
+	 * @since 2.1
+	 */
+	public function get_from_name() {
+		if (!$this->from_name) {
+			$this->from_name = $this->get('settings')->get_option('from_name', get_bloginfo('name'));
+		}
+		return apply_filters('mprm_email_from_name', wp_specialchars_decode($this->from_name), $this);
+	}
+
+	/**
+	 * Get the email from address
+	 *
+	 * @since 2.1
+	 */
+	public function get_from_address() {
+		if (!$this->from_address) {
+			$this->from_address = $this->get('settings')->get_option('from_email', get_option('admin_email'));
+		}
+		return apply_filters('mprm_email_from_address', $this->from_address, $this);
+	}
+
+	/**
+	 * Get the email content type
+	 *
+	 * @since 2.1
+	 */
+	public function get_content_type() {
+		if (!$this->content_type && $this->html) {
+			$this->content_type = apply_filters('mprm_email_default_content_type', 'text/html', $this);
+		} else if (!$this->html) {
+			$this->content_type = 'text/plain';
+		}
+		return apply_filters('mprm_email_content_type', $this->content_type, $this);
+	}
+
+	/**
 	 * Add filters / actions before the email is sent
 	 *
 	 * @since 2.1
@@ -357,19 +373,5 @@ class Settings_emails extends Model {
 		remove_filter('wp_mail_content_type', array($this, 'get_content_type'));
 		// Reset heading to an empty string
 		$this->heading = '';
-	}
-
-	/**
-	 * Converts text to formatted HTML. This is primarily for turning line breaks into <p> and <br/> tags.
-	 *
-	 * @param $message
-	 *
-	 * @return string
-	 */
-	public function text_to_html($message) {
-		if ('text/html' == $this->content_type || true === $this->html) {
-			$message = wpautop($message);
-		}
-		return $message;
 	}
 }

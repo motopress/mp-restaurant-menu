@@ -140,7 +140,7 @@ class Media extends Core {
 			'title' => __('Settings', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-settings",
 			'function' => array($this->get_controller('settings'), 'action_content'),
-			'capability' => 'manage_options',
+			'capability' => 'manage_shop_settings',
 		));
 		//Import/Export
 		Menu::add_submenu_page(array(

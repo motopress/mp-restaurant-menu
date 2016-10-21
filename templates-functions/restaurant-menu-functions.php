@@ -1,5 +1,6 @@
 <?php
 use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
+
 /**
  * Add class shortcode/widget wrapper class
  * @return string
@@ -45,28 +46,28 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
 		return $classes;
 	}
-    if(classes\Media::get_instance()->template_mode() == 'plugin' || ( !is_single() && !is_tax())) {
-		if ( !is_search() && !is_tax('mp_ingredient')&& !is_author() ) {
+	if (classes\Media::get_instance()->template_mode() == 'plugin' || (!is_single() && !is_tax())) {
+		if (!is_search() && !is_tax('mp_ingredient') && !is_author()) {
 			if (false !== ($key = array_search('hentry', $classes))) {
 				unset($classes[$key]);
 			}
 		}
 	}
 
-	if ( in_array('mprm-remove-hentry',$classes)) {
+	if (in_array('mprm-remove-hentry', $classes)) {
 		if (false !== ($key = array_search('hentry', $classes))) {
-				unset($classes[$key]);
+			unset($classes[$key]);
 		}
-		if(!empty($custom_class)){
+		if (!empty($custom_class)) {
 			if (false !== ($key = array_search($custom_class, $classes))) {
-					unset($classes[$key]);
+				unset($classes[$key]);
 			}
 		}
 	}
 
-    $custom_class = 'mprm-'.classes\Media::get_instance()->template_mode().'-mode';
+	$custom_class = 'mprm-' . classes\Media::get_instance()->template_mode() . '-mode';
 
-	$classes[] =  $custom_class;
+	$classes[] = $custom_class;
 	$classes[] = 'mp-menu-item';
 
 	return $classes;
@@ -101,8 +102,9 @@ function mprm_theme_wrapper_before() {
 			break;
 	}
 }
+
 /**
-* Theme wrapper after
+ * Theme wrapper after
  */
 function mprm_theme_wrapper_after() {
 	$template = get_option('template');
@@ -187,16 +189,18 @@ function mprm_get_related_items() {
 		return $related_items;
 	}
 }
+
 /**
-* @return array
+ * @return array
  */
-function mprm_get_gallery(){
+function mprm_get_gallery() {
 	global $post;
-	if(empty($post)){
+	if (empty($post)) {
 		return array();
 	}
 	return Core::get_instance()->get('menu_item')->get_gallery($post->ID);
 }
+
 /**
  * @return string
  */
@@ -254,11 +258,22 @@ function mprm_get_category_options($id = false) {
  */
 function mprm_get_menu_item_options($post = NULL) {
 	global $mprm_menu_item;
+	global $mprm_menu_items;
 	$post = empty($post) ? $mprm_menu_item : $post;
-	if(empty($post)){
-		return  array();
+
+	if (empty($post)) {
+		return array();
 	}
-	return classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
+
+	if (empty($mprm_menu_items)) {
+		$mprm_menu_items = array();
+	}
+
+	if (empty($mprm_menu_items[$post->ID])) {
+		$mprm_menu_items[$post->ID] = classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
+	}
+
+	return $mprm_menu_items[$post->ID];
 }
 
 /**
@@ -348,9 +363,9 @@ function is_mprm_taxonomy_grid() {
  */
 function mprm_get_term_menu_items() {
 	global $taxonomy, $mprm_view_args;
-     $mprm_view_args['buy'] =  (!isset($mprm_view_args['buy']) ? '1':$mprm_view_args['buy']) ;
+	$mprm_view_args['buy'] = (!isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy']);
 
-	if((bool)!$mprm_view_args['buy'] && in_array($mprm_view_args['view'],array('grid','list'))){
+	if ((bool)!$mprm_view_args['buy'] && in_array($mprm_view_args['view'], array('grid', 'list'))) {
 		$matches = array();
 
 		if ((bool)preg_match_all("/shortcodes(.*)?menu/", $mprm_view_args['action_path'], $matches)) {
@@ -363,11 +378,11 @@ function mprm_get_term_menu_items() {
 			remove_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 		}
 
-	}else{
-		    add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
-			add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
-			add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
-			add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
+	} else {
+		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
+		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
+		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
+		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 	}
 
 	if (empty($mprm_view_args)) {
@@ -409,20 +424,21 @@ function mprm_get_menu_items_by_term() {
  * @param bool $output
  */
 function mprm_get_template($template, $data = null, $output = true) {
-	if($output){
+	if ($output) {
 		echo classes\View::get_instance()->get_template_html($template, $data);
-	}else{
+	} else {
 		classes\View::get_instance()->get_template($template, $data);
 	}
 }
+
 /**
  * Template part
-*
-* @param $name
-* @param string $slug
+ *
+ * @param $name
+ * @param string $slug
  */
 function mprm_get_template_part($slug, $name = '') {
-	classes\View::get_instance()->get_template_part($slug, $name );
+	classes\View::get_instance()->get_template_part($slug, $name);
 }
 
 /**
@@ -574,32 +590,32 @@ function get_mprm_menu_item_ID() {
  *
  * @return string
  */
-function get_column_class($type,$view = 'default') {
+function get_column_class($type, $view = 'default') {
 
-	if($view =='simple-list'){
-		$column_class = apply_filters('mprm-grid-column-class-simple-list','mprm-simple-view-column');
-	}else{
-		$column_class = apply_filters('mprm-grid-column-class','mprm-columns');
+	if ($view == 'simple-list') {
+		$column_class = apply_filters('mprm-grid-column-class-simple-list', 'mprm-simple-view-column');
+	} else {
+		$column_class = apply_filters('mprm-grid-column-class', 'mprm-columns');
 	}
 
 	switch ($type) {
 		case '1':
-			$class = $column_class.' mprm-twelve';
+			$class = $column_class . ' mprm-twelve';
 			break;
 		case '2':
-			$class = $column_class.' mprm-six';
+			$class = $column_class . ' mprm-six';
 			break;
 		case '3':
-			$class = $column_class.' mprm-four';
+			$class = $column_class . ' mprm-four';
 			break;
 		case '4':
-			$class = $column_class.' mprm-three';
+			$class = $column_class . ' mprm-three';
 			break;
 		case '6':
-			$class = $column_class.' mprm-two';
+			$class = $column_class . ' mprm-two';
 			break;
 		default :
-			$class = $column_class.' mprm-twelve';
+			$class = $column_class . ' mprm-twelve';
 			break;
 	}
 	return $class;
@@ -613,16 +629,16 @@ function get_column_class($type,$view = 'default') {
 function mprm_get_purchase_link($params) {
 	return models\Menu_item::get_instance()->get_purchase_link($params);
 }
+
 /**
  * Get purchase template
  *
-*@param string $template
+ * @param string $template
  */
 function mprm_get_purchase_template($template = "default") {
-	$template = empty($template)? "default" : $template;
+	$template = empty($template) ? "default" : $template;
 	mprm_get_template("common/buy/{$template}");
 }
-
 
 
 /**
@@ -649,8 +665,6 @@ function mprm_shortcode_grid_item() {
 	$term_options = mprm_get_category_options();
 	mprm_get_template('shortcodes/category/grid/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
-
-
 
 
 /*  ========= Taxonomy list start ===========  */
@@ -712,7 +726,7 @@ function mprm_single_category_list_footer() {
  */
 function mprm_single_category_grid_header() {
 	?>
-	<div <?php post_class('mprm-remove-hentry '.'mprm-four mprm-columns') ?>>
+	<div <?php post_class('mprm-remove-hentry ' . 'mprm-four mprm-columns') ?>>
 	<?php
 }
 
@@ -731,7 +745,7 @@ function mprm_single_category_grid_wrapper_start() {
 	<div class="mprm-description">
 	<?php
 }
-function mprm_single_category_grid_wrapper_end() {	?>
+function mprm_single_category_grid_wrapper_end() { ?>
 	</div>
 	<?php
 }
@@ -855,24 +869,26 @@ function mprm_menu_item_list_header() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 		?>
-		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
+		<div <?php post_class('mprm-remove-hentry ' . get_column_class($mprm_view_args['col'])); ?>>
 		<?php
 	}
 }
+
 /**
-* Shortcode Flat view header
+ * Shortcode Flat view header
  */
 function mprm_menu_item_simple_list_header() {
 	global $mprm_view_args;
-	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
-		 if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
-			?>
-			<div <?php post_class('mprm-remove-hentry '); ?> >
-			<?php
-		}else{?>
-			<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
-		<?php }
-	}
+if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
+if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
+	?>
+	<div <?php post_class('mprm-remove-hentry '); ?> >
+	<?php
+	}else{
+	?>
+	<div <?php post_class('mprm-remove-hentry ' . get_column_class($mprm_view_args['col'])); ?>>
+<?php }
+}
 }
 
 /**
@@ -904,15 +920,16 @@ function mprm_menu_item_list_right_header() {
  *
  * @return bool
  */
-function mprm_is_menu_item_image(){
+function mprm_is_menu_item_image() {
 	$post_options = mprm_get_menu_item_options();
 	$feat_img = mprm_get_feat_image();
 	if (!$feat_img || empty($post_options['image'])) {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
+
 /**
  * Get featured image
  * @return bool
@@ -1039,11 +1056,11 @@ function mprm_menu_item_simple_list_footer() {
  */
 function mprm_menu_item_grid_header() {
 	global $mprm_view_args;
-	if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
-		?>
-		<div <?php post_class('mprm-remove-hentry '.get_column_class($mprm_view_args['col'])); ?>>
-		<?php
-	}
+if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
+	?>
+	<div <?php post_class('mprm-remove-hentry ' . get_column_class($mprm_view_args['col'])); ?>>
+	<?php
+}
 }
 
 function mprm_menu_item_before_content(){
@@ -1435,10 +1452,11 @@ function create_grid_by_posts($data, $col) {
 		<?php }
 		$i++;
 		wp_reset_postdata();
-		 endforeach;
+	endforeach;
 }
+
 /**
-* @param $data
+ * @param $data
  */
 function render_term_header($data) {
 	if (!empty($data['posts']) && !empty($data['term'])) {
@@ -1448,32 +1466,35 @@ function render_term_header($data) {
 }
 
 /**
-* @return mixed|void
+ * @return mixed|void
  */
-function mprm_grid_container_class(){
-	return apply_filters('mprm-row-class','mprm-row');
+function mprm_grid_container_class() {
+	return apply_filters('mprm-row-class', 'mprm-row');
 }
+
 /**
  * Preloader
-*
-*@param string $class
+ *
+ * @param string $class
  */
-function mprm_get_preloader($class=''){
-mprm_get_template('common/preloader', array('class' => $class));
+function mprm_get_preloader($class = '') {
+	mprm_get_template('common/preloader', array('class' => $class));
 }
+
 /**
  * Get post menu restaurant
-*
-*@param $type
  *
-*@return bool|string
+ * @param $type
+ *
+ * @return bool|string
  */
-function mprm_get_post_type($type){
-	if(empty($type)){
+function mprm_get_post_type($type) {
+	if (empty($type)) {
 		return false;
 	}
 	return Core::get_instance()->get_post_type($type);
 }
+
 /**
  * Get post meta with default settings
  *
@@ -1483,8 +1504,16 @@ function mprm_get_post_type($type){
  * @param bool $default
  *
  * @return bool|mixed
-*/
-function mprm_get_post_meta($post_id, $key, $single=false, $default= false){
+ */
+function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
 	$post_meta = get_post_meta($post_id, $key, $single);
 	return empty($post_meta) ? $default : $post_meta;
 }
+
+function mprm_taxonomy_list_before_left(){ ?>
+	<div class="mprm-side mprm-left-side">
+	<?php
+}
+function mprm_taxonomy_list_after_left() { ?>
+	</div>
+<?php }

@@ -70,7 +70,7 @@ class Controller_cart extends Controller {
 	 * Load gateway
 	 */
 	public function action_load_gateway() {
-		$this->date['data']['html'] = View::get_instance()->get_template('/shop/purchase-form', $this->date['data']);
+		$this->date['data']['html'] = View::get_instance()->get_template_html('/shop/purchase-form', $this->date['data']);
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}

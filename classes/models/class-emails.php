@@ -164,7 +164,7 @@ class Emails extends Model {
 			$emails->__set('headers', $headers);
 			$emails->send($to_email, $subject, $message, $attachments);
 
-			if ($admin_notice && !$this->admin_notices_disabled($payment_id)) {
+			if (apply_filters('mprm_send_admin_notice', $admin_notice, $payment_id) && !$this->admin_notices_disabled($payment_id)) {
 				do_action('mprm_admin_sale_notice', $payment_id, $payment_data);
 			}
 		}

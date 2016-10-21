@@ -1069,9 +1069,15 @@ there.
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
   display: none;
 }
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-image {
-  margin: 0 2rem 2rem 0;
+.mprm-main-wrapper .mprm-taxonomy-items-list .mprm-side.mprm-left-side {
   float: left;
+  max-width: 150px;
+  margin-right: 1em;
+  width: 40%;
+}
+.mprm-main-wrapper .mprm-taxonomy-items-list .mprm_menu_item_buy_button {
+  margin: 0 0 0.5em 150px;
+  padding-left: 1em;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-image a {
   text-decoration: none;
