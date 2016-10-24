@@ -1,7 +1,5 @@
 @import "notice.less";
 
-
-
 .mprm-plugin-mode {
   .mprm-submit, input.mprm-submit {
 	text-decoration: none;
@@ -144,6 +142,16 @@
 #mprm_purchase_form {
   textarea {
 	width: 100%;
+  }
+}
+
+.mprm_menu_item_buy_button {
+  form {
+	&.mprm_purchase_form {
+	  .mprm-add-to-cart {
+		margin-right: 10px;
+	  }
+	}
   }
 }
 
