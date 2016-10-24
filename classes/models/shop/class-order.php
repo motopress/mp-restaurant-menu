@@ -1370,7 +1370,7 @@ final class Order extends Model {
 //										}
 										$menu_item = new Menu_item($item['id']);
 										$menu_item->increase_sales($item['quantity']);
-										$menu_item->get_increase_earnings($price);
+										$menu_item->get_increase_earnings($item['id'],$price);
 										$total_increase += $price;
 									}
 									break;

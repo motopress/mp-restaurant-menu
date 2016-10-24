@@ -1255,21 +1255,22 @@ class Media extends Core {
 
 	/**
 	 * Pseudo template
-	 * @param $query
+	 *
+	 * @param object $query
 	 */
 	public function setup_pseudo_template($query) {
 		global $post;
 
 		if ($query->is_main_query()) {
 			if (!empty($post) && in_array($post->post_type, $this->post_types) && $this->get_template_mode() == 'theme') {
-				add_filter('the_content', array($this, 'append_post_metas'));
+				add_filter('the_content', array($this, 'append_post_content'));
 			}
 			remove_action('loop_start', array($this, 'setup_pseudo_template'));
 		}
 	}
 
 	/**
-	 * 
+	 * Get template mode
 	 * @return mixed|string|void
 	 */
 	public function get_template_mode() {
@@ -1280,10 +1281,17 @@ class Media extends Core {
 		return $template_mode;
 	}
 
-	public function append_post_metas($content) {
+	/**
+	 * Append additional post content
+	 *
+	 * @param $content
+	 *
+	 * @return string
+	 */
+	public function append_post_content($content) {
 		global $post;
 		// run only once
-		remove_filter('the_content', array($this, 'append_post_metas'));
+		remove_filter('the_content', array($this, 'append_post_content'));
 
 		$append_content = '';
 
