@@ -585,8 +585,6 @@ class Hooks extends Core {
 		}else{
 			add_filter('template_include', array(View::get_instance(), 'template_loader'));
 		}
-
-
 		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
 
 		// post_class filter
