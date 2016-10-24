@@ -218,6 +218,8 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * Next payment number
+	 *
 	 * @return bool|mixed|void
 	 */
 	public function get_next_payment_number() {
@@ -602,6 +604,8 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * Total earnings
+	 *
 	 * @return mixed|void
 	 */
 	public function get_total_earnings() {
@@ -645,6 +649,8 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * Decrease total earnings
+	 *
 	 * @param int $amount
 	 *
 	 * @return int|mixed|void
@@ -796,7 +802,6 @@ class Payments extends Parent_query {
 	 */
 	public function get_payment_customer_id($payment_id) {
 		$payment = new Order($payment_id);
-
 		return $payment->customer_id;
 	}
 
@@ -808,6 +813,7 @@ class Payments extends Parent_query {
 	public function check_for_existing_payment($payment_id) {
 		$exists = false;
 		$payment = new Order($payment_id);
+
 		if ($payment_id === $payment->ID && 'publish' === $payment->status) {
 			$exists = true;
 		}
@@ -997,11 +1003,11 @@ class Payments extends Parent_query {
 	}
 
 	/**
+	 * Total sales
 	 * @return mixed
 	 */
 	public function get_total_sales() {
 		$payments = $this->count_payments();
-
 		return $payments->revoked + $payments->publish;
 	}
 

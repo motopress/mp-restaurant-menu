@@ -580,7 +580,12 @@ class Hooks extends Core {
 		Media::get_instance()->register_all_taxonomies();
 
 		// Include template
-		add_filter('template_include', array(View::get_instance(), 'template_loader'));
+		if(Media::get_instance()->template_mode() == 'plugin'){
+			add_filter('template_include', array(Media::get_instance(), 'template_include'));
+		}else{
+			add_filter('template_include', array(View::get_instance(), 'template_loader'));
+		}
+
 
 		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
 

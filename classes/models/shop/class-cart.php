@@ -149,6 +149,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Item in cart
+	 *
 	 * @param $post_id
 	 * @param $options
 	 *
@@ -176,6 +178,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * is Quantities enabled
 	 * @return bool
 	 */
 	public function item_quantities_enabled() {
@@ -184,6 +187,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Position in cart
+	 *
 	 * @param int $menu_item_id
 	 * @param array $options
 	 *
@@ -210,6 +215,9 @@ class Cart extends Model {
 	}
 
 	/**
+	 *
+	 * Remove from cart
+	 *
 	 * @param $cart_key
 	 *
 	 * @return bool|mixed|void
@@ -231,6 +239,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Save cart (need change)
+	 *
 	 * @return bool
 	 */
 	public function save_cart() {
@@ -263,6 +273,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * is Cart saving disabled
 	 * @return mixed|void
 	 */
 	public function is_cart_saving_disabled() {
@@ -271,6 +282,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Generate cart token
 	 * @return mixed|void
 	 */
 	public function generate_cart_token() {
@@ -278,7 +290,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * Empty cart
+	 *  Clear cart
 	 */
 	public function empty_cart() {
 		$this->get('session')->set('mprm_cart', NULL);
@@ -304,6 +316,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart token
+	 *
 	 * @return mixed|void
 	 */
 	public function get_cart_token() {
@@ -348,6 +362,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Purchase link
+	 *
 	 * @return array|bool
 	 */
 	public function get_append_purchase_link() {
@@ -380,18 +396,6 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @param $type
-	 */
-	public function get_error($type) {
-		switch ($type) {
-			case 'purchase_page':
-				break;
-			default:
-				break;
-		}
-	}
-
-	/**
 	 * @param string $type
 	 *
 	 * @return mixed
@@ -401,6 +405,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart item name
+	 *
 	 * @param array $item
 	 *
 	 * @return mixed|void
@@ -417,6 +423,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart item price id
+	 *
 	 * @param array $item
 	 *
 	 * @return null
@@ -430,7 +438,10 @@ class Cart extends Model {
 		return $price_id;
 	}
 
+
 	/**
+	 * Get cart item price name
+	 *
 	 * @param array $item
 	 *
 	 * @return mixed|void
@@ -443,6 +454,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart item price
+	 *
 	 * @param int $item_id
 	 * @param array $options
 	 *
@@ -492,6 +505,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart item price
+	 *
 	 * @param int $menu_item_id
 	 * @param array $options
 	 * @param bool $remove_tax_from_inclusive
@@ -573,6 +588,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Checkout cart columns
 	 * @return mixed|void
 	 */
 	public function checkout_cart_columns() {
@@ -583,10 +599,10 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart subtotal
 	 * @return mixed
 	 */
 	public function cart_subtotal() {
-
 		$price = $this->get('menu_item')->currency_filter(mprm_format_amount($this->get_cart_subtotal()));
 		return $price;
 	}

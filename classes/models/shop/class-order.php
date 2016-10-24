@@ -282,6 +282,7 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup total
 	 * @return mixed|void
 	 */
 	private function setup_total() {
@@ -395,6 +396,7 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup user
 	 * @return array|mixed
 	 */
 	private function setup_user_info() {
@@ -958,6 +960,9 @@ final class Order extends Model {
 		$this->recalculate_total();
 	}
 
+	/**
+	 * Recalculate total
+	 */
 	private function recalculate_total() {
 		$this->total = $this->subtotal + $this->tax + $this->fees_total;
 	}
@@ -1090,7 +1095,7 @@ final class Order extends Model {
 		return $found_cart_key;
 	}
 
-	/***
+	/**
 	 * Check cart index exists
 	 *
 	 * @param $cart_index
@@ -1544,6 +1549,7 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Insert o
 	 * @param array $payment_data
 	 *
 	 * @return int|\WP_Error

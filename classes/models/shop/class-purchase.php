@@ -135,6 +135,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate purchase form
+	 *
 	 * @return array|bool
 	 */
 	public function purchase_form_validate_fields() {
@@ -265,6 +267,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Purchase cc info
+	 *
 	 * @return array
 	 */
 	public function get_purchase_cc_info() {
@@ -285,6 +289,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate cc zip
+	 *
 	 * @param int $zip
 	 * @param string $country_code
 	 *
@@ -485,6 +491,8 @@ class Purchase extends Model {
 	}
 
 	/**
+	 * Validate logged in user
+	 *
 	 * @return array
 	 */
 	public function purchase_form_validate_logged_in_user() {
