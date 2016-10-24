@@ -498,7 +498,7 @@ class Menu_item extends Store_item {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
 		$args = apply_filters('mprm_purchase_link_args', $args);
-		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->template_mode() . '-form',
+		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->get_template_mode() . '-form',
 			array(
 				'args' => $args,
 				'form_id' => $form_id,

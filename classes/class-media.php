@@ -1235,28 +1235,44 @@ class Media extends Core {
 		));
 	}
 
+
 	/**
-	 * Single template
+	 * Include pseudo template
 	 *
-	 * @param $template *
+	 * @param $template
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function single_template($template) {
+	public function modify_single_template($template) {
 		global $post;
 
-
-		if (!empty($post) && in_array($post->post_type, array_values($this->post_types)) && $this->template_mode() == 'theme') {
-			add_filter('the_content', array($this, 'single_content'), 99, 2);
+		if (!empty($post) && in_array($post->post_type, $this->post_types)) {
+			add_action('loop_start', array($this, 'setup_pseudo_template'));
 		}
 
 		return $template;
 	}
 
 	/**
+	 * Pseudo template
+	 * @param $query
+	 */
+	public function setup_pseudo_template($query) {
+		global $post;
+
+		if ($query->is_main_query()) {
+			if (!empty($post) && in_array($post->post_type, $this->post_types) && $this->get_template_mode() == 'theme') {
+				add_filter('the_content', array($this, 'append_post_metas'));
+			}
+			remove_action('loop_start', array($this, 'setup_pseudo_template'));
+		}
+	}
+
+	/**
+	 * 
 	 * @return mixed|string|void
 	 */
-	public function template_mode() {
+	public function get_template_mode() {
 		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
 		if (current_theme_supports('mp-restaurant-menu')) {
 			return 'plugin';
@@ -1264,31 +1280,22 @@ class Media extends Core {
 		return $template_mode;
 	}
 
-	/**
-	 *
-	 * @param $content
-	 *
-	 * @return mixed
-	 */
-	public function single_content($content) {
+	public function append_post_metas($content) {
 		global $post;
+		// run only once
+		remove_filter('the_content', array($this, 'append_post_metas'));
+
 		$append_content = '';
-		if (is_tax() && is_archive()) {
-			return $content;
-		}
 
 		switch ($post->post_type) {
 			case $this->post_types['menu_item']:
-
-				$append_content .= $this->get_view()->get_template('theme-support/single-' . $this->post_types['menu_item']);
-
+				$append_content .= $this->get_view()->get_template_html('theme-support/single-' . $this->post_types['menu_item']);
 				break;
 			case $this->post_types['order']:
 				break;
 			default:
 				break;
 		}
-
 		return $content . $append_content;
 	}
 
@@ -1307,7 +1314,7 @@ class Media extends Core {
 			return $template;
 		}
 
-		if ($this->template_mode() == 'plugin') {
+		if ($this->get_template_mode() == 'plugin') {
 			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
 				foreach ($this->post_types as $post_type) {
 					if (basename($template) != "single-$post_type.php") {
