@@ -29,6 +29,6 @@ class Shortcode_Cart extends Shortcodes {
 	 * @return mixed
 	 */
 	public function render_shortcode($args) {
-		return View::get_instance()->get_template("shop/cart", $args);
+		return View::get_instance()->get_template_html("shop/cart", $args);
 	}
 }

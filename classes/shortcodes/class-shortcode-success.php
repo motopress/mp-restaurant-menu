@@ -81,6 +81,6 @@ class Shortcode_success extends Shortcodes {
 			$data['status'] = $this->get('payments')->get_payment_status($data['payment'], true);
 		}
 
-		return View::get_instance()->get_template("shop/success", $data);
+		return View::get_instance()->get_template_html('shop/success', $data);
 	}
 }
