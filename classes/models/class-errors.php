@@ -102,7 +102,7 @@ class Errors extends Model {
 	 *
 	 * @param int $error_id ID of the error being set
 	 *
-	 * @return string
+	 * @return void/string
 	 */
 	public function unset_error($error_id) {
 		$errors = $this->get_errors();
@@ -111,5 +111,4 @@ class Errors extends Model {
 			$this->get('session')->set('mprm_errors', $errors);
 		}
 	}
-
 }

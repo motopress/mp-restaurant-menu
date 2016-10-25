@@ -431,9 +431,11 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 			 */
 			initPreloader: function(view, container) {
 				if (view === 'show') {
+					container.find('.mprm-add-menu-item .mprm-add-to-cart').addClass('mprm-preloader-color');
 					container.find('.mprm-add-menu-item .mprm-container-preloader .mprm-floating-circle-wrapper').removeClass('mprm-hidden');
 				} else {
 					container.find('.mprm-add-menu-item .mprm-container-preloader .mprm-floating-circle-wrapper').addClass('mprm-hidden');
+					container.find('.mprm-add-menu-item .mprm-add-to-cart').removeClass('mprm-preloader-color');
 				}
 			},
 

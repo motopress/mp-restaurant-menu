@@ -1370,7 +1370,7 @@ final class Order extends Model {
 //										}
 										$menu_item = new Menu_item($item['id']);
 										$menu_item->increase_sales($item['quantity']);
-										$menu_item->get_increase_earnings($item['id'],$price);
+										$menu_item->increase_earnings($price);
 										$total_increase += $price;
 									}
 									break;
@@ -1550,6 +1550,7 @@ final class Order extends Model {
 
 	/**
 	 * Insert o
+	 *
 	 * @param array $payment_data
 	 *
 	 * @return int|\WP_Error

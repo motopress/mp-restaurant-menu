@@ -147,7 +147,6 @@ class Store_item extends Model {
 		return apply_filters('mprm_get_disabled_checkout', $disabled_checkout, $post_id);
 	}
 
-
 	/**
 	 * @param bool $price_id
 	 * @param $post_id
