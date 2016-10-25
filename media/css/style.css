@@ -1399,6 +1399,14 @@ there.
   position: relative;
   margin-bottom: 15px;
 }
+.mprm-preloader-color {
+  color: rgba(255, 255, 255, 0) !important;
+}
+.mprm-preloader-color:focus,
+.mprm-preloader-color:visited,
+.mprm-preloader-color:hover {
+  color: rgba(255, 255, 255, 0) !important;
+}
 .mprm-floating-circles.mprm-floating-circle-wrapper {
   position: relative;
   margin: auto;
