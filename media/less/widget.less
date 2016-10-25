@@ -350,11 +350,18 @@
 
 .widget_mprm_cart_widget {
   .mprm-cart {
+	&.mprm-cart-items {
+
+	  padding: 0 0 10px 0;
+	}
 	list-style: none;
-	padding: 0 0 10px 0;
 	.mprm-cart-item {
+	  &.mprm_subtotal {
+		border-top: 1px solid rgba(0, 0, 0, .05);
+		padding: 10px 16px 10px 0;
+	  }
 	  position: relative;
-	  padding: 10px 20px 10px 0;
+	  padding: 0 16px 10px 0;
 	  .mprm-bold {
 		font-weight: bold;
 	  }
@@ -365,10 +372,9 @@
 		display: inline-block;
 		position: absolute;
 		right: 0;
+		top: 0;
 	  }
 	}
-
-	border-bottom: 1px solid rgba(0, 0, 0, .05);
   }
 }
 

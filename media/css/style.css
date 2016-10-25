@@ -787,12 +787,17 @@ there.
 }
 .widget_mprm_cart_widget .mprm-cart {
   list-style: none;
+}
+.widget_mprm_cart_widget .mprm-cart.mprm-cart-items {
   padding: 0 0 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .widget_mprm_cart_widget .mprm-cart .mprm-cart-item {
   position: relative;
-  padding: 10px 20px 10px 0;
+  padding: 0 16px 10px 0;
+}
+.widget_mprm_cart_widget .mprm-cart .mprm-cart-item.mprm_subtotal {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 10px 16px 10px 0;
 }
 .widget_mprm_cart_widget .mprm-cart .mprm-cart-item .mprm-bold {
   font-weight: bold;
@@ -804,6 +809,7 @@ there.
   display: inline-block;
   position: absolute;
   right: 0;
+  top: 0;
 }
 .mprm-main-wrapper.mp_menu_item .mprm-post-content {
   margin-bottom: 2rem;
