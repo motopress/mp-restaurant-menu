@@ -1235,7 +1235,6 @@ class Media extends Core {
 		));
 	}
 
-
 	/**
 	 * Include pseudo template
 	 *
@@ -1300,7 +1299,6 @@ class Media extends Core {
 				$append_content .= $this->get_view()->get_template_html('theme-support/single-' . $this->post_types['menu_item']);
 				break;
 			case $this->post_types['order']:
-				break;
 			default:
 				break;
 		}

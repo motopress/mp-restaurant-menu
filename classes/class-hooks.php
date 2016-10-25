@@ -264,7 +264,6 @@ class Hooks extends Core {
 		 * @see mprm_menu_items_header()
 		 */
 		add_action('mprm_menu_items_header', 'mprm_menu_items_header', 5);
-
 	}
 
 	/**
@@ -435,7 +434,6 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 55);
 		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 60);
 
-
 		/**
 		 * After Menu_item list
 		 *
@@ -558,7 +556,7 @@ class Hooks extends Core {
 	public function init() {
 
 		//Register custom post types
-		Post::get_instance()->register_post_status();
+		Post::register_post_status();
 
 		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
@@ -580,15 +578,12 @@ class Hooks extends Core {
 		Media::get_instance()->register_all_taxonomies();
 
 		// Include template
-		if(Media::get_instance()->get_template_mode() == 'plugin'){
-			add_filter('template_include', array(Media::get_instance(), 'template_include'));
-		}else{
+		if (Media::get_instance()->get_template_mode() == 'plugin') {
+			add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
+		} else {
+			add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
 			add_filter('template_include', array(View::get_instance(), 'template_loader'));
 		}
-		add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
-
-		// post_class filter
-		add_filter('post_class', 'mprm_post_class', 20, 3);
 
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
@@ -605,12 +600,12 @@ class Hooks extends Core {
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
 
+		// post_class filter
+		add_filter('post_class', 'mprm_post_class', 20, 3);
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
-
 		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
-
 		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'filter_template_mode'), 10, 3);
 		add_filter('mprm_get_option_button_style', array(Core::get_instance(), 'filter_button_style'), 10, 3);
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
