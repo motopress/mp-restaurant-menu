@@ -133,8 +133,6 @@
   }
 }
 
-
-
 .mprm-container {
   &.mprm-view-list {
 	.mprm_menu_item_buy_button {
@@ -209,39 +207,34 @@
   &.mprm-view-simple-list {
 	> div[class^="mprm-columns-count-"] {
 	  &.mprm-all-items {
-		.mprm-simple-view-column {
-		  margin-bottom: 8px;
+		&.mprm-columns-count-1 {
+		  columns: 1;
+		  column-gap: 2em;
 		}
-	  }
-	}
-
-	.mprm-columns-count-1 {
-	  column-count: 1;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-2 {
-	  column-count: 2;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-3 {
-	  column-count: 3;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-4 {
-	  column-count: 4;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-6 {
-	  column-count: 6;
-	  column-gap: 2rem;
-	}
-
-	.mprm-simple-view-column {
-	  display: inline-block;
-	  width: 100%;
-	  margin-bottom: 2rem;
-	  .mprm-columns {
-		width: 100%;
+		&.mprm-columns-count-2 {
+		  columns: 2;
+		  column-gap: 2em;
+		}
+		&.mprm-columns-count-3 {
+		  columns: 3;
+		  column-gap: 2em;
+		}
+		&.mprm-columns-count-4 {
+		  columns: 4;
+		  column-gap: 1em;
+		}
+		&.mprm-columns-count-6 {
+		  columns: 6;
+		  column-gap: 1em;
+		}
+		.mprm-simple-view-column {
+		  display: inline-block;;
+		  margin-bottom: 8px;
+		  width: 100%;
+		  .mprm-columns {
+			width: 100%;
+		  }
+		}
 	  }
 	}
   }
@@ -254,7 +247,7 @@
 		column-count: auto;
 	  }
 	  .mprm-simple-view-column {
-		margin-bottom: 1rem;
+		margin-bottom: 1em;
 		display: inline-block;
 		width: 100%;
 	  }

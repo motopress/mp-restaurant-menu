@@ -884,8 +884,7 @@ if (!empty($mprm_view_args['categ']) || !empty($mprm_view_args['tags_list'])){
 	?>
 	<div <?php post_class('mprm-remove-hentry '); ?> >
 	<?php
-	}else{
-	?>
+	}else{ ?>
 	<div <?php post_class('mprm-remove-hentry ' . get_column_class($mprm_view_args['col'])); ?>>
 <?php }
 }
