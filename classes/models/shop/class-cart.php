@@ -63,6 +63,7 @@ class Cart extends Model {
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
 
 		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
+
 		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
 			// Forces to the first price ID if none is specified and menu_item has variable prices
 			$options['price_id'] = '0';
@@ -113,8 +114,8 @@ class Cart extends Model {
 		}
 
 		if (!empty($items)) {
-
 			foreach ($items as $item) {
+
 				$to_add = apply_filters('mprm_add_to_cart_item', $item);
 
 				if (!is_array($to_add)) {
@@ -124,19 +125,20 @@ class Cart extends Model {
 				if (!isset($to_add['id']) || empty($to_add['id'])) {
 					return false;
 				}
+				$position_key_cart = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
 
-				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
-					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
+				if (is_numeric($position_key_cart) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
+
 					if (is_array($quantity)) {
-						$cart[$key]['quantity'] += $quantity[$key];
+						$cart[$position_key_cart]['quantity'] += $quantity[$position_key_cart];
 					} else {
-						$cart[$key]['quantity'] += $quantity;
+						$cart[$position_key_cart]['quantity'] += $quantity;
 					}
+
 				} else {
 					$cart[] = $to_add;
 				}
 			}
-
 		}
 
 		$this->get('session')->set('mprm_cart', $cart);
@@ -149,32 +151,34 @@ class Cart extends Model {
 	}
 
 	/**
-	 * Item in cart
+	 * Position in cart
 	 *
-	 * @param $post_id
-	 * @param $options
+	 * @param int $item_id
+	 * @param array $options
 	 *
-	 * @return bool
+	 * @return bool|int|string
 	 */
-	public function item_in_cart($post_id, $options) {
+	public function get_item_position_in_cart($item_id = 0, $options = array()) {
+		$position = false;
 		$cart_items = $this->get_cart_contents();
-		$ret = false;
-		if (is_array($cart_items)) {
-			foreach ($cart_items as $item) {
-				if ($item['id'] == $post_id) {
+		if (!is_array($cart_items)) {
+			return false;
+		} else {
+
+			foreach ($cart_items as $cart_position => $item) {
+				if (($item['id'] == $item_id) && apply_filters('mprm_in_cart_position', $item_id, $item)) {
 					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
-						if ($options['price_id'] == $item['options']['price_id']) {
-							$ret = true;
-							break;
+						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
+							$position = $cart_position;
 						}
 					} else {
-						$ret = true;
-						break;
+						$position = $cart_position;
 					}
 				}
 			}
 		}
-		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
+
+		return $position;
 	}
 
 	/**
@@ -187,31 +191,16 @@ class Cart extends Model {
 	}
 
 	/**
-	 * Position in cart
+	 * Item in cart
 	 *
-	 * @param int $menu_item_id
-	 * @param array $options
+	 * @param $post_id
+	 * @param $options
 	 *
-	 * @return bool|int|string
+	 * @return bool
 	 */
-	public function get_item_position_in_cart($menu_item_id = 0, $options = array()) {
-		$cart_items = $this->get_cart_contents();
-		if (!is_array($cart_items)) {
-			return false; // Empty cart
-		} else {
-			foreach ($cart_items as $position => $item) {
-				if ($item['id'] == $menu_item_id) {
-					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
-						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
-							return $position;
-						}
-					} else {
-						return $position;
-					}
-				}
-			}
-		}
-		return false;
+	public function item_in_cart($post_id, $options) {
+		$ret = is_numeric($this->get_item_position_in_cart($post_id, $options));
+		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
 	}
 
 	/**
