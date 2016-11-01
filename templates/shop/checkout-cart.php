@@ -12,7 +12,7 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 		<th class="mprm_cart_item_name"><?php _e('Product', 'mp-restaurant-menu'); ?></th>
 		<th class="mprm_cart_item_price"><?php _e('Price', 'mp-restaurant-menu'); ?></th>
 		<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
-			<th class="mprm_cart_quantities"><?php _e('Quantities', 'mp-restaurant-menu'); ?></th>
+			<th class="mprm_cart_quantities"><?php _e('Quantity', 'mp-restaurant-menu'); ?></th>
 		<?php endif; ?>
 		<th class="mprm_cart_actions"><?php _e('Actions', 'mp-restaurant-menu'); ?></th>
 		<?php do_action('mprm_checkout_table_header_last'); ?>
