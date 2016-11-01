@@ -52,7 +52,7 @@ class Controller_customer extends Controller {
 	public function action_get_login() {
 		global $mprm_login_redirect;
 		$mprm_login_redirect = wp_get_referer();
-		$this->date['data']['html'] = View::get_instance()->render_html('shop/login', array(), false);
+		$this->date['data']['html'] = View::get_instance()->get_template_html('shop/login', array());
 		$this->date['success'] = true;
 		$this->send_json($this->date);
 	}

@@ -2,7 +2,6 @@
 use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View;
 
-
 /**
  * @return mixed|void
  */
@@ -87,7 +86,7 @@ function mprm_checkout_submit() { ?>
 }
 
 function mprm_checkout_additional_information() {
-	View::get_instance()->render_html('/shop/checkout-additional-information');
+	View::get_instance()->get_template('/shop/checkout-additional-information');
 }
 
 function mprm_checkout_final_total() {
@@ -109,3 +108,63 @@ function mprm_checkout_hidden_fields() {
 	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
 	<?php
 }
+
+/**
+ *  Delivery address default
+ */
+function mprm_checkout_delivery_address() {
+	if (mprm_get_option('shipping_address')): ?>
+		<p id="mprm-address-wrap">
+			<label for="shipping_address" class="mprm-label">
+				<?php _e('Shipping address:', 'mp-restaurant-menu'); ?>
+			</label>
+			<input type="text" name="shipping_address" value="" class="medium-text" placeholder="<?php _e('Enter your address.', 'mp-restaurant-menu'); ?>"/>
+		</p>
+	<?php endif;
+}
+
+/**
+ * Checkout order note
+ */
+function mprm_checkout_order_note() {
+	?>
+	<p id="mprm-phone-number-wrap">
+		<label for="customer_note" class="mprm-label">
+			<?php _e('Order notes:', 'mp-restaurant-menu'); ?>
+		</label>
+		<textarea type="text" name="customer_note" id="customer_note" class="phone-number mprm-input"></textarea>
+	</p>
+<? }
+
+/**
+ * Summary table
+ */
+function mprm_checkout_summary_table() { ?>
+	<span class="mprm-payment-details-label"><legend><?php _e('Order totals', 'mp-restaurant-menu'); ?></legend></span>
+	<table class="mprm-table">
+		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
+		<tr>
+			<td class=""><span><?php _e('Subtotal', 'mp-restaurant-menu'); ?> </span></td>
+			<td><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
+		</tr>
+		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
+
+		<?php do_action('mprm_checkout_table_tax_before'); ?>
+		<?php if (mprm_use_taxes()) : ?>
+			<tr <?php if (!mprm_is_cart_taxed()) echo ' style="display:none;"'; ?>>
+				<td><span><?php _e('Tax', 'mp-restaurant-menu'); ?></span></td>
+				<td><span class="mprm_cart_tax_amount" data-tax="<?php echo mprm_get_cart_tax(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) ?></span></td>
+			</tr>
+		<?php endif; ?>
+		<?php do_action('mprm_checkout_table_tax_after'); ?>
+
+		<?php do_action('mprm_checkout_table_total_before'); ?>
+		<tr class="mprm-checkout-total">
+			<td>
+				<span><b><?php _e('Total', 'mp-restaurant-menu'); ?></b></span>
+			</td>
+			<td><span class="mprm_cart_amount"><b><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) ?></b></span></td>
+		</tr>
+		<?php do_action('mprm_checkout_table_total_after'); ?>
+	</table>
+<?php }

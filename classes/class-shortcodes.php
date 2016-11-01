@@ -22,7 +22,7 @@ class Shortcodes extends Core {
 	 */
 	public static function install() {
 		// include all core controllers
-		Core::include_all(MP_RM_CLASSES_PATH . 'shortcodes/');
+		Core::get_instance()->include_all(MP_RM_CLASSES_PATH . 'shortcodes/');
 	}
 
 	/**

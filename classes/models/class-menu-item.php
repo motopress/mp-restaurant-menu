@@ -14,7 +14,6 @@ use mp_restaurant_menu\classes\View;
 class Menu_item extends Store_item {
 	protected static $instance;
 	private $bundled_menu_items;
-
 	private $sales;
 	private $earnings;
 	private $type;
@@ -244,7 +243,6 @@ class Menu_item extends Store_item {
 		}
 		return apply_filters('mprm_final_price', $price, $menu_item_id, $user_purchase_info);
 	}
-
 
 	/**
 	 * Get category menu items
@@ -498,7 +496,7 @@ class Menu_item extends Store_item {
 			$form_id .= '-' . $mprm_displayed_form_ids[$post->ID];
 		}
 		$args = apply_filters('mprm_purchase_link_args', $args);
-		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->template_mode() . '-form',
+		$purchase_form = View::get_instance()->render_html('../admin/shop/buy-' . Media::get_instance()->get_template_mode() . '-form',
 			array(
 				'args' => $args,
 				'form_id' => $form_id,
@@ -533,7 +531,6 @@ class Menu_item extends Store_item {
 		return apply_filters('mprm_get_button_behavior', $button_behavior, $post_id);
 	}
 
-
 	/**
 	 * @param int $menu_item
 	 *
@@ -557,7 +554,6 @@ class Menu_item extends Store_item {
 		}
 		return null;
 	}
-
 
 	/**
 	 * @param int $quantity
@@ -739,7 +735,6 @@ class Menu_item extends Store_item {
 		);
 		return $search_params;
 	}
-
 
 	/**
 	 * @param bool $lowercase

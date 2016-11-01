@@ -148,6 +148,8 @@ class Checkout extends Model {
 	}
 
 	/**
+	 * Check failed transaction
+	 *
 	 * @return mixed|void
 	 */
 	public function is_failed_transaction_page() {
@@ -156,6 +158,9 @@ class Checkout extends Model {
 		return apply_filters('mprm_is_failure_page', $ret);
 	}
 
+	/**
+	 *  Listen for failed payments
+	 */
 	public function listen_for_failed_payments() {
 		$failed_page = $this->get('settings')->get_option('failure_page', 0);
 		if (!empty($failed_page) && is_page($failed_page) && !empty($_GET['payment-id'])) {

@@ -282,6 +282,7 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup total
 	 * @return mixed|void
 	 */
 	private function setup_total() {
@@ -395,6 +396,7 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Setup user
 	 * @return array|mixed
 	 */
 	private function setup_user_info() {
@@ -730,10 +732,9 @@ final class Order extends Model {
 				if ($post->billing_email) {
 					echo '<small class="meta email"><a href="' . esc_url('mailto:' . $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
-
 				break;
 			case 'order_ship_to':
-				echo $this->shipping_address;
+				echo apply_filters('mprm_orders_list_delivery', $this->shipping_address);
 				break;
 			case 'order_customer_note':
 				echo $this->customer_note;
@@ -875,6 +876,7 @@ final class Order extends Model {
 			'tax' => 0.00,
 			'fees' => array(),
 		);
+
 		$args = wp_parse_args(apply_filters('mprm_payment_add_menu_item_args', $args, $menu_item->get_ID()), $defaults);
 		// Allow overriding the price
 		if (false !== $args['item_price']) {
@@ -958,6 +960,9 @@ final class Order extends Model {
 		$this->recalculate_total();
 	}
 
+	/**
+	 * Recalculate total
+	 */
 	private function recalculate_total() {
 		$this->total = $this->subtotal + $this->tax + $this->fees_total;
 	}
@@ -1090,7 +1095,7 @@ final class Order extends Model {
 		return $found_cart_key;
 	}
 
-	/***
+	/**
 	 * Check cart index exists
 	 *
 	 * @param $cart_index
@@ -1365,7 +1370,7 @@ final class Order extends Model {
 //										}
 										$menu_item = new Menu_item($item['id']);
 										$menu_item->increase_sales($item['quantity']);
-										$menu_item->get_increase_earnings($price);
+										$menu_item->increase_earnings($price);
 										$total_increase += $price;
 									}
 									break;
@@ -1544,6 +1549,8 @@ final class Order extends Model {
 	}
 
 	/**
+	 * Insert o
+	 *
 	 * @param array $payment_data
 	 *
 	 * @return int|\WP_Error
@@ -1594,6 +1601,7 @@ final class Order extends Model {
 			'post_date_gmt' => !empty($this->date) ? get_gmt_from_date($this->date) : null,
 			'post_parent' => $this->parent_payment,
 		), $payment_data);
+
 		// Create a blank payment
 		$payment_id = wp_insert_post($args);
 		if (!empty($payment_id)) {
@@ -1617,6 +1625,7 @@ final class Order extends Model {
 				);
 				$customer->create($customer_data);
 			}
+
 			$this->customer_id = $customer->id;
 			$this->pending['customer_id'] = $this->customer_id;
 			$customer->attach_payment($this->ID, false);
@@ -1628,6 +1637,7 @@ final class Order extends Model {
 				}
 			}
 			$this->update_meta('_mprm_order_meta', $this->payment_meta);
+
 			$this->new = true;
 		}
 		return $this->ID;
@@ -1758,7 +1768,7 @@ final class Order extends Model {
 	}
 
 	private function delete_sales_logs() {
-		global $mprm_logs;
+//		global $mprm_logs;
 		// Remove related sale log entries
 //		$mprm_logs->delete_logs(
 //			null,

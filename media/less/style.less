@@ -3,14 +3,13 @@
 @overlay: rgba(70, 70, 70, 0.7);
 @padding-default: 4%;
 
-//@import 'theme.less';
-@import 'grid.less';
 @import 'shortcode.less';
 @import 'widget.less';
 @import 'menu-item-single.less';
 @import 'mp-menu-taxonomy.less';
 @import 'shop.less';
 @import 'loader.less';
+@import 'grid.less';
 
 .mprm-clear {
   *zoom: 1;
@@ -28,6 +27,26 @@
 .mprm-hidden {
   display: none;
   opacity: 0;
+}
+
+.mprm-required {
+  &:after {
+	content: " *";
+	color: red;
+  }
+}
+
+.mprm-display-inline {
+  display: inline-block;
+
+}
+
+.mprm-container-preloader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 160;
 }
 
 .mprm_purchase_submit_wrapper {
@@ -120,7 +139,6 @@
 	  &.mprm-with-image {
 		form {
 		  &.mprm_purchase_form {
-			margin: 0 0 0 calc(150px);
 			.mprm_purchase_submit_wrapper, .mprm-section {
 			  margin-left: 2rem;
 			}
@@ -136,12 +154,8 @@
 	&.mprm-view-list {
 	  .mprm_menu_item_buy_button {
 		&.mprm-with-image {
-		  form {
-			margin: 0 0 0 40%;
-			> div, .mprm_purchase_submit_wrapper, .mprm-section {
-			  margin-left: 1rem;
-			}
-		  }
+		  margin: 0 0 0 40%;
+		  padding-left: 1em;
 		}
 	  }
 	}
@@ -193,39 +207,34 @@
   &.mprm-view-simple-list {
 	> div[class^="mprm-columns-count-"] {
 	  &.mprm-all-items {
-		.mprm-simple-view-column {
-		  margin-bottom: 8px;
+		&.mprm-columns-count-1 {
+		  columns: 1;
+		  column-gap: 2em;
 		}
-	  }
-	}
-
-	.mprm-columns-count-1 {
-	  column-count: 1;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-2 {
-	  column-count: 2;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-3 {
-	  column-count: 3;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-4 {
-	  column-count: 4;
-	  column-gap: 2rem;
-	}
-	.mprm-columns-count-6 {
-	  column-count: 6;
-	  column-gap: 2rem;
-	}
-
-	.mprm-simple-view-column {
-	  display: inline-block;
-	  width: 100%;
-	  margin-bottom: 2rem;
-	  .mprm-columns {
-		width: 100%;
+		&.mprm-columns-count-2 {
+		  columns: 2;
+		  column-gap: 2em;
+		}
+		&.mprm-columns-count-3 {
+		  columns: 3;
+		  column-gap: 2em;
+		}
+		&.mprm-columns-count-4 {
+		  columns: 4;
+		  column-gap: 1em;
+		}
+		&.mprm-columns-count-6 {
+		  columns: 6;
+		  column-gap: 1em;
+		}
+		.mprm-simple-view-column {
+		  display: inline-block;;
+		  margin-bottom: 8px;
+		  width: 100%;
+		  .mprm-columns {
+			width: 100%;
+		  }
+		}
 	  }
 	}
   }
@@ -238,7 +247,7 @@
 		column-count: auto;
 	  }
 	  .mprm-simple-view-column {
-		margin-bottom: 1rem;
+		margin-bottom: 1em;
 		display: inline-block;
 		width: 100%;
 	  }

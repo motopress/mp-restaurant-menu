@@ -64,6 +64,8 @@ class Formatting extends Model {
 	}
 
 	/**
+	 * Sanitize amount
+	 *
 	 * @param $amount
 	 *
 	 * @return mixed|void
@@ -133,15 +135,16 @@ class Formatting extends Model {
 			$part = substr($amount, $sep_found + 1, (strlen($amount) - 1));
 			$amount = $whole . '.' . $part;
 		}
+
 		// Strip , from the amount (if set as the thousands separator)
 		if ($thousands_sep == ',' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(',', '', $amount);
 		}
+
 		// Strip ' ' from the amount (if set as the thousands separator)
 		if ($thousands_sep == ' ' && false !== ($found = strpos($amount, $thousands_sep))) {
 			$amount = str_replace(' ', '', $amount);
 		}
-
 
 		if (empty($amount)) {
 			$amount = 0;

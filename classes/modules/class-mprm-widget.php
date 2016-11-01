@@ -1,6 +1,7 @@
 <?php
 namespace mp_restaurant_menu\classes\modules;
 
+use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Module;
 
 /**
@@ -24,7 +25,7 @@ class MPRM_Widget extends Module {
 	 * Include all widgets
 	 */
 	public static function install() {
-		self::include_all(MP_RM_WIDGETS_PATH);
+		Core::get_instance()->include_all(MP_RM_WIDGETS_PATH);
 	}
 
 	public function register() {

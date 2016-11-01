@@ -25,7 +25,7 @@ class Preprocessor extends GUMP {
 	 * Install Preprocessors
 	 */
 	static function install() {
-		Core::include_all(MP_RM_PREPROCESSORS_PATH);
+		Core::get_instance()->include_all(MP_RM_PREPROCESSORS_PATH);
 	}
 
 	/**
@@ -88,29 +88,6 @@ class Preprocessor extends GUMP {
 			return $controller->$action();
 		} else {
 			trigger_error("Wrong {$action} in {$path}class-controller-{$page}.php");
-		}
-	}
-
-	/**
-	 * Progress
-	 *
-	 * @param array $params
-	 * @param string $name
-	 *
-	 * @param $type
-	 *
-	 * @return array
-	 */
-	protected function progress($params, $name, $type) {
-		$success = $this->run($params);
-		if ($success !== false) {
-			return Core::get_instance()->get_model($type)->$name($params);
-		} else {
-			$name = "on_error_{$name}";
-			if (!method_exists($this, $name)) {
-				$name = 'get_errors_array';
-			}
-			return array('success' => $success, 'data' => $this->$name());
 		}
 	}
 
@@ -211,5 +188,28 @@ class Preprocessor extends GUMP {
 			}
 		}
 		return $resp;
+	}
+
+	/**
+	 * Progress
+	 *
+	 * @param array $params
+	 * @param string $name
+	 *
+	 * @param $type
+	 *
+	 * @return array
+	 */
+	protected function progress($params, $name, $type) {
+		$success = $this->run($params);
+		if ($success !== false) {
+			return Core::get_instance()->get_model($type)->$name($params);
+		} else {
+			$name = "on_error_{$name}";
+			if (!method_exists($this, $name)) {
+				$name = 'get_errors_array';
+			}
+			return array('success' => $success, 'data' => $this->$name());
+		}
 	}
 }

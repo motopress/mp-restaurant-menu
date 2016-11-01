@@ -32,7 +32,7 @@ class Controller_cart extends Controller {
 		$cartCount = $this->get('cart')->add_to_cart($request['menu_item_id']);
 		if (isset($request['is_ajax']) && (bool)$request['is_ajax']) {
 			$this->date['success'] = (is_numeric($cartCount)) ? true : false;
-			$this->date['data']['cart'] = View::get_instance()->render_html('widgets/cart/index', array(), false);
+			$this->date['data']['cart'] = View::get_instance()->get_template_html('widgets/cart/index');
 			$this->date['data']['redirect'] = (!empty($request['mprm_redirect_to_checkout']) && (bool)$request['mprm_redirect_to_checkout']) ? $this->get('checkout')->get_checkout_uri() : false;
 			$this->send_json($this->date);
 		} else {
@@ -70,7 +70,7 @@ class Controller_cart extends Controller {
 	 * Load gateway
 	 */
 	public function action_load_gateway() {
-		$this->date['data']['html'] = View::get_instance()->render_html('/shop/purchase-form', $this->date['data'], false);
+		$this->date['data']['html'] = View::get_instance()->get_template_html('/shop/purchase-form', $this->date['data']);
 		$this->date['success'] = !empty($this->date['data']['html']) ? true : false;
 		$this->send_json($this->date);
 	}
@@ -114,6 +114,7 @@ class Controller_cart extends Controller {
 			);
 
 			$this->date['success'] = true;
+
 			$this->date['data'] = apply_filters('mprm_ajax_cart_item_quantity_response', $this->date['data']);
 
 			$this->send_json($this->date);

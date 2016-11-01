@@ -5,9 +5,11 @@ use mp_restaurant_menu\classes\Model;
 
 /**
  * Class Emails
+ *
  * @package mp_restaurant_menu\classes\models
  */
 class Emails extends Model {
+
 	protected static $instance;
 
 	private $tags;
@@ -137,7 +139,9 @@ class Emails extends Model {
 		}
 
 		$payment_data = $this->get('payments')->get_payment_meta($payment_id);
+
 		if (!empty($payment_data)) {
+
 			$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
 			$from_name = apply_filters('mprm_purchase_from_name', $from_name, $payment_id, $payment_data);
 			$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
@@ -159,7 +163,8 @@ class Emails extends Model {
 			$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), $payment_id, $payment_data);
 			$emails->__set('headers', $headers);
 			$emails->send($to_email, $subject, $message, $attachments);
-			if ($admin_notice && !$this->admin_notices_disabled($payment_id)) {
+
+			if (apply_filters('mprm_send_admin_notice', $admin_notice, $payment_id) && !$this->admin_notices_disabled($payment_id)) {
 				do_action('mprm_admin_sale_notice', $payment_id, $payment_data);
 			}
 		}
@@ -214,15 +219,6 @@ class Emails extends Model {
 		}
 		$this->email_purchase_receipt($purchase_id, false);
 
-		//$menu_items = $this->get('payments')->get_payment_meta_cart_details($purchase_id, true);
-//		if (is_array($menu_items)) {
-//			foreach ($menu_items as $menu_item) {
-//				$limit = mprm_get_file_menu_item_limit($menu_item['id']);
-//				if (!empty($limit)) {
-//					mprm_set_file_menu_item_limit_override($menu_item['id'], $purchase_id);
-//				}
-//			}
-//		}
 		wp_redirect(add_query_arg(array('mprm-message' => 'email_sent', 'mprm-action' => false, 'purchase_id' => false)));
 		exit;
 	}
@@ -295,9 +291,11 @@ class Emails extends Model {
 			return;
 		}
 		$payment_object = $this->get('payments')->get_payment_by('id', $payment_id);
+
 		if (!$payment_object) {
 			return;
 		}
+
 		$from_name = $this->get('settings')->get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
 		$from_name = apply_filters('mprm_purchase_from_name', $from_name, $payment_id, $payment_data);
 		$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
@@ -518,7 +516,7 @@ class Emails extends Model {
 			array(
 				'tag' => 'fullname',
 				'description' => __("The buyer's full name, first and last", 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_fullname'
+				'function' => 'mprm_email_tag_full_name'
 			),
 			array(
 				'tag' => 'username',
@@ -573,23 +571,14 @@ class Emails extends Model {
 			array(
 				'tag' => 'sitename',
 				'description' => __('Your site name', 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_sitename'
+				'function' => 'mprm_email_tag_site_name'
 			),
 			array(
 				'tag' => 'receipt_link',
 				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_link'
 			),
-			/*array(
-				'tag' => 'discount_codes',
-				'description' => __('Adds a list of any discount codes applied to this purchase', 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_discount_codes'
-			),
-			array(
-				'tag' => 'ip_address',
-				'description' => __('The buyer\'s IP Address', 'mp-restaurant-menu'),
-				'function' => 'mprm_email_tag_ip_address'
-			)*/
+
 		);
 
 		$email_tags = apply_filters('mprm_email_tags', $email_tags);
@@ -606,7 +595,9 @@ class Emails extends Model {
 	public function init_action() {
 		add_action('init', 'mprm_load_email_tags', -999);
 		add_action('mprm_add_email_tags', array($this, 'mprm_setup_email_tags'));
+
 		add_action('mprm_admin_sale_notice', array($this, 'admin_email_notice'), 10, 2);
+
 		add_action('mprm_complete_purchase', array($this, 'trigger_purchase_receipt'), 999, 1);
 		add_action('mprm_send_test_email', array($this, 'send_test_email'));
 		add_action('mprm_email_links', array($this, 'resend_purchase_receipt'));

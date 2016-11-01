@@ -28,12 +28,6 @@ use mp_restaurant_menu\classes\shortcodes\Shortcode_success;
 class Hooks extends Core {
 	protected static $instance;
 
-	/**
-	 * Hooks constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
 
 	/**
 	 * Init all hooks in projects
@@ -72,35 +66,26 @@ class Hooks extends Core {
 		self::install_menu_items_actions();
 		self::install_category_grid_actions();
 		self::install_category_list_actions();
-
 		self::install_menu_item_actions();
-
 		self::install_category_actions();
 		self::install_tag_actions();
 		self::install_cart_actions();
 		self::install_checkout_actions();
+
+
 		Test_Manual_payment::get_instance()->init_action();
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
 		Payments::get_instance()->init_action();
 		Emails::get_instance()->init_action();
 		Purchase::get_instance()->init_action();
-
-
 	}
 
 	/**
 	 * Install menu item grid actions
 	 */
 	public static function install_menu_item_grid_actions() {
-		/**
-		 * Before Menu item grid
-		 *
-		 * @see mprm_before_menu_item_grid_header()
-		 * @see mprm_before_menu_item_grid_footer()
-		 */
-		add_action('mprm_before_shortcode_menu_item_grid', 'mprm_before_menu_item_grid_header', 10);
-		add_action('mprm_before_shortcode_menu_item_grid', 'mprm_before_menu_item_grid_footer', 20);
+
 		/**
 		 * Menu item grid
 		 *
@@ -115,9 +100,7 @@ class Hooks extends Core {
 		 */
 
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_header', 10);
-
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_before_content', 15);
-
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_image', 20);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_title', 30);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_ingredients', 40);
@@ -127,24 +110,9 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_price', 75);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_after_content', 80);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
-
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
-		/**
-		 * After Menu item grid
-		 *
-		 * @see mprm_after_menu_item_grid_header
-		 * @see mprm_after_menu_item_grid_footer
-		 */
-		add_action('mprm_after_shortcode_menu_item_grid', 'mprm_after_menu_item_grid_header', 10);
-		add_action('mprm_after_shortcode_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
-		/**
-		 * Before Menu item grid
-		 *
-		 * @see mprm_before_menu_item_grid_header()
-		 * @see mprm_before_menu_item_grid_footer()
-		 */
-		add_action('mprm_before_widget_menu_item_grid', 'mprm_before_menu_item_grid_header', 10);
-		add_action('mprm_before_widget_menu_item_grid', 'mprm_before_menu_item_grid_footer', 20);
+
+
 		/**
 		 * Menu widget item grid
 		 *
@@ -158,7 +126,6 @@ class Hooks extends Core {
 		 */
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_header', 10);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_before_content', 15);
-
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_image', 20);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_title', 30);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_ingredients', 40);
@@ -167,31 +134,15 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_tags', 70);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_price', 80);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_after_content', 85);
-
 		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 		add_action('mprm_widget_menu_item_grid', 'mprm_menu_item_grid_footer', 95);
-		/**
-		 * After Menu item grid
-		 *
-		 * @see mprm_after_menu_item_grid_header
-		 * @see mprm_after_menu_item_grid_footer
-		 */
-		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_header', 10);
-		add_action('mprm_after_widget_menu_item_grid', 'mprm_after_menu_item_grid_footer', 20);
 	}
 
 	/**
 	 * Install menu item list actions
 	 */
 	public static function install_menu_item_list_actions() {
-		/**
-		 * Before Menu item list
-		 *
-		 * @see mprm_before_menu_item_list_header()
-		 * @see mprm_before_menu_item_list_footer()
-		 */
-		add_action('mprm_before_shortcode_menu_item_list', 'mprm_before_menu_item_list_header', 10);
-		add_action('mprm_before_shortcode_menu_item_list', 'mprm_before_menu_item_list_footer', 20);
+
 		/**
 		 * Menu item list
 		 *
@@ -205,9 +156,7 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_header', 5);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_before_content', 10);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_image', 15);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_header', 20);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_title', 25);
@@ -218,28 +167,10 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_price', 50);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_footer', 55);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_after_content', 60);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 70);
 
 
-		/**
-		 * After Menu item list
-		 *
-		 * @see mprm_after_menu_item_list_header
-		 * @see mprm_after_menu_item_list_footer
-		 */
-		add_action('mprm_after_shortcode_menu_item_list', 'mprm_after_menu_item_list_header', 10);
-		add_action('mprm_after_shortcode_menu_item_list', 'mprm_after_menu_item_list_footer', 20);
-		/**
-		 * Before Menu item list
-		 *
-		 * @see mprm_before_menu_item_list_header()
-		 * @see mprm_before_menu_item_list_footer()
-		 */
-		add_action('mprm_before_widget_menu_item_list', 'mprm_before_menu_item_list_header', 10);
-		add_action('mprm_before_widget_menu_item_list', 'mprm_before_menu_item_list_footer', 20);
 		/**
 		 * Menu widget item list
 		 *
@@ -268,14 +199,7 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_right_footer', 80);
 		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_footer', 95);
-		/**
-		 * After Menu item list
-		 *
-		 * @see mprm_after_menu_item_list_header
-		 * @see mprm_after_menu_item_list_footer
-		 */
-		add_action('mprm_after_widget_menu_item_list', 'mprm_after_menu_item_list_header', 10);
-		add_action('mprm_after_widget_menu_item_list', 'mprm_after_menu_item_list_footer', 20);
+
 	}
 
 	public static function install_menu_item_simple_list_actions() {
@@ -335,37 +259,17 @@ class Hooks extends Core {
 	 */
 	public static function install_menu_items_actions() {
 		/**
-		 * Before menu_items header
-		 *
-		 * @see mprm_before_menu_items_header()
-		 */
-		add_action('mprm_before_menu_items_header', 'mprm_before_menu_items_header', 10);
-		/**
 		 * Menu_items header
 		 *
 		 * @see mprm_menu_items_header()
 		 */
 		add_action('mprm_menu_items_header', 'mprm_menu_items_header', 5);
-		/**
-		 * After Menu_items header
-		 *
-		 * @see mprm_after_menu_items_header
-		 */
-		add_action('mprm_after_menu_items_header', 'mprm_after_menu_items_header', 10);
 	}
 
 	/**
 	 * Install category grid actions
 	 */
 	public static function install_category_grid_actions() {
-		/**
-		 * Before Category grid
-		 *
-		 * @see mprm_before_taxonomy_grid_header()
-		 * @see mprm_before_taxonomy_grid_footer()
-		 */
-		add_action('mprm_before_shortcode_category_grid', 'mprm_before_taxonomy_grid_header', 10);
-		add_action('mprm_before_shortcode_category_grid', 'mprm_before_taxonomy_grid_footer', 20);
 		/**
 		 * Category grid
 		 *
@@ -375,60 +279,13 @@ class Hooks extends Core {
 		 * @see mprm_taxonomy_grid_footer()
 		 */
 		add_action('mprm_shortcode_category_grid', 'mprm_shortcode_grid_item', 10);
-		/*add_action('mprm_shortcode_category_grid', 'mprm_taxonomy_grid_header', 5);
-		add_action('mprm_shortcode_category_grid', 'mprm_taxonomy_grid_title', 10);
-		add_action('mprm_shortcode_category_grid', 'mprm_taxonomy_grid_description', 20);
-		add_action('mprm_shortcode_category_grid', 'mprm_taxonomy_grid_footer', 30);*/
-		/**
-		 * After Category grid
-		 *
-		 * @see mprm_after_taxonomy_grid_header
-		 * @see mprm_after_taxonomy_grid_footer
-		 */
-		add_action('mprm_after_shortcode_category_grid', 'mprm_after_taxonomy_grid_header', 10);
-		add_action('mprm_after_shortcode_category_grid', 'mprm_after_taxonomy_grid_footer', 20);
-		/**
-		 * Before Category grid
-		 *
-		 * @see mprm_before_taxonomy_grid_header()
-		 * @see mprm_before_taxonomy_grid_footer()
-		 */
-		add_action('mprm_before_widget_category_grid', 'mprm_before_taxonomy_grid_header', 10);
-		add_action('mprm_before_widget_category_grid', 'mprm_before_taxonomy_grid_footer', 20);
-		/**
-		 * Category grid
-		 *
-		 * @see mprm_taxonomy_grid_header()
-		 * @see mprm_taxonomy_grid_title()
-		 * @see mprm_taxonomy_grid_description()
-		 * @see mprm_taxonomy_grid_footer()
-		 */
-		/*add_action('mprm_widget_category_grid', 'mprm_taxonomy_grid_header', 5);
-		add_action('mprm_widget_category_grid', 'mprm_taxonomy_grid_title', 10);
-		add_action('mprm_widget_category_grid', 'mprm_taxonomy_grid_description', 20);
-		add_action('mprm_widget_category_grid', 'mprm_taxonomy_grid_footer', 30);*/
-		/**
-		 * After Category grid
-		 *
-		 * @see mprm_after_taxonomy_grid_header
-		 * @see mprm_after_taxonomy_grid_footer
-		 */
-		add_action('mprm_after_widget_category_grid', 'mprm_after_taxonomy_grid_header', 10);
-		add_action('mprm_after_widget_category_grid', 'mprm_after_taxonomy_grid_footer', 20);
 	}
 
 	/**
 	 * Install category list actions
 	 */
 	public static function install_category_list_actions() {
-		/**
-		 * Before Category list
-		 *
-		 * @see mprm_before_category_list_header()
-		 * @see mprm_before_category_list_footer()
-		 */
-		add_action('mprm_before_shortcode_category_list', 'mprm_before_category_list_header', 10);
-		add_action('mprm_before_shortcode_category_list', 'mprm_before_category_list_footer', 20);
+
 		/**
 		 * Category list
 		 *
@@ -438,25 +295,7 @@ class Hooks extends Core {
 		 * @see mprm_category_list_footer()
 		 */
 		add_action('mprm_shortcode_category_list', 'mprm_category_list_item', 10);
-		/*add_action('mprm_shortcode_category_list', 'mprm_category_list_title', 10);
-		add_action('mprm_shortcode_category_list', 'mprm_category_list_description', 20);
-		add_action('mprm_shortcode_category_list', 'mprm_category_list_footer', 30);*/
-		/**
-		 * After Category list
-		 *
-		 * @see mprm_after_category_list_header
-		 * @see mprm_after_category_list_footer
-		 */
-		add_action('mprm_after_shortcode_category_list', 'mprm_after_category_list_header', 10);
-		add_action('mprm_after_shortcode_category_list', 'mprm_after_category_list_footer', 20);
-		/**
-		 * Before Category list
-		 *
-		 * @see mprm_before_category_list_header()
-		 * @see mprm_before_category_list_footer()
-		 */
-		add_action('mprm_before_widget_category_list', 'mprm_before_category_list_header', 10);
-		add_action('mprm_before_widget_category_list', 'mprm_before_category_list_footer', 20);
+
 		/**
 		 * Category list
 		 *
@@ -466,9 +305,7 @@ class Hooks extends Core {
 		 * @see mprm_category_list_footer()
 		 */
 		add_action('mprm_widget_category_list', 'mprm_category_list_item', 10);
-		/*add_action('mprm_widget_category_list', 'mprm_category_list_title', 10);
-		add_action('mprm_widget_category_list', 'mprm_category_list_description', 20);
-		add_action('mprm_widget_category_list', 'mprm_category_list_footer', 30);*/
+
 		/**
 		 * After Category list
 		 *
@@ -476,7 +313,6 @@ class Hooks extends Core {
 		 * @see mprm_after_category_list_footer
 		 */
 		add_action('mprm_after_widget_category_list', 'mprm_after_category_list_header', 10);
-		add_action('mprm_after_widget_category_list', 'mprm_after_category_list_footer', 20);
 	}
 
 	/**
@@ -517,24 +353,14 @@ class Hooks extends Core {
 		 * @see mprm_after_menu_item_header
 		 */
 		add_action('mprm_after_menu_item_header', 'mprm_after_menu_item_header', 10);
-		/**
-		 * Before Menu_item gallery
-		 *
-		 * @see mprm_before_menu_item_gallery()
-		 */
-		add_action('mprm_before_menu_item_gallery', 'mprm_before_menu_item_gallery', 10);
+
 		/**
 		 * Menu item gallery
 		 *
 		 * @see mprm_menu_item_gallery()
 		 */
 		add_action('mprm_menu_item_gallery', 'mprm_menu_item_gallery', 10);
-		/**
-		 * After Menu_item gallery
-		 *
-		 * @see mprm_after_menu_item_gallery
-		 */
-		add_action('mprm_after_menu_item_gallery', 'mprm_after_menu_item_gallery', 10);
+
 		/**
 		 * Menu item content
 		 *
@@ -542,7 +368,6 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_content_author()
 		 * @see mprm_menu_item_content_comments()
 		 */
-		//add_action('mprm_menu_item_content', 'mprm_menu_item_price', 5);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content', 10);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content_author', 20);
 		add_action('mprm_menu_item_content', 'mprm_menu_item_content_comments', 30);
@@ -595,22 +420,19 @@ class Hooks extends Core {
 		 * @see mprm_single_category_list_ingredients()
 		 * @see mprm_single_category_list_footer()
 		 */
-		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_before_content', 5);
 
+		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_before_content', 5);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_left', 10);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_image', 15);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_left', 20);
-
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_right', 25);
-
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_header_title', 30);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_ingredients', 35);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_tags', 40);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_price', 45);
 		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_after_content', 50);
-		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 55);
-
-		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 60);
+		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 55);
+		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 60);
 
 		/**
 		 * After Menu_item list
@@ -618,12 +440,6 @@ class Hooks extends Core {
 		 * @see mprm_after_category_list
 		 */
 		add_action('mprm_taxonomy_after_list', 'mprm_after_taxonomy_list', 10);
-		/**
-		 * Before Menu_item grid
-		 *
-		 * @see mprm_before_taxonomy_grid()
-		 */
-		add_action('mprm_before_taxonomy_grid', 'mprm_before_taxonomy_grid', 10);
 		/**
 		 * Menu_item grid
 		 *
@@ -650,29 +466,11 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 75);
 
 		/**
-		 * After Menu_item grid
-		 *
-		 * @see mprm_after_taxonomy_grid
-		 */
-		add_action('mprm_after_taxonomy_grid', 'mprm_after_taxonomy_grid', 10);
-		/**
-		 * Before Menu_item header
-		 *
-		 * @see mprm_before_category_header()
-		 */
-		add_action('mprm_before_category_header', 'mprm_before_category_header', 10);
-		/**
 		 * Menu_item header
 		 *
 		 * @see mprm_category_header()
 		 */
 		add_action('mprm_category_header', 'mprm_category_header', 5);
-		/**
-		 * After Menu_item header
-		 *
-		 * @see mprm_after_category_header
-		 */
-		add_action('mprm_after_category_header', 'mprm_after_category_header', 10);
 	}
 
 	/**
@@ -683,12 +481,7 @@ class Hooks extends Core {
 		add_action('mprm_tag_before_wrapper', 'mprm_theme_wrapper_before');
 		add_action('mprm_tag_after_wrapper', 'mprm_theme_wrapper_after');
 
-		/**
-		 * Before Menu_item list
-		 *
-		 * @see mprm_before_tag_list()
-		 */
-		add_action('mprm_before_tag_list', 'mprm_before_tag_list', 10);
+
 		/**
 		 * Menu_item list
 		 *
@@ -699,16 +492,8 @@ class Hooks extends Core {
 		add_action('mprm_tag_list', 'mprm_single_tag_list_header', 5);
 		add_action('mprm_tag_list', 'mprm_single_tag_list_content', 10);
 		add_action('mprm_tag_list', 'mprm_single_tag_list_footer', 20);
-		/**
-		 * After Menu_item list
-		 *
-		 * @see mprm_after_tag_list
-		 */
-		add_action('mprm_after_tag_list', 'mprm_after_tag_list', 10);
 
-		add_action('mprm_before_tag_header', 'mprm_before_category_header', 10);
 		add_action('mprm_tag_header', 'mprm_category_header', 5);
-		add_action('mprm_after_tag_header', 'mprm_after_category_header', 10);
 	}
 
 	/**
@@ -723,17 +508,14 @@ class Hooks extends Core {
 			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
 		}
 		add_action('mprm_cart_empty', 'mprm_cart_empty');
-		add_action('mprm_before_purchase_form', 'mprm_before_purchase_form');
-		add_action('mprm_after_purchase_form', 'mprm_after_purchase_form');
-		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
-		add_action('mprm_checkout_form_bottom', 'mprm_checkout_form_bottom');
+
+		add_action('mprm_success_page_cart_item', 'mprm_success_page_cart_item', 10, 2);
+
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
 		add_action('mprm_purchase_form_register_fields', 'mprm_get_register_fields');
-		add_action('mprm_register_account_fields_before', 'mprm_register_account_fields_before');
 		add_action('mprm_register_fields_before', 'mprm_user_info_fields');
-		add_action('mprm_purchase_form_user_info', 'mprm_purchase_form_user_info');
 		add_action('mprm_purchase_form_before_register_login', 'mprm_purchase_form_before_register_login');
 		add_action('mprm_purchase_form_login_fields', 'mprm_get_login_fields');
 		add_action('mprm_purchase_form_before_cc_form', 'mprm_purchase_form_before_cc_form');
@@ -749,13 +531,8 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_final_total', 999);
 
-		add_action('mprm_purchase_form_after_submit', 'mprm_purchase_form_after_submit');
 		add_action('mprm_ajax_checkout_errors', 'mprm_print_errors');
 		add_action('mprm_cc_form', 'mprm_get_cc_form');
-		add_action('mprm_before_cc_fields', 'mprm_before_cc_fields');
-		add_action('mprm_after_cc_fields', 'mprm_after_cc_fields');
-		add_action('mprm_before_cc_expiration', 'mprm_before_cc_expiration');
-		add_action('mprm_after_cc_expiration', 'mprm_after_cc_expiration');
 
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
@@ -764,29 +541,13 @@ class Hooks extends Core {
 	 * Install checkout actions
 	 */
 	public static function install_checkout_actions() {
-		add_action('mprm_checkout_table_header_first', 'mprm_checkout_table_header_first');
-		add_action('mprm_checkout_table_header_last', 'mprm_checkout_table_header_last');
-		add_action('mprm_cart_items_before', 'mprm_cart_items_before');
-		add_action('mprm_checkout_table_body_first', 'mprm_checkout_table_body_first');
-		add_action('mprm_checkout_table_body_last', 'mprm_checkout_table_body_last');
-		add_action('mprm_checkout_cart_item_title_after', 'mprm_checkout_cart_item_title_after');
-		add_action('mprm_checkout_cart_item_price_after', 'mprm_checkout_cart_item_price_after');
-		add_action('mprm_cart_actions', 'mprm_cart_actions');
-		add_action('mprm_cart_items_middle', 'mprm_cart_items_middle');
 		add_action('mprm_cart_fee_rows_before', 'mprm_cart_fee_rows_before');
 		add_action('mprm_cart_fee_rows_after', 'mprm_cart_fee_rows_after');
-		add_action('mprm_cart_items_after', 'mprm_cart_items_after');
-		add_action('mprm_cart_footer_buttons', 'mprm_cart_footer_buttons');
-
-		add_action('mprm_checkout_table_footer_first', 'mprm_checkout_table_footer_first');
-		add_action('mprm_checkout_table_footer_last', 'mprm_checkout_table_footer_last');
 		add_action('mprm_payment_mode_top', 'mprm_payment_mode_top');
-		add_action('mprm_checkout_form_top', 'mprm_checkout_form_top');
-		add_action('mprm_purchase_form_before_email', 'mprm_purchase_form_before_email');
-		add_action('mprm_purchase_form_after_email', 'mprm_purchase_form_after_email');
-		add_action('mprm_purchase_form_user_info_fields', 'mprm_purchase_form_user_info_fields');
+		add_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table');
+		add_action('mprm_checkout_additional_information', 'mprm_checkout_delivery_address', 5);
+		add_action('mprm_checkout_additional_information', 'mprm_checkout_order_note', 10);
 		add_filter('the_content', 'mprm_filter_success_page_content', 99999);
-
 	}
 
 	/**
@@ -795,7 +556,7 @@ class Hooks extends Core {
 	public function init() {
 
 		//Register custom post types
-		Post::get_instance()->register_post_status();
+		Post::register_post_status();
 
 		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
@@ -817,12 +578,12 @@ class Hooks extends Core {
 		Media::get_instance()->register_all_taxonomies();
 
 		// Include template
-		add_filter('template_include', array(Media::get_instance(), 'template_include'));
-		add_filter('single_template', array(Media::get_instance(), 'single_template'), 99);
-//		add_action('loop_start', array(Media::get_instance(), 'single_template'));
-
-		// post_class filter
-		add_filter('post_class', 'mprm_post_class', 20, 3);
+		if (Media::get_instance()->get_template_mode() == 'plugin') {
+			add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
+		} else {
+			add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
+			add_filter('template_include', array(View::get_instance(), 'template_loader'));
+		}
 
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
@@ -839,12 +600,12 @@ class Hooks extends Core {
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
 
+		// post_class filter
+		add_filter('post_class', 'mprm_post_class', 20, 3);
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
-
 		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
-
 		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'filter_template_mode'), 10, 3);
 		add_filter('mprm_get_option_button_style', array(Core::get_instance(), 'filter_button_style'), 10, 3);
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);

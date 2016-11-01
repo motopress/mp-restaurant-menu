@@ -9,9 +9,19 @@ use mp_restaurant_menu\classes\modules\MPRM_Widget;
  */
 class Core {
 	protected static $instance;
-	protected $taxonomy_names;
-	protected $post_types;
+
 	protected $posts = array();
+
+	protected $taxonomy_names = array(
+		'menu_category' => 'mp_menu_category',
+		'menu_tag' => 'mp_menu_tag',
+		'ingredient' => 'mp_ingredient'
+	);
+
+	protected $post_types = array(
+		'menu_item' => 'mp_menu_item',
+		'order' => 'mprm_order'
+	);
 	/**
 	 * Current state
 	 */
@@ -24,17 +34,6 @@ class Core {
 	public function __construct() {
 
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-
-		$this->taxonomy_names = array(
-			'menu_category' => 'mp_menu_category',
-			'menu_tag' => 'mp_menu_tag',
-			'ingredient' => 'mp_ingredient'
-		);
-
-		$this->post_types = array(
-			'menu_item' => 'mp_menu_item',
-			'order' => 'mprm_order'
-		);
 		$this->init_plugin_version();
 	}
 
@@ -67,6 +66,8 @@ class Core {
 	}
 
 	/**
+	 * Get post types
+	 *
 	 * @param string $output
 	 *
 	 * @return array
@@ -80,6 +81,24 @@ class Core {
 			return $this->post_types;
 		}
 	}
+
+	/**
+	 * Get post types
+	 *
+	 * @param string $output
+	 *
+	 * @return array
+	 */
+	public function get_taxonomy_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->taxonomy_names);
+		} elseif ($output == 'value') {
+			return array_values($this->taxonomy_names);
+		} else {
+			return $this->taxonomy_names;
+		}
+	}
+
 
 	/**
 	 * Get taxonomy name
@@ -171,7 +190,7 @@ class Core {
 	 * @param string $folder
 	 * @param boolean $inFolder
 	 */
-	static function include_all($folder, $inFolder = true) {
+	public function include_all($folder, $inFolder = true) {
 		if (file_exists($folder)) {
 			$includeArr = scandir($folder);
 			foreach ($includeArr as $include) {
@@ -183,7 +202,7 @@ class Core {
 					include_once($folder . "/" . $include);
 				} else {
 					if ($include != "." && $include != ".." && $inFolder) {
-						Core::include_all($folder . "/" . $include);
+						$this->include_all($folder . "/" . $include);
 					}
 				}
 			}
@@ -307,10 +326,6 @@ class Core {
 	public function filter_button_style($value) {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'button';
-		}
-
-		if (Media::get_instance()->template_mode() == 'theme') {
-			$value = 'mprm-button';
 		}
 
 		return $value;

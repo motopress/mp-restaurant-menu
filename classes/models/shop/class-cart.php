@@ -63,6 +63,7 @@ class Cart extends Model {
 		do_action('mprm_pre_add_to_cart', $item_id, $options);
 
 		$cart = apply_filters('mprm_pre_add_to_cart_contents', $this->get_cart_contents());
+
 		if ($this->get('menu_item')->has_variable_prices($item_id) && !isset($options['price_id'])) {
 			// Forces to the first price ID if none is specified and menu_item has variable prices
 			$options['price_id'] = '0';
@@ -113,8 +114,8 @@ class Cart extends Model {
 		}
 
 		if (!empty($items)) {
-
 			foreach ($items as $item) {
+
 				$to_add = apply_filters('mprm_add_to_cart_item', $item);
 
 				if (!is_array($to_add)) {
@@ -124,19 +125,20 @@ class Cart extends Model {
 				if (!isset($to_add['id']) || empty($to_add['id'])) {
 					return false;
 				}
+				$position_key_cart = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
 
-				if ($this->item_in_cart($to_add['id'], $to_add['options']) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
-					$key = $this->get_item_position_in_cart($to_add['id'], $to_add['options']);
+				if (is_numeric($position_key_cart) && $this->item_quantities_enabled() && apply_filters('mprm_item_quantities_cart', TRUE)) {
+
 					if (is_array($quantity)) {
-						$cart[$key]['quantity'] += $quantity[$key];
+						$cart[$position_key_cart]['quantity'] += $quantity[$position_key_cart];
 					} else {
-						$cart[$key]['quantity'] += $quantity;
+						$cart[$position_key_cart]['quantity'] += $quantity;
 					}
+
 				} else {
 					$cart[] = $to_add;
 				}
 			}
-
 		}
 
 		$this->get('session')->set('mprm_cart', $cart);
@@ -149,33 +151,38 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @param $post_id
-	 * @param $options
+	 * Position in cart
 	 *
-	 * @return bool
+	 * @param int $item_id
+	 * @param array $options
+	 *
+	 * @return bool|int|string
 	 */
-	public function item_in_cart($post_id, $options) {
+	public function get_item_position_in_cart($item_id = 0, $options = array()) {
+		$position = false;
 		$cart_items = $this->get_cart_contents();
-		$ret = false;
-		if (is_array($cart_items)) {
-			foreach ($cart_items as $item) {
-				if ($item['id'] == $post_id) {
+		if (!is_array($cart_items)) {
+			return false;
+		} else {
+
+			foreach ($cart_items as $cart_position => $item) {
+				if (($item['id'] == $item_id) && apply_filters('mprm_in_cart_position', $item_id, $item)) {
 					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
-						if ($options['price_id'] == $item['options']['price_id']) {
-							$ret = true;
-							break;
+						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
+							$position = $cart_position;
 						}
 					} else {
-						$ret = true;
-						break;
+						$position = $cart_position;
 					}
 				}
 			}
 		}
-		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
+
+		return $position;
 	}
 
 	/**
+	 * is Quantities enabled
 	 * @return bool
 	 */
 	public function item_quantities_enabled() {
@@ -184,32 +191,22 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @param int $menu_item_id
-	 * @param array $options
+	 * Item in cart
 	 *
-	 * @return bool|int|string
+	 * @param $post_id
+	 * @param $options
+	 *
+	 * @return bool
 	 */
-	public function get_item_position_in_cart($menu_item_id = 0, $options = array()) {
-		$cart_items = $this->get_cart_contents();
-		if (!is_array($cart_items)) {
-			return false; // Empty cart
-		} else {
-			foreach ($cart_items as $position => $item) {
-				if ($item['id'] == $menu_item_id) {
-					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
-						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
-							return $position;
-						}
-					} else {
-						return $position;
-					}
-				}
-			}
-		}
-		return false;
+	public function item_in_cart($post_id, $options) {
+		$ret = is_numeric($this->get_item_position_in_cart($post_id, $options));
+		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
 	}
 
 	/**
+	 *
+	 * Remove from cart
+	 *
 	 * @param $cart_key
 	 *
 	 * @return bool|mixed|void
@@ -231,6 +228,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Save cart (need change)
+	 *
 	 * @return bool
 	 */
 	public function save_cart() {
@@ -263,6 +262,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * is Cart saving disabled
 	 * @return mixed|void
 	 */
 	public function is_cart_saving_disabled() {
@@ -271,6 +271,7 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Generate cart token
 	 * @return mixed|void
 	 */
 	public function generate_cart_token() {
@@ -278,7 +279,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * Empty cart
+	 *  Clear cart
 	 */
 	public function empty_cart() {
 		$this->get('session')->set('mprm_cart', NULL);
@@ -304,6 +305,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart token
+	 *
 	 * @return mixed|void
 	 */
 	public function get_cart_token() {
@@ -348,6 +351,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Purchase link
+	 *
 	 * @return array|bool
 	 */
 	public function get_append_purchase_link() {
@@ -380,18 +385,6 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @param $type
-	 */
-	public function get_error($type) {
-		switch ($type) {
-			case 'purchase_page':
-				break;
-			default:
-				break;
-		}
-	}
-
-	/**
 	 * @param string $type
 	 *
 	 * @return mixed
@@ -401,6 +394,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart item name
+	 *
 	 * @param array $item
 	 *
 	 * @return mixed|void
@@ -417,6 +412,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart item price id
+	 *
 	 * @param array $item
 	 *
 	 * @return null
@@ -430,7 +427,10 @@ class Cart extends Model {
 		return $price_id;
 	}
 
+
 	/**
+	 * Get cart item price name
+	 *
 	 * @param array $item
 	 *
 	 * @return mixed|void
@@ -443,6 +443,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Cart item price
+	 *
 	 * @param int $item_id
 	 * @param array $options
 	 *
@@ -492,6 +494,8 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart item price
+	 *
 	 * @param int $menu_item_id
 	 * @param array $options
 	 * @param bool $remove_tax_from_inclusive
@@ -561,17 +565,19 @@ class Cart extends Model {
 	 * @return mixed|void
 	 */
 	public function remove_cart_fee_url($fee_id = '') {
-		global $post;
+
 		if (defined('DOING_AJAX')) {
 			$current_page = $this->get('checkout')->get_checkout_uri();
 		} else {
 			$current_page = $this->get('misc')->get_current_page_url();
 		}
 		$remove_url = add_query_arg(array('fee' => $fee_id, 'mprm_action' => 'remove_fee', 'nocache' => 'true'), $current_page);
+
 		return apply_filters('mprm_remove_fee_url', $remove_url);
 	}
 
 	/**
+	 * Checkout cart columns
 	 * @return mixed|void
 	 */
 	public function checkout_cart_columns() {
@@ -582,10 +588,10 @@ class Cart extends Model {
 	}
 
 	/**
+	 * Get cart subtotal
 	 * @return mixed
 	 */
 	public function cart_subtotal() {
-
 		$price = $this->get('menu_item')->currency_filter(mprm_format_amount($this->get_cart_subtotal()));
 		return $price;
 	}

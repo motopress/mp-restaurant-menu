@@ -56,24 +56,29 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 		$title .= (mprm_has_variable_prices($item['id'])) ? ' <span class="mprm-cart-item-separator">-</span> ' . mprm_get_price_name($id, $item['options']) : mprm_get_price_name($id, $item['options']);
 	}
 
-	$item = View::get_instance()->render_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id), false);
+	$item = View::get_instance()->get_template_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id));
 
 	$item = str_replace('{item_title}', $title, $item);
+	$item = str_replace('{cart_item_url}', get_permalink($id), $item);
 	$item = str_replace('{item_amount}', mprm_currency_filter(mprm_format_amount($price)), $item);
 	$item = str_replace('{cart_item_id}', absint($cart_key), $item);
 	$item = str_replace('{item_id}', absint($id), $item);
 	$item = str_replace('{item_quantity}', absint($quantity), $item);
 	$item = str_replace('{remove_url}', $remove_url, $item);
 	$subtotal = '';
+
 	if ($ajax) {
 		$subtotal = mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal()));
 	}
+
 	$item = str_replace('{subtotal}', $subtotal, $item);
 
 	return apply_filters('mprm_cart_item', $item, $id);
 }
 
 /**
+ * Cart item quantity
+ *
  * @param int $menu_item_id
  * @param array $options
  * @param int /null $options
@@ -85,6 +90,8 @@ function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array(), $pos
 }
 
 /**
+ * Cart item price
+ *
  * @param int $menu_item_id
  * @param array $options
  * @param bool $remove_tax_from_inclusive
@@ -96,6 +103,8 @@ function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove
 }
 
 /**
+ * Cart item remove url
+ *
  * @param $cart_key
  *
  * @return mixed|void
@@ -173,13 +182,14 @@ function mprm_cart_empty() {
  * Cart button
  */
 function mprm_update_cart_button() {
-	if (!models\Cart::get_instance()->item_quantities_enabled())
+	if (!models\Cart::get_instance()->item_quantities_enabled()) {
 		return;
+	}
 	$color = mprm_get_option('checkout_color', 'blue');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
-	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit mprm-no-js button<?php echo ' ' . $color . ' ' . $padding; ?>" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit <?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?> button<?php echo ' ' . $color . ' ' . $padding; ?>" style="display: none" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
 	<input type="hidden" name="mprm_action" value="update_cart"/>
 	<?php
 }
@@ -188,8 +198,9 @@ function mprm_update_cart_button() {
  * save cart button
  */
 function mprm_save_cart_button() {
-	if (mprm_is_cart_saving_disabled())
+	if (mprm_is_cart_saving_disabled()) {
 		return;
+	}
 	$color = mprm_get_option('checkout_color', 'blue');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
@@ -209,3 +220,81 @@ function mprm_save_cart_button() {
 function mprm_item_in_cart($ID, $options) {
 	return models\Cart::get_instance()->item_in_cart($ID, $options);
 }
+
+/**
+ * Check is  cart taxed
+ * @return bool
+ */
+function mprm_is_cart_taxed() {
+
+	return models\Taxes::get_instance()->is_cart_taxed();
+}
+
+/**
+ * Get cart columns
+ *
+ * @return mixed|void
+ */
+function mprm_get_checkout_cart_columns() {
+	return models\Cart::get_instance()->checkout_cart_columns();
+}
+
+/**
+ * Get cart contents
+ *
+ * @return mixed|void
+ */
+function mprm_get_cart_contents() {
+	return models\Cart::get_instance()->get_cart_contents();
+}
+
+/**
+ * Success cart cart item
+ *
+ * @param $item
+ * @param $order
+ *
+ * @return bool/mixed
+ */
+function mprm_success_page_cart_item($item, $order) {
+	$menu_item_notes = mprm_get_menu_item_notes($item['id']);
+	$post_type = get_post_type($item['id']);
+
+	if ($post_type != mprm_get_post_type('menu_item')) {
+		return true;
+	}
+
+	?>
+
+	<tr>
+		<td>
+			<?php $price_id = models\Cart::get_instance()->get_cart_item_price_id($item); ?>
+
+			<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo $post_type ?>">
+				<?php echo esc_html($item['name']); ?>
+				<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
+					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+				<?php endif; ?>
+			</div>
+
+			<?php if (!empty($menu_item_notes)) : ?>
+				<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop($menu_item_notes); ?></div>
+			<?php endif; ?>
+
+		</td>
+
+		<?php if (models\Misc::get_instance()->use_skus()) : ?>
+			<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
+		<?php endif; ?>
+
+		<?php if (models\Cart::get_instance()->item_quantities_enabled()) { ?>
+			<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
+		<?php } ?>
+		<td>
+			<?php if (empty($item['in_bundle'])) : ?>
+				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+
+<?php }

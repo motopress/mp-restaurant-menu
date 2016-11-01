@@ -119,7 +119,6 @@ class Paypal_standart extends Model {
 						$paypal_args['amount_' . $i] = $this->get('formatting')->sanitize_amount($fee['amount']);
 						$i++;
 					} else {
-						// This is a negative fee (discount)
 						$discounted_amount += abs($fee['amount']);
 					}
 				}
@@ -131,6 +130,13 @@ class Paypal_standart extends Model {
 			if ($this->get('taxes')->use_taxes()) {
 				$paypal_args['tax_cart'] = $this->get('formatting')->sanitize_amount($purchase_data['tax']);
 			}
+
+			if (isset($purchase_data['shipping'])) {
+				$paypal_args['no_shipping'] = '0';
+				$paypal_args['shipping_1'] = apply_filters('mprm_shipping_cost_gateway', $purchase_data['shipping_cost']);
+			}
+
+
 			$paypal_args = apply_filters('mprm_paypal_redirect_args', $paypal_args, $purchase_data);
 			// Build query
 			$paypal_redirect .= http_build_query($paypal_args);
@@ -140,8 +146,46 @@ class Paypal_standart extends Model {
 			$this->get('cart')->empty_cart();
 			// Redirect to PayPal
 			wp_redirect($paypal_redirect);
+
 			exit;
 		}
+	}
+
+	/**
+	 * Get PayPal Redirect
+	 *
+	 * @since 1.0.8.2
+	 *
+	 * @param bool $ssl_check Is SSL?
+	 *
+	 * @return string
+	 */
+	public function get_paypal_redirect($ssl_check = false) {
+		if (is_ssl() || !$ssl_check) {
+			$protocal = 'https://';
+		} else {
+			$protocal = 'http://';
+		}
+		// Check the current payment mode
+		if ($this->get('misc')->is_test_mode()) {
+			// Test mode
+			$paypal_uri = $protocal . 'www.sandbox.paypal.com/cgi-bin/webscr';
+		} else {
+			// Live mode
+			$paypal_uri = $protocal . 'www.paypal.com/cgi-bin/webscr';
+		}
+		return apply_filters('mprm_paypal_uri', $paypal_uri);
+	}
+
+	/**
+	 * Set the Page Style for PayPal Purchase page
+	 *
+	 * @since 1.4.1
+	 * @return string
+	 */
+	public function get_paypal_page_style() {
+		$page_style = trim($this->get('settings')->get_option('paypal_page_style', 'PayPal'));
+		return apply_filters('mprm_paypal_page_style', $page_style);
 	}
 
 	/**
@@ -419,43 +463,6 @@ class Paypal_standart extends Model {
 	}
 
 	/**
-	 * Get PayPal Redirect
-	 *
-	 * @since 1.0.8.2
-	 *
-	 * @param bool $ssl_check Is SSL?
-	 *
-	 * @return string
-	 */
-	public function get_paypal_redirect($ssl_check = false) {
-		if (is_ssl() || !$ssl_check) {
-			$protocal = 'https://';
-		} else {
-			$protocal = 'http://';
-		}
-		// Check the current payment mode
-		if ($this->get('misc')->is_test_mode()) {
-			// Test mode
-			$paypal_uri = $protocal . 'www.sandbox.paypal.com/cgi-bin/webscr';
-		} else {
-			// Live mode
-			$paypal_uri = $protocal . 'www.paypal.com/cgi-bin/webscr';
-		}
-		return apply_filters('mprm_paypal_uri', $paypal_uri);
-	}
-
-	/**
-	 * Set the Page Style for PayPal Purchase page
-	 *
-	 * @since 1.4.1
-	 * @return string
-	 */
-	public function get_paypal_page_style() {
-		$page_style = trim($this->get('settings')->get_option('paypal_page_style', 'PayPal'));
-		return apply_filters('mprm_paypal_page_style', $page_style);
-	}
-
-	/**
 	 * Shows "Purchase Processing" message for PayPal payments are still pending on site return
 	 *
 	 * This helps address the Race Condition, as detailed in issue #1839
@@ -478,7 +485,7 @@ class Paypal_standart extends Model {
 		$payment = get_post($payment_id);
 		if ($payment && 'mprm-pending' == $payment->post_status) {
 			$success_page_uri = $this->get('checkout')->get_success_page_uri();
-			$content = View::get_instance()->render_html('shop/processing', array('success_page_uri' => $success_page_uri), false);
+			$content = View::get_instance()->get_template('shop/processing', array('success_page_uri' => $success_page_uri));
 		}
 		return $content;
 	}

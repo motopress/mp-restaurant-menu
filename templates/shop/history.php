@@ -2,7 +2,7 @@
 if (!mprm_user_pending_verification()) { ?>
 	<?php if (is_user_logged_in()) {
 		$purchases = mprm_get_users_purchases(get_current_user_id(), 20, true, 'any');
-		if ($purchases) {
+		if (!empty($purchases) && is_array($purchases)) {
 			do_action('mprm_before_purchase_history'); ?>
 			<table id="mprm_user_history">
 				<thead>

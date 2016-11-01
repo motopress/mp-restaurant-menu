@@ -3,30 +3,6 @@ use mp_restaurant_menu\classes\Core as Core;
 use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View as View;
 
-function mprm_before_purchase_form() {
-}
-
-function mprm_after_purchase_form() {
-}
-
-function mprm_checkout_form_top() {
-}
-
-function mprm_checkout_form_bottom() {
-}
-
-function mprm_before_cc_fields() {
-}
-
-function mprm_before_cc_expiration() {
-}
-
-function mprm_after_cc_expiration() {
-}
-
-function mprm_after_cc_fields() {
-}
-
 /**
  * @return bool|mixed
  */
@@ -63,19 +39,27 @@ function mprm_get_menu_item_notes($menu_item_id = 0) {
 	return $menu_item->get_notes();
 }
 
+/**
+ * Select payment mode
+ */
 function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways(true);
-	$page_URL = models\Misc::get_instance()->get_current_page_url();
-	do_action('mprm_payment_mode_top'); ?>
+	$page_URL = models\Misc::get_instance()->get_current_page_url(); ?>
+
+	<fieldset id="mprm_payment_summary_table">
+		<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
+	</fieldset>
+	<?php do_action('mprm_payment_mode_top'); ?>
 
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
 	<?php } ?>
+
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
+
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?>
-					<legend></span>
+			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
 			<?php
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
@@ -88,6 +72,7 @@ function mprm_payment_mode_select() {
 			do_action('mprm_payment_mode_after_gateways');
 			?>
 		</div>
+
 		<?php do_action('mprm_payment_mode_after_gateways_wrap'); ?>
 	</fieldset>
 	<fieldset id="mprm_payment_mode_submit" class="mprm-no-js">
@@ -99,12 +84,16 @@ function mprm_payment_mode_select() {
 		</form>
 	<?php } ?>
 	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
+
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
-
+/**
+ * Purchase_form
+ */
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
+
 	/**
 	 * Hooks in at the top of the purchase form
 	 *
@@ -468,13 +457,8 @@ function mprm_terms_agreement() {
 	}
 }
 
-
 function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
-}
-
-
-function mprm_purchase_form_after_submit() {
 }
 
 function mprm_get_login_fields() {
@@ -532,55 +516,6 @@ function mprm_get_login_fields() {
 	</fieldset>
 	<?php
 	echo ob_get_clean();
-}
-
-function mprm_register_account_fields_before() {
-}
-
-
-function mprm_checkout_table_header_first() {
-}
-
-function mprm_checkout_table_header_last() {
-}
-
-function mprm_cart_items_before() {
-}
-
-function mprm_checkout_table_body_first() {
-}
-
-function mprm_checkout_cart_item_title_after() {
-}
-
-function mprm_checkout_cart_item_price_after() {
-}
-
-function mprm_cart_actions() {
-}
-
-function mprm_checkout_table_body_last() {
-}
-
-function mprm_cart_items_middle() {
-}
-
-function mprm_cart_items_after() {
-}
-
-function mprm_cart_footer_buttons() {
-}
-
-function mprm_checkout_table_discount_first() {
-}
-
-function mprm_checkout_table_discount_last() {
-}
-
-function mprm_checkout_table_footer_first() {
-}
-
-function mprm_checkout_table_footer_last() {
 }
 
 function mprm_payment_mode_top() {
@@ -669,17 +604,6 @@ function mprm_purchase_form_bottom() {
 	<?php
 }
 
-function mprm_purchase_form_before_email() {
-}
-
-function mprm_purchase_form_after_email() {
-}
-
-function mprm_purchase_form_user_info() {
-}
-
-function mprm_purchase_form_user_info_fields() {
-}
 
 /**
  * @param string $where
@@ -1167,6 +1091,14 @@ function mprm_get_view_price_position() {
 }
 
 /**
+ * Get restaurant menu View object
+ * @return View
+ */
+function mprm_get_view() {
+	return View::get_instance();
+}
+
+/**
  * @param int $_id
  *
  * @return bool|mixed|void
@@ -1186,5 +1118,4 @@ function mprm_get_default_variable_price($_id = 0) {
 	}
 
 	return apply_filters('mprm_variable_default_price_id', absint($default_price_id), $_id);
-
 }
