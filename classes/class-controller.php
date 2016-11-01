@@ -22,7 +22,7 @@ class Controller extends Core {
 	 */
 	public function install() {
 		// include all core controllers
-		Core::include_all(MP_RM_CONTROLLERS_PATH);
+		Core::get_instance()->include_all(MP_RM_CONTROLLERS_PATH);
 	}
 
 	/**

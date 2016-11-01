@@ -202,7 +202,7 @@ class Core {
 					include_once($folder . "/" . $include);
 				} else {
 					if ($include != "." && $include != ".." && $inFolder) {
-						Core::include_all($folder . "/" . $include);
+						$this->include_all($folder . "/" . $include);
 					}
 				}
 			}
