@@ -1394,9 +1394,11 @@ class Media extends Core {
 		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
 		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
 		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
+
 		if (!empty($settings['extensions'])) {
 			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
 		}
+
 		if (!empty($settings['licenses'])) {
 			$tabs['licenses'] = __('Licenses', 'mp-restaurant-menu');
 		}

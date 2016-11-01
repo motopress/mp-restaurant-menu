@@ -9,6 +9,7 @@ use mp_restaurant_menu\classes\modules\MPRM_Widget;
  */
 class Core {
 	protected static $instance;
+
 	protected $posts = array();
 
 	protected $taxonomy_names = array(
@@ -80,6 +81,7 @@ class Core {
 			return $this->post_types;
 		}
 	}
+
 	/**
 	 * Get post types
 	 *
@@ -188,7 +190,7 @@ class Core {
 	 * @param string $folder
 	 * @param boolean $inFolder
 	 */
-	static function include_all($folder, $inFolder = true) {
+	public function include_all($folder, $inFolder = true) {
 		if (file_exists($folder)) {
 			$includeArr = scandir($folder);
 			foreach ($includeArr as $include) {

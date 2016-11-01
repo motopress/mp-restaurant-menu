@@ -58,6 +58,9 @@ class Controller_Settings extends Controller {
 		$this->send_json($data);
 	}
 
+	/**
+	 * Preview email
+	 */
 	public function action_preview_email() {
 		Settings_emails::get_instance()->display_email_template_preview();
 	}

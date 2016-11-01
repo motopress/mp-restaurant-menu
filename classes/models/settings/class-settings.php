@@ -11,6 +11,7 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\models
  */
 class Settings extends Model {
+
 	protected static $instance;
 
 	/**
@@ -513,7 +514,6 @@ class Settings extends Model {
 		}
 		return $currency_symbol;
 	}
-
 
 	public function header_callback() {
 		echo '';
@@ -1462,6 +1462,7 @@ class Settings extends Model {
 			$mprm_options = Settings::get_instance()->get_settings();
 		}
 		$mprm_options[$key] = apply_filters('mprm_set_option', $value, $key);
+
 		return update_option('mprm_settings', $mprm_options);
 	}
 
