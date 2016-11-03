@@ -1,6 +1,10 @@
 <?php if (mprm_get_option('enable_ecommerce')):
+
 	$styles_class = mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles';
-	$image_class = (mprm_is_menu_item_image() == true) ? ' mprm-without-image' : ' mprm-with-image';
+
+	$is_menu_item_image = mprm_is_menu_item_image();
+
+	$image_class = (($is_menu_item_image == true) && !current_theme_supports('mp-restaurant-menu')) ? ' mprm-with-image' : ' mprm-without-image';
 	?>
 
 	<div class="mprm_menu_item_buy_button <?php echo $styles_class . $image_class ?>">

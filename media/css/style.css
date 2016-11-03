@@ -827,7 +827,7 @@
   margin-right: 1em;
   width: 40%;
 }
-.mprm-main-wrapper .mprm-taxonomy-items-list .mprm_menu_item_buy_button {
+.mprm-main-wrapper .mprm-taxonomy-items-list .mprm_menu_item_buy_button.mprm-with-image {
   margin: 0 0 0.5em 150px;
   padding-left: 1em;
 }

@@ -149,7 +149,7 @@ function mprm_get_attributes() {
 }
 
 /**
- * @return array|bool|WP_Error
+ * @return array|bool
  */
 function mprm_get_ingredients() {
 	global $post;
@@ -257,8 +257,8 @@ function mprm_get_category_options($id = false) {
  * @return array
  */
 function mprm_get_menu_item_options($post = NULL) {
-	global $mprm_menu_item;
-	global $mprm_menu_items;
+	global $mprm_menu_item, $mprm_menu_items;
+
 	$post = empty($post) ? $mprm_menu_item : $post;
 
 	if (empty($post)) {
@@ -922,6 +922,7 @@ function mprm_menu_item_list_right_header() {
 function mprm_is_menu_item_image() {
 	$post_options = mprm_get_menu_item_options();
 	$feat_img = mprm_get_feat_image();
+
 	if (!$feat_img || empty($post_options['image'])) {
 		return true;
 	} else {
@@ -1292,28 +1293,28 @@ function mprm_before_menu_item_sidebar() {
 /**
  * Menu items proportions
  */
-function mprm_menu_item_sidebar_attributes() {
+function mprm_menu_item_slidebar_attributes() {
 	mprm_get_template('common/attributes');
 }
 
 /**
  * Menu item sidebar ingredients
  */
-function mprm_menu_item_sidebar_ingredients() {
+function mprm_menu_item_slidebar_ingredients() {
 	mprm_get_template('common/ingredients', array('mprm_title_ingredients' => false));
 }
 
 /**
  * Menu item sidebar nutritional
  */
-function mprm_menu_item_sidebar_nutritional() {
+function mprm_menu_item_slidebar_nutritional() {
 	mprm_get_template('common/nutritional', array('mprm_title_nutritional' => false));
 }
 
 /**
  * Menu item sidebar around items
  */
-function mprm_menu_item_sidebar_related_items() {
+function mprm_menu_item_slidebar_related_items() {
 	mprm_get_template('common/related-items');
 }
 

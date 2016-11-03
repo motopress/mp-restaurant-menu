@@ -1321,16 +1321,23 @@ class Media extends Core {
 		}
 
 		if ($this->get_template_mode() == 'plugin') {
+			$find = array();
 			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
 				foreach ($this->post_types as $post_type) {
-					if (basename($template) != "single-$post_type.php") {
-						$path = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
-						if ($post->post_type == $post_type && file_exists($path)) {
-							$template = $path;
+					if ($post->post_type == $post_type) {
+						$find[] = "single-$post_type.php";
+
+						$find_template = locate_template(array_unique($find));
+
+						if (file_exists($find_template)) {
+							$template = $find_template;
+						} else {
+							$template = MP_RM_TEMPLATES_PATH . "single-$post_type.php";
 						}
 					}
 				}
 			}
+
 			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
 				foreach ($this->taxonomy_names as $taxonomy_name) {
 					if (basename($template) != "taxonomy-$taxonomy_name.php") {

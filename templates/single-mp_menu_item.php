@@ -18,7 +18,7 @@ while (have_posts()) : the_post(); ?>
 					?>
 				</div>
 				<div class="<?php echo apply_filters('mprm-menu-sidebar-class', 'mprm-sidebar mprm-four mprm-columns') ?>">
-					<?php do_action('mprm_menu_item_sidebar'); ?>
+					<?php do_action('mprm_menu_item_slidebar'); ?>
 				</div>
 				<div class="mprm-clear"></div>
 			</div>

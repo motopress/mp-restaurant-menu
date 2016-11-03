@@ -2,7 +2,7 @@
 	<div class="mprm-add-menu-item mprm-display-inline" style="position: relative;">
 		<?php mprm_get_preloader('small-preloader mprm-hidden'); ?>
 
-		<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
+		<form id="<?php echo $form_id; ?>" class="mprm_purchase_form mprm_purchase_submit_wrapper mprm_purchase_<?php echo absint($post->ID); ?>" data-id="<?php echo $post->ID ?>" method="post">
 			<?php do_action('mprm_purchase_link_top', $post->ID, $args); ?>
 
 			<?php $class = implode(' ', array($args['style'], $args['color'], trim($args['class']), trim($args['padding'])));

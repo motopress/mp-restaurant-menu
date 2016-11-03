@@ -381,17 +381,17 @@ class Hooks extends Core {
 		 * Menu item sidebar
 		 *
 		 * @see mprm_menu_item_price()
-		 * @see mprm_menu_item_sidebar_attributes()
-		 * @see mprm_menu_item_sidebar_ingredients()
-		 * @see mprm_menu_item_sidebar_nutritional()
-		 * @see mprm_menu_item_sidebar_related_items()
+		 * @see mprm_menu_item_slidebar_attributes()
+		 * @see mprm_menu_item_slidebar_ingredients()
+		 * @see mprm_menu_item_slidebar_nutritional()
+		 * @see mprm_menu_item_slidebar_related_items()
 		 */
-		add_action('mprm_menu_item_sidebar', 'mprm_menu_item_price', 5);
-		add_action('mprm_menu_item_sidebar', 'mprm_get_purchase_template', 10);
-		add_action('mprm_menu_item_sidebar', 'mprm_menu_item_sidebar_attributes', 20);
-		add_action('mprm_menu_item_sidebar', 'mprm_menu_item_sidebar_ingredients', 25);
-		add_action('mprm_menu_item_sidebar', 'mprm_menu_item_sidebar_nutritional', 30);
-		add_action('mprm_menu_item_sidebar', 'mprm_menu_item_sidebar_related_items', 40);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_price', 5);
+		add_action('mprm_menu_item_slidebar', 'mprm_get_purchase_template', 10);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_attributes', 20);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_ingredients', 25);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_nutritional', 30);
+		add_action('mprm_menu_item_slidebar', 'mprm_menu_item_slidebar_related_items', 40);
 		/**
 		 * After Menu_item gallery
 		 *
@@ -579,11 +579,12 @@ class Hooks extends Core {
 
 		// Include template
 		if (Media::get_instance()->get_template_mode() == 'plugin') {
-			add_filter('template_include', array(Media::get_instance(), 'template_include'), 99);
+			add_filter('template_include', array(Media::get_instance(), 'template_include'));
 		} else {
 			add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
 			add_filter('template_include', array(View::get_instance(), 'template_loader'));
 		}
+
 
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
