@@ -198,7 +198,7 @@ class Cart extends Model {
 	 *
 	 * @return bool
 	 */
-	public function item_in_cart($post_id, $options) {
+	public function item_in_cart($post_id, $options = array()) {
 		$ret = is_numeric($this->get_item_position_in_cart($post_id, $options));
 		return (bool)apply_filters('mprm_item_in_cart', $ret, $post_id, $options);
 	}

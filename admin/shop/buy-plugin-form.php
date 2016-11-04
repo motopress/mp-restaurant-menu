@@ -14,10 +14,10 @@
 					<span class="mprm-add-to-cart-label"><?php echo $args['text'] ?></span>
 				</a>
 			<?php } else { ?>
-				<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
+				<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_<?php echo $post->ID ?>" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display ?>/>
 			<?php } ?>
 
-			<a href="<?php echo esc_url($checkout_uri) ?>" style="display: none" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline"><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+			<a href="<?php echo esc_url($checkout_uri) ?>" style="<?php echo (mprm_item_in_cart($post->ID) && $is_ajax_disabled && !$straight_to_checkout) ? '' : 'display: none' ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline"><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
 
 			<?php if (!$is_free): ?>
 				<?php if ($display_tax_rate && $prices_include_tax) {
@@ -35,14 +35,17 @@
 			<?php if ($variable_pricing && isset($price_id) && isset($prices[$price_id])): ?>
 				<input type="hidden" name="mprm_options[price_id][]" id="mprm_price_option_<?php echo $post->ID; ?>_1" class="mprm_price_option_<?php echo $post->ID; ?>" value="<?php echo $price_id; ?>">
 			<?php endif; ?>
+
 			<?php if (!empty($args['direct']) && !$this->is_free($args['price_id'], $post->ID)) { ?>
 				<input type="hidden" name="mprm_action" class="mprm_action_input" value="straight_to_gateway">
 			<?php } else { ?>
 				<input type="hidden" name="mprm_action" class="mprm_action_input" value="add_to_cart">
 			<?php } ?>
+
 			<?php if (apply_filters('mprm_redirect_to_checkout', $straight_to_checkout, $post->ID, $args)) : ?>
 				<input type="hidden" name="mprm_redirect_to_checkout" id="mprm_redirect_to_checkout" value="1">
 			<?php endif; ?>
+
 			<?php do_action('mprm_purchase_link_end', $post->ID, $args); ?>
 		</form>
 

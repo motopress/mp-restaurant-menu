@@ -217,7 +217,7 @@ function mprm_save_cart_button() {
  *
  * @return bool
  */
-function mprm_item_in_cart($ID, $options) {
+function mprm_item_in_cart($ID, $options = array()) {
 	return models\Cart::get_instance()->item_in_cart($ID, $options);
 }
 
