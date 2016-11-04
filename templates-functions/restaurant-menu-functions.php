@@ -920,14 +920,37 @@ function mprm_menu_item_list_right_header() {
  * @return bool
  */
 function mprm_is_menu_item_image() {
-	$post_options = mprm_get_menu_item_options();
-	$feat_img = mprm_get_feat_image();
+	global $post;
+	
+	if(is_tax()){
 
-	if (!$feat_img || empty($post_options['image'])) {
-		return true;
-	} else {
-		return false;
+	mprm_set_menu_item($post->ID);
+	$post_options = mprm_get_menu_item_options();
+
+		if(!empty($post_options['image'])){
+			$is_menu_item_image = true;
+		}else{
+		    $is_menu_item_image = false;
+		}
+
+	}else{
+		$post_options = mprm_get_menu_item_options();
+		$feat_img = mprm_get_feat_image();
+
+		if ( !empty($post_options['image'])) {
+			if(isset($feat_img) && $feat_img){
+				$is_menu_item_image = true;
+			}else{
+			    $is_menu_item_image = false;
+			}
+		} else {
+		    $is_menu_item_image = false;
+		}
+
 	}
+
+		return $is_menu_item_image;
+
 }
 
 /**

@@ -16,9 +16,8 @@
 .twentyfourteen .tfmp .product .images img {
   margin-bottom: 1em;
 }
-.twentyeleven .mp-menu-item .mprm-sidebar .mprm-title,
-.twentyeleven .mp-menu-item .mprm-sidebar .mprm-price {
-  font-size: 1.2rem;
+.twentyeleven .mprm-container .mprm-item-image img {
+  width: 100%;
 }
 .twentyeleven .mprm-link {
   text-decoration: none;
@@ -56,6 +55,9 @@
 }
 .twentytwelve ul {
   list-style: disc outside;
+}
+.twentythirteen .mprm-plugin-mode .sidebar .comment-reply-title {
+  padding: 0 20px;
 }
 .twentythirteen h1 {
   margin: 0;

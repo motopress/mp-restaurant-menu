@@ -376,7 +376,7 @@ class Menu_item extends Store_item {
 		global $mprm_view_args;
 		$options = array();
 		$image_id = get_post_thumbnail_id($post->ID);
-		if ("list" != $mprm_view_args['view']) {
+		if (!empty($mprm_view_args['view']) && "list" != $mprm_view_args['view']) {
 			$mprm_view_args['col'] += 0;
 			if ($mprm_view_args['col'] <= 2) {
 				$thumbnail_type = 'mprm-big';
