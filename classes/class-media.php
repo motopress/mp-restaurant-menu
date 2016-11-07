@@ -1127,10 +1127,13 @@ class Media extends Core {
 	 * Register all post type
 	 */
 	public function register_all_post_type() {
-		if (post_type_exists($this->get_post_type('menu_item'))) {
+		$menu_item_post_type = $this->get_post_type('menu_item');
+		
+		if (post_type_exists($menu_item_post_type)) {
 			return;
 		}
-		register_post_type($this->get_post_type('menu_item'), array(
+
+		register_post_type($menu_item_post_type, array(
 			'label' => 'mp_menu_item',
 			'labels' =>
 				array(
@@ -1152,7 +1155,7 @@ class Media extends Core {
 			'has_archive' => true,
 			'show_ui' => true,
 			'show_in_menu' => false,
-			'capability_type' => 'product',
+			'capability_type' => $menu_item_post_type,
 			'menu_position' => 21,
 			'hierarchical' => false,
 			'map_meta_cap' => true,
@@ -1187,7 +1190,7 @@ class Media extends Core {
 			'description' => __('This is where store orders are stored.', 'mp-restaurant-menu'),
 			'public' => false,
 			'show_ui' => true,
-			'capability_type' => 'shop_payment',
+			'capability_type' => $this->get_post_type('order'),
 			'capabilities' => array(
 				'create_posts' => false,
 			),

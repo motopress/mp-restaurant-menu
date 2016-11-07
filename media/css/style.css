@@ -1073,6 +1073,9 @@
 #mprm_purchase_form textarea {
   width: 100%;
 }
+.mprm_menu_item_buy_button form {
+  margin: 0;
+}
 .mprm_menu_item_buy_button form.mprm_purchase_form .mprm-add-to-cart {
   margin-right: 10px;
 }
@@ -1722,6 +1725,9 @@ hr {
   outline: none;
   box-shadow: none;
   border: none;
+}
+.mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form {
+  margin: 0;
 }
 .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form.mprm_purchase_form .mprm_purchase_submit_wrapper,
 .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image form.mprm_purchase_form .mprm-section {

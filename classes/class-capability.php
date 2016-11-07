@@ -112,6 +112,7 @@ class Capabilities extends Core {
 					$wp_roles->add_cap('editor', $cap);
 				}
 			}
+
 		}
 	}
 
@@ -124,6 +125,7 @@ class Capabilities extends Core {
 	public function get_core_caps() {
 		$capabilities = array();
 		$capability_types = array($this->get_post_type('menu_item'), $this->get_post_type('order'));
+
 		foreach ($capability_types as $capability_type) {
 			$capabilities[$capability_type] = array(
 				// Post type
