@@ -49,6 +49,7 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_summary_table">
 		<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
 	</fieldset>
+
 	<?php do_action('mprm_payment_mode_top'); ?>
 
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
@@ -74,12 +75,15 @@ function mprm_payment_mode_select() {
 		</div>
 
 		<?php do_action('mprm_payment_mode_after_gateways_wrap'); ?>
+
 	</fieldset>
+
 	<fieldset id="mprm_payment_mode_submit" class="mprm-no-js">
 		<p id="mprm-next-submit-wrap">
 			<?php echo mprm_checkout_button_next(); ?>
 		</p>
 	</fieldset>
+
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		</form>
 	<?php } ?>
@@ -100,6 +104,14 @@ function mprm_purchase_form() {
 	 * @since 1.4
 	 */
 	do_action('mprm_purchase_form_top');
+
+	if (!mprm_show_gateways()) { ?>
+		<fieldset id="mprm_payment_summary_table">
+			<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
+		</fieldset>
+	<?php
+	}
+
 	if (models\Checkout::get_instance()->can_checkout()) {
 		do_action('mprm_purchase_form_before_register_login');
 		$show_register_form = mprm_get_option('show_register_form', 'none');
@@ -107,11 +119,13 @@ function mprm_purchase_form() {
 			<div id="mprm_checkout_login_register">
 				<?php do_action('mprm_purchase_form_register_fields'); ?>
 			</div>
+
 		<?php elseif (($show_register_form === 'login' || ($show_register_form === 'both' && isset($_GET['login']))) && !is_user_logged_in()) : ?>
 			<div id="mprm_checkout_login_register">
 				<?php do_action('mprm_purchase_form_login_fields'); ?>
 			</div>
 		<?php endif; ?>
+
 		<?php if ((!isset($_GET['login']) && is_user_logged_in()) || !isset($show_register_form) || 'none' === $show_register_form || 'login' === $show_register_form) {
 			do_action('mprm_purchase_form_after_user_info');
 		}

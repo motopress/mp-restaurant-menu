@@ -134,12 +134,14 @@ function mprm_checkout_order_note() {
 		</label>
 		<textarea type="text" name="customer_note" id="customer_note" class="phone-number mprm-input"></textarea>
 	</p>
-<? }
+<?php }
 
 /**
  * Summary table
  */
+
 function mprm_checkout_summary_table() { ?>
+
 	<span class="mprm-payment-details-label"><legend><?php _e('Order totals', 'mp-restaurant-menu'); ?></legend></span>
 	<table class="mprm-table">
 		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
@@ -167,4 +169,5 @@ function mprm_checkout_summary_table() { ?>
 		</tr>
 		<?php do_action('mprm_checkout_table_total_after'); ?>
 	</table>
+
 <?php }

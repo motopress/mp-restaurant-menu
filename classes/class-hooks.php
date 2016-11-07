@@ -519,6 +519,7 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_register_login', 'mprm_purchase_form_before_register_login');
 		add_action('mprm_purchase_form_login_fields', 'mprm_get_login_fields');
 		add_action('mprm_purchase_form_before_cc_form', 'mprm_purchase_form_before_cc_form');
+
 		add_action('mprm_purchase_form_after_cc_form', 'mprm_checkout_tax_fields', 999);
 		add_action('mprm_purchase_form_after_cc_form', 'mprm_checkout_submit', 9999);
 		add_action('mprm_purchase_form_no_access', 'mprm_purchase_form_no_access');
