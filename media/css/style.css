@@ -124,7 +124,7 @@
   width: 100%;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image {
-  margin: 0 0 0 40%;
+  margin: 0 0 0 150px;
   padding-left: 1em;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header {
@@ -156,6 +156,7 @@
   float: left;
   width: 40%;
   margin-right: 1em;
+  max-width: 150px;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-side.mprm-right-side {
   overflow: hidden;
@@ -544,6 +545,7 @@
 .mprm_widget .mprm-side.mprm-left-side {
   width: 40%;
   margin-right: 1em;
+  max-width: 150px;
 }
 .mprm_widget .mprm-side.mprm-left-side img {
   height: auto;
@@ -1734,7 +1736,7 @@ hr {
   margin-left: 2rem;
 }
 .mprm_widget .mprm-container.mprm-view-list .mprm_menu_item_buy_button.mprm-with-image {
-  margin: 0 0 0 40%;
+  margin: 0 0 0 150px;
   padding-left: 1em;
 }
 .mprm_widget .mprm-main-wrapper a.mprm-link,
