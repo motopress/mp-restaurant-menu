@@ -10,18 +10,23 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\widgets
  */
 class Menu_item_widget extends \WP_Widget {
+
 	protected static $instance;
 
+     protected $widget_css_class;
+     protected $widget_description;
+     protected $widget_id;
+     protected $widget_name;
 	/**
 	 * Menu_item_widget constructor.
 	 */
 	public function __construct() {
-		$this->widget_cssclass = 'mprm_widget';
+		$this->widget_css_class = 'mprm_widget';
 		$this->widget_description = __('Display menu items.', 'mp-restaurant-menu');
 		$this->widget_id = 'mprm_menu_item';
 		$this->widget_name = __('Restaurant Menu Items', 'mp-restaurant-menu');
 		$widget_ops = array(
-			'classname' => $this->widget_cssclass,
+			'classname' => $this->widget_css_class,
 			'description' => $this->widget_description
 		);
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
@@ -105,7 +110,6 @@ class Menu_item_widget extends \WP_Widget {
 			$data['buy'] = '0';
 			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
 		}
-
 
 		$mprm_view_args = $data;
 		$mprm_view_args['action_path'] = "widgets/menu/{$data['view']}/item";

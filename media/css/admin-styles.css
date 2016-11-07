@@ -403,6 +403,7 @@ hr {
   box-sizing: border-box;
   padding: 0 5px 0 0;
   width: 40%;
+  max-width: 150px;
 }
 .mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side {
   display: inline-block;

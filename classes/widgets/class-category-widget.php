@@ -15,12 +15,12 @@ class Category_widget extends \WP_Widget {
 	 * Category_widget constructor.
 	 */
 	public function __construct() {
-		$this->widget_cssclass = 'mprm_widget';
+		$this->widget_css_class = 'mprm_widget';
 		$this->widget_description = __('Display categories.', 'mp-restaurant-menu');
 		$this->widget_id = 'mprm_category';
 		$this->widget_name = __('Restaurant Menu Categories', 'mp-restaurant-menu');
 		$widget_ops = array(
-			'classname' => $this->widget_cssclass,
+			'classname' => $this->widget_css_class,
 			'description' => $this->widget_description
 		);
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);

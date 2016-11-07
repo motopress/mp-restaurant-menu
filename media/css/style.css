@@ -138,11 +138,14 @@
   background-size: cover;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header.with-image .mprm-header-content {
+  background-color: rgba(70, 70, 70, 0.5);
   padding: 6rem 2rem;
   position: relative;
   text-align: center;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header.with-image .mprm-header-content .mprm-title {
+  margin: 0;
+  padding: 0;
   color: inherit;
 }
 .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-header.with-image .mprm-header-content .mprm-title .mprm-icon {
@@ -405,11 +408,14 @@
   background-size: cover;
 }
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-header.with-image .mprm-header-content {
+  background-color: rgba(70, 70, 70, 0.5);
   padding: 6rem 2rem;
   position: relative;
   text-align: center;
 }
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-header.with-image .mprm-header-content .mprm-title {
+  padding: 0;
+  margin: 0;
   color: inherit;
 }
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-header.with-image .mprm-header-content .mprm-title .mprm-icon {
@@ -446,6 +452,7 @@
   background-size: cover;
 }
 .mprm-container.mprm-widget-items.mprm-view-simple-list .mprm-header.with-image .mprm-header-content {
+  background-color: rgba(70, 70, 70, 0.7);
   padding: 6rem 2rem;
   position: relative;
   text-align: center;
