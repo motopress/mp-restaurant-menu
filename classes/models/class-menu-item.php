@@ -376,6 +376,7 @@ class Menu_item extends Store_item {
 		global $mprm_view_args;
 		$options = array();
 		$image_id = get_post_thumbnail_id($post->ID);
+
 		if (!empty($mprm_view_args['view']) && "list" != $mprm_view_args['view']) {
 			$mprm_view_args['col'] += 0;
 			if ($mprm_view_args['col'] <= 2) {
@@ -386,9 +387,11 @@ class Menu_item extends Store_item {
 		} else {
 			$thumbnail_type = 'mprm-thumbnail';
 		}
+
 		if ($thumbnail_type) {
 			$options['image'] = wp_get_attachment_image($image_id, $thumbnail_type, false, array('class' => apply_filters('mprm-item-image', "mprm-image")));
 		}
+
 		$options['product_price'] = $this->get_price($post->ID, true);
 		$options['excerpt'] = $post->post_excerpt;
 		$options['ingredients'] = wp_get_post_terms($post->ID, $this->get_tax_name('ingredient'));

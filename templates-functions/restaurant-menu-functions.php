@@ -273,6 +273,7 @@ function mprm_get_menu_item_options($post = NULL) {
 		$mprm_menu_items[$post->ID] = classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
 	}
 
+
 	return $mprm_menu_items[$post->ID];
 }
 

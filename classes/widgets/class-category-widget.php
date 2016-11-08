@@ -9,7 +9,12 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\widgets
  */
 class Category_widget extends \WP_Widget {
+
 	protected static $instance;
+	protected $widget_css_class;
+	protected $widget_description;
+	protected $widget_id;
+	protected $widget_name;
 
 	/**
 	 * Category_widget constructor.
@@ -23,6 +28,7 @@ class Category_widget extends \WP_Widget {
 			'classname' => $this->widget_css_class,
 			'description' => $this->widget_description
 		);
+
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
 	}
 

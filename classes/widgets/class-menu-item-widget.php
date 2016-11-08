@@ -17,6 +17,7 @@ class Menu_item_widget extends \WP_Widget {
      protected $widget_description;
      protected $widget_id;
      protected $widget_name;
+
 	/**
 	 * Menu_item_widget constructor.
 	 */
@@ -29,6 +30,7 @@ class Menu_item_widget extends \WP_Widget {
 			'classname' => $this->widget_css_class,
 			'description' => $this->widget_description
 		);
+
 		parent::__construct($this->widget_id, $this->widget_name, $widget_ops);
 	}
 
