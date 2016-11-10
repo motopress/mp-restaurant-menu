@@ -1,14 +1,16 @@
 <?php global $mprm_view_args, $mprm_term;
 $icon = mprm_get_category_icon();
 $featured_image = mprm_get_feat_image();
+$image_is_available = mprm_has_category_image() && !empty($mprm_view_args['feat_img']);
 ?>
 <div class="mprm-menu-category <?php echo get_column_class($mprm_view_args['col']) ?>">
 	<a href="<?php echo get_term_link($mprm_term); ?>" class="mprm-link">
-		<?php if (mprm_has_category_image() && !empty($mprm_view_args['feat_img'])): ?>
-			<img class="mprm-category-list-image" src="<?php echo mprm_get_category_image('thumbnail') ?>">
+
+		<?php if ($image_is_available): ?>
+			<img class="mprm-category-list-image mprm-columns mprm-five" src="<?php echo mprm_get_category_image() ?>">
 		<?php endif; ?>
 
-		<div class="mprm-category-content">
+		<div class="mprm-category-content <?php echo $image_is_available ? 'mprm-columns mprm-seven' : '' ?> ">
 			<h2 class="mprm-title">
 				<?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo $icon ?>"></i><?php endif;
 				if (!empty($mprm_view_args['categ_name'])) : echo $mprm_term->name; endif; ?>
@@ -24,5 +26,6 @@ $featured_image = mprm_get_feat_image();
 			}
 			?>
 		</div>
+
 	</a>
 </div>

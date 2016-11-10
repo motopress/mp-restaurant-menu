@@ -1,4 +1,3 @@
-
 // Breakpoints
 @bp-larger-than-mobile: 400px;
 @bp-larger-than-phablet: 550px;
@@ -62,12 +61,87 @@
   .mprm-container {
 	width: @container-width-larger-than-mobile;
 	padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .mprm-container.mprm-shortcode-categories,
+  .mprm-container.mprm-shortcode-items,
+  .mprm-container.mprm-widget-categories,
+  .mprm-container.mprm-widget-items {
+	.mprm-row {
+	  .mprm-column:last-child,
+	  .mprm-columns:last-child {
+		margin: 0;
+		padding: 0;
+	  }
+	}
+	&.mprm-view-grid {
+	  .mprm-row {
+		padding-bottom: 0;
+		.mprm-column,
+		.mprm-columns {
+		  margin-bottom: @column-margin;
+		}
+	  }
+	}
+	&.mprm-view-list {
+	  .mprm-row {
+		padding-bottom: 0;
+		.mprm-column,
+		.mprm-columns {
+		  margin-bottom: @column-margin;
+		  padding-bottom: 0;
+		  .mprm-column,
+		  .mprm-columns {
+			&.mprm-five {
+			  margin-right: 4%;
+			}
+			&.mprm_menu_item_buy_button.mprm-offset-by-five {
+			  .grid-offset-length(5);
+
+			}
+			margin-bottom: 0;
+			padding-bottom: 0;
+		  }
+		}
+	  }
+	}
+	&.mprm-view-simple-list {
+	  .mprm-simple-view-column {
+		.mprm-columns {
+		  padding: 0;
+		}
+	  }
+	  .mprm-all-items {
+		columns: auto !important;
+		column-gap: 0;
+	  }
+	}
+  }
+
+  .mprm-column,
+  .mprm-columns {
+	padding-bottom: 4%;
+
+	.mprm-column:first-child,
+	.mprm-columns:first-child {
+	  margin-left: 0;
+	}
+
+	.mprm-five.mprm-columns {
+	  .grid-column-width(5);
+	}
+
+	.mprm-seven.mprm-columns {
+	  .grid-column-width(7);
+	}
 
   }
 }
 
 /* For devices larger than 550px */
-@media (min-width: @bp-larger-than-phablet) {
+@media (min-width: 769px) {
   .mprm-container {
 	width: @container-width-larger-than-phablet;
   }
@@ -132,15 +206,15 @@
 	margin-left: 0;
   }
 
-  .mprm-one-third.mprm-column {
+  .mprm-one-third.mprm-column, .mprm-one-third.mprm-columns {
 	.grid-column-width(4);
   }
 
-  .mprm-two-thirds.mprm-column {
+  .mprm-two-thirds.mprm-column, .mprm-two-thirds.mprm-columns {
 	.grid-column-width(8);
   }
 
-  .mprm-one-half.mprm-column {
+  .mprm-one-half.mprm-column, .mprm-one-half.mprm-columns {
 	.grid-column-width(6);
   }
 

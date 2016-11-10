@@ -40,6 +40,7 @@
 
 .mprm-display-inline {
   display: inline-block;
+  max-width: 100%;
 }
 
 .mprm-container-preloader {
@@ -156,19 +157,6 @@
 }
 
 .mprm_widget {
-  .mprm-container {
-	&.mprm-view-list {
-	  .mprm_menu_item_buy_button {
-		&.mprm-with-image {
-		  margin: 0 0 0 150px;
-		  padding-left: 1em;
-		}
-	  }
-	}
-  }
-}
-
-.mprm_widget {
 
   .mprm-main-wrapper, .mprm-container {
 	a.mprm-link {
@@ -241,21 +229,6 @@
 			width: 100%;
 		  }
 		}
-	  }
-	}
-  }
-}
-
-@media (max-width: @bp-larger-than-phablet) {
-  .mprm-container {
-	&.mprm-view-simple-list {
-	  > div[class^="mprm-columns-count-"] {
-		column-count: auto;
-	  }
-	  .mprm-simple-view-column {
-		margin-bottom: 1em;
-		display: inline-block;
-		width: 100%;
 	  }
 	}
   }

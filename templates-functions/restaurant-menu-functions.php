@@ -257,7 +257,7 @@ function mprm_get_category_options($id = false) {
  * @return array
  */
 function mprm_get_menu_item_options($post = NULL) {
-	global $mprm_menu_item, $mprm_menu_items;
+	global $mprm_menu_item, $mprm_menu_items,$mprm_view_args;
 
 	$post = empty($post) ? $mprm_menu_item : $post;
 
@@ -269,12 +269,13 @@ function mprm_get_menu_item_options($post = NULL) {
 		$mprm_menu_items = array();
 	}
 
-	if (empty($mprm_menu_items[$post->ID])) {
-		$mprm_menu_items[$post->ID] = classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
+	if (empty($mprm_menu_items[$mprm_view_args['view']][$post->ID])) {
+		$mprm_menu_items[$mprm_view_args['view']][$post->ID] = classes\Core::get_instance()->get('menu_item')->get_menu_item_option($post);
 	}
 
 
-	return $mprm_menu_items[$post->ID];
+
+	return $mprm_menu_items[$mprm_view_args['view']][$post->ID];
 }
 
 /**
@@ -912,7 +913,7 @@ function mprm_menu_item_list_right_header() {
 	$post_options = mprm_get_menu_item_options();
 	$feat_img = mprm_get_feat_image();
 	?>
-	<div class="mprm-side <?php echo $feat_img ? ' mprm-right-side' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : ""; ?>">
+	<div class="mprm-side <?php echo $feat_img ? ' mprm-right-side ' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : " mprm-columns mprm-seven"; ?>">
 	<?php
 }
 /**
@@ -1397,7 +1398,7 @@ function mprm_has_category_image() {
  *
  * @return bool
  */
-function mprm_get_category_image($size) {
+function mprm_get_category_image($size = 'mprm-big') {
 	global $mprm_term;
 	return models\Menu_category::get_instance()->get_term_image($mprm_term, $size);
 }
@@ -1535,7 +1536,7 @@ function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
 }
 
 function mprm_taxonomy_list_before_left(){ ?>
-	<div class="mprm-side mprm-left-side">
+	<div class="mprm-side mprm-left-side mprm-columns mprm-five">
 	<?php
 }
 function mprm_taxonomy_list_after_left() { ?>
