@@ -1752,6 +1752,17 @@ hr {
   }
 }
 /* Responsive */
+@media (max-width: 768px) {
+  .mprm-container .mprm-icon {
+    display: none !important;
+  }
+  .mprm_widget .mprm-container.mprm-view-grid .mprm-header.with-image .mprm-header-content {
+    padding: 4em 1.5em;
+  }
+  .mprm_widget .mprm-container.mprm-view-list .mprm-header.with-image .mprm-header-content {
+    padding: 4em 1.5em;
+  }
+}
 .mprm-clear {
   *zoom: 1;
 }
