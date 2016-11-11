@@ -103,8 +103,13 @@ class Menu_category extends Term {
 			$term_meta = $this->get_term_params($mprm_term->term_id);
 			if (!empty($term_meta['thumbnail_id'])) {
 				$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
-				$image = $attachment_image_src[0];
-				return $image;
+				if (is_array($attachment_image_src)) {
+					$image = $attachment_image_src[0];
+					return $image;
+				} else {
+					return false;
+				}
+
 			} else {
 				return false;
 			}
