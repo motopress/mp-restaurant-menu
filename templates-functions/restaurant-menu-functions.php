@@ -217,12 +217,18 @@ function mprm_get_tags() {
 	return wp_get_post_terms($post->ID, 'mp_menu_tag');
 }
 
+
 /**
- * @return string
+ * Get image thumbnail
+ *
+ * @param string $thumbnail
+ *
+ *@return string
  */
-function mprm_get_item_image() {
+
+function mprm_get_item_image($thumbnail ='mprm-big') {
 	global $post;
-	return wp_get_attachment_image(get_post_thumbnail_id($post->ID), 'thumbnail', false, array('class' => apply_filters('mprm-item-image', "mprm-image")));
+	return wp_get_attachment_image(get_post_thumbnail_id($post->ID), $thumbnail, false, array('class' => apply_filters('mprm-item-image', "mprm-image")));
 }
 
 /**
@@ -372,20 +378,20 @@ function mprm_get_term_menu_items() {
 
 		if ((bool)preg_match_all("/shortcodes(.*)?menu/", $mprm_view_args['action_path'], $matches)) {
 			remove_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
-			remove_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
+			remove_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 55);
 		}
 
 		if ((bool)preg_match_all("/widgets(.*)?menu(.*)/", $mprm_view_args['action_path'], $matches)) {
-			remove_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
+			remove_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 80);
 			remove_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 		}
-
-	} else {
-		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
-		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
-		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
-		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 	}
+//	 else {
+//		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
+//		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
+//		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
+//		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
+//	}
 
 	if (empty($mprm_view_args)) {
 		$mprm_view_args = array();
@@ -642,7 +648,6 @@ function mprm_get_purchase_template($template = "default") {
 	mprm_get_template("common/buy/{$template}");
 }
 
-
 /**
  * @global array $mprm_view_args
  * @global array $mprm_term
@@ -652,7 +657,6 @@ function mprm_category_list_item() {
 	$term_options = mprm_get_category_options();
 	mprm_get_template('shortcodes/category/list/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
-
 
 /*  =============GRID ===============*/
 
@@ -668,7 +672,6 @@ function mprm_shortcode_grid_item() {
 	mprm_get_template('shortcodes/category/grid/item', array('term_options' => $term_options, 'mprm_view_args' => $mprm_view_args, 'mprm_term' => $mprm_term));
 }
 
-
 /*  ========= Taxonomy list start ===========  */
 /**
  * Before category list
@@ -682,15 +685,16 @@ function mprm_single_category_list_header() {
 
 function mprm_taxonomy_list_before_right() {
 	?>
-	<div class="mprm-content">
+	<div class="mprm-content mprm-columns mprm-seven">
 <?php }
 
 function mprm_taxonomy_list_after_right() { ?>
 	</div>
 	<?php
 }
+
 function mprm_taxonomy_list_image() {
-	mprm_get_template('common/item-image');
+	mprm_get_template('common/item-image',array('thumbnail'=> 'mprm-big'));
 }
 
 function mprm_taxonomy_list_header_title() {
@@ -795,7 +799,6 @@ function mprm_category_header() {
 	mprm_get_template('common/taxonomy-header');
 }
 
-
 /**
  * Single tag list header
  */
@@ -836,7 +839,6 @@ function mprm_single_tag_list_footer() {
 	<?php
 }
 
-
 /**
  * Shortcode header
  */
@@ -861,7 +863,6 @@ function mprm_menu_items_header() {
 		}
 	}
 }
-
 
 /**
  * Menu item Grid header
@@ -913,7 +914,7 @@ function mprm_menu_item_list_right_header() {
 	$post_options = mprm_get_menu_item_options();
 	$feat_img = mprm_get_feat_image();
 	?>
-	<div class="mprm-side <?php echo $feat_img ? ' mprm-right-side ' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : " mprm-columns mprm-seven"; ?>">
+	<div class="mprm-side<?php echo $feat_img ? ' mprm-right-side ' : ''; ?><?php echo (!$feat_img || empty($post_options['image'])) ? " mprm-full-with" : " mprm-columns mprm-seven"; ?>">
 	<?php
 }
 /**
@@ -1072,7 +1073,6 @@ function mprm_menu_item_simple_list_footer() {
 	<?php
 }
 
-
 /*   ======= GRID   ======== */
 
 /**
@@ -1101,16 +1101,13 @@ function mprm_menu_item_after_content(){
 <?php //}
 }
 
-function mprm_category_menu_item_before_content(){
-	?>
+function mprm_category_menu_item_before_content(){	?>
 <!--	<a class="mprm-link" href="--><?php //the_permalink() ?><!--">-->
 <?php }
 
-function mprm_category_menu_item_after_content(){
-	?>
+function mprm_category_menu_item_after_content(){	?>
 <!--	</a>-->
 <?php }
-
 
 /**
  * Menu item Grid image

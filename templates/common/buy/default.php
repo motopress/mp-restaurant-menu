@@ -4,7 +4,7 @@
 
 	$is_menu_item_image = mprm_is_menu_item_image();
 
-	$image_class = (($is_menu_item_image == true) && !current_theme_supports('mp-restaurant-menu')) ? ' mprm-with-image mprm-offset-by-five mprm-columns' : ' mprm-without-image';
+	$image_class = (($is_menu_item_image == true) && !current_theme_supports('mp-restaurant-menu')) ? '' : ' mprm-without-image';
 	?>
 
 	<div class="mprm_menu_item_buy_button <?php echo $styles_class . $image_class ?>">

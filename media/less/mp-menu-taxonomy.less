@@ -81,6 +81,7 @@
   .mprm-taxonomy-items-list {
 	.mprm-side {
 	  &.mprm-left-side {
+		margin-right: @margin-default;
 		//float: left;
 		//max-width: 150px;
 		//margin-right: 1em;
@@ -109,8 +110,11 @@
 		}
 	  }
 	  .mprm-content {
-		overflow: hidden;
-		min-width: 1rem;
+		&.mprm-seven {
+		  margin-left: 0;
+		}
+		//overflow: hidden;
+		//min-width: 1rem;
 		.mprm-item-title {
 		  margin: 0;
 		  padding: 0;

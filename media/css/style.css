@@ -422,10 +422,6 @@
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-header.only-text {
   padding: 0 0 2rem;
 }
-.mprm-container.mprm-widget-items.mprm-view-list .mprm-side.mprm-right-side {
-  overflow: hidden;
-  min-width: 1rem;
-}
 .mprm-container.mprm-widget-items.mprm-view-list .mprm-side.mprm-right-side .mprm-content-container .mprm-title-big {
   margin-top: 0;
 }
@@ -819,6 +815,9 @@
 .mprm-main-wrapper .mprm-taxonomy-items-grid .mp-menu-item .mprm-ingredients .mprm-list .mprm-ingredients-delimiter:last-child {
   display: none;
 }
+.mprm-main-wrapper .mprm-taxonomy-items-list .mprm-side.mprm-left-side {
+  margin-right: 4%;
+}
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-image a {
   text-decoration: none;
   outline: none;
@@ -830,9 +829,8 @@
   width: 100%;
   height: auto;
 }
-.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content {
-  overflow: hidden;
-  min-width: 1rem;
+.mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content.mprm-seven {
+  margin-left: 0;
 }
 .mprm-main-wrapper .mprm-taxonomy-items-list .mp-menu-item .mprm-content .mprm-item-title {
   margin: 0;
