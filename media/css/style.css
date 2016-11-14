@@ -2,24 +2,20 @@
 .mprm-container.mprm-shortcode-categories {
   margin: 2rem 0;
 }
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link {
+.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-category-content .mprm-link {
   outline: none;
   margin: 0;
   padding: 0;
 }
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-content {
-  overflow: hidden;
-  min-width: 1rem;
-}
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-content .mprm-title {
+.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-category-content .mprm-link .mprm-title {
   margin: 0;
   padding: 0;
 }
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-content .mprm-icon {
+.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-category-content .mprm-link .mprm-icon {
   margin: 0 1rem 0 0;
   font-size: 1.2em;
 }
-.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-link .mprm-category-content .mprm-category-description {
+.mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-menu-category .mprm-category-content .mprm-link .mprm-category-description {
   margin: 1rem 0 0;
   padding: 0;
   font-size: 0.8em;
@@ -275,10 +271,6 @@
 /* =============== Widget style start ========*/
 .mprm-container.mprm-widget-categories {
   margin: 0;
-}
-.mprm-container.mprm-widget-categories.mprm-view-list .mprm-menu-category .mprm-category-content {
-  overflow: hidden;
-  min-width: 1rem;
 }
 .mprm-container.mprm-widget-categories.mprm-view-list .mprm-menu-category .mprm-category-content .mprm-link {
   outline: none;
@@ -1570,14 +1562,6 @@
   .mprm-column .mprm-columns:first-child,
   .mprm-columns .mprm-columns:first-child {
     margin-left: 0;
-  }
-  .mprm-column .mprm-five.mprm-columns,
-  .mprm-columns .mprm-five.mprm-columns {
-    width: 39.33333333%;
-  }
-  .mprm-column .mprm-seven.mprm-columns,
-  .mprm-columns .mprm-seven.mprm-columns {
-    width: 56.66666667%;
   }
 }
 /* For devices larger than 550px */

@@ -100,9 +100,13 @@ class Hooks extends Core {
 		 */
 
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_header', 10);
+
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_before_content', 15);
+
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_image', 20);
+
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_title', 30);
+
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_ingredients', 40);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_attributes', 50);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_excerpt', 60);
@@ -156,6 +160,7 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_header', 5);
+
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_before_content', 10);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_image', 15);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_header', 20);
@@ -167,6 +172,7 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_price', 50);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_footer', 55);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_after_content', 60);
+
 		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 70);
 
@@ -422,6 +428,7 @@ class Hooks extends Core {
 		 */
 
 		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_before_content', 5);
+
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_left', 10);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_image', 15);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_left', 20);
@@ -430,7 +437,9 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_ingredients', 35);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_tags', 40);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_price', 45);
+
 		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_after_content', 50);
+
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 55);
 		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 60);
 

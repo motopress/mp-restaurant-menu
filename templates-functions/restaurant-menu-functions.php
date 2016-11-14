@@ -991,8 +991,7 @@ function mprm_menu_item_list_title() {
 }
 
 function mprm_menu_item_list_title_simple() {
-	global $mprm_view_args;
-	global $mprm_menu_item;
+	global $mprm_view_args,	 $mprm_menu_item;
 	mprm_get_template('common/item-shortcode-title-simple', array('mprm_menu_item' => $mprm_menu_item, 'mprm_view_args' => $mprm_view_args));
 }
 
@@ -1089,27 +1088,27 @@ if (!empty($mprm_view_args['col']) && !empty($mprm_view_args['view'])) {
 }
 
 function mprm_menu_item_before_content(){
-	global $mprm_view_args;
-if (!empty($mprm_view_args['link_item'])) { ?>
-	<a class="mprm-link" href="<?php the_permalink() ?>">
-<?php }
+//	global $mprm_view_args;
+//if (!empty($mprm_view_args['link_item'])) { ?>
+<!--	<a class="mprm-link" href="--><?php //the_permalink() ?><!--">-->
+<?php //}
 }
 
 function mprm_menu_item_after_content(){
-	global $mprm_view_args;
-if (!empty($mprm_view_args['link_item'])) { ?>
-	</a>
-<?php }
+//	global $mprm_view_args;
+//if (!empty($mprm_view_args['link_item'])) { ?>
+<!--	</a>-->
+<?php //}
 }
 
 function mprm_category_menu_item_before_content(){
 	?>
-	<a class="mprm-link" href="<?php the_permalink() ?>">
+<!--	<a class="mprm-link" href="--><?php //the_permalink() ?><!--">-->
 <?php }
 
 function mprm_category_menu_item_after_content(){
 	?>
-	</a>
+<!--	</a>-->
 <?php }
 
 
@@ -1119,9 +1118,19 @@ function mprm_category_menu_item_after_content(){
  * @global array $mprm_view_args
  */
 function mprm_menu_item_grid_image() {
+	global $mprm_view_args;
 	$post_options = mprm_get_menu_item_options();
+
 	if (mprm_get_feat_image() && !empty($post_options['image'])) {
-		echo $post_options['image'];
+			 if (!empty($mprm_view_args['link_item'])) { ?>
+				<a href="<?php the_permalink() ?>">
+			<?php }
+
+		 	echo $post_options['image'];
+
+		 	 if (!empty($mprm_view_args['link_item'])) { ?>
+				</a>
+			<?php }
 	}
 }
 
