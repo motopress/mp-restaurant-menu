@@ -4,9 +4,20 @@
 	display: none !important;
   }
 
+  .mprm-shortcode-items {
+	&.mprm-view-grid, &.mprm-view-list {
+	  .mprm-image {
+		margin: 0 2em 1em 0;
+	  }
+	}
+  }
+
   .mprm_widget {
 	.mprm-container {
 	  &.mprm-view-grid {
+		.mprm-image {
+		  margin: 0 2em 1em 0;
+		}
 		.mprm-header.with-image {
 		  .mprm-header-content {
 			padding: 4em 1.5em;
@@ -14,6 +25,9 @@
 		}
 	  }
 	  &.mprm-view-list {
+		.mprm-image {
+		  margin: 0 2em 1em 0;
+		}
 		.mprm-header.with-image {
 		  .mprm-header-content {
 			padding: 4em 1.5em;
