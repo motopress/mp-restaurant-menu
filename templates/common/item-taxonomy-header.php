@@ -14,7 +14,7 @@ if (!empty($mprm_view_args['categ_name']) && 'none' !== $mprm_view_args['categ_n
 		</div>
 	<?php } else {
 		if ($template_mode == "theme") { ?>
-			<div class="<?php echo $template_mode_class ?> mprm-title-big"><b><?php echo $title ?></b></div>
+			<div class="mprm-taxonomy-title"><?php echo $title ?></div>
 		<?php } else { ?>
 			<div class="mprm-header only-text">
 				<h2 class="mprm-title"><?php echo $title ?></h2>

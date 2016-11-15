@@ -1424,6 +1424,8 @@ function mprm_get_category_icon() {
  * @return string
  */
 function mprm_cut_str($length, $text) {
+	$length = empty($length)? -1 : $length;
+
 	if (strlen($text) <= $length || $length < 0)
 		return $text;
 	$length = empty($length) ? -1 : (int)$length;

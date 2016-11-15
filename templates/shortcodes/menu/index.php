@@ -5,45 +5,55 @@ $term_data = mprm_get_term_menu_items();
 	<?php if ($view == 'simple-list'){ ?>
 	<div class="mprm-columns-count-<?php echo $col ?> <?php echo empty($data['term']) ? 'mprm-all-items' : '' ?>">
 		<?php }
+
 		foreach ($term_data as $term => $data) {
 			if (in_array($view, array('list', 'grid'))) {
 				render_term_header($data);
 				create_grid_by_posts($data, $col);
+
 			} elseif ($view == 'simple-list') {
 
-				if (empty($data['term'])) {
-
-					foreach ($data['posts'] as $key => $post) :
-
-						setup_postdata($post);
-
-						mprm_set_menu_item($post->ID); ?>
-						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
-							<?php render_current_html(); ?>
-						</div>
-						<?php
-
-						wp_reset_postdata();
-
-					endforeach;
-
-				} else { ?>
+				if (!empty($data['term'])) { ?>
 					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
-						<?php render_term_header($data);
-
-						foreach ($data['posts'] as $key => $post) :
-
-							setup_postdata($post);
-							mprm_set_menu_item($post->ID);
-							render_current_html();
-							wp_reset_postdata();
-
-						endforeach; ?>
+						<?php render_term_header($data); ?>
 					</div>
+				<? }
+				foreach ($data['posts'] as $key => $post) :
+
+					setup_postdata($post);
+
+					mprm_set_menu_item($post->ID); ?>
+					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
+						<?php render_current_html(); ?>
+					</div>
+					<?php
+
+					wp_reset_postdata();
+
+				endforeach;
+				if (!empty($data['term'])) { ?>
+					<hr style="height: 4px; background-color: rgba(70, 70, 70, 0.7);"/>
 				<?php }
+				//                } else { ?>
+				<!--					<div class="--><?php //echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?><!--">-->
+				<!--						-->
+				<!--						--><?php //render_term_header($data);
+//
+//						foreach ($data['posts'] as $key => $post) :
+//
+//							setup_postdata($post);
+//							mprm_set_menu_item($post->ID);
+//							render_current_html();
+//							wp_reset_postdata();
+//
+//						endforeach; ?>
+				<!--						-->
+				<!--					</div>-->
+				<!--				--><?php //}
 			}
-		} ?>
-		<?php if ($view == 'simple-list'){ ?>
+		}
+
+		if ($view == 'simple-list'){ ?>
 	</div>
 <?php } ?>
 
