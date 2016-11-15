@@ -21,6 +21,9 @@ class Errors extends Model {
 		return self::$instance;
 	}
 
+	/**
+	 * Print errors
+	 */
 	public function print_errors() {
 		$errors = $this->get_errors();
 		if ($errors) {
@@ -33,6 +36,7 @@ class Errors extends Model {
 				echo '<p class="mprm_error" id="mprm-error_' . $error_id . '"><strong>' . __('Error', 'mp-restaurant-menu') . '</strong>: ' . $error . '</p>';
 			}
 			echo '</div>';
+
 			$this->clear_errors();
 		}
 	}
@@ -59,6 +63,7 @@ class Errors extends Model {
 	}
 
 	/**
+	 * Get error html
 	 * @return bool|mixed
 	 */
 	public function get_error_html() {
@@ -69,7 +74,7 @@ class Errors extends Model {
 				'mprm-errors', 'mprm-notice', 'mprm-notice-error'
 			));
 
-			$error_html = View::get_instance()->get_template('shop/errors', array('errors' => $errors, 'classes' => $classes));
+			$error_html = View::get_instance()->get_template_html('shop/errors', array('errors' => $errors, 'classes' => $classes));
 			$this->clear_errors();
 			return $error_html;
 		}
@@ -80,7 +85,6 @@ class Errors extends Model {
 	 * Set Error
 	 *
 	 * Stores an error in a session var.
-	 *
 	 *
 	 * @param int $error_id ID of the error being set
 	 * @param string $error_message Message to store with the error
@@ -98,7 +102,6 @@ class Errors extends Model {
 
 	/**
 	 * Removes (unset) a stored error
-	 *
 	 *
 	 * @param int $error_id ID of the error being set
 	 *

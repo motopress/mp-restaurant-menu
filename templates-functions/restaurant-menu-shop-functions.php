@@ -109,7 +109,7 @@ function mprm_purchase_form() {
 		<fieldset id="mprm_payment_summary_table">
 			<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
 		</fieldset>
-	<?php
+		<?php
 	}
 
 	if (models\Checkout::get_instance()->can_checkout()) {

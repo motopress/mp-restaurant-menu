@@ -25,7 +25,6 @@ while (have_posts()) : the_post(); ?>
 		</div>
 	</div>
 <?php endwhile; ?>
-
 <div class="mprm-clear"></div>
 <?php do_action('mprm-after-main-wrapper');
 if (is_single() && (!is_tax() || !is_archive()) && ('twentyfourteen' === get_option('template'))) {

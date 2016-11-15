@@ -7,7 +7,7 @@
 	foreach ($categories as $key => $term):
 		if (($key % $col) === 0) {
 			$i = 1; ?>
-			<div class="<?php echo mprm_grid_container_class() ?>">
+			<div class="<?php echo mprm_grid_row_class() ?>">
 		<?php }
 		mprm_set_current_term($term);
 		render_current_html();

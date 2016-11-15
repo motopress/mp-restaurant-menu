@@ -440,7 +440,6 @@ class Menu_item extends Store_item {
 
 		$args = wp_parse_args($args, $defaults);
 		// Override the straight_to_gateway if the shop doesn't support it
-		//	if (mprm_shop_supports_buy_now()) {
 		if ($this->get('gateways')->shop_supports_buy_now()) {
 			$args['direct'] = false;
 		}
