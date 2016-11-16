@@ -1,11 +1,10 @@
-<?php
+<?php global $post;
+
 before_mprm_widget();
 
 the_mprm_widget_title();
 
 $term_data = mprm_get_term_menu_items(); ?>
-
-<?php global $post; ?>
 
 	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 		<?php if ($view == 'simple-list'){ ?>

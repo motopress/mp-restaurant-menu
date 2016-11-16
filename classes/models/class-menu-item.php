@@ -517,6 +517,7 @@ class Menu_item extends Store_item {
 				'is_free' => $this->is_free($args['price_id'], $post->ID),
 				'type' => $type,
 			), false);
+
 		return apply_filters('mprm_purchase_menu_item_form', $purchase_form, $args);
 	}
 

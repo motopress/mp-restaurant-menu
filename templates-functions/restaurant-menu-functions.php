@@ -236,8 +236,8 @@ function mprm_get_term_menu_items() {
 	global $taxonomy, $mprm_view_args;
 
 	$mprm_view_args['buy'] = (!isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy']);
-		$temp = (bool)$mprm_view_args['buy'];
-	if ((bool)$mprm_view_args['buy'] && in_array($mprm_view_args['view'], array('grid', 'list'))) {
+
+	if (!(bool)$mprm_view_args['buy'] && in_array($mprm_view_args['view'], array('grid', 'list'))) {
 		$matches = array();
 
 		if ((bool)preg_match_all("/shortcodes(.*)?menu/", $mprm_view_args['action_path'], $matches)) {

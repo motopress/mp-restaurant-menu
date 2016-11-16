@@ -75,7 +75,7 @@ class Menu_item_widget extends \WP_Widget {
 	function get_data($instance) {
 		if (!empty($instance)) {
 			$data = $instance;
-			$data['buy'] = empty($data['buy']) ? '0' : $data['buy'];
+
 		} else {
 			//default configuration
 			$data = array(
@@ -105,6 +105,7 @@ class Menu_item_widget extends \WP_Widget {
 	 */
 	public function widget($args, $instance) {
 		global $mprm_view_args, $mprm_widget_args;
+
 		Media::get_instance()->add_plugin_js('widget');
 		$data = $this->get_data($instance);
 
@@ -113,7 +114,7 @@ class Menu_item_widget extends \WP_Widget {
 			$data['buy'] = '0';
 			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
 		} else {
-
+			$data['buy'] = empty($data['buy']) ? '0' : $data['buy'];
 		}
 
 		$mprm_view_args = $data;
