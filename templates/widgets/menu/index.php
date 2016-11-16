@@ -42,25 +42,7 @@ $term_data = mprm_get_term_menu_items(); ?>
 						wp_reset_postdata();
 
 					endforeach;
-					if (!empty($data['term'])) { ?>
-						<hr style="height: 4px; background-color: rgba(70, 70, 70, 0.7);"/>
-					<?php }
-					//                } else { ?>
-					<!--					<div class="--><?php //echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?><!--">-->
-					<!--						-->
-					<!--						--><?php //render_term_header($data);
-//
-//						foreach ($data['posts'] as $key => $post) :
-//
-//							setup_postdata($post);
-//							mprm_set_menu_item($post->ID);
-//							render_current_html();
-//							wp_reset_postdata();
-//
-//						endforeach; ?>
-					<!--						-->
-					<!--					</div>-->
-					<!--				--><?php //}
+
 				}
 			} ?>
 			<?php if ($view == 'simple-list'){ ?>

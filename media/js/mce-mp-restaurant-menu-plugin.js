@@ -33,6 +33,7 @@
 			MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 				function(data) {
 					$('#mprm-shortcode-html-container').html(data.html);
+					change_shortcode_view();
 				},
 				function(data) {
 					console.warn('Some error!!!');
@@ -47,15 +48,19 @@
 		function change_shortcode_view() {
 			$(document).on('change', '[name="view"]', function() {
 				var view = $(this).val();
-				if (view == 'simple-list') {
+
+				if (view === 'simple-list') {
 					$('[name="price_pos"]', '.mprm-line').parents('div.mprm-line').removeClass('mprm-hidden');
 					$('[name="buy"]', '.mprm-line').parents('div.mprm-line').addClass('mprm-hidden');
+					$('[name="feat_img"]', '.mprm-line').parents('div.mprm-line').addClass('mprm-hidden');
 					$('[name="categ_name"] option[value="with_img"]', '.mprm-line').addClass('mprm-hidden');
 				} else {
 					$('[name="price_pos"]', '.mprm-line').parents('div.mprm-line').addClass('mprm-hidden');
 					$('[name="buy"]', '.mprm-line').parents('div.mprm-line').removeClass('mprm-hidden');
+					$('[name="feat_img"]', '.mprm-line').parents('div.mprm-line').removeClass('mprm-hidden');
 					$('[name="categ_name"] option[value="with_img"]', '.mprm-line').removeClass('mprm-hidden');
 				}
+
 			});
 		}
 

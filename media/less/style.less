@@ -71,7 +71,7 @@
   }
   &.mprm-title-big {
 	margin: 8px 0;
-	font-size: 120%;
+	//font-size: 120%;
   }
 }
 
@@ -107,17 +107,12 @@
   .mprm-taxonomy-title {
 	font-weight: bold;
 	margin-bottom: @padding-bottom-default;
+	font-size: 120%;
   }
-  .mprm-simple-view-column {
-	.mprm-taxonomy-title {
-	  margin-bottom: 0;
-	}
-  }
-
   .mprm-content-container {
 	margin: 0 0 4px 0;
 	&.mprm-title-big {
-	  font-size: 120%;
+	  //font-size: 120%;
 	  &:first-child {
 		margin-top: 0;
 	  }
@@ -211,30 +206,32 @@
   &.mprm-view-simple-list {
 	> div[class^="mprm-columns-count-"] {
 	  &.mprm-all-items {
+		column-gap: 2em;
 		&.mprm-columns-count-1 {
 		  columns: 1;
-		  column-gap: 2em;
 		}
 		&.mprm-columns-count-2 {
 		  columns: 2;
-		  column-gap: 2em;
 		}
 		&.mprm-columns-count-3 {
 		  columns: 3;
-		  column-gap: 1em;
 		}
 		&.mprm-columns-count-4 {
 		  columns: 4;
-		  column-gap: 1em;
 		}
 		&.mprm-columns-count-6 {
 		  columns: 6;
-		  column-gap: 1em;
 		}
 		.mprm-simple-view-column {
-		  display: inline-block;;
-		  margin-bottom: @margin-bottom-default;
+		  display: inline-block;
 		  width: 100%;
+		  .mp_menu_item {
+			& > div {
+			  &:last-child {
+				margin-bottom: @margin-bottom-default;
+			  }
+			}
+		  }
 		  .mprm-columns {
 			width: 100%;
 		  }
