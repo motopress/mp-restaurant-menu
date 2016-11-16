@@ -13,10 +13,10 @@ class Menu_item_widget extends \WP_Widget {
 
 	protected static $instance;
 
-     protected $widget_css_class;
-     protected $widget_description;
-     protected $widget_id;
-     protected $widget_name;
+	protected $widget_css_class;
+	protected $widget_description;
+	protected $widget_id;
+	protected $widget_name;
 
 	/**
 	 * Menu_item_widget constructor.
@@ -75,6 +75,7 @@ class Menu_item_widget extends \WP_Widget {
 	function get_data($instance) {
 		if (!empty($instance)) {
 			$data = $instance;
+			$data['buy'] = empty($data['buy']) ? '0' : $data['buy'];
 		} else {
 			//default configuration
 			$data = array(
@@ -111,6 +112,8 @@ class Menu_item_widget extends \WP_Widget {
 			$data['feat_img'] = '';
 			$data['buy'] = '0';
 			$data['categ_name'] = (empty($data['categ_name']) || ($data['categ_name'] == 'with_img')) ? 'only_text' : $data['categ_name'];
+		} else {
+
 		}
 
 		$mprm_view_args = $data;

@@ -234,9 +234,10 @@ function is_mprm_taxonomy_grid() {
  */
 function mprm_get_term_menu_items() {
 	global $taxonomy, $mprm_view_args;
-	$mprm_view_args['buy'] = (!isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy']);
 
-	if ((bool)!$mprm_view_args['buy'] && in_array($mprm_view_args['view'], array('grid', 'list'))) {
+	$mprm_view_args['buy'] = (!isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy']);
+		$temp = (bool)$mprm_view_args['buy'];
+	if ((bool)$mprm_view_args['buy'] && in_array($mprm_view_args['view'], array('grid', 'list'))) {
 		$matches = array();
 
 		if ((bool)preg_match_all("/shortcodes(.*)?menu/", $mprm_view_args['action_path'], $matches)) {
@@ -249,12 +250,6 @@ function mprm_get_term_menu_items() {
 			remove_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
 		}
 	}
-//	 else {
-//		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
-//		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 65);
-//		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 85);
-//		add_action('mprm_widget_menu_item_grid', 'mprm_get_purchase_template', 90);
-//	}
 
 	if (empty($mprm_view_args)) {
 		$mprm_view_args = array();
