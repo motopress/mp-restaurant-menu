@@ -1,7 +1,7 @@
 <?php global $mprm_view_args; ?>
 
 <?php if (mprm_get_template_mode() == "theme") { ?>
-	<div class="mprm-content-container mprm-title-big">
+	<div class="mprm-content-container mprm-title">
 		<?php if (!empty($mprm_view_args['link_item'])) { ?>
 			<a href="<?php echo get_permalink($mprm_menu_item->ID) ?>"><?php echo $mprm_menu_item->post_title ?></a>
 		<?php } else { ?>

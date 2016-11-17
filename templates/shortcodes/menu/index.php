@@ -3,6 +3,7 @@ $term_data = mprm_get_term_menu_items();
 ?>
 <div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
 	<?php if ($view == 'simple-list'){ ?>
+
 	<div class="mprm-columns-count-<?php echo $col ?> <?php echo empty($data['term']) ? 'mprm-all-items' : '' ?>">
 		<?php }
 
@@ -36,6 +37,7 @@ $term_data = mprm_get_term_menu_items();
 
 		if ($view == 'simple-list'){ ?>
 	</div>
+	
 <?php } ?>
 
 </div>
