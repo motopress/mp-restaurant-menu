@@ -42,9 +42,9 @@ $term_data = mprm_get_term_menu_items(); ?>
 						foreach ($data['posts'] as $key => $post) :
 							if (isset($first) && isset($last)) {
 								if ($key === $first) {
-									$class = 'mprm-first';
+									$class = ' mprm-first';
 								} elseif ($key === $last) {
-									$class = 'mprm-last';
+									$class = ' mprm-last';
 								} else {
 									$class = '';
 								}
@@ -54,7 +54,7 @@ $term_data = mprm_get_term_menu_items(); ?>
 
 							mprm_set_menu_item($post->ID); ?>
 
-							<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . ' ' . $class; ?> ">
+							<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . $class; ?> ">
 								<?php render_current_html(); ?>
 							</div>
 
