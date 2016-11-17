@@ -185,7 +185,7 @@ function mprm_update_cart_button() {
 	if (!models\Cart::get_instance()->item_quantities_enabled()) {
 		return;
 	}
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
@@ -201,7 +201,7 @@ function mprm_save_cart_button() {
 	if (mprm_is_cart_saving_disabled()) {
 		return;
 	}
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
@@ -212,6 +212,7 @@ function mprm_save_cart_button() {
 }
 
 /**
+ * Item in cart
  * @param $ID
  * @param $options
  *
@@ -222,11 +223,10 @@ function mprm_item_in_cart($ID, $options = array()) {
 }
 
 /**
- * Check is  cart taxed
+ * Check is cart taxed
  * @return bool
  */
 function mprm_is_cart_taxed() {
-
 	return models\Taxes::get_instance()->is_cart_taxed();
 }
 
@@ -265,7 +265,6 @@ function mprm_success_page_cart_item($item, $order) {
 	}
 
 	?>
-
 	<tr>
 		<td>
 			<?php $price_id = models\Cart::get_instance()->get_cart_item_price_id($item); ?>
@@ -296,5 +295,4 @@ function mprm_success_page_cart_item($item, $order) {
 			<?php endif; ?>
 		</td>
 	</tr>
-
 <?php }

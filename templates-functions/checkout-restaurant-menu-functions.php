@@ -27,7 +27,7 @@ function mprm_get_checkout_cart_template() {
  * @return mixed|void
  */
 function mprm_checkout_button_next() {
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
 	$color = ($color == 'inherit') ? '' : $color;
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$style = mprm_get_option('button_style', 'button');
@@ -42,10 +42,11 @@ function mprm_checkout_button_next() {
 }
 
 /**
+ * Checkout purchase button
  * @return mixed|void
  */
 function mprm_checkout_button_purchase() {
-	$color = mprm_get_option('checkout_color', 'blue');
+	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$label = mprm_get_option('checkout_label', '');

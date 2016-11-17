@@ -1123,6 +1123,8 @@ class Settings extends Model {
 	}
 
 	/**
+	 * Country list
+	 *
 	 * @return mixed|void
 	 */
 	public function get_country_list() {

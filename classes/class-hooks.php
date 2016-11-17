@@ -616,6 +616,9 @@ class Hooks extends Core {
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
 		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'filter_template_mode'), 10, 3);
 		add_filter('mprm_get_option_button_style', array(Core::get_instance(), 'filter_button_style'), 10, 3);
+
+		add_filter('mprm_get_option_checkout_color', array(Core::get_instance(), 'filter_checkout_color'), 10, 3);
+
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
 		add_filter('mprm_settings_general', array($this, 'filter_options'), 10, 1);
 	}

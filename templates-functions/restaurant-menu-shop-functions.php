@@ -471,12 +471,16 @@ function mprm_terms_agreement() {
 	}
 }
 
+/**
+ *  Print errors
+ */
+
 function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
 }
 
 function mprm_get_login_fields() {
-	$color = mprm_get_option('checkout_color', 'gray');
+	$color = mprm_get_option('checkout_color', 'mprm-btn gray');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');

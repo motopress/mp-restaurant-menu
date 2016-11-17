@@ -331,6 +331,25 @@ class Core {
 		return $value;
 	}
 
+	/**
+	 * Checkout color
+	 *
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	public function filter_checkout_color($value) {
+		switch ($value) {
+			case'inherit':
+				$button_class = $value;
+				break;
+			default:
+				$button_class = 'mprm-btn ' . $value;
+
+		}
+		return $button_class;
+	}
+
 
 	/**
 	 *  Available theme
