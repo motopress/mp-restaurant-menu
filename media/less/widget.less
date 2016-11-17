@@ -188,9 +188,14 @@
 	  }
 	}
 	&.mprm-view-simple-list {
-	  .mprm-simple-view-column:first-child {
-		.mprm-taxonomy-title {
-		  margin-top: 0;
+	  .mprm-simple-view-column {
+		&.mprm-last {
+		  margin-bottom: 0;
+		}
+		&:first-child {
+		  .mprm-taxonomy-title {
+			margin-top: 0;
+		  }
 		}
 	  }
 	  .mprm-header {

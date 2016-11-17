@@ -19,25 +19,47 @@ $term_data = mprm_get_term_menu_items();
 						<?php render_term_header($data); ?>
 					</div>
 				<? }
-				foreach ($data['posts'] as $key => $post) :
+				if (is_array($data['posts'])) {
 
-					setup_postdata($post);
+					if (!empty($data['term'])) {
+						$array_keys = array_keys($data['posts']);
+						$first = reset($array_keys);
+						$last = end($array_keys);
+					} else {
+						$class = '';
+					}
 
-					mprm_set_menu_item($post->ID); ?>
-					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
-						<?php render_current_html(); ?>
-					</div>
-					<?php
+					foreach ($data['posts'] as $key => $post) :
+						if (isset($first) && isset($last)) {
+							if ($key === $first) {
+								$class = 'mprm-first';
+							} elseif ($key === $last) {
+								$class = 'mprm-last';
+							} else {
+								$class = '';
+							}
+						}
 
-					wp_reset_postdata();
+						setup_postdata($post);
 
-				endforeach;
+						mprm_set_menu_item($post->ID); ?>
+
+						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . ' ' . $class; ?> ">
+							<?php render_current_html(); ?>
+						</div>
+
+						<?php
+
+						wp_reset_postdata();
+
+					endforeach;
+				}
 			}
 		}
 
 		if ($view == 'simple-list'){ ?>
 	</div>
-	
+
 <?php } ?>
 
 </div>
