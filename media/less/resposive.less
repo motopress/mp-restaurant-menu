@@ -1,5 +1,16 @@
 /* Responsive */
 @media (max-width: 768px) {
+  #mprm_checkout_wrap {
+	#mprm_checkout_cart {
+	  th, td {
+		padding: 5px;
+	  }
+	  .mprm_cart_item_image {
+		display: none;
+	  }
+	}
+  }
+
   .mprm-container .mprm-icon {
 	display: none !important;
   }
@@ -9,6 +20,11 @@
 	  .mprm-image {
 		margin: 0 2em 1em 0;
 	  }
+	}
+  }
+
+  .mprm-container {
+	&.mprm-shortcode-categories {
 	}
   }
 

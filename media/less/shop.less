@@ -179,6 +179,22 @@
 	display: block;
 	margin: 0 0 5px;
   }
+  #mprm_checkout_cart {
+	a {
+	  text-decoration: none;
+	  outline: none;
+	  box-shadow: none;
+	  border: none;
+	  &:focus,
+	  &:visited,
+	  &:hover {
+		text-decoration: none;
+		outline: none;
+		box-shadow: none;
+		border: none;
+	  }
+	}
+  }
 }
 
 #mprm_checkout_cart {
@@ -211,6 +227,7 @@
 	padding: .5em 1.387em;
 	&.mprm_cart_actions {
 	  .mprm-item-quantity {
+		max-width: 70px;
 		width: 25%;
 		min-width: 40px;
 	  }
@@ -236,6 +253,10 @@
 	  input {
 		max-width: 100%;
 		width: 100%;
+		&.mprm-item-quantity {
+		  max-width: 70px;
+		  min-width: 40px;
+		}
 	  }
 	}
 	td.mprm_cart_item_price {

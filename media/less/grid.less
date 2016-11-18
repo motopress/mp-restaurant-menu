@@ -69,12 +69,18 @@
   .mprm-container.mprm-shortcode-items,
   .mprm-container.mprm-widget-categories,
   .mprm-container.mprm-widget-items {
-	.mprm-row {
-	}
 	&.mprm-view-grid {
 	  margin-bottom: @margin-bottom-default;
 	  .mprm-row {
 		padding-bottom: 0;
+		.mprm-column,
+		.mprm-columns {
+		  margin-bottom: @margin-bottom-default;
+		  padding-bottom: 0;
+		  .mprm-category-content {
+			padding: 2em 1.5em;
+		  }
+		}
 	  }
 	}
 	&.mprm-view-list {
