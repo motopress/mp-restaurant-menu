@@ -237,3 +237,16 @@ function get_column_class($type, $view = 'default') {
 function mprm_get_template_mode() {
 	return classes\Media::get_instance()->get_template_mode();
 }
+
+/**
+ * @param $data
+ *
+ * @return array
+ */
+function mprm_get_first_and_last_key(array $data) {
+	$array_keys = array_keys($data['posts']);
+	$last_key = end($array_keys);
+	reset($array_keys);
+	$first_key = key($array_keys);
+	return array($last_key, $first_key);
+}

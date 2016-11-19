@@ -2,6 +2,7 @@
 
 before_mprm_widget();
 the_mprm_widget_title();
+$class = '';
 $term_data = mprm_get_term_menu_items(); ?>
 
 	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
@@ -18,24 +19,17 @@ $term_data = mprm_get_term_menu_items(); ?>
 						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
 							<?php render_term_header($data); ?>
 						</div>
-					<? }
-					if (!empty($data['term'])) {
-						$array_keys = array_keys($data['posts']);
-						$last = end($array_keys);
-						$first = reset($array_keys);
-					} else {
-						$class = '';
-					}
-					foreach ($data['posts'] as $key => $post) {
-						if (isset($first) && isset($last)) {
-							if ($key === $first) {
+					<?php }
+					list($last_key, $first_key) = mprm_get_first_and_last_key($data);
+
+					foreach ($data['posts'] as $post_key => $post) {
+
+							if ($post_key === $first_key) {
 								$class = ' mprm-first';
-							} elseif ($key === $last) {
+							} elseif ($post_key === $last_key) {
 								$class = ' mprm-last';
-							} else {
-								$class = '';
 							}
-						}
+
 						setup_postdata($post);
 						mprm_set_menu_item($post->ID); ?>
 						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . $class; ?> ">
