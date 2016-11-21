@@ -239,6 +239,8 @@ function mprm_get_template_mode() {
 }
 
 /**
+ * Get first and last key array
+ *
  * @param $data
  *
  * @return array

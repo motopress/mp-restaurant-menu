@@ -20,15 +20,16 @@ $term_data = mprm_get_term_menu_items(); ?>
 							<?php render_term_header($data); ?>
 						</div>
 					<?php }
+
 					list($last_key, $first_key) = mprm_get_first_and_last_key($data);
 
 					foreach ($data['posts'] as $post_key => $post) {
 
-							if ($post_key === $first_key) {
-								$class = ' mprm-first';
-							} elseif ($post_key === $last_key) {
-								$class = ' mprm-last';
-							}
+						if ($post_key === $first_key) {
+							$class = ' mprm-first';
+						} elseif ($post_key === $last_key) {
+							$class = ' mprm-last';
+						}
 
 						setup_postdata($post);
 						mprm_set_menu_item($post->ID); ?>
