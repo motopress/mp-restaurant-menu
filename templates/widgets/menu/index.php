@@ -29,6 +29,8 @@ $term_data = mprm_get_term_menu_items(); ?>
 							$class = ' mprm-first';
 						} elseif ($post_key === $last_key) {
 							$class = ' mprm-last';
+						}else{
+							$class = '';
 						}
 
 						setup_postdata($post);
