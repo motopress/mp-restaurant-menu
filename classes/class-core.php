@@ -3,6 +3,7 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Session;
 use mp_restaurant_menu\classes\modules\MPRM_Widget;
+use mp_restaurant_menu\classes\upgrade\Upgrade;
 
 /**
  * Class main state
@@ -136,6 +137,11 @@ class Core {
 	public function init_plugin($name) {
 
 		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
+
+		// User capability
+		Upgrade::get_instance()->check_upgrade_cap_roles();
+		// Check table structure
+		Upgrade::get_instance()->check_upgrade_structure();
 
 		// Include plugin models files
 		Model::install();

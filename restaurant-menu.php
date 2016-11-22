@@ -13,6 +13,7 @@
 use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
+use mp_restaurant_menu\classes\upgrade\Install;
 
 $local = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? TRUE : FALSE;
 
@@ -122,6 +123,9 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include hooks
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
+
+		require_once MP_RM_CLASSES_PATH . 'upgrade/class-upgrade.php';
+		require_once MP_RM_CLASSES_PATH . 'upgrade/class-install.php';
 	}
 
 	/**
@@ -146,40 +150,17 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On activation plugin
 	 */
 	public static function on_activation() {
-		global $wpdb;
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-		flush_rewrite_rules();
 
 		// User capability
-		Capabilities::get_instance()->add_roles();
-		Capabilities::get_instance()->add_caps();
+		Install::get_instance()->setup_roles_capabilities();
 
-		// Create table
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		$charset_collate = $wpdb->get_charset_collate();
-		$table_name = $wpdb->prefix . "mprm_customer";
+		// Create table/tables
+		Install::get_instance()->create_structure();
 
-
-		$sql = "CREATE TABLE " . $table_name . " (
-		id bigint(11) NOT NULL AUTO_INCREMENT,
-		user_id bigint(11) NOT NULL,
-		email varchar(50) NOT NULL,
-		name mediumtext NOT NULL,
-		telephone varchar(15) NOT NULL,
-		purchase_value mediumtext NOT NULL,
-		purchase_count bigint(11) NOT NULL,
-		payment_ids longtext NOT NULL,
-		notes longtext NOT NULL,
-		date_created datetime NOT NULL,
-		PRIMARY KEY  (id),
-		UNIQUE KEY email (email),
-		KEY user (user_id)
-		)  $charset_collate";
-
-		dbDelta($sql);
-		update_option($table_name . '_db_version', Core::get_instance()->get_version());
+		flush_rewrite_rules();
 	}
 
 	/**

@@ -5,7 +5,10 @@ namespace mp_restaurant_menu\classes;
  * @package mp_restaurant_menu\classes
  */
 class Capabilities extends Core {
+
 	protected static $instance;
+
+	protected $capability_version = '2.0.0';
 
 	/**
 	 * Get things going
@@ -23,6 +26,13 @@ class Capabilities extends Core {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Capability version
+	 */
+	public function get_capability_version() {
+		return $this->capability_version;
 	}
 
 	/**

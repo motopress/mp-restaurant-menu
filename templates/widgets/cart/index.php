@@ -1,24 +1,17 @@
 <?php do_action('mprm_before_cart');
+
 $cart_items = mprm_get_cart_items();
 $cart_quantity = mprm_get_cart_quantity();
 $cart_total = mprm_get_cart_total();
-?>
-	<div class="mprm-cart-content">
-		<ul class="mprm-cart <?php echo empty($cart_items) ? 'mprm-empty-cart' : 'mprm-cart-items' ?>">
+$template_mode = mprm_get_template_mode();
+$display = $cart_quantity > 0 ? '' : ' style="display:none;"';
 
-			<?php if ($cart_items) : ?>
+mprm_get_template('widgets/cart/' . $template_mode . '-mode',
+	array(
+		'cart_total' => $cart_total,
+		'cart_quantity' => $cart_quantity,
+		'cart_items' => $cart_items,
+		'display' => $display)
+);
 
-				<?php foreach ($cart_items as $key => $item) : ?>
-					<?php echo mprm_get_cart_item_template($key, $item, false); ?>
-				<?php endforeach; ?>
-				<li class="mprm-cart-item mprm-cart-meta mprm_subtotal"><?php echo __('Subtotal:', 'mp-restaurant-menu') ?> <span class='mprm_cart_subtotal_amount subtotal'><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())); ?></span></li>
-				<li class="mprm-cart-item mprm_checkout"><a href="<?php echo mprm_get_checkout_uri(); ?>"><?php _e('Checkout', 'mp-restaurant-menu'); ?></a></li>
-
-			<?php else : ?>
-				<li class="mprm-cart-item"><?php echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); ?></li>
-			<?php endif; ?>
-
-		</ul>
-	</div>
-
-<?php do_action('mprm_after_cart');
+do_action('mprm_after_cart');

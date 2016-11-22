@@ -46,6 +46,7 @@ function mprm_get_cart_subtotal() {
  */
 function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	$id = is_array($item) ? $item['id'] : $item;
+	$template_mode = mprm_get_template_mode();
 	$remove_url = mprm_remove_item_url($cart_key);
 	$title = get_the_title($id);
 	$options = !empty($item['options']) ? $item['options'] : array();
@@ -56,7 +57,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 		$title .= (mprm_has_variable_prices($item['id'])) ? ' <span class="mprm-cart-item-separator">-</span> ' . mprm_get_price_name($id, $item['options']) : mprm_get_price_name($id, $item['options']);
 	}
 
-	$item = View::get_instance()->get_template_html('widgets/cart/cart-item', array('item' => $item, 'id' => $id));
+	$item = View::get_instance()->get_template_html('widgets/cart/cart-item-' . $template_mode, array('item' => $item, 'id' => $id));
 
 	$item = str_replace('{item_title}', $title, $item);
 	$item = str_replace('{cart_item_url}', get_permalink($id), $item);
@@ -213,6 +214,7 @@ function mprm_save_cart_button() {
 
 /**
  * Item in cart
+ *
  * @param $ID
  * @param $options
  *
