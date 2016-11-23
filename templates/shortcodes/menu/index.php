@@ -15,7 +15,7 @@ $term_data = mprm_get_term_menu_items();
 			} elseif ($view == 'simple-list') {
 
 				if (!empty($data['term'])) { ?>
-					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?>">
+					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') ?> mprm-category-title">
 						<?php render_term_header($data); ?>
 					</div>
 				<?php }
@@ -28,7 +28,7 @@ $term_data = mprm_get_term_menu_items();
 						$class = ' mprm-first';
 					} elseif ($post_key === $last_key) {
 						$class = ' mprm-last';
-					}else{
+					} else {
 						$class = '';
 					}
 

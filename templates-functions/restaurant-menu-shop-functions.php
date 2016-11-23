@@ -1137,3 +1137,19 @@ function mprm_get_default_variable_price($_id = 0) {
 
 	return apply_filters('mprm_variable_default_price_id', absint($default_price_id), $_id);
 }
+
+/**
+ * Hide buy button by view args
+ *
+ * @return string
+ */
+
+function get_buy_style_view_args() {
+	global $mprm_view_args;
+	if (!empty($mprm_view_args)) {
+		$style_display = (!(bool)$mprm_view_args['buy']) ? 'display:none' : '';
+		return $style_display;
+	} else {
+		return '';
+	}
+}
