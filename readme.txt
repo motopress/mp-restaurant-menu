@@ -55,40 +55,50 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 == Changelog ==
 
+= 2.1.0 =
+* Performance improvements.
+* Improved the Cart widget.
+* Improved user interface of adding menu items to cart.
+* Added the ability to override templates in a theme.
+* Added the ability to set the number of decimal points shown in a displayed price.
+* User roles list is updated and minified.
+* Bug fix: fixed the issue of undelivered emails with "Cash on delivery" method selected.
+* Minor bugfixes and improvements.
+
 = 2.0.2 =
-* Bug fix: fixed an issue with empty price
+* Bug fix: fixed an issue with empty price.
 
 = 2.0.1 =
-* Bug fix: fixed style issue
+* Bug fix: fixed style issue.
 
 = 2.0.0 =
 * We improved compatibility with your theme styles in this update. If you still stick to a previous version, simply change the template mode option in the plugin settings.
-* Minor bugfixes and improvements
+* Minor bugfixes and improvements.
 
 = 1.1.5 =
-* Bug fix: fixed an issue with empty tags or categries
+* Bug fix: fixed an issue with empty tags or categries.
 
 = 1.1.4 =
-* Added the ability to display menu items in the simplified list view
-* Bug fix: fixed an issue with menu item view in search results
+* Added the ability to display menu items in the simplified list view.
+* Bug fix: fixed an issue with menu item view in search results.
 
 = 1.1.3 =
-* Minor bugfixes
+* Minor bugfixes.
 
 = 1.1.2 =
-* Minor bugfixes
+* Minor bugfixes.
 
 = 1.1.1 =
-* Bug fix: fixed an issue with TGM Plugin Activation
+* Bug fix: fixed an issue with TGM Plugin Activation.
 
 = 1.1.0 =
-* Added the ability to sell online
+* Added the ability to sell online.
 
 = 1.0.5 =
-* Actions names updated
+* Actions names updated.
 
 = 1.0.4 =
-* Added the ability to select categories in Menu
+* Added the ability to select categories in Menu.
 
 = 1.0.3 =
-* Minor bugfixes and improvements
+* Minor bugfixes and improvements.
