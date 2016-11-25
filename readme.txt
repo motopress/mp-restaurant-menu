@@ -47,11 +47,11 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 == Screenshots ==
 
 1. The list of menu items. Backend. 
-2. Example of Menu Frontend. Two-column Grid view of Menu Categories
-3. Example of Menu Frontend. Two-column Grid view of Menu Items
-4. Example of Menu Frontend. Three-column List view of Menu Categories
-5. Example of Menu Frontend. Menu Item's page
-6. Lightbox of Menu item' Gallery Images
+2. Grid and List view of Menu Categories
+3. Grid view of Menu Items
+4. List view of Menu Items
+5. Simple List view of Menu Items
+5. Menu Item's page
 
 == Changelog ==
 
