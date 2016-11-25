@@ -22,16 +22,11 @@
   }
 }
 @media (max-width: 768px) {
-  .mprm-container.mprm-shortcode-categories .mprm-row .mprm-column:last-child,
-  .mprm-container.mprm-shortcode-items .mprm-row .mprm-column:last-child,
-  .mprm-container.mprm-widget-categories .mprm-row .mprm-column:last-child,
-  .mprm-container.mprm-widget-items .mprm-row .mprm-column:last-child,
-  .mprm-container.mprm-shortcode-categories .mprm-row .mprm-columns:last-child,
-  .mprm-container.mprm-shortcode-items .mprm-row .mprm-columns:last-child,
-  .mprm-container.mprm-widget-categories .mprm-row .mprm-columns:last-child,
-  .mprm-container.mprm-widget-items .mprm-row .mprm-columns:last-child {
-    margin: 0;
-    padding: 0;
+  .mprm-container.mprm-shortcode-categories.mprm-view-grid,
+  .mprm-container.mprm-shortcode-items.mprm-view-grid,
+  .mprm-container.mprm-widget-categories.mprm-view-grid,
+  .mprm-container.mprm-widget-items.mprm-view-grid {
+    margin-bottom: 2em;
   }
   .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-row,
   .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-row,
@@ -47,7 +42,24 @@
   .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-row .mprm-columns,
   .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-row .mprm-columns,
   .mprm-container.mprm-widget-items.mprm-view-grid .mprm-row .mprm-columns {
-    margin-bottom: 4%;
+    margin-bottom: 2em;
+    padding-bottom: 0;
+  }
+  .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-row .mprm-column .mprm-category-content,
+  .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-row .mprm-column .mprm-category-content,
+  .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-row .mprm-column .mprm-category-content,
+  .mprm-container.mprm-widget-items.mprm-view-grid .mprm-row .mprm-column .mprm-category-content,
+  .mprm-container.mprm-shortcode-categories.mprm-view-grid .mprm-row .mprm-columns .mprm-category-content,
+  .mprm-container.mprm-shortcode-items.mprm-view-grid .mprm-row .mprm-columns .mprm-category-content,
+  .mprm-container.mprm-widget-categories.mprm-view-grid .mprm-row .mprm-columns .mprm-category-content,
+  .mprm-container.mprm-widget-items.mprm-view-grid .mprm-row .mprm-columns .mprm-category-content {
+    padding: 2em 1.5em;
+  }
+  .mprm-container.mprm-shortcode-categories.mprm-view-list,
+  .mprm-container.mprm-shortcode-items.mprm-view-list,
+  .mprm-container.mprm-widget-categories.mprm-view-list,
+  .mprm-container.mprm-widget-items.mprm-view-list {
+    margin-bottom: 2em;
   }
   .mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-row,
   .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-row,
@@ -63,7 +75,7 @@
   .mprm-container.mprm-shortcode-items.mprm-view-list .mprm-row .mprm-columns,
   .mprm-container.mprm-widget-categories.mprm-view-list .mprm-row .mprm-columns,
   .mprm-container.mprm-widget-items.mprm-view-list .mprm-row .mprm-columns {
-    margin-bottom: 4%;
+    margin-bottom: 2em;
     padding-bottom: 0;
   }
   .mprm-container.mprm-shortcode-categories.mprm-view-list .mprm-row .mprm-column .mprm-column,
@@ -140,7 +152,7 @@
   }
   .mprm-column,
   .mprm-columns {
-    padding-bottom: 4%;
+    padding-bottom: 2em;
   }
   .mprm-column .mprm-column:first-child,
   .mprm-columns .mprm-column:first-child,
@@ -148,16 +160,8 @@
   .mprm-columns .mprm-columns:first-child {
     margin-left: 0;
   }
-  .mprm-column .mprm-five.mprm-columns,
-  .mprm-columns .mprm-five.mprm-columns {
-    width: 39.33333333%;
-  }
-  .mprm-column .mprm-seven.mprm-columns,
-  .mprm-columns .mprm-seven.mprm-columns {
-    width: 56.66666667%;
-  }
 }
-/* For devices larger than 550px */
+/* For devices larger than 769px */
 @media (min-width: 769px) {
   .mprm-container {
     width: 100%;
@@ -322,7 +326,7 @@ hr {
     margin-bottom: 1rem;
   }
   .mprm-columns {
-    margin-bottom: 4%;
+    margin-bottom: 2em;
   }
   .mprm-columns:last-child {
     margin-bottom: 0;
@@ -502,27 +506,31 @@ hr {
 .jBox-closeButton-box::before {
   display: none;
 }
-.mprm-modal .jBox-container .jBox-content {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-content {
+  overflow: auto;
   padding: 12px 15px 0;
 }
-.mprm-modal .jBox-container .jBox-closeButton {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-content form#mprm-shortcode-form {
+  overflow: auto;
+}
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-closeButton {
   right: 5px;
   top: 5px;
   background: transparent;
   z-index: 1000;
 }
-.mprm-modal .jBox-container .jBox-closeButton svg {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-closeButton svg {
   height: 17px;
   width: 17px;
 }
-.mprm-modal .jBox-container .jBox-closeButton:hover svg path {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-closeButton:hover svg path {
   fill: #00a0d2;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] input[type="checkbox"],
-.mprm-modal .jBox-container [data-selector=shortcode-form] input[type="radio"] {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] input[type="checkbox"],
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] input[type="radio"] {
   width: auto !important;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line.stick {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line.stick {
   right: 15px;
   position: absolute;
   left: 0;
@@ -530,37 +538,37 @@ hr {
   margin: 0;
   width: auto;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line.stick [data-selector=insert_shortcode] {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line.stick [data-selector=insert_shortcode] {
   margin-bottom: 10px;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line {
   width: 100%;
   margin: 0 0 10px 0;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-left-side {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-left-side {
   display: inline-block;
   box-sizing: border-box;
   padding: 0 5px 0 0;
   width: 40%;
   max-width: 150px;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side {
   display: inline-block;
   box-sizing: border-box;
   padding: 0 0 0 5px;
   width: 59%;
   vertical-align: top;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .one-side {
   width: 100%;
   box-sizing: border-box;
 }
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side input,
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side input,
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side select,
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side select,
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side textarea,
-.mprm-modal .jBox-container [data-selector=shortcode-form] .mprm-line .one-side textarea {
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side input,
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .one-side input,
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side select,
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .one-side select,
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .mprm-right-side textarea,
+.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container [data-selector=shortcode-form] .mprm-line .one-side textarea {
   width: 100%;
 }
 .mprm-admin-box .mprm-admin-box-inside {

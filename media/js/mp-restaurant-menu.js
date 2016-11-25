@@ -194,7 +194,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 						width: width,
 						height: height,
 						closeButton: "box",
-						addClass: 'mprm-modal',
+						addClass: 'mprm-modal mprm-restaurant',
 						onOpen: function() {
 							var jbox_container = $("#" + this.id);
 							open_callback.call(this, jbox_container);

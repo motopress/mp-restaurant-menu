@@ -1,4 +1,5 @@
-// -------------------------------------PLUGIN CORRECT STYLES------------------------------------- //
+@margin-bottom-default: 2em;
+@padding-bottom-default: 2em;
 @import 'grid.less';
 @import "notice.less";
 
@@ -146,67 +147,73 @@
   }
 }
 
-.mprm-modal {
-  .jBox-container {
-	.jBox-content {
-	  padding: 12px 15px 0;
-	}
-	.jBox-closeButton {
-	  right: 5px;
-	  top: 5px;
-	  background: transparent;
-	  z-index: 1000;
-	  svg {
-		height: 17px;
-		width: 17px;
-	  }
-	}
-	.jBox-closeButton:hover {
-	  svg {
-		path {
-		  fill: #00a0d2;
+.mprm-modal.mprm-restaurant {
+  &[id^="jBoxID"] {
+	.jBox-container {
+	  .jBox-content {
+		overflow: auto;
+		padding: 12px 15px 0;
+		form#mprm-shortcode-form {
+		  overflow: auto;
 		}
 	  }
-	}
-	[data-selector=shortcode-form] {
-	  input[type="checkbox"], input[type="radio"] {
-		width: auto !important;
-	  }
-	  .mprm-line.stick {
-		right: 15px;
-		position: absolute;
-		left: 0;
-		text-align: right;
-		margin: 0;
-		width: auto;
-		[data-selector=insert_shortcode] {
-		  margin-bottom: 10px;
+	  .jBox-closeButton {
+		right: 5px;
+		top: 5px;
+		background: transparent;
+		z-index: 1000;
+		svg {
+		  height: 17px;
+		  width: 17px;
 		}
 	  }
-	  .mprm-line {
-		width: 100%;
-		margin: 0 0 10px 0;
-		.mprm-left-side {
-		  display: inline-block;
-		  box-sizing: border-box;
-		  padding: 0 5px 0 0;
-		  width: 40%;
-		  max-width: 150px;
+	  .jBox-closeButton:hover {
+		svg {
+		  path {
+			fill: #00a0d2;
+		  }
 		}
-		.mprm-right-side {
-		  display: inline-block;
-		  box-sizing: border-box;
-		  padding: 0 0 0 5px;
-		  width: 59%;
-		  vertical-align: top;
+	  }
+	  [data-selector=shortcode-form] {
+		input[type="checkbox"], input[type="radio"] {
+		  width: auto !important;
 		}
-		.one-side {
+		.mprm-line.stick {
+		  right: 15px;
+		  position: absolute;
+		  left: 0;
+		  text-align: right;
+		  margin: 0;
+		  width: auto;
+		  [data-selector=insert_shortcode] {
+			margin-bottom: 10px;
+		  }
+		}
+		.mprm-line {
 		  width: 100%;
-		  box-sizing: border-box;
-		}
-		.mprm-right-side, .one-side {
-		  input, select, textarea {
+		  margin: 0 0 10px 0;
+		  .mprm-left-side {
+			display: inline-block;
+			box-sizing: border-box;
+			padding: 0 5px 0 0;
+			width: 40%;
+			max-width: 150px;
+		  }
+		  .mprm-right-side {
+			display: inline-block;
+			box-sizing: border-box;
+			padding: 0 0 0 5px;
+			width: 59%;
+			vertical-align: top;
+		  }
+		  .one-side {
 			width: 100%;
+			box-sizing: border-box;
+		  }
+		  .mprm-right-side, .one-side {
+			input, select, textarea {
+			  width: 100%;
+			}
 		  }
 		}
 	  }
