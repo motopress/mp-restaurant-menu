@@ -52,7 +52,10 @@ class Upgrade extends Core {
 		$saved_version = get_option('mprm_capabilities_version', '0.0.0');
 
 		if (version_compare($capability_version, $saved_version, ">")) {
+			Install::get_instance()->upgrade_roles_capabilities();
+		} else {
 			Install::get_instance()->setup_roles_capabilities();
 		}
+
 	}
 }

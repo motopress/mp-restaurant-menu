@@ -26,6 +26,30 @@ class Install extends Core {
 		return self::$instance;
 	}
 
+	public function remove_roles() {
+		global $wp_roles;
+
+		if (!class_exists('WP_Roles')) {
+			return;
+		}
+
+		if (!isset($wp_roles)) {
+			$wp_roles = new \WP_Roles();
+		}
+
+		$capabilities = Capabilities::get_instance()->get_core_caps();
+
+		foreach ($capabilities as $cap_group) {
+			foreach ($cap_group as $cap) {
+				$wp_roles->remove_cap('mprm_manager', $cap);
+				$wp_roles->remove_cap('mprm_manager', $cap);
+			}
+		}
+
+		remove_role('mprm_customer');
+		remove_role('mprm_manager');
+	}
+
 	/**
 	 * Get structure version
 	 *
@@ -153,16 +177,15 @@ class Install extends Core {
 	 * Roles Capability
 	 */
 	public function setup_roles_capabilities() {
-		$capability_version = Capabilities::get_instance()->get_capability_version();
-		$saved_version = get_option('mprm_capabilities_version', '0.0.0');
+		// User capability
+		Capabilities::get_instance()->add_roles();
+		Capabilities::get_instance()->add_caps();
+	}
 
-		if (version_compare($capability_version, $saved_version, ">")) {
-			// User capability
-			Capabilities::get_instance()->add_roles();
-			Capabilities::get_instance()->add_caps();
-
-			update_option('mprm_capabilities_version', $capability_version);
-		}
+	/**
+	 * Upgrade if need
+	 */
+	public function upgrade_roles_capabilities() {
 
 	}
 }
