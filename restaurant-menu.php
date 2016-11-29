@@ -165,10 +165,8 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
-
-		Capabilities::get_instance()->remove_caps();
+		//Capabilities::get_instance()->remove_caps();
 		flush_rewrite_rules();
-
 	}
 
 	/**

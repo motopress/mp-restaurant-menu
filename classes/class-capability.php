@@ -8,11 +8,10 @@ class Capabilities extends Core {
 
 	protected static $instance;
 
-	protected $capability_version = '2.0.0';
+	protected $capability_version = '2.1.1';
 
 	/**
 	 * Get things going
-	 *
 	 */
 	public function __construct() {
 		add_filter('map_meta_cap', array($this, 'meta_caps'), 10, 4);
@@ -94,23 +93,11 @@ class Capabilities extends Core {
 			}
 		}
 		if (is_object($wp_roles)) {
-			$wp_roles->add_cap('mprm_manager', 'view_shop_reports');
-			$wp_roles->add_cap('mprm_manager', 'view_shop_sensitive_data');
-			$wp_roles->add_cap('mprm_manager', 'export_shop_reports');
-			$wp_roles->add_cap('mprm_manager', 'manage_shop_settings');
-			$wp_roles->add_cap('mprm_manager', 'manage_shop_discounts');
+			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_settings');
+			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_terms');
 
-			$wp_roles->add_cap('administrator', 'view_shop_reports');
-			$wp_roles->add_cap('administrator', 'view_shop_sensitive_data');
-			$wp_roles->add_cap('administrator', 'export_shop_reports');
-			$wp_roles->add_cap('administrator', 'manage_shop_discounts');
-			$wp_roles->add_cap('administrator', 'manage_shop_settings');
-
-			$wp_roles->add_cap('editor', 'view_shop_reports');
-			$wp_roles->add_cap('editor', 'view_shop_sensitive_data');
-			$wp_roles->add_cap('editor', 'export_shop_reports');
-			$wp_roles->add_cap('editor', 'manage_shop_discounts');
-			$wp_roles->add_cap('editor', 'manage_shop_settings');
+			$wp_roles->add_cap('administrator', 'manage_restaurant_settings');
+			$wp_roles->add_cap('administrator', 'manage_restaurant_terms');
 
 
 			// Add the main post type capabilities
@@ -119,7 +106,6 @@ class Capabilities extends Core {
 				foreach ($cap_group as $cap) {
 					$wp_roles->add_cap('mprm_manager', $cap);
 					$wp_roles->add_cap('administrator', $cap);
-					$wp_roles->add_cap('editor', $cap);
 				}
 			}
 
@@ -135,6 +121,10 @@ class Capabilities extends Core {
 	public function get_core_caps() {
 		$capabilities = array();
 		$capability_types = array($this->get_post_type('menu_item'), $this->get_post_type('order'));
+
+		$capabilities['core'] = array(
+			'manage_restaurant_menu'
+		);
 
 		foreach ($capability_types as $capability_type) {
 			$capabilities[$capability_type] = array(
@@ -161,6 +151,7 @@ class Capabilities extends Core {
 				"view_{$capability_type}_stats"
 			);
 		}
+
 		return $capabilities;
 	}
 
@@ -208,26 +199,36 @@ class Capabilities extends Core {
 		}
 
 		if (is_object($wp_roles)) {
+
 			/** Shop Manager Capabilities */
 			$wp_roles->remove_cap('mprm_manager', 'view_shop_reports');
+			$wp_roles->remove_cap('mprm_manager', 'manage_restaurant_settings');
 			$wp_roles->remove_cap('mprm_manager', 'view_shop_sensitive_data');
 			$wp_roles->remove_cap('mprm_manager', 'export_shop_reports');
 			$wp_roles->remove_cap('mprm_manager', 'manage_shop_discounts');
 			$wp_roles->remove_cap('mprm_manager', 'manage_shop_settings');
+			$wp_roles->remove_cap('mprm_manager', 'manage_restaurant_menu');
+
 			/** Site Administrator Capabilities */
 			$wp_roles->remove_cap('administrator', 'view_shop_reports');
 			$wp_roles->remove_cap('administrator', 'view_shop_sensitive_data');
 			$wp_roles->remove_cap('administrator', 'export_shop_reports');
 			$wp_roles->remove_cap('administrator', 'manage_shop_discounts');
 			$wp_roles->remove_cap('administrator', 'manage_shop_settings');
+			$wp_roles->remove_cap('administrator', 'manage_restaurant_settings');
+			$wp_roles->remove_cap('administrator', 'manage_restaurant_menu');
+
 			/** Site Editor Capabilities */
 			$wp_roles->remove_cap('editor', 'view_shop_reports');
 			$wp_roles->remove_cap('editor', 'view_shop_sensitive_data');
 			$wp_roles->remove_cap('editor', 'export_shop_reports');
 			$wp_roles->remove_cap('editor', 'manage_shop_discounts');
 			$wp_roles->remove_cap('editor', 'manage_shop_settings');
+			$wp_roles->remove_cap('editor', 'manage_restaurant_settings');
+			$wp_roles->remove_cap('editor', 'manage_restaurant_menu');
 
 			/** Remove the Main Post Type Capabilities */
+
 			$capabilities = $this->get_core_caps();
 
 			foreach ($capabilities as $cap_group) {
@@ -238,6 +239,8 @@ class Capabilities extends Core {
 				}
 			}
 			$this->remove_roles(array('mprm_manager', 'mprm_customer', 'mprm_shop_manager', 'mprm_shop_accountant', 'mprm_shop_vendor', 'mprm_shop_worker'));
+
+			delete_option('mprm_capabilities_version');
 		}
 	}
 
@@ -259,7 +262,7 @@ class Capabilities extends Core {
 	/**
 	 * Caching plugin
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function is_caching_plugin_active() {
 		$caching = (function_exists('wpsupercache_site_admin') || defined('W3TC') || function_exists('rocket_init'));

@@ -50,7 +50,7 @@ class Settings extends Model {
 	 *
 	 * @default USD
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_currency() {
 		$currency = $this->get_option('currency', 'USD');
@@ -61,7 +61,7 @@ class Settings extends Model {
 	 * @param string $key
 	 * @param bool $default
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_option($key = '', $default = false) {
 		global $mprm_options;
@@ -79,7 +79,7 @@ class Settings extends Model {
 	 *
 	 * @param bool $key
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_settings($key = false) {
 		$settings = get_option('mprm_settings');
@@ -152,7 +152,7 @@ class Settings extends Model {
 	/**
 	 * Currencies with currency symbol
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_currencies_with_symbols() {
 		$currencies = $this->get_currencies();
@@ -165,7 +165,7 @@ class Settings extends Model {
 	/**
 	 * Get list currencies
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_currencies() {
 		$currencies = array(
@@ -905,7 +905,7 @@ class Settings extends Model {
 	/**
 	 * @param null $country
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_shop_states($country = null) {
 		if (empty($country)) {
@@ -991,7 +991,7 @@ class Settings extends Model {
 
 	/**
 	 *  Shop country
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_shop_country() {
 		$country = $this->get_option('base_country', 'US');
@@ -1115,7 +1115,7 @@ class Settings extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_tax_rates() {
 		$rates = $this->get_option('mprm_tax_rates', array());
@@ -1125,7 +1125,7 @@ class Settings extends Model {
 	/**
 	 * Country list
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_country_list() {
 		$countries = array(
@@ -1471,7 +1471,7 @@ class Settings extends Model {
 	/**
 	 * @param array $input
 	 *
-	 * @return array|mixed|void
+	 * @return array|mixed
 	 */
 	public function mprm_settings_sanitize($input = array()) {
 		global $mprm_options;
@@ -1522,7 +1522,7 @@ class Settings extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_ajax_disabled() {
 		$retval = !$this->get_option('enable_ajax_cart');
@@ -1551,7 +1551,8 @@ class Settings extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Get shop state
+	 * @return mixed
 	 */
 	public function get_shop_state() {
 		$state = $this->get_option('base_state', false);

@@ -75,12 +75,13 @@ class Media extends Core {
 		$menu_item = $this->get_post_type('menu_item');
 		$order = $this->get_post_type('order');
 		$menu_slug = "edit.php?post_type={$menu_item}";
+
 		// Restaurant menu
 		Menu::add_menu_page(array(
 			'title' => __('Restaurant Menu', 'mp-restaurant-menu'),
 			'menu_slug' => $menu_slug,
 			'icon_url' => MP_RM_MEDIA_URL . '/img/icon.png',
-			'capability' => 'edit_posts',
+			'capability' => 'manage_restaurant_menu',
 			'position' => '59.52'
 		));
 		// Menu items
@@ -88,7 +89,7 @@ class Media extends Core {
 			'parent_slug' => $menu_slug,
 			'title' => __('Menu Items', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type={$menu_item}",
-			'capability' => 'edit_posts',
+			'capability' => 'manage_restaurant_menu',
 		));
 
 		// Add new
@@ -96,35 +97,35 @@ class Media extends Core {
 			'parent_slug' => $menu_slug,
 			'title' => __('Add New', 'mp-restaurant-menu'),
 			'menu_slug' => "post-new.php?post_type={$menu_item}",
-			'capability' => 'edit_posts',
+			'capability' => 'manage_restaurant_menu',
 		));
 		// Categories
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Categories', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$category_name}&amp;post_type={$menu_item}",
-			'capability' => 'manage_categories',
+			'capability' => 'manage_restaurant_menu',
 		));
 		// Tags
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Tags', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$tag_name}&amp;post_type={$menu_item}",
-			'capability' => 'manage_categories',
+			'capability' => 'manage_restaurant_menu',
 		));
 		// Ingredients
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Ingredients', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$ingredient_name}&amp;post_type={$menu_item}",
-			'capability' => 'manage_categories',
+			'capability' =>  'manage_restaurant_menu',
 		));
 		// Orders
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Orders', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type=$order",
-			'capability' => 'edit_posts',
+			'capability' => 'manage_restaurant_menu',
 		));
 		//Customers
 		Menu::add_submenu_page(array(
@@ -132,7 +133,7 @@ class Media extends Core {
 			'title' => __('Customers', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-customers",
 			'function' => array($this->get_controller('customer'), 'action_content'),
-			'capability' => 'manage_options',
+			'capability' => 'manage_restaurant_menu',
 		));
 		// Settings
 		Menu::add_submenu_page(array(
@@ -140,7 +141,7 @@ class Media extends Core {
 			'title' => __('Settings', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-settings",
 			'function' => array($this->get_controller('settings'), 'action_content'),
-			'capability' => 'manage_shop_settings',
+			'capability' => 'manage_restaurant_settings',
 		));
 		//Import/Export
 		Menu::add_submenu_page(array(
@@ -150,7 +151,6 @@ class Media extends Core {
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
-
 
 		$this->register_settings();
 
@@ -220,7 +220,9 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Registered settings
+	 *
+	 * @return mixed
 	 */
 	public function get_registered_settings() {
 		$mprm_settings = array(
@@ -638,12 +640,6 @@ class Media extends Core {
 							'desc' => __('Check this box to enable taxes on purchases.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
-//						'tax_rates' => array(
-//							'id' => 'tax_rates',
-//							'name' => '<strong>' . __('Tax Rates', 'mp-restaurant-menu') . '</strong>',
-//							'desc' => __('Enter tax rates for specific regions.', 'mp-restaurant-menu'),
-//							'type' => 'tax_rates',
-//						),
 						'tax_rate' => array(
 							'id' => 'tax_rate',
 							'name' => __('Tax Rate', 'mp-restaurant-menu'),
@@ -778,7 +774,9 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Button styles
+	 *
+	 * @return mixed
 	 */
 	public function get_button_styles() {
 		$styles = array(
@@ -789,7 +787,9 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Button colors
+	 *
+	 * @return mixed
 	 */
 	public function get_button_colors() {
 		$colors = array(
@@ -834,7 +834,9 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Padding styles
+	 *
+	 * @return mixed
 	 */
 	public function get_padding_styles() {
 		$styles = array(
@@ -857,7 +859,9 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Default labels
+	 *
+	 * @return mixed
 	 */
 	public function get_default_labels() {
 		$defaults = array(
@@ -886,7 +890,7 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return array|bool|mixed|void
+	 * @return array|bool|mixed
 	 */
 	public function get_registered_settings_sections() {
 		static $sections = false;
@@ -1128,7 +1132,7 @@ class Media extends Core {
 	 */
 	public function register_all_post_type() {
 		$menu_item_post_type = $this->get_post_type('menu_item');
-		
+
 		if (post_type_exists($menu_item_post_type)) {
 			return;
 		}
@@ -1273,7 +1277,7 @@ class Media extends Core {
 
 	/**
 	 * Get template mode
-	 * @return mixed|string|void
+	 * @return mixed|string
 	 */
 	public function get_template_mode() {
 		$template_mode = Settings::get_instance()->get_option('template_mode', 'theme');
@@ -1393,7 +1397,8 @@ class Media extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Get settings tabs
+	 * @return mixed
 	 */
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();

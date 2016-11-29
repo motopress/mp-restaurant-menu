@@ -46,7 +46,9 @@ class Taxonomy extends Module {
 				'with_front' => true,
 				'hierarchical' => true
 			) : false,
-			'capabilities' => array(),
+			'capabilities' => array(
+				'manage_terms' => 'manage_restaurant_terms'
+			),
 			'meta_box_cb' => null,
 			'show_admin_column' => false,
 			'_builtin' => false,

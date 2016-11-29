@@ -115,7 +115,7 @@ class Settings_emails extends Model {
 	 * Generate email template preview
 	 */
 	public function email_template_preview() {
-		if (!current_user_can('manage_shop_settings')) {
+		if (!current_user_can('manage_restaurant_settings')) {
 			return;
 		}
 		ob_start();
@@ -136,7 +136,7 @@ class Settings_emails extends Model {
 		if ('preview_email' !== $_GET['mprm_action']) {
 			return;
 		}
-		if (!current_user_can('manage_shop_settings')) {
+		if (!current_user_can('manage_restaurant_settings')) {
 			return;
 		}
 		$this->heading = __('Purchase Receipt', 'mp-restaurant-menu');

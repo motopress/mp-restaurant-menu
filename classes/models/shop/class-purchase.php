@@ -867,7 +867,7 @@ class Purchase extends Model {
 			'first_name' => isset($user_data['user_first']) ? $user_data['user_first'] : '',
 			'last_name' => isset($user_data['user_last']) ? $user_data['user_last'] : '',
 			'user_registered' => date('Y-m-d H:i:s'),
-			'role' => get_option('default_role')
+			'role' => 'mprm_customer'
 		), $user_data);
 		// Insert new user
 		$user_id = wp_insert_user($user_args);
