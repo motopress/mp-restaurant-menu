@@ -10,7 +10,6 @@
  * Text Domain: mp-restaurant-menu
  * Domain Path: /languages
  */
-use mp_restaurant_menu\classes\Capabilities;
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\upgrade\Install;
@@ -165,7 +164,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On deactivation plugin
 	 */
 	public static function on_deactivation() {
-		//Capabilities::get_instance()->remove_caps();
+		update_option('mprm_capabilities_version', '0.0.0');
 		flush_rewrite_rules();
 	}
 

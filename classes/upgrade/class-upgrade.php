@@ -53,9 +53,6 @@ class Upgrade extends Core {
 
 		if (version_compare($capability_version, $saved_version, ">")) {
 			Install::get_instance()->upgrade_roles_capabilities();
-		} else {
-			Install::get_instance()->setup_roles_capabilities();
 		}
-
 	}
 }

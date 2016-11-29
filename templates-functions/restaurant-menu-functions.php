@@ -1170,6 +1170,7 @@ function mprm_has_category_image() {
  */
 function mprm_get_category_image($size = 'mprm-big') {
 	global $mprm_term;
+	$size = apply_filters('mprm_category_image_size',$size);
 	return models\Menu_category::get_instance()->get_term_image($mprm_term, $size);
 }
 
@@ -1190,6 +1191,7 @@ function mprm_get_category_icon() {
  */
 function mprm_get_attachment_url($size) {
 	global $post;
+	$size = apply_filters('mprm_attachment_url_size',$size);
 	return models\Menu_item::get_instance()->get_featured_image($post, $size);
 }
 
