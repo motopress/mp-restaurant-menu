@@ -162,7 +162,7 @@ class Install extends Core {
 	 * Upgrade if need
 	 */
 	public function upgrade_roles_capabilities() {
-		Capabilities::get_instance()->remove_caps();
+		//Capabilities::get_instance()->remove_caps();
 		Capabilities::get_instance()->add_roles();
 		Capabilities::get_instance()->add_caps();
 	}

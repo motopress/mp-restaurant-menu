@@ -437,7 +437,7 @@ function get_mprm_menu_item_ID() {
 /**
  * @param $params
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_purchase_link($params) {
 	return models\Menu_item::get_instance()->get_purchase_link($params);
@@ -1175,7 +1175,7 @@ function mprm_get_category_image($size = 'mprm-big') {
 }
 
 /**
- * @return mixed|string|void
+ * @return mixed|string
  */
 function mprm_get_category_icon() {
 	global $mprm_term;
