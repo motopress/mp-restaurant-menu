@@ -95,6 +95,7 @@ class Capabilities extends Core {
 		if (is_object($wp_roles)) {
 			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_settings');
 			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_terms');
+			$wp_roles->add_cap('mprm_manager', 'manage_options');
 
 			$wp_roles->add_cap('administrator', 'manage_restaurant_settings');
 			$wp_roles->add_cap('administrator', 'manage_restaurant_terms');

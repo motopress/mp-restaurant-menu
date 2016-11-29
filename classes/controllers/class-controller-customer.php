@@ -142,7 +142,7 @@ class Controller_customer extends Controller {
 		);
 		$gump->validation_rules(array(
 			'name' => 'required|max_len,100|min_len,6',
-			'telephone' => 'required|phone_number',
+			'telephone' => 'required',
 			'email' => 'required|valid_email'
 
 		));
