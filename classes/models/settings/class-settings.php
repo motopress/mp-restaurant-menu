@@ -638,7 +638,7 @@ class Settings extends Model {
 			elseif (isset($args['std']) && $args['std'] == $key && !isset($mprm_options[$args['id']]))
 				$checked = true;
 			echo '<input name="mprm_settings[' . sanitize_key($args['id']) . ']" id="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']" type="radio" value="' . sanitize_key($key) . '" ' . checked(true, $checked, false) . '/>&nbsp;';
-			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . esc_html($option) . '</label><br/>';
+			echo '<label for="mprm_settings[' . sanitize_key($args['id']) . '][' . sanitize_key($key) . ']">' . $option . '</label><br/>';
 		endforeach;
 		echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
 	}
