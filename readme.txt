@@ -1,7 +1,7 @@
 === Restaurant Menu by MotoPress ===
 Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
-Tags: restaurant, cafe, restaurant menu, food, pizza
+Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
 Tested up to: 4.6
 Stable tag: trunk
@@ -15,6 +15,13 @@ MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for buildi
 
 * Check [Restaurant Menu Plugin Demo](http://mprmdemo.getmotopress.com)
 * Please find the step-by-step instructions of working with the plugin [here](http://www.getmotopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
+
+Premium **addons** to extend possibilities and increase sales through your online menu
+
+* Delivery - this addons turns on delivery and pickup services for the orders made online by your customers.
+* Toppings - this extension will help you set a list of the needed toppings available for purchase along with the menu item.
+
+Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaurant-menu-plugin-addons/).
 
 = Major Features =
 * Clean responsive design for proper mobile viewing
