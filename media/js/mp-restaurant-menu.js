@@ -686,7 +686,7 @@ MP_RM_Registry.register("Menu-Shop", (function($) {
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function(data) {
-							$this.html(data.html);
+							$this.parent().html(data.html);
 
 						},
 						function(data) {
