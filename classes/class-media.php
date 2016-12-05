@@ -91,7 +91,6 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
-
 		// Add new
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
@@ -118,7 +117,7 @@ class Media extends Core {
 			'parent_slug' => $menu_slug,
 			'title' => __('Ingredients', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$ingredient_name}&amp;post_type={$menu_item}",
-			'capability' =>  'manage_restaurant_menu',
+			'capability' => 'manage_restaurant_menu',
 		));
 		// Orders
 		Menu::add_submenu_page(array(
@@ -127,7 +126,7 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'manage_restaurant_menu',
 		));
-		//Customers
+		// Customers
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Customers', 'mp-restaurant-menu'),
@@ -143,13 +142,21 @@ class Media extends Core {
 			'function' => array($this->get_controller('settings'), 'action_content'),
 			'capability' => 'manage_restaurant_settings',
 		));
-		//Import/Export
+		// Import/Export
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
 			'title' => __('Import / Export', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-import",
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
+		));
+		// Extensions
+		Menu::add_submenu_page(array(
+			'parent_slug' => $menu_slug,
+			'title' => __('Extensions', 'mp-restaurant-menu'),
+			'menu_slug' => "mprm-extensions",
+			'function' => array($this->get_controller('extension'), 'action_content'),
+			'capability' => 'manage_restaurant_menu',
 		));
 
 		$this->register_settings();

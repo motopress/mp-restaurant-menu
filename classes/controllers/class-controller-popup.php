@@ -45,7 +45,6 @@ class Controller_Popup extends Controller {
 
 		$this->data['categories'] = Taxonomy::get_instance()->get_terms($this->get_tax_name('menu_category'));
 		$this->data['tags'] = Taxonomy::get_instance()->get_terms($this->get_tax_name('menu_tag'));
-
 		$data['data']['html'] = View::get_instance()->render_html("../admin/popups/shortcode-{$request['type']}", $this->data, false);
 		$data['success'] = true;
 		$this->send_json($data);
