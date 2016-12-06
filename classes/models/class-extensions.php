@@ -1,7 +1,8 @@
 <?php
 namespace mp_restaurant_menu\classes\models;
 
-use mp_restaurant_menu\classes\Model;
+use mp_restaurant_menu\classes\Core;
+use mp_restaurant_menu\classes\View;
 
 /**
  * Class Extension
@@ -10,7 +11,7 @@ use mp_restaurant_menu\classes\Model;
  *
  * @version 1.0.0
  */
-class Extension extends Model {
+class Extension {
 
 	protected static $instance;
 	// limit for get products
@@ -24,6 +25,19 @@ class Extension extends Model {
 	// api version v1/v2
 	// http://docs.easydigitaldownloads.com/category/1130-api-reference
 	private $api_version = 'v1';
+	// Default settings menu
+	private $menu_args = array('parent_slug' => '', 'title' => '', 'capability' => 'manage_options', 'menu_slug' => '', 'function' => '');
+
+	/**
+	 * Extension constructor.
+	 */
+	public function __construct() {
+		$this->menu_args['parent_slug'] = 'edit.php?post_type=' . Core::get_instance()->get_post_type('menu_item');
+		$this->menu_args['title'] = __('Extensions', 'mp-restaurant-menu');
+		$this->menu_args['capability'] = 'manage_restaurant_menu';
+		$this->menu_args['menu_slug'] = 'mprm-extensions';
+		$this->menu_args['function'] = array($this, 'action_content');
+	}
 
 	/**
 	 * Get instance
@@ -35,6 +49,17 @@ class Extension extends Model {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Action content
+	 */
+	public function action_content() {
+		$data = array();
+		$data['extensions'] = $this->get_extensions();
+		$data['extensions_html'] = View::get_instance()->get_template_html('../admin/extensions/extensions-view', $data);
+
+		echo View::get_instance()->get_template_html('../admin/extensions/extensions-page', $data);
 	}
 
 	/**
@@ -139,5 +164,20 @@ class Extension extends Model {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Init action
+	 */
+	public function init_action() {
+		add_action('admin_menu', array($this, 'add_extension_menu'));
+	}
+
+	/**
+	 * Add menu extensions
+	 *
+	 */
+	public function add_extension_menu() {
+		add_submenu_page($this->menu_args['parent_slug'], $this->menu_args['title'], $this->menu_args['title'], $this->menu_args['capability'], $this->menu_args['menu_slug'], $this->menu_args['function']);
 	}
 }

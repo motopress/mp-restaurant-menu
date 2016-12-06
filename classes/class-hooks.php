@@ -3,6 +3,7 @@ namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Cart;
 use mp_restaurant_menu\classes\models\Emails;
+use mp_restaurant_menu\classes\models\Extension;
 use mp_restaurant_menu\classes\models\Manual_payment;
 use mp_restaurant_menu\classes\models\Menu_category;
 use mp_restaurant_menu\classes\models\Order;
@@ -59,6 +60,7 @@ class Hooks extends Core {
 	 * Install templates actions
 	 */
 	public static function install_templates_actions() {
+		Extension::get_instance()->init_action();
 
 		self::install_menu_item_grid_actions();
 		self::install_menu_item_list_actions();
@@ -72,7 +74,6 @@ class Hooks extends Core {
 		self::install_cart_actions();
 		self::install_checkout_actions();
 
-
 		Test_Manual_payment::get_instance()->init_action();
 		Manual_payment::get_instance()->init_action();
 		Paypal_standart::get_instance()->init_action();
@@ -85,7 +86,6 @@ class Hooks extends Core {
 	 * Install menu item grid actions
 	 */
 	public static function install_menu_item_grid_actions() {
-
 		/**
 		 * Menu item grid
 		 *
@@ -98,9 +98,7 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_grid_price()
 		 * @see mprm_menu_item_grid_footer()
 		 */
-
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_header', 10);
-
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_before_content', 15);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_image', 20);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_title', 30);
@@ -112,8 +110,6 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_after_content', 80);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
-
-
 		/**
 		 * Menu widget item grid
 		 *
@@ -143,7 +139,6 @@ class Hooks extends Core {
 	 * Install menu item list actions
 	 */
 	public static function install_menu_item_list_actions() {
-
 		/**
 		 * Menu item list
 		 *
@@ -157,7 +152,6 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_header', 5);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_before_content', 10);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_image', 15);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_header', 20);
@@ -167,15 +161,10 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_excerpt', 40);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_tags', 45);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_price', 50);
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_get_purchase_template', 55);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_right_footer', 60);
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_after_content', 65);
-
-
 		add_action('mprm_shortcode_menu_item_list', 'mprm_menu_item_list_footer', 70);
-
-
 		/**
 		 * Menu widget item list
 		 *
@@ -188,9 +177,7 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_header', 5);
-
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_before_content', 10);
-
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_image', 15);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_right_header', 20);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_title', 30);
@@ -202,9 +189,7 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_after_content', 75);
 		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 80);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_right_footer', 85);
-
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_footer', 95);
-
 	}
 
 	public static function install_menu_item_simple_list_actions() {
@@ -221,7 +206,6 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_before_content', 5);
-
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_header', 10);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_title_simple', 20);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_ingredients', 25);
@@ -229,9 +213,7 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_excerpt', 35);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_list_tags', 40);
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 50);
-
 		add_action('mprm_shortcode_menu_item_simple-list', 'mprm_menu_item_after_content', 55);
-
 
 		/**
 		 * Menu item list
@@ -245,15 +227,12 @@ class Hooks extends Core {
 		 * @see mprm_menu_item_list_excerpt()
 		 */
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_before_content', 5);
-
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_header', 10);
-//		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_right_header', 20);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_title_simple', 20);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_ingredients', 30);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_attributes', 40);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_excerpt', 50);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_tags', 60);
-		//		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_right_footer', 90);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_footer', 65);
 
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_after_content', 70);
@@ -326,7 +305,6 @@ class Hooks extends Core {
 	public static function install_menu_item_actions() {
 
 		add_action('mprm_menu_item_single_theme_view', 'get_gallery_theme_view', 5);
-
 		add_action('mprm_menu_item_single_theme_view', 'get_price_theme_view', 10);
 		add_action('mprm_menu_item_single_theme_view', 'mprm_get_purchase_template', 15);
 		add_action('mprm_menu_item_single_theme_view', 'get_ingredients_theme_view', 20);
@@ -425,7 +403,6 @@ class Hooks extends Core {
 		 * @see mprm_single_category_list_ingredients()
 		 * @see mprm_single_category_list_footer()
 		 */
-
 		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_before_content', 5);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_before_left', 10);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_image', 15);
@@ -438,7 +415,6 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_list', 'mprm_category_menu_item_after_content', 50);
 		add_action('mprm_taxonomy_list', 'mprm_get_purchase_template', 55);
 		add_action('mprm_taxonomy_list', 'mprm_taxonomy_list_after_right', 60);
-
 
 		/**
 		 * After Menu_item list
@@ -455,9 +431,7 @@ class Hooks extends Core {
 		 * @see mprm_single_category_grid_footer()
 		 */
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_header', 10);
-
 		add_action('mprm_taxonomy_grid', 'mprm_category_menu_item_before_content', 15);
-
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_image', 25);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_start', 35);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_title', 40);
@@ -465,9 +439,7 @@ class Hooks extends Core {
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_tags', 50);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_price', 55);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_wrapper_end', 60);
-
 		add_action('mprm_taxonomy_grid', 'mprm_category_menu_item_after_content', 65);
-
 		add_action('mprm_taxonomy_grid', 'mprm_get_purchase_template', 70);
 		add_action('mprm_taxonomy_grid', 'mprm_single_category_grid_footer', 75);
 
@@ -486,8 +458,6 @@ class Hooks extends Core {
 
 		add_action('mprm_tag_before_wrapper', 'mprm_theme_wrapper_before');
 		add_action('mprm_tag_after_wrapper', 'mprm_theme_wrapper_after');
-
-
 		/**
 		 * Menu_item list
 		 *
@@ -498,7 +468,6 @@ class Hooks extends Core {
 		add_action('mprm_tag_list', 'mprm_single_tag_list_header', 5);
 		add_action('mprm_tag_list', 'mprm_single_tag_list_content', 10);
 		add_action('mprm_tag_list', 'mprm_single_tag_list_footer', 20);
-
 		add_action('mprm_tag_header', 'mprm_category_header', 5);
 	}
 
@@ -514,9 +483,7 @@ class Hooks extends Core {
 			add_action('mprm_cart_footer_buttons', 'mprm_save_cart_button');
 		}
 		add_action('mprm_cart_empty', 'mprm_cart_empty');
-
 		add_action('mprm_success_page_cart_item', 'mprm_success_page_cart_item', 10, 2);
-
 		add_action('mprm_payment_mode_select', 'mprm_payment_mode_select');
 		add_action('mprm_purchase_form', 'mprm_purchase_form');
 		add_action('mprm_purchase_form_top', 'mprm_purchase_form_top');
@@ -525,22 +492,18 @@ class Hooks extends Core {
 		add_action('mprm_purchase_form_before_register_login', 'mprm_purchase_form_before_register_login');
 		add_action('mprm_purchase_form_login_fields', 'mprm_get_login_fields');
 		add_action('mprm_purchase_form_before_cc_form', 'mprm_purchase_form_before_cc_form');
-
 		add_action('mprm_purchase_form_after_cc_form', 'mprm_checkout_tax_fields', 999);
 		add_action('mprm_purchase_form_after_cc_form', 'mprm_checkout_submit', 9999);
 		add_action('mprm_purchase_form_no_access', 'mprm_purchase_form_no_access');
 		add_action('mprm_purchase_form_after_user_info', 'mprm_user_info_fields');
 		add_action('mprm_cc_billing_top', 'mprm_cc_billing_top');
-
 		add_action('mprm_cc_billing_bottom', 'mprm_cc_billing_bottom');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_additional_information');
 		add_action('mprm_purchase_form_before_submit', 'mprm_terms_agreement');
 		add_action('mprm_purchase_form_before_submit', 'mprm_print_errors');
 		add_action('mprm_purchase_form_before_submit', 'mprm_checkout_final_total', 999);
-
 		add_action('mprm_ajax_checkout_errors', 'mprm_print_errors');
 		add_action('mprm_cc_form', 'mprm_get_cc_form');
-
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
 	}
 
@@ -564,7 +527,6 @@ class Hooks extends Core {
 
 		//Register custom post types
 		Post::register_post_status();
-
 		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
@@ -576,14 +538,11 @@ class Hooks extends Core {
 
 		// Register attachment sizes
 		$this->get('image')->add_image_sizes();
-
 		// Image downsize
 		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
-
 		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-
 		// Include template
 		if (Media::get_instance()->get_template_mode() == 'plugin') {
 			add_filter('template_include', array(Media::get_instance(), 'template_include'));
@@ -591,7 +550,6 @@ class Hooks extends Core {
 			add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
 			add_filter('template_include', array(View::get_instance(), 'template_loader'));
 		}
-
 
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
@@ -603,11 +561,9 @@ class Hooks extends Core {
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
-
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
-
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
 		//Adding shop class body
@@ -616,9 +572,7 @@ class Hooks extends Core {
 		add_filter('the_category', array(self::get_instance()->get('menu_category'), 'create_custom_category_list'), 10, 3);
 		add_filter('mprm_get_option_template_mode', array(Core::get_instance(), 'filter_template_mode'), 10, 3);
 		add_filter('mprm_get_option_button_style', array(Core::get_instance(), 'filter_button_style'), 10, 3);
-
 		add_filter('mprm_get_option_checkout_color', array(Core::get_instance(), 'filter_checkout_color'), 10, 3);
-
 		add_filter('mprm_available_theme_mode', array(Core::get_instance(), 'available_theme_mode'), 10, 3);
 		add_filter('mprm_settings_general', array($this, 'filter_options'), 10, 1);
 	}
@@ -630,18 +584,14 @@ class Hooks extends Core {
 
 		// install metaboxes
 		$this->get('menu_item')->init_metaboxes();
-
 		add_filter('post_updated_messages', array($this, 'post_updated_messages'));
 		add_filter('bulk_post_updated_messages', array($this, 'bulk_post_updated_messages'), 10, 2);
-
 		add_action('add_meta_boxes', array(Post::get_instance(), 'add_meta_boxes'));
 		// Shop order search
 		add_filter('get_search_query', array($this, 'mprm_order_search_label'));
 		add_filter('query_vars', array($this, 'add_custom_query_var'));
 		add_action('parse_query', array($this, 'mprm_search_custom_fields'));
-
 		add_action('admin_head', array($this, 'edit_screen_title'));
-
 		add_filter('views_edit-mprm_order', array($this, 'clear_admin_filter'));
 		// Bulk / quick edit
 		add_action('bulk_edit_custom_box', array($this, 'bulk_edit'), 10, 2);
@@ -649,20 +599,14 @@ class Hooks extends Core {
 		// Edit
 		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
 		add_filter('manage_posts_columns', array($this, 'add_posts_column'), 10, 2);
-
 		add_filter('manage_edit-mp_menu_item_columns', array($this, 'remove_posts_column'));
 		add_filter('manage_edit-mprm_order_columns', array($this, 'remove_posts_column'));
-
-
 		add_action('save_post', array($this, 'bulk_and_quick_edit_save_post'), 10, 2);
 		add_action('admin_footer', array($this, 'bulk_admin_footer'), 10);
 		add_action('load-edit.php', array($this, 'bulk_action'));
-
 		add_action('admin_notices', array($this, 'show_admin_notices'));
 		add_action('admin_notices', array($this, 'admin_notices_action'));
-
 		add_filter('post_row_actions', array($this, 'remove_row_actions'), 10, 2);
-
 		add_action('save_post', array(Post::get_instance(), 'save'));
 		add_action('edit_form_after_title', array(Post::get_instance(), "edit_form_after_title"));
 		// Menu item List posts
@@ -670,13 +614,11 @@ class Hooks extends Core {
 		add_action("manage_{$this->get_post_type('menu_item')}_posts_custom_column", array(Post::get_instance(), "show_menu_columns"), 10, 2);
 		// Disable Auto Save
 		add_action('admin_print_scripts', array(Media::get_instance(), 'disable_autosave'));
-
 		// Manage and sortable order
 		add_filter("manage_{$this->get_post_type('order')}_posts_columns", array(Order::get_instance(), "order_columns"), 10);
 		add_action("manage_{$this->get_post_type('order')}_posts_custom_column", array(Order::get_instance(), "render_order_columns"), 10, 2);
 		add_action("manage_edit-{$this->get_post_type('order')}_sortable_columns", array(Order::get_instance(), "order_sortable_columns"), 10, 2);
 		add_filter('request', array($this, 'order_total_orderby'));
-
 		// ajax redirect
 		add_action('wp_ajax_route_url', array(Core::get_instance(), "wp_ajax_route_url"));
 		//mce editor plugins
@@ -699,7 +641,6 @@ class Hooks extends Core {
 		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
 
 	}
-
 
 	/**
 	 * Order by order total
@@ -860,6 +801,7 @@ class Hooks extends Core {
 			default:
 				break;
 		}
+
 	}
 
 	/**
@@ -867,8 +809,6 @@ class Hooks extends Core {
 	 * @param $post_type
 	 */
 	public function bulk_edit($column_name, $post_type) {
-
-
 	}
 
 	/**
@@ -930,7 +870,6 @@ class Hooks extends Core {
 		}
 
 		return $posts_columns;
-
 	}
 
 	/**
@@ -970,17 +909,10 @@ class Hooks extends Core {
 			return $post_id;
 		}
 
-		// Check post type is product
-//		if ('product' != $post->post_type) {
-//			return $post_id;
-//		}
-
 		// Check user permission
 		if (!current_user_can('edit_post', $post_id)) {
 			return $post_id;
 		}
-
-
 		return $post_id;
 	}
 
@@ -993,7 +925,6 @@ class Hooks extends Core {
 			if (current_user_can('install_plugins') && current_user_can('manage_options')) {
 				if (!get_option('mprm_install_page')) {
 					View::get_instance()->render_html('../admin/notices/install-plugin');
-
 				}
 			}
 		}
@@ -1004,13 +935,6 @@ class Hooks extends Core {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Dismiss admin notice
-	 */
-	public function dismiss_admin_notices() {
-
 	}
 
 	/**
@@ -1062,7 +986,6 @@ class Hooks extends Core {
 			'untrashed' => _n('%s order restored from the Trash.', '%s orders restored from the Trash.', $bulk_counts['untrashed'], 'mp-restaurant-menu'),
 		);
 
-
 		return $bulk_messages;
 	}
 
@@ -1080,6 +1003,9 @@ class Hooks extends Core {
 		return $views;
 	}
 
+	/**
+	 * Edit screen title
+	 */
 	function edit_screen_title() {
 		global $post, $title, $action, $current_screen;
 
@@ -1104,9 +1030,7 @@ class Hooks extends Core {
 			return $actions;
 		}
 
-//		unset($actions['edit']);
 		unset($actions['view']);
-//		unset($actions['trash']);
 		unset($actions['inline hide-if-no-js']);
 
 		return $actions;
@@ -1126,7 +1050,6 @@ class Hooks extends Core {
 				unset($args['main']['category_view']);
 			}
 		}
-
 		return $args;
 	}
 }
