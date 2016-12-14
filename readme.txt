@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
 Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,9 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 
 == Changelog ==
 
+= 2.1.4 =
+*  Bug fix: fixed an issue when plugin overrides default archive template.
+
 = 2.1.3 =
 *  Bug fix: fixed login form error on the checkout page.
 
@@ -82,7 +85,7 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 * Minor bugfixes and improvements.
 
 = 2.0.2 =
-* Bug fix: fixed an issue with empty price.
+* Bug fix: fixed the issue with empty price.
 
 = 2.0.1 =
 * Bug fix: fixed style issue.
@@ -92,11 +95,11 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 * Minor bugfixes and improvements.
 
 = 1.1.5 =
-* Bug fix: fixed an issue with empty tags or categries.
+* Bug fix: fixed the issue with empty tags or categries.
 
 = 1.1.4 =
 * Added the ability to display menu items in the simplified list view.
-* Bug fix: fixed an issue with menu item view in search results.
+* Bug fix: fixed the issue with menu item view in search results.
 
 = 1.1.3 =
 * Minor bugfixes.
@@ -105,7 +108,7 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 * Minor bugfixes.
 
 = 1.1.1 =
-* Bug fix: fixed an issue with TGM Plugin Activation.
+* Bug fix: fixed the issue with TGM Plugin Activation.
 
 = 1.1.0 =
 * Added the ability to sell online.

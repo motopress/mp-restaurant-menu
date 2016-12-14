@@ -224,10 +224,11 @@ class View {
 			$find[] = $file;
 			$find[] = $this->template_path . $file;
 
-		} elseif (is_post_type_archive($post->post_type)) {
-			$file = 'archive.php';
+		} elseif (is_post_type_archive( Core::get_instance()->get_post_types() )) {
+			$file = "archive-{$post->post_type}.php";
 			$find[] = $file;
 			$find[] = $this->template_path . $file;
+			$find[] = 'archive.php';
 		}
 
 		if ($file) {
