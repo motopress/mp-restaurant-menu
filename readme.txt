@@ -20,6 +20,7 @@ Premium **addons** to extend possibilities and increase sales through your onlin
 
 * Delivery - this addons turns on delivery and pickup services for the orders made online by your customers.
 * Toppings - this extension will help you set a list of the needed toppings available for purchase along with the menu item.
+* Menu cart - helps you add a shopping cart icon to a needed menu bar.
 
 Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaurant-menu-plugin-addons/).
 
