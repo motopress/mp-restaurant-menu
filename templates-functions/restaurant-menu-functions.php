@@ -167,6 +167,7 @@ function mprm_get_taxonomy() {
  */
 function mprm_get_categories() {
 	global $mprm_view_args, $mprm_categories;
+
 	$ids = !empty($mprm_view_args['categ']) ? $mprm_view_args['categ'] : 0;
 	if (!empty($ids) || preg_match('/category/', $mprm_view_args['action_path'])) {
 		$mprm_categories = Core::get_instance()->get('menu_category')->get_categories_by_ids($ids);
@@ -174,6 +175,23 @@ function mprm_get_categories() {
 		$mprm_categories = array();
 	}
 	return $mprm_categories;
+}
+/**
+ * Get term children
+ * @param $taxonomy
+ * @param $term_id
+ *
+ * @return array
+ */
+function mprm_get_term_children( $term_id, $taxonomy){
+
+	$terms = Core::get_instance()->get('menu_category')->get_term_children($term_id, $taxonomy);
+
+	foreach ($terms  as $key => $term){
+		$terms[$key] = get_term($term);
+	}
+
+	return $terms;
 }
 
 /**

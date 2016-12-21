@@ -183,6 +183,7 @@ class Menu_category extends Term {
 		$temp_terms = $sort_terms = array();
 		$taxonomy = $this->get_tax_name('menu_category');
 		$terms = $this->get_terms($taxonomy, $ids);
+
 		if (!empty($terms)) {
 			foreach ($terms as $key => $term) {
 				$temp_terms[$key] = array('order' => $this->get_term_order($term), 'term' => $term);
