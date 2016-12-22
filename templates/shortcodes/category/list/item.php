@@ -27,14 +27,12 @@ $sub_categories = mprm_get_term_children($mprm_term->term_id, $mprm_term->taxono
 				<p class="mprm-category-description"><?php echo $description; ?></p>
 			<?php }
 		}
-
 		if (!empty($sub_categories)) { ?>
-			<div class="<?php apply_filters('mprm-category-children-class', 'mprm-category-children-wrapper mprm-category-children'); ?>">
+			<div class="<?php echo apply_filters('mprm-category-children-class', 'mprm-category-children-wrapper mprm-category-children'); ?>">
 				<?php $category_array = array();
 
 				foreach ($sub_categories as $key => $category) {
 					$category_array[$key] = '<a href="' . get_term_link($category) . '" class="' . 'mprm-child-term-' . $category->slug . '">' . $category->name . '</a>';
-
 				}
 
 				echo implode(", ", $category_array); ?>
