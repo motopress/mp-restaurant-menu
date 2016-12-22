@@ -63,11 +63,14 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 
 == Changelog ==
 
+= 2.1.5 =
+* Output menu sub-categories as links in a list view mode.
+
 = 2.1.4 =
-*  Bug fix: fixed an issue when plugin overrides default archive template.
+* Bug fix: fixed an issue when plugin overrides default archive template.
 
 = 2.1.3 =
-*  Bug fix: fixed login form error on the checkout page.
+* Bug fix: fixed login form error on the checkout page.
 
 = 2.1.2 =
 * Improvement: filters for image sizes added
