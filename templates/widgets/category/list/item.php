@@ -1,4 +1,4 @@
-x<?php global $mprm_view_args, $mprm_term;
+<?php global $mprm_view_args, $mprm_term;
 $icon = mprm_get_category_icon();
 $featured_image = mprm_get_feat_image();
 $image_is_available = mprm_has_category_image() && !empty($mprm_view_args['feat_img']);
@@ -29,7 +29,7 @@ $sub_categories = mprm_get_term_children($mprm_term->term_id, $mprm_term->taxono
 		}
 
 		if (!empty($sub_categories)) { ?>
-			<div class="<?php echo apply_filters('mprm-category-children-class', 'mprm-category-children-wrapper mprm-category-children'); ?>">
+			<p class="<?php echo apply_filters('mprm-category-children-class', 'mprm-category-children-wrapper mprm-category-children'); ?>">
 				<?php $category_array = array();
 
 				foreach ($sub_categories as $key => $category) {
@@ -37,7 +37,7 @@ $sub_categories = mprm_get_term_children($mprm_term->term_id, $mprm_term->taxono
 				}
 
 				echo implode(", ", $category_array); ?>
-			</div>
+			</p>
 		<?php } ?>
 	</div>
 
