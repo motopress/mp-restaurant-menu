@@ -308,3 +308,13 @@ function mprm_insert_payment($payment) {
 function mprm_update_payment_status($payment_id, $new_status) {
 	return classes\models\Payments::get_instance()->update_payment_status($payment_id, $new_status);
 }
+
+/**
+ * @param int $payment_id
+ * @param string $note
+ *
+ * @return bool|false|int
+ */
+function mprm_insert_payment_note($payment_id, $note) {
+	return classes\models\Payments::get_instance()->insert_payment_note($payment_id, $note);
+}
