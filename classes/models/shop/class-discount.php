@@ -259,7 +259,7 @@ class Discount extends Model {
 	 * @param $code
 	 * @param $base_price
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_discounted_amount($code, $base_price) {
 		$discount_id = $this->get_discount_id_by_code($code);
@@ -285,7 +285,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_discount_type($code_id = null) {
 		$type = strtolower(get_post_meta($code_id, '_mprm_discount_type', true));
@@ -365,7 +365,7 @@ class Discount extends Model {
 	 * @param string $user
 	 * @param bool $set_error
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_discount_valid($code = '', $user = '', $set_error = true) {
 
@@ -394,7 +394,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_discount_active($code_id = null) {
 		$discount = $this->get_discount($code_id);
@@ -418,7 +418,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_discount_expired($code_id = null) {
 		$discount = $this->get_discount($code_id);
@@ -440,7 +440,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_discount_expiration($code_id = null) {
 		$expiration = get_post_meta($code_id, '_mprm_discount_expiration', true);
@@ -467,7 +467,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_discount_started($code_id = null) {
 		$discount = $this->get_discount($code_id);
@@ -493,7 +493,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_discount_start_date($code_id = null) {
 		$start_date = get_post_meta($code_id, '_mprm_discount_start', true);
@@ -503,7 +503,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_discount_maxed_out($code_id = null) {
 		$discount = $this->get_discount($code_id);
@@ -537,7 +537,7 @@ class Discount extends Model {
 	 * @param string $user
 	 * @param int $code_id
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function is_discount_used($code = null, $user = '', $code_id = 0) {
 		$return = false;
@@ -613,7 +613,7 @@ class Discount extends Model {
 	/**
 	 * @param null $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function discount_is_min_met($code_id = null) {
 		$discount = $this->get_discount($code_id);
@@ -644,7 +644,7 @@ class Discount extends Model {
 	/**
 	 * @param $code_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_discountable_subtotal($code_id) {
 		$cart_items = $this->get('cart')->get_cart_content_details();

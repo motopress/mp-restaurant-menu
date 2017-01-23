@@ -68,7 +68,7 @@ function mprm_get_emails_tags_list() {
  * @param $content
  * @param $order_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_do_email_tags($content, $order_id) {
 
@@ -351,7 +351,7 @@ function mprm_email_tag_receipt_id($order_id) {
 /**
  * @param $order_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_email_tag_payment_method($order_id) {
 	$payment = new models\Order($order_id);

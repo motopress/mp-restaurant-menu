@@ -15,6 +15,7 @@ function mprm_get_purchase_session() {
  */
 function mprm_use_skus() {
 	$ret = mprm_get_option('enable_skus', false);
+	
 	return (bool)apply_filters('mprm_use_skus', $ret);
 }
 
@@ -22,10 +23,11 @@ function mprm_use_skus() {
 /**
  * @param int $menu_item_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_menu_item_sku($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
+	
 	return $menu_item->get_sku();
 }
 
@@ -36,6 +38,7 @@ function mprm_get_menu_item_sku($menu_item_id = 0) {
  */
 function mprm_get_menu_item_notes($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
+	
 	return $menu_item->get_notes();
 }
 
@@ -49,9 +52,9 @@ function mprm_payment_mode_select() {
 	<fieldset id="mprm_payment_summary_table">
 		<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
 	</fieldset>
-
+	
 	<?php do_action('mprm_payment_mode_top'); ?>
-
+	
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
 	<?php } ?>
@@ -67,13 +70,13 @@ function mprm_payment_mode_select() {
 				$checked = checked($gateway_id, models\Gateways::get_instance()->get_default_gateway(), false);
 				$checked_class = $checked ? ' mprm-gateway-option-selected' : '';
 				echo '<label for="mprm-gateway-' . esc_attr($gateway_id) . '" class="mprm-gateway-option' . $checked_class . '" id="mprm-gateway-option-' . esc_attr($gateway_id) . '">';
-				echo '<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-' . esc_attr($gateway_id) . '" value="' . esc_attr($gateway_id) . '"' . $checked . '>' . esc_html($gateway['checkout_label']);
+				echo '<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-' . esc_attr($gateway_id) . '" value="' . esc_attr($gateway_id) . '"' . $checked . '>' . esc_html($gateway[ 'checkout_label' ]);
 				echo '</label>';
 			endforeach;
 			do_action('mprm_payment_mode_after_gateways');
 			?>
 		</div>
-
+		
 		<?php do_action('mprm_payment_mode_after_gateways_wrap'); ?>
 
 	</fieldset>
@@ -83,12 +86,12 @@ function mprm_payment_mode_select() {
 			<?php echo mprm_checkout_button_next(); ?>
 		</p>
 	</fieldset>
-
+	
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		</form>
 	<?php } ?>
 	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
-
+	
 	<?php do_action('mprm_payment_mode_bottom');
 }
 
@@ -97,36 +100,36 @@ function mprm_payment_mode_select() {
  */
 function mprm_purchase_form() {
 	$payment_mode = models\Gateways::get_instance()->get_chosen_gateway();
-
+	
 	/**
 	 * Hooks in at the top of the purchase form
 	 *
 	 * @since 1.4
 	 */
 	do_action('mprm_purchase_form_top');
-
+	
 	if (!mprm_show_gateways()) { ?>
 		<fieldset id="mprm_payment_summary_table">
 			<?php do_action('mprm_checkout_summary_table', 'mprm_checkout_summary_table'); ?>
 		</fieldset>
 		<?php
 	}
-
+	
 	if (models\Checkout::get_instance()->can_checkout()) {
 		do_action('mprm_purchase_form_before_register_login');
 		$show_register_form = mprm_get_option('show_register_form', 'none');
-		if (($show_register_form === 'registration' || ($show_register_form === 'both' && !isset($_GET['login']))) && !is_user_logged_in()) : ?>
+		if (($show_register_form === 'registration' || ($show_register_form === 'both' && !isset($_GET[ 'login' ]))) && !is_user_logged_in()) : ?>
 			<div id="mprm_checkout_login_register">
 				<?php do_action('mprm_purchase_form_register_fields'); ?>
 			</div>
-
-		<?php elseif (($show_register_form === 'login' || ($show_register_form === 'both' && isset($_GET['login']))) && !is_user_logged_in()) : ?>
+		
+		<?php elseif (($show_register_form === 'login' || ($show_register_form === 'both' && isset($_GET[ 'login' ]))) && !is_user_logged_in()) : ?>
 			<div id="mprm_checkout_login_register">
 				<?php do_action('mprm_purchase_form_login_fields'); ?>
 			</div>
 		<?php endif; ?>
-
-		<?php if ((!isset($_GET['login']) && is_user_logged_in()) || !isset($show_register_form) || 'none' === $show_register_form || 'login' === $show_register_form) {
+		
+		<?php if ((!isset($_GET[ 'login' ]) && is_user_logged_in()) || !isset($show_register_form) || 'none' === $show_register_form || 'login' === $show_register_form) {
 			do_action('mprm_purchase_form_after_user_info');
 		}
 		/**
@@ -162,7 +165,7 @@ function mprm_purchase_form() {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_show_gateways() {
 	return models\Gateways::get_instance()->show_gateways();
@@ -246,7 +249,8 @@ function mprm_get_register_fields() {
 				<legend><?php _e('Create an account', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
 						echo ' ' . __('(optional)', 'mp-restaurant-menu');
-					} ?></legend>
+					} ?>
+				</legend>
 			</span>
 			<?php do_action('mprm_register_account_fields_before'); ?>
 			<p id="mprm-user-login-wrap">
@@ -313,14 +317,14 @@ function mprm_default_cc_address_fields() {
 		'state' => '',
 		'country' => ''
 	)));
-	$customer['address'] = array_map('sanitize_text_field', $customer['address']);
+	$customer[ 'address' ] = array_map('sanitize_text_field', $customer[ 'address' ]);
 	if ($logged_in) {
 		$user_address = get_user_meta(get_current_user_id(), '_mprm_user_address', true);
-		foreach ($customer['address'] as $key => $field) {
-			if (empty($field) && !empty($user_address[$key])) {
-				$customer['address'][$key] = $user_address[$key];
+		foreach ($customer[ 'address' ] as $key => $field) {
+			if (empty($field) && !empty($user_address[ $key ])) {
+				$customer[ 'address' ][ $key ] = $user_address[ $key ];
 			} else {
-				$customer['address'][$key] = '';
+				$customer[ 'address' ][ $key ] = '';
 			}
 		}
 	}
@@ -338,7 +342,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The primary billing address for your credit card.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address" name="card_address" class="card-address mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['line1']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
+			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'line1' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -352,7 +356,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The suite, apt no, PO box, etc, associated with your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address_2" name="card_address_2" class="card-address-2 mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['line2']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
+			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'line2' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -366,7 +370,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The city for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_city" name="card_city" class="card-city mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['city']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
+			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'city' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -380,7 +384,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The zip or postal code for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" size="4" name="card_zip" class="card-zip mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo $customer['address']['zip']; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
+			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'zip' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -399,8 +403,8 @@ function mprm_default_cc_address_fields() {
 			} ?>>
 				<?php
 				$selected_country = models\Settings::get_instance()->get_shop_country();
-				if (!empty($customer['address']['country']) && '*' !== $customer['address']['country']) {
-					$selected_country = $customer['address']['country'];
+				if (!empty($customer[ 'address' ][ 'country' ]) && '*' !== $customer[ 'address' ][ 'country' ]) {
+					$selected_country = $customer[ 'address' ][ 'country' ];
 				}
 				$countries = models\Settings::get_instance()->get_country_list();
 				foreach ($countries as $country_code => $country) {
@@ -420,8 +424,8 @@ function mprm_default_cc_address_fields() {
 			<?php
 			$selected_state = models\Settings::get_instance()->get_shop_state();
 			$states = models\Settings::get_instance()->get_shop_states($selected_country);
-			if (!empty($customer['address']['state'])) {
-				$selected_state = $customer['address']['state'];
+			if (!empty($customer[ 'address' ][ 'state' ])) {
+				$selected_state = $customer[ 'address' ][ 'state' ];
 			}
 			if (!empty($states)) : ?>
 				<select name="card_state" id="card_state" class="card_state mprm-select<?php if (models\Checkout::get_instance()->field_is_required('card_state')) {
@@ -434,7 +438,7 @@ function mprm_default_cc_address_fields() {
 					?>
 				</select>
 			<?php else : ?>
-				<?php $customer_state = !empty($customer['address']['state']) ? $customer['address']['state'] : ''; ?>
+				<?php $customer_state = !empty($customer[ 'address' ][ 'state' ]) ? $customer[ 'address' ][ 'state' ] : ''; ?>
 				<input type="text" size="6" name="card_state" id="card_state" class="card_state mprm-input" value="<?php echo esc_attr($customer_state); ?>" placeholder="<?php _e('State / Province', 'mp-restaurant-menu'); ?>"/>
 			<?php endif; ?>
 		</p>
@@ -593,6 +597,7 @@ function mprm_add_body_classes($class) {
 		$classes[] = 'mprm-test-mode';
 		$classes[] = 'mprm-page';
 	}
+	
 	return array_unique($classes);
 }
 
@@ -632,6 +637,7 @@ function mprm_filter_where_older_than_week($where = '') {
 	// Payments older than one week
 	$start = date('Y-m-d', strtotime('-7 days'));
 	$where .= " AND post_date <= '{$start}'";
+	
 	return $where;
 }
 
@@ -644,6 +650,7 @@ function mprm_filter_where_older_than_week($where = '') {
 function mprm_increase_purchase_count($menu_item_id = 0, $quantity = 1) {
 	$quantity = (int)$quantity;
 	$menu_item = new models\Menu_item($menu_item_id);
+	
 	return $menu_item->increase_sales($quantity);
 }
 
@@ -651,7 +658,7 @@ function mprm_increase_purchase_count($menu_item_id = 0, $quantity = 1) {
  * @param string $price
  * @param string $currency
  *
- * @return mixed|string|void
+ * @return mixed|string
  */
 function mprm_currency_filter($price = '', $currency = '') {
 	return models\Menu_item::get_instance()->currency_filter($price, $currency);
@@ -661,7 +668,7 @@ function mprm_currency_filter($price = '', $currency = '') {
  * @param $amount
  * @param bool $decimals
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_format_amount($amount, $decimals = true) {
 	return models\Formatting::get_instance()->format_amount($amount, $decimals);
@@ -670,7 +677,7 @@ function mprm_format_amount($amount, $decimals = true) {
 /**
  * @param $payment_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_payment_amount($payment_id) {
 	return models\Payments::get_instance()->get_payment_amount($payment_id);
@@ -695,7 +702,7 @@ function mprm_get_label_singular($lowercase = false) {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_is_success_page() {
 	return models\Checkout::get_instance()->is_success_page();
@@ -704,14 +711,15 @@ function mprm_is_success_page() {
 /**
  * @param $content
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_filter_success_page_content($content) {
-	if (isset($_GET['payment-confirmation']) && mprm_is_success_page()) {
-		if (has_filter('mprm_payment_confirm_' . $_GET['payment-confirmation'])) {
-			$content = apply_filters('mprm_payment_confirm_' . $_GET['payment-confirmation'], $content);
+	if (isset($_GET[ 'payment-confirmation' ]) && mprm_is_success_page()) {
+		if (has_filter('mprm_payment_confirm_' . $_GET[ 'payment-confirmation' ])) {
+			$content = apply_filters('mprm_payment_confirm_' . $_GET[ 'payment-confirmation' ], $content);
 		}
 	}
+	
 	return $content;
 }
 
@@ -720,11 +728,12 @@ function mprm_get_plugin_version() {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_success_page_uri() {
 	$page_id = mprm_get_option('success_page', 0);
 	$page_id = absint($page_id);
+	
 	return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 }
 
@@ -761,7 +770,7 @@ function mprm_get_payment_status($payment, $return_label = false) {
  * @param string $meta_key
  * @param bool $single
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
 	return models\Payments::get_instance()->get_payment_meta($payment_id, $meta_key, $single);
@@ -802,6 +811,7 @@ function mprm_user_pending_verification($user_id = 0) {
  */
 function mprm_is_bundled_product($menu_item_id = 0) {
 	$menu_item = new models\Menu_item($menu_item_id);
+	
 	return $menu_item->is_bundled_menu_item();
 }
 
@@ -813,20 +823,21 @@ function mprm_count_purchases_of_customer() {
 		$user = get_current_user_id();
 	}
 	$stats = !empty($user) ? models\Customer::get_instance()->get_purchase_stats_by_user($user) : false;
-	return isset($stats['purchases']) ? $stats['purchases'] : 0;
+	
+	return isset($stats[ 'purchases' ]) ? $stats[ 'purchases' ] : 0;
 }
 
 /**
  * @param int $user_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_user_verification_request_url($user_id = 0) {
 	return models\Customer::get_instance()->get_user_verification_request_url($user_id);
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_payment_statuses() {
 	return models\Payments::get_instance()->get_payment_statuses();
@@ -869,7 +880,7 @@ function mprm_get_payment_meta_user_info($order_id) {
 /**
  * @param $gateway
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_gateway_admin_label($gateway) {
 	return models\Gateways::get_instance()->get_gateway_admin_label($gateway);
@@ -881,7 +892,7 @@ function mprm_get_gateway_admin_label($gateway) {
  * @param $user_purchase_info
  * @param null $amount_override
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_menu_item_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
 	return models\Menu_item::get_instance()->get_final_price($menu_item_id, $user_purchase_info, $amount_override);
@@ -901,7 +912,7 @@ function mprm_has_variable_prices($menu_item_id) {
  * @param int $price_id
  * @param int $payment_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_id = 0) {
 	return models\Menu_item::get_instance()->get_price_option_name($menu_item_id, $price_id, $payment_id);
@@ -910,7 +921,7 @@ function mprm_get_price_option_name($menu_item_id = 0, $price_id = 0, $payment_i
 /**
  * @param $payment_id
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_is_payment_complete($payment_id) {
 	return models\Payments::get_instance()->is_payment_complete($payment_id);
@@ -932,20 +943,20 @@ function mprm_clean($var) {
  */
 function mprm_menu_item_dropdown($data) {
 	$menu_items = mprm_get_menu_items(array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item'));
-
+	
 	if ($menu_items) {
-		$options[0] = sprintf(__('Select a %s', 'mp-restaurant-menu'), mprm_get_label_singular());
+		$options[ 0 ] = sprintf(__('Select a %s', 'mp-restaurant-menu'), mprm_get_label_singular());
 		foreach ($menu_items as $product) {
-			$options[absint($product->ID)] = esc_html($product->post_title);
+			$options[ absint($product->ID) ] = esc_html($product->post_title);
 		}
 	} else {
-		$options[0] = __('No products found', 'mp-restaurant-menu');
+		$options[ 0 ] = __('No products found', 'mp-restaurant-menu');
 	}
-	$data['options'] = $options;
-	$data['show_option_all'] = false;
-	$data['show_option_none'] = false;
-	$data['placeholder'] = __('Select a Menu item', 'mp-restaurant-menu');
-
+	$data[ 'options' ] = $options;
+	$data[ 'show_option_all' ] = false;
+	$data[ 'show_option_none' ] = false;
+	$data[ 'placeholder' ] = __('Select a Menu item', 'mp-restaurant-menu');
+	
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
@@ -961,16 +972,16 @@ function mprm_customers_dropdown($data) {
 		'show_option_all' => false,
 		'show_option_none' => false);
 	$data = wp_parse_args($data, $argc);
-
+	
 	$customers = models\Customer::get_instance()->get_customers();
 	if (!empty($customers)) {
 		foreach ($customers as $customer) {
-			$options[$customer->id] = $customer->name;
+			$options[ $customer->id ] = $customer->name;
 		}
 	}
-	$data['options'] = $options;
-	$data['placeholder'] = __('Select a Customer', 'mp-restaurant-menu');
-
+	$data[ 'options' ] = $options;
+	$data[ 'placeholder' ] = __('Select a Customer', 'mp-restaurant-menu');
+	
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
 
@@ -1002,7 +1013,7 @@ function mprm_sanitize_key($key) {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_country_list() {
 	return models\Settings::get_instance()->get_country_list();
@@ -1011,7 +1022,7 @@ function mprm_get_country_list() {
 /**
  * @param null $country
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_shop_states($country = null) {
 	return models\Settings::get_instance()->get_shop_states($country);
@@ -1024,7 +1035,8 @@ function mprm_get_shop_states($country = null) {
  */
 function mprm_get_menu_items(array $args) {
 	$menu_items = models\Menu_item::get_instance()->get_menu_items($args);
-	return $menu_items[0]['posts'];
+	
+	return $menu_items[ 0 ][ 'posts' ];
 }
 
 /**
@@ -1059,14 +1071,14 @@ function mprm_get_customer($customer_id) {
 /**
  * @param $amount
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_sanitize_amount($amount) {
 	return models\Formatting::get_instance()->sanitize_amount($amount);
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_currency() {
 	return models\Settings::get_instance()->get_currency();
@@ -1078,14 +1090,14 @@ function mprm_get_currency() {
  * @param $key
  * @param bool $default
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_option($key, $default = false) {
 	return models\Settings::get_instance()->get_option($key, $default);
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_currency_decimal_filter() {
 	return models\Formatting::get_instance()->currency_decimal_filter();
@@ -1096,6 +1108,7 @@ function mprm_currency_decimal_filter() {
  */
 function mprm_get_purchase_history_page() {
 	$history_page_url = get_permalink(mprm_get_option('purchase_history_page'));
+	
 	return empty($history_page_url) ? '' : $history_page_url;
 }
 
@@ -1104,7 +1117,8 @@ function mprm_get_purchase_history_page() {
  */
 function mprm_get_view_price_position() {
 	global $mprm_view_args;
-	$price_position = empty($mprm_view_args['price_pos']) ? 'points' : $mprm_view_args['price_pos'];
+	$price_position = empty($mprm_view_args[ 'price_pos' ]) ? 'points' : $mprm_view_args[ 'price_pos' ];
+	
 	return $price_position;
 }
 
@@ -1119,22 +1133,22 @@ function mprm_get_view() {
 /**
  * @param int $_id
  *
- * @return bool|mixed|void
+ * @return bool|mixed
  */
 function mprm_get_default_variable_price($_id = 0) {
-
+	
 	if (!mprm_has_variable_prices($_id)) {
 		return false;
 	}
-
+	
 	$prices = mprm_get_variable_prices($_id);
 	$default_price_id = get_post_meta($_id, '_mprm_default_price_id', true);
 	if (!empty($prices)) {
-		if ($default_price_id === '' || !isset($prices[$default_price_id])) {
+		if ($default_price_id === '' || !isset($prices[ $default_price_id ])) {
 			$default_price_id = current(array_keys($prices));
 		}
 	}
-
+	
 	return apply_filters('mprm_variable_default_price_id', absint($default_price_id), $_id);
 }
 
@@ -1147,7 +1161,8 @@ function mprm_get_default_variable_price($_id = 0) {
 function get_buy_style_view_args() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args)) {
-		$style_display = (!(bool)$mprm_view_args['buy']) ? 'display:none' : '';
+		$style_display = (!(bool)$mprm_view_args[ 'buy' ]) ? 'display:none' : '';
+		
 		return $style_display;
 	} else {
 		return '';

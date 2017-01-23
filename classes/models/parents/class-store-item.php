@@ -103,7 +103,7 @@ class Store_item extends Model {
 	 * @param int $price_id
 	 * @param int $payment_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_price_option_name($item_id = 0, $price_id = 0, $payment_id = 0) {
 		$prices = $this->get_variable_prices($item_id);
@@ -118,7 +118,7 @@ class Store_item extends Model {
 	/**
 	 * @param int $item_id
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function get_variable_prices($item_id = 0) {
 		if (empty($item_id)) {
@@ -130,7 +130,7 @@ class Store_item extends Model {
 	/**
 	 * @param $post_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_prices($post_id) {
 		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
@@ -140,7 +140,7 @@ class Store_item extends Model {
 	/**
 	 * @param $post_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_disabled_checkout($post_id) {
 		$disabled_checkout = get_post_meta($post_id, '_disabled_checkout', true);
@@ -191,7 +191,7 @@ class Store_item extends Model {
 	 * @param int $item_id
 	 * @param int $price_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_price_option_amount($item_id = 0, $price_id = 0) {
 		$prices = $this->get_variable_prices($item_id);
@@ -269,7 +269,7 @@ class Store_item extends Model {
 	 * @param $amount
 	 * @param bool $decimals
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_formatting_price($amount, $decimals = true) {
 		return $this->get('formatting')->format_amount($amount, $decimals);

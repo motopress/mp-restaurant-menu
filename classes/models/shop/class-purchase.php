@@ -294,7 +294,7 @@ class Purchase extends Model {
 	 * @param int $zip
 	 * @param string $country_code
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function purchase_form_validate_cc_zip($zip = 0, $country_code = '') {
 		$ret = false;
@@ -536,7 +536,7 @@ class Purchase extends Model {
 	/**
 	 * Required fields
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function purchase_form_required_fields() {
 		$required_fields = array(

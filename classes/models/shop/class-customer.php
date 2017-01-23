@@ -431,7 +431,7 @@ class Customer extends Model {
 	/**
 	 * @param int $user_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_user_verification_request_url($user_id = 0) {
 		if (empty($user_id)) {

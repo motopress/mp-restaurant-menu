@@ -136,7 +136,7 @@ class Parent_query extends Model {
 	 * @param $date
 	 * @param bool $end_date
 	 *
-	 * @return mixed|void|\WP_Error
+	 * @return mixed|\WP_Error
 	 */
 	public function convert_date($date, $end_date = false) {
 
@@ -462,7 +462,7 @@ class Parent_query extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_predefined_dates() {
 		$predefined = array(

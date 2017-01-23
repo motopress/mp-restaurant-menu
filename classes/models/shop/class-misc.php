@@ -83,7 +83,7 @@ class Misc extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_ip() {
 		$ip = '127.0.0.1';
@@ -102,7 +102,7 @@ class Misc extends Model {
 	/**
 	 * @param string $code
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_currency_name($code = 'USD') {
 		$currencies = $this->get('settings')->get_currencies();

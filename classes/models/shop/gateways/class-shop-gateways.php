@@ -22,7 +22,7 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function shop_supports_buy_now() {
 		$gateways = $this->get_enabled_payment_gateways();
@@ -41,7 +41,7 @@ class Gateways extends Model {
 	/**
 	 * @param bool $sort
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_enabled_payment_gateways($sort = false) {
 		$gateways = $this->get_payment_gateways();
@@ -65,7 +65,7 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_gateways() {
 		// Default, built-in gateways
@@ -88,7 +88,7 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_default_gateway() {
 		$default = $this->get('settings')->get_option('default_gateway', 'paypal');
@@ -103,7 +103,7 @@ class Gateways extends Model {
 	/**
 	 * @param $gateway
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_gateway_active($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
@@ -114,7 +114,7 @@ class Gateways extends Model {
 	/**
 	 * @param $gateway
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function gateway_supports_buy_now($gateway) {
 		$supports = $this->get_gateway_supports($gateway);
@@ -125,7 +125,7 @@ class Gateways extends Model {
 	/**
 	 * @param $gateway
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_gateway_supports($gateway) {
 		$gateways = $this->get_enabled_payment_gateways();
@@ -134,7 +134,7 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_chosen_gateway() {
 		$gateways = $this->get_enabled_payment_gateways();
@@ -160,7 +160,7 @@ class Gateways extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function show_gateways() {
 		$gateways = $this->get_enabled_payment_gateways();
@@ -194,7 +194,7 @@ class Gateways extends Model {
 	 * @param array $options
 	 * @param int $quantity
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function build_straight_to_gateway_data($menu_item_id = 0, $options = array(), $quantity = 1) {
 		$price_options = array();
@@ -278,7 +278,7 @@ class Gateways extends Model {
 	/**
 	 * @param $gateway
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function get_gateway_checkout_label($gateway) {
 		$gateways = $this->get_payment_gateways();
@@ -292,7 +292,7 @@ class Gateways extends Model {
 	/**
 	 * @param $gateway
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function get_gateway_admin_label($gateway) {
 		$gateways = $this->get_payment_gateways();

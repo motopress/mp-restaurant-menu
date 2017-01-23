@@ -23,7 +23,7 @@ class Formatting extends Model {
 	/**
 	 * @param int $decimals
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function currency_decimal_filter($decimals = 2) {
 		$currency = $this->get('settings')->get_currency();
@@ -68,7 +68,7 @@ class Formatting extends Model {
 	 *
 	 * @param $amount
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function sanitize_amount($amount) {
 		$is_negative = false;
@@ -118,7 +118,7 @@ class Formatting extends Model {
 	 * @param $amount
 	 * @param bool $decimals
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function format_amount($amount, $decimals = true) {
 		$thousands_sep = $this->get('settings')->get_option('thousands_separator', ',');

@@ -298,7 +298,7 @@ class Export extends Core {
 
 	/**
 	 * Generate file name
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function file_name() {
 		$sitename = sanitize_key(get_bloginfo('name'));

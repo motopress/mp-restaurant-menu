@@ -20,7 +20,7 @@ class Taxes extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function display_tax_rate() {
 		$ret = $this->use_taxes() && $this->get('settings')->get_option('display_tax_rate', false);
@@ -40,7 +40,7 @@ class Taxes extends Model {
 	 * @param bool $country
 	 * @param bool $state
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function calculate_tax($amount = 0, $country = false, $state = false) {
 		$rate = $this->get_tax_rate($country, $state);
@@ -60,7 +60,7 @@ class Taxes extends Model {
 	 * @param bool $country
 	 * @param bool $state
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_tax_rate($country = false, $state = false) {
 		$rate = (float)$this->get('settings')->get_option('tax_rate', 0);
@@ -111,7 +111,7 @@ class Taxes extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_tax_rates() {
 		$rates = get_option('mprm_tax_rates', array());
@@ -119,7 +119,7 @@ class Taxes extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function prices_include_tax() {
 		$ret = ($this->get('settings')->get_option('prices_include_tax', false) == 'yes' && $this->use_taxes());
@@ -129,7 +129,7 @@ class Taxes extends Model {
 	/**
 	 * @param int $menu_item_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function menu_item_is_tax_exclusive($menu_item_id = 0) {
 		$ret = (bool)get_post_meta($menu_item_id, '_mprm_menu_item_tax_exclusive', true);
@@ -137,7 +137,7 @@ class Taxes extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function prices_show_tax_on_checkout() {
 		$ret = ($this->get('settings')->get_option('checkout_include_tax', false) == 'yes' && $this->use_taxes());
@@ -150,7 +150,7 @@ class Taxes extends Model {
 	 * @param bool $country
 	 * @param bool $state
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_formatted_tax_rate($country = false, $state = false) {
 		$rate = $this->get_tax_rate($country, $state);

@@ -59,7 +59,7 @@ class Menu_category extends Term {
 	 * @param $term_id
 	 * @param $field
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_term_params($term_id, $field = '') {
 		global $wp_version;
@@ -258,7 +258,7 @@ class Menu_category extends Term {
 	 * @param string $separator
 	 * @param string $parents
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function create_custom_category_list($thelist = '', $separator = '', $parents = '') {
 		global $post, $wp_rewrite;

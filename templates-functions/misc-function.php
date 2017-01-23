@@ -31,6 +31,7 @@ function mprm_popular_theme_class() {
 			$class = '';
 			break;
 	}
+	
 	return $class;
 }
 
@@ -50,27 +51,27 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
 	if (classes\Media::get_instance()->get_template_mode() == 'plugin' || (!is_single() && !is_tax())) {
 		if (!is_search() && !is_tax('mp_ingredient') && !is_author()) {
 			if (false !== ($key = array_search('hentry', $classes))) {
-				unset($classes[$key]);
+				unset($classes[ $key ]);
 			}
 		}
 	}
-
+	
 	if (in_array('mprm-remove-hentry', $classes)) {
 		if (false !== ($key = array_search('hentry', $classes))) {
-			unset($classes[$key]);
+			unset($classes[ $key ]);
 		}
 		if (!empty($custom_class)) {
 			if (false !== ($key = array_search($custom_class, $classes))) {
-				unset($classes[$key]);
+				unset($classes[ $key ]);
 			}
 		}
 	}
-
+	
 	$custom_class = 'mprm-' . classes\Media::get_instance()->get_template_mode() . '-mode';
-
+	
 	$classes[] = $custom_class;
 	$classes[] = 'mp-menu-item';
-
+	
 	return $classes;
 }
 
@@ -86,6 +87,7 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
  */
 function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
 	$post_meta = get_post_meta($post_id, $key, $single);
+	
 	return empty($post_meta) ? $default : $post_meta;
 }
 
@@ -100,11 +102,12 @@ function mprm_get_post_type($type) {
 	if (empty($type)) {
 		return false;
 	}
+	
 	return Core::get_instance()->get_post_type($type);
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_grid_row_class() {
 	return apply_filters('mprm-row-class', 'mprm-row');
@@ -120,12 +123,13 @@ function mprm_grid_row_class() {
  */
 function mprm_cut_str($length, $text) {
 	$length = empty($length) ? -1 : $length;
-
+	
 	if (strlen($text) <= $length || $length < 0) {
 		return $text;
 	}
-
+	
 	$string = substr($text, 0, $length);
+	
 	return empty($string) ? $string : $string . '...';
 }
 
@@ -199,13 +203,13 @@ function mprm_theme_wrapper_after() {
  * @return string
  */
 function get_column_class($type, $view = 'default') {
-
+	
 	if ($view == 'simple-list') {
 		$column_class = apply_filters('mprm-grid-column-class-simple-list', 'mprm-simple-view-column');
 	} else {
 		$column_class = apply_filters('mprm-grid-column-class', 'mprm-columns');
 	}
-
+	
 	switch ($type) {
 		case '1':
 			$class = $column_class . ' mprm-twelve';
@@ -226,13 +230,14 @@ function get_column_class($type, $view = 'default') {
 			$class = $column_class . ' mprm-twelve';
 			break;
 	}
+	
 	return $class;
 }
 
 /**
  * Get template mode
  *
- * @return mixed|string|void
+ * @return mixed|string
  */
 function mprm_get_template_mode() {
 	return classes\Media::get_instance()->get_template_mode();
@@ -246,9 +251,60 @@ function mprm_get_template_mode() {
  * @return array
  */
 function mprm_get_first_and_last_key(array $data) {
-	$array_keys = array_keys($data['posts']);
+	$array_keys = array_keys($data[ 'posts' ]);
 	$last_key = end($array_keys);
 	reset($array_keys);
 	$first_key = key($array_keys);
+	
 	return array($last_key, $first_key);
+}
+
+/**
+ * Get errors
+ * @return bool|mixed
+ */
+function mprm_get_errors() {
+	return classes\models\Session::get_instance()->get_session_by_key('mprm_errors');
+}
+
+/**
+ * Check is mode
+ *
+ * @return bool
+ */
+function mprm_is_test_mode() {
+	return classes\models\Misc::get_instance()->is_test_mode();
+}
+
+/**
+ * Get purchase summary
+ *
+ * @param $purchase_data
+ * @param bool $email
+ *
+ * @return mixed
+ */
+function mprm_get_purchase_summary($purchase_data, $email = true) {
+	return classes\models\Cart::get_instance()->get_purchase_summary($purchase_data, $email);
+}
+
+/**
+ * Insert payment
+ *
+ * @param $payment
+ *
+ * @return bool
+ */
+function mprm_insert_payment($payment) {
+	return classes\models\Payments::get_instance()->insert_payment($payment);
+}
+
+/**
+ * @param $payment_id
+ * @param $new_status
+ *
+ * @return bool
+ */
+function mprm_update_payment_status($payment_id, $new_status) {
+	return classes\models\Payments::get_instance()->update_payment_status($payment_id, $new_status);
 }

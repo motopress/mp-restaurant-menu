@@ -685,7 +685,7 @@ class Import extends Core {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function max_attachment_size() {
 		return apply_filters('import_attachment_size_limit', 0);

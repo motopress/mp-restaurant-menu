@@ -97,7 +97,7 @@ class Menu_item extends Store_item {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_sku() {
 		if (!isset($this->sku)) {
@@ -167,7 +167,7 @@ class Menu_item extends Store_item {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_type() {
 
@@ -224,7 +224,7 @@ class Menu_item extends Store_item {
 	 * @param $user_purchase_info
 	 * @param null $amount_override
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
 		if (is_null($amount_override)) {
@@ -406,7 +406,7 @@ class Menu_item extends Store_item {
 	 *
 	 * @param $args
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_purchase_link($args) {
 		global $post, $mprm_displayed_form_ids;
@@ -524,7 +524,7 @@ class Menu_item extends Store_item {
 	/**
 	 * @param $post_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_button_behavior($post_id) {
 		$button_behavior = get_post_meta($post_id, '_button_behavior', true);

@@ -220,7 +220,7 @@ class Payments extends Parent_query {
 	/**
 	 * Next payment number
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function get_next_payment_number() {
 		if (!$this->get('settings')->get_option('enable_sequential')) {
@@ -277,7 +277,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param $number
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function remove_payment_prefix_postfix($number) {
 		$prefix = $this->get('settings')->get_option('sequential_prefix');
@@ -299,7 +299,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param $number
 	 *
-	 * @return int|mixed|void
+	 * @return int|mixed
 	 */
 	public function format_payment_number($number) {
 		if (!$this->get('settings')->get_option('enable_sequential')) {
@@ -593,7 +593,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param int $amount
 	 *
-	 * @return int|mixed|void
+	 * @return int|mixed
 	 */
 	public function increase_total_earnings($amount = 0) {
 		$total = $this->get_total_earnings();
@@ -606,7 +606,7 @@ class Payments extends Parent_query {
 	/**
 	 * Total earnings
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_total_earnings() {
 		$total = get_option('mprm_earnings_total', false);
@@ -653,7 +653,7 @@ class Payments extends Parent_query {
 	 *
 	 * @param int $amount
 	 *
-	 * @return int|mixed|void
+	 * @return int|mixed
 	 */
 	public function decrease_total_earnings($amount = 0) {
 		$total = $this->get_total_earnings();
@@ -787,7 +787,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param $payment_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_amount($payment_id) {
 		$payment = new Order($payment_id);
@@ -859,7 +859,7 @@ class Payments extends Parent_query {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_statuses() {
 		$payment_statuses = array(
@@ -988,7 +988,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param int $payment_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_payment_complete($payment_id = 0) {
 		$payment = new Order($payment_id);
@@ -1158,7 +1158,7 @@ class Payments extends Parent_query {
 	 * @param string $meta_key
 	 * @param bool $single
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_meta($payment_id = 0, $meta_key = '_mprm_order_meta', $single = true) {
 		$payment = new Order($payment_id);
@@ -1192,7 +1192,7 @@ class Payments extends Parent_query {
 	 * @param $payment_id
 	 * @param bool $include_bundle_files
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_meta_cart_details($payment_id, $include_bundle_files = false) {
 
@@ -1322,7 +1322,7 @@ class Payments extends Parent_query {
 	/**
 	 * @param int $payment_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_currency($payment_id = 0) {
 		$currency = $this->get_payment_currency_code($payment_id);
@@ -1429,7 +1429,7 @@ class Payments extends Parent_query {
 	 * @param int $payment_id
 	 * @param string $type
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_payment_fees($payment_id = 0, $type = 'all') {
 		$payment = new Order($payment_id);

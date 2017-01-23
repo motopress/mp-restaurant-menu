@@ -76,7 +76,7 @@ class Emails extends Model {
 	 *
 	 * @param string $email
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function is_email_banned($email = '') {
 		if (empty($email)) {
@@ -105,7 +105,7 @@ class Emails extends Model {
 
 	/**
 	 * Banned emails
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_banned_emails() {
 		$emails = array_map('trim', $this->get('settings')->get_option('banned_emails', array()));
@@ -176,7 +176,7 @@ class Emails extends Model {
 	 * @param int $payment_id
 	 * @param array $payment_data
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
 		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
@@ -270,7 +270,7 @@ class Emails extends Model {
 
 	/**
 	 * Admin emails notice
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_admin_notice_emails() {
 		$emails = $this->get('settings')->get_option('admin_notice_emails', false);
@@ -325,7 +325,7 @@ class Emails extends Model {
 	 * @param int $payment_id
 	 * @param array $payment_data
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_sale_notification_body_content($payment_id = 0, $payment_data = array()) {
 

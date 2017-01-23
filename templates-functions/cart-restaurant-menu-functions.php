@@ -3,14 +3,14 @@ use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View as View;
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_is_cart_saving_disabled() {
 	return models\Cart::get_instance()->is_cart_saving_disabled();
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_quantity() {
 	return models\Cart::get_instance()->get_cart_quantity();
@@ -24,14 +24,14 @@ function mprm_get_cart_total() {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_tax() {
 	return models\Cart::get_instance()->get_cart_tax();
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_subtotal() {
 	return models\Cart::get_instance()->get_cart_subtotal();
@@ -42,7 +42,7 @@ function mprm_get_cart_subtotal() {
  * @param $item
  * @param bool $ajax
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
 	$id = is_array($item) ? $item['id'] : $item;
@@ -84,7 +84,7 @@ function mprm_get_cart_item_template($cart_key, $item, $ajax = false) {
  * @param array $options
  * @param int /null $options
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array(), $position = NULL) {
 	return models\Cart::get_instance()->get_cart_item_quantity($menu_item_id, $options, $position);
@@ -97,7 +97,7 @@ function mprm_get_cart_item_quantity($menu_item_id = 0, $options = array(), $pos
  * @param array $options
  * @param bool $remove_tax_from_inclusive
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
 	return models\Cart::get_instance()->get_cart_item_price($menu_item_id, $options, $remove_tax_from_inclusive);
@@ -108,7 +108,7 @@ function mprm_get_cart_item_price($menu_item_id = 0, $options = array(), $remove
  *
  * @param $cart_key
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_remove_item_url($cart_key) {
 	return models\Cart::get_instance()->remove_item_url($cart_key);
@@ -118,7 +118,7 @@ function mprm_remove_item_url($cart_key) {
  * @param int $menu_item_id
  * @param array $options
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_price_name($menu_item_id = 0, $options = array()) {
 	$return = false;
@@ -137,7 +137,7 @@ function mprm_get_price_name($menu_item_id = 0, $options = array()) {
 /**
  * @param int $menu_item_id
  *
- * @return bool|mixed|void
+ * @return bool|mixed
  */
 function mprm_get_variable_prices($menu_item_id = 0) {
 
@@ -149,7 +149,7 @@ function mprm_get_variable_prices($menu_item_id = 0) {
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_items() {
 	return models\Cart::get_instance()->get_cart_contents();
@@ -235,7 +235,7 @@ function mprm_is_cart_taxed() {
 /**
  * Get cart columns
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_checkout_cart_columns() {
 	return models\Cart::get_instance()->checkout_cart_columns();
@@ -244,7 +244,7 @@ function mprm_get_checkout_cart_columns() {
 /**
  * Get cart contents
  *
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_cart_contents() {
 	return models\Cart::get_instance()->get_cart_contents();

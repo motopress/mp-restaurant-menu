@@ -9,7 +9,7 @@ use mp_restaurant_menu\classes\Model;
  */
 class Checkout extends Model {
 	protected static $instance;
-
+	
 	/**
 	 * @return Checkout
 	 */
@@ -17,11 +17,12 @@ class Checkout extends Model {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_checkout() {
 		global $wp_query;
@@ -34,50 +35,60 @@ class Checkout extends Model {
 		if (!$is_object_id_set) {
 			unset($wp_query->queried_object_id);
 		}
+		
 		return apply_filters('mprm_is_checkout', $is_checkout);
 	}
-
+	
 	/**
 	 * @return bool
 	 */
 	public function can_checkout() {
 		$can_checkout = true;
+		
 		return (bool)apply_filters('mprm_can_checkout', $can_checkout);
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_success_page() {
 		$is_success_page = $this->get('settings')->get_option('success_page', false);
 		$is_success_page = isset($is_success_page) ? is_page($is_success_page) : false;
+		
 		return apply_filters('mprm_is_success_page', $is_success_page);
 	}
-
+	
 	/**
+	 * Send to success page
+	 *
 	 * @param null $query_string
 	 */
 	public function send_to_success_page($query_string = null) {
 		$redirect = $this->get_success_page_uri();
+		
 		if ($query_string) {
 			$redirect .= $query_string;
 		}
-		$gateway = isset($_REQUEST['mprm-gateway']) ? $_REQUEST['mprm-gateway'] : '';
+		
+		$gateway = isset($_REQUEST[ 'mprm-gateway' ]) ? $_REQUEST[ 'mprm-gateway' ] : '';
 		if (!headers_sent()) {
 			wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
 			$this->get('misc')->mprm_die();
 		}
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * Get success page uri
+	 *
+	 * @return mixed
 	 */
 	public function get_success_page_uri() {
 		$page_id = $this->get('settings')->get_option('success_page', 0);
 		$page_id = absint($page_id);
+		
 		return apply_filters('mprm_get_success_page_uri', get_permalink($page_id));
 	}
-
+	
 	/**
 	 * Send back to checkout
 	 *
@@ -94,14 +105,14 @@ class Checkout extends Model {
 		}
 		wp_redirect(apply_filters('mprm_send_back_to_checkout', $redirect, $args));
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_checkout_uri() {
 		$purchase_page_id = $this->get('settings')->get_option('purchase_page', false);
 		$uri = !empty($purchase_page_id) ? get_permalink((int)$purchase_page_id) : NULL;
-
+		
 		if (!empty($args)) {
 			// Check for backward compatibility
 			if (is_string($args))
@@ -109,7 +120,7 @@ class Checkout extends Model {
 			$args = wp_parse_args($args);
 			$uri = add_query_arg($args, $uri);
 		}
-
+		
 		$scheme = defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN ? 'https' : 'admin';
 		$ajax_url = admin_url('admin-ajax.php', $scheme);
 		if ((!preg_match('/^https/', $uri) && preg_match('/^https/', $ajax_url) && $this->get('settings')->is_ajax_enabled()) || $this->get('settings')->is_ssl_enforced()) {
@@ -118,53 +129,57 @@ class Checkout extends Model {
 		if ($this->get('settings')->get_option('no_cache_checkout', false)) {
 			$uri = $this->get('settings')->add_cache_busting($uri);
 		}
+		
 		return apply_filters('mprm_get_checkout_uri', $uri);
 	}
-
+	
 	/**
 	 * @param null $query_string
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_success_page_url($query_string = null) {
 		$success_page = $this->get('settings')->get_option('success_page', 0);
 		$success_page = get_permalink($success_page);
 		if ($query_string)
 			$success_page .= $query_string;
+		
 		return apply_filters('mprm_success_page_url', $success_page);
 	}
-
+	
 	/**
 	 * @param bool $extras
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_failed_transaction_uri($extras = false) {
 		$uri = $this->get('settings')->get_option('failure_page', '');
 		$uri = !empty($uri) ? trailingslashit(get_permalink($uri)) : home_url();
 		if ($extras)
 			$uri .= $extras;
+		
 		return apply_filters('mprm_get_failed_transaction_uri', $uri);
 	}
-
+	
 	/**
 	 * Check failed transaction
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_failed_transaction_page() {
 		$ret = $this->get('settings')->get_option('failure_page', false);
 		$ret = isset($ret) ? is_page($ret) : false;
+		
 		return apply_filters('mprm_is_failure_page', $ret);
 	}
-
+	
 	/**
 	 *  Listen for failed payments
 	 */
 	public function listen_for_failed_payments() {
 		$failed_page = $this->get('settings')->get_option('failure_page', 0);
-		if (!empty($failed_page) && is_page($failed_page) && !empty($_GET['payment-id'])) {
-			$payment_id = absint($_GET['payment-id']);
+		if (!empty($failed_page) && is_page($failed_page) && !empty($_GET[ 'payment-id' ])) {
+			$payment_id = absint($_GET[ 'payment-id' ]);
 			$payment = get_post($payment_id);
 			$status = $this->get('payments')->get_payment_status($payment);
 			if ($status && 'mprm-pending' === strtolower($status)) {
@@ -172,11 +187,11 @@ class Checkout extends Model {
 			}
 		}
 	}
-
+	
 	/**
 	 * @param int $number
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function validate_card_number_format($number = 0) {
 		$number = trim($number);
@@ -195,9 +210,10 @@ class Checkout extends Model {
 			$card_type = $this->detect_cc_type($number);
 			$is_valid_format = !empty($card_type) ? true : false;
 		}
+		
 		return apply_filters('mprm_cc_is_valid_format', $is_valid_format, $number);
 	}
-
+	
 	/**
 	 * Validate credit card number based on the luhn algorithm
 	 *
@@ -216,7 +232,7 @@ class Checkout extends Model {
 		// Loop through each digit and do the math
 		$total = 0;
 		for ($i = 0; $i < $length; $i++) {
-			$digit = $number[$i];
+			$digit = $number[ $i ];
 			// Multiply alternate digits by two
 			if ($i % 2 == $parity) {
 				$digit *= 2;
@@ -228,10 +244,11 @@ class Checkout extends Model {
 			// Total up the digits
 			$total += $digit;
 		}
+		
 		// If the total mod 10 equals 0, the number is valid
 		return ($total % 10 == 0) ? true : false;
 	}
-
+	
 	/**
 	 * Detect credit card type based on the number and return an
 	 * array of data to validate the credit card number
@@ -301,17 +318,18 @@ class Checkout extends Model {
 			return false;
 		}
 		foreach ($card_types as $card_type) {
-			if (preg_match($card_type['pattern'], $number)) {
+			if (preg_match($card_type[ 'pattern' ], $number)) {
 				$number_length = strlen($number);
-				if (in_array($number_length, $card_type['valid_length'])) {
-					$return = $card_type['name'];
+				if (in_array($number_length, $card_type[ 'valid_length' ])) {
+					$return = $card_type[ 'name' ];
 					break;
 				}
 			}
 		}
+		
 		return apply_filters('mprm_cc_found_card_type', $return, $number, $card_types);
 	}
-
+	
 	/**
 	 * Validate credit card expiration date
 	 *
@@ -325,17 +343,19 @@ class Checkout extends Model {
 	public function purchase_form_validate_cc_exp_date($exp_month, $exp_year) {
 		$month_name = date('M', mktime(0, 0, 0, $exp_month, 10));
 		$expiration = strtotime(date('t', strtotime($month_name . ' ' . $exp_year)) . ' ' . $month_name . ' ' . $exp_year . ' 11:59:59PM');
+		
 		return $expiration >= time();
 	}
-
+	
 	/**
 	 * @return bool
 	 */
 	public function straight_to_checkout() {
 		$ret = $this->get('settings')->get_option('redirect_on_add', false);
+		
 		return (bool)apply_filters('mprm_straight_to_checkout', $ret);
 	}
-
+	
 	/**
 	 * @param $content
 	 *
@@ -352,18 +372,20 @@ class Checkout extends Model {
 				$content = str_replace('http:', 'https:', $content);
 			}
 		}
+		
 		return $content;
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_purchase_history_page() {
 		$ret = $this->get('settings')->get_option('purchase_history_page', false);
 		$ret = $ret ? is_page($ret) : false;
+		
 		return apply_filters('mprm_is_purchase_history_page', $ret);
 	}
-
+	
 	/**
 	 * @param string $field
 	 *
@@ -371,11 +393,12 @@ class Checkout extends Model {
 	 */
 	public function field_is_required($field = '') {
 		$required_fields = $this->purchase_form_required_fields();
+		
 		return array_key_exists($field, $required_fields);
 	}
-
+	
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function purchase_form_required_fields() {
 		$required_fields = array(
@@ -392,23 +415,24 @@ class Checkout extends Model {
 		$require_address = apply_filters('mprm_require_billing_address', $this->get('taxes')->use_taxes() && $this->get('cart')->get_cart_total());
 		// $this->get('settings')->get_option('taxes_cc_form', false) later
 		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
-			$required_fields['card_zip'] = array(
+			$required_fields[ 'card_zip' ] = array(
 				'error_id' => 'invalid_zip_code',
 				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
 			);
-			$required_fields['card_city'] = array(
+			$required_fields[ 'card_city' ] = array(
 				'error_id' => 'invalid_city',
 				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
 			);
-			$required_fields['billing_country'] = array(
+			$required_fields[ 'billing_country' ] = array(
 				'error_id' => 'invalid_country',
 				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
 			);
-			$required_fields['card_state'] = array(
+			$required_fields[ 'card_state' ] = array(
 				'error_id' => 'invalid_state',
 				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
 			);
 		}
+		
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
 	}
 }

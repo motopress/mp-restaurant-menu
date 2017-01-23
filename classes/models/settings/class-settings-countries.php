@@ -21,7 +21,7 @@ class Settings_countries extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_states_list() {
 		$states = array(

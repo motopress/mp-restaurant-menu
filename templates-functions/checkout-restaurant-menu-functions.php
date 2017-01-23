@@ -3,14 +3,14 @@ use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View;
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_is_checkout() {
 	return models\Checkout::get_instance()->is_checkout();
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_get_checkout_uri() {
 	return models\Checkout::get_instance()->get_checkout_uri();
@@ -18,13 +18,13 @@ function mprm_get_checkout_uri() {
 
 function mprm_get_checkout_cart_template() {
 	$data = array();
-	$data['is_ajax_disabled'] = models\Settings::get_instance()->is_ajax_disabled();
-	$data['cart_items'] = models\Cart::get_instance()->get_cart_contents();
+	$data[ 'is_ajax_disabled' ] = models\Settings::get_instance()->is_ajax_disabled();
+	$data[ 'cart_items' ] = models\Cart::get_instance()->get_cart_contents();
 	mprm_get_template('shop/checkout-cart', $data);
 }
 
 /**
- * @return mixed|void
+ * @return mixed
  */
 function mprm_checkout_button_next() {
 	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
@@ -43,7 +43,7 @@ function mprm_checkout_button_next() {
 
 /**
  * Checkout purchase button
- * @return mixed|void
+ * @return mixed
  */
 function mprm_checkout_button_purchase() {
 	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
@@ -151,7 +151,7 @@ function mprm_checkout_summary_table() { ?>
 			<td><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
-
+		
 		<?php do_action('mprm_checkout_table_tax_before'); ?>
 		<?php if (mprm_use_taxes()) : ?>
 			<tr <?php if (!mprm_is_cart_taxed()) echo ' style="display:none;"'; ?>>
@@ -160,7 +160,7 @@ function mprm_checkout_summary_table() { ?>
 			</tr>
 		<?php endif; ?>
 		<?php do_action('mprm_checkout_table_tax_after'); ?>
-
+		
 		<?php do_action('mprm_checkout_table_total_before'); ?>
 		<tr class="mprm-checkout-total">
 			<td>
@@ -172,3 +172,21 @@ function mprm_checkout_summary_table() { ?>
 	</table>
 
 <?php }
+
+/**
+ * Send to success page
+ *
+ * @param string $query_string
+ */
+function mprm_send_to_success_page($query_string) {
+	return models\Checkout::get_instance()->send_to_success_page($query_string);
+}
+
+/**
+ * Send back to checkout
+ *
+ * @param $args
+ */
+function mprm_send_back_to_checkout($args) {
+	return models\Checkout::get_instance()->send_back_to_checkout($args);
+}

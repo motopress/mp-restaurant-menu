@@ -22,7 +22,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_quantity() {
 		$total_quantity = 0;
@@ -36,7 +36,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_contents() {
 		$cart = $this->get('session')->get_session_by_key('mprm_cart');
@@ -209,7 +209,7 @@ class Cart extends Model {
 	 *
 	 * @param $cart_key
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function remove_from_cart($cart_key) {
 		$cart = $this->get_cart_contents();
@@ -263,7 +263,7 @@ class Cart extends Model {
 
 	/**
 	 * is Cart saving disabled
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function is_cart_saving_disabled() {
 		$ret = $this->get('settings')->get_option('enable_cart_saving', false);
@@ -272,7 +272,7 @@ class Cart extends Model {
 
 	/**
 	 * Generate cart token
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function generate_cart_token() {
 		return apply_filters('mprm_generate_cart_token', md5(mt_rand() . time()));
@@ -307,7 +307,7 @@ class Cart extends Model {
 	/**
 	 * Get cart token
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_token() {
 		$user_id = get_current_user_id();
@@ -398,7 +398,7 @@ class Cart extends Model {
 	 *
 	 * @param array $item
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_item_name($item = array()) {
 		$item_title = get_the_title($item['id']);
@@ -433,7 +433,7 @@ class Cart extends Model {
 	 *
 	 * @param array $item
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_item_price_name($item = array()) {
 		$price_id = (int)$this->get_cart_item_price_id($item);
@@ -448,7 +448,7 @@ class Cart extends Model {
 	 * @param int $item_id
 	 * @param array $options
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function cart_item_price($item_id = 0, $options = array()) {
 		$price = $this->get_cart_item_price($item_id, $options);
@@ -500,7 +500,7 @@ class Cart extends Model {
 	 * @param array $options
 	 * @param bool $remove_tax_from_inclusive
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_item_price($menu_item_id = 0, $options = array(), $remove_tax_from_inclusive = false) {
 		$price = 0;
@@ -532,7 +532,7 @@ class Cart extends Model {
 	 * @param array $options
 	 * @param string $subtotal
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
 		$tax = 0;
@@ -547,7 +547,7 @@ class Cart extends Model {
 	/**
 	 * @param $cart_key
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function remove_item_url($cart_key) {
 		if (defined('DOING_AJAX')) {
@@ -562,7 +562,7 @@ class Cart extends Model {
 	/**
 	 * @param string $fee_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function remove_cart_fee_url($fee_id = '') {
 
@@ -578,7 +578,7 @@ class Cart extends Model {
 
 	/**
 	 * Checkout cart columns
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function checkout_cart_columns() {
 		$head_first = did_action('mprm_checkout_table_header_first');
@@ -599,7 +599,7 @@ class Cart extends Model {
 	/**
 	 * Get cart total
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_subtotal() {
 		$items = $this->get_cart_content_details();
@@ -678,7 +678,7 @@ class Cart extends Model {
 	 * @param array $options
 	 * @param int /null $position
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_item_quantity($menu_item_id = 0, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();
@@ -710,7 +710,7 @@ class Cart extends Model {
 	 *
 	 * @param $items
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_items_subtotal($items) {
 		$subtotal = 0.00;
@@ -731,7 +731,7 @@ class Cart extends Model {
 	/**
 	 * Cart has discounts
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function cart_has_discounts() {
 		$ret = false;
@@ -757,7 +757,7 @@ class Cart extends Model {
 	 *
 	 * @param bool $echo
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function cart_total($echo = true) {
 		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total(), true)));
@@ -789,7 +789,7 @@ class Cart extends Model {
 	/**
 	 * @param bool $discounts
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_discounted_amount($discounts = false) {
 		$amount = 0.00;
@@ -805,7 +805,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_tax() {
 		$cart_tax = 0;
@@ -821,7 +821,7 @@ class Cart extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_cart_fee_tax() {
 		$tax = 0;
@@ -843,7 +843,7 @@ class Cart extends Model {
 	/**
 	 * @param bool $echo
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function cart_tax($echo = false) {
 		$cart_tax = 0;
@@ -889,7 +889,7 @@ class Cart extends Model {
 	 * @param $purchase_data
 	 * @param bool $email
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function get_purchase_summary($purchase_data, $email = true) {
 		$summary = '';
@@ -911,7 +911,7 @@ class Cart extends Model {
 	 * @param array $options
 	 * @param int /null $position
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function set_cart_item_quantity($menu_item_id = 0, $quantity = 1, $options = array(), $position = NULL) {
 		$cart = $this->get_cart_contents();

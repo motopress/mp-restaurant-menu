@@ -101,7 +101,7 @@ class Settings_emails extends Model {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_email_templates() {
 		$templates = array(

@@ -162,7 +162,7 @@ class View {
 	 * @param string $template_path
 	 * @param string $default_path
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function locate_template($template_name, $template_path = '', $default_path = '') {
 		if (!$template_path) {

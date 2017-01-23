@@ -40,7 +40,7 @@ class Menu_tag extends Term {
 	 * @param string $after
 	 * @param int $id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function create_custom_tags_list($tags, $before = '', $sep = '', $after = '', $id = 0) {
 		global $post;
