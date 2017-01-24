@@ -63,6 +63,9 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 
 == Changelog ==
 
+= 2.1.6 =
+* Improved compatibility with external payment gateways
+
 = 2.1.5 =
 * Output menu sub-categories as links in a list view mode.
 

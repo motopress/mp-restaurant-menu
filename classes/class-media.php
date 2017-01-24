@@ -1138,22 +1138,22 @@ class Media extends Core {
 		}
 
 		register_post_type($menu_item_post_type, array(
-			'label' => 'mp_menu_item',
+			//'label' => 'mp_menu_item',
 			'labels' =>
 				array(
-					'name' => __('Menu items', 'mp-restaurant-menu'),
-					'singular_name' => __('Menu item', 'mp-restaurant-menu'),
+					'name' => __('Menu Items', 'mp-restaurant-menu'),
+					'singular_name' => __('Menu Item', 'mp-restaurant-menu'),
 					'add_new' => __('Add New', 'mp-restaurant-menu'),
-					'add_new_item' => __('Add New Menu item', 'mp-restaurant-menu'),
-					'edit_item' => __('Edit Menu item', 'mp-restaurant-menu'),
-					'new_item' => __('New Menu item', 'mp-restaurant-menu'),
-					'all_items' => __('All Menu items', 'mp-restaurant-menu'),
-					'view_item' => __('View Menu item', 'mp-restaurant-menu'),
-					'search_items' => __('Search Menu item', 'mp-restaurant-menu'),
+					'add_new_item' => __('Add New Menu Item', 'mp-restaurant-menu'),
+					'edit_item' => __('Edit Menu Item', 'mp-restaurant-menu'),
+					'new_item' => __('New Menu Item', 'mp-restaurant-menu'),
+					'all_items' => __('All Menu Items', 'mp-restaurant-menu'),
+					'view_item' => __('View Menu Item', 'mp-restaurant-menu'),
+					'search_items' => __('Search Menu Item', 'mp-restaurant-menu'),
 					'not_found' => __('No menu items found', 'mp-restaurant-menu'),
 					'not_found_in_trash' => __('No menu items found in Trash', 'mp-restaurant-menu'),
 					'parent_item_colon' => __('media', 'mp-restaurant-menu'),
-					'menu_name' => __('Menu items', 'mp-restaurant-menu'),
+					'menu_name' => __('Menu Items', 'mp-restaurant-menu'),
 				),
 			'public' => true,
 			'has_archive' => true,

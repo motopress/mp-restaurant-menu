@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2016-12-22 14:39+0200\n"
+"POT-Creation-Date: 2017-01-24 11:03+0200\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -306,7 +306,7 @@ msgstr ""
 
 #: admin/metaboxes/order/order-purchased.php:86
 #: admin/metaboxes/order/order-purchased.php:87
-#: templates-functions/restaurant-menu-shop-functions.php:947
+#: templates-functions/restaurant-menu-shop-functions.php:958
 msgid "Select a Menu item"
 msgstr ""
 
@@ -851,7 +851,8 @@ msgstr ""
 msgid "Restaurant Menu"
 msgstr ""
 
-#: classes/class-media.php:90 classes/shortcodes/class-shortcode-item.php:157
+#: classes/class-media.php:90 classes/class-media.php:1144
+#: classes/class-media.php:1156 classes/shortcodes/class-shortcode-item.php:157
 msgid "Menu Items"
 msgstr ""
 
@@ -1514,13 +1515,11 @@ msgstr ""
 msgid "Large"
 msgstr ""
 
-#: classes/class-media.php:868 classes/class-media.php:1145
-#: classes/models/class-menu-item.php:750
+#: classes/class-media.php:868 classes/models/class-menu-item.php:750
 msgid "Menu item"
 msgstr ""
 
-#: classes/class-media.php:869 classes/class-media.php:1144
-#: classes/class-media.php:1156 classes/models/class-menu-item.php:751
+#: classes/class-media.php:869 classes/models/class-menu-item.php:751
 msgid "Menu items"
 msgstr ""
 
@@ -1557,28 +1556,32 @@ msgstr ""
 msgid "Terms of Agreement"
 msgstr ""
 
-#: classes/class-media.php:1147 configs/language-admin-js.php:13
-msgid "Add New Menu item"
+#: classes/class-media.php:1145
+msgid "Menu Item"
+msgstr ""
+
+#: classes/class-media.php:1147
+msgid "Add New Menu Item"
 msgstr ""
 
 #: classes/class-media.php:1148
-msgid "Edit Menu item"
+msgid "Edit Menu Item"
 msgstr ""
 
 #: classes/class-media.php:1149
-msgid "New Menu item"
+msgid "New Menu Item"
 msgstr ""
 
 #: classes/class-media.php:1150
-msgid "All Menu items"
+msgid "All Menu Items"
 msgstr ""
 
 #: classes/class-media.php:1151
-msgid "View Menu item"
+msgid "View Menu Item"
 msgstr ""
 
 #: classes/class-media.php:1152
-msgid "Search Menu item"
+msgid "Search Menu Item"
 msgstr ""
 
 #: classes/class-media.php:1153
@@ -3106,7 +3109,7 @@ msgid "Country"
 msgstr ""
 
 #: classes/models/settings/class-settings.php:1021
-#: templates-functions/restaurant-menu-shop-functions.php:438
+#: templates-functions/restaurant-menu-shop-functions.php:442
 msgid "State / Province"
 msgstr ""
 
@@ -3173,32 +3176,32 @@ msgstr ""
 msgid "excludes %s tax"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:384
+#: classes/models/shop/class-checkout.php:407
 #: classes/models/shop/class-purchase.php:545
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:388
+#: classes/models/shop/class-checkout.php:411
 #: classes/models/shop/class-purchase.php:549
 msgid "Please enter your first name"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:397
+#: classes/models/shop/class-checkout.php:420
 #: classes/models/shop/class-purchase.php:557
 msgid "Please enter your zip / postal code"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:401
+#: classes/models/shop/class-checkout.php:424
 #: classes/models/shop/class-purchase.php:561
 msgid "Please enter your billing city"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:405
+#: classes/models/shop/class-checkout.php:428
 #: classes/models/shop/class-purchase.php:565
 msgid "Please select your billing country"
 msgstr ""
 
-#: classes/models/shop/class-checkout.php:409
+#: classes/models/shop/class-checkout.php:432
 #: classes/models/shop/class-purchase.php:569
 msgid "Please enter billing state / province"
 msgstr ""
@@ -3335,39 +3338,39 @@ msgstr ""
 msgid "Error creating new customer"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:866
+#: classes/models/shop/class-payments.php:867
 msgid "Pending"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:867
+#: classes/models/shop/class-payments.php:868
 msgid "Complete"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:868
+#: classes/models/shop/class-payments.php:869
 msgid "Refunded"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:869
+#: classes/models/shop/class-payments.php:870
 msgid "Failed"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:870
+#: classes/models/shop/class-payments.php:871
 msgid "Cooking"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:871
+#: classes/models/shop/class-payments.php:872
 msgid "Shipping"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:872
+#: classes/models/shop/class-payments.php:873
 msgid "Shipped"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1544
+#: classes/models/shop/class-payments.php:1548
 msgid "Guest Bot"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1794
+#: classes/models/shop/class-payments.php:1798
 #, php-format
 msgid "Status changed from %s to %s"
 msgstr ""
@@ -3846,6 +3849,10 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
+#: configs/language-admin-js.php:13
+msgid "Add New Menu item"
+msgstr ""
+
 #: configs/language-admin-js.php:14
 msgid "Use This File"
 msgstr ""
@@ -4004,236 +4011,236 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:63
+#: templates-functions/restaurant-menu-shop-functions.php:66
 msgid "Select Payment Method"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:178
+#: templates-functions/restaurant-menu-shop-functions.php:181
 #: templates/shop/get_cc_form.php:4
 msgid "Credit Card Info"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:182
+#: templates-functions/restaurant-menu-shop-functions.php:185
 #: templates/shop/get_cc_form.php:8
 msgid "This is a secure SSL encrypted payment."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:187
+#: templates-functions/restaurant-menu-shop-functions.php:190
 #: templates/shop/get_cc_form.php:13
 msgid "Card Number"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:191
+#: templates-functions/restaurant-menu-shop-functions.php:194
 #: templates/shop/get_cc_form.php:17
 msgid "The (typically) 16 digits on the front of your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:192
+#: templates-functions/restaurant-menu-shop-functions.php:195
 #: templates/shop/get_cc_form.php:18
 msgid "Card number"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:196
+#: templates-functions/restaurant-menu-shop-functions.php:199
 #: templates/shop/get_cc_form.php:22
 msgid "CVC"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:199
+#: templates-functions/restaurant-menu-shop-functions.php:202
 #: templates/shop/get_cc_form.php:25
 msgid "The 3 digit (back) or 4 digit (front) value on your card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:200
+#: templates-functions/restaurant-menu-shop-functions.php:203
 #: templates/shop/get_cc_form.php:26
 msgid "Security code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:204
+#: templates-functions/restaurant-menu-shop-functions.php:207
 #: templates/shop/get_cc_form.php:30
 msgid "Name on the Card"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:207
+#: templates-functions/restaurant-menu-shop-functions.php:210
 #: templates/shop/get_cc_form.php:33
 msgid "The name printed on the front of your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:208
+#: templates-functions/restaurant-menu-shop-functions.php:211
 #: templates/shop/get_cc_form.php:34
 msgid "Card name"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:213
+#: templates-functions/restaurant-menu-shop-functions.php:216
 #: templates/shop/get_cc_form.php:39
 msgid "Expiration (MM/YY)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:216
+#: templates-functions/restaurant-menu-shop-functions.php:219
 #: templates/shop/get_cc_form.php:42
 msgid "The date your credit card expires, typically on the front of the card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:241
+#: templates-functions/restaurant-menu-shop-functions.php:244
 msgid "Already have an account?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:241
-#: templates-functions/restaurant-menu-shop-functions.php:531
+#: templates-functions/restaurant-menu-shop-functions.php:244
+#: templates-functions/restaurant-menu-shop-functions.php:535
 msgid "Login"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:246
+#: templates-functions/restaurant-menu-shop-functions.php:249
 msgid "Create an account"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:248
+#: templates-functions/restaurant-menu-shop-functions.php:251
 msgid "(optional)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:254
-#: templates-functions/restaurant-menu-shop-functions.php:263
-#: templates-functions/restaurant-menu-shop-functions.php:504
+#: templates-functions/restaurant-menu-shop-functions.php:258
+#: templates-functions/restaurant-menu-shop-functions.php:267
+#: templates-functions/restaurant-menu-shop-functions.php:508
 msgid "Username"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:259
+#: templates-functions/restaurant-menu-shop-functions.php:263
 msgid "The username you will use to log into your account."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:267
-#: templates-functions/restaurant-menu-shop-functions.php:276
-#: templates-functions/restaurant-menu-shop-functions.php:515
+#: templates-functions/restaurant-menu-shop-functions.php:271
+#: templates-functions/restaurant-menu-shop-functions.php:280
+#: templates-functions/restaurant-menu-shop-functions.php:519
 #: templates/shop/login.php:16
 msgid "Password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:272
+#: templates-functions/restaurant-menu-shop-functions.php:276
 msgid "The password used to access your account."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:280
+#: templates-functions/restaurant-menu-shop-functions.php:284
 msgid "Password Again"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:285
+#: templates-functions/restaurant-menu-shop-functions.php:289
 msgid "Confirm your password."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:288
+#: templates-functions/restaurant-menu-shop-functions.php:292
 msgid "Confirm password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:329
+#: templates-functions/restaurant-menu-shop-functions.php:333
 #: templates/shop/user-info-fields.php:3
 msgid "Billing Details"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:338
+#: templates-functions/restaurant-menu-shop-functions.php:342
 msgid "The primary billing address for your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:341
+#: templates-functions/restaurant-menu-shop-functions.php:345
 msgid "Address line 1"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:347
+#: templates-functions/restaurant-menu-shop-functions.php:351
 msgid "Billing Address Line 2 (optional)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:352
+#: templates-functions/restaurant-menu-shop-functions.php:356
 msgid "The suite, apt no, PO box, etc, associated with your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:355
+#: templates-functions/restaurant-menu-shop-functions.php:359
 msgid "Address line 2"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:361
+#: templates-functions/restaurant-menu-shop-functions.php:365
 msgid "Billing City"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:366
+#: templates-functions/restaurant-menu-shop-functions.php:370
 msgid "The city for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:369
+#: templates-functions/restaurant-menu-shop-functions.php:373
 msgid "City"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:375
+#: templates-functions/restaurant-menu-shop-functions.php:379
 msgid "Billing Zip / Postal Code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:380
+#: templates-functions/restaurant-menu-shop-functions.php:384
 msgid "The zip or postal code for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:383
+#: templates-functions/restaurant-menu-shop-functions.php:387
 msgid "Zip / Postal Code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:389
+#: templates-functions/restaurant-menu-shop-functions.php:393
 msgid "Billing Country"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:394
+#: templates-functions/restaurant-menu-shop-functions.php:398
 msgid "The country for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:414
+#: templates-functions/restaurant-menu-shop-functions.php:418
 msgid "Billing State / Province"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:419
+#: templates-functions/restaurant-menu-shop-functions.php:423
 msgid "The state or province for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:451
+#: templates-functions/restaurant-menu-shop-functions.php:455
 msgid "Agree to Terms?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:462
+#: templates-functions/restaurant-menu-shop-functions.php:466
 msgid "Show Terms"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:463
+#: templates-functions/restaurant-menu-shop-functions.php:467
 msgid "Hide Terms"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:492
+#: templates-functions/restaurant-menu-shop-functions.php:496
 msgid "Need to create an account?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:494
+#: templates-functions/restaurant-menu-shop-functions.php:498
 msgid "Register"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:496
+#: templates-functions/restaurant-menu-shop-functions.php:500
 msgid "or checkout as a guest."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:511
+#: templates-functions/restaurant-menu-shop-functions.php:515
 msgid "Your username"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:522
+#: templates-functions/restaurant-menu-shop-functions.php:526
 msgid "Your password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:937
+#: templates-functions/restaurant-menu-shop-functions.php:948
 #, php-format
 msgid "Select a %s"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:942
+#: templates-functions/restaurant-menu-shop-functions.php:953
 msgid "No products found"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:958
+#: templates-functions/restaurant-menu-shop-functions.php:969
 msgid "No customer attached"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:972
+#: templates-functions/restaurant-menu-shop-functions.php:983
 msgid "Select a Customer"
 msgstr ""
 
