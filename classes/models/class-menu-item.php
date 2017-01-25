@@ -288,7 +288,7 @@ class Menu_item extends Store_item {
 								'taxonomy' => $this->get_tax_name('menu_category'),
 								'field' => 'id',
 								'terms' => $id,
-								'include_children' => false
+								'include_children' => true
 							)
 						)
 					)

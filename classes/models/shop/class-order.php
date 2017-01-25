@@ -94,7 +94,7 @@ final class Order extends Model {
 	 *
 	 * @param bool $payment_id
 	 *
-	 * @return void|mixed
+	 * @return mixed
 	 */
 	public function __construct($payment_id = false) {
 		parent::__construct();
@@ -534,7 +534,6 @@ final class Order extends Model {
 	 * @param $key
 	 * @param $value
 	 */
-
 	public function __set($key, $value) {
 		$ignore = array('menu_items', 'cart_details', 'fees', '_ID');
 		if ($key === 'status') {
@@ -1322,7 +1321,10 @@ final class Order extends Model {
 		}
 		$this->get('payments')->insert_payment_note($this->ID, $note);
 	}
-
+	
+	/**
+	 * Refund process
+	 */
 	public function refund() {
 		$this->old_status = $this->status;
 		$this->status = 'mprm-refunded';
