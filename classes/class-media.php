@@ -12,7 +12,7 @@ use mp_restaurant_menu\classes\modules\Taxonomy;
  */
 class Media extends Core {
 	protected static $instance;
-
+	
 	/**
 	 * @return Media
 	 */
@@ -20,9 +20,10 @@ class Media extends Core {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
 	 * Cut string
 	 *
@@ -44,24 +45,193 @@ class Media extends Core {
 			parse_str($args, $rgs);
 		}
 		$args = array_merge($default, $rgs);
-		$args['maxchar'] += 0;
+		$args[ 'maxchar' ] += 0;
 		// cutting
-		if (mb_strlen($args['text']) > $args['maxchar'] && $args['maxchar'] != 0) {
-			$args['text'] = mb_substr($args['text'], 0, $args['maxchar']);
-			$args['text'] = $args['text'] . '...';
+		if (mb_strlen($args[ 'text' ]) > $args[ 'maxchar' ] && $args[ 'maxchar' ] != 0) {
+			$args[ 'text' ] = mb_substr($args[ 'text' ], 0, $args[ 'maxchar' ]);
+			$args[ 'text' ] = $args[ 'text' ] . '...';
 		}
 		// save br ad paragraph
-		if ($args['save_format']) {
-			$args['text'] = str_replace("\r", '', $args['text']);
-			$args['text'] = preg_replace("~\n+~", "</p><p>", $args['text']);
-			$args['text'] = "<p>" . str_replace("\n", "<br />", trim($args['text'])) . "</p>";
+		if ($args[ 'save_format' ]) {
+			$args[ 'text' ] = str_replace("\r", '', $args[ 'text' ]);
+			$args[ 'text' ] = preg_replace("~\n+~", "</p><p>", $args[ 'text' ]);
+			$args[ 'text' ] = "<p>" . str_replace("\n", "<br />", trim($args[ 'text' ])) . "</p>";
 		}
-		if ($args['echo']) {
-			return print $args['text'];
+		if ($args[ 'echo' ]) {
+			return print $args[ 'text' ];
 		}
-		return $args['text'];
+		
+		return $args[ 'text' ];
 	}
-
+	
+	/**
+	 * Loads the contents into the page template
+	 *
+	 * @return string Page content
+	 */
+	public function load_content_into_page_template($contents = '') {
+		// only run once!!!
+		remove_filter('the_content', array($this, 'load_content_into_page_template'));
+		
+		$this->get('query')->restoreQuery();
+		
+		ob_start();
+		
+		mprm_get_taxonomy();
+		
+		do_action('mprm-single-category-before-wrapper');
+		
+		?>
+		<div <?php post_class('mprm-remove-hentry ' . apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
+			<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-category-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-category') ?> ">
+				<?php
+				/**
+				 * mprm_before_category_header hook
+				 *
+				 * @hooked mprm_before_category_header - 10
+				 */
+				do_action('mprm_before_category_header');
+				/**
+				 * mprm_category_header hook
+				 *
+				 * @hooked mprm_category_header - 5
+				 */
+				do_action('mprm_category_header');
+				/**
+				 * mprm_after_category_header hook
+				 *
+				 * @hooked mprm_after_category_header - 10
+				 */
+				do_action('mprm_after_category_header');
+				?>
+				<?php if (is_mprm_taxonomy_grid()):
+					foreach (mprm_get_menu_items_by_term() as $term => $data) {
+						$last_key = array_search(end($data[ 'posts' ]), $data[ 'posts' ]);
+						foreach ($data[ 'posts' ] as $key => $post):
+							if (($key % 3) === 0) {
+								$i = 1;
+								?>
+								<div class="mprm-row">
+								<?php
+							}
+							setup_postdata($post);
+							do_action('mprm_before_taxonomy_grid');
+							do_action('mprm_taxonomy_grid');
+							do_action('mprm_after_taxonomy_grid');
+							if (($i % 3) === 0 || $last_key === $key) {
+								?>
+								</div>
+							<?php }
+							$i++;
+						endforeach;
+					}
+					?>
+				<?php else:
+					foreach (mprm_get_menu_items_by_term() as $term => $data) {
+						foreach ($data[ 'posts' ] as $key => $post):?>
+							<?php setup_postdata($post); ?>
+							<div <?php post_class('mprm-remove-hentry ' . 'mprm-row') ?>>
+								<?php
+								do_action('mprm_before_taxonomy_list');
+								do_action('mprm_taxonomy_list');
+								do_action('mprm_after_taxonomy_list');
+								?>
+								<?php
+								/**
+								 * mprm_after_category_list hook
+								 *
+								 * @hooked mprm_after_category_list - 10
+								 */
+								do_action('mprm_after_category_list'); ?>
+							</div>
+						<?php endforeach;
+					} ?>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="mprm-clear"></div>
+		<?php
+		do_action('mprm-single-category-after-wrapper');
+		
+		
+		$contents = ob_get_clean();
+		
+		// make sure the loop ends after our template is included
+		if (!is_404()) {
+			$this->get('query')->endQuery();
+		}
+		
+		return $contents;
+	}
+	
+	/**
+	 * Decide if we need to spoof the query.
+	 */
+	public function maybeSpoofQuery() {
+		
+		// hijack this method right up front if it's a password protected post and the password isn't entered
+		if (is_single() && post_password_required() || is_feed()) {
+			return;
+		}
+		
+		global $wp_query;
+		
+		if ($wp_query->is_main_query() && $this->get('query')->is_restaurant_menu_query() && mprm_get_option('theme_templates', '') != '') {
+			
+			// we need to ensure that we always enter the loop, whether or not there are any events in the actual query
+			
+			$spoofed_post = $this->spoofed_post();
+			
+			$GLOBALS[ 'post' ] = $spoofed_post;
+			$wp_query->posts[] = $spoofed_post;
+			$wp_query->post_count = count($wp_query->posts);
+			
+			$wp_query->spoofed = true;
+			$wp_query->rewind_posts();
+			
+		}
+	}
+	
+	/**
+	 * Spoof the query so that we can operate independently of what has been queried.
+	 *
+	 * @return object
+	 */
+	public function spoofed_post() {
+		$spoofed_post = array(
+			'ID' => 0,
+			'post_status' => 'draft',
+			'post_author' => 0,
+			'post_parent' => 0,
+			'post_type' => 'page',
+			'post_date' => 0,
+			'post_date_gmt' => 0,
+			'post_modified' => 0,
+			'post_modified_gmt' => 0,
+			'post_content' => '',
+			'post_title' => '',
+			'post_excerpt' => '',
+			'post_content_filtered' => '',
+			'post_mime_type' => '',
+			'post_password' => '',
+			'post_name' => '',
+			'guid' => '',
+			'menu_order' => 0,
+			'pinged' => '',
+			'to_ping' => '',
+			'ping_status' => '',
+			'comment_status' => 'closed',
+			'comment_count' => 0,
+			'is_404' => false,
+			'is_page' => false,
+			'is_single' => false,
+			'is_archive' => false,
+			'is_tax' => false,
+		);
+		
+		return ( object )$spoofed_post;
+	}
+	
 	/**
 	 * Registered page in admin wp
 	 */
@@ -75,7 +245,7 @@ class Media extends Core {
 		$menu_item = $this->get_post_type('menu_item');
 		$order = $this->get_post_type('order');
 		$menu_slug = "edit.php?post_type={$menu_item}";
-
+		
 		// Restaurant menu
 		Menu::add_menu_page(array(
 			'title' => __('Restaurant Menu', 'mp-restaurant-menu'),
@@ -150,22 +320,23 @@ class Media extends Core {
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
-
-
+		
+		
 		$this->register_settings();
-
+		
 		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids')));
-
+		
 		foreach ($submenu as $key => $value) {
-			if (isset($submenu[$key][5])) {
-				if ($submenu[$key][5][2] == 'edit.php?post_type=mprm_order') {
-					$submenu[$key][5][0] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
+			if (isset($submenu[ $key ][ 5 ])) {
+				if ($submenu[ $key ][ 5 ][ 2 ] == 'edit.php?post_type=mprm_order') {
+					$submenu[ $key ][ 5 ][ 0 ] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
+					
 					return;
 				}
 			}
 		}
 	}
-
+	
 	/**
 	 * Register settings
 	 */
@@ -184,32 +355,32 @@ class Media extends Core {
 				add_settings_section('mprm_settings_' . $tab . '_' . $section, __return_null(), '__return_false', 'mprm_settings_' . $tab . '_' . $section);
 				foreach ($settings as $option) {
 					// For backwards compatibility
-					if (empty($option['id'])) {
+					if (empty($option[ 'id' ])) {
 						continue;
 					}
-					$name = isset($option['name']) ? $option['name'] : '';
+					$name = isset($option[ 'name' ]) ? $option[ 'name' ] : '';
 					add_settings_field(
-						'mprm_settings[' . $option['id'] . ']',
+						'mprm_settings[' . $option[ 'id' ] . ']',
 						$name,
-						method_exists(Settings::get_instance(), $option['type'] . '_callback') ? array(Settings::get_instance(), $option['type'] . '_callback') : array(Settings::get_instance(), 'missing_callback'),
+						method_exists(Settings::get_instance(), $option[ 'type' ] . '_callback') ? array(Settings::get_instance(), $option[ 'type' ] . '_callback') : array(Settings::get_instance(), 'missing_callback'),
 						'mprm_settings_' . $tab . '_' . $section,
 						'mprm_settings_' . $tab . '_' . $section,
 						array(
 							'section' => $section,
-							'id' => isset($option['id']) ? $option['id'] : null,
-							'desc' => !empty($option['desc']) ? $option['desc'] : '',
-							'name' => isset($option['name']) ? $option['name'] : null,
-							'size' => isset($option['size']) ? $option['size'] : null,
-							'options' => isset($option['options']) ? $option['options'] : '',
-							'std' => isset($option['std']) ? $option['std'] : '',
-							'min' => isset($option['min']) ? $option['min'] : null,
-							'max' => isset($option['max']) ? $option['max'] : null,
-							'step' => isset($option['step']) ? $option['step'] : null,
-							'chosen' => isset($option['chosen']) ? $option['chosen'] : null,
-							'placeholder' => isset($option['placeholder']) ? $option['placeholder'] : null,
-							'allow_blank' => isset($option['allow_blank']) ? $option['allow_blank'] : true,
-							'readonly' => isset($option['readonly']) ? $option['readonly'] : false,
-							'faux' => isset($option['faux']) ? $option['faux'] : false,
+							'id' => isset($option[ 'id' ]) ? $option[ 'id' ] : null,
+							'desc' => !empty($option[ 'desc' ]) ? $option[ 'desc' ] : '',
+							'name' => isset($option[ 'name' ]) ? $option[ 'name' ] : null,
+							'size' => isset($option[ 'size' ]) ? $option[ 'size' ] : null,
+							'options' => isset($option[ 'options' ]) ? $option[ 'options' ] : '',
+							'std' => isset($option[ 'std' ]) ? $option[ 'std' ] : '',
+							'min' => isset($option[ 'min' ]) ? $option[ 'min' ] : null,
+							'max' => isset($option[ 'max' ]) ? $option[ 'max' ] : null,
+							'step' => isset($option[ 'step' ]) ? $option[ 'step' ] : null,
+							'chosen' => isset($option[ 'chosen' ]) ? $option[ 'chosen' ] : null,
+							'placeholder' => isset($option[ 'placeholder' ]) ? $option[ 'placeholder' ] : null,
+							'allow_blank' => isset($option[ 'allow_blank' ]) ? $option[ 'allow_blank' ] : true,
+							'readonly' => isset($option[ 'readonly' ]) ? $option[ 'readonly' ] : false,
+							'faux' => isset($option[ 'faux' ]) ? $option[ 'faux' ] : false,
 						)
 					);
 				}
@@ -218,13 +389,14 @@ class Media extends Core {
 		// Creates our settings in the options table
 		register_setting('mprm_settings', 'mprm_settings', array(Settings::get_instance(), 'mprm_settings_sanitize'));
 	}
-
+	
 	/**
 	 * Registered settings
 	 *
 	 * @return mixed
 	 */
 	public function get_registered_settings() {
+		
 		$mprm_settings = array(
 			/** General Settings */
 			'general' => apply_filters('mprm_settings_general',
@@ -252,7 +424,16 @@ class Media extends Core {
 							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
 							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
 							'type' => 'select',
-
+						
+						),
+						'theme_templates' => array(
+							'id' => 'theme_templates',
+							'name' => __('Choose theme Template', 'mp-restaurant-menu'),
+							'options' => $this->get_theme_template(),
+							'desc' => '<br>' . __('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
+							'readonly' => false,
+							'type' => 'select',
+						
 						),
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',
@@ -302,7 +483,7 @@ class Media extends Core {
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
-
+					
 					),
 					'section_currency' => array(
 						'currency' => array(
@@ -355,7 +536,7 @@ class Media extends Core {
 			'gateways' => apply_filters('mprm_settings_gateways',
 				array(
 					'main' => array(
-
+						
 						'gateways' => array(
 							'id' => 'gateways',
 							'name' => __('Active Payment Gateways', 'mp-restaurant-menu'),
@@ -392,7 +573,7 @@ class Media extends Core {
 						),
 					),
 					'paypal' => array(
-
+						
 						'paypal_email' => array(
 							'id' => 'paypal_email',
 							'name' => __('PayPal Email', 'mp-restaurant-menu'),
@@ -481,7 +662,7 @@ class Media extends Core {
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
-
+						
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
@@ -680,7 +861,7 @@ class Media extends Core {
 							'type' => 'text',
 							'std' => __('Add to Cart', 'mp-restaurant-menu'),
 						)
-
+					
 					),
 					'file_menu_items' => array(
 						'file_settings' => array(
@@ -698,7 +879,7 @@ class Media extends Core {
 								'redirect' => __('Redirect', 'mp-restaurant-menu'),
 							),
 						),
-
+						
 						'file_menu_item_limit' => array(
 							'id' => 'file_menu_item_limit',
 							'name' => __('File Menu item Limit', 'mp-restaurant-menu'),
@@ -751,9 +932,32 @@ class Media extends Core {
 				)
 			)
 		);
+		
 		return apply_filters('mprm_registered_settings', $mprm_settings);
 	}
-
+	
+	/**
+	 * Get theme templates
+	 *
+	 * @return array
+	 */
+	protected function get_theme_template() {
+		
+		$template_options = array(
+			'' => esc_html__('Default Template', 'mp-restaurant-menu'),
+		);
+		
+		$templates = get_page_templates();
+		
+		ksort($templates);
+		
+		foreach (array_keys($templates) as $template) {
+			$template_options[ $templates[ $template ] ] = $template;
+		}
+		
+		return $template_options;
+	}
+	
 	/**
 	 * @param bool $force
 	 *
@@ -761,18 +965,19 @@ class Media extends Core {
 	 */
 	public function get_pages($force = false) {
 		$pages_options = array('' => ''); // Blank option
-		if ((!isset($_GET['page']) || 'mprm-settings' != $_GET['page']) && !$force) {
+		if ((!isset($_GET[ 'page' ]) || 'mprm-settings' != $_GET[ 'page' ]) && !$force) {
 			return $pages_options;
 		}
 		$pages = get_pages();
 		if ($pages) {
 			foreach ($pages as $page) {
-				$pages_options[$page->ID] = $page->post_title;
+				$pages_options[ $page->ID ] = $page->post_title;
 			}
 		}
+		
 		return $pages_options;
 	}
-
+	
 	/**
 	 * Button styles
 	 *
@@ -783,9 +988,10 @@ class Media extends Core {
 			'button' => __('Button', 'mp-restaurant-menu'),
 			'plain' => __('Plain Text', 'mp-restaurant-menu')
 		);
+		
 		return apply_filters('mprm_button_styles', $styles);
 	}
-
+	
 	/**
 	 * Button colors
 	 *
@@ -830,9 +1036,10 @@ class Media extends Core {
 				'hex' => '#363636'
 			)
 		);
+		
 		return apply_filters('mprm_button_colors', $colors);
 	}
-
+	
 	/**
 	 * Padding styles
 	 *
@@ -845,9 +1052,10 @@ class Media extends Core {
 			'mprm-middle' => __('Middle', 'mp-restaurant-menu'),
 			'mprm-big' => __('Large', 'mp-restaurant-menu')
 		);
+		
 		return apply_filters('mprm_padding_styles', $styles);
 	}
-
+	
 	/**
 	 * @param bool $lowercase
 	 *
@@ -855,9 +1063,10 @@ class Media extends Core {
 	 */
 	public function get_label_singular($lowercase = false) {
 		$defaults = $this->get_default_labels();
-		return ($lowercase) ? strtolower($defaults['singular']) : $defaults['singular'];
+		
+		return ($lowercase) ? strtolower($defaults[ 'singular' ]) : $defaults[ 'singular' ];
 	}
-
+	
 	/**
 	 * Default labels
 	 *
@@ -868,9 +1077,10 @@ class Media extends Core {
 			'singular' => __('Menu item', 'mp-restaurant-menu'),
 			'plural' => __('Menu items', 'mp-restaurant-menu')
 		);
+		
 		return apply_filters('mprm_default_menu_items_name', $defaults);
 	}
-
+	
 	/**
 	 * Settings tab
 	 *
@@ -881,14 +1091,15 @@ class Media extends Core {
 	public function get_settings_tab_sections($tab) {
 		$tabs = false;
 		$sections = $this->get_registered_settings_sections();
-		if ($tab && !empty($sections[$tab])) {
-			$tabs = $sections[$tab];
+		if ($tab && !empty($sections[ $tab ])) {
+			$tabs = $sections[ $tab ];
 		} else if ($tab) {
 			$tabs = false;
 		}
+		
 		return $tabs;
 	}
-
+	
 	/**
 	 * @return array|bool|mixed
 	 */
@@ -930,9 +1141,10 @@ class Media extends Core {
 			)),
 		);
 		$sections = apply_filters('mprm_settings_sections', $sections);
+		
 		return $sections;
 	}
-
+	
 	/**
 	 * Admin script
 	 */
@@ -940,7 +1152,7 @@ class Media extends Core {
 		global $current_screen;
 		$this->current_screen($current_screen);
 	}
-
+	
 	/**
 	 * Current screen
 	 *
@@ -962,7 +1174,7 @@ class Media extends Core {
 				default:
 					break;
 			}
-
+			
 			switch ($current_screen->id) {
 				case "restaurant-menu_page_admin?page=mprm-settings":
 					wp_enqueue_script('underscore');
@@ -1008,7 +1220,7 @@ class Media extends Core {
 			}
 		}
 	}
-
+	
 	/**
 	 * Enqueue style
 	 *
@@ -1024,15 +1236,16 @@ class Media extends Core {
 		}
 		wp_enqueue_style($name, MP_RM_CSS_URL . $path, $deps, $version);
 	}
-
+	
 	/**
 	 * @return string
 	 */
 	public function get_prefix() {
 		$prefix = !MP_RM_DEBUG ? '.min' : '';
+		
 		return $prefix;
 	}
-
+	
 	/**
 	 * Enqueue script
 	 *
@@ -1049,14 +1262,14 @@ class Media extends Core {
 		}
 		wp_enqueue_script(apply_filters('mprm-script-' . $name, $name), MP_RM_JS_URL . $path, $deps, $version);
 	}
-
+	
 	/**
 	 * Wp head
 	 */
 	public function enqueue_scripts() {
 		$this->add_theme_css();
 	}
-
+	
 	/**
 	 * Add theme css
 	 */
@@ -1065,7 +1278,7 @@ class Media extends Core {
 		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.min.css');
 		$this->enqueue_style('mprm-style', 'style.css');
 		wp_enqueue_script('wp-util');
-
+		
 		switch ($post_type) {
 			case"mp_menu_item":
 				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.min.css');
@@ -1074,14 +1287,14 @@ class Media extends Core {
 				break;
 		}
 	}
-
+	
 	/**
 	 * Wp footer
 	 */
 	public function wp_footer() {
 		$this->add_theme_js();
 	}
-
+	
 	/**
 	 * Add theme js
 	 */
@@ -1094,11 +1307,11 @@ class Media extends Core {
 				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
 				$this->enqueue_script('magnific-popup', "libs/jquery.magnific-popup{$prefix}.js", array("jquery"), '1.0.1');
 				break;
-
+			
 			default:
 				break;
 		}
-
+		
 		switch ($taxonomy) {
 			case "mp_menu_category":
 			case "mp_menu_tag":
@@ -1107,10 +1320,10 @@ class Media extends Core {
 				break;
 			default:
 				break;
-
+			
 		}
 	}
-
+	
 	/**
 	 * Add js
 	 *
@@ -1126,17 +1339,17 @@ class Media extends Core {
 				break;
 		}
 	}
-
+	
 	/**
 	 * Register all post type
 	 */
 	public function register_all_post_type() {
 		$menu_item_post_type = $this->get_post_type('menu_item');
-
+		
 		if (post_type_exists($menu_item_post_type)) {
 			return;
 		}
-
+		
 		register_post_type($menu_item_post_type, array(
 			//'label' => 'mp_menu_item',
 			'labels' =>
@@ -1173,7 +1386,7 @@ class Media extends Core {
 			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments', 'page-attributes'),
 			'show_in_admin_bar' => true,
 		));
-
+		
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => __('Orders', 'mp-restaurant-menu'),
@@ -1210,7 +1423,7 @@ class Media extends Core {
 			'has_archive' => false,
 		));
 	}
-
+	
 	/**
 	 * Register all taxonomies
 	 */
@@ -1218,9 +1431,9 @@ class Media extends Core {
 		if (taxonomy_exists($this->get_tax_name('menu_category'))) {
 			return;
 		}
-
+		
 		$menu_item = $this->get_post_type('menu_item');
-
+		
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
 			'object_type' => array($menu_item),
@@ -1241,7 +1454,7 @@ class Media extends Core {
 			'titles' => array('many' => __('ingredients', 'mp-restaurant-menu'), 'single' => __('ingredient', 'mp-restaurant-menu')),
 		));
 	}
-
+	
 	/**
 	 * Include pseudo template
 	 *
@@ -1251,14 +1464,14 @@ class Media extends Core {
 	 */
 	public function modify_single_template($template) {
 		global $post;
-
+		
 		if (!empty($post) && in_array($post->post_type, $this->post_types)) {
 			add_action('loop_start', array($this, 'setup_pseudo_template'));
 		}
-
+		
 		return $template;
 	}
-
+	
 	/**
 	 * Pseudo template
 	 *
@@ -1266,15 +1479,16 @@ class Media extends Core {
 	 */
 	public function setup_pseudo_template($query) {
 		global $post;
-
+		
 		if ($query->is_main_query()) {
+			
 			if (!empty($post) && in_array($post->post_type, $this->post_types) && $this->get_template_mode() == 'theme') {
 				add_filter('the_content', array($this, 'append_post_content'));
 			}
 			remove_action('loop_start', array($this, 'setup_pseudo_template'));
 		}
 	}
-
+	
 	/**
 	 * Get template mode
 	 * @return mixed|string
@@ -1284,9 +1498,41 @@ class Media extends Core {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			return 'plugin';
 		}
+		
 		return $template_mode;
 	}
-
+	
+	/**
+	 * Pseudo taxonomy template
+	 *
+	 * @param $query
+	 */
+	public function setup_pseudo_taxonomy_template($query) {
+		
+		do_action('mprm_filter_the_page_title');
+		
+		if ($query->is_main_query() && self::$wpHeadFinished) {
+			
+			// on loop start, unset the global post so that template tags don't work before the_content()
+			add_action('the_post', array($this, 'spoof_the_post'));
+			
+			// on the_content, load our taxonomy template template
+			add_filter('the_content', array($this, 'load_content_into_page_template'));
+			
+			// only do this once
+			remove_action('loop_start', array($this, 'setup_pseudo_taxonomy_template'));
+			
+		}
+	}
+	
+	/**
+	 * Spoof the global post just once
+	 **/
+	public function spoof_the_post() {
+		$GLOBALS[ 'post' ] = $this->spoofed_post();
+		remove_action('the_post', array($this, 'spoof_the_post'));
+	}
+	
 	/**
 	 * Append additional post content
 	 *
@@ -1298,20 +1544,21 @@ class Media extends Core {
 		global $post;
 		// run only once
 		remove_filter('the_content', array($this, 'append_post_content'));
-
+		
 		$append_content = '';
-
+		
 		switch ($post->post_type) {
-			case $this->post_types['menu_item']:
-				$append_content .= $this->get_view()->get_template_html('theme-support/single-' . $this->post_types['menu_item']);
+			case $this->post_types[ 'menu_item' ]:
+				$append_content .= $this->get_view()->get_template_html('theme-support/single-' . $this->post_types[ 'menu_item' ]);
 				break;
-			case $this->post_types['order']:
+			case $this->post_types[ 'order' ]:
 			default:
 				break;
 		}
+		
 		return $content . $append_content;
 	}
-
+	
 	/**
 	 * Template include
 	 *
@@ -1319,23 +1566,22 @@ class Media extends Core {
 	 *
 	 * @return string
 	 */
-
 	public function template_include($template) {
 		global $post, $taxonomy;
-
+		
 		if (is_embed()) {
 			return $template;
 		}
-
+		
 		if ($this->get_template_mode() == 'plugin') {
 			$find = array();
 			if (!empty($post) && is_single() && in_array(get_post_type(), $this->post_types)) {
 				foreach ($this->post_types as $post_type) {
 					if ($post->post_type == $post_type) {
 						$find[] = "single-$post_type.php";
-
+						
 						$find_template = locate_template(array_unique($find));
-
+						
 						if (file_exists($find_template)) {
 							$template = $find_template;
 						} else {
@@ -1344,7 +1590,7 @@ class Media extends Core {
 					}
 				}
 			}
-
+			
 			if (!empty($taxonomy) && is_tax() && in_array($taxonomy, $this->taxonomy_names)) {
 				foreach ($this->taxonomy_names as $taxonomy_name) {
 					if (basename($template) != "taxonomy-$taxonomy_name.php") {
@@ -1356,10 +1602,10 @@ class Media extends Core {
 				}
 			}
 		}
-
+		
 		return $template;
 	}
-
+	
 	/**
 	 * Connect js for MCE editor
 	 *
@@ -1372,11 +1618,12 @@ class Media extends Core {
 		$default_array = array('post-new.php', 'post.php');
 		if (in_array($pagenow, $default_array)) {
 			$path = MP_RM_MEDIA_URL . "js/mce-mp-restaurant-menu-plugin{$this->get_prefix()}.js";
-			$plugin_array['mp_restaurant_menu'] = $path;
+			$plugin_array[ 'mp_restaurant_menu' ] = $path;
 		}
+		
 		return $plugin_array;
 	}
-
+	
 	/**
 	 * Add button in MCE editor
 	 *
@@ -1386,16 +1633,20 @@ class Media extends Core {
 	 */
 	public function mce_buttons($buttons) {
 		array_push($buttons, 'mp_add_menu');
+		
 		return $buttons;
 	}
-
+	
+	/**
+	 * Disable autosave
+	 */
 	public function disable_autosave() {
 		global $post;
 		if (!empty($post) && $post->post_type == 'mprm_order') {
 			wp_dequeue_script('autosave');
 		}
 	}
-
+	
 	/**
 	 * Get settings tabs
 	 * @return mixed
@@ -1403,22 +1654,22 @@ class Media extends Core {
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();
 		$tabs = array();
-		$tabs['general'] = __('General', 'mp-restaurant-menu');
-		$tabs['gateways'] = __('Payment Gateways', 'mp-restaurant-menu');
-		$tabs['checkout'] = __('Checkout Settings', 'mp-restaurant-menu');
-		$tabs['emails'] = __('Emails', 'mp-restaurant-menu');
-		$tabs['styles'] = __('Styles', 'mp-restaurant-menu');
-		$tabs['taxes'] = __('Taxes', 'mp-restaurant-menu');
-
-		if (!empty($settings['extensions'])) {
-			$tabs['extensions'] = __('Extensions', 'mp-restaurant-menu');
+		$tabs[ 'general' ] = __('General', 'mp-restaurant-menu');
+		$tabs[ 'gateways' ] = __('Payment Gateways', 'mp-restaurant-menu');
+		$tabs[ 'checkout' ] = __('Checkout Settings', 'mp-restaurant-menu');
+		$tabs[ 'emails' ] = __('Emails', 'mp-restaurant-menu');
+		$tabs[ 'styles' ] = __('Styles', 'mp-restaurant-menu');
+		$tabs[ 'taxes' ] = __('Taxes', 'mp-restaurant-menu');
+		
+		if (!empty($settings[ 'extensions' ])) {
+			$tabs[ 'extensions' ] = __('Extensions', 'mp-restaurant-menu');
 		}
-
-		if (!empty($settings['licenses'])) {
-			$tabs['licenses'] = __('Licenses', 'mp-restaurant-menu');
+		
+		if (!empty($settings[ 'licenses' ])) {
+			$tabs[ 'licenses' ] = __('Licenses', 'mp-restaurant-menu');
 		}
-		$tabs['misc'] = __('Misc', 'mp-restaurant-menu');
+		$tabs[ 'misc' ] = __('Misc', 'mp-restaurant-menu');
+		
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}
 }
-

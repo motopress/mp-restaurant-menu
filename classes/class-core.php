@@ -10,15 +10,17 @@ use mp_restaurant_menu\classes\upgrade\Upgrade;
  */
 class Core {
 	protected static $instance;
-
+	
+	public static $wpHeadFinished = false;
+	
 	protected $posts = array();
-
+	
 	protected $taxonomy_names = array(
 		'menu_category' => 'mp_menu_category',
 		'menu_tag' => 'mp_menu_tag',
 		'ingredient' => 'mp_ingredient'
 	);
-
+	
 	protected $post_types = array(
 		'menu_item' => 'mp_menu_item',
 		'order' => 'mprm_order'
@@ -28,16 +30,16 @@ class Core {
 	 */
 	private $state;
 	private $version;
-
+	
 	/**
 	 * Core constructor.
 	 */
 	public function __construct() {
-
+		
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$this->init_plugin_version();
 	}
-
+	
 	/**
 	 *  Get plugin version
 	 */
@@ -45,10 +47,10 @@ class Core {
 		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
 		if (!$this->version) {
 			$pluginObject = get_plugin_data($filePath);
-			$this->version = $pluginObject['Version'];
+			$this->version = $pluginObject[ 'Version' ];
 		}
 	}
-
+	
 	/**
 	 * Check for ajax post
 	 *
@@ -61,11 +63,11 @@ class Core {
 			return false;
 		}
 	}
-
+	
 	public function get_version() {
 		return $this->version;
 	}
-
+	
 	/**
 	 * Get post types
 	 *
@@ -82,7 +84,7 @@ class Core {
 			return $this->post_types;
 		}
 	}
-
+	
 	/**
 	 * Get post types
 	 *
@@ -99,8 +101,8 @@ class Core {
 			return $this->taxonomy_names;
 		}
 	}
-
-
+	
+	
 	/**
 	 * Get taxonomy name
 	 *
@@ -109,12 +111,13 @@ class Core {
 	 * @return string
 	 */
 	public function get_tax_name($value) {
-		if (isset($this->taxonomy_names[$value])) {
-			return $this->taxonomy_names[$value];
+		if (isset($this->taxonomy_names[ $value ])) {
+			return $this->taxonomy_names[ $value ];
 		}
+		
 		return false;
 	}
-
+	
 	/**
 	 * Get post type
 	 *
@@ -123,26 +126,27 @@ class Core {
 	 * @return string
 	 */
 	public function get_post_type($value) {
-		if (isset($this->post_types[$value])) {
-			return $this->post_types[$value];
+		if (isset($this->post_types[ $value ])) {
+			return $this->post_types[ $value ];
 		}
+		
 		return false;
 	}
-
+	
 	/**
 	 * Init current plugin
 	 *
 	 * @param $name
 	 */
 	public function init_plugin($name) {
-
+		
 		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
-
+		
 		// User capability
 		Upgrade::get_instance()->check_upgrade_cap_roles();
 		// Check table structure
 		Upgrade::get_instance()->check_upgrade_structure();
-
+		
 		// Include plugin models files
 		Model::install();
 		// Include plugin controllers files
@@ -165,11 +169,11 @@ class Core {
 		Hooks::install_hooks();
 		// install templates actions
 		Hooks::install_templates_actions();
-
+		
 		Session::get_instance()->maybe_start_session();
 		Session::get_instance()->init();
 	}
-
+	
 	/**
 	 * Install current state
 	 *
@@ -179,7 +183,7 @@ class Core {
 		// Include plugin state
 		Core::get_instance()->set_state(new State_Factory($name));
 	}
-
+	
 	/**
 	 * @return Core
 	 */
@@ -187,9 +191,10 @@ class Core {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
 	 * Include all files from folder
 	 *
@@ -214,7 +219,7 @@ class Core {
 			}
 		}
 	}
-
+	
 	/**
 	 * Get model instance
 	 *
@@ -227,9 +232,10 @@ class Core {
 		if ($type) {
 			$state = $this->get_model($type);
 		}
+		
 		return $state;
 	}
-
+	
 	/**
 	 * Check and return current state
 	 *
@@ -240,8 +246,8 @@ class Core {
 	public function get_model($type = null) {
 		return Core::get_instance()->get_state()->get_model($type);
 	}
-
-
+	
+	
 	/**
 	 * Get State
 	 *
@@ -254,7 +260,7 @@ class Core {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Set state
 	 *
@@ -263,20 +269,20 @@ class Core {
 	public function set_state($state) {
 		$this->state = $state;
 	}
-
+	
 	/**
 	 * Route plugin url
 	 */
 	public function wp_ajax_route_url() {
-		$controller = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : null;
-		$action = isset($_REQUEST["mprm_action"]) ? $_REQUEST["mprm_action"] : null;
+		$controller = isset($_REQUEST[ "controller" ]) ? $_REQUEST[ "controller" ] : null;
+		$action = isset($_REQUEST[ "mprm_action" ]) ? $_REQUEST[ "mprm_action" ] : null;
 		if (!empty($action) && !empty($controller)) {
 			// call controller
 			Preprocessor::get_instance()->call_controller($action, $controller);
 			die();
 		}
 	}
-
+	
 	/**
 	 * Get controller
 	 *
@@ -287,7 +293,7 @@ class Core {
 	public function get_controller($type) {
 		return Core::get_instance()->get_state()->get_controller($type);
 	}
-
+	
 	/**
 	 * Get view
 	 *
@@ -296,7 +302,7 @@ class Core {
 	public function get_view() {
 		return View::get_instance();
 	}
-
+	
 	/**
 	 * Get preprocessor
 	 *
@@ -307,7 +313,7 @@ class Core {
 	public function get_preprocessor($type = NULL) {
 		return Core::get_instance()->get_state()->get_preprocessor($type);
 	}
-
+	
 	/**
 	 *  Theme mode
 	 *
@@ -319,9 +325,10 @@ class Core {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'plugin';
 		}
+		
 		return $value;
 	}
-
+	
 	/**
 	 *  Theme mode
 	 *
@@ -333,10 +340,10 @@ class Core {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'button';
 		}
-
+		
 		return $value;
 	}
-
+	
 	/**
 	 * Checkout color
 	 *
@@ -351,12 +358,13 @@ class Core {
 				break;
 			default:
 				$button_class = 'mprm-btn ' . $value;
-
+			
 		}
+		
 		return $button_class;
 	}
-
-
+	
+	
 	/**
 	 *  Available theme
 	 *
@@ -368,9 +376,10 @@ class Core {
 		if (current_theme_supports('mp-restaurant-menu')) {
 			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
 		}
+		
 		return $params;
 	}
-
+	
 	/**
 	 * Get data from config files
 	 *`
@@ -383,9 +392,10 @@ class Core {
 		if (!empty($name)) {
 			return require(MP_RM_CONFIGS_PATH . "{$name}.php");
 		}
+		
 		return array();
 	}
-
+	
 	/**
 	 *
 	 */

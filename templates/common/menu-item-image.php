@@ -1,4 +1,7 @@
 <?php global $post;
+if ($post->ID === 0 || $GLOBALS[ 'id' ] != $post->ID) {
+	$post = get_post($GLOBALS[ 'id' ]);
+}
 
 if (has_post_thumbnail($post)) {
 	?>
