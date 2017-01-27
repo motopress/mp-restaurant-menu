@@ -87,7 +87,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		/**
 		 * Include Core class
 		 */
-		require_once MP_RM_CLASSES_PATH . 'class-capabilities.php';
+		require_once MP_RM_CLASSES_PATH . 'class-capability.php';
 		/**
 		 * Include Model
 		 */
