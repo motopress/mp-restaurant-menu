@@ -10,7 +10,7 @@ use mp_restaurant_menu\classes\View;
  */
 class Menu_category extends Term {
 	protected static $instance;
-
+	
 	/**
 	 * @return Menu_category
 	 */
@@ -18,20 +18,21 @@ class Menu_category extends Term {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
 	 * Add form field hook
 	 *
 	 */
 	public function add_form_fields() {
 		$data = array();
-		$data['placeholder'] = MP_RM_MEDIA_URL . 'img/placeholder.png';
+		$data[ 'placeholder' ] = MP_RM_MEDIA_URL . 'img/placeholder.png';
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/add_form_fields", $data);
 	}
-
+	
 	/**
 	 * Edit form field
 	 *
@@ -47,12 +48,12 @@ class Menu_category extends Term {
 				'order' => '0',
 			);
 		}
-		$data['placeholder'] = MP_RM_MEDIA_URL . 'img/placeholder.png';
-		$data['order'] = empty($data['order']) ? '0' : $data['order'];
+		$data[ 'placeholder' ] = MP_RM_MEDIA_URL . 'img/placeholder.png';
+		$data[ 'order' ] = empty($data[ 'order' ]) ? '0' : $data[ 'order' ];
 		$category_name = $this->get_tax_name('menu_category');
 		View::get_instance()->render_html("../admin/taxonomies/{$category_name}/edit_form_fields", $data);
 	}
-
+	
 	/**
 	 * Get term params
 	 *
@@ -79,19 +80,19 @@ class Menu_category extends Term {
 		);
 		$term_meta = wp_parse_args($term_meta, $defaults);
 		// thumbnail value
-		if (!empty($term_meta['thumbnail_id'])) {
-			$term_meta['thumb_url'] = wp_get_attachment_thumb_url($term_meta['thumbnail_id']);
-			$term_meta['full_url'] = wp_get_attachment_url($term_meta['thumbnail_id']);
-			$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], 'mprm-big');
-			$term_meta['image'] = $attachment_image_src[0];
+		if (!empty($term_meta[ 'thumbnail_id' ])) {
+			$term_meta[ 'thumb_url' ] = wp_get_attachment_thumb_url($term_meta[ 'thumbnail_id' ]);
+			$term_meta[ 'full_url' ] = wp_get_attachment_url($term_meta[ 'thumbnail_id' ]);
+			$attachment_image_src = wp_get_attachment_image_src($term_meta[ 'thumbnail_id' ], 'mprm-big');
+			$term_meta[ 'image' ] = $attachment_image_src[ 0 ];
 		}
 		if (!empty($field)) {
-			return empty($term_meta) ? false : (isset($term_meta[$field]) ? $term_meta[$field] : $term_meta[$field]);
+			return empty($term_meta) ? false : (isset($term_meta[ $field ]) ? $term_meta[ $field ] : $term_meta[ $field ]);
 		} else {
 			return $term_meta;
 		}
 	}
-
+	
 	/**
 	 * @param $mprm_term
 	 * @param string $size
@@ -101,15 +102,16 @@ class Menu_category extends Term {
 	public function get_term_image($mprm_term, $size = 'mprm-big') {
 		if (!empty($mprm_term) && is_object($mprm_term)) {
 			$term_meta = $this->get_term_params($mprm_term->term_id);
-			if (!empty($term_meta['thumbnail_id'])) {
-				$attachment_image_src = wp_get_attachment_image_src($term_meta['thumbnail_id'], $size);
+			if (!empty($term_meta[ 'thumbnail_id' ])) {
+				$attachment_image_src = wp_get_attachment_image_src($term_meta[ 'thumbnail_id' ], $size);
 				if (is_array($attachment_image_src)) {
-					$image = $attachment_image_src[0];
+					$image = $attachment_image_src[ 0 ];
+					
 					return $image;
 				} else {
 					return false;
 				}
-
+				
 			} else {
 				return false;
 			}
@@ -117,21 +119,20 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * @param $mprm_term
 	 *
-	 * @return mixed|string|void
+	 * @return mixed|string
 	 */
 	public function get_term_icon($mprm_term) {
 		if (!empty($mprm_term) && is_object($mprm_term)) {
 			$icon = $this->get_term_params($mprm_term->term_id, 'iconname');
-			return (empty($icon) ? '' : $icon);
-		} else {
-			return '';
 		}
+		
+		return (empty($icon) ? '' : $icon);
 	}
-
+	
 	/**
 	 * Get term order
 	 *
@@ -151,7 +152,7 @@ class Menu_category extends Term {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Save menu category
 	 *
@@ -160,8 +161,8 @@ class Menu_category extends Term {
 	 */
 	public function save_menu_category($term_id, $term_meta = array()) {
 		global $wp_version;
-		if (!empty($_POST['term_meta'])) {
-			$term_meta = $_POST['term_meta'];
+		if (!empty($_POST[ 'term_meta' ])) {
+			$term_meta = $_POST[ 'term_meta' ];
 		}
 		if (!empty($term_meta) && is_array($term_meta)) {
 			if ($wp_version < 4.4) {
@@ -171,7 +172,7 @@ class Menu_category extends Term {
 			}
 		}
 	}
-
+	
 	/**
 	 * Get categories by ids
 	 *
@@ -183,40 +184,41 @@ class Menu_category extends Term {
 		$temp_terms = $sort_terms = array();
 		$taxonomy = $this->get_tax_name('menu_category');
 		$terms = $this->get_terms($taxonomy, $ids);
-
+		
 		if (!empty($terms)) {
 			foreach ($terms as $key => $term) {
-				$temp_terms[$key] = array('order' => $this->get_term_order($term), 'term' => $term);
+				$temp_terms[ $key ] = array('order' => $this->get_term_order($term), 'term' => $term);
 			}
 			$temp_terms = $this->sort_category_order($temp_terms);
 			foreach ($temp_terms as $key_temp => $temp_term) {
-				$sort_terms[$key_temp] = $temp_term['term'];
+				$sort_terms[ $key_temp ] = $temp_term[ 'term' ];
 			}
+			
 			return $sort_terms;
-
+			
 		}
+		
 		return $terms;
 	}
-
+	
 	/**
 	 * Get term order
 	 *
 	 * @param $mprm_term
 	 *
-	 * @return mixed|string|void
+	 * @return mixed|string
 	 */
 	public function get_term_order($mprm_term) {
 		if (!empty($mprm_term) && is_object($mprm_term)) {
 			$order = $this->get_term_params($mprm_term->term_id, 'order');
-			return (empty($order) ? '0' : $order);
 		} elseif (!empty($mprm_term) && is_numeric($mprm_term)) {
 			$order = $this->get_term_params($mprm_term, 'order');
-			return (empty($order) ? '0' : $order);
-		} else {
-			return '';
 		}
+		
+		return (empty($order) ? '0' : $order);
+		
 	}
-
+	
 	/**
 	 * Sort category by order
 	 *
@@ -226,14 +228,16 @@ class Menu_category extends Term {
 	 */
 	public function sort_category_order($items) {
 		usort($items, function ($a, $b) {
-			if ($a['order'] == $b['order']) {
+			if ($a[ 'order' ] == $b[ 'order' ]) {
 				return 0;
 			}
-			return ($a['order'] < $b['order']) ? -1 : 1;
+			
+			return ($a[ 'order' ] < $b[ 'order' ]) ? -1 : 1;
 		});
+		
 		return $items;
 	}
-
+	
 	/**
 	 * Get category options
 	 *
@@ -243,81 +247,83 @@ class Menu_category extends Term {
 	 */
 	public function get_categories_options(array $args) {
 		$options = array();
-		foreach ($args['terms'] as $key => $term) {
-			$args['cat_id'] = $term->term_id;
+		foreach ($args[ 'terms' ] as $key => $term) {
+			$args[ 'cat_id' ] = $term->term_id;
 			$option = $this->get_term_params($term->term_id);
-			$options[$key] = $option;
-			$options[$key]['posts'] = $args['posts'] = $this->get('menu_item')->get_menu_items($args);
-			$options[$key]['posts_options'] = $this->get('menu_item')->get_menu_item_options($args);
+			$options[ $key ] = $option;
+			$options[ $key ][ 'posts' ] = $args[ 'posts' ] = $this->get('menu_item')->get_menu_items($args);
+			$options[ $key ][ 'posts_options' ] = $this->get('menu_item')->get_menu_item_options($args);
 		}
+		
 		return $options;
 	}
-
+	
 	/**
-	 * @param string $thelist
+	 * @param string $the_list
 	 * @param string $separator
 	 * @param string $parents
 	 *
 	 * @return mixed
 	 */
-	public function create_custom_category_list($thelist = '', $separator = '', $parents = '') {
+	public function create_custom_category_list($the_list = '', $separator = '', $parents = '') {
 		global $post, $wp_rewrite;
-
-		if (!empty($post) && $post->post_type === $this->post_types['menu_item'] && !is_admin()) {
-			$thelist = '';
-
+		
+		if (!empty($post) && $post->post_type === $this->post_types[ 'menu_item' ] && !is_admin()) {
+			$the_list = '';
+			
 			$rel = (is_object($wp_rewrite) && $wp_rewrite->using_permalinks()) ? 'rel="category tag"' : 'rel="category"';
-			$categories = get_the_terms($post->ID, $this->taxonomy_names['menu_category']);
-
+			$categories = get_the_terms($post->ID, $this->taxonomy_names[ 'menu_category' ]);
+			
 			if (!empty($categories)) {
 				if ('' == $separator) {
-					$thelist .= '<ul class="post-categories">';
+					$the_list .= '<ul class="post-categories">';
 					foreach ($categories as $category) {
-						$thelist .= "\n\t<li>";
+						$the_list .= "\n\t<li>";
 						switch (strtolower($parents)) {
 							case 'multiple':
 								if ($category->parent)
-									$thelist .= get_category_parents($category->parent, true, $separator);
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+									$the_list .= get_category_parents($category->parent, true, $separator);
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
 								break;
 							case 'single':
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '"  ' . $rel . '>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '"  ' . $rel . '>';
 								if ($category->parent)
-									$thelist .= get_category_parents($category->parent, false, $separator);
-								$thelist .= $category->name . '</a></li>';
+									$the_list .= get_category_parents($category->parent, false, $separator);
+								$the_list .= $category->name . '</a></li>';
 								break;
 							case '':
 							default:
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
 						}
 					}
-					$thelist .= '</ul>';
+					$the_list .= '</ul>';
 				} else {
 					$i = 0;
 					foreach ($categories as $category) {
 						if (0 < $i)
-							$thelist .= $separator;
+							$the_list .= $separator;
 						switch (strtolower($parents)) {
 							case 'multiple':
 								if ($category->parent)
-									$thelist .= get_category_parents($category->parent, true, $separator);
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+									$the_list .= get_category_parents($category->parent, true, $separator);
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
 								break;
 							case 'single':
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
 								if ($category->parent)
-									$thelist .= get_category_parents($category->parent, false, $separator);
-								$thelist .= "$category->name</a>";
+									$the_list .= get_category_parents($category->parent, false, $separator);
+								$the_list .= "$category->name</a>";
 								break;
 							case '':
 							default:
-								$thelist .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
 						}
 						++$i;
 					}
 				}
 			}
 		}
-		return apply_filters('mprm_the_category', $thelist, $separator, $parents);
+		
+		return apply_filters('mprm_the_category', $the_list, $separator, $parents);
 	}
 }

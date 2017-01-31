@@ -44,18 +44,17 @@
 				} ?>
 			</div>
 			<br class="mprm-clear">
-		<?php endif; ?>
-		<?php
+		<?php endif;
 		// Let's verify we have a 'main' section to show
 		ob_start();
 		do_settings_sections('mprm_settings_' . $active_tab . '_main');
 		$has_main_settings = strlen(ob_get_contents()) > 0;
 		ob_end_clean();
 		if (false === $has_main_settings) {
-			unset($sections['main']);
+			unset($sections[ 'main' ]);
 			if ('main' === $section) {
 				foreach ($sections as $section_key => $section_title) {
-					if (!empty($all_settings[$active_tab][$section_key])) {
+					if (!empty($all_settings[ $active_tab ][ $section_key ])) {
 						$section = $section_key;
 						break;
 					}

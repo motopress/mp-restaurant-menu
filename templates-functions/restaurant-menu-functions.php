@@ -546,8 +546,14 @@ function mprm_single_category_list_footer() {	?>
 /**
  * Category grid header
  */
-function mprm_single_category_grid_header() {	?>
-	<div <?php post_class('mprm-remove-hentry ' . 'mprm-four mprm-columns') ?>>
+function mprm_single_category_grid_header() {
+	global $post;
+	if($post->ID !== $GLOBALS['id']){
+		$post = get_post($GLOBALS['id']);
+		setup_postdata($post);
+	}
+	?>
+	<div <?php post_class('mprm-remove-hentry mprm-four mprm-columns') ?>>
 	<?php
 }
 

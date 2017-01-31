@@ -185,4 +185,37 @@ class Misc extends Model {
 	public function get_php_arg_separator_output() {
 		return ini_get('arg_separator.output');
 	}
+	
+	/**
+	 * Create list by terms array
+	 *
+	 * @param $data_array
+	 *
+	 * @return mixed
+	 */
+	public function create_list_by_terms($data_array) {
+		$list_array = array();
+		foreach ($data_array as $item) {
+			$list_array[ $item->term_id ] = $item->name;
+		}
+		
+		return $list_array;
+	}
+	
+	/**
+	 * Create list by posts array
+	 *
+	 * @param $data_array
+	 *
+	 *
+	 * @return mixed
+	 */
+	public function create_list_by_posts($data_array) {
+		$list_array = array();
+		foreach ($data_array as $item) {
+			$list_array[ $item->ID ] = $item->post_title;
+		}
+		
+		return $list_array;
+	}
 }

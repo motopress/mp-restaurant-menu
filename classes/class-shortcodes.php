@@ -6,7 +6,7 @@ namespace mp_restaurant_menu\classes;
  */
 class Shortcodes extends Core {
 	protected static $instance;
-
+	
 	/**
 	 * @return Shortcodes
 	 */
@@ -14,9 +14,10 @@ class Shortcodes extends Core {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
 	 * Install shortcodes
 	 */
@@ -24,7 +25,7 @@ class Shortcodes extends Core {
 		// include all core controllers
 		Core::get_instance()->include_all(MP_RM_CLASSES_PATH . 'shortcodes/');
 	}
-
+	
 	/**
 	 * Create list for Motopress
 	 *
@@ -37,18 +38,17 @@ class Shortcodes extends Core {
 		$list_array = array();
 		switch ($type) {
 			case "post":
-				foreach ($data_array as $item) {
-					$list_array[$item->ID] = $item->post_title;
-				}
+				$list_array = $this->get('misc')->create_list_by_posts($data_array, $list_array);
 				break;
 			case "term":
-				foreach ($data_array as $item) {
-					$list_array[$item->term_id] = $item->name;
-				}
+				$list_array = $this->get('misc')->create_list_by_terms($data_array, $list_array);
 				break;
 			default:
 				break;
 		}
+		
 		return $list_array;
 	}
+	
+	
 }

@@ -11,6 +11,7 @@ use mp_restaurant_menu\classes\modules\Taxonomy;
  * @package mp_restaurant_menu\classes
  */
 class Media extends Core {
+	
 	protected static $instance;
 	
 	/**
@@ -72,87 +73,11 @@ class Media extends Core {
 	public function load_content_into_page_template($contents = '') {
 		// only run once!!!
 		remove_filter('the_content', array($this, 'load_content_into_page_template'));
-		
 		$this->get('query')->restoreQuery();
 		
 		ob_start();
 		
-		mprm_get_taxonomy();
-		
-		do_action('mprm-single-category-before-wrapper');
-		
-		?>
-		<div <?php post_class('mprm-remove-hentry ' . apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
-			<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-category-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-category') ?> ">
-				<?php
-				/**
-				 * mprm_before_category_header hook
-				 *
-				 * @hooked mprm_before_category_header - 10
-				 */
-				do_action('mprm_before_category_header');
-				/**
-				 * mprm_category_header hook
-				 *
-				 * @hooked mprm_category_header - 5
-				 */
-				do_action('mprm_category_header');
-				/**
-				 * mprm_after_category_header hook
-				 *
-				 * @hooked mprm_after_category_header - 10
-				 */
-				do_action('mprm_after_category_header');
-				?>
-				<?php if (is_mprm_taxonomy_grid()):
-					foreach (mprm_get_menu_items_by_term() as $term => $data) {
-						$last_key = array_search(end($data[ 'posts' ]), $data[ 'posts' ]);
-						foreach ($data[ 'posts' ] as $key => $post):
-							if (($key % 3) === 0) {
-								$i = 1;
-								?>
-								<div class="mprm-row">
-								<?php
-							}
-							setup_postdata($post);
-							do_action('mprm_before_taxonomy_grid');
-							do_action('mprm_taxonomy_grid');
-							do_action('mprm_after_taxonomy_grid');
-							if (($i % 3) === 0 || $last_key === $key) {
-								?>
-								</div>
-							<?php }
-							$i++;
-						endforeach;
-					}
-					?>
-				<?php else:
-					foreach (mprm_get_menu_items_by_term() as $term => $data) {
-						foreach ($data[ 'posts' ] as $key => $post):?>
-							<?php setup_postdata($post); ?>
-							<div <?php post_class('mprm-remove-hentry ' . 'mprm-row') ?>>
-								<?php
-								do_action('mprm_before_taxonomy_list');
-								do_action('mprm_taxonomy_list');
-								do_action('mprm_after_taxonomy_list');
-								?>
-								<?php
-								/**
-								 * mprm_after_category_list hook
-								 *
-								 * @hooked mprm_after_category_list - 10
-								 */
-								do_action('mprm_after_category_list'); ?>
-							</div>
-						<?php endforeach;
-					} ?>
-				<?php endif; ?>
-			</div>
-		</div>
-		<div class="mprm-clear"></div>
-		<?php
-		do_action('mprm-single-category-after-wrapper');
-		
+		View::get_instance()->get_template('common/page-parts/single-taxonomy');
 		
 		$contents = ob_get_clean();
 		
@@ -168,7 +93,6 @@ class Media extends Core {
 	 * Decide if we need to spoof the query.
 	 */
 	public function maybeSpoofQuery() {
-		
 		// hijack this method right up front if it's a password protected post and the password isn't entered
 		if (is_single() && post_password_required() || is_feed()) {
 			return;
@@ -353,6 +277,7 @@ class Media extends Core {
 					$settings = $sections;
 				}
 				add_settings_section('mprm_settings_' . $tab . '_' . $section, __return_null(), '__return_false', 'mprm_settings_' . $tab . '_' . $section);
+				
 				foreach ($settings as $option) {
 					// For backwards compatibility
 					if (empty($option[ 'id' ])) {
@@ -377,6 +302,7 @@ class Media extends Core {
 							'max' => isset($option[ 'max' ]) ? $option[ 'max' ] : null,
 							'step' => isset($option[ 'step' ]) ? $option[ 'step' ] : null,
 							'chosen' => isset($option[ 'chosen' ]) ? $option[ 'chosen' ] : null,
+							'multiple' => isset($option[ 'multiple' ]) ? $option[ 'multiple' ] : null,
 							'placeholder' => isset($option[ 'placeholder' ]) ? $option[ 'placeholder' ] : null,
 							'allow_blank' => isset($option[ 'allow_blank' ]) ? $option[ 'allow_blank' ] : true,
 							'readonly' => isset($option[ 'readonly' ]) ? $option[ 'readonly' ] : false,
@@ -384,6 +310,7 @@ class Media extends Core {
 						)
 					);
 				}
+				
 			}
 		}
 		// Creates our settings in the options table
@@ -426,15 +353,7 @@ class Media extends Core {
 							'type' => 'select',
 						
 						),
-						'theme_templates' => array(
-							'id' => 'theme_templates',
-							'name' => __('Choose theme Template', 'mp-restaurant-menu'),
-							'options' => $this->get_theme_template(),
-							'desc' => '<br>' . __('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
-							'readonly' => false,
-							'type' => 'select',
 						
-						),
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',
 							'name' => '<h3>' . __('eCommerce', 'mp-restaurant-menu') . '</h3>',
@@ -532,11 +451,287 @@ class Media extends Core {
 					),
 				)
 			),
+			'display' => apply_filters('mprm_settings_display', array(
+					'main' => array(
+						'display_taxonomy' => array(
+							'id' => 'display_taxonomy',
+							'name' => __('Display categories and tags', 'mp-restaurant-menu'),
+							'options' => array(
+								'default' => __('Default', 'mp-restaurant-menu'),
+								'grid' => __('Grid', 'mp-restaurant-menu'),
+								'list' => __('List', 'mp-restaurant-menu'),
+								'simple_list' => __('Simple list', 'mp-restaurant-menu')
+							),
+							'desc' => '<br>' . __('Choose a view template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
+							'readonly' => false,
+							'type' => 'select',
+						),
+						'theme_templates' => array(
+							'id' => 'theme_templates',
+							'name' => __('Page template', 'mp-restaurant-menu'),
+							'options' => $this->get_theme_template(),
+							'desc' => '<br>' . __('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
+							'readonly' => false,
+							'type' => 'select',
+						),
+					),
+					'grid' => array(
+						'number_of_columns' => array(
+							'id' => 'number_of_columns',
+							'name' => __('Columns', 'mp-restaurant-menu'),
+							'options' => array(
+								'1' => __('1 column', 'mp-restaurant-menu'),
+								'2' => __('2 columns', 'mp-restaurant-menu'),
+								'3' => __('3 columns', 'mp-restaurant-menu'),
+								'4' => __('4 columns', 'mp-restaurant-menu'),
+								'6' => __('6 columns', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'category_view_type' => array(
+							'id' => 'category_view_type',
+							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'options' => array(
+								'only_text' => __('Only text', 'mp-restaurant-menu'),
+								'with_img' => __('Title with image', 'mp-restaurant-menu'),
+								'none' => __('Don`t show', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'show_attributes' => array(
+							'id' => 'show_attributes',
+							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'desc' => '',
+							'std' => true,
+							'type' => 'section_checkbox'
+						),
+						'featured_image' => array(
+							'id' => 'featured_image',
+							'name' => __('Show featured image', 'mp-restaurant-menu'),
+							'desc' => '',
+							'std' => true,
+							'type' => 'section_checkbox'
+						),
+						'excerpt' => array(
+							'id' => 'excerpt',
+							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'price' => array(
+							'id' => 'price',
+							'name' => __('Show price', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'tags' => array(
+							'id' => 'tags',
+							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'ingredients' => array(
+							'id' => 'ingredients',
+							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'buy' => array(
+							'id' => 'buy',
+							'name' => __('Show buy button', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'link_item' => array(
+							'id' => 'link_item',
+							'name' => __('Link item', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'grid_desc_length' => array(
+							'id' => 'grid_desc_length',
+							'name' => __('Description length', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_text'
+						)
+					),
+					'list' => array(
+						'number_of_columns' => array(
+							'id' => 'number_of_columns',
+							'name' => __('Columns', 'mp-restaurant-menu'),
+							'options' => array(
+								'1' => __('1 column', 'mp-restaurant-menu'),
+								'2' => __('2 columns', 'mp-restaurant-menu'),
+								'3' => __('3 columns', 'mp-restaurant-menu'),
+								'4' => __('4 columns', 'mp-restaurant-menu'),
+								'6' => __('6 columns', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'category_view_type' => array(
+							'id' => 'category_view_type',
+							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'options' => array(
+								'only_text' => __('Only text', 'mp-restaurant-menu'),
+								'with_img' => __('Title with image', 'mp-restaurant-menu'),
+								'none' => __('Don`t show', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'show_attributes' => array(
+							'id' => 'show_attributes',
+							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'desc' => '',
+							'std' => true,
+							'type' => 'section_checkbox'
+						),
+						'featured_image' => array(
+							'id' => 'featured_image',
+							'name' => __('Show featured image', 'mp-restaurant-menu'),
+							'desc' => '',
+							'std' => true,
+							'type' => 'section_checkbox'
+						),
+						'excerpt' => array(
+							'id' => 'excerpt',
+							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'price' => array(
+							'id' => 'price',
+							'name' => __('Show price', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'tags' => array(
+							'id' => 'tags',
+							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'ingredients' => array(
+							'id' => 'ingredients',
+							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'buy' => array(
+							'id' => 'buy',
+							'name' => __('Show buy button', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'link_item' => array(
+							'id' => 'link_item',
+							'name' => __('Link item', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'desc_length' => array(
+							'id' => 'desc_length',
+							'name' => __('Description length', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_text'
+						)
+					),
+					'simple_list' => array(
+						'number_of_columns' => array(
+							'id' => 'number_of_columns',
+							'name' => __('Columns', 'mp-restaurant-menu'),
+							'options' => array(
+								'1' => __('1 column', 'mp-restaurant-menu'),
+								'2' => __('2 columns', 'mp-restaurant-menu'),
+								'3' => __('3 columns', 'mp-restaurant-menu'),
+								'4' => __('4 columns', 'mp-restaurant-menu'),
+								'6' => __('6 columns', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'price_position' => array(
+							'id' => 'price_position',
+							'name' => __('Price position', 'mp-restaurant-menu'),
+							'options' => array(
+								'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
+								'right' => __('Price on the right', 'mp-restaurant-menu'),
+								'after_title' => __('Price next to the title', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'category_view_type' => array(
+							'id' => 'category_view_type',
+							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'options' => array(
+								'only_text' => __('Only text', 'mp-restaurant-menu'),
+								'with_img' => __('Title with image', 'mp-restaurant-menu'),
+								'none' => __('Don`t show', 'mp-restaurant-menu')
+							),
+							'desc' => '',
+							'readonly' => false,
+							'type' => 'section_select',
+						),
+						'show_attributes' => array(
+							'id' => 'show_attributes',
+							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'desc' => '',
+							'std' => true,
+							'type' => 'section_checkbox'
+						),
+						'excerpt' => array(
+							'id' => 'excerpt',
+							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'price' => array(
+							'id' => 'price',
+							'name' => __('Show price', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'tags' => array(
+							'id' => 'tags',
+							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'ingredients' => array(
+							'id' => 'ingredients',
+							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'link_item' => array(
+							'id' => 'link_item',
+							'name' => __('Link item', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_checkbox'
+						),
+						'desc_length' => array(
+							'id' => 'desc_length',
+							'name' => __('Description length', 'mp-restaurant-menu'),
+							'desc' => '',
+							'type' => 'section_text'
+						)
+					)
+				)
+			),
 			/** Payment Gateways Settings */
 			'gateways' => apply_filters('mprm_settings_gateways',
 				array(
 					'main' => array(
-						
 						'gateways' => array(
 							'id' => 'gateways',
 							'name' => __('Active Payment Gateways', 'mp-restaurant-menu'),
@@ -573,7 +768,6 @@ class Media extends Core {
 						),
 					),
 					'paypal' => array(
-						
 						'paypal_email' => array(
 							'id' => 'paypal_email',
 							'name' => __('PayPal Email', 'mp-restaurant-menu'),
@@ -594,7 +788,7 @@ class Media extends Core {
 							'desc' => __('If payments via PayPal are not getting marked as complete, then check this box. <a href="https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/" target="_blank">More about IPN</a>', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
-					),
+					)
 				)
 			),
 			/** Emails Settings */
@@ -659,6 +853,9 @@ class Media extends Core {
 					)
 				)
 			),
+			/**
+			 * Email templates
+			 */
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
@@ -835,6 +1032,9 @@ class Media extends Core {
 			'extensions' => apply_filters('mprm_settings_extensions',
 				array()
 			),
+			/**
+			 * licenses list
+			 */
 			'licenses' => apply_filters('mprm_settings_licenses',
 				array()
 			),
@@ -937,6 +1137,26 @@ class Media extends Core {
 	}
 	
 	/**
+	 * @param bool $force
+	 *
+	 * @return array
+	 */
+	public function get_pages($force = false) {
+		$pages_options = array('' => ''); // Blank option
+		if ((!isset($_GET[ 'page' ]) || 'mprm-settings' != $_GET[ 'page' ]) && !$force) {
+			return $pages_options;
+		}
+		$pages = get_pages();
+		if ($pages) {
+			foreach ($pages as $page) {
+				$pages_options[ $page->ID ] = $page->post_title;
+			}
+		}
+		
+		return $pages_options;
+	}
+	
+	/**
 	 * Get theme templates
 	 *
 	 * @return array
@@ -956,26 +1176,6 @@ class Media extends Core {
 		}
 		
 		return $template_options;
-	}
-	
-	/**
-	 * @param bool $force
-	 *
-	 * @return array
-	 */
-	public function get_pages($force = false) {
-		$pages_options = array('' => ''); // Blank option
-		if ((!isset($_GET[ 'page' ]) || 'mprm-settings' != $_GET[ 'page' ]) && !$force) {
-			return $pages_options;
-		}
-		$pages = get_pages();
-		if ($pages) {
-			foreach ($pages as $page) {
-				$pages_options[ $page->ID ] = $page->post_title;
-			}
-		}
-		
-		return $pages_options;
 	}
 	
 	/**
@@ -1110,9 +1310,17 @@ class Media extends Core {
 		}
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
-				'main' => __('General', 'mp-restaurant-menu'),
-				'section_currency' => __('Currency Settings', 'mp-restaurant-menu'),
-			)),
+					'main' => __('General', 'mp-restaurant-menu'),
+					'section_currency' => __('Currency Settings', 'mp-restaurant-menu'),
+				)
+			),
+			'display' => apply_filters('mprm_settings_sections_display', array(
+					'main' => __('General', 'mp-restaurant-menu'),
+					'grid' => __('Grid', 'mp-restaurant-menu'),
+					'list' => __('List', 'mp-restaurant-menu'),
+					'simple_list' => __('Simple list', 'mp-restaurant-menu')
+				)
+			),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateways', 'mp-restaurant-menu'),
 				'paypal' => __('PayPal Standard', 'mp-restaurant-menu'),
@@ -1505,14 +1713,13 @@ class Media extends Core {
 	/**
 	 * Pseudo taxonomy template
 	 *
-	 * @param $query
+	 * @param  \WP_Query $query
 	 */
 	public function setup_pseudo_taxonomy_template($query) {
 		
 		do_action('mprm_filter_the_page_title');
 		
 		if ($query->is_main_query() && self::$wpHeadFinished) {
-			
 			// on loop start, unset the global post so that template tags don't work before the_content()
 			add_action('the_post', array($this, 'spoof_the_post'));
 			
@@ -1521,7 +1728,6 @@ class Media extends Core {
 			
 			// only do this once
 			remove_action('loop_start', array($this, 'setup_pseudo_taxonomy_template'));
-			
 		}
 	}
 	
@@ -1615,7 +1821,9 @@ class Media extends Core {
 	 */
 	public function mce_external_plugins($plugin_array) {
 		global $pagenow;
+		
 		$default_array = array('post-new.php', 'post.php');
+		
 		if (in_array($pagenow, $default_array)) {
 			$path = MP_RM_MEDIA_URL . "js/mce-mp-restaurant-menu-plugin{$this->get_prefix()}.js";
 			$plugin_array[ 'mp_restaurant_menu' ] = $path;
@@ -1655,6 +1863,7 @@ class Media extends Core {
 		$settings = $this->get_registered_settings();
 		$tabs = array();
 		$tabs[ 'general' ] = __('General', 'mp-restaurant-menu');
+		$tabs[ 'display' ] = __('Display', 'mp-restaurant-menu');
 		$tabs[ 'gateways' ] = __('Payment Gateways', 'mp-restaurant-menu');
 		$tabs[ 'checkout' ] = __('Checkout Settings', 'mp-restaurant-menu');
 		$tabs[ 'emails' ] = __('Emails', 'mp-restaurant-menu');
