@@ -1606,14 +1606,18 @@ class Settings extends Model {
 	 */
 	public function mprm_settings_sanitize($input = array()) {
 		global $mprm_options;
+		
 		if (empty($_POST[ '_wp_http_referer' ])) {
 			return $input;
 		}
+		
 		parse_str($_POST[ '_wp_http_referer' ], $referrer);
 		
 		$settings = Media::get_instance()->get_registered_settings();
 		$tab = isset($referrer[ 'tab' ]) ? $referrer[ 'tab' ] : 'general';
 		$section = isset($referrer[ 'section' ]) ? $referrer[ 'section' ] : 'main';
+		
+		
 		$input = $input ? $input : array();
 		$input = apply_filters('mprm_settings_' . $tab . '-' . $section . '_sanitize', $input);
 		
@@ -1633,10 +1637,17 @@ class Settings extends Model {
 			// General filter
 			$input[ $key ] = apply_filters('mprm_settings_sanitize', $input[ $key ], $key);
 		}
+		
 		// Loop through the whitelist and unset any that are empty for the tab being saved
 		$main_settings = $section == 'main' ? $settings[ $tab ] : array(); // Check for extensions that aren't using new sections
+		
 		$section_settings = !empty($settings[ $tab ][ $section ]) ? $settings[ $tab ][ $section ] : array();
-		$found_settings = array_merge($main_settings, $section_settings);
+		
+		if (isset($main_settings[ $section ])) {
+			$found_settings = array_merge($main_settings[ $section ], $section_settings);
+		} else {
+			$found_settings = array_merge($main_settings, $section_settings);
+		}
 		
 		if (!empty($found_settings)) {
 			
@@ -1645,6 +1656,7 @@ class Settings extends Model {
 				if (is_numeric($key)) {
 					$key = $value[ 'id' ];
 				}
+				
 				if (empty($input[ $key ])) {
 					unset($mprm_options[ $key ]);
 				}

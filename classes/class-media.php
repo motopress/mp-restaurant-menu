@@ -353,7 +353,6 @@ class Media extends Core {
 							'type' => 'select',
 						
 						),
-						
 						'ecommerce_settings' => array(
 							'id' => 'ecommerce_settings',
 							'name' => '<h3>' . __('eCommerce', 'mp-restaurant-menu') . '</h3>',
@@ -401,8 +400,7 @@ class Media extends Core {
 							'options' => $this->get_pages(),
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
-						),
-					
+						)
 					),
 					'section_currency' => array(
 						'currency' => array(
@@ -448,10 +446,11 @@ class Media extends Core {
 							'size' => 'small',
 							'std' => '2',
 						)
-					),
+					)
 				)
 			),
-			'display' => apply_filters('mprm_settings_display', array(
+			'display' => apply_filters('mprm_settings_display',
+				array(
 					'main' => array(
 						'display_taxonomy' => array(
 							'id' => 'display_taxonomy',
@@ -460,7 +459,7 @@ class Media extends Core {
 								'default' => __('Default', 'mp-restaurant-menu'),
 								'grid' => __('Grid', 'mp-restaurant-menu'),
 								'list' => __('List', 'mp-restaurant-menu'),
-								'simple_list' => __('Simple list', 'mp-restaurant-menu')
+								'simple-list' => __('Simple list', 'mp-restaurant-menu')
 							),
 							'desc' => '<br>' . __('Choose a view template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
 							'readonly' => false,
@@ -475,9 +474,9 @@ class Media extends Core {
 							'type' => 'select',
 						),
 					),
-					'grid' => array(
-						'number_of_columns' => array(
-							'id' => 'number_of_columns',
+					'taxonomy_grid' => array(
+						'col' => array(
+							'id' => 'col',
 							'name' => __('Columns', 'mp-restaurant-menu'),
 							'options' => array(
 								'1' => __('1 column', 'mp-restaurant-menu'),
@@ -490,8 +489,8 @@ class Media extends Core {
 							'readonly' => false,
 							'type' => 'section_select',
 						),
-						'category_view_type' => array(
-							'id' => 'category_view_type',
+						'categ_name' => array(
+							'id' => 'categ_name',
 							'name' => __('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
 								'only_text' => __('Only text', 'mp-restaurant-menu'),
@@ -509,8 +508,8 @@ class Media extends Core {
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
-						'featured_image' => array(
-							'id' => 'featured_image',
+						'feat_img' => array(
+							'id' => 'feat_img',
 							'name' => __('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
@@ -559,9 +558,9 @@ class Media extends Core {
 							'type' => 'section_text'
 						)
 					),
-					'list' => array(
-						'number_of_columns' => array(
-							'id' => 'number_of_columns',
+					'taxonomy_list' => array(
+						'col' => array(
+							'id' => 'col',
 							'name' => __('Columns', 'mp-restaurant-menu'),
 							'options' => array(
 								'1' => __('1 column', 'mp-restaurant-menu'),
@@ -574,8 +573,8 @@ class Media extends Core {
 							'readonly' => false,
 							'type' => 'section_select',
 						),
-						'category_view_type' => array(
-							'id' => 'category_view_type',
+						'categ_name' => array(
+							'id' => 'categ_name',
 							'name' => __('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
 								'only_text' => __('Only text', 'mp-restaurant-menu'),
@@ -593,8 +592,8 @@ class Media extends Core {
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
-						'featured_image' => array(
-							'id' => 'featured_image',
+						'feat_img' => array(
+							'id' => 'feat_img',
 							'name' => __('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
@@ -643,9 +642,9 @@ class Media extends Core {
 							'type' => 'section_text'
 						)
 					),
-					'simple_list' => array(
-						'number_of_columns' => array(
-							'id' => 'number_of_columns',
+					'taxonomy_simple_list' => array(
+						'col' => array(
+							'id' => 'col',
 							'name' => __('Columns', 'mp-restaurant-menu'),
 							'options' => array(
 								'1' => __('1 column', 'mp-restaurant-menu'),
@@ -670,8 +669,8 @@ class Media extends Core {
 							'readonly' => false,
 							'type' => 'section_select',
 						),
-						'category_view_type' => array(
-							'id' => 'category_view_type',
+						'categ_name' => array(
+							'id' => 'categ_name',
 							'name' => __('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
 								'only_text' => __('Only text', 'mp-restaurant-menu'),
@@ -853,9 +852,7 @@ class Media extends Core {
 					)
 				)
 			),
-			/**
-			 * Email templates
-			 */
+			/** Email templates */
 			'emails' => apply_filters('mprm_settings_emails',
 				array(
 					'main' => array(
@@ -1032,9 +1029,7 @@ class Media extends Core {
 			'extensions' => apply_filters('mprm_settings_extensions',
 				array()
 			),
-			/**
-			 * licenses list
-			 */
+			/** licenses list */
 			'licenses' => apply_filters('mprm_settings_licenses',
 				array()
 			),
@@ -1316,9 +1311,9 @@ class Media extends Core {
 			),
 			'display' => apply_filters('mprm_settings_sections_display', array(
 					'main' => __('General', 'mp-restaurant-menu'),
-					'grid' => __('Grid', 'mp-restaurant-menu'),
-					'list' => __('List', 'mp-restaurant-menu'),
-					'simple_list' => __('Simple list', 'mp-restaurant-menu')
+					'taxonomy_grid' => __('Grid', 'mp-restaurant-menu'),
+					'taxonomy_list' => __('List', 'mp-restaurant-menu'),
+					'taxonomy_simple_list' => __('Simple list', 'mp-restaurant-menu')
 				)
 			),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(

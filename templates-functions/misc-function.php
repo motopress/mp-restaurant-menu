@@ -318,3 +318,24 @@ function mprm_update_payment_status($payment_id, $new_status) {
 function mprm_insert_payment_note($payment_id, $note) {
 	return classes\models\Payments::get_instance()->insert_payment_note($payment_id, $note);
 }
+
+/**
+ * Get Taxonomy settings
+ *
+ * @return array
+ */
+
+function taxonomy_settings() {
+	$taxonomy_view_settings = array();
+	$taxonomy_view = mprm_get_option('display_taxonomy', 'default');
+	
+	if ($taxonomy_view !== 'default') {
+		$taxonomy_view_settings = mprm_get_option('taxonomy_' . $taxonomy_view, false);
+		$taxonomy_view_settings[ 'action_path' ] = "shortcodes/menu/{$taxonomy_view}/item";
+		$taxonomy_view_settings[ 'view' ] = $taxonomy_view;
+		
+		return $taxonomy_view_settings;
+	}
+	
+	return $taxonomy_view_settings;
+}

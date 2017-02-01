@@ -449,6 +449,13 @@ class Hooks extends Core {
 		 * @see mprm_category_header()
 		 */
 		add_action('mprm_category_header', 'mprm_category_header', 5);
+		
+		/**
+		 * Menu_item header
+		 *
+		 * @see mprm_page_template_taxonomy_header()
+		 */
+		add_action('mprm_page_template_taxonomy_header', 'mprm_page_template_taxonomy_header', 5);
 	}
 	
 	/**
@@ -698,7 +705,7 @@ class Hooks extends Core {
 		
 		return wp_unslash($_GET[ 's' ]);
 	}
-		
+	
 	/**
 	 * Add advanced post_status
 	 */
