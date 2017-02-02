@@ -90,6 +90,7 @@ class Settings extends Model {
 		if (empty($settings)) {
 			$default_settings =
 				array(
+					
 					'currency' => 'USD',
 					'template_mode' => 'theme',
 					'customer_phone' => '1',
@@ -118,7 +119,45 @@ class Settings extends Model {
 					'checkout_include_tax' => 'no',
 					'checkout_label' => __('Purchase', 'mp-restaurant-menu'),
 					'add_to_cart_text' => __('Add to Cart', 'mp-restaurant-menu'),
-					'buy_now_text' => __('Buy Now', 'mp-restaurant-menu')
+					'buy_now_text' => __('Buy Now', 'mp-restaurant-menu'),
+					'taxonomy_grid' => array(
+						'col' => '3',
+						'categ_name' => 'with_img',
+						'show_attributes' => '1',
+						'feat_img' => '1',
+						'excerpt' => '1',
+						'price' => '1',
+						'tags' => '1',
+						'ingredients' => '1',
+						'buy' => '1',
+						'link_item' => '1',
+						'grid_desc_length' => ''
+					),
+					'taxonomy_list' => array(
+						'col' => '3',
+						'categ_name' => 'with_img',
+						'show_attributes' => '1',
+						'feat_img' => '1',
+						'excerpt' => '1',
+						'price' => '1',
+						'tags' => '1',
+						'ingredients' => '1',
+						'buy' => '1',
+						'link_item' => '1',
+						'desc_length' => ''
+					),
+					'taxonomy_simple_list' => array(
+						'col' => '3',
+						'price_pos' => 'points',
+						'categ_name' => 'only_text',
+						'show_attributes' => '1',
+						'excerpt' => '1',
+						'price' => '1',
+						'tags' => '1',
+						'ingredients' => '1',
+						'link_item' => '1',
+						'desc_length' => ''
+					)
 				);
 			
 			// Update old settings with new single option

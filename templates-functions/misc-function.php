@@ -325,12 +325,28 @@ function mprm_insert_payment_note($payment_id, $note) {
  * @return array
  */
 function taxonomy_settings() {
+	$default_settings = array(
+		'col' => '3',
+		'categ_name' => 'with_img',
+		'show_attributes' => '',
+		'feat_img' => '',
+		'excerpt' => '',
+		'price' => '',
+		'tags' => '',
+		'ingredients' => '',
+		'buy' => '',
+		'price_pos' => 'points',
+		'link_item' => '',
+		'grid_desc_length' => ''
+	);
+	
 	$taxonomy_view_settings = array();
 	$taxonomy_view = mprm_get_option('display_taxonomy', 'default');
 	
 	if ($taxonomy_view !== 'default') {
+		$taxonomy_settings = mprm_get_option('taxonomy_' . preg_replace('/-/', '_', $taxonomy_view), false);
 		
-		$taxonomy_view_settings = mprm_get_option('taxonomy_' . preg_replace('/-/', '_', $taxonomy_view), false);
+		$taxonomy_view_settings = array_merge($default_settings, $taxonomy_settings);
 		
 		$taxonomy_view_settings[ 'action_path' ] = "common/page-parts/{$taxonomy_view}-item";
 		$taxonomy_view_settings[ 'view' ] = $taxonomy_view;

@@ -214,13 +214,13 @@ class View {
 			$find[] = $this->template_path . $file;
 			
 		} elseif (in_array($taxonomy, Core::get_instance()->get_taxonomy_types())) {
-			$theme_template = mprm_get_option('theme_templates', '');
+			$theme_template = mprm_get_option('theme_templates', 'page.php');
 			$display_taxonomy = mprm_get_option('display_taxonomy', 'default');
-			
 			
 			$term = get_queried_object();
 			
 			if (!empty($theme_template) && ($display_taxonomy !== 'default')) {
+				
 				$file = $theme_template;
 				
 				if (!is_single() || !post_password_required()) {
