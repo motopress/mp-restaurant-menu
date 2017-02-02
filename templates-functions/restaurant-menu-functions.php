@@ -213,9 +213,9 @@ function mprm_set_current_term($term = array()) {
  * @param int $id
  */
 function mprm_set_menu_item($id) {
-	global $mprm_menu_item;
+	global $post, $mprm_menu_item;
 	if (!empty($id)) {
-		$mprm_menu_item = get_post($id);
+		$post = $mprm_menu_item = get_post($id);
 	}
 }
 
@@ -1247,19 +1247,25 @@ function create_grid_by_posts($data, $col) {
 	$last_key = array_search(end($data['posts']), $data['posts']);
 
 	foreach ($data['posts'] as $key => $post) :
+	
 		setup_postdata($post);
+	
 		if (($key % $col) === 0) {
 			$i = 1; ?>
 			<div class="<?php echo mprm_grid_row_class() ?>">
 		<?php }
+		
 		mprm_set_menu_item($post->ID);
+		
 		render_current_html();
-		if (($i % $col) === 0 || $last_key === $key) {
-			?>
+		
+		if (($i % $col) === 0 || $last_key === $key) { ?>
 			</div>
 		<?php }
+		
 		$i++;
 		wp_reset_postdata();
+		
 	endforeach;
 }
 

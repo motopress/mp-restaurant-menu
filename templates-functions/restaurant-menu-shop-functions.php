@@ -19,7 +19,6 @@ function mprm_use_skus() {
 	return (bool)apply_filters('mprm_use_skus', $ret);
 }
 
-
 /**
  * @param int $menu_item_id
  *
@@ -305,7 +304,6 @@ function mprm_get_register_fields() {
 function mprm_purchase_form_before_cc_form() {
 }
 
-
 function mprm_default_cc_address_fields() {
 	$logged_in = is_user_logged_in();
 	$customer = models\Session::get_instance()->get_session_by_key('customer');
@@ -447,7 +445,6 @@ function mprm_default_cc_address_fields() {
 	<?php
 	echo ob_get_clean();
 }
-
 
 function mprm_terms_agreement() {
 	if (mprm_get_option('show_agree_to_terms', false)) {
@@ -601,7 +598,6 @@ function mprm_add_body_classes($class) {
 	return array_unique($classes);
 }
 
-
 function mprm_user_info_fields() {
 	$customer = models\Customer::get_instance()->get_session_customer();
 	mprm_get_template('/shop/user-info-fields', array('customer' => $customer));
@@ -626,7 +622,6 @@ function mprm_purchase_form_bottom() {
 	</form>
 	<?php
 }
-
 
 /**
  * @param string $where
@@ -723,6 +718,10 @@ function mprm_filter_success_page_content($content) {
 	return $content;
 }
 
+/**
+ * Get plugin version
+ * @return mixed
+ */
 function mprm_get_plugin_version() {
 	return Core::get_instance()->get_version();
 }
@@ -844,11 +843,11 @@ function mprm_get_payment_statuses() {
 }
 
 /**
- * @param WP_Post $post
+ * @param $post
  *
  * @return models\Order
  */
-function mprm_get_order_object(\WP_Post $post) {
+function mprm_get_order_object($post) {
 	return new models\Order($post->ID);
 }
 
@@ -885,7 +884,6 @@ function mprm_get_payment_meta_user_info($order_id) {
 function mprm_get_gateway_admin_label($gateway) {
 	return models\Gateways::get_instance()->get_gateway_admin_label($gateway);
 }
-
 
 /**
  * @param int $menu_item_id
@@ -1157,11 +1155,15 @@ function mprm_get_default_variable_price($_id = 0) {
  *
  * @return string
  */
-
 function get_buy_style_view_args() {
 	global $mprm_view_args;
 	if (!empty($mprm_view_args)) {
-		$style_display = (!(bool)$mprm_view_args[ 'buy' ]) ? 'display:none' : '';
+		
+		if (isset($mprm_view_args[ 'buy' ])) {
+			$style_display = (!(bool)$mprm_view_args[ 'buy' ]) ? 'display:none' : '';
+		} else {
+			$style_display = 'display:none';
+		}
 		
 		return $style_display;
 	} else {

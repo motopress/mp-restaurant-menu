@@ -40,13 +40,12 @@ $col = (int)$mprm_view_args[ 'col' ];
 			?>
 			<div class="<?php echo apply_filters('mprm-shortcode-items-wrapper-class', 'mprm-container mprm-shortcode-items mprm-view-' . $view) ?>">
 				<?php if ($view == 'simple-list'){ ?>
-				<div class="mprm-columns-count-<?php echo $col ?>">
+				<div class="mprm-columns-count-<?php echo $col ?> mprm-all-items">
 					<?php }
 					
 					foreach (mprm_get_menu_items_by_term() as $term => $data) {
 						
 						if (in_array($view, array('list', 'grid'))) {
-							//render_term_header($data);
 							create_grid_by_posts($data, $col);
 						} elseif ($view == 'simple-list') {
 							

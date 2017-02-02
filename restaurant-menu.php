@@ -14,7 +14,6 @@ use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\upgrade\Install;
 
-
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');
@@ -32,7 +31,7 @@ define('MP_RM_LIBS_PATH', MP_RM_CLASSES_PATH . 'libs/');
 define('MP_RM_CONFIGS_PATH', MP_RM_PLUGIN_PATH . 'configs/');
 define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
-define('MP_RM_DEBUG', FALSE);
+define('MP_RM_DEBUG', TRUE);
 
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
@@ -44,7 +43,7 @@ add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
  */
 class MP_Restaurant_Menu_Setup_Plugin {
 	protected static $instance;
-
+	
 	/**
 	 * MP_Restaurant_Menu_Setup_Plugin constructor.
 	 */
@@ -55,7 +54,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 			define('MP_RM_TEMPLATE_PATH', $this->template_path());
 		}
 	}
-
+	
 	/**
 	 * Include files
 	 */
@@ -120,11 +119,11 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		 * Include hooks
 		 */
 		require_once MP_RM_CLASSES_PATH . 'class-shortcodes.php';
-
+		
 		require_once MP_RM_CLASSES_PATH . 'upgrade/class-upgrade.php';
 		require_once MP_RM_CLASSES_PATH . 'upgrade/class-install.php';
 	}
-
+	
 	/**
 	 * Get the template path.
 	 * @return string
@@ -132,7 +131,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	public function template_path() {
 		return apply_filters('mprm_template_path', 'mp-restaurant-menu/');
 	}
-
+	
 	/**
 	 * @return MP_Restaurant_Menu_Setup_Plugin
 	 */
@@ -140,9 +139,10 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		if (null === self::$instance) {
 			self::$instance = new self();
 		}
+		
 		return self::$instance;
 	}
-
+	
 	/**
 	 * On activation plugin
 	 */
@@ -150,16 +150,16 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
-
+		
 		// User capability
 		Install::get_instance()->setup_roles_capabilities();
-
+		
 		// Create table/tables
 		Install::get_instance()->create_structure();
-
+		
 		flush_rewrite_rules();
 	}
-
+	
 	/**
 	 * On deactivation plugin
 	 */
@@ -167,11 +167,11 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		update_option('mprm_capabilities_version', '0.0.0');
 		flush_rewrite_rules();
 	}
-
+	
 	/**
 	 * On uninstall
 	 */
 	public static function on_uninstall() {
-
+		
 	}
 }

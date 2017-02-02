@@ -110,6 +110,21 @@ class Hooks extends Core {
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_after_content', 80);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_get_purchase_template', 85);
 		add_action('mprm_shortcode_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
+		
+		
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_header', 10);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_before_content', 15);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_image', 20);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_title', 30);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_ingredients', 40);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_attributes', 50);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_excerpt', 60);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_tags', 70);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_price', 75);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_after_content', 80);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_get_purchase_template', 85);
+		add_action('mprm_page_template_menu_item_grid', 'mprm_menu_item_grid_footer', 90);
+		
 		/**
 		 * Menu widget item grid
 		 *
@@ -190,6 +205,32 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_list', 'mprm_get_purchase_template', 80);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_right_footer', 85);
 		add_action('mprm_widget_menu_item_list', 'mprm_menu_item_list_footer', 95);
+		
+		/**
+		 * Menu page template item list
+		 *
+		 * @see mprm_menu_item_list_header()
+		 * @see mprm_menu_item_list_image()
+		 * @see mprm_menu_item_list_tags()
+		 * @see mprm_menu_item_list_ingredients()
+		 * @see mprm_menu_item_list_excerpt()
+		 * @see mprm_menu_item_list_ingredients()
+		 * @see mprm_menu_item_list_excerpt()
+		 */
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_header', 5);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_before_content', 10);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_image', 15);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_right_header', 20);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_title', 30);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_ingredients', 35);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_attributes', 40);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_excerpt', 50);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_tags', 60);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_price', 70);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_after_content', 75);
+		add_action('mprm_page_template_menu_item_list', 'mprm_get_purchase_template', 80);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_right_footer', 85);
+		add_action('mprm_page_template_menu_item_list', 'mprm_menu_item_list_footer', 95);
 	}
 	
 	public static function install_menu_item_simple_list_actions() {
@@ -234,8 +275,27 @@ class Hooks extends Core {
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_excerpt', 50);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_list_tags', 60);
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_simple_list_footer', 65);
-		
 		add_action('mprm_widget_menu_item_simple_list', 'mprm_menu_item_after_content', 70);
+		/**
+		 * Category page template item list
+		 *
+		 * @see mprm_menu_item_list_header()
+		 * @see mprm_menu_item_list_image()
+		 * @see mprm_menu_item_list_tags()
+		 * @see mprm_menu_item_list_ingredients()
+		 * @see mprm_menu_item_list_excerpt()
+		 * @see mprm_menu_item_list_ingredients()
+		 * @see mprm_menu_item_list_excerpt()
+		 */
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_before_content', 5);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_simple_list_header', 10);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_list_title_simple', 20);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_list_ingredients', 30);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_list_attributes', 40);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_list_excerpt', 50);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_list_tags', 60);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_simple_list_footer', 65);
+		add_action('mprm_page_template_menu_item_simple-list', 'mprm_menu_item_after_content', 70);
 	}
 	
 	/**

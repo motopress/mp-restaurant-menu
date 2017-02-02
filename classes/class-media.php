@@ -657,8 +657,8 @@ class Media extends Core {
 							'readonly' => false,
 							'type' => 'section_select',
 						),
-						'price_position' => array(
-							'id' => 'price_position',
+						'price_pos' => array(
+							'id' => 'price_pos',
 							'name' => __('Price position', 'mp-restaurant-menu'),
 							'options' => array(
 								'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
