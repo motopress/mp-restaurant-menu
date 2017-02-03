@@ -325,34 +325,77 @@ function mprm_insert_payment_note($payment_id, $note) {
  * @return array
  */
 function taxonomy_settings() {
+	
 	$default_settings = array(
-		'col' => '3',
-		'categ_name' => 'with_img',
 		'show_attributes' => '',
 		'feat_img' => '',
 		'excerpt' => '',
-		'price' => '',
 		'tags' => '',
 		'ingredients' => '',
 		'buy' => '',
-		'price_pos' => 'points',
-		'link_item' => '',
 		'grid_desc_length' => ''
 	);
+	$data = array(
+		'taxonomy_grid' => array(
+			'col' => '3',
+			'categ_name' => 'only_text',
+			'feat_img' => '1',
+			'price' => '1',
+			'ingredients' => '1',
+			'link_item' => '1',
+		),
+		'taxonomy_list' => array(
+			'col' => '2',
+			'categ_name' => 'only_text',
+			'feat_img' => '1',
+			'price' => '1',
+			'ingredients' => '1',
+			'link_item' => '1',
+		),
+		'taxonomy_simple_list' => array(
+			'col' => '1',
+			'price_pos' => 'points',
+			'categ_name' => 'only_text',
+			'price' => '1',
+			'link_item' => '1',
+		));
 	
 	$taxonomy_view_settings = array();
 	$taxonomy_view = mprm_get_option('display_taxonomy', 'default');
 	
 	if ($taxonomy_view !== 'default') {
-		$taxonomy_settings = mprm_get_option('taxonomy_' . preg_replace('/-/', '_', $taxonomy_view), array());
+		$settings_key = 'taxonomy_' . $taxonomy_view;
 		
-		$taxonomy_view_settings = array_merge($default_settings, $taxonomy_settings);
+		$taxonomy_settings = mprm_get_option(preg_replace('/-/', '_', $settings_key), array());
+		
+		$taxonomy_view_settings = array_merge($default_settings, $data[ $settings_key ], $taxonomy_settings);
 		
 		$taxonomy_view_settings[ 'action_path' ] = "common/page-parts/{$taxonomy_view}-item";
 		$taxonomy_view_settings[ 'view' ] = $taxonomy_view;
+		
 		
 		return $taxonomy_view_settings;
 	}
 	
 	return $taxonomy_view_settings;
+}
+
+/**
+ * Get theme template
+ *
+ * @return mixed|string
+ */
+function mprm_get_theme_template() {
+	
+	include(ABSPATH . '/wp-admin/includes/theme.php');
+	
+	$theme_templates = mprm_get_option('theme_templates', '');
+	$templates = wp_get_theme()->get_page_templates();
+	
+	if (empty($templates) || !array_key_exists($theme_templates, $templates)) {
+		$theme_templates = 'page.php';
+	}
+	
+	return $theme_templates;
+	
 }

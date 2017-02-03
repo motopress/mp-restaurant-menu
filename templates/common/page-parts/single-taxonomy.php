@@ -11,7 +11,7 @@ $mprm_view_args = taxonomy_settings();
 $col = (int)$mprm_view_args[ 'col' ];
 
 ?>
-	<div <?php post_class(apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
+	<div class="<?php echo apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper') ?>">
 
 		<div class="<?php echo apply_filters('mprm-wrapper-' . $view . '-category-class', 'mprm-taxonomy-items-' . $view . ' mprm-container mprm-category') ?> ">
 			<?php

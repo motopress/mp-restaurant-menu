@@ -122,41 +122,26 @@ class Settings extends Model {
 					'buy_now_text' => __('Buy Now', 'mp-restaurant-menu'),
 					'taxonomy_grid' => array(
 						'col' => '3',
-						'categ_name' => 'with_img',
-						'show_attributes' => '1',
+						'categ_name' => 'only_text',
 						'feat_img' => '1',
-						'excerpt' => '1',
 						'price' => '1',
-						'tags' => '1',
 						'ingredients' => '1',
-						'buy' => '1',
 						'link_item' => '1',
-						'grid_desc_length' => ''
 					),
 					'taxonomy_list' => array(
-						'col' => '3',
-						'categ_name' => 'with_img',
-						'show_attributes' => '1',
+						'col' => '2',
+						'categ_name' => 'only_text',
 						'feat_img' => '1',
-						'excerpt' => '1',
 						'price' => '1',
-						'tags' => '1',
 						'ingredients' => '1',
-						'buy' => '1',
 						'link_item' => '1',
-						'desc_length' => ''
 					),
 					'taxonomy_simple_list' => array(
-						'col' => '3',
+						'col' => '1',
 						'price_pos' => 'points',
 						'categ_name' => 'only_text',
-						'show_attributes' => '1',
-						'excerpt' => '1',
 						'price' => '1',
-						'tags' => '1',
-						'ingredients' => '1',
 						'link_item' => '1',
-						'desc_length' => ''
 					)
 				);
 			
