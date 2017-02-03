@@ -344,7 +344,7 @@ function taxonomy_settings() {
 	$taxonomy_view = mprm_get_option('display_taxonomy', 'default');
 	
 	if ($taxonomy_view !== 'default') {
-		$taxonomy_settings = mprm_get_option('taxonomy_' . preg_replace('/-/', '_', $taxonomy_view), false);
+		$taxonomy_settings = mprm_get_option('taxonomy_' . preg_replace('/-/', '_', $taxonomy_view), array());
 		
 		$taxonomy_view_settings = array_merge($default_settings, $taxonomy_settings);
 		
