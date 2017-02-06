@@ -15,6 +15,8 @@ class Media extends Core {
 	protected static $instance;
 	
 	/**
+	 * Get instance
+	 *
 	 * @return Media
 	 */
 	public static function get_instance() {
@@ -472,7 +474,7 @@ class Media extends Core {
 							'desc' => '<br>' . __('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
 							'readonly' => false,
 							'type' => 'select',
-						),
+						)
 					),
 					'taxonomy_grid' => array(
 						'col' => array(
@@ -1252,6 +1254,8 @@ class Media extends Core {
 	}
 	
 	/**
+	 * Label singular
+	 *
 	 * @param bool $lowercase
 	 *
 	 * @return string
@@ -1296,6 +1300,8 @@ class Media extends Core {
 	}
 	
 	/**
+	 * Registered settings sections
+	 *
 	 * @return array|bool|mixed
 	 */
 	public function get_registered_settings_sections() {
