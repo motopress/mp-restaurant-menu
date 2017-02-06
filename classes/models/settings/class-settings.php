@@ -866,6 +866,7 @@ class Settings extends Model {
 	 */
 	public function select_callback($args) {
 		global $mprm_options;
+		
 		if (isset($mprm_options[ $args[ 'id' ] ])) {
 			$value = $mprm_options[ $args[ 'id' ] ];
 		} else {

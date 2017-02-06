@@ -466,6 +466,7 @@ class Media extends Core {
 							'desc' => '<br>' . __('Choose a view template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
 							'readonly' => false,
 							'type' => 'select',
+							'std' => 'default'
 						),
 						'theme_templates' => array(
 							'id' => 'theme_templates',
@@ -487,6 +488,7 @@ class Media extends Core {
 								'4' => __('4 columns', 'mp-restaurant-menu'),
 								'6' => __('6 columns', 'mp-restaurant-menu')
 							),
+							'std' => 3,
 							'desc' => '',
 							'readonly' => false,
 							'type' => 'section_select',
@@ -499,6 +501,7 @@ class Media extends Core {
 								'with_img' => __('Title with image', 'mp-restaurant-menu'),
 								'none' => __('Don`t show', 'mp-restaurant-menu')
 							),
+							'std' => 'only_text',
 							'desc' => '',
 							'readonly' => false,
 							'type' => 'section_select',
@@ -507,14 +510,12 @@ class Media extends Core {
 							'id' => 'show_attributes',
 							'name' => __('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
-							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'feat_img' => array(
 							'id' => 'feat_img',
 							'name' => __('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
-							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
@@ -571,6 +572,7 @@ class Media extends Core {
 								'4' => __('4 columns', 'mp-restaurant-menu'),
 								'6' => __('6 columns', 'mp-restaurant-menu')
 							),
+							'std' => 2,
 							'desc' => '',
 							'readonly' => false,
 							'type' => 'section_select',
@@ -583,6 +585,7 @@ class Media extends Core {
 								'with_img' => __('Title with image', 'mp-restaurant-menu'),
 								'none' => __('Don`t show', 'mp-restaurant-menu')
 							),
+							'std' => 'only_text',
 							'desc' => '',
 							'readonly' => false,
 							'type' => 'section_select',
