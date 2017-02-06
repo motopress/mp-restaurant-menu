@@ -395,7 +395,7 @@ function mprm_get_theme_template() {
 	$theme_templates = mprm_get_option('theme_templates', '');
 	$templates = get_page_templates();
 	
-	if (empty($templates) || !array_key_exists($theme_templates, $templates)) {
+	if (empty($templates) || !array_key_exists($theme_templates, array_flip($templates))) {
 		$theme_templates = 'page.php';
 	}
 	
