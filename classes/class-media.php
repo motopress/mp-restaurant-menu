@@ -1649,21 +1649,21 @@ class Media extends Core {
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('menu categories', 'mp-restaurant-menu'), 'single' => __('menu category', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Categories', 'mp-restaurant-menu'), 'single' => __('Category', 'mp-restaurant-menu')),
 			'slug' => 'menu-category',
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_tag'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('menu tags', 'mp-restaurant-menu'), 'single' => __('menu tag', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Tags', 'mp-restaurant-menu'), 'single' => __('Tag', 'mp-restaurant-menu')),
 			'slug' => 'menu-tag',
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('ingredient'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('ingredients', 'mp-restaurant-menu'), 'single' => __('ingredient', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Ingredients', 'mp-restaurant-menu'), 'single' => __('Ingredient', 'mp-restaurant-menu')),
 		));
 	}
 	
