@@ -340,7 +340,6 @@ function taxonomy_settings() {
 			'col' => '3',
 			'categ_name' => 'only_text',
 			'feat_img' => '1',
-			'price' => '1',
 			'ingredients' => '1',
 			'link_item' => '1',
 		),
@@ -348,7 +347,6 @@ function taxonomy_settings() {
 			'col' => '2',
 			'categ_name' => 'only_text',
 			'feat_img' => '1',
-			'price' => '1',
 			'ingredients' => '1',
 			'link_item' => '1',
 		),
@@ -368,8 +366,11 @@ function taxonomy_settings() {
 		$settings_key = 'taxonomy_' . preg_replace('/-/', '_', $taxonomy_view);
 		
 		$taxonomy_settings = mprm_get_option($settings_key, array());
-		
-		$taxonomy_view_settings = array_merge($default_settings, $data[ $settings_key ], $taxonomy_settings);
+		if (empty($taxonomy_settings)) {
+			$taxonomy_view_settings = array_merge($default_settings, $data[ $settings_key ], $taxonomy_settings);
+		} else {
+			$taxonomy_view_settings = array_merge($default_settings, $taxonomy_settings);
+		}
 		
 		$taxonomy_view_settings[ 'action_path' ] = "common/page-parts/{$taxonomy_view}-item";
 		$taxonomy_view_settings[ 'view' ] = $taxonomy_view;
@@ -387,11 +388,12 @@ function taxonomy_settings() {
  * @return mixed|string
  */
 function mprm_get_theme_template() {
-	
-	include(ABSPATH . '/wp-admin/includes/theme.php');
+	if (!function_exists('get_page_templates')) {
+		include(ABSPATH . '/wp-admin/includes/theme.php');
+	}
 	
 	$theme_templates = mprm_get_option('theme_templates', '');
-	$templates = wp_get_theme()->get_page_templates();
+	$templates = get_page_templates();
 	
 	if (empty($templates) || !array_key_exists($theme_templates, $templates)) {
 		$theme_templates = 'page.php';
