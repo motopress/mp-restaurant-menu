@@ -516,6 +516,7 @@ class Media extends Core {
 							'id' => 'feat_img',
 							'name' => __('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
@@ -540,6 +541,7 @@ class Media extends Core {
 							'id' => 'ingredients',
 							'name' => __('Show ingredients', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'buy' => array(
@@ -552,6 +554,7 @@ class Media extends Core {
 							'id' => 'link_item',
 							'name' => __('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'grid_desc_length' => array(
@@ -594,7 +597,6 @@ class Media extends Core {
 							'id' => 'show_attributes',
 							'name' => __('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
-							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'feat_img' => array(
@@ -626,6 +628,7 @@ class Media extends Core {
 							'id' => 'ingredients',
 							'name' => __('Show ingredients', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'buy' => array(
@@ -638,6 +641,7 @@ class Media extends Core {
 							'id' => 'link_item',
 							'name' => __('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'desc_length' => array(
@@ -670,6 +674,7 @@ class Media extends Core {
 								'right' => __('Price on the right', 'mp-restaurant-menu'),
 								'after_title' => __('Price next to the title', 'mp-restaurant-menu')
 							),
+							'std' => 'points',
 							'desc' => '',
 							'readonly' => false,
 							'type' => 'section_select',
@@ -690,7 +695,6 @@ class Media extends Core {
 							'id' => 'show_attributes',
 							'name' => __('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
-							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
@@ -703,6 +707,7 @@ class Media extends Core {
 							'id' => 'price',
 							'name' => __('Show price', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'tags' => array(
@@ -721,6 +726,7 @@ class Media extends Core {
 							'id' => 'link_item',
 							'name' => __('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
+							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'desc_length' => array(

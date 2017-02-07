@@ -585,7 +585,14 @@ class Settings extends Model {
 		} else {
 			$name = 'name="mprm_settings[' . trim($args[ 'section' ]) . '][' . sanitize_key($args[ 'id' ]) . ']"';
 		}
-		$checked = isset($mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ]) ? checked(1, $mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ], false) : '';
+		
+		
+		if (!isset($mprm_options[ $args[ 'section' ] ])) {
+			$checked = checked(1, $args[ 'std' ], false);
+		} else {
+			$checked = isset($mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ]) ? checked(1, $mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ], false) : '';
+		}
+		
 		
 		$html = '<input type="checkbox" id="mprm_settings[' . trim($args[ 'section' ]) . '][' . sanitize_key($args[ 'id' ]) . ']"' . $name . ' value="1" ' . $checked . '/>';
 		$html .= '<label for="mprm_settings[' . sanitize_key($args[ 'id' ]) . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
