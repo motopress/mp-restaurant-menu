@@ -63,6 +63,9 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 
 == Changelog ==
 
+= 2.2.0 =
+* Added the ability to display categories and tags in grid, list or simple list view instead of default post view.
+
 = 2.1.6 =
 * Improved compatibility with external payment gateways
 

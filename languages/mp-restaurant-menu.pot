@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2017-02-06 16:44+0200\n"
+"POT-Creation-Date: 2017-02-07 14:54+0200\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -298,7 +298,7 @@ msgstr ""
 #: admin/metaboxes/order/order-purchased.php:69
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:15
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:22
-#: classes/models/settings/class-settings.php:1177
+#: classes/models/settings/class-settings.php:1184
 #: configs/language-admin-js.php:39 templates/shop/checkout-cart.php:63
 #: templates/shop/checkout-cart.php:84
 msgid "Remove"
@@ -345,7 +345,7 @@ msgstr ""
 msgid "Discount Code"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:52 classes/class-media.php:836
+#: admin/metaboxes/order/update-order.php:52 classes/class-media.php:842
 msgid "None"
 msgstr ""
 
@@ -440,7 +440,7 @@ msgstr ""
 
 #: admin/popups/add-shortcodes.php:35 admin/popups/shortcode-mprm_items.php:76
 #: admin/widgets/menu/form.php:68 classes/class-media.php:511
-#: classes/class-media.php:595 classes/class-media.php:691
+#: classes/class-media.php:598 classes/class-media.php:696
 #: classes/shortcodes/class-shortcode-item.php:106
 msgid "Show attributes"
 msgstr ""
@@ -460,7 +460,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:5
 #: admin/popups/shortcode-mprm_items.php:5 admin/widgets/category/form.php:9
 #: admin/widgets/menu/form.php:9 classes/class-media.php:339
-#: classes/class-media.php:462 classes/class-media.php:1323
+#: classes/class-media.php:462 classes/class-media.php:1329
 #: classes/shortcodes/class-shortcode-category.php:54
 #: classes/shortcodes/class-shortcode-item.php:54
 msgid "Grid"
@@ -469,7 +469,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:6
 #: admin/popups/shortcode-mprm_items.php:6 admin/widgets/category/form.php:10
 #: admin/widgets/menu/form.php:10 classes/class-media.php:340
-#: classes/class-media.php:463 classes/class-media.php:1324
+#: classes/class-media.php:463 classes/class-media.php:1330
 #: classes/shortcodes/class-shortcode-category.php:54
 #: classes/shortcodes/class-shortcode-item.php:54
 msgid "List"
@@ -478,7 +478,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:11
 #: admin/popups/shortcode-mprm_items.php:12 admin/widgets/category/form.php:14
 #: admin/widgets/menu/form.php:15 classes/class-media.php:200
-#: classes/class-media.php:1652 classes/modules/class-post.php:236
+#: classes/class-media.php:1658 classes/modules/class-post.php:236
 #: classes/shortcodes/class-shortcode-category.php:59
 #: classes/shortcodes/class-shortcode-item.php:59
 msgid "Categories"
@@ -487,7 +487,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:23
 #: admin/popups/shortcode-mprm_items.php:42 admin/widgets/category/form.php:26
 #: admin/widgets/menu/form.php:41 classes/class-media.php:483
-#: classes/class-media.php:567 classes/class-media.php:653
+#: classes/class-media.php:570 classes/class-media.php:657
 #: classes/shortcodes/class-shortcode-category.php:63
 #: classes/shortcodes/class-shortcode-item.php:71
 msgid "Columns"
@@ -517,7 +517,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:35
 #: admin/popups/shortcode-mprm_items.php:66 admin/widgets/category/form.php:37
 #: admin/widgets/menu/form.php:59 classes/class-media.php:498
-#: classes/class-media.php:582 classes/class-media.php:679
+#: classes/class-media.php:585 classes/class-media.php:684
 #: classes/shortcodes/class-shortcode-category.php:74
 #: classes/shortcodes/class-shortcode-item.php:82
 msgid "Show category name"
@@ -543,20 +543,20 @@ msgstr ""
 
 #: admin/popups/shortcode-mprm_categories.php:59
 #: admin/popups/shortcode-mprm_items.php:127 admin/widgets/category/form.php:52
-#: classes/class-media.php:559 classes/class-media.php:645
-#: classes/class-media.php:728
+#: classes/class-media.php:562 classes/class-media.php:649
+#: classes/class-media.php:734
 #: classes/shortcodes/class-shortcode-category.php:98
 msgid "Description length"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:7 admin/widgets/menu/form.php:11
-#: classes/class-media.php:464 classes/class-media.php:1325
+#: classes/class-media.php:464 classes/class-media.php:1331
 #: classes/shortcodes/class-shortcode-item.php:54
 msgid "Simple list"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:24 admin/widgets/menu/form.php:27
-#: classes/class-media.php:207 classes/class-media.php:1659
+#: classes/class-media.php:207 classes/class-media.php:1665
 #: classes/modules/class-post.php:235
 #: classes/shortcodes/class-shortcode-item.php:63
 msgid "Tags"
@@ -572,77 +572,77 @@ msgid "Price position:"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:58 admin/widgets/menu/form.php:53
-#: classes/class-media.php:669 classes/shortcodes/class-shortcode-item.php:94
+#: classes/class-media.php:673 classes/shortcodes/class-shortcode-item.php:94
 msgid "Dotted line and price on the right"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:59 admin/widgets/menu/form.php:54
-#: classes/class-media.php:670 classes/shortcodes/class-shortcode-item.php:95
+#: classes/class-media.php:674 classes/shortcodes/class-shortcode-item.php:95
 msgid "Price on the right"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:60 admin/widgets/menu/form.php:55
-#: classes/class-media.php:671 classes/shortcodes/class-shortcode-item.php:96
+#: classes/class-media.php:675 classes/shortcodes/class-shortcode-item.php:96
 msgid "Price next to the title"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:69 admin/widgets/menu/form.php:61
-#: classes/class-media.php:500 classes/class-media.php:584
-#: classes/class-media.php:681 classes/shortcodes/class-shortcode-item.php:84
+#: classes/class-media.php:500 classes/class-media.php:587
+#: classes/class-media.php:686 classes/shortcodes/class-shortcode-item.php:84
 msgid "Only text"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:70 admin/widgets/menu/form.php:62
-#: classes/class-media.php:501 classes/class-media.php:585
-#: classes/class-media.php:682 classes/shortcodes/class-shortcode-item.php:85
+#: classes/class-media.php:501 classes/class-media.php:588
+#: classes/class-media.php:687 classes/shortcodes/class-shortcode-item.php:85
 msgid "Title with image"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:71 admin/widgets/menu/form.php:63
-#: classes/class-media.php:502 classes/class-media.php:586
-#: classes/class-media.php:683 classes/shortcodes/class-shortcode-item.php:86
+#: classes/class-media.php:502 classes/class-media.php:589
+#: classes/class-media.php:688 classes/shortcodes/class-shortcode-item.php:86
 msgid "Don`t show"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:82 admin/widgets/menu/form.php:72
-#: classes/class-media.php:517 classes/class-media.php:602
+#: classes/class-media.php:517 classes/class-media.php:604
 #: classes/shortcodes/class-shortcode-item.php:112
 msgid "Show featured image"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:88 admin/widgets/menu/form.php:76
-#: classes/class-media.php:523 classes/class-media.php:609
-#: classes/class-media.php:698 classes/shortcodes/class-shortcode-item.php:118
+#: classes/class-media.php:524 classes/class-media.php:611
+#: classes/class-media.php:702 classes/shortcodes/class-shortcode-item.php:118
 msgid "Show excerpt"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:94 admin/widgets/menu/form.php:81
-#: classes/class-media.php:529 classes/class-media.php:615
-#: classes/class-media.php:704 classes/shortcodes/class-shortcode-item.php:124
+#: classes/class-media.php:530 classes/class-media.php:617
+#: classes/class-media.php:708 classes/shortcodes/class-shortcode-item.php:124
 msgid "Show price"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:100 admin/widgets/menu/form.php:85
-#: classes/class-media.php:535 classes/class-media.php:621
-#: classes/class-media.php:710 classes/shortcodes/class-shortcode-item.php:130
+#: classes/class-media.php:536 classes/class-media.php:623
+#: classes/class-media.php:715 classes/shortcodes/class-shortcode-item.php:130
 msgid "Show tags"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:106 admin/widgets/menu/form.php:89
-#: classes/class-media.php:541 classes/class-media.php:627
-#: classes/class-media.php:716 classes/shortcodes/class-shortcode-item.php:136
+#: classes/class-media.php:542 classes/class-media.php:629
+#: classes/class-media.php:721 classes/shortcodes/class-shortcode-item.php:136
 msgid "Show ingredients"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:113 admin/widgets/menu/form.php:94
-#: classes/class-media.php:547 classes/class-media.php:633
+#: classes/class-media.php:549 classes/class-media.php:636
 #: classes/shortcodes/class-shortcode-item.php:142
 msgid "Show buy button"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:120 admin/widgets/menu/form.php:99
-#: classes/class-media.php:553 classes/class-media.php:639
-#: classes/class-media.php:722 classes/shortcodes/class-shortcode-item.php:148
+#: classes/class-media.php:555 classes/class-media.php:642
+#: classes/class-media.php:727 classes/shortcodes/class-shortcode-item.php:148
 msgid "Link item"
 msgstr ""
 
@@ -722,7 +722,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: admin/widgets/menu/form.php:51 classes/class-media.php:667
+#: admin/widgets/menu/form.php:51 classes/class-media.php:671
 #: classes/shortcodes/class-shortcode-item.php:92
 msgid "Price position"
 msgstr ""
@@ -870,22 +870,22 @@ msgstr ""
 msgid "Restaurant Menu"
 msgstr ""
 
-#: classes/class-media.php:186 classes/class-media.php:1569
-#: classes/class-media.php:1581 classes/shortcodes/class-shortcode-item.php:157
+#: classes/class-media.php:186 classes/class-media.php:1575
+#: classes/class-media.php:1587 classes/shortcodes/class-shortcode-item.php:157
 msgid "Menu Items"
 msgstr ""
 
-#: classes/class-media.php:193 classes/class-media.php:1571
+#: classes/class-media.php:193 classes/class-media.php:1577
 msgid "Add New"
 msgstr ""
 
-#: classes/class-media.php:214 classes/class-media.php:1666
+#: classes/class-media.php:214 classes/class-media.php:1672
 #: templates-functions/theme-support-functions.php:26
 #: templates/common/ingredients.php:11
 msgid "Ingredients"
 msgstr ""
 
-#: classes/class-media.php:221 classes/class-media.php:1604
+#: classes/class-media.php:221 classes/class-media.php:1610
 msgid "Orders"
 msgstr ""
 
@@ -1037,8 +1037,8 @@ msgstr ""
 msgid "Display categories and tags"
 msgstr ""
 
-#: classes/class-media.php:461 classes/class-media.php:1203
-#: classes/class-media.php:1250
+#: classes/class-media.php:461 classes/class-media.php:1209
+#: classes/class-media.php:1256
 msgid "Default"
 msgstr ""
 
@@ -1058,254 +1058,254 @@ msgid ""
 "content."
 msgstr ""
 
-#: classes/class-media.php:485 classes/class-media.php:569
-#: classes/class-media.php:655
+#: classes/class-media.php:485 classes/class-media.php:572
+#: classes/class-media.php:659
 #: classes/shortcodes/class-shortcode-category.php:65
 #: classes/shortcodes/class-shortcode-item.php:73
 msgid "1 column"
 msgstr ""
 
-#: classes/class-media.php:486 classes/class-media.php:570
-#: classes/class-media.php:656
+#: classes/class-media.php:486 classes/class-media.php:573
+#: classes/class-media.php:660
 #: classes/shortcodes/class-shortcode-category.php:66
 #: classes/shortcodes/class-shortcode-item.php:74
 msgid "2 columns"
 msgstr ""
 
-#: classes/class-media.php:487 classes/class-media.php:571
-#: classes/class-media.php:657
+#: classes/class-media.php:487 classes/class-media.php:574
+#: classes/class-media.php:661
 #: classes/shortcodes/class-shortcode-category.php:67
 #: classes/shortcodes/class-shortcode-item.php:75
 msgid "3 columns"
 msgstr ""
 
-#: classes/class-media.php:488 classes/class-media.php:572
-#: classes/class-media.php:658
+#: classes/class-media.php:488 classes/class-media.php:575
+#: classes/class-media.php:662
 #: classes/shortcodes/class-shortcode-category.php:68
 #: classes/shortcodes/class-shortcode-item.php:76
 msgid "4 columns"
 msgstr ""
 
-#: classes/class-media.php:489 classes/class-media.php:573
-#: classes/class-media.php:659
+#: classes/class-media.php:489 classes/class-media.php:576
+#: classes/class-media.php:663
 #: classes/shortcodes/class-shortcode-category.php:69
 #: classes/shortcodes/class-shortcode-item.php:77
 msgid "6 columns"
 msgstr ""
 
-#: classes/class-media.php:741
+#: classes/class-media.php:747
 msgid "Active Payment Gateways"
 msgstr ""
 
-#: classes/class-media.php:742
+#: classes/class-media.php:748
 msgid "Choose the payment gateways you want to enable."
 msgstr ""
 
-#: classes/class-media.php:748
+#: classes/class-media.php:754
 msgid "Default Gateway"
 msgstr ""
 
-#: classes/class-media.php:749
+#: classes/class-media.php:755
 msgid "This gateway will be loaded automatically on the checkout page."
 msgstr ""
 
-#: classes/class-media.php:755
+#: classes/class-media.php:761
 msgid "Test Mode"
 msgstr ""
 
-#: classes/class-media.php:756
+#: classes/class-media.php:762
 msgid ""
 "While in test mode no live transactions are processed. To fully use test "
 "mode, you must have a sandbox (test) account for the payment gateway you are "
 "testing."
 msgstr ""
 
-#: classes/class-media.php:761
+#: classes/class-media.php:767
 msgid "Payment Method Icons"
 msgstr ""
 
-#: classes/class-media.php:762
+#: classes/class-media.php:768
 msgid "Display these icons on the checkout page"
 msgstr ""
 
-#: classes/class-media.php:777
+#: classes/class-media.php:783
 msgid "PayPal Email"
 msgstr ""
 
-#: classes/class-media.php:778
+#: classes/class-media.php:784
 msgid "Enter your PayPal account's email"
 msgstr ""
 
-#: classes/class-media.php:784
+#: classes/class-media.php:790
 msgid "PayPal Page Style"
 msgstr ""
 
-#: classes/class-media.php:785
+#: classes/class-media.php:791
 msgid "Enter the name of the page style to use, or leave blank for default"
 msgstr ""
 
-#: classes/class-media.php:791
+#: classes/class-media.php:797
 msgid "Disable PayPal IPN Verification"
 msgstr ""
 
-#: classes/class-media.php:792
+#: classes/class-media.php:798
 msgid ""
 "If payments via PayPal are not getting marked as complete, then check this "
 "box. <a href=\"https://developer.paypal.com/webapps/developer/docs/classic/"
 "products/instant-payment-notification/\" target=\"_blank\">More about IPN</a>"
 msgstr ""
 
-#: classes/class-media.php:804
+#: classes/class-media.php:810
 msgid "Telephone Number Required"
 msgstr ""
 
-#: classes/class-media.php:805
+#: classes/class-media.php:811
 msgid "Check this box to display telephone field on the checkout page."
 msgstr ""
 
-#: classes/class-media.php:810
+#: classes/class-media.php:816
 msgid "Enable Shipping"
 msgstr ""
 
-#: classes/class-media.php:811
+#: classes/class-media.php:817
 msgid "Check this box to display shipping address field on the checkout page."
 msgstr ""
 
-#: classes/class-media.php:816
+#: classes/class-media.php:822
 msgid "Enforce SSL on Checkout"
 msgstr ""
 
-#: classes/class-media.php:817
+#: classes/class-media.php:823
 msgid ""
 "Check this to force users to be redirected to the secure checkout page. You "
 "must have an SSL certificate installed to use this option."
 msgstr ""
 
-#: classes/class-media.php:822
+#: classes/class-media.php:828
 msgid "Disable Guest Checkout"
 msgstr ""
 
-#: classes/class-media.php:823
+#: classes/class-media.php:829
 msgid "Users must be logged-in to purchase menu items."
 msgstr ""
 
-#: classes/class-media.php:828
+#: classes/class-media.php:834
 msgid "Show Register / Login Form?"
 msgstr ""
 
-#: classes/class-media.php:829
+#: classes/class-media.php:835
 msgid ""
 "Display the registration and login forms on the checkout page for non-logged-"
 "in users."
 msgstr ""
 
-#: classes/class-media.php:833
+#: classes/class-media.php:839
 msgid "Registration and Login Forms"
 msgstr ""
 
-#: classes/class-media.php:834
+#: classes/class-media.php:840
 msgid "Registration Form Only"
 msgstr ""
 
-#: classes/class-media.php:835
+#: classes/class-media.php:841
 msgid "Login Form Only"
 msgstr ""
 
-#: classes/class-media.php:841
+#: classes/class-media.php:847
 msgid "Enable Ajax"
 msgstr ""
 
-#: classes/class-media.php:842
+#: classes/class-media.php:848
 msgid "Check this box to enable AJAX for the shopping cart."
 msgstr ""
 
-#: classes/class-media.php:847
+#: classes/class-media.php:853
 msgid "Redirect to Checkout"
 msgstr ""
 
-#: classes/class-media.php:848
+#: classes/class-media.php:854
 msgid "Immediately redirect to checkout after adding an item to the cart."
 msgstr ""
 
-#: classes/class-media.php:853
+#: classes/class-media.php:859
 msgid "Items Amount"
 msgstr ""
 
-#: classes/class-media.php:854
+#: classes/class-media.php:860
 msgid "Allow items amount to be changed on the checkout page."
 msgstr ""
 
-#: classes/class-media.php:867 classes/class-media.php:1333
+#: classes/class-media.php:873 classes/class-media.php:1339
 msgid "Email Template"
 msgstr ""
 
-#: classes/class-media.php:868
+#: classes/class-media.php:874
 msgid ""
 "Choose a template. Click \"Save Changes\", then \"Preview Purchase Receipt\" "
 "to see the new template."
 msgstr ""
 
-#: classes/class-media.php:874
+#: classes/class-media.php:880
 msgid "Logo"
 msgstr ""
 
-#: classes/class-media.php:875
+#: classes/class-media.php:881
 msgid ""
 "Upload or choose a logo to be displayed at the top of the purchase receipt "
 "emails. Displayed in HTML emails only."
 msgstr ""
 
-#: classes/class-media.php:888 classes/class-media.php:910
-#: classes/class-media.php:917 classes/class-media.php:921
-#: classes/class-media.php:1334 classes/models/class-emails.php:150
+#: classes/class-media.php:894 classes/class-media.php:916
+#: classes/class-media.php:923 classes/class-media.php:927
+#: classes/class-media.php:1340 classes/models/class-emails.php:150
 #: classes/models/class-emails.php:153
 #: classes/models/settings/class-settings-emails.php:142
 msgid "Purchase Receipt"
 msgstr ""
 
-#: classes/class-media.php:893
+#: classes/class-media.php:899
 msgid "From Name"
 msgstr ""
 
-#: classes/class-media.php:894
+#: classes/class-media.php:900
 msgid ""
 "The name purchase receipts are said to come from. Use your site or shop name."
 msgstr ""
 
-#: classes/class-media.php:900
+#: classes/class-media.php:906
 msgid "From Email"
 msgstr ""
 
-#: classes/class-media.php:901
+#: classes/class-media.php:907
 msgid ""
 "Email to send purchase receipts from. This will act as the \"from\" and "
 "\"reply-to\" address."
 msgstr ""
 
-#: classes/class-media.php:907
+#: classes/class-media.php:913
 msgid "Purchase Email Subject"
 msgstr ""
 
-#: classes/class-media.php:908
+#: classes/class-media.php:914
 msgid "Enter the subject line for the purchase receipt email."
 msgstr ""
 
-#: classes/class-media.php:914
+#: classes/class-media.php:920
 msgid "Purchase Email Heading"
 msgstr ""
 
-#: classes/class-media.php:915
+#: classes/class-media.php:921
 msgid "Enter the heading for the purchase receipt email."
 msgstr ""
 
-#: classes/class-media.php:922
+#: classes/class-media.php:928
 msgid ""
 "Enter the text that is sent as purchase receipt email to users after "
 "completion of a successful purchase. HTML is accepted. Available template "
 "tags:"
 msgstr ""
 
-#: classes/class-media.php:924
+#: classes/class-media.php:930
 msgid ""
 "Dear {name},\n"
 "\n"
@@ -1317,463 +1317,463 @@ msgid ""
 "{receipt_link}"
 msgstr ""
 
-#: classes/class-media.php:930
+#: classes/class-media.php:936
 msgid "Sale Notifications for shop owner"
 msgstr ""
 
-#: classes/class-media.php:935
+#: classes/class-media.php:941
 msgid "Sale Notification Subject"
 msgstr ""
 
-#: classes/class-media.php:936
+#: classes/class-media.php:942
 msgid "Enter the subject line for the sale notification email."
 msgstr ""
 
-#: classes/class-media.php:942
+#: classes/class-media.php:948
 msgid "Sale Notification"
 msgstr ""
 
-#: classes/class-media.php:943
+#: classes/class-media.php:949
 msgid ""
 "Enter the text that is sent as sale notification email after completion of a "
 "purchase. HTML is accepted. Available template tags:"
 msgstr ""
 
-#: classes/class-media.php:949
+#: classes/class-media.php:955
 msgid "Sale Notification Emails"
 msgstr ""
 
-#: classes/class-media.php:950
+#: classes/class-media.php:956
 msgid ""
 "Enter the email address(es) that should receive a notification anytime a "
 "sale is made, one per line"
 msgstr ""
 
-#: classes/class-media.php:956
+#: classes/class-media.php:962
 msgid "Disable Sale Notifications"
 msgstr ""
 
-#: classes/class-media.php:957
+#: classes/class-media.php:963
 msgid "Check this box if you do not want to receive sales notification emails."
 msgstr ""
 
-#: classes/class-media.php:969 classes/class-media.php:1338
+#: classes/class-media.php:975 classes/class-media.php:1344
 msgid "Style Settings"
 msgstr ""
 
-#: classes/class-media.php:974
+#: classes/class-media.php:980
 msgid "Disable Styles"
 msgstr ""
 
-#: classes/class-media.php:975
+#: classes/class-media.php:981
 msgid ""
 "Check this box to disable all included styling of buttons, checkout fields, "
 "and all other elements."
 msgstr ""
 
-#: classes/class-media.php:980
+#: classes/class-media.php:986
 msgid "Add to cart button style:"
 msgstr ""
 
-#: classes/class-media.php:981
+#: classes/class-media.php:987
 msgid "Options for add to cart and purchase buttons"
 msgstr ""
 
-#: classes/class-media.php:986
+#: classes/class-media.php:992
 msgid "Button Style"
 msgstr ""
 
-#: classes/class-media.php:987
+#: classes/class-media.php:993
 msgid "Choose the style you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:993
+#: classes/class-media.php:999
 msgid "Button Color"
 msgstr ""
 
-#: classes/class-media.php:994
+#: classes/class-media.php:1000
 msgid "Choose the color you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:1000
+#: classes/class-media.php:1006
 msgid "Button Size"
 msgstr ""
 
-#: classes/class-media.php:1001
+#: classes/class-media.php:1007
 msgid "Choose the size you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:1014 classes/class-media.php:1344
+#: classes/class-media.php:1020 classes/class-media.php:1350
 msgid "Tax Settings"
 msgstr ""
 
-#: classes/class-media.php:1019
+#: classes/class-media.php:1025
 msgid "Enable Taxes"
 msgstr ""
 
-#: classes/class-media.php:1020
+#: classes/class-media.php:1026
 msgid "Check this box to enable taxes on purchases."
 msgstr ""
 
-#: classes/class-media.php:1025
+#: classes/class-media.php:1031
 msgid "Tax Rate"
 msgstr ""
 
-#: classes/class-media.php:1026
+#: classes/class-media.php:1032
 msgid ""
 "Specify a tax rate percentage (e.g. 10%). All customers will be charged this "
 "rate."
 msgstr ""
 
-#: classes/class-media.php:1047 classes/class-media.php:1351
+#: classes/class-media.php:1053 classes/class-media.php:1357
 msgid "Button Text"
 msgstr ""
 
-#: classes/class-media.php:1052
+#: classes/class-media.php:1058
 msgid "Complete Purchase Text"
 msgstr ""
 
-#: classes/class-media.php:1053
+#: classes/class-media.php:1059
 msgid "The button label for completing a purchase."
 msgstr ""
 
-#: classes/class-media.php:1055 classes/models/settings/class-settings.php:120
+#: classes/class-media.php:1061 classes/models/settings/class-settings.php:120
 #: classes/models/shop/class-cart.php:366
 #: templates-functions/checkout-restaurant-menu-functions.php:55
 msgid "Purchase"
 msgstr ""
 
-#: classes/class-media.php:1059
+#: classes/class-media.php:1065
 msgid "Add to Cart Text"
 msgstr ""
 
-#: classes/class-media.php:1060
+#: classes/class-media.php:1066
 msgid "Text shown on the Add to Cart Buttons."
 msgstr ""
 
-#: classes/class-media.php:1062 classes/models/class-menu-item.php:448
+#: classes/class-media.php:1068 classes/models/class-menu-item.php:448
 #: classes/models/settings/class-settings.php:121
 msgid "Add to Cart"
 msgstr ""
 
-#: classes/class-media.php:1069
+#: classes/class-media.php:1075
 msgid "File Menu item Settings"
 msgstr ""
 
-#: classes/class-media.php:1074
+#: classes/class-media.php:1080
 msgid "Menu item Method"
 msgstr ""
 
-#: classes/class-media.php:1075
+#: classes/class-media.php:1081
 msgid ""
 "Select the file menu_item method. Note, not all methods work on all servers."
 msgstr ""
 
-#: classes/class-media.php:1078
+#: classes/class-media.php:1084
 msgid "Forced"
 msgstr ""
 
-#: classes/class-media.php:1079
+#: classes/class-media.php:1085
 msgid "Redirect"
 msgstr ""
 
-#: classes/class-media.php:1085
+#: classes/class-media.php:1091
 msgid "File Menu item Limit"
 msgstr ""
 
-#: classes/class-media.php:1086
+#: classes/class-media.php:1092
 #, php-format
 msgid ""
 "The maximum number of times files can be menu_itemed for purchases. Can be "
 "overwritten for each %s."
 msgstr ""
 
-#: classes/class-media.php:1092
+#: classes/class-media.php:1098
 msgid "Menu item Link Expiration"
 msgstr ""
 
-#: classes/class-media.php:1093
+#: classes/class-media.php:1099
 msgid ""
 "How long should menu_item links be valid for? Default is 24 hours from the "
 "time they are generated. Enter a time in hours."
 msgstr ""
 
-#: classes/class-media.php:1101
+#: classes/class-media.php:1107
 msgid "Disable Remenu_item?"
 msgstr ""
 
-#: classes/class-media.php:1102
+#: classes/class-media.php:1108
 msgid ""
 "Check this if you do not want to allow users to remenu_item items from their "
 "purchase history."
 msgstr ""
 
-#: classes/class-media.php:1109
+#: classes/class-media.php:1115
 msgid "Agreement Settings"
 msgstr ""
 
-#: classes/class-media.php:1114
+#: classes/class-media.php:1120
 msgid "Agree to Terms"
 msgstr ""
 
-#: classes/class-media.php:1115
+#: classes/class-media.php:1121
 msgid ""
 "Check this box to show an Agree To Terms checkbox on the checkout page that "
 "users must agree to before purchasing."
 msgstr ""
 
-#: classes/class-media.php:1120
+#: classes/class-media.php:1126
 msgid "Agree to Terms Label"
 msgstr ""
 
-#: classes/class-media.php:1121
+#: classes/class-media.php:1127
 msgid "Label shown next to the agree to terms check box."
 msgstr ""
 
-#: classes/class-media.php:1127
+#: classes/class-media.php:1133
 msgid "Agreement Text"
 msgstr ""
 
-#: classes/class-media.php:1128
+#: classes/class-media.php:1134
 msgid "If Agree to Terms is checked, enter the agreement terms here."
 msgstr ""
 
-#: classes/class-media.php:1167
+#: classes/class-media.php:1173
 #: classes/models/settings/class-settings-emails.php:108
 #: classes/models/settings/class-settings-emails.php:235
 msgid "Default Template"
 msgstr ""
 
-#: classes/class-media.php:1188
+#: classes/class-media.php:1194
 msgid "Button"
 msgstr ""
 
-#: classes/class-media.php:1189
+#: classes/class-media.php:1195
 msgid "Plain Text"
 msgstr ""
 
-#: classes/class-media.php:1207
+#: classes/class-media.php:1213
 msgid "White"
 msgstr ""
 
-#: classes/class-media.php:1211
+#: classes/class-media.php:1217
 msgid "Gray"
 msgstr ""
 
-#: classes/class-media.php:1215
+#: classes/class-media.php:1221
 msgid "Blue"
 msgstr ""
 
-#: classes/class-media.php:1219
+#: classes/class-media.php:1225
 msgid "Red"
 msgstr ""
 
-#: classes/class-media.php:1223
+#: classes/class-media.php:1229
 msgid "Green"
 msgstr ""
 
-#: classes/class-media.php:1227
+#: classes/class-media.php:1233
 msgid "Yellow"
 msgstr ""
 
-#: classes/class-media.php:1231
+#: classes/class-media.php:1237
 msgid "Orange"
 msgstr ""
 
-#: classes/class-media.php:1235
+#: classes/class-media.php:1241
 msgid "Dark Gray"
 msgstr ""
 
-#: classes/class-media.php:1251
+#: classes/class-media.php:1257
 msgid "Small"
 msgstr ""
 
-#: classes/class-media.php:1252
+#: classes/class-media.php:1258
 msgid "Middle"
 msgstr ""
 
-#: classes/class-media.php:1253
+#: classes/class-media.php:1259
 msgid "Large"
 msgstr ""
 
-#: classes/class-media.php:1279 classes/models/class-menu-item.php:785
+#: classes/class-media.php:1285 classes/models/class-menu-item.php:785
 msgid "Menu item"
 msgstr ""
 
-#: classes/class-media.php:1280 classes/models/class-menu-item.php:786
+#: classes/class-media.php:1286 classes/models/class-menu-item.php:786
 msgid "Menu items"
 msgstr ""
 
-#: classes/class-media.php:1317 classes/class-media.php:1322
-#: classes/class-media.php:1869
+#: classes/class-media.php:1323 classes/class-media.php:1328
+#: classes/class-media.php:1875
 msgid "General"
 msgstr ""
 
-#: classes/class-media.php:1318
+#: classes/class-media.php:1324
 msgid "Currency Settings"
 msgstr ""
 
-#: classes/class-media.php:1329
+#: classes/class-media.php:1335
 msgid "Gateways"
 msgstr ""
 
-#: classes/class-media.php:1330
+#: classes/class-media.php:1336
 #: classes/models/shop/gateways/class-shop-gateways.php:76
 msgid "PayPal Standard"
 msgstr ""
 
-#: classes/class-media.php:1335
+#: classes/class-media.php:1341
 msgid "New Sale Notifications"
 msgstr ""
 
-#: classes/class-media.php:1341 classes/class-media.php:1872
+#: classes/class-media.php:1347 classes/class-media.php:1878
 msgid "Checkout Settings"
 msgstr ""
 
-#: classes/class-media.php:1347
+#: classes/class-media.php:1353
 msgid "Main"
 msgstr ""
 
-#: classes/class-media.php:1352
+#: classes/class-media.php:1358
 msgid "Terms of Agreement"
 msgstr ""
 
-#: classes/class-media.php:1570
+#: classes/class-media.php:1576
 msgid "Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1572
+#: classes/class-media.php:1578
 msgid "Add New Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1573
+#: classes/class-media.php:1579
 msgid "Edit Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1574
+#: classes/class-media.php:1580
 msgid "New Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1575
+#: classes/class-media.php:1581
 msgid "All Menu Items"
 msgstr ""
 
-#: classes/class-media.php:1576
+#: classes/class-media.php:1582
 msgid "View Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1577
+#: classes/class-media.php:1583
 msgid "Search Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1578
+#: classes/class-media.php:1584
 msgid "No menu items found"
 msgstr ""
 
-#: classes/class-media.php:1579
+#: classes/class-media.php:1585
 msgid "No menu items found in Trash"
 msgstr ""
 
-#: classes/class-media.php:1580
+#: classes/class-media.php:1586
 msgid "media"
 msgstr ""
 
-#: classes/class-media.php:1605
+#: classes/class-media.php:1611
 msgctxt "shop_order post type singular name"
 msgid "Order"
 msgstr ""
 
-#: classes/class-media.php:1606
+#: classes/class-media.php:1612
 msgid "Add Order"
 msgstr ""
 
-#: classes/class-media.php:1607
+#: classes/class-media.php:1613
 msgid "Add New Order"
 msgstr ""
 
-#: classes/class-media.php:1608
+#: classes/class-media.php:1614
 #: classes/models/shop/reports/customer-report-class.php:136
 msgid "Edit"
 msgstr ""
 
-#: classes/class-media.php:1609
+#: classes/class-media.php:1615
 msgid "Edit Order"
 msgstr ""
 
-#: classes/class-media.php:1610
+#: classes/class-media.php:1616
 msgid "New Order"
 msgstr ""
 
-#: classes/class-media.php:1611 classes/class-media.php:1612
+#: classes/class-media.php:1617 classes/class-media.php:1618
 msgid "View Order"
 msgstr ""
 
-#: classes/class-media.php:1613
+#: classes/class-media.php:1619
 msgid "Search Orders"
 msgstr ""
 
-#: classes/class-media.php:1614
+#: classes/class-media.php:1620
 msgid "No Orders found"
 msgstr ""
 
-#: classes/class-media.php:1615
+#: classes/class-media.php:1621
 msgid "No Orders found in trash"
 msgstr ""
 
-#: classes/class-media.php:1616
+#: classes/class-media.php:1622
 msgid "Parent Orders"
 msgstr ""
 
-#: classes/class-media.php:1617
+#: classes/class-media.php:1623
 msgctxt "Admin menu name"
 msgid "Orders"
 msgstr ""
 
-#: classes/class-media.php:1619
+#: classes/class-media.php:1625
 msgid "This is where store orders are stored."
 msgstr ""
 
-#: classes/class-media.php:1652
+#: classes/class-media.php:1658
 msgid "Category"
 msgstr ""
 
-#: classes/class-media.php:1659
+#: classes/class-media.php:1665
 msgid "Tag"
 msgstr ""
 
-#: classes/class-media.php:1666
+#: classes/class-media.php:1672
 msgid "Ingredient"
 msgstr ""
 
-#: classes/class-media.php:1870
+#: classes/class-media.php:1876
 msgid "Display"
 msgstr ""
 
-#: classes/class-media.php:1871
+#: classes/class-media.php:1877
 msgid "Payment Gateways"
 msgstr ""
 
-#: classes/class-media.php:1873
+#: classes/class-media.php:1879
 msgid "Emails"
 msgstr ""
 
-#: classes/class-media.php:1874
+#: classes/class-media.php:1880
 msgid "Styles"
 msgstr ""
 
-#: classes/class-media.php:1875
+#: classes/class-media.php:1881
 msgid "Taxes"
 msgstr ""
 
-#: classes/class-media.php:1878 classes/models/class-extensions.php:36
+#: classes/class-media.php:1884 classes/models/class-extensions.php:36
 msgid "Extensions"
 msgstr ""
 
-#: classes/class-media.php:1882
+#: classes/class-media.php:1888
 msgid "Licenses"
 msgstr ""
 
-#: classes/class-media.php:1884
+#: classes/class-media.php:1890
 msgid "Misc"
 msgstr ""
 
@@ -3164,64 +3164,64 @@ msgstr ""
 msgid "Zambian kwacha"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:859
+#: classes/models/settings/class-settings.php:866
 #, php-format
 msgid "The callback function used for the %s setting is missing."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1013
+#: classes/models/settings/class-settings.php:1020
 msgid "Upload File"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1173
+#: classes/models/settings/class-settings.php:1180
 msgid "Country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1174
+#: classes/models/settings/class-settings.php:1181
 #: templates-functions/restaurant-menu-shop-functions.php:440
 msgid "State / Province"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1175
+#: classes/models/settings/class-settings.php:1182
 msgid "Apply rate to whole country, regardless of state / province"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1175
+#: classes/models/settings/class-settings.php:1182
 msgid "Country Wide"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1176
+#: classes/models/settings/class-settings.php:1183
 msgid "Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1194
-#: classes/models/settings/class-settings.php:1243
+#: classes/models/settings/class-settings.php:1201
+#: classes/models/settings/class-settings.php:1250
 msgid "Choose a country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1211
+#: classes/models/settings/class-settings.php:1218
 msgid "Choose a state"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1225
-#: classes/models/settings/class-settings.php:1256
+#: classes/models/settings/class-settings.php:1232
+#: classes/models/settings/class-settings.php:1263
 msgid "Apply to whole country"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1228
-#: classes/models/settings/class-settings.php:1259
+#: classes/models/settings/class-settings.php:1235
+#: classes/models/settings/class-settings.php:1266
 msgid "Remove Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1264
+#: classes/models/settings/class-settings.php:1271
 msgid "Add Tax Rate"
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1598
+#: classes/models/settings/class-settings.php:1605
 msgid "Your transaction failed, please try again or contact site support."
 msgstr ""
 
-#: classes/models/settings/class-settings.php:1693
+#: classes/models/settings/class-settings.php:1700
 msgid "Settings updated."
 msgstr ""
 
