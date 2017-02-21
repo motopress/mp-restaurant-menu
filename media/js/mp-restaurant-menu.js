@@ -11,7 +11,6 @@ window.MP_RM_Registry = (function() {
 	 * @private
 	 */
 	function _testModule(module) {
-
 		return (typeof module.getInstance) === 'function';
 	}
 
