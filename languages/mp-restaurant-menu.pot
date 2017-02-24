@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2017-02-07 14:54+0200\n"
+"POT-Creation-Date: 2017-02-24 17:38+0200\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3354,7 +3354,7 @@ msgid "Delivery"
 msgstr ""
 
 #: classes/models/shop/class-order.php:676
-msgid "Order note"
+msgid "Order notes"
 msgstr ""
 
 #: classes/models/shop/class-order.php:677

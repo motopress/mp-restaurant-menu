@@ -673,7 +673,7 @@ final class Order extends Model {
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 		$columns['order_ship_to'] = __('Delivery', 'mp-restaurant-menu');
-		$columns['order_customer_note'] = __('Order note', 'mp-restaurant-menu');
+		$columns['order_customer_note'] = __('Order notes', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
