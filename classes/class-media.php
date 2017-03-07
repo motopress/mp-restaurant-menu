@@ -1670,7 +1670,9 @@ class Media extends Core {
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('ingredient'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Ingredients', 'mp-restaurant-menu'), 'single' => __('Ingredient', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Menu Ingredients', 'mp-restaurant-menu'), 'single' => __('Menu Ingredient', 'mp-restaurant-menu')),
+			'slug' => 'menu-ingredient',
+			'show_in_nav_menus' => true
 		));
 	}
 	
