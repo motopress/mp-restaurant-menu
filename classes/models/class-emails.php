@@ -249,11 +249,11 @@ class Emails extends Model {
 		$from_email = $this->get('settings')->get_option('from_name', get_bloginfo('admin_email'));
 		$from_email = apply_filters('mprm_test_purchase_from_address', $from_email, 0, array());
 
-		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
 		$subject = mprm_do_email_tags($subject, 0);
 
-		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt', 'mp-restaurant-menu'));
 		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
 
 		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());

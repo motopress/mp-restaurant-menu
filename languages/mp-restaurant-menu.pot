@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2017-03-07 17:09+0200\n"
+"POT-Creation-Date: 2017-03-07 18:17+0200\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,8 +20,9 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/customers/delete.php:6 admin/customers/message.php:2
-msgid "Delete customer"
+#: admin/customers/delete.php:6 admin/customers/delete.php:38
+#: admin/customers/message.php:2
+msgid "Delete Customer"
 msgstr ""
 
 #: admin/customers/delete.php:22
@@ -30,10 +31,6 @@ msgstr ""
 
 #: admin/customers/delete.php:27
 msgid "Delete all associated payments and records?"
-msgstr ""
-
-#: admin/customers/delete.php:38
-msgid "Delete Customer"
 msgstr ""
 
 #: admin/customers/delete.php:39 admin/metaboxes/order/order-customer.php:44
@@ -105,17 +102,6 @@ msgid ""
 "save to your computer. Once you've saved the download file, you can use the "
 "Import function in another WordPress installation to import the content from "
 "this site."
-msgstr ""
-
-#: admin/import/greet.php:2
-msgid ""
-"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
-"the posts, pages, comments, custom fields, categories, and tags into this "
-"site."
-msgstr ""
-
-#: admin/import/greet.php:3
-msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
 msgstr ""
 
 #: admin/import/header.php:2
@@ -878,7 +864,7 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: classes/class-media.php:214 classes/class-media.php:1672
+#: classes/class-media.php:214
 #: templates-functions/theme-support-functions.php:26
 #: templates/common/ingredients.php:11
 msgid "Ingredients"
@@ -1257,7 +1243,8 @@ msgstr ""
 #: classes/class-media.php:894 classes/class-media.php:916
 #: classes/class-media.php:923 classes/class-media.php:927
 #: classes/class-media.php:1340 classes/models/class-emails.php:150
-#: classes/models/class-emails.php:153
+#: classes/models/class-emails.php:153 classes/models/class-emails.php:252
+#: classes/models/class-emails.php:256
 #: classes/models/settings/class-settings-emails.php:142
 msgid "Purchase Receipt"
 msgstr ""
@@ -1604,7 +1591,7 @@ msgid "Menu items"
 msgstr ""
 
 #: classes/class-media.php:1323 classes/class-media.php:1328
-#: classes/class-media.php:1875
+#: classes/class-media.php:1878
 msgid "General"
 msgstr ""
 
@@ -1625,7 +1612,7 @@ msgstr ""
 msgid "New Sale Notifications"
 msgstr ""
 
-#: classes/class-media.php:1347 classes/class-media.php:1878
+#: classes/class-media.php:1347 classes/class-media.php:1881
 msgid "Checkout Settings"
 msgstr ""
 
@@ -1741,47 +1728,51 @@ msgstr ""
 msgid "Menu Category"
 msgstr ""
 
-#: classes/class-media.php:1665
+#: classes/class-media.php:1666
 msgid "Menu Tags"
 msgstr ""
 
-#: classes/class-media.php:1665
+#: classes/class-media.php:1666
 msgid "Menu Tag"
 msgstr ""
 
-#: classes/class-media.php:1672
-msgid "Ingredient"
+#: classes/class-media.php:1673
+msgid "Menu Ingredients"
 msgstr ""
 
-#: classes/class-media.php:1876
-msgid "Display"
-msgstr ""
-
-#: classes/class-media.php:1877
-msgid "Payment Gateways"
+#: classes/class-media.php:1673
+msgid "Menu Ingredient"
 msgstr ""
 
 #: classes/class-media.php:1879
-msgid "Emails"
+msgid "Display"
 msgstr ""
 
 #: classes/class-media.php:1880
+msgid "Payment Gateways"
+msgstr ""
+
+#: classes/class-media.php:1882
+msgid "Emails"
+msgstr ""
+
+#: classes/class-media.php:1883
 msgid "Styles"
 msgstr ""
 
-#: classes/class-media.php:1881
+#: classes/class-media.php:1884
 msgid "Taxes"
 msgstr ""
 
-#: classes/class-media.php:1884 classes/models/class-extensions.php:36
+#: classes/class-media.php:1887 classes/models/class-extensions.php:36
 msgid "Extensions"
 msgstr ""
 
-#: classes/class-media.php:1888
+#: classes/class-media.php:1891
 msgid "Licenses"
 msgstr ""
 
-#: classes/class-media.php:1890
+#: classes/class-media.php:1893
 msgid "Misc"
 msgstr ""
 
@@ -1902,10 +1893,6 @@ msgstr ""
 #: classes/models/shop/gateways/test-manual-payment-class.php:27
 #: templates/shop/errors.php:4
 msgid "Error"
-msgstr ""
-
-#: classes/models/class-emails.php:252 classes/models/class-emails.php:256
-msgid "Purchase Receipt1"
 msgstr ""
 
 #: classes/models/class-emails.php:303
