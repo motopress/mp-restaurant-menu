@@ -1657,6 +1657,7 @@ class Media extends Core {
 			'object_type' => array($menu_item),
 			'titles' => array('many' => __('Menu Categories', 'mp-restaurant-menu'), 'single' => __('Menu Category', 'mp-restaurant-menu')),
 			'slug' => 'menu-category',
+			'hierarchical' => true,
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
