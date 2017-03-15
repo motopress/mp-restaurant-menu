@@ -871,7 +871,7 @@ class Media extends Core {
 						'email_template' => array(
 							'id' => 'email_template',
 							'name' => __('Email Template', 'mp-restaurant-menu'),
-							'desc' => __('Choose a template. Click "Save Changes", then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
+							'desc' => __('Choose a template. Click "Save Changes", then "Preview Email" to see the new template.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings_emails::get_instance()->get_email_templates()
 						),
@@ -1655,21 +1655,24 @@ class Media extends Core {
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_category'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Categories', 'mp-restaurant-menu'), 'single' => __('Category', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Menu Categories', 'mp-restaurant-menu'), 'single' => __('Menu Category', 'mp-restaurant-menu')),
 			'slug' => 'menu-category',
+			'hierarchical' => true,
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('menu_tag'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Tags', 'mp-restaurant-menu'), 'single' => __('Tag', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Menu Tags', 'mp-restaurant-menu'), 'single' => __('Menu Tag', 'mp-restaurant-menu')),
 			'slug' => 'menu-tag',
 			'show_in_nav_menus' => true
 		));
 		Taxonomy::get_instance()->register(array(
 			'taxonomy' => $this->get_tax_name('ingredient'),
 			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Ingredients', 'mp-restaurant-menu'), 'single' => __('Ingredient', 'mp-restaurant-menu')),
+			'titles' => array('many' => __('Menu Ingredients', 'mp-restaurant-menu'), 'single' => __('Menu Ingredient', 'mp-restaurant-menu')),
+			'slug' => 'menu-ingredient',
+			'show_in_nav_menus' => true
 		));
 	}
 	

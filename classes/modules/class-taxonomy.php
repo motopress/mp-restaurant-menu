@@ -39,7 +39,7 @@ class Taxonomy extends Module {
 			'show_in_menu' => false,
 			'show_tagcloud' => true,
 			'show_in_quick_edit' => true,
-			'hierarchical' => true,
+			'hierarchical' => empty($params['hierarchical']) ? false : $params['hierarchical'],
 			'update_count_callback' => '',
 			'rewrite' => (!empty($params['slug'])) ? array(
 				'slug' => $params['slug'],

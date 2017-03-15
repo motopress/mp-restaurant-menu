@@ -3,7 +3,7 @@
 $customer = mprm_get_customer($id);
 ?>
 <div class="wrap">
-	<h1><?php _e('Delete customer', 'mp-restaurant-menu'); ?></h1>
+	<h1><?php _e('Delete Customer', 'mp-restaurant-menu'); ?></h1>
 	<?php do_action('mprm_customer_delete_top', $customer); ?>
 
 	<div class="info-wrapper customer-section">

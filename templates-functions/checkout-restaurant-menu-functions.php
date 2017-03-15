@@ -147,7 +147,7 @@ function mprm_checkout_delivery_address() {
 }
 
 /**
- * Checkout order note
+ * Checkout order notes
  */
 function mprm_checkout_order_note() {
 	?>

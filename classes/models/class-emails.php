@@ -41,7 +41,7 @@ class Emails extends Model {
 		$menu_item_list .= '</li>';
 		$menu_item_list .= '</ul>';
 		
-		$file_urls  = esc_html( trailingslashit( get_site_url() ) . 'test.zip?test=key&key=123' );
+		$file_urls  = esc_html( trailingslashit( get_site_url() ) . 'test.zip' );
 		$price      = $this->get( 'menu_item' )->currency_filter( $this->get( 'menu_item' )->get_formatting_price( 10.50, true ) );
 		$gateway    = 'PayPal';
 		$receipt_id = strtolower( md5( uniqid() ) );
@@ -260,11 +260,11 @@ class Emails extends Model {
 		$from_email = $this->get( 'settings' )->get_option( 'from_name', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'mprm_test_purchase_from_address', $from_email, 0, array() );
 		
-		$subject = $this->get( 'settings' )->get_option( 'purchase_subject', __( 'Purchase Receipt1', 'mp-restaurant-menu' ) );
+		$subject = $this->get( 'settings' )->get_option( 'purchase_subject', __( 'Purchase Receipt', 'mp-restaurant-menu' ) );
 		$subject = apply_filters( 'mprm_purchase_subject', wp_strip_all_tags( $subject ), 0 );
 		$subject = mprm_do_email_tags( $subject, 0 );
 		
-		$heading = $this->get( 'settings' )->get_option( 'purchase_heading', __( 'Purchase Receipt1', 'mp-restaurant-menu' ) );
+		$heading = $this->get( 'settings' )->get_option( 'purchase_heading', __( 'Purchase Receipt', 'mp-restaurant-menu' ) );
 		$heading = apply_filters( 'mprm_purchase_heading', $heading, 0, array() );
 		
 		$attachments = apply_filters( 'mprm_receipt_attachments', array(), 0, array() );
@@ -309,27 +309,27 @@ class Emails extends Model {
 			return;
 		}
 		
-		$from_name  = $this->get( 'settings' )->get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-		$from_name  = apply_filters( 'mprm_purchase_from_name', $from_name, $payment_id, $payment_data );
+		$from_name = $this->get( 'settings' )->get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+		$from_name = apply_filters( 'mprm_purchase_from_name', $from_name, $payment_id, $payment_data );
 		
 		$from_email = $this->get( 'settings' )->get_option( 'from_email', get_bloginfo( 'admin_email' ) );
 		$from_email = apply_filters( 'mprm_admin_sale_from_address', $from_email, $payment_id, $payment_data );
 		
-		$subject    = $this->get( 'settings' )->get_option( 'sale_notification_subject', sprintf( __( 'New purchase - Order #%1$s', 'mp-restaurant-menu' ), $payment_id ) );
-		$subject    = apply_filters( 'mprm_admin_sale_notification_subject', wp_strip_all_tags( $subject ), $payment_id );
-		$subject    = mprm_do_email_tags( $subject, $payment_id );
+		$subject = $this->get( 'settings' )->get_option( 'sale_notification_subject', sprintf( __( 'New purchase - Order #%1$s', 'mp-restaurant-menu' ), $payment_id ) );
+		$subject = apply_filters( 'mprm_admin_sale_notification_subject', wp_strip_all_tags( $subject ), $payment_id );
+		$subject = mprm_do_email_tags( $subject, $payment_id );
 		
-		$headers    = "From: " . stripslashes_deep( html_entity_decode( $from_name, ENT_COMPAT, 'UTF-8' ) ) . " <$from_email>\r\n";
+		$headers = "From: " . stripslashes_deep( html_entity_decode( $from_name, ENT_COMPAT, 'UTF-8' ) ) . " <$from_email>\r\n";
 		$headers .= "Reply-To: " . $from_email . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
-		$headers     = apply_filters( 'mprm_admin_sale_notification_headers', $headers, $payment_id, $payment_data );
+		$headers = apply_filters( 'mprm_admin_sale_notification_headers', $headers, $payment_id, $payment_data );
 		
 		$attachments = apply_filters( 'mprm_admin_sale_notification_attachments', array(), $payment_id, $payment_data );
 		
-		$message     = $this->get_sale_notification_body_content( $payment_id, $payment_data );
+		$message = $this->get_sale_notification_body_content( $payment_id, $payment_data );
 		
-		$emails      = $this->get( 'settings_emails' );
+		$emails = $this->get( 'settings_emails' );
 		$emails->__set( 'from_name', $from_name );
 		$emails->__set( 'from_email', $from_email );
 		$emails->__set( 'headers', $headers );
