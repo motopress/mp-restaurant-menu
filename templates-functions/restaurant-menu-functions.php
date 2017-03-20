@@ -128,7 +128,7 @@ function mprm_get_category_options($id = false) {
  *
  * @return array
  */
-function mprm_get_menu_item_options($post = NULL) {
+function mprm_get_menu_item_options($post = null) {
 	global $mprm_menu_item, $mprm_menu_items,$mprm_view_args;
 
 	$post = empty($post) ? $mprm_menu_item : $post;
@@ -254,19 +254,16 @@ function is_mprm_taxonomy_grid() {
 function mprm_get_term_menu_items() {
 	global $taxonomy, $mprm_view_args;
 
-	$mprm_view_args['buy'] = (!isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy']);
+	$mprm_view_args['buy'] = !isset($mprm_view_args['buy']) ? '1' : $mprm_view_args['buy'];
 
 	if (empty($mprm_view_args)) {
 		$mprm_view_args = array();
-		if ($taxonomy === 'mp_menu_category') {
-			$mprm_view_args['categ'] = mprm_get_taxonomy()->term_id;
-		}
-		if ($taxonomy === 'mp_menu_tag') {
-			$mprm_view_args['tags_list'] = mprm_get_taxonomy()->term_id;
+		if (is_restaurant_taxonomy( $taxonomy )) {
+			$mprm_view_args['taxonomy'] = mprm_get_taxonomy();
 		}
 	}
 
-	$mprm_items = models\Menu_item::get_instance()->get_menu_items($mprm_view_args);
+	$mprm_items = mprm_get_menu_items($mprm_view_args);
 
 	return $mprm_items;
 }
@@ -277,13 +274,13 @@ function mprm_get_term_menu_items() {
 function mprm_get_menu_items_by_term() {
 	global $taxonomy;
 	$params = array();
-	if ($taxonomy === 'mp_menu_category') {
-		$params['categ'] = mprm_get_taxonomy()->term_id;
+	
+	if (is_restaurant_taxonomy($taxonomy)) {
+		$params['taxonomy'] = mprm_get_taxonomy();
 	}
-	if ($taxonomy === 'mp_menu_tag') {
-		$params['tags_list'] = mprm_get_taxonomy()->term_id;
-	}
-	$mprm_items = models\Menu_item::get_instance()->get_menu_items($params);
+
+	$mprm_items = mprm_get_menu_items($params);
+	
 	return $mprm_items;
 }
 

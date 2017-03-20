@@ -7,8 +7,8 @@ use mp_restaurant_menu\classes\Core;
  * @return string
  */
 function mprm_popular_theme_class() {
-	$template = get_option('template');
-	switch ($template) {
+	$template = get_option( 'template' );
+	switch ( $template ) {
 		case 'twentyeleven' :
 			$class = ' twentyeleven';
 			break;
@@ -44,25 +44,25 @@ function mprm_popular_theme_class() {
  *
  * @return mixed
  */
-function mprm_post_class($classes, $class = '', $post_id = '') {
-	if (!$post_id || 'mp_menu_item' !== get_post_type($post_id)) {
+function mprm_post_class( $classes, $class = '', $post_id = '' ) {
+	if ( ! $post_id || 'mp_menu_item' !== get_post_type( $post_id ) ) {
 		return $classes;
 	}
-	if (classes\Media::get_instance()->get_template_mode() == 'plugin' || (!is_single() && !is_tax())) {
-		if (!is_search() && !is_tax('mp_ingredient') && !is_author()) {
-			if (false !== ($key = array_search('hentry', $classes))) {
-				unset($classes[ $key ]);
+	if ( classes\Media::get_instance()->get_template_mode() == 'plugin' || ( ! is_single() && ! is_tax() ) ) {
+		if ( ! is_search() && ! is_tax( 'mp_ingredient' ) && ! is_author() ) {
+			if ( false !== ( $key = array_search( 'hentry', $classes ) ) ) {
+				unset( $classes[ $key ] );
 			}
 		}
 	}
 	
-	if (in_array('mprm-remove-hentry', $classes)) {
-		if (false !== ($key = array_search('hentry', $classes))) {
-			unset($classes[ $key ]);
+	if ( in_array( 'mprm-remove-hentry', $classes ) ) {
+		if ( false !== ( $key = array_search( 'hentry', $classes ) ) ) {
+			unset( $classes[ $key ] );
 		}
-		if (!empty($custom_class)) {
-			if (false !== ($key = array_search($custom_class, $classes))) {
-				unset($classes[ $key ]);
+		if ( ! empty( $custom_class ) ) {
+			if ( false !== ( $key = array_search( $custom_class, $classes ) ) ) {
+				unset( $classes[ $key ] );
 			}
 		}
 	}
@@ -85,10 +85,10 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
  *
  * @return bool|mixed
  */
-function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
-	$post_meta = get_post_meta($post_id, $key, $single);
+function mprm_get_post_meta( $post_id, $key, $single = false, $default = false ) {
+	$post_meta = get_post_meta( $post_id, $key, $single );
 	
-	return empty($post_meta) ? $default : $post_meta;
+	return empty( $post_meta ) ? $default : $post_meta;
 }
 
 /**
@@ -98,19 +98,19 @@ function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
  *
  * @return bool|string
  */
-function mprm_get_post_type($type) {
-	if (empty($type)) {
+function mprm_get_post_type( $type ) {
+	if ( empty( $type ) ) {
 		return false;
 	}
 	
-	return Core::get_instance()->get_post_type($type);
+	return Core::get_instance()->get_post_type( $type );
 }
 
 /**
  * @return mixed
  */
 function mprm_grid_row_class() {
-	return apply_filters('mprm-row-class', 'mprm-row');
+	return apply_filters( 'mprm-row-class', 'mprm-row' );
 }
 
 /**
@@ -121,24 +121,24 @@ function mprm_grid_row_class() {
  *
  * @return string
  */
-function mprm_cut_str($length, $text) {
-	$length = empty($length) ? -1 : $length;
+function mprm_cut_str( $length, $text ) {
+	$length = empty( $length ) ? - 1 : $length;
 	
-	if (strlen($text) <= $length || $length < 0) {
+	if ( strlen( $text ) <= $length || $length < 0 ) {
 		return $text;
 	}
 	
-	$string = substr($text, 0, $length);
+	$string = substr( $text, 0, $length );
 	
-	return empty($string) ? $string : $string . '...';
+	return empty( $string ) ? $string : $string . '...';
 }
 
 /**
  * Add class wrapper
  */
 function mprm_theme_wrapper_before() {
-	$template = get_option('template');
-	switch ($template) {
+	$template = get_option( 'template' );
+	switch ( $template ) {
 		case 'twentyeleven' :
 			echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
 			break;
@@ -167,8 +167,8 @@ function mprm_theme_wrapper_before() {
  * Theme wrapper after
  */
 function mprm_theme_wrapper_after() {
-	$template = get_option('template');
-	switch ($template) {
+	$template = get_option( 'template' );
+	switch ( $template ) {
 		case 'twentyeleven' :
 			echo '</div></div>';
 			break;
@@ -180,7 +180,7 @@ function mprm_theme_wrapper_after() {
 			break;
 		case 'twentyfourteen' :
 			echo '</div></div></div>';
-			get_sidebar('content');
+			get_sidebar( 'content' );
 			break;
 		case 'twentyfifteen' :
 			echo '</div></div>';
@@ -202,15 +202,15 @@ function mprm_theme_wrapper_after() {
  *
  * @return string
  */
-function get_column_class($type, $view = 'default') {
+function get_column_class( $type, $view = 'default' ) {
 	
-	if ($view == 'simple-list') {
-		$column_class = apply_filters('mprm-grid-column-class-simple-list', 'mprm-simple-view-column');
+	if ( $view == 'simple-list' ) {
+		$column_class = apply_filters( 'mprm-grid-column-class-simple-list', 'mprm-simple-view-column' );
 	} else {
-		$column_class = apply_filters('mprm-grid-column-class', 'mprm-columns');
+		$column_class = apply_filters( 'mprm-grid-column-class', 'mprm-columns' );
 	}
 	
-	switch ($type) {
+	switch ( $type ) {
 		case '1':
 			$class = $column_class . ' mprm-twelve';
 			break;
@@ -250,13 +250,13 @@ function mprm_get_template_mode() {
  *
  * @return array
  */
-function mprm_get_first_and_last_key(array $data) {
-	$array_keys = array_keys($data[ 'posts' ]);
-	$last_key = end($array_keys);
-	reset($array_keys);
-	$first_key = key($array_keys);
+function mprm_get_first_and_last_key( array $data ) {
+	$array_keys = array_keys( $data[ 'posts' ] );
+	$last_key   = end( $array_keys );
+	reset( $array_keys );
+	$first_key = key( $array_keys );
 	
-	return array($last_key, $first_key);
+	return array( $last_key, $first_key );
 }
 
 /**
@@ -264,7 +264,7 @@ function mprm_get_first_and_last_key(array $data) {
  * @return bool|mixed
  */
 function mprm_get_errors() {
-	return classes\models\Session::get_instance()->get_session_by_key('mprm_errors');
+	return classes\models\Session::get_instance()->get_session_by_key( 'mprm_errors' );
 }
 
 /**
@@ -284,8 +284,8 @@ function mprm_is_test_mode() {
  *
  * @return mixed
  */
-function mprm_get_purchase_summary($purchase_data, $email = true) {
-	return classes\models\Cart::get_instance()->get_purchase_summary($purchase_data, $email);
+function mprm_get_purchase_summary( $purchase_data, $email = true ) {
+	return classes\models\Cart::get_instance()->get_purchase_summary( $purchase_data, $email );
 }
 
 /**
@@ -295,8 +295,8 @@ function mprm_get_purchase_summary($purchase_data, $email = true) {
  *
  * @return bool
  */
-function mprm_insert_payment($payment) {
-	return classes\models\Payments::get_instance()->insert_payment($payment);
+function mprm_insert_payment( $payment ) {
+	return classes\models\Payments::get_instance()->insert_payment( $payment );
 }
 
 /**
@@ -305,8 +305,8 @@ function mprm_insert_payment($payment) {
  *
  * @return bool
  */
-function mprm_update_payment_status($payment_id, $new_status) {
-	return classes\models\Payments::get_instance()->update_payment_status($payment_id, $new_status);
+function mprm_update_payment_status( $payment_id, $new_status ) {
+	return classes\models\Payments::get_instance()->update_payment_status( $payment_id, $new_status );
 }
 
 /**
@@ -315,8 +315,8 @@ function mprm_update_payment_status($payment_id, $new_status) {
  *
  * @return bool|false|int
  */
-function mprm_insert_payment_note($payment_id, $note) {
-	return classes\models\Payments::get_instance()->insert_payment_note($payment_id, $note);
+function mprm_insert_payment_note( $payment_id, $note ) {
+	return classes\models\Payments::get_instance()->insert_payment_note( $payment_id, $note );
 }
 
 /**
@@ -327,53 +327,54 @@ function mprm_insert_payment_note($payment_id, $note) {
 function taxonomy_settings() {
 	
 	$default_settings = array(
-		'show_attributes' => '',
-		'feat_img' => '',
-		'excerpt' => '',
-		'tags' => '',
-		'ingredients' => '',
-		'buy' => '',
+		'show_attributes'  => '',
+		'feat_img'         => '',
+		'excerpt'          => '',
+		'tags'             => '',
+		'ingredients'      => '',
+		'buy'              => '',
 		'grid_desc_length' => ''
 	);
-	$data = array(
-		'taxonomy_grid' => array(
-			'col' => '3',
-			'categ_name' => 'only_text',
-			'feat_img' => '1',
+	$data             = array(
+		'taxonomy_grid'        => array(
+			'col'         => '3',
+			'categ_name'  => 'only_text',
+			'feat_img'    => '1',
 			'ingredients' => '1',
-			'link_item' => '1',
+			'link_item'   => '1',
 		),
-		'taxonomy_list' => array(
-			'col' => '2',
-			'categ_name' => 'only_text',
-			'feat_img' => '1',
+		'taxonomy_list'        => array(
+			'col'         => '2',
+			'categ_name'  => 'only_text',
+			'feat_img'    => '1',
 			'ingredients' => '1',
-			'link_item' => '1',
+			'link_item'   => '1',
 		),
 		'taxonomy_simple_list' => array(
-			'col' => '1',
-			'price_pos' => 'points',
+			'col'        => '1',
+			'price_pos'  => 'points',
 			'categ_name' => 'only_text',
-			'price' => '1',
-			'link_item' => '1',
-		));
+			'price'      => '1',
+			'link_item'  => '1',
+		)
+	);
 	
 	$taxonomy_view_settings = array();
-	$taxonomy_view = mprm_get_option('display_taxonomy', 'default');
+	$taxonomy_view          = mprm_get_option( 'display_taxonomy', 'default' );
 	
-	if ($taxonomy_view !== 'default') {
+	if ( $taxonomy_view !== 'default' ) {
 		
-		$settings_key = 'taxonomy_' . preg_replace('/-/', '_', $taxonomy_view);
+		$settings_key = 'taxonomy_' . preg_replace( '/-/', '_', $taxonomy_view );
 		
-		$taxonomy_settings = mprm_get_option($settings_key, array());
-		if (empty($taxonomy_settings)) {
-			$taxonomy_view_settings = array_merge($default_settings, $data[ $settings_key ], $taxonomy_settings);
+		$taxonomy_settings = mprm_get_option( $settings_key, array() );
+		if ( empty( $taxonomy_settings ) ) {
+			$taxonomy_view_settings = array_merge( $default_settings, $data[ $settings_key ], $taxonomy_settings );
 		} else {
-			$taxonomy_view_settings = array_merge($default_settings, $taxonomy_settings);
+			$taxonomy_view_settings = array_merge( $default_settings, $taxonomy_settings );
 		}
 		
 		$taxonomy_view_settings[ 'action_path' ] = "common/page-parts/{$taxonomy_view}-item";
-		$taxonomy_view_settings[ 'view' ] = $taxonomy_view;
+		$taxonomy_view_settings[ 'view' ]        = $taxonomy_view;
 		
 		
 		return $taxonomy_view_settings;
@@ -383,19 +384,34 @@ function taxonomy_settings() {
 }
 
 /**
+ * Check taxonomy is available in the restaurant menu
+ *
+ * @param $taxonomy
+ *
+ * @return bool
+ */
+function is_restaurant_taxonomy( $taxonomy ) {
+	if ( in_array( $taxonomy, Core::get_instance()->get_taxonomy_types() ) ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
  * Get theme template
  *
  * @return mixed|string
  */
 function mprm_get_theme_template() {
-	if (!function_exists('get_page_templates')) {
-		include(ABSPATH . '/wp-admin/includes/theme.php');
+	if ( ! function_exists( 'get_page_templates' ) ) {
+		include( ABSPATH . '/wp-admin/includes/theme.php' );
 	}
 	
-	$theme_templates = mprm_get_option('theme_templates', '');
-	$templates = get_page_templates();
+	$theme_templates = mprm_get_option( 'theme_templates', '' );
+	$templates       = get_page_templates();
 	
-	if (empty($templates) || !array_key_exists($theme_templates, array_flip($templates))) {
+	if ( empty( $templates ) || ! array_key_exists( $theme_templates, array_flip( $templates ) ) ) {
 		$theme_templates = 'page.php';
 	}
 	

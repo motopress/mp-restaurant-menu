@@ -47,50 +47,45 @@ function mprm_get_menu_item_notes( $menu_item_id = 0 ) {
 function mprm_payment_mode_select() {
 	$gateways = models\Gateways::get_instance()->get_enabled_payment_gateways( true );
 	$page_URL = models\Misc::get_instance()->get_current_page_url(); ?>
-
 	<fieldset id="mprm_payment_summary_table">
 		<?php do_action( 'mprm_checkout_summary_table', 'mprm_checkout_summary_table' ); ?>
 	</fieldset>
-	
-	<?php do_action( 'mprm_payment_mode_top' ); ?>
-	
-	<?php if ( models\Settings::get_instance()->is_ajax_disabled() ) { ?>
+	<?php do_action( 'mprm_payment_mode_top' );
+	if ( models\Settings::get_instance()->is_ajax_disabled() ) { ?>
 		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
 	<?php } ?>
-
 	<fieldset id="mprm_payment_mode_select">
 		<?php do_action( 'mprm_payment_mode_before_gateways_wrap' ); ?>
-
 		<div id="mprm-payment-mode-wrap">
 			<span class="mprm-payment-mode-label"><legend><?php _e( 'Select Payment Method', 'mp-restaurant-menu' ); ?></legend></span>
-			<?php
-			do_action( 'mprm_payment_mode_before_gateways' );
-			foreach ( $gateways as $gateway_id => $gateway ) :
-				$checked       = checked( $gateway_id, models\Gateways::get_instance()->get_default_gateway(), false );
-				$checked_class = $checked ? ' mprm-gateway-option-selected' : '';
-				echo '<label for="mprm-gateway-' . esc_attr( $gateway_id ) . '" class="mprm-gateway-option' . $checked_class . '" id="mprm-gateway-option-' . esc_attr( $gateway_id ) . '">';
-				echo '<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-' . esc_attr( $gateway_id ) . '" value="' . esc_attr( $gateway_id ) . '"' . $checked . '>' . esc_html( $gateway[ 'checkout_label' ] );
-				echo '</label>';
-			endforeach;
-			do_action( 'mprm_payment_mode_after_gateways' );
-			?>
+			<?php do_action( 'mprm_payment_mode_before_gateways' ); ?>
+			<ul class="mprm-list">
+				<?php foreach ( $gateways as $gateway_id => $gateway ) :
+					$checked = checked( $gateway_id, models\Gateways::get_instance()->get_default_gateway(), false );
+					$checked_class = $checked ? ' mprm-gateway-option-selected' : '';
+					$payment_description = mprm_get_option( $gateway_id . '_description', '' );
+					?>
+					<li>
+						<label for="mprm-gateway-<?php esc_attr( $gateway_id ) ?>" class="mprm-gateway-option <?php echo $checked_class ?>" id="mprm-gateway-option-<?php echo esc_attr( $gateway_id ) ?>">
+							<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-<?php echo esc_attr( $gateway_id ) ?>" value="<?php echo esc_attr( $gateway_id ) ?>" <?php echo $checked ?>><?php echo esc_html( $gateway[ 'checkout_label' ] ); ?>
+						</label>
+						<?php if ( ! empty( $payment_description ) ): ?>
+							<p><?php echo $payment_description ?></p>
+						<?php endif;; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<?php do_action( 'mprm_payment_mode_after_gateways' ); ?>
 		</div>
-		
 		<?php do_action( 'mprm_payment_mode_after_gateways_wrap' ); ?>
-
 	</fieldset>
-
 	<fieldset id="mprm_payment_mode_submit" class="mprm-no-js">
-		<p id="mprm-next-submit-wrap">
-			<?php echo mprm_checkout_button_next(); ?>
-		</p>
+		<p id="mprm-next-submit-wrap"><?php echo mprm_checkout_button_next(); ?></p>
 	</fieldset>
-	
 	<?php if ( models\Settings::get_instance()->is_ajax_disabled() ) { ?>
 		</form>
 	<?php } ?>
 	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option( 'disable_styles' ) ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
-	
 	<?php do_action( 'mprm_payment_mode_bottom' );
 }
 
@@ -111,8 +106,7 @@ function mprm_purchase_form() {
 		<fieldset id="mprm_payment_summary_table">
 			<?php do_action( 'mprm_checkout_summary_table', 'mprm_checkout_summary_table' ); ?>
 		</fieldset>
-		<?php
-	}
+	<?php }
 	
 	do_action( 'mprm_payment_mode_top' );
 	
@@ -237,6 +231,9 @@ function mprm_get_cc_form() {
 	echo ob_get_clean();
 }
 
+/**
+ * Get register fields
+ */
 function mprm_get_register_fields() {
 	$show_register_form = mprm_get_option( 'show_register_form', 'none' );
 	ob_start(); ?>
@@ -303,9 +300,15 @@ function mprm_get_register_fields() {
 	echo ob_get_clean();
 }
 
+/**
+ *
+ */
 function mprm_purchase_form_before_cc_form() {
 }
 
+/**
+ * Default cc address fields
+ */
 function mprm_default_cc_address_fields() {
 	$logged_in             = is_user_logged_in();
 	$customer              = models\Session::get_instance()->get_session_by_key( 'customer' );
@@ -403,16 +406,16 @@ function mprm_default_cc_address_fields() {
 			} ?>"<?php if ( models\Checkout::get_instance()->field_is_required( 'billing_country' ) ) {
 				echo ' required ';
 			} ?>>
-				<?php
-				$selected_country = models\Settings::get_instance()->get_shop_country();
+				<?php $selected_country = models\Settings::get_instance()->get_shop_country();
+				
 				if ( ! empty( $customer[ 'address' ][ 'country' ] ) && '*' !== $customer[ 'address' ][ 'country' ] ) {
 					$selected_country = $customer[ 'address' ][ 'country' ];
 				}
+				
 				$countries = models\Settings::get_instance()->get_country_list();
 				foreach ( $countries as $country_code => $country ) {
 					echo '<option value="' . esc_attr( $country_code ) . '"' . selected( $country_code, $selected_country, false ) . '>' . $country . '</option>';
-				}
-				?>
+				} ?>
 			</select>
 		</p>
 		<p id="mprm-card-state-wrap">
@@ -433,11 +436,9 @@ function mprm_default_cc_address_fields() {
 				<select name="card_state" id="card_state" class="card_state mprm-select<?php if ( models\Checkout::get_instance()->field_is_required( 'card_state' ) ) {
 					echo ' required';
 				} ?>">
-					<?php
-					foreach ( $states as $state_code => $state ) {
+					<?php foreach ( $states as $state_code => $state ) {
 						echo '<option value="' . $state_code . '"' . selected( $state_code, $selected_state, false ) . '>' . $state . '</option>';
-					}
-					?>
+					} ?>
 				</select>
 			<?php else : ?>
 				<?php $customer_state = ! empty( $customer[ 'address' ][ 'state' ] ) ? $customer[ 'address' ][ 'state' ] : ''; ?>
@@ -450,6 +451,9 @@ function mprm_default_cc_address_fields() {
 	echo ob_get_clean();
 }
 
+/**
+ * Terms agreement
+ */
 function mprm_terms_agreement() {
 	if ( mprm_get_option( 'show_agree_to_terms', false ) ) {
 		$agree_text  = mprm_get_option( 'agree_text', '' );
@@ -484,6 +488,9 @@ function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
 }
 
+/**
+ * Get login fields
+ */
 function mprm_get_login_fields() {
 	$color              = mprm_get_option( 'checkout_color', 'mprm-btn gray' );
 	$color              = ( $color == 'inherit' ) ? '' : $color;
@@ -542,9 +549,8 @@ function mprm_get_login_fields() {
 }
 
 /**
- *
+ * Payment mode top
  */
-
 function mprm_payment_mode_top() {
 	if ( models\Gateways::get_instance()->show_gateways() && did_action( 'mprm_payment_mode_top' ) > 1 ) {
 		return;
@@ -578,6 +584,8 @@ function mprm_payment_mode_top() {
 }
 
 /**
+ * Add body classes
+ *
  * @param $class
  *
  * @return array
@@ -608,6 +616,9 @@ function mprm_add_body_classes( $class ) {
 	return array_unique( $classes );
 }
 
+/**
+ * User info fields
+ */
 function mprm_user_info_fields() {
 	$customer = models\Customer::get_instance()->get_session_customer();
 	mprm_get_template( '/shop/user-info-fields', array( 'customer' => $customer ) );
@@ -616,6 +627,9 @@ function mprm_user_info_fields() {
 function mprm_purchase_form_before_register_login() {
 }
 
+/**
+ * Purchase form top
+ */
 function mprm_purchase_form_top() { ?>
 	<?php
 	$class = '';
@@ -634,6 +648,8 @@ function mprm_purchase_form_bottom() {
 }
 
 /**
+ * Filter where older than week
+ *
  * @param string $where
  *
  * @return string
@@ -730,6 +746,7 @@ function mprm_filter_success_page_content( $content ) {
 
 /**
  * Get plugin version
+ *
  * @return mixed
  */
 function mprm_get_plugin_version() {
@@ -737,6 +754,8 @@ function mprm_get_plugin_version() {
 }
 
 /**
+ * Success page uri
+ *
  * @return mixed
  */
 function mprm_get_success_page_uri() {
@@ -1043,9 +1062,10 @@ function mprm_get_shop_states( $country = null ) {
  * @return mixed
  */
 function mprm_get_menu_items( array $args ) {
-	$menu_items = models\Menu_item::get_instance()->get_menu_items( $args );
-	
-	return $menu_items[ 0 ][ 'posts' ];
+	$menu_items = models\Menu_item::get_instance()->get_menu_items_by_args( $args );
+
+//	return $menu_items[ 0 ][ 'posts' ];
+	return $menu_items;
 }
 
 /**
