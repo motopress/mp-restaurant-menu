@@ -250,7 +250,7 @@ class Media extends Core {
 		
 		$this->register_settings();
 		
-		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids' ) ) );
+		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-pending', 'post_type' => $this->get_post_type( 'order' ), 'fields' => 'ids' ) ) );
 		
 		foreach ( $submenu as $key => $value ) {
 			if ( isset( $submenu[ $key ][ 5 ] ) ) {
@@ -1897,7 +1897,7 @@ class Media extends Core {
 	 */
 	public function disable_autosave() {
 		global $post;
-		if ( ! empty( $post ) && $post->post_type == 'mprm_order' ) {
+		if ( ! empty( $post ) && $post->post_type == $this->get_post_type( 'order' ) ) {
 			wp_dequeue_script( 'autosave' );
 		}
 	}

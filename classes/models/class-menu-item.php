@@ -266,13 +266,7 @@ class Menu_item extends Store_item {
 	public function get_menu_items_by_args( array $args ) {
 		$items = $category_ids = $tags_ids = array();
 		
-		$params = array(
-			'post_type'      => $this->get_post_type( 'menu_item' ),
-			'post_status'    => 'publish',
-			'posts_per_page' => - 1,
-			'orderby'        => 'menu_order',
-			'tax_query'      => array()
-		);
+		$params = $this->get_default_args();
 		
 		if ( ! empty( $args[ 'item_ids' ] ) ) {
 			$params[ 'post__in' ] = explode( ',', $args[ 'item_ids' ] );
@@ -326,6 +320,23 @@ class Menu_item extends Store_item {
 	}
 	
 	/**
+	 * Menu item get default query args
+	 *
+	 * @return array
+	 */
+	protected function get_default_args() {
+		$params = array(
+			'post_type'      => $this->get_post_type( 'menu_item' ),
+			'post_status'    => 'publish',
+			'posts_per_page' => - 1,
+			'orderby'        => 'menu_order',
+			'tax_query'      => array()
+		);
+		
+		return $params;
+	}
+	
+	/**
 	 * Get taxonomies ids
 	 *
 	 * @param array $args
@@ -374,7 +385,7 @@ class Menu_item extends Store_item {
 							'taxonomy'         => $term->taxonomy,
 							'field'            => 'id',
 							'terms'            => $id,
-							'include_children' => ( !$term->parent ) ? true : false
+							'include_children' => ( ! $term->parent ) ? true : false
 						)
 					)
 				)
@@ -590,7 +601,7 @@ class Menu_item extends Store_item {
 			return $menu_item;
 		}
 		$args      = array(
-			'post_type'   => 'mp_menu_item',
+			'post_type'   => $this->get_post_type('menu_item'),
 			'name'        => $menu_item,
 			'numberposts' => 1
 		);

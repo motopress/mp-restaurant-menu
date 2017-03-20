@@ -969,7 +969,14 @@ function mprm_clean( $var ) {
  * @return mixed
  */
 function mprm_menu_item_dropdown( $data ) {
-	$menu_items = mprm_get_menu_items( array( 'orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item' ) );
+	$menu_items = get_posts( array(
+			'orderby'        => 'title',
+			'posts_per_page' => - 1,
+			'order'          => 'ASC',
+			'post_type'      => mprm_get_post_type( 'menu_item' ),
+			'post_status'    => 'any'
+		)
+	);
 	
 	if ( $menu_items ) {
 		$options[ 0 ] = sprintf( __( 'Select a %s', 'mp-restaurant-menu' ), mprm_get_label_singular() );
@@ -979,6 +986,7 @@ function mprm_menu_item_dropdown( $data ) {
 	} else {
 		$options[ 0 ] = __( 'No products found', 'mp-restaurant-menu' );
 	}
+	
 	$data[ 'options' ]          = $options;
 	$data[ 'show_option_all' ]  = false;
 	$data[ 'show_option_none' ] = false;
