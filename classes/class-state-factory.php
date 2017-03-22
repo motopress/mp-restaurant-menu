@@ -63,19 +63,5 @@ class State_Factory {
 		return $controller;
 	}
 
-	/**
-	 *  Get Preprocessor instance object
-	 *
-	 * @param string $value
-	 *
-	 * @return object
-	 */
-	public function get_preprocessor($value = null) {
-		$preprocessor = false;
-		$class = "{$this->namespace}\classes\preprocessors\Preprocessor_" . ucfirst($value);
-		if (class_exists($class)) {
-			$preprocessor = $class::get_instance();
-		}
-		return $preprocessor;
-	}
+
 }

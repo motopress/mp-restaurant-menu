@@ -300,6 +300,8 @@ function mprm_insert_payment( $payment ) {
 }
 
 /**
+ * Update payment status
+ *
  * @param $payment_id
  * @param $new_status
  *

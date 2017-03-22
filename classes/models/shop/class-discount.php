@@ -417,13 +417,13 @@ class Discount extends Model {
 		$return   = false;
 		if ( $discount ) {
 			if ( $this->is_discount_expired( $code_id ) ) {
-				if ( defined( 'DOING_AJAX' ) ) {
+				if ( self::is_ajax() ) {
 					$this->get( 'errors' )->set_error( 'mprm-discount-error', __( 'This discount is expired.', 'mp-restaurant-menu' ) );
 				}
 			} elseif ( $discount->post_status == 'active' ) {
 				$return = true;
 			} else {
-				if ( defined( 'DOING_AJAX' ) ) {
+				if ( self::is_ajax() ) {
 					$this->get( 'errors' )->set_error( 'mprm-discount-error', __( 'This discount is not active.', 'mp-restaurant-menu' ) );
 				}
 			}
@@ -608,9 +608,11 @@ class Discount extends Model {
 					if ( empty( $payment->discounts ) ) {
 						continue;
 					}
+					
 					if ( in_array( $payment->status, array( 'abandoned', 'mprm-failed' ) ) ) {
 						continue;
 					}
+					
 					$discounts = explode( ',', $payment->discounts );
 					if ( is_array( $discounts ) ) {
 						if ( in_array( strtolower( $code ), $discounts ) ) {
@@ -767,6 +769,8 @@ class Discount extends Model {
 	}
 	
 	/**
+	 * Setup cart discount
+	 *
 	 * @param string $code
 	 *
 	 * @return array|bool
@@ -794,6 +798,8 @@ class Discount extends Model {
 	}
 	
 	/**
+	 * Is allowed multi discounts
+	 *
 	 * @return bool
 	 */
 	public function multiple_discounts_allowed() {
@@ -802,6 +808,9 @@ class Discount extends Model {
 		return (bool) apply_filters( 'mprm_multiple_discounts_allowed', $ret );
 	}
 	
+	/**
+	 * Init discount action
+	 */
 	public function init_action() {
 		add_action( 'mprm_discount_decrease_use_count', 'mprm_discount_decrease_use_count', 10, 3 );
 		add_action( 'mprm_discount_increase_use_count', 'mprm_discount_increase_use_count', 10, 3 );

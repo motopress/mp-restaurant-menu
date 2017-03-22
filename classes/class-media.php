@@ -250,7 +250,7 @@ class Media extends Core {
 		
 		$this->register_settings();
 		
-		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-pending', 'post_type' => $this->get_post_type( 'order' ), 'fields' => 'ids' ) ) );
+		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-processing', 'post_type' => $this->get_post_type( 'order' ), 'fields' => 'ids' ) ) );
 		
 		foreach ( $submenu as $key => $value ) {
 			if ( isset( $submenu[ $key ][ 5 ] ) ) {

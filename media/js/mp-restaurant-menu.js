@@ -148,6 +148,7 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			},
 			/**
 			 * String convert to Bool
+			 *
 			 * @param string
 			 * @returns {boolean}
 			 */

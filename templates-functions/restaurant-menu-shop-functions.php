@@ -872,6 +872,21 @@ function mprm_get_payment_statuses() {
 }
 
 /**
+ * Status Label
+ *
+ * @param $status_key
+ *
+ * @return mixed
+ *
+ */
+function mprm_get_payment_status_label( $status_key ) {
+	$statuses = models\Payments::get_instance()->get_payment_statuses();
+	$status   = isset( $statuses[ $status_key ] ) ? $statuses[ $status_key ] : $status_key;
+	
+	return $status;
+}
+
+/**
  * @param $post
  *
  * @return models\Order

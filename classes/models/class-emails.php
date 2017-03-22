@@ -231,6 +231,7 @@ class Emails extends Model {
 		$this->email_purchase_receipt( $purchase_id, false );
 		
 		wp_redirect( add_query_arg( array( 'mprm-message' => 'email_sent', 'mprm-action' => false, 'purchase_id' => false ) ) );
+		
 		exit;
 	}
 	
