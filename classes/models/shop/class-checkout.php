@@ -131,7 +131,7 @@ class Checkout extends Model {
 		
 		$scheme   = defined( 'FORCE_SSL_ADMIN' ) && FORCE_SSL_ADMIN ? 'https' : 'admin';
 		$ajax_url = admin_url( 'admin-ajax.php', $scheme );
-		if ( ( ! preg_match( '/^https/', $uri ) && preg_match( '/^https/', $ajax_url ) && $this->get( 'settings' )->is_ajax_enabled() ) || $this->get( 'settings' )->is_ssl_enforced() ) {
+		if ( ( ! preg_match( '/^https/', $uri ) && preg_match( '/^https/', $ajax_url ) && ! $this->get( 'settings' )->is_ajax_disabled() ) || $this->get( 'settings' )->is_ssl_enforced() ) {
 			$uri = preg_replace( '/^http:/', 'https:', $uri );
 		}
 		if ( $this->get( 'settings' )->get_option( 'no_cache_checkout', false ) ) {
@@ -233,8 +233,6 @@ class Checkout extends Model {
 	/**
 	 * Validate credit card number based on the luhn algorithm
 	 *
-	 * @since  2.4
-	 *
 	 * @param string $number
 	 *
 	 * @return bool
@@ -269,7 +267,7 @@ class Checkout extends Model {
 	 * Detect credit card type based on the number and return an
 	 * array of data to validate the credit card number
 	 *
-	 * @since  2.4
+	 *
 	 *
 	 * @param string $number
 	 *
@@ -349,7 +347,7 @@ class Checkout extends Model {
 	/**
 	 * Validate credit card expiration date
 	 *
-	 * @since  2.4
+	 *
 	 *
 	 * @param string $exp_month
 	 * @param string $exp_year

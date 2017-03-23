@@ -87,7 +87,7 @@ class Gateways extends Model {
 			),
 			'manual'      => array(
 				'admin_label'    => __( 'Cash on delivery (process orders manually)', 'mp-restaurant-menu' ),
-				'checkout_label' => $this->get( 'settings' )->get_option( 'manual_title', __( 'Cash on delivery', 'mp-restaurant-menu' ) )
+				'checkout_label' => $this->get( 'settings' )->get_option( 'manual_title', __( 'Cash on Delivery', 'mp-restaurant-menu' ) )
 			)
 		);
 		

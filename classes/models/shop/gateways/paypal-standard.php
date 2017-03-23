@@ -22,6 +22,8 @@ class Paypal_standart extends Model {
 	}
 	
 	/**
+	 * PayPal purchase
+	 *
 	 * @param $purchase_data
 	 */
 	public function process_paypal_purchase( $purchase_data ) {
@@ -43,6 +45,7 @@ class Paypal_standart extends Model {
 		);
 		// Record the pending payment
 		$payment = $this->get( 'payments' )->insert_payment( $payment_data );
+		
 		// Check payment
 		if ( ! $payment ) {
 			// Record the error
@@ -57,8 +60,10 @@ class Paypal_standart extends Model {
 				'payment-confirmation' => 'paypal',
 				'payment-id'           => $payment
 			), get_permalink( $this->get( 'settings' )->get_option( 'success_page', false ) ) );
+			
 			// Get the PayPal redirect uri
 			$paypal_redirect = trailingslashit( $this->get_paypal_redirect() ) . '?';
+			
 			// Setup PayPal arguments
 			$paypal_args = array(
 				'business'      => $this->get( 'settings' )->get_option( 'paypal_email', false ),
@@ -80,19 +85,23 @@ class Paypal_standart extends Model {
 				'cbt'           => get_bloginfo( 'name' ),
 				'bn'            => 'MotoPress_SP_MPRM'
 			);
+			
 			if ( ! empty( $purchase_data[ 'user_info' ][ 'address' ] ) ) {
 				$paypal_args[ 'address1' ] = $purchase_data[ 'user_info' ][ 'address' ][ 'line1' ];
 				$paypal_args[ 'address2' ] = $purchase_data[ 'user_info' ][ 'address' ][ 'line2' ];
 				$paypal_args[ 'city' ]     = $purchase_data[ 'user_info' ][ 'address' ][ 'city' ];
 				$paypal_args[ 'country' ]  = $purchase_data[ 'user_info' ][ 'address' ][ 'country' ];
 			}
+			
 			$paypal_extra_args = array(
 				'cmd'    => '_cart',
 				'upload' => '1'
 			);
-			$paypal_args       = array_merge( $paypal_extra_args, $paypal_args );
+			
+			$paypal_args = array_merge( $paypal_extra_args, $paypal_args );
 			// Add cart items
 			$i = 1;
+			
 			if ( is_array( $purchase_data[ 'cart_details' ] ) && ! empty( $purchase_data[ 'cart_details' ] ) ) {
 				foreach ( $purchase_data[ 'cart_details' ] as $item ) {
 					$item_amount = round( ( $item[ 'subtotal' ] / $item[ 'quantity' ] ) - ( $item[ 'discount' ] / $item[ 'quantity' ] ), 2 );
@@ -108,8 +117,10 @@ class Paypal_standart extends Model {
 					$i ++;
 				}
 			}
+			
 			// Calculate discount
 			$discounted_amount = 0.00;
+			
 			if ( ! empty( $purchase_data[ 'fees' ] ) ) {
 				$i = empty( $i ) ? 1 : $i;
 				foreach ( $purchase_data[ 'fees' ] as $fee ) {
@@ -124,9 +135,11 @@ class Paypal_standart extends Model {
 					}
 				}
 			}
+			
 			if ( $discounted_amount > '0' ) {
 				$paypal_args[ 'discount_amount_cart' ] = $this->get( 'formatting' )->sanitize_amount( $discounted_amount );
 			}
+			
 			// Add taxes to the cart
 			if ( $this->get( 'taxes' )->use_taxes() ) {
 				$paypal_args[ 'tax_cart' ] = $this->get( 'formatting' )->sanitize_amount( $purchase_data[ 'tax' ] );
@@ -136,7 +149,6 @@ class Paypal_standart extends Model {
 				$paypal_args[ 'no_shipping' ] = '0';
 				$paypal_args[ 'shipping_1' ]  = apply_filters( 'mprm_shipping_cost_gateway', $purchase_data[ 'shipping_cost' ] );
 			}
-			
 			
 			$paypal_args = apply_filters( 'mprm_paypal_redirect_args', $paypal_args, $purchase_data );
 			// Build query
@@ -248,6 +260,7 @@ class Paypal_standart extends Model {
 		}
 		// Convert collected post data to an array
 		parse_str( $encoded_data, $encoded_data_array );
+		
 		foreach ( $encoded_data_array as $key => $value ) {
 			if ( false !== strpos( $key, 'amp;' ) ) {
 				$new_key = str_replace( '&amp;', '&', $key );
@@ -256,6 +269,7 @@ class Paypal_standart extends Model {
 				$encoded_data_array[ $new_key ] = $value;
 			}
 		}
+		
 		// Get the PayPal redirect uri
 		$paypal_redirect = $this->get_paypal_redirect( true );
 		
@@ -285,16 +299,20 @@ class Paypal_standart extends Model {
 				return; // Response not okay
 			}
 		}
+		
 		// Check if $post_data_array has been populated
 		if ( ! is_array( $encoded_data_array ) && ! empty( $encoded_data_array ) ) {
 			return;
 		}
-		$defaults           = array(
+		
+		$defaults = array(
 			'txn_type'       => '',
 			'payment_status' => ''
 		);
+		
 		$encoded_data_array = wp_parse_args( $encoded_data_array, $defaults );
 		$payment_id         = isset( $encoded_data_array[ 'custom' ] ) ? absint( $encoded_data_array[ 'custom' ] ) : 0;
+		
 		if ( has_action( 'mprm_paypal_' . $encoded_data_array[ 'txn_type' ] ) ) {
 			// Allow PayPal IPN types to be processed separately
 			do_action( 'mprm_paypal_' . $encoded_data_array[ 'txn_type' ], $encoded_data_array, $payment_id );
@@ -302,6 +320,7 @@ class Paypal_standart extends Model {
 			// Fallback to web accept just in case the txn_type isn't present
 			do_action( 'mprm_paypal_web_accept', $encoded_data_array, $payment_id );
 		}
+		
 		exit;
 	}
 	
@@ -322,6 +341,7 @@ class Paypal_standart extends Model {
 		if ( empty( $payment_id ) ) {
 			return;
 		}
+		
 		// Collect payment details
 		$purchase_key   = isset( $data[ 'invoice' ] ) ? $data[ 'invoice' ] : $data[ 'item_number' ];
 		$paypal_amount  = $data[ 'mc_gross' ];
@@ -333,6 +353,7 @@ class Paypal_standart extends Model {
 		if ( $this->get( 'payments' )->get_payment_gateway( $payment_id ) != 'paypal' ) {
 			return; // this isn't a PayPal standard IPN
 		}
+		
 		// Verify payment recipient
 		if ( strcasecmp( $business_email, trim( $this->get( 'settings' )->get_option( 'paypal_email', false ) ) ) != 0 ) {
 			$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-failed' );
@@ -340,17 +361,22 @@ class Paypal_standart extends Model {
 			
 			return;
 		}
+		
 		// Verify payment currency
 		if ( $currency_code != strtolower( $payment_meta[ 'currency' ] ) ) {
+			
 			$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-failed' );
 			$this->get( 'payments' )->insert_payment_note( $payment_id, __( 'Payment failed due to invalid currency in PayPal IPN.', 'mp-restaurant-menu' ) );
 			
 			return;
 		}
+		
 		if ( ! $this->get( 'payments' )->get_payment_user_email( $payment_id ) ) {
+			
 			// This runs when a Buy Now purchase was made. It bypasses checkout so no personal info is collected until PayPal
 			// No email associated with purchase, so store from PayPal
 			$this->get( 'payments' )->update_payment_meta( $payment_id, '_mprm_order_user_email', $data[ 'payer_email' ] );
+			
 			// Setup and store the customers's details
 			$address                     = array();
 			$address[ 'line1' ]          = ! empty( $data[ 'address_street' ] ) ? sanitize_text_field( $data[ 'address_street' ] ) : false;
@@ -369,6 +395,7 @@ class Paypal_standart extends Model {
 			$payment_meta[ 'user_info' ] = $user_info;
 			$this->get( 'payments' )->update_payment_meta( $payment_id, '_mprm_order_meta', $payment_meta );
 		}
+		
 		if ( $payment_status == 'mprm-refunded' || $payment_status == 'reversed' ) {
 			// Process a refund
 			$this->process_paypal_refund( $data, $payment_id );
@@ -376,8 +403,10 @@ class Paypal_standart extends Model {
 			if ( get_post_status( $payment_id ) == 'publish' ) {
 				return; // Only complete payments once
 			}
+			
 			// Retrieve the total purchase amount (before PayPal)
 			$payment_amount = $this->get( 'payments' )->get_payment_amount( $payment_id );
+			
 			if ( number_format( (float) $paypal_amount, 2 ) < number_format( (float) $payment_amount, 2 ) ) {
 				// The prices don't match
 				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-failed' );
@@ -385,6 +414,7 @@ class Paypal_standart extends Model {
 				
 				return;
 			}
+			
 			if ( $purchase_key != $this->get( 'payments' )->get_payment_key( $payment_id ) ) {
 				// Purchase keys don't match
 				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-failed' );
@@ -392,13 +422,19 @@ class Paypal_standart extends Model {
 				
 				return;
 			}
+			
 			if ( 'mprm-completed' == $payment_status || $this->get( 'misc' )->is_test_mode() ) {
+				
 				$this->get( 'payments' )->insert_payment_note( $payment_id, sprintf( __( 'PayPal Transaction ID: %s', 'mp-restaurant-menu' ), $data[ 'txn_id' ] ) );
 				$this->get( 'payments' )->set_payment_transaction_id( $payment_id, $data[ 'txn_id' ] );
-				$this->get( 'payments' )->update_payment_status( $payment_id, 'publish' );
+				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-confirmed' );
+				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-processing' );
+				
 			} else if ( 'mprm-pending' == $payment_status && isset( $data[ 'pending_reason' ] ) ) {
+				
 				// Look for possible pending reasons, such as an echeck
 				$note = '';
+				
 				switch ( strtolower( $data[ 'pending_reason' ] ) ) {
 					case 'echeck' :
 						$note = __( 'Payment made via eCheck and will clear automatically in 5-8 days', 'mp-restaurant-menu' );
@@ -429,6 +465,7 @@ class Paypal_standart extends Model {
 						$note = __( 'Payment is pending for unknown reasons. Contact PayPal support for assistance', 'mp-restaurant-menu' );
 						break;
 				}
+				
 				if ( ! empty( $note ) ) {
 					$this->get( 'payments' )->insert_payment_note( $payment_id, $note );
 				}
@@ -451,16 +488,20 @@ class Paypal_standart extends Model {
 		if ( empty( $payment_id ) ) {
 			return;
 		}
+		
 		if ( get_post_status( $payment_id ) == 'mprm-refunded' ) {
 			return; // Only refund payments once
 		}
+		
 		$payment_amount = $this->get( 'payments' )->get_payment_amount( $payment_id );
 		$refund_amount  = $data[ 'mc_gross' ] * - 1;
+		
 		if ( number_format( (float) $refund_amount, 2 ) < number_format( (float) $payment_amount, 2 ) ) {
 			$this->get( 'payments' )->insert_payment_note( $payment_id, sprintf( __( 'Partial PayPal refund processed: %s', 'mp-restaurant-menu' ), $data[ 'parent_txn_id' ] ) );
 			
 			return; // This is a partial refund
 		}
+		
 		$this->get( 'payments' )->insert_payment_note( $payment_id, sprintf( __( 'PayPal Payment #%s Refunded for reason: %s', 'mp-restaurant-menu' ), $data[ 'parent_txn_id' ], $data[ 'reason_code' ] ) );
 		$this->get( 'payments' )->insert_payment_note( $payment_id, sprintf( __( 'PayPal Refund Transaction ID: %s', 'mp-restaurant-menu' ), $data[ 'txn_id' ] ) );
 		$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-refunded' );
@@ -489,7 +530,7 @@ class Paypal_standart extends Model {
 		$payment = get_post( $payment_id );
 		if ( $payment && 'mprm-pending' == $payment->post_status ) {
 			$success_page_uri = $this->get( 'checkout' )->get_success_page_uri();
-			$content          = View::get_instance()->get_template( 'shop/processing', array( 'success_page_uri' => $success_page_uri ) );
+			$content          = View::get_instance()->get_template_html( 'shop/processing', array( 'success_page_uri' => $success_page_uri ) );
 		}
 		
 		return $content;
@@ -497,8 +538,6 @@ class Paypal_standart extends Model {
 	
 	/**
 	 * Given a Payment ID, extract the transaction ID
-	 *
-	 * @since  2.1
 	 *
 	 * @param  string $payment_id Payment ID
 	 *
@@ -520,8 +559,6 @@ class Paypal_standart extends Model {
 	/**
 	 * Given a transaction ID, generate a link to the PayPal transaction ID details
 	 *
-	 * @since  2.2
-	 *
 	 * @param  string $transaction_id The Transaction ID
 	 * @param  int $payment_id The payment ID for this transaction
 	 *
@@ -534,6 +571,9 @@ class Paypal_standart extends Model {
 		return apply_filters( 'mprm_paypal_link_payment_details_transaction_id', $transaction_url );
 	}
 	
+	/**
+	 * Init PayPal Standard
+	 */
 	public function init_action() {
 		add_action( 'init', array( $this, 'listen_for_paypal_ipn' ) );
 		add_filter( 'mprm_payment_details_transaction_id-paypal', array( $this, 'paypal_link_transaction_id' ), 10, 2 );

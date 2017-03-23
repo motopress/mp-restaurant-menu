@@ -187,7 +187,7 @@ function mprm_get_cc_form() {
 				<span class="card-type"></span>
 			</label>
 			<span class="mprm-description"><?php _e( 'The (typically) 16 digits on the front of your credit card.', 'mp-restaurant-menu' ); ?></span>
-			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number mprm-input required" placeholder="<?php _e( 'Card number', 'mp-restaurant-menu' ); ?>"/>
+			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number mprm-input required" placeholder="<?php _e( 'Card Number', 'mp-restaurant-menu' ); ?>"/>
 		</p>
 		<p id="mprm-card-cvc-wrap">
 			<label for="card_cvc" class="mprm-label">
@@ -999,7 +999,7 @@ function mprm_menu_item_dropdown( $data ) {
 			$options[ absint( $product->ID ) ] = esc_html( $product->post_title );
 		}
 	} else {
-		$options[ 0 ] = __( 'No products found', 'mp-restaurant-menu' );
+		$options[ 0 ] = __( 'No menu items found', 'mp-restaurant-menu' );
 	}
 	
 	$data[ 'options' ]          = $options;
@@ -1025,6 +1025,7 @@ function mprm_customers_dropdown( $data ) {
 	$data    = wp_parse_args( $data, $argc );
 	
 	$customers = models\Customer::get_instance()->get_customers();
+	
 	if ( ! empty( $customers ) ) {
 		foreach ( $customers as $customer ) {
 			$options[ $customer->id ] = $customer->name;
@@ -1086,8 +1087,7 @@ function mprm_get_shop_states( $country = null ) {
  */
 function mprm_get_menu_items( array $args ) {
 	$menu_items = models\Menu_item::get_instance()->get_menu_items_by_args( $args );
-
-//	return $menu_items[ 0 ][ 'posts' ];
+	
 	return $menu_items;
 }
 

@@ -49,7 +49,6 @@ class Settings_emails extends Model {
 	/**
 	 * The header text for the email
 	 *
-	 * @since  2.1
 	 */
 	private $heading = '';
 

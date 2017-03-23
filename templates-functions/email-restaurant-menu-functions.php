@@ -513,8 +513,8 @@ function mprm_get_default_sale_notification_email() {
 	$default_email_body .= __( 'Purchased products:', 'mp-restaurant-menu' ) . "\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
 	$default_email_body .= __( 'Purchased by: ', 'mp-restaurant-menu' ) . " " . "{fullname}" . "\n";
-	$default_email_body .= __( 'Amount: ', 'mp-restaurant-menu' ) . " " . "{price}" . "\n";
-	$default_email_body .= __( 'Payment Method: ', 'mp-restaurant-menu' ) . " " . "{payment_method}" . "\n\n";
+	$default_email_body .= __( 'Amount', 'mp-restaurant-menu' ) . ": " . "{price}" . "\n";
+	$default_email_body .= __( 'Payment Method:', 'mp-restaurant-menu' ) . " " . "{payment_method}" . "\n\n";
 	$default_email_body .= __( 'Thank you', 'mp-restaurant-menu' );
 	
 	$message = mprm_get_option( 'sale_notification', false );
