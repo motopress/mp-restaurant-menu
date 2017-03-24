@@ -40,7 +40,7 @@ class Test_Manual_payment extends Model {
 			'date' => date('Y-m-d H:i:s'),
 			'user_id' => $user_id,
 			'post_data' => $_POST,
-			'user_info' => array of user's information and used discount code
+			'user_info' => array of user's information
 			'cart_details' => array of cart details,
 		);
 		*/
@@ -59,9 +59,13 @@ class Test_Manual_payment extends Model {
 		$payment = $this->get( 'payments' )->insert_payment( $payment_data );
 		
 		if ( $payment ) {
+			$this->get( 'cart' )->empty_cart();
+			
+			// Update status to processing
+			$this->get( 'payments' )->update_payment_status( $payment, 'mprm-processing' );
 			$this->get( 'payments' )->update_payment_status( $payment, 'publish' );
 			// Empty the shopping cart
-			$this->get( 'cart' )->empty_cart();
+			
 			$this->get( 'checkout' )->send_to_success_page( '?payment_key=' . $this->get( 'payments' )->get_payment_key( $payment ) );
 		} else {
 			// If errors are present, send the user back to the purchase page so they can be corrected

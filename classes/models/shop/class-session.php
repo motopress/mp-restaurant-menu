@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
@@ -35,7 +36,7 @@ class Session extends Core {
 	 * @since 2.3
 	 */
 	private $prefix = '';
-
+	
 	/**
 	 * Get things started
 	 *

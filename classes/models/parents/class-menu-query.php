@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models\parents;
 
 use mp_restaurant_menu\classes\Model;
@@ -176,7 +177,7 @@ class Parent_query extends Model {
 						// If current month is 1
 						if ( 1 == $month ) {
 							
-							$year -= 1; // Today is January 1, so skip back to last day of December
+							$year  -= 1; // Today is January 1, so skip back to last day of December
 							$month = 12;
 							$day   = cal_days_in_month( CAL_GREGORIAN, $month, $year );
 							
@@ -184,7 +185,7 @@ class Parent_query extends Model {
 							
 							// Go back one month and get the last day of the month
 							$month -= 1;
-							$day = cal_days_in_month( CAL_GREGORIAN, $month, $year );
+							$day   = cal_days_in_month( CAL_GREGORIAN, $month, $year );
 							
 						}
 					}
@@ -322,7 +323,7 @@ class Parent_query extends Model {
 						if ( ! $end_date ) {
 							$month = 10;
 						} else {
-							$year -= 1;
+							$year   -= 1;
 							$month  = 12;
 							$day    = cal_days_in_month( CAL_GREGORIAN, $month, $year );
 							$hour   = 23;
@@ -645,20 +646,6 @@ class Parent_query extends Model {
 			$search = str_replace( '#:', '', $search );
 			$search = str_replace( '#', '', $search );
 			$this->__set( 'menu_item', $search );
-			$this->__unset( 's' );
-			
-		} elseif ( 0 === strpos( $search, 'discount:' ) ) {
-			
-			$search = trim( str_replace( 'discount:', '', $search ) );
-			$search = 'discount.*' . $search;
-			
-			$search_meta = array(
-				'key'     => '_mprm_order_meta',
-				'value'   => $search,
-				'compare' => 'REGEXP',
-			);
-			
-			$this->__set( 'meta_query', $search_meta );
 			$this->__unset( 's' );
 			
 		} else {

@@ -5,6 +5,7 @@ use mp_restaurant_menu\classes\Model;
 
 /**
  * Class Fees
+ *
  * @package mp_restaurant_menu\classes\models
  */
 class Fees extends Model {

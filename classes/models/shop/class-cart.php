@@ -294,7 +294,6 @@ class Cart extends Model {
 	public function empty_cart() {
 		$this->get( 'session' )->set( 'mprm_cart', null );
 		$this->get( 'session' )->set( 'mprm_cart_fees', null );
-		$this->get( 'discount' )->unset_all_cart_discounts();
 		do_action( 'mprm_empty_cart' );
 	}
 	
@@ -636,7 +635,7 @@ class Cart extends Model {
 	 * @return array|bool
 	 */
 	public function get_cart_content_details() {
-		global $mprm_is_last_cart_item, $mprm_flat_discount_total;
+		global $mprm_is_last_cart_item;
 		
 		$cart_items = $this->get_cart_contents();
 		
@@ -655,21 +654,19 @@ class Cart extends Model {
 			$item[ 'quantity' ] = $this->item_quantities_enabled() ? absint( $item[ 'quantity' ] ) : 1;
 			$item_price         = $this->get_cart_item_price( $item[ 'id' ], $item[ 'options' ] );
 			
-			$discount = $this->get( 'discount' )->get_cart_item_discount_amount( $item );
-			$discount = apply_filters( 'mprm_get_cart_content_details_item_discount_amount', $discount, $item );
 			
 			$quantity = $this->get_cart_item_quantity( $item[ 'id' ], $item[ 'options' ], $key );
 			$fees     = $this->get_cart_fees( 'fee', $item[ 'id' ] );
 			
 			$subtotal = $item_price * $quantity;
 			
-			$tax = $this->get_cart_item_tax( $item[ 'id' ], $item[ 'options' ], $subtotal - $discount );
+			$tax = $this->get_cart_item_tax( $item[ 'id' ], $item[ 'options' ], $subtotal  );
 			
 			if ( $this->get( 'taxes' )->prices_include_tax() ) {
 				$subtotal -= round( $tax, $this->get( 'formatting' )->currency_decimal_filter() );
 			}
 			
-			$total = $subtotal - $discount + $tax;
+			$total = $subtotal  + $tax;
 			// Do not allow totals to go negative
 			if ( $total < 0 ) {
 				$total = 0;
@@ -680,7 +677,6 @@ class Cart extends Model {
 				'item_number' => $item,
 				'item_price'  => round( $item_price, $this->get( 'formatting' )->currency_decimal_filter() ),
 				'quantity'    => $quantity,
-				'discount'    => round( $discount, $this->get( 'formatting' )->currency_decimal_filter() ),
 				'subtotal'    => round( $subtotal, $this->get( 'formatting' )->currency_decimal_filter() ),
 				'tax'         => round( $tax, $this->get( 'formatting' )->currency_decimal_filter() ),
 				'fees'        => $fees,
@@ -688,7 +684,6 @@ class Cart extends Model {
 			);
 			if ( $mprm_is_last_cart_item ) {
 				$mprm_is_last_cart_item   = false;
-				$mprm_flat_discount_total = 0.00;
 			}
 		}
 		
@@ -754,32 +749,8 @@ class Cart extends Model {
 		
 		return apply_filters( 'mprm_get_cart_items_subtotal', $subtotal );
 	}
-	
-	/**
-	 * Cart has discounts
-	 *
-	 * @return mixed
-	 */
-	public function cart_has_discounts() {
-		$ret = false;
-		if ( $this->get_cart_discounts() ) {
-			$ret = true;
-		}
-		
-		return apply_filters( 'mprm_cart_has_discounts', $ret );
-	}
-	
-	/**
-	 * Cart Discounts
-	 *
-	 * @return array|bool
-	 */
-	public function get_cart_discounts() {
-		$discounts = $this->get( 'session' )->get_session_by_key( 'cart_discounts' );
-		$discounts = ! empty( $discounts ) ? explode( '|', $discounts ) : false;
-		
-		return $discounts;
-	}
+
+
 	
 	/**
 	 * Cart total
@@ -803,34 +774,14 @@ class Cart extends Model {
 	 */
 	public function get_cart_total() {
 		$subtotal  = (float) $this->get_cart_subtotal();
-		$discounts = (float) $this->get_cart_discounted_amount();
 		$cart_tax  = (float) $this->get_cart_tax();
 		$fees      = (float) $this->get( 'fees' )->total();
-		$total     = $subtotal - $discounts + $cart_tax + $fees;
+		$total     = $subtotal + $cart_tax + $fees;
 		if ( $total < 0 ) {
 			$total = 0.00;
 		}
 		
 		return (float) apply_filters( 'mprm_get_cart_total', $total );
-	}
-	
-	/**
-	 * @param bool $discounts
-	 *
-	 * @return mixed
-	 */
-	public function get_cart_discounted_amount( $discounts = false ) {
-		$amount = 0.00;
-		$items  = $this->get_cart_content_details();
-		if ( $items ) {
-			$discounts = wp_list_pluck( $items, 'discount' );
-			if ( is_array( $discounts ) ) {
-				$discounts = array_map( 'floatval', $discounts );
-				$amount    = array_sum( $discounts );
-			}
-		}
-		
-		return apply_filters( 'mprm_get_cart_discounted_amount', $amount );
 	}
 	
 	/**

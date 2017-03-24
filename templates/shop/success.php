@@ -81,16 +81,7 @@ if ( isset( $need_login ) && $need_login ) {
 			</td>
 		</tr>
 	<?php endif; ?>
-	
-	<?php if ( filter_var( $receipt_args[ 'discount' ], FILTER_VALIDATE_BOOLEAN ) && isset( $user[ 'discount' ] ) && $user[ 'discount' ] != 'none' ) : ?>
-		<tr>
-			<td><strong><?php _e( 'Discount(s)', 'mp-restaurant-menu' ); ?>:</strong></td>
-			<td><?php echo $user[ 'discount' ]; ?></td>
-		</tr>
-	<?php endif; ?>
-	
 	<?php do_action( 'mprm_success_page_subtotal_before', $order ) ?>
-	
 	<?php if ( filter_var( $receipt_args[ 'price' ], FILTER_VALIDATE_BOOLEAN ) ) : ?>
 		<tr>
 			<td><strong><?php _e( 'Subtotal', 'mp-restaurant-menu' ); ?> </strong></td>

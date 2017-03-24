@@ -161,7 +161,6 @@ final class Payments extends Parent_query {
 					'tax'        => $item[ 'tax' ],
 					'item_price' => isset( $item[ 'item_price' ] ) ? $item[ 'item_price' ] : $item[ 'price' ],
 					'fees'       => isset( $item[ 'fees' ] ) ? $item[ 'fees' ] : array(),
-					'discount'   => isset( $item[ 'discount' ] ) ? $item[ 'discount' ] : 0,
 				);
 				
 				$options = isset( $item[ 'item_number' ][ 'options' ] ) ? $item[ 'item_number' ][ 'options' ] : array();
@@ -187,7 +186,6 @@ final class Payments extends Parent_query {
 		$payment->key              = $payment_data[ 'purchase_key' ];
 		$payment->mode             = $this->get( 'misc' )->is_test_mode() ? 'test' : 'live';
 		$payment->parent_payment   = ! empty( $payment_data[ 'parent' ] ) ? absint( $payment_data[ 'parent' ] ) : '';
-		$payment->discounts        = ! empty( $payment_data[ 'user_info' ][ 'discount' ] ) ? $payment_data[ 'user_info' ][ 'discount' ] : array();
 		$payment->customer_note    = ! empty( $session[ 'customer_note' ] ) ? $session[ 'customer_note' ] : '';
 		$payment->shipping_address = ! empty( $session[ 'shipping_address' ] ) ? $session[ 'shipping_address' ] : '';
 		$payment->phone_number     = ! empty( $session[ 'phone_number' ] ) ? $session[ 'phone_number' ] : '';
@@ -1122,12 +1120,7 @@ final class Payments extends Parent_query {
 				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
 				$where .= $wpdb->prepare( "AND m.meta_key = '_mprm_order_user_id' AND m.meta_value = %d", $args[ 's' ] );
 				
-			} elseif ( 0 === strpos( $args[ 's' ], 'discount:' ) ) {
-				$search = str_replace( 'discount:', '', $args[ 's' ] );
-				$search = 'discount.*' . $search;
-				$join   = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
-				$where .= $wpdb->prepare( "AND m.meta_key = '_mprm_order_meta'	AND m.meta_value REGEXP %s", $search );
-			} else {
+			}  else {
 				$search = $wpdb->esc_like( $args[ 's' ] );
 				$search = '%' . $search . '%';
 				$where .= $wpdb->prepare( "AND ((p.post_title LIKE %s) OR (p.post_content LIKE %s))", $search, $search );
@@ -1886,16 +1879,6 @@ final class Payments extends Parent_query {
 		$customer->increase_value( $amount );
 		
 		$this->increase_total_earnings( $amount );
-		
-		// Check for discount codes and increment their use counts
-		if ( ! empty( $user_info[ 'discount' ] ) && $user_info[ 'discount' ] !== 'none' ) {
-			$discounts = array_map( 'trim', explode( ',', $user_info[ 'discount' ] ) );
-			if ( ! empty( $discounts ) ) {
-				foreach ( $discounts as $code ) {
-					$this->get( 'discount' )->increase_discount_usage( $code );
-				}
-			}
-		}
 		
 		// Ensure this action only runs once ever
 		if ( empty( $completed_date ) ) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Settings;
@@ -47,7 +48,7 @@ class Media extends Core {
 		} else {
 			parse_str( $args, $rgs );
 		}
-		$args = array_merge( $default, $rgs );
+		$args              = array_merge( $default, $rgs );
 		$args[ 'maxchar' ] += 0;
 		// cutting
 		if ( mb_strlen( $args[ 'text' ] ) > $args[ 'maxchar' ] && $args[ 'maxchar' ] != 0 ) {
@@ -798,6 +799,7 @@ class Media extends Core {
 							'name' => __( 'Title', 'mp-restaurant-menu' ),
 							'desc' => __( 'This controls the title which the user sees during checkout.', 'mp-restaurant-menu' ),
 							'type' => 'text',
+							'std'  => __( 'PayPal', 'mp-restaurant-menu' ),
 							'size' => 'regular',
 						),
 						'paypal_description'          => array(
@@ -820,6 +822,7 @@ class Media extends Core {
 							'name' => __( 'Title', 'mp-restaurant-menu' ),
 							'desc' => __( 'Payment method description that the customer will see on your checkout.', 'mp-restaurant-menu' ),
 							'type' => 'text',
+							'std'  => __( 'Cash on Delivery', 'mp-restaurant-menu' ),
 							'size' => 'regular',
 						),
 						'manual_description' => array(
