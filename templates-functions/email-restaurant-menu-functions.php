@@ -459,7 +459,7 @@ function mprm_email_tag_order_notes( $order = false ) {
 	if ( ! empty( $order ) && is_integer( $order ) ) {
 		
 		$order_object  = mprm_get_order_object( get_post( $order ) );
-		$customer_note = empty( $order_object->customer_note ) ? '' : $order_object->customer_note;
+		$customer_note = empty( $order_object->customer_note ) ? '–' : $order_object->customer_note;
 		
 		if ( ! empty( $customer_note ) ) {
 			$order_notes_html = View::get_instance()->get_template_html( 'emails/tags/order-notes', array( 'note' => apply_filters( 'mprm_email_tag_order_notes', $customer_note ) ) );

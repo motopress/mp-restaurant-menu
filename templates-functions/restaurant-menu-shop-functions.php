@@ -66,8 +66,7 @@ function mprm_payment_mode_select() {
 					$payment_description = mprm_get_option( $gateway_id . '_description', '' );
 					?>
 					<li>
-						<label for="mprm-gateway-<?php esc_attr( $gateway_id ) ?>" class="mprm-gateway-option <?php echo $checked_class ?>" id="mprm-gateway-option-<?php echo esc_attr( $gateway_id ) ?>">
-							<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-<?php echo esc_attr( $gateway_id ) ?>" value="<?php echo esc_attr( $gateway_id ) ?>" <?php echo $checked ?>><?php echo esc_html( $gateway[ 'checkout_label' ] ); ?>
+						<label for="mprm-gateway-<?php echo esc_attr( $gateway_id ) ?>" class="mprm-gateway-option <?php echo $checked_class ?>" id="mprm-gateway-option-<?php echo esc_attr( $gateway_id ) ?>"><input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-<?php echo esc_attr( $gateway_id ) ?>" value="<?php echo esc_attr( $gateway_id ) ?>" <?php echo $checked ?>><?php echo esc_html( $gateway[ 'checkout_label' ] ); ?>
 						</label>
 						<?php if ( ! empty( $payment_description ) ): ?>
 							<p><?php echo $payment_description ?></p>
@@ -432,23 +431,25 @@ function mprm_default_cc_address_fields() {
 			if ( ! empty( $customer[ 'address' ][ 'state' ] ) ) {
 				$selected_state = $customer[ 'address' ][ 'state' ];
 			}
+			
 			if ( ! empty( $states ) ) : ?>
 				<select name="card_state" id="card_state" class="card_state mprm-select<?php if ( models\Checkout::get_instance()->field_is_required( 'card_state' ) ) {
 					echo ' required';
 				} ?>">
-					<?php foreach ( $states as $state_code => $state ) {
+					<?php
+					foreach ( $states as $state_code => $state ) {
 						echo '<option value="' . $state_code . '"' . selected( $state_code, $selected_state, false ) . '>' . $state . '</option>';
-					} ?>
+					}
+					?>
 				</select>
-			<?php else : ?>
-				<?php $customer_state = ! empty( $customer[ 'address' ][ 'state' ] ) ? $customer[ 'address' ][ 'state' ] : ''; ?>
+			<?php else :
+				$customer_state = ! empty( $customer[ 'address' ][ 'state' ] ) ? $customer[ 'address' ][ 'state' ] : ''; ?>
 				<input type="text" size="6" name="card_state" id="card_state" class="card_state mprm-input" value="<?php echo esc_attr( $customer_state ); ?>" placeholder="<?php _e( 'State / Province', 'mp-restaurant-menu' ); ?>"/>
 			<?php endif; ?>
 		</p>
 		<?php do_action( 'mprm_cc_billing_bottom' ); ?>
 	</fieldset>
-	<?php
-	echo ob_get_clean();
+	<?php echo ob_get_clean();
 }
 
 /**
@@ -483,7 +484,6 @@ function mprm_terms_agreement() {
 /**
  *  Print errors
  */
-
 function mprm_print_errors() {
 	models\Errors::get_instance()->print_errors();
 }
@@ -676,6 +676,8 @@ function mprm_increase_purchase_count( $menu_item_id = 0, $quantity = 1 ) {
 }
 
 /**
+ * Currency filter
+ *
  * @param string $price
  * @param string $currency
  *
@@ -686,6 +688,8 @@ function mprm_currency_filter( $price = '', $currency = '' ) {
 }
 
 /**
+ * Format amount
+ *
  * @param $amount
  * @param bool $decimals
  *
@@ -696,6 +700,8 @@ function mprm_format_amount( $amount, $decimals = true ) {
 }
 
 /**
+ * Payment amount
+ *
  * @param $payment_id
  *
  * @return mixed
@@ -705,6 +711,8 @@ function mprm_get_payment_amount( $payment_id ) {
 }
 
 /**
+ * Plural label
+ *
  * @param bool $lowercase
  *
  * @return string
@@ -714,6 +722,8 @@ function mprm_get_label_plural( $lowercase = false ) {
 }
 
 /**
+ * Singular label
+ *
  * @param bool $lowercase
  *
  * @return string
@@ -723,6 +733,8 @@ function mprm_get_label_singular( $lowercase = false ) {
 }
 
 /**
+ * Is success page
+ *
  * @return mixed
  */
 function mprm_is_success_page() {
@@ -784,6 +796,8 @@ function mprm_get_payment_number( $payment_id = 0 ) {
 }
 
 /**
+ * Payment status
+ *
  * @param $payment
  * @param bool $return_label
  *
@@ -794,6 +808,8 @@ function mprm_get_payment_status( $payment, $return_label = false ) {
 }
 
 /**
+ * Payment meta
+ *
  * @param int $payment_id
  * @param string $meta_key
  * @param bool $single
@@ -805,6 +821,8 @@ function mprm_get_payment_meta( $payment_id = 0, $meta_key = '_mprm_order_meta',
 }
 
 /**
+ * Users purchases
+ *
  * @param int $user
  * @param int $number
  * @param bool $pagination
@@ -817,6 +835,8 @@ function mprm_get_users_purchases( $user = 0, $number = 20, $pagination = false,
 }
 
 /**
+ * Is quantities enabled
+ *
  * @return bool
  */
 function mprm_item_quantities_enabled() {
@@ -865,6 +885,8 @@ function mprm_get_user_verification_request_url( $user_id = 0 ) {
 }
 
 /**
+ * Payment statuses
+ *
  * @return mixed
  */
 function mprm_get_payment_statuses() {
@@ -896,6 +918,8 @@ function mprm_get_order_object( $post ) {
 }
 
 /**
+ * Use taxes
+ *
  * @return bool
  */
 function mprm_use_taxes() {
@@ -903,6 +927,8 @@ function mprm_use_taxes() {
 }
 
 /**
+ * Get currency symbol
+ *
  * @param string $currency
  *
  * @return string

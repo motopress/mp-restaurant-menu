@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
@@ -704,14 +705,15 @@ final class Order extends Model {
 			case 'order_status':
 				echo ucfirst( $this->get( 'payments' )->get_payment_status( $post ) );
 				break;
-			case  'order_title':
+			case 'order_title':
 				$order_user = $this->get_user( $post );
+				
 				if ( ! empty( $order_user ) ) {
 					$user_info = get_userdata( $order_user );
 				}
+				
 				if ( ! empty( $user_info ) ) {
 					if ( empty( $this->user_info ) ) {
-						
 						$username = '<a href="user-edit.php?user_id=' . absint( $user_info->ID ) . '">';
 						if ( $user_info->first_name || $user_info->last_name ) {
 							$username .= esc_html( sprintf( _x( '%1$s %2$s', 'full name', 'mp-restaurant-menu' ), ucfirst( $user_info->first_name ), ucfirst( $user_info->last_name ) ) );
@@ -722,9 +724,9 @@ final class Order extends Model {
 					} else {
 						$customer = $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) );
 						if ( ! empty( $customer ) ) {
-							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . ' </a>';
 						} else {
-							$username = $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . '<br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . '<br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . '</a>';
 						}
 					}
 				} else {
@@ -734,30 +736,31 @@ final class Order extends Model {
 						$username = __( 'Guest', 'mp-restaurant-menu' );
 					}
 				}
-				
 				printf( _x( '%s by %s', 'Order number by X', 'mp-restaurant-menu' ), '<a href="' . admin_url( 'post.php?post=' . absint( $post->ID ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $this->get_order_number( $post ) ) . '</strong></a>', $username );
 				if ( $post->billing_email ) {
 					echo '<small class="meta email"><a href="' . esc_url( 'mailto:' . $post->billing_email ) . '">' . esc_html( $post->billing_email ) . '</a></small>';
 				}
 				break;
 			case 'order_ship_to':
-				echo apply_filters( 'mprm_orders_list_delivery', $this->shipping_address );
+				$shipping_address = apply_filters( 'mprm_orders_list_delivery', $this->shipping_address );
+				echo empty( $shipping_address ) ? '—' : $shipping_address;
 				break;
 			case 'order_customer_note':
-				echo $this->customer_note;
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . $this->customer_note . '">' . mprm_cut_str( 60, $this->customer_note ) . '</span>';
 				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters( 'mprm_admin_order_item_count', sprintf( _n( '%d item', '%d items', count( $this->menu_items ), 'mp-restaurant-menu' ), count( $this->menu_items ) ), $this ) . '</a>';
-				if ( sizeof( $this->menu_items ) > 0 ) {
-				}
+				$count = $this->count_items();
+				echo '<a href=""  class="mprm-show-order-items">' . apply_filters( 'mprm_admin_order_item_count', sprintf( _n( '%d item', '%d items', $count, 'mp-restaurant-menu' ), $count ), $this ) . '</a>';
+				View::get_instance()->render_html( '../admin/shop/order/order-items', array( 'items' => $this->menu_items ) );
 				break;
 			case 'order_date' :
-				$date  = strtotime( $this->date );
-				$value = date_i18n( get_option( 'date_format' ) . '  ' . get_option( 'time_format' ), $date );
-				echo $value;
+				$date = strtotime( $this->date );
+				echo date_i18n( get_option( 'date_format' ) . '  ' . get_option( 'time_format' ), $date );
 				break;
 			case 'order_total' :
-				echo mprm_currency_filter( mprm_format_amount( $this->total ) );
+				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
+				$total .= '<small class="meta">' . $this->gateway . '</small>';
+				echo $total;
 				break;
 			default:
 				break;
@@ -767,6 +770,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Get user id
+	 *
 	 * @param \WP_Post $post
 	 *
 	 * @return int
@@ -785,6 +790,21 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Get count by quantity cart item
+	 *
+	 * @return mixed
+	 */
+	protected function count_items() {
+		$count = array_reduce( $this->menu_items, function ( &$res, $item ) {
+			return $res + $item[ 'quantity' ];
+		}, 0 );
+		
+		return $count;
+	}
+	
+	/**
+	 * Sortable columns
+	 *
 	 * @param $columns
 	 *
 	 * @return array
@@ -943,6 +963,7 @@ final class Order extends Model {
 		$this->pending[ 'menu_items' ][] = $added_menu_item;
 		
 		reset( $this->cart_details );
+		
 		$this->increase_subtotal( $subtotal - $discount );
 		$this->increase_tax( $tax );
 		
@@ -955,7 +976,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	private function increase_subtotal( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount         = (float) $amount;
 		$this->subtotal += $amount;
 		$this->recalculate_total();
 	}
@@ -973,7 +994,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	public function increase_tax( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount    = (float) $amount;
 		$this->tax += $amount;
 		$this->recalculate_total();
 	}
@@ -1132,9 +1153,9 @@ final class Order extends Model {
 		
 		if ( $orig_quantity > $args[ 'quantity' ] ) {
 			$this->cart_details[ $found_cart_key ][ 'quantity' ] -= $args[ 'quantity' ];
-			$item_price = $this->cart_details[ $found_cart_key ][ 'item_price' ];
-			$tax        = $this->cart_details[ $found_cart_key ][ 'tax' ];
-			$discount   = ! empty( $this->cart_details[ $found_cart_key ][ 'discount' ] ) ? $this->cart_details[ $found_cart_key ][ 'discount' ] : 0;
+			$item_price                                          = $this->cart_details[ $found_cart_key ][ 'item_price' ];
+			$tax                                                 = $this->cart_details[ $found_cart_key ][ 'tax' ];
+			$discount                                            = ! empty( $this->cart_details[ $found_cart_key ][ 'discount' ] ) ? $this->cart_details[ $found_cart_key ][ 'discount' ] : 0;
 			// The total reduction equals the number removed * the item_price
 			$total_reduced                                       = round( $item_price * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
 			$tax_reduced                                         = round( ( $tax / $orig_quantity ) * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
@@ -1170,7 +1191,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	private function decrease_subtotal( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount         = (float) $amount;
 		$this->subtotal -= $amount;
 		if ( $this->subtotal < 0 ) {
 			$this->subtotal = 0;
@@ -1184,7 +1205,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	public function decrease_tax( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount    = (float) $amount;
 		$this->tax -= $amount;
 		if ( $this->tax < 0 ) {
 			$this->tax = 0;
@@ -1194,7 +1215,6 @@ final class Order extends Model {
 	
 	/**
 	 * Add a fee to a given payment
-	 *
 	 *
 	 * @param  array $args Array of arguments for the fee to add
 	 * @param bool $global
@@ -1229,7 +1249,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	private function increase_fees( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount           = (float) $amount;
 		$this->fees_total += $amount;
 		$this->recalculate_total();
 	}
@@ -1308,7 +1328,7 @@ final class Order extends Model {
 	 * @param float $amount
 	 */
 	private function decrease_fees( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount           = (float) $amount;
 		$this->fees_total -= $amount;
 		if ( $this->fees_total < 0 ) {
 			$this->fees_total = 0;
@@ -1370,6 +1390,7 @@ final class Order extends Model {
 	 */
 	public function save() {
 		$saved = false;
+		
 		if ( empty( $this->ID ) ) {
 			$payment_id = $this->insert_payment();
 			if ( false === $payment_id ) {

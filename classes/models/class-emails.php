@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
@@ -393,10 +394,10 @@ class Emails extends Model {
 		$default_email_body .= __( 'Amount', 'mp-restaurant-menu' ) . ": " . html_entity_decode( mprm_currency_filter( mprm_format_amount( mprm_get_payment_amount( $payment_id ) ) ), ENT_COMPAT, 'UTF-8' ) . "\n";
 		$default_email_body .= __( 'Payment Method:', 'mp-restaurant-menu' ) . " " . $gateway . "\n\n";
 		$default_email_body .= __( 'Thank you', 'mp-restaurant-menu' );
-		$email      = $this->get( 'settings' )->get_option( 'sale_notification', false );
-		$email      = $email ? stripslashes( $email ) : $default_email_body;
-		$email_body = mprm_do_email_tags( $email, $payment_id );
-		$email_body = apply_filters( 'mprm_email_template_wpautop', true ) ? wpautop( $email_body ) : $email_body;
+		$email              = $this->get( 'settings' )->get_option( 'sale_notification', false );
+		$email              = $email ? stripslashes( $email ) : $default_email_body;
+		$email_body         = mprm_do_email_tags( $email, $payment_id );
+		$email_body         = apply_filters( 'mprm_email_template_wpautop', true ) ? wpautop( $email_body ) : $email_body;
 		
 		return apply_filters( 'mprm_sale_notification', $email_body, $payment_id, $payment_data );
 	}
