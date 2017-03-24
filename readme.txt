@@ -1,7 +1,7 @@
 === Restaurant Menu by MotoPress ===
 Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
-Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
+Tags: menu, restaurant, cafe, food, pizza, toppings, catering, order, online
 Requires at least: 3.6
 Tested up to: 4.7
 Stable tag: trunk
