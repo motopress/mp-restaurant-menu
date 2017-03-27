@@ -25,7 +25,6 @@ final class Order extends Model {
 	protected $tax = 0;
 	protected $fees = array();
 	protected $fees_total = 0;
-	protected $discounts = 'none';
 	protected $date = '';
 	protected $completed_date = '';
 	protected $status = 'mprm-pending';
@@ -134,7 +133,6 @@ final class Order extends Model {
 		$this->email       = $this->setup_email();
 		$this->user_info   = $this->setup_user_info();
 		$this->address     = $this->setup_address();
-		$this->discounts   = $this->user_info[ 'discount' ];
 		$this->first_name  = $this->user_info[ 'first_name' ];
 		$this->last_name   = $this->user_info[ 'last_name' ];
 		
@@ -402,7 +400,6 @@ final class Order extends Model {
 		$defaults  = array(
 			'first_name' => $this->first_name,
 			'last_name'  => $this->last_name,
-			'discount'   => $this->discounts,
 		);
 		$user_info = isset( $this->payment_meta[ 'user_info' ] ) ? maybe_unserialize( $this->payment_meta[ 'user_info' ] ) : array();
 		$user_info = wp_parse_args( $user_info, $defaults );
@@ -416,7 +413,6 @@ final class Order extends Model {
 					'first_name' => $name[ 0 ],
 					'last_name'  => $name[ 1 ],
 					'email'      => $customer->email,
-					'discount'   => 'none',
 				);
 			}
 		} else {
@@ -759,7 +755,7 @@ final class Order extends Model {
 				break;
 			case 'order_total' :
 				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
-				$total .= '<small class="meta">' . $this->gateway . '</small>';
+				$total .= '<small class="meta">' . $this->get( 'gateways' )->get_gateway_checkout_label( $this->gateway ) . '</small>';
 				echo $total;
 				break;
 			default:
@@ -877,7 +873,6 @@ final class Order extends Model {
 			'quantity'   => 1,
 			'price_id'   => false,
 			'item_price' => false,
-			'discount'   => 0,
 			'tax'        => 0.00,
 			'fees'       => array(),
 		);
@@ -923,7 +918,6 @@ final class Order extends Model {
 		$options                    = wp_parse_args( $options, $default_options );
 		$new_menu_item[ 'options' ] = $options;
 		$this->menu_items[]         = $new_menu_item;
-		$discount                   = $args[ 'discount' ];
 		$subtotal                   = $amount;
 		$tax                        = $args[ 'tax' ];
 		
@@ -931,7 +925,7 @@ final class Order extends Model {
 			$subtotal -= round( $tax, $this->get( 'formatting' )->currency_decimal_filter() );
 		}
 		
-		$total = $subtotal - $discount + $tax;
+		$total = $subtotal + $tax;
 		
 		// Do not allow totals to go negative
 		if ( $total < 0 ) {
@@ -951,7 +945,6 @@ final class Order extends Model {
 			'item_number' => $item_number,
 			'item_price'  => round( $item_price, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'quantity'    => $quantity,
-			'discount'    => $discount,
 			'subtotal'    => round( $subtotal, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'tax'         => round( $tax, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'fees'        => $args[ 'fees' ],
@@ -964,7 +957,7 @@ final class Order extends Model {
 		
 		reset( $this->cart_details );
 		
-		$this->increase_subtotal( $subtotal - $discount );
+		$this->increase_subtotal( $subtotal );
 		$this->increase_tax( $tax );
 		
 		return true;
@@ -1155,19 +1148,16 @@ final class Order extends Model {
 			$this->cart_details[ $found_cart_key ][ 'quantity' ] -= $args[ 'quantity' ];
 			$item_price                                          = $this->cart_details[ $found_cart_key ][ 'item_price' ];
 			$tax                                                 = $this->cart_details[ $found_cart_key ][ 'tax' ];
-			$discount                                            = ! empty( $this->cart_details[ $found_cart_key ][ 'discount' ] ) ? $this->cart_details[ $found_cart_key ][ 'discount' ] : 0;
 			// The total reduction equals the number removed * the item_price
 			$total_reduced                                       = round( $item_price * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
 			$tax_reduced                                         = round( ( $tax / $orig_quantity ) * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
 			$new_quantity                                        = $this->cart_details[ $found_cart_key ][ 'quantity' ];
 			$new_tax                                             = $this->cart_details[ $found_cart_key ][ 'tax' ] - $tax_reduced;
 			$new_subtotal                                        = $new_quantity * $item_price;
-			$new_discount                                        = 0;
 			$new_total                                           = 0;
 			$this->cart_details[ $found_cart_key ][ 'subtotal' ] = $new_subtotal;
-			$this->cart_details[ $found_cart_key ][ 'discount' ] = $new_discount;
 			$this->cart_details[ $found_cart_key ][ 'tax' ]      = $new_tax;
-			$this->cart_details[ $found_cart_key ][ 'price' ]    = $new_subtotal - $new_discount + $new_tax;
+			$this->cart_details[ $found_cart_key ][ 'price' ]    = $new_subtotal + $new_tax;
 		} else {
 			$total_reduced = $this->cart_details[ $found_cart_key ][ 'item_price' ];
 			$tax_reduced   = $this->cart_details[ $found_cart_key ][ 'tax' ];
@@ -1508,12 +1498,6 @@ final class Order extends Model {
 					case 'last_name':
 						$this->user_info[ 'last_name' ] = $this->last_name;
 						break;
-					case 'discounts':
-						if ( ! is_array( $this->discounts ) ) {
-							$this->discounts = explode( ',', $this->discounts );
-						}
-						$this->user_info[ 'discount' ] = implode( ',', $this->discounts );
-						break;
 					case 'address':
 						$this->user_info[ 'address' ] = $this->address;
 						break;
@@ -1656,7 +1640,6 @@ final class Order extends Model {
 				'email'      => $this->email,
 				'first_name' => $this->first_name,
 				'last_name'  => $this->last_name,
-				'discount'   => $this->discounts,
 				'address'    => $this->address,
 			),
 			'cart_details' => $this->cart_details,
@@ -1873,16 +1856,6 @@ final class Order extends Model {
 	 * Process failure
 	 */
 	private function process_failure() {
-		$discounts = $this->discounts;
-		if ( 'none' === $discounts || empty( $discounts ) ) {
-			return;
-		}
-		if ( ! is_array( $discounts ) ) {
-			$discounts = array_map( 'trim', explode( ',', $discounts ) );
-		}
-		foreach ( $discounts as $discount ) {
-			$this->get( 'discount' )->decrease_discount_usage( $discount );
-		}
 	}
 	
 	/**
@@ -1933,15 +1906,6 @@ final class Order extends Model {
 	 */
 	public function array_convert() {
 		return get_object_vars( $this );
-	}
-	
-	/**
-	 * @return array
-	 */
-	private function setup_discounts() {
-		$discounts = ! empty( $this->payment_meta[ 'user_info' ][ 'discount' ] ) ? $this->payment_meta[ 'user_info' ][ 'discount' ] : array();
-		
-		return $discounts;
 	}
 	
 	/**
@@ -1998,13 +1962,6 @@ final class Order extends Model {
 	 */
 	private function get_total() {
 		return apply_filters( 'mprm_get_payment_total', $this->total, $this->ID, $this );
-	}
-	
-	/**
-	 * @return mixed
-	 */
-	private function get_discounts() {
-		return apply_filters( 'mprm_payment_discounts', $this->discounts, $this->ID, $this );
 	}
 	
 	/**

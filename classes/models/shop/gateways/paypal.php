@@ -45,7 +45,7 @@ class Paypal extends Model {
 			'date' => date('Y-m-d H:i:s'),
 			'user_id' => $user_id,
 			'post_data' => $_POST,
-			'user_info' => array of user's information and used discount code
+			'user_info' => array of user's information
 			'cart_details' => array of cart details,
 		);*/
 		

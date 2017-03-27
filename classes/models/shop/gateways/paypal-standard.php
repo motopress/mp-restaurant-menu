@@ -104,7 +104,7 @@ class Paypal_standart extends Model {
 			
 			if ( is_array( $purchase_data[ 'cart_details' ] ) && ! empty( $purchase_data[ 'cart_details' ] ) ) {
 				foreach ( $purchase_data[ 'cart_details' ] as $item ) {
-					$item_amount = round( ( $item[ 'subtotal' ] / $item[ 'quantity' ] ) - ( $item[ 'discount' ] / $item[ 'quantity' ] ), 2 );
+					$item_amount = round( ( $item[ 'subtotal' ] / $item[ 'quantity' ] ), 2 );
 					if ( $item_amount <= 0 ) {
 						$item_amount = 0;
 					}
@@ -117,10 +117,7 @@ class Paypal_standart extends Model {
 					$i ++;
 				}
 			}
-			
-			// Calculate discount
-			$discounted_amount = 0.00;
-			
+
 			if ( ! empty( $purchase_data[ 'fees' ] ) ) {
 				$i = empty( $i ) ? 1 : $i;
 				foreach ( $purchase_data[ 'fees' ] as $fee ) {
@@ -130,14 +127,8 @@ class Paypal_standart extends Model {
 						$paypal_args[ 'quantity_' . $i ]  = '1';
 						$paypal_args[ 'amount_' . $i ]    = $this->get( 'formatting' )->sanitize_amount( $fee[ 'amount' ] );
 						$i ++;
-					} else {
-						$discounted_amount += abs( $fee[ 'amount' ] );
 					}
 				}
-			}
-			
-			if ( $discounted_amount > '0' ) {
-				$paypal_args[ 'discount_amount_cart' ] = $this->get( 'formatting' )->sanitize_amount( $discounted_amount );
 			}
 			
 			// Add taxes to the cart
@@ -389,7 +380,6 @@ class Paypal_standart extends Model {
 				'email'      => sanitize_text_field( $data[ 'payer_email' ] ),
 				'first_name' => sanitize_text_field( $data[ 'first_name' ] ),
 				'last_name'  => sanitize_text_field( $data[ 'last_name' ] ),
-				'discount'   => '',
 				'address'    => $address
 			);
 			$payment_meta[ 'user_info' ] = $user_info;
@@ -427,6 +417,7 @@ class Paypal_standart extends Model {
 				
 				$this->get( 'payments' )->insert_payment_note( $payment_id, sprintf( __( 'PayPal Transaction ID: %s', 'mp-restaurant-menu' ), $data[ 'txn_id' ] ) );
 				$this->get( 'payments' )->set_payment_transaction_id( $payment_id, $data[ 'txn_id' ] );
+				
 				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-confirmed' );
 				$this->get( 'payments' )->update_payment_status( $payment_id, 'mprm-processing' );
 				

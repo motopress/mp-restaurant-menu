@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models\parents;
 
 use mp_restaurant_menu\classes\Model;
@@ -16,7 +17,7 @@ class Store_item extends Model {
 	 * @return Store_item
 	 */
 	public static function get_instance() {
-		if (empty(self::$_instance)) {
+		if ( empty( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 		
@@ -29,19 +30,19 @@ class Store_item extends Model {
 	 *
 	 * @return mixed|string|void
 	 */
-	public function currency_filter($price = '', $currency = '') {
-		if (empty($currency)) {
-			$currency = $this->get('settings')->get_currency();
+	public function currency_filter( $price = '', $currency = '' ) {
+		if ( empty( $currency ) ) {
+			$currency = $this->get( 'settings' )->get_currency();
 		}
-		$position = $this->get('settings')->get_option('currency_position', 'before');
+		$position = $this->get( 'settings' )->get_option( 'currency_position', 'before' );
 		$negative = $price < 0;
-		if ($negative) {
-			$price = substr($price, 1); // Remove proceeding "-" -
+		if ( $negative ) {
+			$price = substr( $price, 1 ); // Remove proceeding "-" -
 		}
-		$symbol = $this->get('settings')->get_currency_symbol($currency);
+		$symbol = $this->get( 'settings' )->get_currency_symbol( $currency );
 		
-		if ($position == 'before'):
-			switch ($currency):
+		if ( $position == 'before' ):
+			switch ( $currency ):
 				case "GBP" :
 				case "BRL" :
 				case "EUR" :
@@ -59,9 +60,9 @@ class Store_item extends Model {
 					$formatted = $symbol . ' ' . $price;
 					break;
 			endswitch;
-			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_before', $formatted, $currency, $price);
+			$formatted = apply_filters( 'mprm_' . strtolower( $currency ) . '_currency_filter_before', $formatted, $currency, $price );
 		else :
-			switch ($currency) :
+			switch ( $currency ) :
 				case "GBP" :
 				case "BRL" :
 				case "EUR" :
@@ -78,10 +79,10 @@ class Store_item extends Model {
 					$formatted = $price . ' ' . $symbol;
 					break;
 			endswitch;
-			$formatted = apply_filters('mprm_' . strtolower($currency) . '_currency_filter_after', $formatted, $currency, $price);
+			$formatted = apply_filters( 'mprm_' . strtolower( $currency ) . '_currency_filter_after', $formatted, $currency, $price );
 		endif;
 		
-		if ($negative) {
+		if ( $negative ) {
 			// Prepend the mins sign before the currency sign
 			$formatted = '-' . $formatted;
 		}
@@ -94,10 +95,10 @@ class Store_item extends Model {
 	 *
 	 * @return bool
 	 */
-	public function is_single_price_mode($post_id) {
-		$ret = get_post_meta($post_id, '_mprm_price_options_mode', true);
+	public function is_single_price_mode( $post_id ) {
+		$ret = get_post_meta( $post_id, '_mprm_price_options_mode', true );
 		
-		return (bool)apply_filters('mprm_single_price_option_mode', $ret, $post_id);
+		return (bool) apply_filters( 'mprm_single_price_option_mode', $ret, $post_id );
 	}
 	
 	/**
@@ -107,15 +108,16 @@ class Store_item extends Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_price_option_name($item_id = 0, $price_id = 0, $payment_id = 0) {
-		$prices = $this->get_variable_prices($item_id);
+	public function get_price_option_name( $item_id = 0, $price_id = 0, $payment_id = 0 ) {
+		$prices     = $this->get_variable_prices( $item_id );
 		$price_name = '';
-		if ($prices && is_array($prices)) {
-			if (isset($prices[ $price_id ]))
+		if ( $prices && is_array( $prices ) ) {
+			if ( isset( $prices[ $price_id ] ) ) {
 				$price_name = $prices[ $price_id ][ 'name' ];
+			}
 		}
 		
-		return apply_filters('mprm_get_price_option_name', $price_name, $item_id, $payment_id, $price_id);
+		return apply_filters( 'mprm_get_price_option_name', $price_name, $item_id, $payment_id, $price_id );
 	}
 	
 	/**
@@ -123,12 +125,12 @@ class Store_item extends Model {
 	 *
 	 * @return bool|mixed
 	 */
-	public function get_variable_prices($item_id = 0) {
-		if (empty($item_id)) {
+	public function get_variable_prices( $item_id = 0 ) {
+		if ( empty( $item_id ) ) {
 			return false;
 		}
 		
-		return $this->get_prices($item_id);
+		return $this->get_prices( $item_id );
 	}
 	
 	/**
@@ -136,10 +138,10 @@ class Store_item extends Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_prices($post_id) {
-		$prices = get_post_meta($post_id, 'mprm_variable_prices', true);
+	public function get_prices( $post_id ) {
+		$prices = get_post_meta( $post_id, 'mprm_variable_prices', true );
 		
-		return apply_filters('mprm_get_' . get_post_type($post_id) . '_variable_prices', $prices, $post_id);
+		return apply_filters( 'mprm_get_' . get_post_type( $post_id ) . '_variable_prices', $prices, $post_id );
 	}
 	
 	/**
@@ -147,10 +149,10 @@ class Store_item extends Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_disabled_checkout($post_id) {
-		$disabled_checkout = get_post_meta($post_id, '_disabled_checkout', true);
+	public function get_disabled_checkout( $post_id ) {
+		$disabled_checkout = get_post_meta( $post_id, '_disabled_checkout', true );
 		
-		return apply_filters('mprm_get_disabled_checkout', $disabled_checkout, $post_id);
+		return apply_filters( 'mprm_get_disabled_checkout', $disabled_checkout, $post_id );
 	}
 	
 	/**
@@ -159,29 +161,29 @@ class Store_item extends Model {
 	 *
 	 * @return bool
 	 */
-	public function is_free($price_id = false, $post_id) {
+	public function is_free( $price_id = false, $post_id ) {
 		global $post;
-		if (empty($post)) {
-			$post = get_post($post_id);
+		if ( empty( $post ) ) {
+			$post = get_post( $post_id );
 		}
-		$is_free = false;
-		$variable_pricing = $this->has_variable_prices($post->ID);
-		if ($variable_pricing && !is_null($price_id) && $price_id !== false) {
-			$price = $this->get_price_option_amount($post->ID, $price_id);
-		} elseif ($variable_pricing && $price_id === false) {
-			$lowest_price = (float)$this->get_price_option($post->ID, 'min');
-			$highest_price = (float)$this->get_price_option($post->ID, 'max');
-			if ($lowest_price === 0.00 && $highest_price === 0.00) {
+		$is_free          = false;
+		$variable_pricing = $this->has_variable_prices( $post->ID );
+		if ( $variable_pricing && ! is_null( $price_id ) && $price_id !== false ) {
+			$price = $this->get_price_option_amount( $post->ID, $price_id );
+		} elseif ( $variable_pricing && $price_id === false ) {
+			$lowest_price  = (float) $this->get_price_option( $post->ID, 'min' );
+			$highest_price = (float) $this->get_price_option( $post->ID, 'max' );
+			if ( $lowest_price === 0.00 && $highest_price === 0.00 ) {
 				$price = 0;
 			}
-		} elseif (!$variable_pricing) {
-			$price = get_post_meta($post->ID, 'price', true);
+		} elseif ( ! $variable_pricing ) {
+			$price = get_post_meta( $post->ID, 'price', true );
 		}
-		if (isset($price) && (float)$price == 0) {
+		if ( isset( $price ) && (float) $price == 0 ) {
 			$is_free = true;
 		}
 		
-		return (bool)apply_filters('mprm_is_free_' . $post->post_type, $is_free, $post->ID, $price_id);
+		return (bool) apply_filters( 'mprm_is_free_' . $post->post_type, $is_free, $post->ID, $price_id );
 	}
 	
 	/**
@@ -189,10 +191,10 @@ class Store_item extends Model {
 	 *
 	 * @return bool
 	 */
-	public function has_variable_prices($post_id) {
-		$ret = get_post_meta($post_id, '_variable_pricing', true);
+	public function has_variable_prices( $post_id ) {
+		$ret = get_post_meta( $post_id, '_variable_pricing', true );
 		
-		return (bool)apply_filters('mprm_' . get_post_type($post_id) . 'has_variable_prices', $ret, $post_id);
+		return (bool) apply_filters( 'mprm_' . get_post_type( $post_id ) . 'has_variable_prices', $ret, $post_id );
 	}
 	
 	/**
@@ -201,15 +203,16 @@ class Store_item extends Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_price_option_amount($item_id = 0, $price_id = 0) {
-		$prices = $this->get_variable_prices($item_id);
+	public function get_price_option_amount( $item_id = 0, $price_id = 0 ) {
+		$prices = $this->get_variable_prices( $item_id );
 		$amount = 0.00;
-		if ($prices && is_array($prices)) {
-			if (isset($prices[ $price_id ]))
+		if ( $prices && is_array( $prices ) ) {
+			if ( isset( $prices[ $price_id ] ) ) {
 				$amount = $prices[ $price_id ][ 'amount' ];
+			}
 		}
 		
-		return apply_filters('mprm_get_price_option_amount', $this->get('formatting')->sanitize_amount($amount), $item_id, $price_id);
+		return apply_filters( 'mprm_get_price_option_amount', $this->get( 'formatting' )->sanitize_amount( $amount ), $item_id, $price_id );
 	}
 	
 	/**
@@ -218,34 +221,35 @@ class Store_item extends Model {
 	 *
 	 * @return string
 	 */
-	public function get_price_option($item_id = 0, $type = 'max') {
+	public function get_price_option( $item_id = 0, $type = 'max' ) {
 		$price_type = 0.00;
-		$max = 0;
-		$id = 0;
-		if (empty($item_id))
+		$max        = 0;
+		$id         = 0;
+		if ( empty( $item_id ) ) {
 			$item_id = get_the_ID();
-		if (!$this->has_variable_prices($item_id)) {
-			return $this->get_price($item_id);
 		}
-		$prices = $this->get_variable_prices($item_id);
+		if ( ! $this->has_variable_prices( $item_id ) ) {
+			return $this->get_price( $item_id );
+		}
+		$prices = $this->get_variable_prices( $item_id );
 		
-		if (!empty($prices)) {
-			foreach ($prices as $key => $price) {
-				if (empty($price[ 'amount' ])) {
+		if ( ! empty( $prices ) ) {
+			foreach ( $prices as $key => $price ) {
+				if ( empty( $price[ 'amount' ] ) ) {
 					continue;
 				}
-				if ($type == 'min') {
-					if (!isset($min)) {
+				if ( $type == 'min' ) {
+					if ( ! isset( $min ) ) {
 						$min = $price[ 'amount' ];
 					} else {
-						$min = min($min, $price[ 'amount' ]);
+						$min = min( $min, $price[ 'amount' ] );
 					}
-					if ($price[ 'amount' ] == $min) {
+					if ( $price[ 'amount' ] == $min ) {
 						$id = $key;
 					}
-				} elseif ($type == 'max') {
-					$max = max($max, $price[ 'amount' ]);
-					if ($price[ 'amount' ] == $max) {
+				} elseif ( $type == 'max' ) {
+					$max = max( $max, $price[ 'amount' ] );
+					if ( $price[ 'amount' ] == $max ) {
 						$id = $key;
 					}
 				}
@@ -253,7 +257,7 @@ class Store_item extends Model {
 			$price_type = $prices[ $id ][ 'amount' ];
 		}
 		
-		return $this->get('formatting')->sanitize_amount($price_type);
+		return $this->get( 'formatting' )->sanitize_amount( $price_type );
 	}
 	
 	/**
@@ -264,13 +268,13 @@ class Store_item extends Model {
 	 *
 	 * @return string
 	 */
-	public function get_price($id, $format = false) {
-		$price = get_post_meta($id, 'price', true);
+	public function get_price( $id, $format = false ) {
+		$price = get_post_meta( $id, 'price', true );
 		
-		$price = floatval(str_replace(',', '.', $price));
+		$price = floatval( str_replace( ',', '.', $price ) );
 		
-		if ($format) {
-			$price = $this->get_formatting_price($price);
+		if ( $format ) {
+			$price = $this->get_formatting_price( $price );
 		}
 		
 		return $price;
@@ -282,8 +286,8 @@ class Store_item extends Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_formatting_price($amount, $decimals = true) {
-		return $this->get('formatting')->format_amount($amount, $decimals);
+	public function get_formatting_price( $amount, $decimals = true ) {
+		return $this->get( 'formatting' )->format_amount( $amount, $decimals );
 	}
 	
 	/**
@@ -293,12 +297,12 @@ class Store_item extends Model {
 	 *
 	 * @return array/void
 	 */
-	public function get_attributes(\WP_Post $post) {
-		if (empty($post)) {
+	public function get_attributes( \WP_Post $post ) {
+		if ( empty( $post ) ) {
 			return array();
 		}
-		$attributes = get_post_meta($post->ID, 'attributes', true);
-		if (!$this->is_arr_values_empty($attributes)) {
+		$attributes = get_post_meta( $post->ID, 'attributes', true );
+		if ( ! $this->is_arr_values_empty( $attributes ) ) {
 			return $attributes;
 		} else {
 			return array();
@@ -312,21 +316,22 @@ class Store_item extends Model {
 	 *
 	 * @return boolean
 	 */
-	public function is_arr_values_empty($data) {
-		if ($data === false || $data == NULL)
+	public function is_arr_values_empty( $data ) {
+		if ( $data === false || $data == null ) {
 			return true;
-		if (is_array($data) && !empty($data)) {
+		}
+		if ( is_array( $data ) && ! empty( $data ) ) {
 			$empty_count = 0;
-			foreach ($data as $item) {
-				if (!empty($item) && is_array($item)) {
-					foreach ($item as $key => $value) {
-						if ($key == 'val' && empty($value)) {
-							$empty_count++;
+			foreach ( $data as $item ) {
+				if ( ! empty( $item ) && is_array( $item ) ) {
+					foreach ( $item as $key => $value ) {
+						if ( $key == 'val' && empty( $value ) ) {
+							$empty_count ++;
 						}
 					}
 				}
 			}
-			if (count($data) == $empty_count) {
+			if ( count( $data ) == $empty_count ) {
 				return true;
 			}
 		}
@@ -342,12 +347,12 @@ class Store_item extends Model {
 	 *
 	 * @return false|string
 	 */
-	public function get_featured_image(\WP_Post $post, $type = false) {
-		$id = get_post_thumbnail_id($post);
-		if ($type) {
-			return wp_get_attachment_image_url($id, $type, false);
+	public function get_featured_image( \WP_Post $post, $type = false ) {
+		$id = get_post_thumbnail_id( $post );
+		if ( $type ) {
+			return wp_get_attachment_image_url( $id, $type, false );
 		} else {
-			return wp_get_attachment_url($id);
+			return wp_get_attachment_url( $id );
 		}
 	}
 	

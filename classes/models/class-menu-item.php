@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Core;
@@ -242,16 +243,9 @@ class Menu_item extends Store_item {
 		} else {
 			$original_price = $amount_override;
 		}
-		if ( isset( $user_purchase_info[ 'discount' ] ) && $user_purchase_info[ 'discount' ] != 'none' ) {
-			// if the discount was a %, we modify the amount. Flat rate discounts are ignored
-			if ( $this->get( 'discount' )->get_discount_type( $this->get( 'discount' )->get_discount_id_by_code( $user_purchase_info[ 'discount' ] ) ) != 'flat' ) {
-				$price = $this->get( 'discount' )->get_discounted_amount( $user_purchase_info[ 'discount' ], $original_price );
-			} else {
-				$price = $original_price;
-			}
-		} else {
-			$price = $original_price;
-		}
+		
+		$price = $original_price;
+		
 		
 		return apply_filters( 'mprm_final_price', $price, $menu_item_id, $user_purchase_info );
 	}
@@ -601,7 +595,7 @@ class Menu_item extends Store_item {
 			return $menu_item;
 		}
 		$args      = array(
-			'post_type'   => $this->get_post_type('menu_item'),
+			'post_type'   => $this->get_post_type( 'menu_item' ),
 			'name'        => $menu_item,
 			'numberposts' => 1
 		);

@@ -469,26 +469,6 @@ function mprm_email_tag_order_notes( $order = false ) {
 	return apply_filters( 'mprm_email_tag_order_notes_html', $order_notes_html );
 }
 
-
-/**
- * Tag discount codes
- *
- * @param $order_id
- *
- * @return string
- */
-function mprm_email_tag_discount_codes( $order_id ) {
-	$user_info = mprm_get_payment_meta_user_info( $order_id );
-	
-	$discount_codes = '';
-	
-	if ( isset( $user_info[ 'discount' ] ) && $user_info[ 'discount' ] !== 'none' ) {
-		$discount_codes = $user_info[ 'discount' ];
-	}
-	
-	return $discount_codes;
-}
-
 /**
  * Tag ip address
  *

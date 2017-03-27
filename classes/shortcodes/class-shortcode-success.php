@@ -36,7 +36,6 @@ class Shortcode_success extends Shortcodes {
 		$mprm_receipt_args = shortcode_atts(array(
 			'error' => __('Sorry, trouble retrieving payment receipt.', 'mp-restaurant-menu'),
 			'price' => true,
-			'discount' => true,
 			'products' => true,
 			'date' => true,
 			'notes' => true,

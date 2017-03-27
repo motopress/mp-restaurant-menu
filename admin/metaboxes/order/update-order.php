@@ -40,20 +40,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 			<input type="text" maxlength="2" name="mprm-order-time-min" value="<?php echo esc_attr(date('i', $order_date)); ?>" class="admin-time-input"/>
 		</p>
 	</div>
-
 	<?php do_action('mprm_view_order_details_update_inner', $order_id); ?>
-
-	<div class="mprm-order-discount mprm-admin-box-inside" style="display: none">
-		<p>
-			<span class="label"><?php _e('Discount Code', 'mp-restaurant-menu'); ?>:</span>&nbsp;
-			<span><?php if ($order->discounts !== 'none') {
-					echo '<code>' . $order->discounts . '</code>';
-				} else {
-					_e('None', 'mp-restaurant-menu');
-				} ?></span>
-		</p>
-	</div>
-
 	<?php if (!empty($fees)) : ?>
 		<div class="mprm-order-fees mprm-admin-box-inside">
 			<p class="strong"><?php _e('Fees', 'mp-restaurant-menu'); ?>:</p>

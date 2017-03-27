@@ -83,7 +83,6 @@ class Purchase extends Model {
 			'email'      => $user[ 'user_email' ],
 			'first_name' => $user[ 'user_first' ],
 			'last_name'  => $user[ 'user_last' ],
-			'discount'   => $valid_data[ 'discount' ],
 			'address'    => $user[ 'address' ]
 		);
 		$auth_key  = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
@@ -93,7 +92,6 @@ class Purchase extends Model {
 			'menu_items'       => $this->get( 'cart' )->get_cart_contents(),
 			'fees'             => $this->get( 'cart' )->get_cart_fees(),
 			'subtotal'         => $this->get( 'cart' )->get_cart_subtotal(),
-			'discount'         => $this->get( 'cart' )->get_cart_discounted_amount(),
 			'tax'              => $this->get( 'cart' )->get_cart_tax(),
 			'price'            => $this->get( 'cart' )->get_cart_total(),
 			'purchase_key'     => strtolower( md5( $user[ 'user_email' ] . date( 'Y-m-d H:i:s' ) . $auth_key . uniqid( 'mprm', true ) ) ),
@@ -150,7 +148,6 @@ class Purchase extends Model {
 		// Start an array to collect valid data
 		$valid_data = array(
 			'gateway'          => $this->purchase_form_validate_gateway(), // Gateway fallback
-			'discount'         => $this->purchase_form_validate_discounts(),    // Set default discount
 			'need_new_user'    => false,     // New user flag
 			'need_user_login'  => false,     // Login user flag
 			'logged_user_data' => array(),   // Logged user collected data
@@ -210,53 +207,6 @@ class Purchase extends Model {
 		
 		return $gateway;
 	}
-	
-	/**
-	 * Purchase form validate discounts
-	 *
-	 * @return string
-	 */
-	public function purchase_form_validate_discounts() {
-		// Retrieve the discount stored in cookies
-		$discounts = $this->get( 'cart' )->get_cart_discounts();
-		$user      = '';
-		if ( isset( $_POST[ 'mprm_user_login' ] ) && ! empty( $_POST[ 'mprm_user_login' ] ) ) {
-			$user = sanitize_text_field( $_POST[ 'mprm_user_login' ] );
-		} else if ( isset( $_POST[ 'mprm_email' ] ) && ! empty( $_POST[ 'mprm_email' ] ) ) {
-			$user = sanitize_text_field( $_POST[ 'mprm_email' ] );
-		} else if ( is_user_logged_in() ) {
-			$user = wp_get_current_user()->user_email;
-		}
-		$error = false;
-		// Check for valid discount(s) is present
-		if ( ! empty( $_POST[ 'mprm-discount' ] ) && __( 'Enter discount', 'mp-restaurant-menu' ) != $_POST[ 'mprm-discount' ] ) {
-			// Check for a posted discount
-			$posted_discount = isset( $_POST[ 'mprm-discount' ] ) ? trim( $_POST[ 'mprm-discount' ] ) : false;
-			// Add the posted discount to the discounts
-			if ( $posted_discount && ( empty( $discounts ) || $this->get( 'discount' )->multiple_discounts_allowed() ) && $this->get( 'discount' )->is_discount_valid( $posted_discount, $user ) ) {
-				$this->get( 'discount' )->set_cart_discount( $posted_discount );
-			}
-		}
-		// If we have discounts, loop through them
-		if ( ! empty( $discounts ) ) {
-			foreach ( $discounts as $discount ) {
-				// Check if valid
-				if ( ! $this->get( 'discount' )->is_discount_valid( $discount, $user ) ) {
-					// Discount is not valid
-					$error = true;
-				}
-			}
-		} else {
-			// No discounts
-			return 'none';
-		}
-		if ( $error ) {
-			$this->get( 'errors' )->set_error( 'invalid_discount', __( 'One or more of the discounts you entered is invalid', 'mp-restaurant-menu' ) );
-		}
-		
-		return implode( ', ', $discounts );
-	}
-	
 	/**
 	 * Purchase form validate cc
 	 *
