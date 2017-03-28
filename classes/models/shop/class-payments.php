@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\models\parents\Parent_query;
@@ -530,19 +531,28 @@ final class Payments extends Parent_query {
 			$payment->customer_id = $customer->id;
 		}
 		
-		// Set new meta values
-		$payment->user_id    = $customer->user_id;
-		$payment->email      = $customer->email;
-		$payment->first_name = $first_name;
-		$payment->last_name  = $last_name;
-		$payment->address    = $address;
+		$edit_customer_first_name       = filter_input( INPUT_POST, 'customer-first-name', FILTER_SANITIZE_STRING );
+		$edit_customer_last_name        = filter_input( INPUT_POST, 'customer-last-name', FILTER_SANITIZE_STRING );
+		$edit_customer_email            = filter_input( INPUT_POST, 'customer-email', FILTER_SANITIZE_STRING );
+		$edit_customer_phone            = filter_input( INPUT_POST, 'customer-phone', FILTER_SANITIZE_STRING );
+		$customer_note                  = filter_input( INPUT_POST, 'customer-note', FILTER_SANITIZE_STRING );
+		$edit_customer_shipping_address = filter_input( INPUT_POST, 'shipping-address', FILTER_SANITIZE_STRING );
 		
-		$payment->shipping_address = $shipping_address;
+		// Set new meta values
+		$payment->user_id          = $customer->user_id;
+		$payment->email            = empty( $edit_customer_email ) ? $customer->email : $edit_customer_email;
+		$payment->first_name       = empty( $edit_customer_first_name ) ? $first_name : $edit_customer_first_name;
+		$payment->last_name        = empty( $edit_customer_last_name ) ? $last_name : $edit_customer_last_name;
+		$payment->address          = $address;
+		$payment->phone_number     = empty( $edit_customer_phone ) ? $payment->phone_number : $edit_customer_phone;
+		$payment->shipping_address = empty( $edit_customer_shipping_address ) ? $shipping_address : $edit_customer_shipping_address;
+		
 		
 		$payment->total = $new_total;
 		$payment->tax   = $tax;
-		if ( ! empty( $data[ 'mprm-customer-note' ] ) ) {
-			$payment->customer_note = sanitize_text_field( $data[ 'mprm-customer-note' ] );
+		
+		if ( ! empty( $data[ 'customer-note' ] ) ) {
+			$payment->customer_note = $customer_note;
 		}
 		// Check for payment notes
 		if ( ! empty( $data[ 'mprm-order-note' ] ) ) {
@@ -567,7 +577,9 @@ final class Payments extends Parent_query {
 				$this->decrease_total_earnings( $difference );
 			}
 		}
+		
 		$payment->save();
+		
 		do_action( 'mprm_updated_edited_purchase', $payment_id );
 	}
 	
@@ -650,7 +662,7 @@ final class Payments extends Parent_query {
 					}
 					if ( ! empty( $payments ) ) {
 						$payments = implode( ',', $payments );
-						$total += $wpdb->get_var( "SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN({$payments})" );
+						$total    += $wpdb->get_var( "SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = '_mprm_order_total' AND post_id IN({$payments})" );
 					}
 				}
 				// Cache results for 1 day. This cache is cleared automatically when a payment is made
@@ -1102,7 +1114,7 @@ final class Payments extends Parent_query {
 					$field = '_mprm_order_purchase_key';
 				}
 				
-				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
+				$join  = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
 				$where .= $wpdb->prepare( "AND m.meta_key = %s AND m.meta_value = %s", $field, $args[ 's' ] );
 				
 			} elseif ( '#' == substr( $args[ 's' ], 0, 1 ) ) {
@@ -1111,19 +1123,19 @@ final class Payments extends Parent_query {
 				$search = str_replace( '#', '', $search );
 				$select = "SELECT p2.post_status,count( * ) AS num_posts ";
 				$join   = "LEFT JOIN $wpdb->postmeta m ON m.meta_key = '_mprm_log_payment_id' AND m.post_id = p.ID ";
-				$join .= "INNER JOIN $wpdb->posts p2 ON m.meta_value = p2.ID ";
-				$where = "WHERE p.post_type = 'mprm_log' ";
-				$where .= $wpdb->prepare( "AND p.post_parent = %d} ", $search );
+				$join   .= "INNER JOIN $wpdb->posts p2 ON m.meta_value = p2.ID ";
+				$where  = "WHERE p.post_type = 'mprm_log' ";
+				$where  .= $wpdb->prepare( "AND p.post_parent = %d} ", $search );
 				
 			} elseif ( is_numeric( $args[ 's' ] ) ) {
 				
-				$join = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
+				$join  = "LEFT JOIN $wpdb->postmeta m ON (p.ID = m.post_id)";
 				$where .= $wpdb->prepare( "AND m.meta_key = '_mprm_order_user_id' AND m.meta_value = %d", $args[ 's' ] );
 				
-			}  else {
+			} else {
 				$search = $wpdb->esc_like( $args[ 's' ] );
 				$search = '%' . $search . '%';
-				$where .= $wpdb->prepare( "AND ((p.post_title LIKE %s) OR (p.post_content LIKE %s))", $search, $search );
+				$where  .= $wpdb->prepare( "AND ((p.post_title LIKE %s) OR (p.post_content LIKE %s))", $search, $search );
 			}
 		}
 		
@@ -1141,7 +1153,7 @@ final class Payments extends Parent_query {
 			$year       = ! empty( $date_parts[ 2 ] ) && is_numeric( $date_parts[ 2 ] ) ? $date_parts[ 2 ] : 0;
 			$is_date    = checkdate( $month, $day, $year );
 			if ( false !== $is_date ) {
-				$date = new \DateTime( $args[ 'start-date' ] );
+				$date  = new \DateTime( $args[ 'start-date' ] );
 				$where .= $wpdb->prepare( " AND p.post_date >= '%s'", $date->format( 'Y-m-d' ) );
 			}
 			// Fixes an issue with the payments list table counts when no end date is specified (partly with stats class)
@@ -1157,7 +1169,7 @@ final class Payments extends Parent_query {
 			$year       = ! empty( $date_parts[ 2 ] ) ? $date_parts[ 2 ] : 0;
 			$is_date    = checkdate( $month, $day, $year );
 			if ( false !== $is_date ) {
-				$date = new \DateTime( $args[ 'end-date' ] );
+				$date  = new \DateTime( $args[ 'end-date' ] );
 				$where .= $wpdb->prepare( " AND p.post_date <= '%s'", $date->format( 'Y-m-d' ) );
 			}
 		}

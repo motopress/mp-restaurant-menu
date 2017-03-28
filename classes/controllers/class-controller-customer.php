@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\controllers;
 
 use mp_restaurant_menu\classes\Controller;
@@ -11,7 +12,9 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\controllers
  */
 class Controller_customer extends Controller {
+	
 	protected static $instance;
+	
 	private $date;
 	
 	/**
@@ -30,13 +33,16 @@ class Controller_customer extends Controller {
 	 */
 	public function action_add_customer() {
 		
-		$customer                = $this->get( 'customer' )->create( array(
+		$customer = $this->get( 'customer' )->create(
+			array(
 				'email' => sanitize_email( $_REQUEST[ 'email' ] ),
 				'name'  => sanitize_text_field( $_REQUEST[ 'name' ] ),
 				'phone' => sanitize_text_field( $_REQUEST[ 'phone' ] )
 			)
 		);
+		
 		$this->date[ 'success' ] = $customer;
+		
 		if ( $customer ) {
 			$customer_object                                = $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $_REQUEST[ 'email' ] ) );
 			$this->date[ 'data' ][ 'html' ]                 = mprm_customers_dropdown( array( 'selected' => $customer_object->id ) );
@@ -51,6 +57,7 @@ class Controller_customer extends Controller {
 	 */
 	public function action_get_login() {
 		global $mprm_login_redirect;
+		
 		$mprm_login_redirect            = wp_get_referer();
 		$this->date[ 'data' ][ 'html' ] = View::get_instance()->get_template_html( 'shop/login', array() );
 		$this->date[ 'success' ]        = true;
@@ -114,7 +121,7 @@ class Controller_customer extends Controller {
 	}
 	
 	/**
-	 *  Content
+	 * Content
 	 */
 	public function action_content() {
 		if ( ! empty( $_REQUEST[ 'view' ] ) && ! empty( $_REQUEST[ 'id' ] ) ) {
@@ -140,12 +147,14 @@ class Controller_customer extends Controller {
 			'name'      => $request[ 'mprm-name' ],
 			'user_id'   => $request[ 'mprm-user' ]
 		);
+		
 		$gump->validation_rules( array(
 			'name'      => 'required|max_len,100|min_len,6',
 			'telephone' => 'required',
 			'email'     => 'required|valid_email'
 		
 		) );
+		
 		$gump->filter_rules( array(
 			'name'      => 'trim|sanitize_string',
 			'telephone' => 'trim',

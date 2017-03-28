@@ -43,6 +43,7 @@ final class Order extends Model {
 	protected $customer_note = '';
 	protected $shipping_address = '';
 	protected $phone_number = '';
+	protected $customer = '';
 	protected $gateway = '';
 	protected $currency = '';
 	protected $cart_details = array();
@@ -411,42 +412,36 @@ final class Order extends Model {
 		
 		if ( empty( $user_info ) ) {
 			// Get the customer, but only if it's been created
-			$customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
-			if ( $customer->id > 0 ) {
-				$name      = explode( ' ', $customer->name, 2 );
+			$this->customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
+			if ( $this->customer->id > 0 ) {
+				$name      = explode( ' ', $this->customer->name, 2 );
 				$user_info = array(
 					'first_name' => $name[ 0 ],
 					'last_name'  => $name[ 1 ],
-					'email'      => $customer->email,
-					'customer'   => $customer,
+					'email'      => $this->customer->email,
 				);
 			}
 		} else {
 			// Get the customer, but only if it's been created
-			if ( ! isset( $user_info[ 'customer' ] ) || is_null( $user_info[ 'customer' ] ) ) {
-				$user_info[ 'customer' ] = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
-				$customer                = $user_info[ 'customer' ];
-			} else {
-				$customer = $user_info[ 'customer' ];
-			}
+			$this->customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
 			
-			if ( $customer->id > 0 ) {
+			if ( $this->customer->id > 0 ) {
 				foreach ( $user_info as $key => $value ) {
 					if ( ! empty( $value ) ) {
 						continue;
 					}
 					switch ( $key ) {
 						case 'first_name':
-							$name              = explode( ' ', $customer->name, 2 );
+							$name              = explode( ' ', $this->customer->name, 2 );
 							$user_info[ $key ] = $name[ 0 ];
 							break;
 						case 'last_name':
-							$name              = explode( ' ', $customer->name, 2 );
+							$name              = explode( ' ', $this->customer->name, 2 );
 							$last_name         = ! empty( $name[ 1 ] ) ? $name[ 1 ] : '';
 							$user_info[ $key ] = $last_name;
 							break;
 						case 'email':
-							$user_info[ $key ] = $customer->email;
+							$user_info[ $key ] = $this->customer->email;
 							break;
 					}
 				}
@@ -619,16 +614,6 @@ final class Order extends Model {
 		);
 		
 		add_meta_box(
-			'order-customer',
-			__( 'Customer Details', 'mp-restaurant-menu' ),
-			array( $this, 'render_meta_box' ),
-			$this->get_post_type( 'order' ),
-			'advanced',
-			'low',
-			array( 'post_type' => $this->get_post_type( 'order' ) )
-		);
-		
-		add_meta_box(
 			'order-delivery',
 			__( 'Delivery details', 'mp-restaurant-menu' ),
 			array( $this, 'render_meta_box' ),
@@ -733,7 +718,7 @@ final class Order extends Model {
 						$username .= '</a>';
 					} else {
 						
-						$customer = empty( $this->user_info[ 'customer' ] ) ? $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) ) : $this->user_info[ 'customer' ];
+						$customer = empty( $this->customer ) ? $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) ) : $this->customer;
 						
 						if ( ! empty( $customer ) ) {
 							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . ' </a>';

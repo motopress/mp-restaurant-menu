@@ -188,7 +188,7 @@ class Post extends Module {
 	 *
 	 * @param $post_id
 	 *
-	 * @return void|mixed
+	 * @return mixed
 	 */
 	public function save( $post_id ) {
 		// Check nonce.
