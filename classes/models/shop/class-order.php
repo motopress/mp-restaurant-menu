@@ -610,7 +610,7 @@ final class Order extends Model {
 		
 		add_meta_box(
 			'customer-notes',
-			__( 'Order Notes', 'mp-restaurant-menu' ),
+			__( 'Order Customer Details', 'mp-restaurant-menu' ),
 			array( $this, 'render_meta_box' ),
 			$this->get_post_type( 'order' ),
 			'advanced',
