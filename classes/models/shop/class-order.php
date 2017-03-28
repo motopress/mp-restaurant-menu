@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
@@ -14,79 +15,42 @@ final class Order extends Model {
 	protected static $instance;
 	
 	public $ID = 0;
-	
 	protected $_ID = 0;
-	
 	protected $new = false;
-	
 	protected $number = '';
-	
 	protected $mode = 'live';
-	
 	protected $key = '';
-	
 	protected $total = 0.00;
-	
 	protected $subtotal = 0;
-	
 	protected $tax = 0;
-	
 	protected $fees = array();
-	
 	protected $fees_total = 0;
-	
-	protected $discounts = 'none';
-	
 	protected $date = '';
-	
 	protected $completed_date = '';
-	
 	protected $status = 'mprm-pending';
-	
 	protected $post_status = 'mprm-pending';
-	
 	protected $old_status = '';
-	
 	protected $status_nicename = '';
-	
 	protected $customer_id = null;
-	
 	protected $user_id = 0;
-	
 	protected $first_name = '';
-	
 	protected $last_name = '';
-	
 	protected $email = '';
-	
 	protected $address = array();
-	
 	protected $transaction_id = '';
-	
 	protected $menu_items = array();
-	
 	protected $ip = '';
-	
 	protected $customer_note = '';
-	
 	protected $shipping_address = '';
-	
 	protected $phone_number = '';
-	
+	protected $customer = '';
 	protected $gateway = '';
-	
 	protected $currency = '';
-	
 	protected $cart_details = array();
-	
 	protected $has_unlimited_menu_items = false;
-	
 	protected $parent_payment = 0;
-	
 	private $user_info = array();
-	
 	private $payment_meta = array();
-	
 	private $pending;
 	
 	/**
@@ -113,15 +77,18 @@ final class Order extends Model {
 	 */
 	public function setup_payment( $payment_id ) {
 		$this->pending = array();
+		
 		if ( empty( $payment_id ) ) {
 			return false;
 		}
+		
 		$payment = get_post( $payment_id );
 		
 		if ( ! $payment || is_wp_error( $payment ) ) {
 			return false;
 		}
-		if ( 'mprm_order' !== $payment->post_type ) {
+		//'mprm_order'
+		if ( $this->get_post_type( 'order' ) !== $payment->post_type ) {
 			return false;
 		}
 		
@@ -170,7 +137,6 @@ final class Order extends Model {
 		$this->email       = $this->setup_email();
 		$this->user_info   = $this->setup_user_info();
 		$this->address     = $this->setup_address();
-		$this->discounts   = $this->user_info[ 'discount' ];
 		$this->first_name  = $this->user_info[ 'first_name' ];
 		$this->last_name   = $this->user_info[ 'last_name' ];
 		
@@ -230,6 +196,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup email
+	 *
 	 * @return mixed
 	 */
 	public function setup_email() {
@@ -242,11 +210,13 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup complete date
+	 *
 	 * @return bool|mixed
 	 */
 	private function setup_completed_date() {
 		$payment = get_post( $this->ID );
-		if ( 'mprm-pending' == $payment->post_status || 'preapproved' == $payment->post_status ) {
+		if ( 'mprm-pending' == $payment->post_status ) {
 			return false; // This payment was never completed
 		}
 		$date = ( $date = $this->get_meta( '_mprm_completed_date', true ) ) ? $date : $payment->modified_date;
@@ -255,6 +225,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup mode
+	 *
 	 * @return mixed
 	 */
 	private function setup_mode() {
@@ -262,6 +234,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup fees
+	 *
 	 * @return array
 	 */
 	private function setup_fees() {
@@ -271,6 +245,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup cart details
+	 *
 	 * @return array|mixed
 	 */
 	private function setup_cart_details() {
@@ -280,6 +256,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup menu items
+	 *
 	 * @return array|mixed
 	 */
 	private function setup_menu_items() {
@@ -290,6 +268,7 @@ final class Order extends Model {
 	
 	/**
 	 * Setup total
+	 *
 	 * @return mixed
 	 */
 	private function setup_total() {
@@ -306,6 +285,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup tax
+	 *
 	 * @return int|mixed
 	 */
 	private function setup_tax() {
@@ -319,10 +300,12 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Setup fess total
+	 *
 	 * @return float
 	 */
 	private function setup_fees_total() {
-		$fees_total   = (float) 0.00;
+		$fees_total   = 0.00;
 		$payment_fees = isset( $this->payment_meta[ 'fees' ] ) ? $this->payment_meta[ 'fees' ] : array();
 		if ( ! empty( $payment_fees ) ) {
 			foreach ( $payment_fees as $fee ) {
@@ -414,49 +397,51 @@ final class Order extends Model {
 	
 	/**
 	 * Setup user
+	 *
 	 * @return array|mixed
 	 */
 	private function setup_user_info() {
+		$user_info = array();
 		$defaults  = array(
 			'first_name' => $this->first_name,
 			'last_name'  => $this->last_name,
-			'discount'   => $this->discounts,
 		);
+		
 		$user_info = isset( $this->payment_meta[ 'user_info' ] ) ? maybe_unserialize( $this->payment_meta[ 'user_info' ] ) : array();
 		$user_info = wp_parse_args( $user_info, $defaults );
 		
 		if ( empty( $user_info ) ) {
 			// Get the customer, but only if it's been created
-			$customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
-			if ( $customer->id > 0 ) {
-				$name      = explode( ' ', $customer->name, 2 );
+			$this->customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
+			if ( $this->customer->id > 0 ) {
+				$name      = explode( ' ', $this->customer->name, 2 );
 				$user_info = array(
 					'first_name' => $name[ 0 ],
 					'last_name'  => $name[ 1 ],
-					'email'      => $customer->email,
-					'discount'   => 'none',
+					'email'      => $this->customer->email,
 				);
 			}
 		} else {
 			// Get the customer, but only if it's been created
-			$customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
-			if ( $customer->id > 0 ) {
+			$this->customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
+			
+			if ( $this->customer->id > 0 ) {
 				foreach ( $user_info as $key => $value ) {
 					if ( ! empty( $value ) ) {
 						continue;
 					}
 					switch ( $key ) {
 						case 'first_name':
-							$name              = explode( ' ', $customer->name, 2 );
+							$name              = explode( ' ', $this->customer->name, 2 );
 							$user_info[ $key ] = $name[ 0 ];
 							break;
 						case 'last_name':
-							$name              = explode( ' ', $customer->name, 2 );
+							$name              = explode( ' ', $this->customer->name, 2 );
 							$last_name         = ! empty( $name[ 1 ] ) ? $name[ 1 ] : '';
 							$user_info[ $key ] = $last_name;
 							break;
 						case 'email':
-							$user_info[ $key ] = $customer->email;
+							$user_info[ $key ] = $this->customer->email;
 							break;
 					}
 				}
@@ -620,21 +605,11 @@ final class Order extends Model {
 		
 		add_meta_box(
 			'customer-notes',
-			__( 'Order Notes', 'mp-restaurant-menu' ),
+			__( 'Order Customer Details', 'mp-restaurant-menu' ),
 			array( $this, 'render_meta_box' ),
 			$this->get_post_type( 'order' ),
 			'advanced',
 			'high',
-			array( 'post_type' => $this->get_post_type( 'order' ) )
-		);
-		
-		add_meta_box(
-			'order-customer',
-			__( 'Customer Details', 'mp-restaurant-menu' ),
-			array( $this, 'render_meta_box' ),
-			$this->get_post_type( 'order' ),
-			'advanced',
-			'low',
 			array( 'post_type' => $this->get_post_type( 'order' ) )
 		);
 		
@@ -717,20 +692,23 @@ final class Order extends Model {
 	public function render_order_columns( $column ) {
 		global $post;
 		
-		$this->setup_payment( $post->ID );
+		if ( $post->ID != $this->ID ) {
+			$this->setup_payment( $post->ID );
+		}
 		
 		switch ( $column ) {
 			case 'order_status':
-				echo ucfirst( $this->get( 'payments' )->get_payment_status( $post ) );
+				echo ucfirst( $this->status_nicename );
 				break;
-			case  'order_title':
+			case 'order_title':
 				$order_user = $this->get_user( $post );
+				
 				if ( ! empty( $order_user ) ) {
 					$user_info = get_userdata( $order_user );
 				}
+				
 				if ( ! empty( $user_info ) ) {
 					if ( empty( $this->user_info ) ) {
-						
 						$username = '<a href="user-edit.php?user_id=' . absint( $user_info->ID ) . '">';
 						if ( $user_info->first_name || $user_info->last_name ) {
 							$username .= esc_html( sprintf( _x( '%1$s %2$s', 'full name', 'mp-restaurant-menu' ), ucfirst( $user_info->first_name ), ucfirst( $user_info->last_name ) ) );
@@ -739,11 +717,13 @@ final class Order extends Model {
 						}
 						$username .= '</a>';
 					} else {
-						$customer = $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) );
+						
+						$customer = empty( $this->customer ) ? $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) ) : $this->customer;
+						
 						if ( ! empty( $customer ) ) {
-							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . ' </a>';
 						} else {
-							$username = $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . '<br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . '<br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . '</a>';
 						}
 					}
 				} else {
@@ -753,30 +733,31 @@ final class Order extends Model {
 						$username = __( 'Guest', 'mp-restaurant-menu' );
 					}
 				}
-				
 				printf( _x( '%s by %s', 'Order number by X', 'mp-restaurant-menu' ), '<a href="' . admin_url( 'post.php?post=' . absint( $post->ID ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $this->get_order_number( $post ) ) . '</strong></a>', $username );
 				if ( $post->billing_email ) {
 					echo '<small class="meta email"><a href="' . esc_url( 'mailto:' . $post->billing_email ) . '">' . esc_html( $post->billing_email ) . '</a></small>';
 				}
 				break;
 			case 'order_ship_to':
-				echo apply_filters( 'mprm_orders_list_delivery', $this->shipping_address );
+				$shipping_address = apply_filters( 'mprm_orders_list_delivery', $this->shipping_address );
+				echo empty( $shipping_address ) ? '—' : $shipping_address;
 				break;
 			case 'order_customer_note':
-				echo $this->customer_note;
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . $this->customer_note . '">' . mprm_cut_str( 60, $this->customer_note ) . '</span>';
 				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters( 'mprm_admin_order_item_count', sprintf( _n( '%d item', '%d items', count( $this->menu_items ), 'mp-restaurant-menu' ), count( $this->menu_items ) ), $this ) . '</a>';
-				if ( sizeof( $this->menu_items ) > 0 ) {
-				}
+				$count = $this->count_items();
+				echo '<a href=""  class="mprm-show-order-items">' . apply_filters( 'mprm_admin_order_item_count', sprintf( _n( '%d item', '%d items', $count, 'mp-restaurant-menu' ), $count ), $this ) . '</a>';
+				View::get_instance()->render_html( '../admin/shop/order/order-items', array( 'items' => $this->menu_items ) );
 				break;
 			case 'order_date' :
-				$date  = strtotime( $this->date );
-				$value = date_i18n( get_option( 'date_format' ) . '  ' . get_option( 'time_format' ), $date );
-				echo $value;
+				$date = strtotime( $this->date );
+				echo date_i18n( get_option( 'date_format' ) . '  ' . get_option( 'time_format' ), $date );
 				break;
 			case 'order_total' :
-				echo mprm_currency_filter( mprm_format_amount( $this->total ) );
+				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
+				$total .= '<small class="meta">' . $this->get( 'gateways' )->get_gateway_checkout_label( $this->gateway ) . '</small>';
+				echo $total;
 				break;
 			default:
 				break;
@@ -786,6 +767,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Get user id
+	 *
 	 * @param \WP_Post $post
 	 *
 	 * @return int
@@ -804,37 +787,21 @@ final class Order extends Model {
 	}
 	
 	/**
-	 * Get order items
+	 * Get count by quantity cart item
 	 *
-	 * @param \WP_Post $post
-	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function get_order_items( \WP_Post $post ) {
-		$items = array();
+	protected function count_items() {
+		$count = array_reduce( $this->menu_items, function ( &$res, $item ) {
+			return $res + $item[ 'quantity' ];
+		}, 0 );
 		
-		return $items;
+		return $count;
 	}
 	
 	/**
-	 * @param \WP_Post $post
+	 * Sortable columns
 	 *
-	 * @return int
-	 */
-	public function get_order_total( \WP_Post $post ) {
-		return 0;
-	}
-	
-	/**
-	 * @param \WP_Post $post
-	 *
-	 * @return int
-	 */
-	public function get_item_count( \WP_Post $post ) {
-		return 0;
-	}
-	
-	/**
 	 * @param $columns
 	 *
 	 * @return array
@@ -864,6 +831,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Search params
+	 *
 	 * @return array
 	 */
 	public function get_search_params() {
@@ -878,6 +847,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Add menu item to order
+	 *
 	 * @param int $menu_item_id
 	 * @param array $args
 	 * @param array $options
@@ -892,21 +863,23 @@ final class Order extends Model {
 		}
 		
 		$menu_item = new Menu_item( $menu_item_id );
+		
 		// Bail if this post isn't a menu_item
 		if ( ! $menu_item ) {
 			return false;
 		}
+		
 		// Set some defaults
 		$defaults = array(
 			'quantity'   => 1,
 			'price_id'   => false,
 			'item_price' => false,
-			'discount'   => 0,
 			'tax'        => 0.00,
 			'fees'       => array(),
 		);
 		
 		$args = wp_parse_args( apply_filters( 'mprm_payment_add_menu_item_args', $args, $menu_item->get_ID() ), $defaults );
+		
 		// Allow overriding the price
 		if ( false !== $args[ 'item_price' ] ) {
 			$item_price = $args[ 'item_price' ];
@@ -924,68 +897,80 @@ final class Order extends Model {
 				$item_price = $this->get( 'menu_item' )->get_price( $menu_item->get_ID() );
 			}
 		}
+		
 		// Sanitizing the price here so we don't have a dozen calls later
 		$item_price = $this->get( 'formatting' )->sanitize_amount( $item_price );
 		$quantity   = $this->get( 'cart' )->item_quantities_enabled() ? absint( $args[ 'quantity' ] ) : 1;
 		$amount     = round( $item_price * $quantity, $this->get( 'formatting' )->currency_decimal_filter() );
 		// Setup the menu_items meta item
-		$new_menu_item   = array(
+		$new_menu_item = array(
 			'id'       => $menu_item->get_ID(),
 			'quantity' => $quantity,
 		);
+		
 		$default_options = array(
 			'quantity' => $quantity,
 		);
+		
 		if ( false !== $args[ 'price_id' ] ) {
 			$default_options[ 'price_id' ] = (int) $args[ 'price_id' ];
 		}
+		
 		$options                    = wp_parse_args( $options, $default_options );
 		$new_menu_item[ 'options' ] = $options;
 		$this->menu_items[]         = $new_menu_item;
-		$discount                   = $args[ 'discount' ];
 		$subtotal                   = $amount;
 		$tax                        = $args[ 'tax' ];
+		
 		if ( $this->get( 'taxes' )->prices_include_tax() ) {
 			$subtotal -= round( $tax, $this->get( 'formatting' )->currency_decimal_filter() );
 		}
-		$total = $subtotal - $discount + $tax;
+		
+		$total = $subtotal + $tax;
+		
 		// Do not allow totals to go negative
 		if ( $total < 0 ) {
 			$total = 0;
 		}
+		
 		// Silly item_number array
-		$item_number                     = array(
+		$item_number = array(
 			'id'       => $menu_item->get_ID(),
 			'quantity' => $quantity,
 			'options'  => $options,
 		);
-		$this->cart_details[]            = array(
+		
+		$this->cart_details[] = array(
 			'name'        => $menu_item->post_title,
 			'id'          => $menu_item->get_ID(),
 			'item_number' => $item_number,
 			'item_price'  => round( $item_price, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'quantity'    => $quantity,
-			'discount'    => $discount,
 			'subtotal'    => round( $subtotal, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'tax'         => round( $tax, $this->get( 'formatting' )->currency_decimal_filter() ),
 			'fees'        => $args[ 'fees' ],
 			'price'       => round( $total, $this->get( 'formatting' )->currency_decimal_filter() ),
 		);
+		
 		$added_menu_item                 = end( $this->cart_details );
 		$added_menu_item[ 'action' ]     = 'add';
 		$this->pending[ 'menu_items' ][] = $added_menu_item;
+		
 		reset( $this->cart_details );
-		$this->increase_subtotal( $subtotal - $discount );
+		
+		$this->increase_subtotal( $subtotal );
 		$this->increase_tax( $tax );
 		
 		return true;
 	}
 	
 	/**
+	 * Increase subtotal
+	 *
 	 * @param float $amount
 	 */
 	private function increase_subtotal( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount         = (float) $amount;
 		$this->subtotal += $amount;
 		$this->recalculate_total();
 	}
@@ -998,15 +983,19 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Increase tax
+	 *
 	 * @param float $amount
 	 */
 	public function increase_tax( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount    = (float) $amount;
 		$this->tax += $amount;
 		$this->recalculate_total();
 	}
 	
 	/**
+	 * Remove menu item
+	 *
 	 * @param $menu_item_id
 	 * @param array $args
 	 *
@@ -1147,6 +1136,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Remove args
+	 *
 	 * @param $item_id
 	 * @param $args
 	 * @param $found_cart_key
@@ -1156,21 +1147,18 @@ final class Order extends Model {
 		
 		if ( $orig_quantity > $args[ 'quantity' ] ) {
 			$this->cart_details[ $found_cart_key ][ 'quantity' ] -= $args[ 'quantity' ];
-			$item_price = $this->cart_details[ $found_cart_key ][ 'item_price' ];
-			$tax        = $this->cart_details[ $found_cart_key ][ 'tax' ];
-			$discount   = ! empty( $this->cart_details[ $found_cart_key ][ 'discount' ] ) ? $this->cart_details[ $found_cart_key ][ 'discount' ] : 0;
+			$item_price                                          = $this->cart_details[ $found_cart_key ][ 'item_price' ];
+			$tax                                                 = $this->cart_details[ $found_cart_key ][ 'tax' ];
 			// The total reduction equals the number removed * the item_price
 			$total_reduced                                       = round( $item_price * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
 			$tax_reduced                                         = round( ( $tax / $orig_quantity ) * $args[ 'quantity' ], $this->get( 'formatting' )->currency_decimal_filter() );
 			$new_quantity                                        = $this->cart_details[ $found_cart_key ][ 'quantity' ];
 			$new_tax                                             = $this->cart_details[ $found_cart_key ][ 'tax' ] - $tax_reduced;
 			$new_subtotal                                        = $new_quantity * $item_price;
-			$new_discount                                        = 0;
 			$new_total                                           = 0;
 			$this->cart_details[ $found_cart_key ][ 'subtotal' ] = $new_subtotal;
-			$this->cart_details[ $found_cart_key ][ 'discount' ] = $new_discount;
 			$this->cart_details[ $found_cart_key ][ 'tax' ]      = $new_tax;
-			$this->cart_details[ $found_cart_key ][ 'price' ]    = $new_subtotal - $new_discount + $new_tax;
+			$this->cart_details[ $found_cart_key ][ 'price' ]    = $new_subtotal + $new_tax;
 		} else {
 			$total_reduced = $this->cart_details[ $found_cart_key ][ 'item_price' ];
 			$tax_reduced   = $this->cart_details[ $found_cart_key ][ 'tax' ];
@@ -1189,10 +1177,12 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Decrease subtotal
+	 *
 	 * @param float $amount
 	 */
 	private function decrease_subtotal( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount         = (float) $amount;
 		$this->subtotal -= $amount;
 		if ( $this->subtotal < 0 ) {
 			$this->subtotal = 0;
@@ -1201,10 +1191,12 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Decrease tax
+	 *
 	 * @param float $amount
 	 */
 	public function decrease_tax( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount    = (float) $amount;
 		$this->tax -= $amount;
 		if ( $this->tax < 0 ) {
 			$this->tax = 0;
@@ -1214,8 +1206,6 @@ final class Order extends Model {
 	
 	/**
 	 * Add a fee to a given payment
-	 *
-	 * @since  2.5
 	 *
 	 * @param  array $args Array of arguments for the fee to add
 	 * @param bool $global
@@ -1231,6 +1221,7 @@ final class Order extends Model {
 			'no_tax'       => false,
 			'menu_item_id' => 0,
 		);
+		
 		$fee          = wp_parse_args( $args, $default_args );
 		$this->fees[] = $fee;
 		
@@ -1244,18 +1235,18 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Increase fees
+	 *
 	 * @param float $amount
 	 */
 	private function increase_fees( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount           = (float) $amount;
 		$this->fees_total += $amount;
 		$this->recalculate_total();
 	}
 	
 	/**
 	 * Remove a fee from the payment
-	 *
-	 * @since  2.5
 	 *
 	 * @param  int $key The array key index to remove
 	 *
@@ -1271,6 +1262,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Remove fee by
+	 *
 	 * @param $key
 	 * @param $value
 	 * @param bool $global
@@ -1284,10 +1277,13 @@ final class Order extends Model {
 			'amount',
 			'type',
 		) );
+		
 		if ( ! in_array( $key, $allowed_fee_keys ) ) {
 			return false;
 		}
+		
 		$removed = false;
+		
 		if ( 'index' === $key && array_key_exists( $value, $this->fees ) ) {
 			$removed_fee               = $this->fees[ $value ];
 			$removed_fee[ 'action' ]   = 'remove';
@@ -1318,10 +1314,12 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Decrease fees
+	 *
 	 * @param float $amount
 	 */
 	private function decrease_fees( $amount = 0.00 ) {
-		$amount = (float) $amount;
+		$amount           = (float) $amount;
 		$this->fees_total -= $amount;
 		if ( $this->fees_total < 0 ) {
 			$this->fees_total = 0;
@@ -1330,6 +1328,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Get fees
+	 *
 	 * @param string $type
 	 *
 	 * @return mixed
@@ -1338,7 +1338,7 @@ final class Order extends Model {
 		$fees = array();
 		if ( ! empty( $this->fees ) && is_array( $this->fees ) ) {
 			foreach ( $this->fees as $fee_id => $fee ) {
-				if ( 'all' != $type && ! empty( $fee[ 'type' ] ) && $type != $fee[ 'type' ] ) {
+				if ( ! empty( $fee[ 'type' ] ) && 'all' != $type && $type != $fee[ 'type' ] ) {
 					continue;
 				}
 				$fee[ 'id' ] = $fee_id;
@@ -1350,6 +1350,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Add note
+	 *
 	 * @param bool $note
 	 *
 	 * @return bool
@@ -1373,10 +1375,13 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Save/insert order
+	 *
 	 * @return bool
 	 */
 	public function save() {
 		$saved = false;
+		
 		if ( empty( $this->ID ) ) {
 			$payment_id = $this->insert_payment();
 			if ( false === $payment_id ) {
@@ -1388,6 +1393,7 @@ final class Order extends Model {
 		if ( $this->ID !== $this->_ID ) {
 			$this->ID = $this->_ID;
 		}
+		
 		// If we have something pending, let's save it
 		if ( ! empty( $this->pending ) ) {
 			$total_increase = 0;
@@ -1401,7 +1407,7 @@ final class Order extends Model {
 								case 'add':
 									$price = $item[ 'price' ];
 									$taxes = $item[ 'tax' ];
-									if ( 'publish' === $this->status || 'mprm-complete' === $this->status || 'mprm-revoked' === $this->status ) {
+									if ( 'publish' === $this->status || 'mprm-complete' === $this->status ) {
 										// Add sales logs
 										$log_date = date_i18n( 'Y-m-d G:i:s', current_time( 'timestamp' ) );
 										$price_id = isset( $item[ 'item_number' ][ 'options' ][ 'price_id' ] ) ? $item[ 'item_number' ][ 'options' ][ 'price_id' ] : 0;
@@ -1438,7 +1444,7 @@ final class Order extends Model {
 									foreach ( $found_logs as $log ) {
 										wp_delete_post( $log->ID, true );
 									}
-									if ( 'publish' === $this->status || 'mprm-complete' === $this->status || 'mprm-revoked' === $this->status ) {
+									if ( 'publish' === $this->status || 'mprm-complete' === $this->status ) {
 										$menu_item = new Menu_item( $item[ 'id' ] );
 										$menu_item->decrease_sales( $item[ 'quantity' ] );
 										$menu_item->decrease_earnings( $item[ 'amount' ] );
@@ -1449,7 +1455,7 @@ final class Order extends Model {
 						}
 						break;
 					case 'fees':
-						if ( 'publish' !== $this->status && 'mprm-complete' !== $this->status && 'mprm-revoked' !== $this->status ) {
+						if ( 'publish' !== $this->status && 'mprm-complete' !== $this->status ) {
 							break;
 						}
 						if ( empty( $this->pending[ $key ] ) ) {
@@ -1493,12 +1499,6 @@ final class Order extends Model {
 					case 'last_name':
 						$this->user_info[ 'last_name' ] = $this->last_name;
 						break;
-					case 'discounts':
-						if ( ! is_array( $this->discounts ) ) {
-							$this->discounts = explode( ',', $this->discounts );
-						}
-						$this->user_info[ 'discount' ] = implode( ',', $this->discounts );
-						break;
 					case 'address':
 						$this->user_info[ 'address' ] = $this->address;
 						break;
@@ -1531,6 +1531,9 @@ final class Order extends Model {
 					case 'completed_date':
 						$this->update_meta( '_mprm_completed_date', $this->completed_date );
 						break;
+					case 'processed_date':
+						$this->update_meta( '_mprm_processed__date', $this->processed_date );
+						break;
 					case 'has_unlimited_menu_items':
 						$this->update_meta( '_mprm_order_unlimited_menu_items', $this->has_unlimited_menu_items );
 						break;
@@ -1546,7 +1549,9 @@ final class Order extends Model {
 						break;
 				}
 			}
+			
 			if ( 'mprm-pending' !== $this->status ) {
+				
 				$customer     = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
 				$total_change = $total_increase - $total_decrease;
 				if ( $total_change < 0 ) {
@@ -1559,7 +1564,9 @@ final class Order extends Model {
 					$customer->increase_value( $total_change );
 					$this->get( 'payments' )->increase_total_earnings( $total_change );
 				}
+				
 			}
+			
 			$this->update_meta( '_mprm_order_total', $this->total );
 			$this->update_meta( '_mprm_order_tax', $this->tax );
 			$this->menu_items = array_values( $this->menu_items );
@@ -1574,6 +1581,7 @@ final class Order extends Model {
 			
 			$meta        = $this->get_meta();
 			$merged_meta = array_merge( $meta, $new_meta );
+			
 			// Only save the payment meta if it's changed
 			if ( md5( serialize( $meta ) ) !== md5( serialize( $merged_meta ) ) ) {
 				$updated = $this->update_meta( '_mprm_order_meta', $merged_meta );
@@ -1584,6 +1592,7 @@ final class Order extends Model {
 			$this->pending = array();
 			$saved         = true;
 		}
+		
 		if ( true === $saved ) {
 			$this->setup_payment( $this->ID );
 		}
@@ -1592,7 +1601,7 @@ final class Order extends Model {
 	}
 	
 	/**
-	 * Insert o
+	 * Insert payment
 	 *
 	 * @param array $payment_data
 	 *
@@ -1608,15 +1617,18 @@ final class Order extends Model {
 		} else if ( ! empty( $this->email ) && is_email( $this->email ) ) {
 			$payment_title = $this->email;
 		}
+		
 		if ( empty( $this->key ) ) {
 			$auth_key               = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
 			$this->key              = strtolower( md5( $this->email . date( 'Y-m-d H:i:s' ) . $auth_key . uniqid( 'mprm', true ) ) );  // Unique key
 			$this->pending[ 'key' ] = $this->key;
 		}
+		
 		if ( empty( $this->ip ) ) {
 			$this->ip              = $this->get_ip();
 			$this->pending[ 'ip' ] = $this->ip;
 		}
+		
 		$payment_data = array(
 			'price'        => $this->total,
 			'date'         => $this->date,
@@ -1629,7 +1641,6 @@ final class Order extends Model {
 				'email'      => $this->email,
 				'first_name' => $this->first_name,
 				'last_name'  => $this->last_name,
-				'discount'   => $this->discounts,
 				'address'    => $this->address,
 			),
 			'cart_details' => $this->cart_details,
@@ -1647,15 +1658,13 @@ final class Order extends Model {
 		
 		// Create a blank payment
 		$payment_id = wp_insert_post( $args );
+		
 		if ( ! empty( $payment_id ) ) {
-			$this->ID  = $payment_id;
-			$this->_ID = $payment_id;
-			$customer  = new \stdClass;
+			$this->ID = $this->_ID = $payment_id;
+			$customer = new \stdClass;
 			if ( did_action( 'mprm_pre_process_purchase' ) && is_user_logged_in() ) {
 				$customer = new Customer( array( 'field' => 'user_id', 'value' => get_current_user_id() ) );
-			}
-			
-			if ( empty( $customer->id ) ) {
+			} elseif ( empty( $customer->id ) ) {
 				$customer = new Customer( array( 'field' => 'email', 'value' => $this->email ) );
 			}
 			
@@ -1688,6 +1697,8 @@ final class Order extends Model {
 	}
 	
 	/**
+	 * Get ip
+	 *
 	 * @return mixed
 	 */
 	private function get_ip() {
@@ -1705,18 +1716,24 @@ final class Order extends Model {
 		if ( empty( $meta_key ) ) {
 			return false;
 		}
+		
 		if ( $meta_key == 'key' || $meta_key == 'date' ) {
+			
 			$current_meta              = $this->get_meta();
 			$current_meta[ $meta_key ] = $meta_value;
 			$meta_key                  = '_mprm_order_meta';
 			$meta_value                = $current_meta;
+			
 		} else if ( $meta_key == 'email' || $meta_key == '_mprm_order_user_email' ) {
+			
 			$meta_value = apply_filters( 'mprm_mprm_update_payment_meta_' . $meta_key, $meta_value, $this->ID );
 			update_post_meta( $this->ID, '_mprm_order_user_email', $meta_value );
+			
 			$current_meta                           = $this->get_meta();
 			$current_meta[ 'user_info' ][ 'email' ] = $meta_value;
 			$meta_key                               = '_mprm_order_meta';
 			$meta_value                             = $current_meta;
+			
 		}
 		$meta_value = apply_filters( 'mprm_update_payment_meta_' . $meta_key, $meta_value, $this->ID );
 		
@@ -1734,19 +1751,26 @@ final class Order extends Model {
 		if ( $status == 'mprm-completed' || $status == 'mprm-complete' ) {
 			$status = 'publish';
 		}
-		$old_status = ! empty( $this->old_status ) ? $this->old_status : false;
+		
+		$old_status = ! empty( $this->old_status ) ? $this->old_status : $this->status;
+		
 		if ( $old_status === $status ) {
 			return false; // Don't permit status changes that aren't changes
 		}
 		
 		$do_change = apply_filters( 'mprm_should_update_payment_status', true, $this->ID, $status, $old_status );
-		$updated   = false;
+		
+		$updated = false;
+		
 		if ( $do_change ) {
+			
 			do_action( 'mprm_before_payment_status_change', $this->ID, $status, $old_status );
+			
 			$update_fields         = array( 'ID' => $this->ID, 'post_status' => $status, 'edit_date' => current_time( 'mysql' ) );
 			$updated               = wp_update_post( apply_filters( 'mprm_update_payment_status_fields', $update_fields ) );
 			$all_payment_statuses  = $this->get( 'payments' )->get_payment_statuses();
 			$this->status_nicename = array_key_exists( $status, $all_payment_statuses ) ? $all_payment_statuses[ $status ] : ucfirst( $status );
+			
 			// Process any specific status functions
 			switch ( $status ) {
 				case 'mprm-refunded':
@@ -1758,8 +1782,13 @@ final class Order extends Model {
 				case 'mprm-pending':
 					$this->process_pending();
 					break;
+				case 'mprm-processing':
+					$this->process_processing();
+					break;
 			}
+			
 			do_action( 'mprm_update_payment_status', $this->ID, $status, $old_status );
+			
 		}
 		
 		return $updated;
@@ -1770,27 +1799,35 @@ final class Order extends Model {
 	 */
 	private function process_refund() {
 		$process_refund = true;
+		
 		// If the payment was not in publish or mprm-revoked status, don't decrement stats as they were never incremented
-		if ( ( 'publish' != $this->old_status && 'mprm-revoked' != $this->old_status ) || 'mprm-refunded' != $this->status ) {
+		if ( ( 'publish' != $this->old_status ) || 'mprm-refunded' != $this->status ) {
 			$process_refund = false;
 		}
+		
 		// Allow extensions to filter for their own payment types, Example: Recurring Payments
 		$process_refund = apply_filters( 'mprm_should_process_refund', $process_refund, $this );
 		if ( false === $process_refund ) {
 			return;
 		}
+		
 		do_action( 'mprm_pre_refund_payment', $this );
+		
 		$decrease_store_earnings = apply_filters( 'mprm_decrease_store_earnings_on_refund', true, $this );
 		$decrease_customer_value = apply_filters( 'mprm_decrease_customer_value_on_refund', true, $this );
 		$decrease_purchase_count = apply_filters( 'mprm_decrease_customer_purchase_count_on_refund', true, $this );
+		
 		$this->maybe_alter_stats( $decrease_store_earnings, $decrease_customer_value, $decrease_purchase_count );
-		$this->delete_sales_logs();
+		
 		// Clear the This Month earnings (this_monththis_month is NOT a typo)
 		delete_transient( md5( 'mprm_earnings_this_monththis_month' ) );
+		
 		do_action( 'mprm_post_refund_payment', $this );
 	}
 	
 	/**
+	 * Maybe alter stats
+	 *
 	 * @param $alter_store_earnings
 	 * @param $alter_customer_value
 	 * @param $alter_customer_purchase_count
@@ -1813,35 +1850,10 @@ final class Order extends Model {
 		}
 	}
 	
-	private function delete_sales_logs() {
-//		global $mprm_logs;
-		// Remove related sale log entries
-//		$mprm_logs->delete_logs(
-//			null,
-//			'sale',
-//			array(
-//				array(
-//					'key' => '_mprm_log_payment_id',
-//					'value' => $this->ID,
-//				),
-//			)
-//		);
-	}
-	
 	/**
 	 * Process failure
 	 */
 	private function process_failure() {
-		$discounts = $this->discounts;
-		if ( 'none' === $discounts || empty( $discounts ) ) {
-			return;
-		}
-		if ( ! is_array( $discounts ) ) {
-			$discounts = array_map( 'trim', explode( ',', $discounts ) );
-		}
-		foreach ( $discounts as $discount ) {
-			$this->get( 'discount' )->decrease_discount_usage( $discount );
-		}
 	}
 	
 	/**
@@ -1850,23 +1862,41 @@ final class Order extends Model {
 	private function process_pending() {
 		$process_pending = true;
 		// If the payment was not in publish or revoked status, don't decrement stats as they were never incremented
-		if ( ( 'publish' != $this->old_status && 'mprm-revoked' != $this->old_status ) || 'mprm-pending' != $this->status ) {
+		if ( ( 'publish' != $this->old_status ) || 'mprm-pending' != $this->status ) {
 			$process_pending = false;
 		}
 		// Allow extensions to filter for their own payment types, Example: Recurring Payments
 		$process_pending = apply_filters( 'mprm_should_process_pending', $process_pending, $this );
+		
 		if ( false === $process_pending ) {
 			return;
 		}
+		
 		$decrease_store_earnings = apply_filters( 'mprm_decrease_store_earnings_on_pending', true, $this );
 		$decrease_customer_value = apply_filters( 'mprm_decrease_customer_value_on_pending', true, $this );
 		$decrease_purchase_count = apply_filters( 'mprm_decrease_customer_purchase_count_on_pending', true, $this );
+		
 		$this->maybe_alter_stats( $decrease_store_earnings, $decrease_customer_value, $decrease_purchase_count );
-		$this->delete_sales_logs();
 		$this->completed_date = false;
+		
 		$this->update_meta( '_mprm_completed_date', '' );
+		$this->update_meta( '_mprm_processed_date', '' );
+		
 		// Clear the This Month earnings (this_monththis_month is NOT a typo)
 		delete_transient( md5( 'mprm_earnings_this_monththis_month' ) );
+	}
+	
+	/**
+	 * Process  order status processing
+	 */
+	private function process_processing() {
+		if ( ! empty( $this->ID ) ) {
+			$this->update_meta( '_mprm_processed_date', current_time( 'mysql' ) );
+			do_action( 'mprm_complete_purchase', $this->ID );
+			
+			// Clear the This Month earnings (this_monththis_month is NOT a typo)
+			delete_transient( md5( 'mprm_earnings_this_monththis_month' ) );
+		}
 	}
 	
 	/**
@@ -1874,15 +1904,6 @@ final class Order extends Model {
 	 */
 	public function array_convert() {
 		return get_object_vars( $this );
-	}
-	
-	/**
-	 * @return array
-	 */
-	private function setup_discounts() {
-		$discounts = ! empty( $this->payment_meta[ 'user_info' ][ 'discount' ] ) ? $this->payment_meta[ 'user_info' ][ 'discount' ] : array();
-		
-		return $discounts;
 	}
 	
 	/**
@@ -1939,13 +1960,6 @@ final class Order extends Model {
 	 */
 	private function get_total() {
 		return apply_filters( 'mprm_get_payment_total', $this->total, $this->ID, $this );
-	}
-	
-	/**
-	 * @return mixed
-	 */
-	private function get_discounts() {
-		return apply_filters( 'mprm_payment_discounts', $this->discounts, $this->ID, $this );
 	}
 	
 	/**

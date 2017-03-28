@@ -1825,6 +1825,7 @@ class GUMP {
 		if (!isset($input[$field]) || empty($input[$field])) {
 			return;
 		}
+		
 		$regex = '/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i';
 		if (!preg_match($regex, $input[$field])) {
 			return array(

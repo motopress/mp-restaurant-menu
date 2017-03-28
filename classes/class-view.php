@@ -1,10 +1,12 @@
 <?php
+
 namespace mp_restaurant_menu\classes;
 
 /**
  * View class
  */
 class View {
+	
 	protected static $instance;
 	public $template;
 	protected $template_path;
@@ -42,7 +44,9 @@ class View {
 		if ( is_array( $data ) ) {
 			extract( $data );
 		}
+		
 		$this->data = $data;
+		
 		include_once( $this->templates_path . 'index.php' );
 	}
 	
@@ -112,6 +116,8 @@ class View {
 	}
 	
 	/**
+	 * Get template html
+	 *
 	 * @param $template_name
 	 * @param array $args
 	 * @param string $template_path
@@ -121,6 +127,7 @@ class View {
 	 */
 	public function get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 		ob_start();
+		
 		$this->get_template( $template_name, $args, $template_path, $default_path );
 		
 		return ob_get_clean();
@@ -192,13 +199,14 @@ class View {
 	}
 	
 	/**
+	 * Template loader
+	 *
 	 * @param $template
 	 *
 	 * @return string
 	 */
 	public function template_loader( $template ) {
 		global $post, $taxonomy;
-		
 		
 		$file = '';
 		$find = array();

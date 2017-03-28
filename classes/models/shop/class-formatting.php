@@ -43,8 +43,6 @@ class Formatting extends Model {
 	 *
 	 * Keys are used as internal identifiers. Alphanumeric characters, dashes, underscores, stops, colons and slashes are allowed
 	 *
-	 * @since  2.5.8
-	 *
 	 * @param  string $key String key
 	 *
 	 * @return string Sanitized key

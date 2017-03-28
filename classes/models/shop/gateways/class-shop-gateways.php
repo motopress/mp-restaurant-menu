@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
@@ -87,7 +88,7 @@ class Gateways extends Model {
 			),
 			'manual'      => array(
 				'admin_label'    => __( 'Cash on delivery (process orders manually)', 'mp-restaurant-menu' ),
-				'checkout_label' => $this->get( 'settings' )->get_option( 'manual_title', __( 'Cash on delivery', 'mp-restaurant-menu' ) )
+				'checkout_label' => $this->get( 'settings' )->get_option( 'manual_title', __( 'Cash on Delivery', 'mp-restaurant-menu' ) )
 			)
 		);
 		
@@ -258,7 +259,6 @@ class Gateways extends Model {
 					'options' => $price_options
 				),
 				'tax'         => 0,
-				'discount'    => 0,
 				'item_price'  => $price,
 				'subtotal'    => ( $price * $quantity ),
 				'price'       => ( $price * $quantity ),
@@ -275,7 +275,6 @@ class Gateways extends Model {
 			'email'      => is_user_logged_in() ? $current_user->user_email : '',
 			'first_name' => is_user_logged_in() ? $current_user->user_firstname : '',
 			'last_name'  => is_user_logged_in() ? $current_user->user_lastname : '',
-			'discount'   => 'none',
 			'address'    => array()
 		);
 		// Setup purchase information
@@ -283,7 +282,6 @@ class Gateways extends Model {
 			'menu_items'   => $menu_items,
 			'fees'         => $this->get( 'cart' )->get_cart_fees(),
 			'subtotal'     => $price * $quantity,
-			'discount'     => 0,
 			'tax'          => 0,
 			'price'        => $price * $quantity,
 			'purchase_key' => strtolower( md5( uniqid() ) ),

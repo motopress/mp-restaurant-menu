@@ -459,7 +459,7 @@ function mprm_email_tag_order_notes( $order = false ) {
 	if ( ! empty( $order ) && is_integer( $order ) ) {
 		
 		$order_object  = mprm_get_order_object( get_post( $order ) );
-		$customer_note = empty( $order_object->customer_note ) ? '' : $order_object->customer_note;
+		$customer_note = empty( $order_object->customer_note ) ? '–' : $order_object->customer_note;
 		
 		if ( ! empty( $customer_note ) ) {
 			$order_notes_html = View::get_instance()->get_template_html( 'emails/tags/order-notes', array( 'note' => apply_filters( 'mprm_email_tag_order_notes', $customer_note ) ) );
@@ -467,26 +467,6 @@ function mprm_email_tag_order_notes( $order = false ) {
 	}
 	
 	return apply_filters( 'mprm_email_tag_order_notes_html', $order_notes_html );
-}
-
-
-/**
- * Tag discount codes
- *
- * @param $order_id
- *
- * @return string
- */
-function mprm_email_tag_discount_codes( $order_id ) {
-	$user_info = mprm_get_payment_meta_user_info( $order_id );
-	
-	$discount_codes = '';
-	
-	if ( isset( $user_info[ 'discount' ] ) && $user_info[ 'discount' ] !== 'none' ) {
-		$discount_codes = $user_info[ 'discount' ];
-	}
-	
-	return $discount_codes;
 }
 
 /**
@@ -513,8 +493,8 @@ function mprm_get_default_sale_notification_email() {
 	$default_email_body .= __( 'Purchased products:', 'mp-restaurant-menu' ) . "\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
 	$default_email_body .= __( 'Purchased by: ', 'mp-restaurant-menu' ) . " " . "{fullname}" . "\n";
-	$default_email_body .= __( 'Amount: ', 'mp-restaurant-menu' ) . " " . "{price}" . "\n";
-	$default_email_body .= __( 'Payment Method: ', 'mp-restaurant-menu' ) . " " . "{payment_method}" . "\n\n";
+	$default_email_body .= __( 'Amount', 'mp-restaurant-menu' ) . ": " . "{price}" . "\n";
+	$default_email_body .= __( 'Payment Method:', 'mp-restaurant-menu' ) . " " . "{payment_method}" . "\n\n";
 	$default_email_body .= __( 'Thank you', 'mp-restaurant-menu' );
 	
 	$message = mprm_get_option( 'sale_notification', false );

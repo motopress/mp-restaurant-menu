@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes;
 
 use mp_restaurant_menu\classes\models\Settings;
@@ -47,7 +48,7 @@ class Media extends Core {
 		} else {
 			parse_str( $args, $rgs );
 		}
-		$args = array_merge( $default, $rgs );
+		$args              = array_merge( $default, $rgs );
 		$args[ 'maxchar' ] += 0;
 		// cutting
 		if ( mb_strlen( $args[ 'text' ] ) > $args[ 'maxchar' ] && $args[ 'maxchar' ] != 0 ) {
@@ -250,7 +251,7 @@ class Media extends Core {
 		
 		$this->register_settings();
 		
-		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-pending', 'post_type' => $this->get_post_type( 'order' ), 'fields' => 'ids' ) ) );
+		$pend_count = count( get_posts( array( 'posts_per_page' => - 1, 'post_status' => 'mprm-processing', 'post_type' => $this->get_post_type( 'order' ), 'fields' => 'ids' ) ) );
 		
 		foreach ( $submenu as $key => $value ) {
 			if ( isset( $submenu[ $key ][ 5 ] ) ) {
@@ -483,11 +484,11 @@ class Media extends Core {
 							'id'       => 'col',
 							'name'     => __( 'Columns', 'mp-restaurant-menu' ),
 							'options'  => array(
-								'1' => __( '1 column', 'mp-restaurant-menu' ),
-								'2' => __( '2 columns', 'mp-restaurant-menu' ),
-								'3' => __( '3 columns', 'mp-restaurant-menu' ),
-								'4' => __( '4 columns', 'mp-restaurant-menu' ),
-								'6' => __( '6 columns', 'mp-restaurant-menu' )
+								'1' => '1 ' . __( 'column', 'mp-restaurant-menu' ),
+								'2' => '2 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'3' => '3 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'4' => '4 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'6' => '6 ' . __( 'columns', 'mp-restaurant-menu' )
 							),
 							'std'      => 3,
 							'desc'     => '',
@@ -570,11 +571,11 @@ class Media extends Core {
 							'id'       => 'col',
 							'name'     => __( 'Columns', 'mp-restaurant-menu' ),
 							'options'  => array(
-								'1' => __( '1 column', 'mp-restaurant-menu' ),
-								'2' => __( '2 columns', 'mp-restaurant-menu' ),
-								'3' => __( '3 columns', 'mp-restaurant-menu' ),
-								'4' => __( '4 columns', 'mp-restaurant-menu' ),
-								'6' => __( '6 columns', 'mp-restaurant-menu' )
+								'1' => '1 ' . __( 'column', 'mp-restaurant-menu' ),
+								'2' => '2 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'3' => '3 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'4' => '4 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'6' => '6 ' . __( 'columns', 'mp-restaurant-menu' )
 							),
 							'std'      => 2,
 							'desc'     => '',
@@ -657,11 +658,11 @@ class Media extends Core {
 							'id'       => 'col',
 							'name'     => __( 'Columns', 'mp-restaurant-menu' ),
 							'options'  => array(
-								'1' => __( '1 column', 'mp-restaurant-menu' ),
-								'2' => __( '2 columns', 'mp-restaurant-menu' ),
-								'3' => __( '3 columns', 'mp-restaurant-menu' ),
-								'4' => __( '4 columns', 'mp-restaurant-menu' ),
-								'6' => __( '6 columns', 'mp-restaurant-menu' )
+								'1' => '1 ' . __( 'column', 'mp-restaurant-menu' ),
+								'2' => '2 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'3' => '3 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'4' => '4 ' . __( 'columns', 'mp-restaurant-menu' ),
+								'6' => '6 ' . __( 'columns', 'mp-restaurant-menu' )
 							),
 							'desc'     => '',
 							'readonly' => false,
@@ -798,6 +799,7 @@ class Media extends Core {
 							'name' => __( 'Title', 'mp-restaurant-menu' ),
 							'desc' => __( 'This controls the title which the user sees during checkout.', 'mp-restaurant-menu' ),
 							'type' => 'text',
+							'std'  => __( 'PayPal', 'mp-restaurant-menu' ),
 							'size' => 'regular',
 						),
 						'paypal_description'          => array(
@@ -820,6 +822,7 @@ class Media extends Core {
 							'name' => __( 'Title', 'mp-restaurant-menu' ),
 							'desc' => __( 'Payment method description that the customer will see on your checkout.', 'mp-restaurant-menu' ),
 							'type' => 'text',
+							'std'  => __( 'Cash on Delivery', 'mp-restaurant-menu' ),
 							'size' => 'regular',
 						),
 						'manual_description' => array(
@@ -1101,12 +1104,12 @@ class Media extends Core {
 					
 					),
 					'file_menu_items' => array(
-						'file_settings'    => array(
+						'file_settings'             => array(
 							'id'   => 'file_settings',
 							'name' => '<h3>' . __( 'File Menu item Settings', 'mp-restaurant-menu' ) . '</h3>',
 							'type' => 'header',
 						),
-						'menu_item_method' => array(
+						'menu_item_method'          => array(
 							'id'      => 'menu_item_method',
 							'name'    => __( 'Menu item Method', 'mp-restaurant-menu' ),
 							'desc'    => sprintf( __( 'Select the file menu_item method. Note, not all methods work on all servers.', 'mp-restaurant-menu' ), $this->get_label_singular() ),
@@ -1116,7 +1119,6 @@ class Media extends Core {
 								'redirect' => __( 'Redirect', 'mp-restaurant-menu' ),
 							),
 						),
-						
 						'file_menu_item_limit'      => array(
 							'id'   => 'file_menu_item_limit',
 							'name' => __( 'File Menu item Limit', 'mp-restaurant-menu' ),
@@ -1164,8 +1166,8 @@ class Media extends Core {
 							'name' => __( 'Agreement Text', 'mp-restaurant-menu' ),
 							'desc' => __( 'If Agree to Terms is checked, enter the agreement terms here.', 'mp-restaurant-menu' ),
 							'type' => 'rich_editor',
-						),
-					),
+						)
+					)
 				)
 			)
 		);
@@ -1439,6 +1441,7 @@ class Media extends Core {
 				case "customize":
 				case "widgets":
 				case "edit-mp_menu_item":
+				case "edit-mprm_order":
 					$this->enqueue_script( 'mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js" );
 					wp_localize_script( "mp-restaurant-menu", 'mprm_admin_vars', $this->get_config( 'language-admin-js' ) );
 					break;
@@ -1551,6 +1554,7 @@ class Media extends Core {
 	private function add_theme_js() {
 		global $post_type, $taxonomy;
 		$prefix = $this->get_prefix();
+		
 		switch ( $post_type ) {
 			case "mp_menu_item":
 				wp_enqueue_script( 'underscore' );
@@ -1601,7 +1605,6 @@ class Media extends Core {
 		}
 		
 		register_post_type( $menu_item_post_type, array(
-			//'label' => 'mp_menu_item',
 			'labels'            =>
 				array(
 					'name'               => __( 'Menu Items', 'mp-restaurant-menu' ),
@@ -1767,6 +1770,7 @@ class Media extends Core {
 		do_action( 'mprm_filter_the_page_title' );
 		
 		if ( $query->is_main_query() && self::$wpHeadFinished ) {
+			
 			// on loop start, unset the global post so that template tags don't work before the_content()
 			add_action( 'the_post', array( $this, 'spoof_the_post' ) );
 			
@@ -1795,6 +1799,7 @@ class Media extends Core {
 	 */
 	public function append_post_content( $content ) {
 		global $post;
+		
 		// run only once
 		remove_filter( 'the_content', array( $this, 'append_post_content' ) );
 		

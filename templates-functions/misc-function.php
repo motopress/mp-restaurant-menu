@@ -3,7 +3,8 @@ use mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\Core;
 
 /**
- * Add class shortcode/widget wrapper class
+ * Add class shortcode / widget wrapper class
+ *
  * @return string
  */
 function mprm_popular_theme_class() {
@@ -107,6 +108,8 @@ function mprm_get_post_type( $type ) {
 }
 
 /**
+ * Grid row class
+ *
  * @return mixed
  */
 function mprm_grid_row_class() {
@@ -117,6 +120,7 @@ function mprm_grid_row_class() {
  * Cut string by length
  *
  * @param $length
+ *
  * @param $text
  *
  * @return string
@@ -261,6 +265,7 @@ function mprm_get_first_and_last_key( array $data ) {
 
 /**
  * Get errors
+ *
  * @return bool|mixed
  */
 function mprm_get_errors() {
@@ -300,6 +305,8 @@ function mprm_insert_payment( $payment ) {
 }
 
 /**
+ * Update payment status
+ *
  * @param $payment_id
  * @param $new_status
  *
@@ -310,6 +317,8 @@ function mprm_update_payment_status( $payment_id, $new_status ) {
 }
 
 /**
+ * Insert payment note
+ *
  * @param int $payment_id
  * @param string $note
  *
@@ -376,8 +385,6 @@ function taxonomy_settings() {
 		$taxonomy_view_settings[ 'action_path' ] = "common/page-parts/{$taxonomy_view}-item";
 		$taxonomy_view_settings[ 'view' ]        = $taxonomy_view;
 		
-		
-		return $taxonomy_view_settings;
 	}
 	
 	return $taxonomy_view_settings;
@@ -416,5 +423,4 @@ function mprm_get_theme_template() {
 	}
 	
 	return $theme_templates;
-	
 }
