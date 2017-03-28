@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2017-03-24 18:07+0200\n"
+"POT-Creation-Date: 2017-03-28 18:08+0300\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,20 +20,20 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/customers/delete.php:6 admin/customers/delete.php:38
+#: admin/customers/delete.php:6 admin/customers/delete.php:29
 #: admin/customers/message.php:2
 msgid "Delete Customer"
 msgstr ""
 
-#: admin/customers/delete.php:22
+#: admin/customers/delete.php:17
 msgid "Are you sure you want to delete this customer?"
 msgstr ""
 
-#: admin/customers/delete.php:27
+#: admin/customers/delete.php:20
 msgid "Delete all associated payments and records?"
 msgstr ""
 
-#: admin/customers/delete.php:39 admin/metaboxes/order/order-customer.php:39
+#: admin/customers/delete.php:30 admin/metaboxes/order/customer-notes.php:67
 #: configs/language-admin-js.php:9
 msgid "Cancel"
 msgstr ""
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Search Customers"
 msgstr ""
 
-#: admin/customers/overview.php:22 classes/models/shop/class-order.php:611
+#: admin/customers/overview.php:22
 msgid "Customer Details"
 msgstr ""
 
-#: admin/customers/overview.php:27 admin/metaboxes/order/order-customer.php:29
+#: admin/customers/overview.php:27 admin/metaboxes/order/customer-notes.php:57
 msgid "Email:"
 msgstr ""
 
@@ -181,12 +181,83 @@ msgid "Protein"
 msgstr ""
 
 #: admin/metaboxes/order/customer-information.php:4
-#: admin/metaboxes/order/order-meta.php:50
+#: admin/metaboxes/order/customer-notes.php:25
 msgid "Contact phone:"
 msgstr ""
 
-#: admin/metaboxes/order/customer-information.php:7
+#: admin/metaboxes/order/customer-information.php:8
 msgid "Customer email:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:14
+msgid "First Name:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:15
+#: templates/shop/user-info-fields.php:31
+#: templates/shop/user-info-fields.php:36
+msgid "First Name"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:18
+msgid "Last Name:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:19
+#: templates/shop/user-info-fields.php:44
+#: templates/shop/user-info-fields.php:51
+msgid "Last Name"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:22
+msgid "Contact email:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:23
+msgid "Customer email"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:26
+#: templates/shop/user-info-fields.php:20
+#: templates/shop/user-info-fields.php:24
+msgid "Phone number"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:29
+msgid "Order Notes:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:30 templates/shop/success.php:111
+msgid "Order Notes"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:33
+#: templates-functions/checkout-restaurant-menu-functions.php:142
+msgid "Shipping address:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:34 templates/shop/success.php:118
+msgid "Shipping address"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:47
+msgid "New Customer"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:53
+msgid "Name:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:61
+msgid "Phone number:"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:66
+msgid "Save a customer"
+msgstr ""
+
+#: admin/metaboxes/order/customer-notes.php:69
+msgid "Click \"Save Order\" to create new customer"
 msgstr ""
 
 #: admin/metaboxes/order/notes.php:5
@@ -231,39 +302,15 @@ msgstr ""
 msgid "Select a state"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:20
-msgid "New Customer"
-msgstr ""
-
-#: admin/metaboxes/order/order-customer.php:25
-msgid "Name:"
-msgstr ""
-
-#: admin/metaboxes/order/order-customer.php:33
-msgid "Phone number:"
-msgstr ""
-
-#: admin/metaboxes/order/order-customer.php:38
-msgid "Save a customer"
-msgstr ""
-
-#: admin/metaboxes/order/order-customer.php:41
-msgid "Click \"Save Order\" to create new customer"
-msgstr ""
-
-#: admin/metaboxes/order/order-meta.php:18
-msgid "Gateway:"
-msgstr ""
-
-#: admin/metaboxes/order/order-meta.php:26
+#: admin/metaboxes/order/order-meta.php:15
 msgid "Key:"
 msgstr ""
 
-#: admin/metaboxes/order/order-meta.php:33
+#: admin/metaboxes/order/order-meta.php:21
 msgid "IP:"
 msgstr ""
 
-#: admin/metaboxes/order/order-meta.php:41
+#: admin/metaboxes/order/order-meta.php:28
 msgid "Transaction ID:"
 msgstr ""
 
@@ -340,23 +387,27 @@ msgstr ""
 msgid "Tax"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:78 templates/shop/success.php:105
+#: admin/metaboxes/order/update-order.php:77 templates/shop/success.php:105
 msgid "Total Price"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:84
+#: admin/metaboxes/order/update-order.php:83
+msgid "Gateway"
+msgstr ""
+
+#: admin/metaboxes/order/update-order.php:89
 msgid "Recalculate Totals"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:85
+#: admin/metaboxes/order/update-order.php:90
 msgid "Recalculate"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:96
+#: admin/metaboxes/order/update-order.php:101
 msgid "Delete Order"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:100
+#: admin/metaboxes/order/update-order.php:105
 msgid "Save Order"
 msgstr ""
 
@@ -455,7 +506,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:11
 #: admin/popups/shortcode-mprm_items.php:12 admin/widgets/category/form.php:14
 #: admin/widgets/menu/form.php:15 classes/class-media.php:201
-#: classes/modules/class-post.php:245
+#: classes/modules/class-post.php:265
 #: classes/shortcodes/class-shortcode-category.php:60
 #: classes/shortcodes/class-shortcode-item.php:61
 msgid "Categories"
@@ -550,7 +601,7 @@ msgid "Simple list"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:24 admin/widgets/menu/form.php:27
-#: classes/class-media.php:208 classes/modules/class-post.php:244
+#: classes/class-media.php:208 classes/modules/class-post.php:264
 #: classes/shortcodes/class-shortcode-item.php:66
 msgid "Tags"
 msgstr ""
@@ -639,7 +690,7 @@ msgstr ""
 msgid "Link item"
 msgstr ""
 
-#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:246
+#: admin/quick-edit/menu-item.php:7 classes/modules/class-post.php:266
 #: configs/metaboxes.php:7 templates-functions/theme-support-functions.php:12
 #: templates/shop/checkout-cart.php:13 templates/shop/success.php:144
 msgid "Price"
@@ -692,7 +743,7 @@ msgstr ""
 
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:2
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:2
-#: classes/models/shop/class-order.php:677 templates/shop/success.php:38
+#: classes/models/shop/class-order.php:674 templates/shop/success.php:38
 msgid "Order"
 msgstr ""
 
@@ -1803,36 +1854,36 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:79
+#: classes/controllers/class-controller-customer.php:86
 msgid "The password you entered is incorrect"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:82
+#: classes/controllers/class-controller-customer.php:89
 #: classes/models/shop/class-purchase.php:682
 msgid "The username you entered does not exist"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:85
+#: classes/controllers/class-controller-customer.php:92
 msgid "The user name or password is incorrect"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:185
+#: classes/controllers/class-controller-customer.php:194
 msgid "You do not have permission to delete this customer."
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:200
+#: classes/controllers/class-controller-customer.php:209
 msgid "Cheatin' eh?!"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:204
+#: classes/controllers/class-controller-customer.php:213
 msgid "Please confirm you want to delete this customer"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:236
+#: classes/controllers/class-controller-customer.php:245
 msgid "Error deleting customer"
 msgstr ""
 
-#: classes/controllers/class-controller-customer.php:240
+#: classes/controllers/class-controller-customer.php:249
 msgid "Invalid Customer ID"
 msgstr ""
 
@@ -1889,7 +1940,7 @@ msgid "You do not have permission to edit this payment record"
 msgstr ""
 
 #: classes/models/class-emails.php:230 classes/models/class-errors.php:36
-#: classes/models/shop/class-payments.php:452
+#: classes/models/shop/class-payments.php:453
 #: classes/models/shop/gateways/class-shop-gateways.php:237
 #: classes/models/shop/gateways/manual-payment-class.php:29
 #: classes/models/shop/gateways/paypal-standard.php:31
@@ -2434,137 +2485,137 @@ msgstr ""
 msgid "Please enter billing state / province"
 msgstr ""
 
-#: classes/models/shop/class-order.php:562
+#: classes/models/shop/class-order.php:569
 msgid "Update Order"
 msgstr ""
 
-#: classes/models/shop/class-order.php:572
+#: classes/models/shop/class-order.php:579
 msgid "Order Meta"
 msgstr ""
 
-#: classes/models/shop/class-order.php:581
+#: classes/models/shop/class-order.php:588
 msgid "Order logs"
 msgstr ""
 
-#: classes/models/shop/class-order.php:591
+#: classes/models/shop/class-order.php:598
 msgid "Purchased Menu items"
 msgstr ""
 
-#: classes/models/shop/class-order.php:601 templates/shop/success.php:111
-msgid "Order Notes"
+#: classes/models/shop/class-order.php:608
+msgid "Order Customer Details"
 msgstr ""
 
-#: classes/models/shop/class-order.php:621
+#: classes/models/shop/class-order.php:618
 msgid "Delivery details"
 msgstr ""
 
-#: classes/models/shop/class-order.php:631
+#: classes/models/shop/class-order.php:628
 msgid "Billing Address"
 msgstr ""
 
-#: classes/models/shop/class-order.php:641
+#: classes/models/shop/class-order.php:638
 msgid "Payment Notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:678
+#: classes/models/shop/class-order.php:675
 msgid "Status"
 msgstr ""
 
-#: classes/models/shop/class-order.php:679
+#: classes/models/shop/class-order.php:676
 msgid "Delivery"
 msgstr ""
 
-#: classes/models/shop/class-order.php:680
+#: classes/models/shop/class-order.php:677
 msgid "Order notes"
 msgstr ""
 
-#: classes/models/shop/class-order.php:681
+#: classes/models/shop/class-order.php:678
 msgid "Purchased"
 msgstr ""
 
-#: classes/models/shop/class-order.php:682 templates/shop/history.php:12
+#: classes/models/shop/class-order.php:679 templates/shop/history.php:12
 #: templates/shop/success.php:63
 msgid "Date"
 msgstr ""
 
-#: classes/models/shop/class-order.php:683
+#: classes/models/shop/class-order.php:680
 #: templates-functions/checkout-restaurant-menu-functions.php:189
 msgid "Total"
 msgstr ""
 
-#: classes/models/shop/class-order.php:715
-#: classes/models/shop/class-order.php:730
+#: classes/models/shop/class-order.php:714
+#: classes/models/shop/class-order.php:731
 #, php-format
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:732
+#: classes/models/shop/class-order.php:733
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:735
+#: classes/models/shop/class-order.php:736
 #, php-format
 msgctxt "Order number by X"
 msgid "%s by %s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:749
+#: classes/models/shop/class-order.php:750
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/models/shop/class-payments.php:452
+#: classes/models/shop/class-payments.php:453
 msgid "Error Updating Payment"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:464
+#: classes/models/shop/class-payments.php:465
 msgid "New Customers require a name and email address"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:479
+#: classes/models/shop/class-payments.php:480
 msgid "Error creating new customer"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:885
+#: classes/models/shop/class-payments.php:897
 msgid "Pending"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:886
+#: classes/models/shop/class-payments.php:898
 msgid "Confirmed"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:887
+#: classes/models/shop/class-payments.php:899
 msgid "Processing"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:888
+#: classes/models/shop/class-payments.php:900
 msgid "Refunded"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:889
+#: classes/models/shop/class-payments.php:901
 msgid "Cancelled"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:890
+#: classes/models/shop/class-payments.php:902
 msgid "Shipping"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:891
+#: classes/models/shop/class-payments.php:903
 msgid "Shipped"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:892
+#: classes/models/shop/class-payments.php:904
 msgid "Complete"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1626
+#: classes/models/shop/class-payments.php:1638
 msgid "Guest Bot"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1907
+#: classes/models/shop/class-payments.php:1919
 #, php-format
 msgid "Status changed from %s to %s"
 msgstr ""
@@ -2812,103 +2863,127 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: classes/modules/class-post.php:32
+#: classes/modules/class-post.php:34
 msgctxt "Order status"
 msgid "Pending Payment"
 msgstr ""
 
-#: classes/modules/class-post.php:37
+#: classes/modules/class-post.php:39
 #, php-format
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgid_plural "Pending<span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:41
+#: classes/modules/class-post.php:43
 msgctxt "Order status"
 msgid "Completed"
 msgstr ""
 
-#: classes/modules/class-post.php:46
+#: classes/modules/class-post.php:48
 #, php-format
 msgid "Completed <span class=\"count\">(%s)</span>"
 msgid_plural "Completed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:50
+#: classes/modules/class-post.php:52
 msgctxt "Order status"
 msgid "Refunded"
 msgstr ""
 
-#: classes/modules/class-post.php:55
+#: classes/modules/class-post.php:57
 #, php-format
 msgid "Refunded <span class=\"count\">(%s)</span>"
 msgid_plural "Refunded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:59
+#: classes/modules/class-post.php:61
 msgctxt "Order status"
 msgid "Failed"
 msgstr ""
 
-#: classes/modules/class-post.php:64
+#: classes/modules/class-post.php:66
 #, php-format
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:68
+#: classes/modules/class-post.php:70
 msgctxt "Order status"
 msgid "Processing"
 msgstr ""
 
-#: classes/modules/class-post.php:73
+#: classes/modules/class-post.php:75
 #, php-format
 msgid "Processing <span class=\"count\">(%s)</span>"
 msgid_plural "Processing <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:77
+#: classes/modules/class-post.php:79
 msgctxt "Order status"
 msgid "Cooking"
 msgstr ""
 
-#: classes/modules/class-post.php:82
+#: classes/modules/class-post.php:84
 #, php-format
 msgid "Cooking <span class=\"count\">(%s)</span>"
 msgid_plural "Cooking <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:86
+#: classes/modules/class-post.php:88
+msgctxt "Order status"
+msgid "Cancelled"
+msgstr ""
+
+#: classes/modules/class-post.php:93
+#, php-format
+msgid "Cancelled <span class=\"count\">(%s)</span>"
+msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/modules/class-post.php:97
+msgctxt "Order status"
+msgid "Confirmed"
+msgstr ""
+
+#: classes/modules/class-post.php:102
+#, php-format
+msgid "Confirmed <span class=\"count\">(%s)</span>"
+msgid_plural "Confirmed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/modules/class-post.php:106
 msgctxt "Order status"
 msgid "Shipping"
 msgstr ""
 
-#: classes/modules/class-post.php:91
+#: classes/modules/class-post.php:111
 #, php-format
 msgid "Shipping <span class=\"count\">(%s)</span>"
 msgid_plural "Shipping <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:95
+#: classes/modules/class-post.php:115
 msgctxt "Order status"
 msgid "Shipped"
 msgstr ""
 
-#: classes/modules/class-post.php:100
+#: classes/modules/class-post.php:120
 #, php-format
 msgid "Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/modules/class-post.php:243
+#: classes/modules/class-post.php:263
 msgid "Image"
 msgstr ""
 
@@ -2946,7 +3021,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: classes/shortcodes/class-shortcode-success.php:37
+#: classes/shortcodes/class-shortcode-success.php:40
 msgid "Sorry, trouble retrieving payment receipt."
 msgstr ""
 
@@ -3081,10 +3156,6 @@ msgstr ""
 
 #: templates-functions/checkout-restaurant-menu-functions.php:116
 msgid "Purchase Total:"
-msgstr ""
-
-#: templates-functions/checkout-restaurant-menu-functions.php:142
-msgid "Shipping address:"
 msgstr ""
 
 #: templates-functions/checkout-restaurant-menu-functions.php:144
@@ -3456,31 +3527,12 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: templates/shop/success.php:118
-msgid "Shipping address"
-msgstr ""
-
 #: templates/shop/success.php:130
 msgid "Products"
 msgstr ""
 
 #: templates/shop/user-info-fields.php:7 templates/shop/user-info-fields.php:12
 msgid "Email Address"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:20
-#: templates/shop/user-info-fields.php:24
-msgid "Phone number"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:31
-#: templates/shop/user-info-fields.php:36
-msgid "First Name"
-msgstr ""
-
-#: templates/shop/user-info-fields.php:44
-#: templates/shop/user-info-fields.php:51
-msgid "Last Name"
 msgstr ""
 
 #: templates/widgets/cart/cart-item-plugin.php:6
