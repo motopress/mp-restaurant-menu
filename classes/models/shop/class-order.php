@@ -76,15 +76,18 @@ final class Order extends Model {
 	 */
 	public function setup_payment( $payment_id ) {
 		$this->pending = array();
+		
 		if ( empty( $payment_id ) ) {
 			return false;
 		}
+		
 		$payment = get_post( $payment_id );
 		
 		if ( ! $payment || is_wp_error( $payment ) ) {
 			return false;
 		}
-		if ( 'mprm_order' !== $payment->post_type ) {
+		//'mprm_order'
+		if ( $this->get_post_type( 'order' ) !== $payment->post_type ) {
 			return false;
 		}
 		
@@ -397,10 +400,12 @@ final class Order extends Model {
 	 * @return array|mixed
 	 */
 	private function setup_user_info() {
+		$user_info = array();
 		$defaults  = array(
 			'first_name' => $this->first_name,
 			'last_name'  => $this->last_name,
 		);
+		
 		$user_info = isset( $this->payment_meta[ 'user_info' ] ) ? maybe_unserialize( $this->payment_meta[ 'user_info' ] ) : array();
 		$user_info = wp_parse_args( $user_info, $defaults );
 		
@@ -413,11 +418,18 @@ final class Order extends Model {
 					'first_name' => $name[ 0 ],
 					'last_name'  => $name[ 1 ],
 					'email'      => $customer->email,
+					'customer'   => $customer,
 				);
 			}
 		} else {
 			// Get the customer, but only if it's been created
-			$customer = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
+			if ( ! isset( $user_info[ 'customer' ] ) || is_null( $user_info[ 'customer' ] ) ) {
+				$user_info[ 'customer' ] = new Customer( array( 'field' => 'id', 'value' => $this->customer_id ) );
+				$customer                = $user_info[ 'customer' ];
+			} else {
+				$customer = $user_info[ 'customer' ];
+			}
+			
 			if ( $customer->id > 0 ) {
 				foreach ( $user_info as $key => $value ) {
 					if ( ! empty( $value ) ) {
@@ -695,11 +707,13 @@ final class Order extends Model {
 	public function render_order_columns( $column ) {
 		global $post;
 		
-		$this->setup_payment( $post->ID );
+		if ( $post->ID != $this->ID ) {
+			$this->setup_payment( $post->ID );
+		}
 		
 		switch ( $column ) {
 			case 'order_status':
-				echo ucfirst( $this->get( 'payments' )->get_payment_status( $post ) );
+				echo ucfirst( $this->status_nicename );
 				break;
 			case 'order_title':
 				$order_user = $this->get_user( $post );
@@ -718,7 +732,9 @@ final class Order extends Model {
 						}
 						$username .= '</a>';
 					} else {
-						$customer = $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) );
+						
+						$customer = empty( $this->user_info[ 'customer' ] ) ? $this->get( 'customer' )->get_customer( array( 'field' => 'email', 'value' => $this->user_info[ 'email' ] ) ) : $this->user_info[ 'customer' ];
+						
 						if ( ! empty( $customer ) ) {
 							$username = '<a href="' . admin_url( 'edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id ) . '">' . $this->user_info[ 'first_name' ] . ' ' . $this->user_info[ 'last_name' ] . ' </a><br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>' . '<br><a href="mailto:' . $this->email . '">' . $this->email . ' </a>';
 						} else {
@@ -1659,14 +1675,11 @@ final class Order extends Model {
 		$payment_id = wp_insert_post( $args );
 		
 		if ( ! empty( $payment_id ) ) {
-			$this->ID  = $payment_id;
-			$this->_ID = $payment_id;
-			$customer  = new \stdClass;
+			$this->ID = $this->_ID = $payment_id;
+			$customer = new \stdClass;
 			if ( did_action( 'mprm_pre_process_purchase' ) && is_user_logged_in() ) {
 				$customer = new Customer( array( 'field' => 'user_id', 'value' => get_current_user_id() ) );
-			}
-			
-			if ( empty( $customer->id ) ) {
+			} elseif ( empty( $customer->id ) ) {
 				$customer = new Customer( array( 'field' => 'email', 'value' => $this->email ) );
 			}
 			
@@ -1754,7 +1767,7 @@ final class Order extends Model {
 			$status = 'publish';
 		}
 		
-		$old_status = ! empty( $this->old_status ) ? $this->old_status : false;
+		$old_status = ! empty( $this->old_status ) ? $this->old_status : $this->status;
 		
 		if ( $old_status === $status ) {
 			return false; // Don't permit status changes that aren't changes

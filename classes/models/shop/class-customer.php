@@ -1,4 +1,5 @@
 <?php
+
 namespace mp_restaurant_menu\classes\models;
 
 use mp_restaurant_menu\classes\Model;
@@ -43,10 +44,11 @@ class Customer extends Model {
 	/**
 	 * @param array $params
 	 *
-	 * @return array|bool|null|object|void
+	 * @return array|bool|null|object
 	 */
 	public function get_customer( $params = array() ) {
 		global $wpdb;
+		
 		if ( empty( $params ) ) {
 			return false;
 		}
@@ -68,7 +70,7 @@ class Customer extends Model {
 		foreach ( $customer as $key => $value ) {
 			switch ( $key ) {
 				case 'notes':
-					$this->$key = $this->get_notes();
+					$this->$key = $customer->notes;
 					break;
 				case 'data':
 					$this->id    = absint( $value->ID );
@@ -88,6 +90,19 @@ class Customer extends Model {
 	}
 	
 	/**
+	 * @return Customer
+	 */
+	public static function get_instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		
+		return self::$instance;
+	}
+	
+	/**
+	 * Get notes
+	 *
 	 * @param int $length
 	 * @param int $paged
 	 *
@@ -106,6 +121,8 @@ class Customer extends Model {
 	}
 	
 	/**
+	 * Get raw notes
+	 *
 	 * @return string
 	 */
 	private function get_raw_notes() {
@@ -125,17 +142,6 @@ class Customer extends Model {
 		$column_value = $wpdb->get_var( $wpdb->prepare( "SELECT {$column} FROM  $this->table_name  WHERE id  = %d LIMIT 1", $customer_id ) );
 		
 		return $column_value;
-	}
-	
-	/**
-	 * @return Customer
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		
-		return self::$instance;
 	}
 	
 	/**
@@ -715,7 +721,7 @@ class Customer extends Model {
 		
 		$payment = new Order( $payment_id );
 		
-		if ( 'publish' !== $payment->status  ) {
+		if ( 'publish' !== $payment->status ) {
 			$update_stats = false;
 		}
 		
