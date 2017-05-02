@@ -1,7 +1,7 @@
 === Restaurant Menu by MotoPress ===
 Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
-Tags: menu, restaurant, cafe, food, pizza, toppings, catering, order, online
+Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
 Tested up to: 4.7
 Stable tag: trunk
@@ -62,6 +62,12 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.2.2 =
+* Bug fix: fixed an issue with default settings.
+
+= 2.2.1 =
+* Bug fix: fixed an issue with price formating.
 
 = 2.2.0 =
 * Added the ability to display categories and tags in grid, list or simple list view instead of default post view.

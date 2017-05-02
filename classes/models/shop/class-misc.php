@@ -59,6 +59,8 @@ class Misc extends Model {
 	/**
 	 * Adds the 'nocache' parameter to the provided URL
 	 *
+	 * @since  2.4.4
+	 *
 	 * @param  string $url The URL being requested
 	 *
 	 * @return string      The URL with cache busting added or not

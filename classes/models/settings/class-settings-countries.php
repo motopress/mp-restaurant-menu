@@ -9,24 +9,23 @@ use mp_restaurant_menu\classes\Model;
  */
 class Settings_countries extends Model {
 	protected static $instance;
-	
+
 	/**
 	 * @return Settings_countries
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
+		if (null === self::$instance) {
 			self::$instance = new self();
 		}
-		
 		return self::$instance;
 	}
-	
+
 	/**
 	 * @return mixed
 	 */
 	public function get_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AL' => 'Alabama',
 			'AK' => 'Alaska',
 			'AZ' => 'Arizona',
@@ -94,19 +93,19 @@ class Settings_countries extends Model {
 			'AE' => 'Armed Forces - Europe, Canada, Middle East, Africa',
 			'AP' => 'Armed Forces - Pacific'
 		);
-		
-		return apply_filters( 'mprm_us_states', $states );
+		return apply_filters('mprm_us_states', $states);
 	}
-	
+
 	/**
 	 * Get Provinces List
 	 *
 	 * @access      public
+	 * @since       1.2
 	 * @return      array
 	 */
 	public function get_provinces_list() {
 		$provinces = array(
-			''   => '',
+			'' => '',
 			'AB' => 'Alberta',
 			'BC' => 'British Columbia',
 			'MB' => 'Manitoba',
@@ -121,10 +120,9 @@ class Settings_countries extends Model {
 			'SK' => 'Saskatchewan',
 			'YT' => 'Yukon'
 		);
-		
-		return apply_filters( 'mprm_canada_provinces', $provinces );
+		return apply_filters('mprm_canada_provinces', $provinces);
 	}
-	
+
 	/**
 	 * Get Australian States
 	 *
@@ -133,20 +131,19 @@ class Settings_countries extends Model {
 	 */
 	public function get_australian_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'ACT' => 'Australian Capital Territory',
 			'NSW' => 'New South Wales',
-			'NT'  => 'Northern Territory',
+			'NT' => 'Northern Territory',
 			'QLD' => 'Queensland',
-			'SA'  => 'South Australia',
+			'SA' => 'South Australia',
 			'TAS' => 'Tasmania',
 			'VIC' => 'Victoria',
-			'WA'  => 'Western Australia'
+			'WA' => 'Western Australia'
 		);
-		
-		return apply_filters( 'mprm_australian_states', $states );
+		return apply_filters('mprm_australian_states', $states);
 	}
-	
+
 	/**
 	 * Get Bangladeshi States (districts)
 	 *
@@ -155,76 +152,75 @@ class Settings_countries extends Model {
 	 */
 	public function get_bangladeshi_states_list() {
 		$states = array(
-			''     => '',
-			'BAG'  => 'Bagerhat',
-			'BAN'  => 'Bandarban',
-			'BAR'  => 'Barguna',
+			'' => '',
+			'BAG' => 'Bagerhat',
+			'BAN' => 'Bandarban',
+			'BAR' => 'Barguna',
 			'BARI' => 'Barisal',
-			'BHO'  => 'Bhola',
-			'BOG'  => 'Bogra',
-			'BRA'  => 'Brahmanbaria',
-			'CHA'  => 'Chandpur',
-			'CHI'  => 'Chittagong',
-			'CHU'  => 'Chuadanga',
-			'COM'  => 'Comilla',
-			'COX'  => 'Cox\'s Bazar',
-			'DHA'  => 'Dhaka',
-			'DIN'  => 'Dinajpur',
-			'FAR'  => 'Faridpur',
-			'FEN'  => 'Feni',
-			'GAI'  => 'Gaibandha',
+			'BHO' => 'Bhola',
+			'BOG' => 'Bogra',
+			'BRA' => 'Brahmanbaria',
+			'CHA' => 'Chandpur',
+			'CHI' => 'Chittagong',
+			'CHU' => 'Chuadanga',
+			'COM' => 'Comilla',
+			'COX' => 'Cox\'s Bazar',
+			'DHA' => 'Dhaka',
+			'DIN' => 'Dinajpur',
+			'FAR' => 'Faridpur',
+			'FEN' => 'Feni',
+			'GAI' => 'Gaibandha',
 			'GAZI' => 'Gazipur',
-			'GOP'  => 'Gopalganj',
-			'HAB'  => 'Habiganj',
-			'JAM'  => 'Jamalpur',
-			'JES'  => 'Jessore',
-			'JHA'  => 'Jhalokati',
-			'JHE'  => 'Jhenaidah',
-			'JOY'  => 'Joypurhat',
-			'KHA'  => 'Khagrachhari',
-			'KHU'  => 'Khulna',
-			'KIS'  => 'Kishoreganj',
-			'KUR'  => 'Kurigram',
-			'KUS'  => 'Kushtia',
-			'LAK'  => 'Lakshmipur',
-			'LAL'  => 'Lalmonirhat',
-			'MAD'  => 'Madaripur',
-			'MAG'  => 'Magura',
-			'MAN'  => 'Manikganj',
-			'MEH'  => 'Meherpur',
-			'MOU'  => 'Moulvibazar',
-			'MUN'  => 'Munshiganj',
-			'MYM'  => 'Mymensingh',
-			'NAO'  => 'Naogaon',
-			'NAR'  => 'Narail',
+			'GOP' => 'Gopalganj',
+			'HAB' => 'Habiganj',
+			'JAM' => 'Jamalpur',
+			'JES' => 'Jessore',
+			'JHA' => 'Jhalokati',
+			'JHE' => 'Jhenaidah',
+			'JOY' => 'Joypurhat',
+			'KHA' => 'Khagrachhari',
+			'KHU' => 'Khulna',
+			'KIS' => 'Kishoreganj',
+			'KUR' => 'Kurigram',
+			'KUS' => 'Kushtia',
+			'LAK' => 'Lakshmipur',
+			'LAL' => 'Lalmonirhat',
+			'MAD' => 'Madaripur',
+			'MAG' => 'Magura',
+			'MAN' => 'Manikganj',
+			'MEH' => 'Meherpur',
+			'MOU' => 'Moulvibazar',
+			'MUN' => 'Munshiganj',
+			'MYM' => 'Mymensingh',
+			'NAO' => 'Naogaon',
+			'NAR' => 'Narail',
 			'NARG' => 'Narayanganj',
 			'NARD' => 'Narsingdi',
-			'NAT'  => 'Natore',
-			'NAW'  => 'Nawabganj',
-			'NET'  => 'Netrakona',
-			'NIL'  => 'Nilphamari',
-			'NOA'  => 'Noakhali',
-			'PAB'  => 'Pabna',
-			'PAN'  => 'Panchagarh',
-			'PAT'  => 'Patuakhali',
-			'PIR'  => 'Pirojpur',
+			'NAT' => 'Natore',
+			'NAW' => 'Nawabganj',
+			'NET' => 'Netrakona',
+			'NIL' => 'Nilphamari',
+			'NOA' => 'Noakhali',
+			'PAB' => 'Pabna',
+			'PAN' => 'Panchagarh',
+			'PAT' => 'Patuakhali',
+			'PIR' => 'Pirojpur',
 			'RAJB' => 'Rajbari',
-			'RAJ'  => 'Rajshahi',
-			'RAN'  => 'Rangamati',
+			'RAJ' => 'Rajshahi',
+			'RAN' => 'Rangamati',
 			'RANP' => 'Rangpur',
-			'SAT'  => 'Satkhira',
-			'SHA'  => 'Shariatpur',
-			'SHE'  => 'Sherpur',
-			'SIR'  => 'Sirajganj',
-			'SUN'  => 'Sunamganj',
-			'SYL'  => 'Sylhet',
-			'TAN'  => 'Tangail',
-			'THA'  => 'Thakurgaon'
+			'SAT' => 'Satkhira',
+			'SHA' => 'Shariatpur',
+			'SHE' => 'Sherpur',
+			'SIR' => 'Sirajganj',
+			'SUN' => 'Sunamganj',
+			'SYL' => 'Sylhet',
+			'TAN' => 'Tangail',
+			'THA' => 'Thakurgaon'
 		);
-		
-		return apply_filters( 'mprm_bangladeshi_states', $states );
+		return apply_filters('mprm_bangladeshi_states', $states);
 	}
-	
+
 	/**
 	 * Get Brazil States
 	 *
@@ -233,7 +229,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_brazil_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AC' => 'Acre',
 			'AL' => 'Alagoas',
 			'AP' => 'Amap&aacute;',
@@ -262,10 +258,9 @@ class Settings_countries extends Model {
 			'SE' => 'Sergipe',
 			'TO' => 'Tocantins'
 		);
-		
-		return apply_filters( 'mprm_brazil_states', $states );
+		return apply_filters('mprm_brazil_states', $states);
 	}
-	
+
 	/**
 	 * Get Bulgarian States
 	 *
@@ -274,7 +269,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_bulgarian_states_list() {
 		$states = array(
-			''      => '',
+			'' => '',
 			'BG-01' => 'Blagoevgrad',
 			'BG-02' => 'Burgas',
 			'BG-08' => 'Dobrich',
@@ -304,10 +299,9 @@ class Settings_countries extends Model {
 			'BG-06' => 'Vratsa',
 			'BG-28' => 'Yambol'
 		);
-		
-		return apply_filters( 'mprm_bulgarian_states', $states );
+		return apply_filters('mprm_bulgarian_states', $states);
 	}
-	
+
 	/**
 	 * Get Hong Kong States
 	 *
@@ -316,15 +310,14 @@ class Settings_countries extends Model {
 	 */
 	public function get_hong_kong_states_list() {
 		$states = array(
-			''                => '',
-			'HONG KONG'       => 'Hong Kong Island',
-			'KOWLOON'         => 'Kowloon',
+			'' => '',
+			'HONG KONG' => 'Hong Kong Island',
+			'KOWLOON' => 'Kowloon',
 			'NEW TERRITORIES' => 'New Territories'
 		);
-		
-		return apply_filters( 'mprm_hong_kong_states', $states );
+		return apply_filters('mprm_hong_kong_states', $states);
 	}
-	
+
 	/**
 	 * Get Hungary States
 	 *
@@ -333,7 +326,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_hungary_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'BK' => 'Bács-Kiskun',
 			'BE' => 'Békés',
 			'BA' => 'Baranya',
@@ -355,10 +348,9 @@ class Settings_countries extends Model {
 			'VE' => 'Veszprém',
 			'ZA' => 'Zala'
 		);
-		
-		return apply_filters( 'mprm_hungary_states', $states );
+		return apply_filters('mprm_hungary_states', $states);
 	}
-	
+
 	/**
 	 * Get Japanese States
 	 *
@@ -367,7 +359,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_japanese_states_list() {
 		$states = array(
-			''     => '',
+			'' => '',
 			'JP01' => 'Hokkaido',
 			'JP02' => 'Aomori',
 			'JP03' => 'Iwate',
@@ -416,10 +408,9 @@ class Settings_countries extends Model {
 			'JP46' => 'Kagoshima',
 			'JP47' => 'Okinawa'
 		);
-		
-		return apply_filters( 'mprm_japanese_states', $states );
+		return apply_filters('mprm_japanese_states', $states);
 	}
-	
+
 	/**
 	 * Get Chinese States
 	 *
@@ -428,16 +419,16 @@ class Settings_countries extends Model {
 	 */
 	public function get_chinese_states_list() {
 		$states = array(
-			''     => '',
-			'CN1'  => 'Yunnan / &#20113;&#21335;',
-			'CN2'  => 'Beijing / &#21271;&#20140;',
-			'CN3'  => 'Tianjin / &#22825;&#27941;',
-			'CN4'  => 'Hebei / &#27827;&#21271;',
-			'CN5'  => 'Shanxi / &#23665;&#35199;',
-			'CN6'  => 'Inner Mongolia / &#20839;&#33945;&#21476;',
-			'CN7'  => 'Liaoning / &#36797;&#23425;',
-			'CN8'  => 'Jilin / &#21513;&#26519;',
-			'CN9'  => 'Heilongjiang / &#40657;&#40857;&#27743;',
+			'' => '',
+			'CN1' => 'Yunnan / &#20113;&#21335;',
+			'CN2' => 'Beijing / &#21271;&#20140;',
+			'CN3' => 'Tianjin / &#22825;&#27941;',
+			'CN4' => 'Hebei / &#27827;&#21271;',
+			'CN5' => 'Shanxi / &#23665;&#35199;',
+			'CN6' => 'Inner Mongolia / &#20839;&#33945;&#21476;',
+			'CN7' => 'Liaoning / &#36797;&#23425;',
+			'CN8' => 'Jilin / &#21513;&#26519;',
+			'CN9' => 'Heilongjiang / &#40657;&#40857;&#27743;',
 			'CN10' => 'Shanghai / &#19978;&#28023;',
 			'CN11' => 'Jiangsu / &#27743;&#33487;',
 			'CN12' => 'Zhejiang / &#27993;&#27743;',
@@ -462,10 +453,9 @@ class Settings_countries extends Model {
 			'CN31' => 'Tibet / &#35199;&#34255;',
 			'CN32' => 'Xinjiang / &#26032;&#30086;'
 		);
-		
-		return apply_filters( 'mprm_chinese_states', $states );
+		return apply_filters('mprm_chinese_states', $states);
 	}
-	
+
 	/**
 	 * Get New Zealand States
 	 *
@@ -474,7 +464,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_new_zealand_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AK' => 'Auckland',
 			'BP' => 'Bay of Plenty',
 			'CT' => 'Canterbury',
@@ -492,10 +482,9 @@ class Settings_countries extends Model {
 			'WE' => 'Wellington',
 			'WC' => 'West Coast'
 		);
-		
-		return apply_filters( 'mprm_new_zealand_states', $states );
+		return apply_filters('mprm_new_zealand_states', $states);
 	}
-	
+
 	/**
 	 * Get Peruvian States
 	 *
@@ -504,7 +493,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_peruvian_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'CAL' => 'El Callao',
 			'LMA' => 'Municipalidad Metropolitana de Lima',
 			'AMA' => 'Amazonas',
@@ -532,10 +521,9 @@ class Settings_countries extends Model {
 			'TUM' => 'Tumbes',
 			'UCA' => 'Ucayali'
 		);
-		
-		return apply_filters( 'mprm_peruvian_states', $states );
+		return apply_filters('mprm_peruvian_states', $states);
 	}
-	
+
 	/**
 	 * Get Indonesian States
 	 *
@@ -544,7 +532,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_indonesian_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AC' => 'Daerah Istimewa Aceh',
 			'SU' => 'Sumatera Utara',
 			'SB' => 'Sumatera Barat',
@@ -580,10 +568,9 @@ class Settings_countries extends Model {
 			'PA' => 'Papua',
 			'PB' => 'Papua Barat'
 		);
-		
-		return apply_filters( 'mprm_indonesia_states', $states );
+		return apply_filters('mprm_indonesia_states', $states);
 	}
-	
+
 	/**
 	 * Get Indian States
 	 *
@@ -592,7 +579,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_indian_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AP' => 'Andhra Pradesh',
 			'AR' => 'Arunachal Pradesh',
 			'AS' => 'Assam',
@@ -630,10 +617,9 @@ class Settings_countries extends Model {
 			'LD' => 'Lakshadweep',
 			'PY' => 'Pondicherry (Puducherry)'
 		);
-		
-		return apply_filters( 'mprm_indian_states', $states );
+		return apply_filters('mprm_indian_states', $states);
 	}
-	
+
 	/**
 	 * Get Iranian States
 	 *
@@ -642,7 +628,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_iranian_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'KHZ' => 'Khuzestan',
 			'THR' => 'Tehran',
 			'ILM' => 'Ilaam',
@@ -675,10 +661,9 @@ class Settings_countries extends Model {
 			'HRZ' => 'Hormozgan',
 			'SBN' => 'Sistan and Baluchestan'
 		);
-		
-		return apply_filters( 'mprm_iranian_states', $states );
+		return apply_filters('mprm_iranian_states', $states);
 	}
-	
+
 	/**
 	 * Get Italian Provinces
 	 *
@@ -687,7 +672,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_italian_states_list() {
 		$states = array(
-			''   => '',
+			'' => '',
 			'AG' => 'Agrigento',
 			'AL' => 'Alessandria',
 			'AN' => 'Ancona',
@@ -799,10 +784,9 @@ class Settings_countries extends Model {
 			'VI' => 'Vicenza',
 			'VT' => 'Viterbo'
 		);
-		
-		return apply_filters( 'mprm_italian_states', $states );
+		return apply_filters('mprm_italian_states', $states);
 	}
-	
+
 	/**
 	 * Get Malaysian States
 	 *
@@ -811,7 +795,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_malaysian_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'JHR' => 'Johor',
 			'KDH' => 'Kedah',
 			'KTN' => 'Kelantan',
@@ -829,10 +813,9 @@ class Settings_countries extends Model {
 			'LBN' => 'W.P. Labuan',
 			'PJY' => 'W.P. Putrajaya'
 		);
-		
-		return apply_filters( 'mprm_malaysian_states', $states );
+		return apply_filters('mprm_malaysian_states', $states);
 	}
-	
+
 	/**
 	 * Get Mexican States
 	 *
@@ -841,7 +824,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_mexican_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'DIF' => 'Distrito Federal',
 			'JAL' => 'Jalisco',
 			'NLE' => 'Nuevo Le&oacute;n',
@@ -875,10 +858,9 @@ class Settings_countries extends Model {
 			'YUC' => 'Yucat&aacute;n',
 			'ZAC' => 'Zacatecas'
 		);
-		
-		return apply_filters( 'mprm_mexican_states', $states );
+		return apply_filters('mprm_mexican_states', $states);
 	}
-	
+
 	/**
 	 * Get Nepalese States (Districts)
 	 *
@@ -887,7 +869,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_nepalese_states_list() {
 		$states = array(
-			''    => '',
+			'' => '',
 			'ILL' => 'Illam',
 			'JHA' => 'Jhapa',
 			'PAN' => 'Panchthar',
@@ -964,10 +946,9 @@ class Settings_countries extends Model {
 			'DAR' => 'Darchula',
 			'KAN' => 'Kanchanpur'
 		);
-		
-		return apply_filters( 'mprm_nepalese_states', $states );
+		return apply_filters('mprm_nepalese_states', $states);
 	}
-	
+
 	/**
 	 * Get South African States
 	 *
@@ -976,21 +957,20 @@ class Settings_countries extends Model {
 	 */
 	public function get_south_african_states_list() {
 		$states = array(
-			''    => '',
-			'EC'  => 'Eastern Cape',
-			'FS'  => 'Free State',
-			'GP'  => 'Gauteng',
+			'' => '',
+			'EC' => 'Eastern Cape',
+			'FS' => 'Free State',
+			'GP' => 'Gauteng',
 			'KZN' => 'KwaZulu-Natal',
-			'LP'  => 'Limpopo',
-			'MP'  => 'Mpumalanga',
-			'NC'  => 'Northern Cape',
-			'NW'  => 'North West',
-			'WC'  => 'Western Cape'
+			'LP' => 'Limpopo',
+			'MP' => 'Mpumalanga',
+			'NC' => 'Northern Cape',
+			'NW' => 'North West',
+			'WC' => 'Western Cape'
 		);
-		
-		return apply_filters( 'mprm_south_african_states', $states );
+		return apply_filters('mprm_south_african_states', $states);
 	}
-	
+
 	/**
 	 * Get Thailand States
 	 *
@@ -999,7 +979,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_thailand_states_list() {
 		$states = array(
-			''      => '',
+			'' => '',
 			'TH-37' => 'Amnat Charoen (&#3629;&#3635;&#3609;&#3634;&#3592;&#3648;&#3592;&#3619;&#3636;&#3597;)',
 			'TH-15' => 'Ang Thong (&#3629;&#3656;&#3634;&#3591;&#3607;&#3629;&#3591;)',
 			'TH-14' => 'Ayutthaya (&#3614;&#3619;&#3632;&#3609;&#3588;&#3619;&#3624;&#3619;&#3637;&#3629;&#3618;&#3640;&#3608;&#3618;&#3634;)',
@@ -1078,10 +1058,9 @@ class Settings_countries extends Model {
 			'TH-95' => 'Yala (&#3618;&#3632;&#3621;&#3634;)',
 			'TH-35' => 'Yasothon (&#3618;&#3650;&#3626;&#3608;&#3619;)'
 		);
-		
-		return apply_filters( 'mprm_thailand_states', $states );
+		return apply_filters('mprm_thailand_states', $states);
 	}
-	
+
 	/**
 	 * Get Turkey States
 	 *
@@ -1090,7 +1069,7 @@ class Settings_countries extends Model {
 	 */
 	public function get_turkey_states_list() {
 		$states = array(
-			''     => '',
+			'' => '',
 			'TR01' => 'Adana',
 			'TR02' => 'Ad&#305;yaman',
 			'TR03' => 'Afyon',
@@ -1173,10 +1152,9 @@ class Settings_countries extends Model {
 			'TR80' => 'Osmaniye',
 			'TR81' => 'D&#252;zce'
 		);
-		
-		return apply_filters( 'mprm_turkey_states', $states );
+		return apply_filters('mprm_turkey_states', $states);
 	}
-	
+
 	/**
 	 * Get Spain States
 	 *
@@ -1185,61 +1163,60 @@ class Settings_countries extends Model {
 	 */
 	public function get_spain_states_list() {
 		$states = array(
-			''   => '',
-			'C'  => 'A Coru&ntilde;a',
-			'VI' => 'Araba',
-			'AB' => 'Albacete',
-			'A'  => 'Alicante',
-			'AL' => 'Almer&iacute;a',
-			'O'  => 'Asturias',
-			'AV' => '&Aacute;vila',
-			'BA' => 'Badajoz',
-			'PM' => 'Baleares',
-			'B'  => 'Barcelona',
-			'BU' => 'Burgos',
-			'CC' => 'C&aacute;ceres',
-			'CA' => 'C&aacute;diz',
-			'S'  => 'Cantabria',
-			'CS' => 'Castell&oacute;n',
-			'CE' => 'Ceuta',
-			'CR' => 'Ciudad Real',
-			'CO' => 'C&oacute;rdoba',
-			'CU' => 'Cuenca',
-			'GI' => 'Girona',
-			'GR' => 'Granada',
-			'GU' => 'Guadalajara',
-			'SS' => 'Gipuzkoa',
-			'H'  => 'Huelva',
-			'HU' => 'Huesca',
-			'J'  => 'Ja&eacute;n',
-			'LO' => 'La Rioja',
-			'GC' => 'Las Palmas',
-			'LE' => 'Le&oacute;n',
-			'L'  => 'Lleida',
-			'LU' => 'Lugo',
-			'M'  => 'Madrid',
-			'MA' => 'M&aacute;laga',
-			'ML' => 'Melilla',
-			'MU' => 'Murcia',
-			'NA' => 'Navarra',
-			'OR' => 'Ourense',
-			'P'  => 'Palencia',
-			'PO' => 'Pontevedra',
-			'SA' => 'Salamanca',
-			'TF' => 'Santa Cruz de Tenerife',
-			'SG' => 'Segovia',
-			'SE' => 'Sevilla',
-			'SO' => 'Soria',
-			'T'  => 'Tarragona',
-			'TE' => 'Teruel',
-			'TO' => 'Toledo',
-			'V'  => 'Valencia',
-			'VA' => 'Valladolid',
-			'BI' => 'Bizkaia',
-			'ZA' => 'Zamora',
-			'Z'  => 'Zaragoza'
+			'' => '',
+			'C' => __('A Coru&ntilde;a', 'mp-restaurant-menu'),
+			'VI' => __('Araba', 'mp-restaurant-menu'),
+			'AB' => __('Albacete', 'mp-restaurant-menu'),
+			'A' => __('Alicante', 'mp-restaurant-menu'),
+			'AL' => __('Almer&iacute;a', 'mp-restaurant-menu'),
+			'O' => __('Asturias', 'mp-restaurant-menu'),
+			'AV' => __('&Aacute;vila', 'mp-restaurant-menu'),
+			'BA' => __('Badajoz', 'mp-restaurant-menu'),
+			'PM' => __('Baleares', 'mp-restaurant-menu'),
+			'B' => __('Barcelona', 'mp-restaurant-menu'),
+			'BU' => __('Burgos', 'mp-restaurant-menu'),
+			'CC' => __('C&aacute;ceres', 'mp-restaurant-menu'),
+			'CA' => __('C&aacute;diz', 'mp-restaurant-menu'),
+			'S' => __('Cantabria', 'mp-restaurant-menu'),
+			'CS' => __('Castell&oacute;n', 'mp-restaurant-menu'),
+			'CE' => __('Ceuta', 'mp-restaurant-menu'),
+			'CR' => __('Ciudad Real', 'mp-restaurant-menu'),
+			'CO' => __('C&oacute;rdoba', 'mp-restaurant-menu'),
+			'CU' => __('Cuenca', 'mp-restaurant-menu'),
+			'GI' => __('Girona', 'mp-restaurant-menu'),
+			'GR' => __('Granada', 'mp-restaurant-menu'),
+			'GU' => __('Guadalajara', 'mp-restaurant-menu'),
+			'SS' => __('Gipuzkoa', 'mp-restaurant-menu'),
+			'H' => __('Huelva', 'mp-restaurant-menu'),
+			'HU' => __('Huesca', 'mp-restaurant-menu'),
+			'J' => __('Ja&eacute;n', 'mp-restaurant-menu'),
+			'LO' => __('La Rioja', 'mp-restaurant-menu'),
+			'GC' => __('Las Palmas', 'mp-restaurant-menu'),
+			'LE' => __('Le&oacute;n', 'mp-restaurant-menu'),
+			'L' => __('Lleida', 'mp-restaurant-menu'),
+			'LU' => __('Lugo', 'mp-restaurant-menu'),
+			'M' => __('Madrid', 'mp-restaurant-menu'),
+			'MA' => __('M&aacute;laga', 'mp-restaurant-menu'),
+			'ML' => __('Melilla', 'mp-restaurant-menu'),
+			'MU' => __('Murcia', 'mp-restaurant-menu'),
+			'NA' => __('Navarra', 'mp-restaurant-menu'),
+			'OR' => __('Ourense', 'mp-restaurant-menu'),
+			'P' => __('Palencia', 'mp-restaurant-menu'),
+			'PO' => __('Pontevedra', 'mp-restaurant-menu'),
+			'SA' => __('Salamanca', 'mp-restaurant-menu'),
+			'TF' => __('Santa Cruz de Tenerife', 'mp-restaurant-menu'),
+			'SG' => __('Segovia', 'mp-restaurant-menu'),
+			'SE' => __('Sevilla', 'mp-restaurant-menu'),
+			'SO' => __('Soria', 'mp-restaurant-menu'),
+			'T' => __('Tarragona', 'mp-restaurant-menu'),
+			'TE' => __('Teruel', 'mp-restaurant-menu'),
+			'TO' => __('Toledo', 'mp-restaurant-menu'),
+			'V' => __('Valencia', 'mp-restaurant-menu'),
+			'VA' => __('Valladolid', 'mp-restaurant-menu'),
+			'BI' => __('Bizkaia', 'mp-restaurant-menu'),
+			'ZA' => __('Zamora', 'mp-restaurant-menu'),
+			'Z' => __('Zaragoza', 'mp-restaurant-menu')
 		);
-		
-		return apply_filters( 'mprm_spain_states', $states );
+		return apply_filters('mprm_spain_states', $states);
 	}
 }

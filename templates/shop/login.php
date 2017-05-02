@@ -24,7 +24,7 @@ if (!is_user_logged_in()) : ?>
 				</p>
 			</div>
 			<p class="mprm-lost-password">
-				<a href="<?php echo wp_lostpassword_url(); ?>" title="<?php _e('Lost Password?', 'mp-restaurant-menu'); ?>">
+				<a href="<?php echo wp_lostpassword_url(); ?>" title="<?php _e('Lost Password', 'mp-restaurant-menu'); ?>">
 					<?php _e('Lost Password?', 'mp-restaurant-menu'); ?>
 				</a>
 			</p>

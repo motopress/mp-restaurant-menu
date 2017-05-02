@@ -11,6 +11,7 @@ window.MP_RM_Registry = (function() {
 	 * @private
 	 */
 	function _testModule(module) {
+
 		return (typeof module.getInstance) === 'function';
 	}
 
@@ -148,7 +149,6 @@ MP_RM_Registry.register("MP_RM_Functions", (function($) {
 			},
 			/**
 			 * String convert to Bool
-			 *
 			 * @param string
 			 * @returns {boolean}
 			 */
@@ -764,6 +764,7 @@ MP_RM_Registry.register("Order", (function($) {
 				state.hideElementOrder();
 				state.addComment();
 				state.removeComment();
+				// state.initChosen();
 				state.addCustomer();
 				state.removeMenuItem();
 				state.addMenuItem();
@@ -771,6 +772,7 @@ MP_RM_Registry.register("Order", (function($) {
 				state.changeOrderBaseCountry();
 				state.changeCustomer();
 			},
+
 			/**
 			 * Change order Base Country
 			 */
@@ -841,6 +843,7 @@ MP_RM_Registry.register("Order", (function($) {
 			},
 			/**
 			 * Add menu item
+			 *
 			 */
 			addMenuItem: function() {
 				$('[name="mprm-order-menu-item-select"]').on('change', function() {
@@ -1198,21 +1201,6 @@ MP_RM_Registry.register("Order", (function($) {
 				$('#commentstatusdiv').parent().hide();
 				postStatusBlock.find('option').remove();
 				$('select[name="mprm-order-status"]').find('option').clone().appendTo(postStatusBlock);
-			},
-			/**
-			 * Order menu items
-			 */
-			toggle_order_items: function() {
-				$(document).on('click.show_order_items', '.mprm-show-order-items', function(e) {
-					e.preventDefault();
-					var parent = $(this).parent();
-					var table = parent.find('.mprm-table-order-items');
-					if (table.hasClass('mprm-hidden')) {
-						table.removeClass('mprm-hidden');
-					} else {
-						table.addClass('mprm-hidden');
-					}
-				});
 			}
 		};
 	}
@@ -1810,10 +1798,6 @@ MP_RM_Registry.register("Theme", (function($) {
 		// if edit and add menu_category
 		if ('edit-mp_menu_category' === window.pagenow) {
 			MP_RM_Registry._get("Menu-Category").init();
-		}
-
-		if ('edit-mprm_order' === window.pagenow) {
-			MP_RM_Registry._get("Order").toggle_order_items();
 		}
 
 		if ('mprm_order' === $(window.post_type).val()) {

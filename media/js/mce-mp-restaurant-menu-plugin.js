@@ -67,6 +67,7 @@
 		/**
 		 * Init shortcode button
 		 *
+		 * @param callBack
 		 */
 		function init_insert_button() {
 			$(document).on('click.insert', '[data-selector=insert_shortcode]', function() {

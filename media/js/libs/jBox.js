@@ -425,7 +425,7 @@ function jBox(type, options) {
 	// Check for SVG support
 	this._supportsSVG = function() {
 		return document.createElement('svg').getAttributeNS;
-	};
+	}
 	
 	// Create an svg element
 	this._createSVG = function(type, options) {
@@ -998,7 +998,8 @@ function jBox(type, options) {
 	this.options._onInit && (this.options._onInit.bind(this))();
 	
 	return this;
-}
+};
+
 // Attach jBox to elements
 jBox.prototype.attach = function(elements, trigger) {
 	elements || (elements = jQuery(this.options.attach.selector || this.options.attach));

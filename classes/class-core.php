@@ -9,19 +9,22 @@ use mp_restaurant_menu\classes\upgrade\Upgrade;
  * Class main state
  */
 class Core {
-	public static $wpHeadFinished = false;
 	protected static $instance;
+	
+	public static $wpHeadFinished = false;
+	
 	protected $posts = array();
+	
 	protected $taxonomy_names = array(
 		'menu_category' => 'mp_menu_category',
-		'menu_tag'      => 'mp_menu_tag',
-		'ingredient'    => 'mp_ingredient'
-	);
-	protected $post_types = array(
-		'menu_item' => 'mp_menu_item',
-		'order'     => 'mprm_order'
+		'menu_tag' => 'mp_menu_tag',
+		'ingredient' => 'mp_ingredient'
 	);
 	
+	protected $post_types = array(
+		'menu_item' => 'mp_menu_item',
+		'order' => 'mprm_order'
+	);
 	/**
 	 * Current state
 	 */
@@ -33,7 +36,7 @@ class Core {
 	 */
 	public function __construct() {
 		
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$this->init_plugin_version();
 	}
 	
@@ -42,8 +45,8 @@ class Core {
 	 */
 	public function init_plugin_version() {
 		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
-		if ( ! $this->version ) {
-			$pluginObject  = get_plugin_data( $filePath );
+		if (!$this->version) {
+			$pluginObject = get_plugin_data($filePath);
 			$this->version = $pluginObject[ 'Version' ];
 		}
 	}
@@ -53,8 +56,8 @@ class Core {
 	 *
 	 * @return bool
 	 */
-	static public function is_ajax() {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	static function is_ajax() {
+		if (defined('DOING_AJAX') && DOING_AJAX) {
 			return true;
 		} else {
 			return false;
@@ -72,11 +75,11 @@ class Core {
 	 *
 	 * @return array
 	 */
-	public function get_post_types( $output = '' ) {
-		if ( $output == 'key' ) {
-			return array_keys( $this->post_types );
-		} elseif ( $output == 'value' ) {
-			return array_values( $this->post_types );
+	public function get_post_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->post_types);
+		} elseif ($output == 'value') {
+			return array_values($this->post_types);
 		} else {
 			return $this->post_types;
 		}
@@ -89,15 +92,16 @@ class Core {
 	 *
 	 * @return array
 	 */
-	public function get_taxonomy_types( $output = '' ) {
-		if ( $output == 'key' ) {
-			return array_keys( $this->taxonomy_names );
-		} elseif ( $output == 'value' ) {
-			return array_values( $this->taxonomy_names );
+	public function get_taxonomy_types($output = '') {
+		if ($output == 'key') {
+			return array_keys($this->taxonomy_names);
+		} elseif ($output == 'value') {
+			return array_values($this->taxonomy_names);
 		} else {
 			return $this->taxonomy_names;
 		}
 	}
+	
 	
 	/**
 	 * Get taxonomy name
@@ -106,8 +110,8 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function get_tax_name( $value ) {
-		if ( isset( $this->taxonomy_names[ $value ] ) ) {
+	public function get_tax_name($value) {
+		if (isset($this->taxonomy_names[ $value ])) {
 			return $this->taxonomy_names[ $value ];
 		}
 		
@@ -121,8 +125,8 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function get_post_type( $value ) {
-		if ( isset( $this->post_types[ $value ] ) ) {
+	public function get_post_type($value) {
+		if (isset($this->post_types[ $value ])) {
 			return $this->post_types[ $value ];
 		}
 		
@@ -134,9 +138,9 @@ class Core {
 	 *
 	 * @param $name
 	 */
-	public function init_plugin( $name ) {
+	public function init_plugin($name) {
 		
-		load_plugin_textdomain( 'mp-restaurant-menu', false, MP_RM_LANG_PATH );
+		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
 		
 		// User capability
 		Upgrade::get_instance()->check_upgrade_cap_roles();
@@ -156,11 +160,11 @@ class Core {
 		// inclide all widgets
 		MPRM_Widget::install();
 		// install state
-		$this->install_state( $name );
+		$this->install_state($name);
 		// Include templates functions
-		$this->include_all( MP_RM_TEMPLATES_FUNCTIONS );
+		$this->include_all(MP_RM_TEMPLATES_FUNCTIONS);
 		// Include templates actions
-		$this->include_all( MP_RM_TEMPLATES_ACTIONS );
+		$this->include_all(MP_RM_TEMPLATES_ACTIONS);
 		// init all hooks
 		Hooks::install_hooks();
 		// install templates actions
@@ -175,16 +179,16 @@ class Core {
 	 *
 	 * @param $name
 	 */
-	public function install_state( $name ) {
+	public function install_state($name) {
 		// Include plugin state
-		Core::get_instance()->set_state( new State_Factory( $name ) );
+		Core::get_instance()->set_state(new State_Factory($name));
 	}
 	
 	/**
 	 * @return Core
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
+		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		
@@ -197,19 +201,19 @@ class Core {
 	 * @param string $folder
 	 * @param boolean $inFolder
 	 */
-	public function include_all( $folder, $inFolder = true ) {
-		if ( file_exists( $folder ) ) {
-			$includeArr = scandir( $folder );
-			foreach ( $includeArr as $include ) {
-				if ( ! is_dir( $folder . "/" . $include ) ) {
-					$extension = pathinfo( $include, PATHINFO_EXTENSION );
-					if ( $extension != 'php' ) {
+	public function include_all($folder, $inFolder = true) {
+		if (file_exists($folder)) {
+			$includeArr = scandir($folder);
+			foreach ($includeArr as $include) {
+				if (!is_dir($folder . "/" . $include)) {
+					$extension = pathinfo($include, PATHINFO_EXTENSION);
+					if ($extension != 'php') {
 						continue;
 					}
-					include_once( $folder . "/" . $include );
+					include_once($folder . "/" . $include);
 				} else {
-					if ( $include != "." && $include != ".." && $inFolder ) {
-						$this->include_all( $folder . "/" . $include );
+					if ($include != "." && $include != ".." && $inFolder) {
+						$this->include_all($folder . "/" . $include);
 					}
 				}
 			}
@@ -223,10 +227,10 @@ class Core {
 	 *
 	 * @return bool|mixed
 	 */
-	public function get( $type = false ) {
+	public function get($type = false) {
 		$state = false;
-		if ( $type ) {
-			$state = $this->get_model( $type );
+		if ($type) {
+			$state = $this->get_model($type);
 		}
 		
 		return $state;
@@ -239,9 +243,10 @@ class Core {
 	 *
 	 * @return boolean
 	 */
-	public function get_model( $type = null ) {
-		return Core::get_instance()->get_state()->get_model( $type );
+	public function get_model($type = null) {
+		return Core::get_instance()->get_state()->get_model($type);
 	}
+	
 	
 	/**
 	 * Get State
@@ -249,7 +254,7 @@ class Core {
 	 * @return bool/Object
 	 */
 	public function get_state() {
-		if ( $this->state ) {
+		if ($this->state) {
 			return $this->state;
 		} else {
 			return false;
@@ -261,7 +266,7 @@ class Core {
 	 *
 	 * @param object $state
 	 */
-	public function set_state( $state ) {
+	public function set_state($state) {
 		$this->state = $state;
 	}
 	
@@ -269,11 +274,11 @@ class Core {
 	 * Route plugin url
 	 */
 	public function wp_ajax_route_url() {
-		$controller = isset( $_REQUEST[ "controller" ] ) ? $_REQUEST[ "controller" ] : null;
-		$action     = isset( $_REQUEST[ "mprm_action" ] ) ? $_REQUEST[ "mprm_action" ] : null;
-		if ( ! empty( $action ) && ! empty( $controller ) ) {
+		$controller = isset($_REQUEST[ "controller" ]) ? $_REQUEST[ "controller" ] : null;
+		$action = isset($_REQUEST[ "mprm_action" ]) ? $_REQUEST[ "mprm_action" ] : null;
+		if (!empty($action) && !empty($controller)) {
 			// call controller
-			Preprocessor::get_instance()->call_controller( $action, $controller );
+			Preprocessor::get_instance()->call_controller($action, $controller);
 			die();
 		}
 	}
@@ -285,8 +290,8 @@ class Core {
 	 *
 	 * @return boolean
 	 */
-	public function get_controller( $type ) {
-		return Core::get_instance()->get_state()->get_controller( $type );
+	public function get_controller($type) {
+		return Core::get_instance()->get_state()->get_controller($type);
 	}
 	
 	/**
@@ -299,14 +304,25 @@ class Core {
 	}
 	
 	/**
+	 * Get preprocessor
+	 *
+	 * @param $type
+	 *
+	 * @return mixed
+	 */
+	public function get_preprocessor($type = NULL) {
+		return Core::get_instance()->get_state()->get_preprocessor($type);
+	}
+	
+	/**
 	 *  Theme mode
 	 *
 	 * @param $value
 	 *
 	 * @return string
 	 */
-	public function filter_template_mode( $value ) {
-		if ( current_theme_supports( 'mp-restaurant-menu' ) ) {
+	public function filter_template_mode($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'plugin';
 		}
 		
@@ -320,8 +336,8 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function filter_button_style( $value ) {
-		if ( current_theme_supports( 'mp-restaurant-menu' ) ) {
+	public function filter_button_style($value) {
+		if (current_theme_supports('mp-restaurant-menu')) {
 			$value = 'button';
 		}
 		
@@ -335,8 +351,8 @@ class Core {
 	 *
 	 * @return string
 	 */
-	public function filter_checkout_color( $value ) {
-		switch ( $value ) {
+	public function filter_checkout_color($value) {
+		switch ($value) {
 			case'inherit':
 				$button_class = $value;
 				break;
@@ -348,6 +364,7 @@ class Core {
 		return $button_class;
 	}
 	
+	
 	/**
 	 *  Available theme
 	 *
@@ -355,9 +372,9 @@ class Core {
 	 *
 	 * @return array
 	 */
-	public function available_theme_mode( $params ) {
-		if ( current_theme_supports( 'mp-restaurant-menu' ) ) {
-			return array( 'plugin' => __( 'Plugin', 'mp-restaurant-menu' ) );
+	public function available_theme_mode($params) {
+		if (current_theme_supports('mp-restaurant-menu')) {
+			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
 		}
 		
 		return $params;
@@ -371,9 +388,9 @@ class Core {
 	 *
 	 * @return mixed
 	 */
-	public function get_config( $name ) {
-		if ( ! empty( $name ) ) {
-			return require( MP_RM_CONFIGS_PATH . "{$name}.php" );
+	public function get_config($name) {
+		if (!empty($name)) {
+			return require(MP_RM_CONFIGS_PATH . "{$name}.php");
 		}
 		
 		return array();
