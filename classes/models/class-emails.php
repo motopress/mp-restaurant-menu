@@ -35,10 +35,7 @@ class Emails extends Model {
 	 */
 	public function email_preview_template_tags($message) {
 		$menu_item_list = '<ul>';
-		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu') . '<br />';
-		$menu_item_list .= '<div>';
-		$menu_item_list .= '<a href="#">' . __('Sample Product', 'mp-restaurant-menu') . '</a> - <small>' . __('Optional notes about this product.', 'mp-restaurant-menu') . '</small>';
-		$menu_item_list .= '</div>';
+		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu');
 		$menu_item_list .= '</li>';
 		$menu_item_list .= '</ul>';
 		$file_urls = esc_html(trailingslashit(get_site_url()) . 'test.zip?test=key&key=123');
@@ -344,6 +341,7 @@ class Emails extends Model {
 		$menu_items = maybe_unserialize($payment_data['menu_items']);
 
 		if (is_array($menu_items)) {
+			$menu_item_list .= '<ul>';
 			foreach ($menu_items as $key => $menu_item) {
 				foreach ($cart_details as $cart_item) {
 					if ($menu_item['id'] == $cart_item['id']) {
@@ -358,8 +356,9 @@ class Emails extends Model {
 						$title .= ' ' . $menu_item['quantity'] . ' x ' . mprm_currency_filter(mprm_format_amount($price));
 					}
 				}
-				$menu_item_list .= html_entity_decode($title, ENT_COMPAT, 'UTF-8') . "\n";
+				$menu_item_list .= '<li>' . html_entity_decode($title, ENT_COMPAT, 'UTF-8') . '</li>';
 			}
+			$menu_item_list .= '</ul>';
 		}
 		$gateway = $this->get('gateways')->get_gateway_admin_label(get_post_meta($payment_id, '_mprm_order_gateway', true));
 
@@ -577,6 +576,21 @@ class Emails extends Model {
 				'tag' => 'receipt_link',
 				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_link'
+			),
+			array(
+				'tag' => 'order_notes',
+				'description' => __('Order notes.', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_order_notes'
+			),
+			array(
+				'tag' => 'phone',
+				'description' => __('The buyer\'s phone.', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_phone'
+			),
+			array(
+				'tag' => 'shipping_address',
+				'description' => __('Shipping address.', 'mp-restaurant-menu'),
+				'function' => 'mprm_email_tag_shipping_address'
 			),
 
 		);

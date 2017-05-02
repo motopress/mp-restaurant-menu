@@ -128,7 +128,7 @@ function mprm_cut_str($length, $text) {
 		return $text;
 	}
 	
-	$string = substr($text, 0, $length);
+	$string = mb_substr($text, 0, $length);
 	
 	return empty($string) ? $string : $string . '...';
 }

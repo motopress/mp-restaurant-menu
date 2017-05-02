@@ -412,6 +412,21 @@ function mprm_email_tag_ip_address($order_id) {
 	return $payment->ip;
 }
 
+function mprm_email_tag_order_notes($order_id) {
+	$payment = new models\Order($order_id);
+	return $payment->customer_note;
+}
+
+function mprm_email_tag_phone($order_id) {
+	$payment = new models\Order($order_id);
+	return $payment->phone_number;
+}
+
+function mprm_email_tag_shipping_address($order_id) {
+	$payment = new models\Order($order_id);
+	return $payment->shipping_address;
+}
+
 /**
  * @return mixed|string|void
  */

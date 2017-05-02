@@ -189,7 +189,7 @@ class Customer_Reports extends \WP_List_Table {
 		$columns = array(
 			'name' => __('Name', 'mp-restaurant-menu'),
 			'email' => __('Email', 'mp-restaurant-menu'),
-			'telephone' => __('Telephone', 'mp-restaurant-menu'),
+			'telephone' => __('Phone', 'mp-restaurant-menu'),
 			'num_purchases' => __('Purchases', 'mp-restaurant-menu'),
 			'amount_spent' => __('Total Spent', 'mp-restaurant-menu'),
 			'date_created' => __('Date Created', 'mp-restaurant-menu'),

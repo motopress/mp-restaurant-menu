@@ -1545,7 +1545,7 @@ class Payments extends Parent_query {
 			$user = get_userdata($note->user_id);
 			$user = $user->display_name;
 		} else {
-			$user = __('Guest Bot', 'mp-restaurant-menu');
+			$user = __('System', 'mp-restaurant-menu');
 		}
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
 		
@@ -1765,15 +1765,7 @@ class Payments extends Parent_query {
 		$customer->increase_value($amount);
 		
 		$this->get('payments')->increase_total_earnings($amount);
-		// Check for discount codes and increment their use counts
-		if (!empty($user_info[ 'discount' ]) && $user_info[ 'discount' ] !== 'none') {
-			$discounts = array_map('trim', explode(',', $user_info[ 'discount' ]));
-			if (!empty($discounts)) {
-				foreach ($discounts as $code) {
-					$this->get('discount')->increase_discount_usage($code);
-				}
-			}
-		}
+
 		// Ensure this action only runs once ever
 		if (empty($completed_date)) {
 			// Save the completed date
@@ -1921,7 +1913,12 @@ class Payments extends Parent_query {
 		if ($order->setup_payment($order_ID)) {
 			$gateway = $order->gateway;
 			if ($gateway == 'manual') {
-				do_action('mprm_admin_sale_notice', $order_ID, $payment_data);
+				if ( ! $this->get('settings')->get_option('cod_process_payments_manually', false) ) {
+					// autocomplete order
+					$this->update_payment_status($order_ID, 'publish');
+				} else {
+					do_action('mprm_admin_sale_notice', $order_ID, $payment_data);
+				}
 			}
 			
 		}

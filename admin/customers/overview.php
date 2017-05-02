@@ -35,7 +35,7 @@ endif;
 				<input type="text" class="mprm-input large-text" required name="mprm-name" value="<?php echo $customer->name; ?>">
 			</p>
 			<p class="mprm-class-telephone"><label for="mprm-telephone">
-					<?php _e('Telephone:', 'mp-restaurant-menu'); ?>
+					<?php _e('Phone:', 'mp-restaurant-menu'); ?>
 				</label>
 				<input class="mprm-input large-text" type="text" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
 			</p>

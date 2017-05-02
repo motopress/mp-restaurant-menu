@@ -1,4 +1,4 @@
-@import "notice.less";
+@import "_notice.less";
 
 .mprm-plugin-mode {
   .mprm-submit, input.mprm-submit {
@@ -149,6 +149,9 @@
 	&.mprm_purchase_form {
 	  .mprm-add-to-cart {
 		margin-right: 10px;
+		&.mprm-preloader-color {
+		  color: rgba(0, 0, 0, 0);
+		}
 	  }
 	}
   }
@@ -312,12 +315,15 @@
 
 #mprm-payment-mode-wrap {
   .mprm-gateway-option {
-	display: inline-block;
-	margin: 0 20px 0 0;
-	font-weight: 400;
-	position: relative;
-	line-height: 100%;
-	font-size: 95%;
+	display: block;
+  }
+  ul {
+	list-style: none inside none;
+	li {
+	  .mprm-gateway-option {
+		margin-bottom: 10px;
+	  }
+	}
   }
 }
 

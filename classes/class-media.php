@@ -777,6 +777,14 @@ class Media extends Core {
 							),
 						),
 					),
+					'cod' => array(
+						'cod_process_payments_manually' => array(
+							'id' => 'cod_process_payments_manually',
+							'name' => __('Process Payments Manually', 'mp-restaurant-menu'),
+							'desc' => __('Review an order and set Complete status manually.', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+					),
 					'paypal' => array(
 						'paypal_email' => array(
 							'id' => 'paypal_email',
@@ -807,7 +815,7 @@ class Media extends Core {
 					'main' => array(
 						'customer_phone' => array(
 							'id' => 'customer_phone',
-							'name' => __('Telephone Number Required', 'mp-restaurant-menu'),
+							'name' => __('Phone is Required', 'mp-restaurant-menu'),
 							'desc' => __('Check this box to display telephone field on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
@@ -1069,46 +1077,6 @@ class Media extends Core {
 						)
 					
 					),
-					'file_menu_items' => array(
-						'file_settings' => array(
-							'id' => 'file_settings',
-							'name' => '<h3>' . __('File Menu item Settings', 'mp-restaurant-menu') . '</h3>',
-							'type' => 'header',
-						),
-						'menu_item_method' => array(
-							'id' => 'menu_item_method',
-							'name' => __('Menu item Method', 'mp-restaurant-menu'),
-							'desc' => sprintf(__('Select the file menu_item method. Note, not all methods work on all servers.', 'mp-restaurant-menu'), $this->get_label_singular()),
-							'type' => 'select',
-							'options' => array(
-								'direct' => __('Forced', 'mp-restaurant-menu'),
-								'redirect' => __('Redirect', 'mp-restaurant-menu'),
-							),
-						),
-						
-						'file_menu_item_limit' => array(
-							'id' => 'file_menu_item_limit',
-							'name' => __('File Menu item Limit', 'mp-restaurant-menu'),
-							'desc' => sprintf(__('The maximum number of times files can be menu_itemed for purchases. Can be overwritten for each %s.', 'mp-restaurant-menu'), $this->get_label_singular()),
-							'type' => 'number',
-							'size' => 'small',
-						),
-						'menu_item_link_expiration' => array(
-							'id' => 'menu_item_link_expiration',
-							'name' => __('Menu item Link Expiration', 'mp-restaurant-menu'),
-							'desc' => __('How long should menu_item links be valid for? Default is 24 hours from the time they are generated. Enter a time in hours.', 'mp-restaurant-menu'),
-							'type' => 'number',
-							'size' => 'small',
-							'std' => '24',
-							'min' => '0',
-						),
-						'disable_remenu_item' => array(
-							'id' => 'disable_remenu_item',
-							'name' => __('Disable Remenu_item?', 'mp-restaurant-menu'),
-							'desc' => __('Check this if you do not want to allow users to remenu_item items from their purchase history.', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
-					),
 					'site_terms' => array(
 						'terms_settings' => array(
 							'id' => 'terms_settings',
@@ -1334,6 +1302,7 @@ class Media extends Core {
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
 				'main' => __('Gateways', 'mp-restaurant-menu'),
 				'paypal' => __('PayPal Standard', 'mp-restaurant-menu'),
+				'cod' => __('Cash On Delivery', 'mp-restaurant-menu'),
 			)),
 			'emails' => apply_filters('mprm_settings_sections_emails', array(
 				'main' => __('Email Template', 'mp-restaurant-menu'),
@@ -1874,8 +1843,8 @@ class Media extends Core {
 		$tabs = array();
 		$tabs[ 'general' ] = __('General', 'mp-restaurant-menu');
 		$tabs[ 'display' ] = __('Display', 'mp-restaurant-menu');
-		$tabs[ 'gateways' ] = __('Payment Gateways', 'mp-restaurant-menu');
-		$tabs[ 'checkout' ] = __('Checkout Settings', 'mp-restaurant-menu');
+		$tabs[ 'gateways' ] = __('Payment', 'mp-restaurant-menu');
+		$tabs[ 'checkout' ] = __('Checkout', 'mp-restaurant-menu');
 		$tabs[ 'emails' ] = __('Emails', 'mp-restaurant-menu');
 		$tabs[ 'styles' ] = __('Styles', 'mp-restaurant-menu');
 		$tabs[ 'taxes' ] = __('Taxes', 'mp-restaurant-menu');

@@ -72,6 +72,7 @@ class Session extends Core {
 			}
 			if (!class_exists('WP_Session')) {
 				require_once MP_RM_LIBS_PATH . 'wp_session/class-wp-session.php';
+				require_once MP_RM_LIBS_PATH . 'wp_session/class-wp-session-utils.php';
 				require_once MP_RM_LIBS_PATH . 'wp_session/wp-session.php';
 			}
 			add_filter('wp_session_expiration_variant', array($this, 'set_expiration_variant_time'), 99999);
@@ -255,6 +256,7 @@ class Session extends Core {
 		$ret = false;
 		// If the database variable is already set, no need to run autodetection
 		$mprm_use_php_sessions = (bool)get_option('mprm_use_php_sessions');
+
 		if (!$mprm_use_php_sessions) {
 			// Attempt to detect if the server supports PHP sessions
 			if (function_exists('session_start') && !ini_get('safe_mode')) {

@@ -63,6 +63,11 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 
 == Changelog ==
 
+= 2.2.3 =
+* Adjusted the plugin to send automatic emails with Order details to customers when Cash on delivery option is chosen.
+* Order notes, Phone and Shipping address tags are added to email template.
+* WP Session Manager code updated.
+
 = 2.2.2 =
 * Bug fix: fixed an issue with default settings.
 

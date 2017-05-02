@@ -673,7 +673,7 @@ final class Order extends Model {
 		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
 		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
 		$columns['order_ship_to'] = __('Delivery', 'mp-restaurant-menu');
-		$columns['order_customer_note'] = __('Order note', 'mp-restaurant-menu');
+		$columns['order_customer_note'] = __('Order notes', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
@@ -736,7 +736,7 @@ final class Order extends Model {
 				echo apply_filters('mprm_orders_list_delivery', $this->shipping_address);
 				break;
 			case 'order_customer_note':
-				echo $this->customer_note;
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . $this->customer_note . '">' . mprm_cut_str( 90, $this->customer_note ) . '</span>';
 				break;
 			case 'order_items' :
 				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this) . '</a>';
@@ -749,7 +749,9 @@ final class Order extends Model {
 				echo $value;
 				break;
 			case 'order_total' :
-				echo mprm_currency_filter(mprm_format_amount($this->total));
+				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
+				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_checkout_label( $this->gateway ) . '</span>';
+				echo $total;
 				break;
 			default:
 				break;
@@ -1740,7 +1742,7 @@ final class Order extends Model {
 		$decrease_customer_value = apply_filters('mprm_decrease_customer_value_on_refund', true, $this);
 		$decrease_purchase_count = apply_filters('mprm_decrease_customer_purchase_count_on_refund', true, $this);
 		$this->maybe_alter_stats($decrease_store_earnings, $decrease_customer_value, $decrease_purchase_count);
-		$this->delete_sales_logs();
+
 		// Clear the This Month earnings (this_monththis_month is NOT a typo)
 		delete_transient(md5('mprm_earnings_this_monththis_month'));
 		do_action('mprm_post_refund_payment', $this);
@@ -1769,21 +1771,6 @@ final class Order extends Model {
 		}
 	}
 
-	private function delete_sales_logs() {
-//		global $mprm_logs;
-		// Remove related sale log entries
-//		$mprm_logs->delete_logs(
-//			null,
-//			'sale',
-//			array(
-//				array(
-//					'key' => '_mprm_log_payment_id',
-//					'value' => $this->ID,
-//				),
-//			)
-//		);
-	}
-
 	/**
 	 * Process failure
 	 */
@@ -1809,7 +1796,7 @@ final class Order extends Model {
 		if (('publish' != $this->old_status && 'mprm-revoked' != $this->old_status) || 'mprm-pending' != $this->status) {
 			$process_pending = false;
 		}
-		// Allow extensions to filter for their own payment types, Example: Recurring Payments
+		// Allow extensions to filter for their own payment types
 		$process_pending = apply_filters('mprm_should_process_pending', $process_pending, $this);
 		if (false === $process_pending) {
 			return;
@@ -1818,7 +1805,6 @@ final class Order extends Model {
 		$decrease_customer_value = apply_filters('mprm_decrease_customer_value_on_pending', true, $this);
 		$decrease_purchase_count = apply_filters('mprm_decrease_customer_purchase_count_on_pending', true, $this);
 		$this->maybe_alter_stats($decrease_store_earnings, $decrease_customer_value, $decrease_purchase_count);
-		$this->delete_sales_logs();
 		$this->completed_date = false;
 		$this->update_meta('_mprm_completed_date', '');
 		// Clear the This Month earnings (this_monththis_month is NOT a typo)

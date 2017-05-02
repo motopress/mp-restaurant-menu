@@ -34,7 +34,7 @@ class Post extends Module {
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending<span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 
 		register_post_status('mprm-completed', array(
