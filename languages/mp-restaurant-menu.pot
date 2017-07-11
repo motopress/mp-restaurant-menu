@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2017-05-02 16:36+0300\n"
+"POT-Creation-Date: 2017-05-02 18:11+0300\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -297,7 +297,7 @@ msgstr ""
 #: admin/taxonomies/mp_menu_category/add_form_fields.php:15
 #: admin/taxonomies/mp_menu_category/edit_form_fields.php:22
 #: classes/models/settings/class-settings.php:1184
-#: configs/language-admin-js.php:39 templates/shop/checkout-cart.php:63
+#: configs/language-admin-js.php:35 templates/shop/checkout-cart.php:63
 #: templates/shop/checkout-cart.php:84
 msgid "Remove"
 msgstr ""
@@ -1264,8 +1264,8 @@ msgstr ""
 
 #: classes/class-media.php:902 classes/class-media.php:924
 #: classes/class-media.php:931 classes/class-media.php:935
-#: classes/class-media.php:1309 classes/models/class-emails.php:150
-#: classes/models/class-emails.php:153
+#: classes/class-media.php:1309 classes/models/class-emails.php:147
+#: classes/models/class-emails.php:150
 #: classes/models/settings/class-settings-emails.php:142
 msgid "Purchase Receipt"
 msgstr ""
@@ -1814,38 +1814,30 @@ msgstr ""
 msgid "Sample Product Title"
 msgstr ""
 
-#: classes/models/class-emails.php:40
-msgid "Sample Product"
-msgstr ""
-
-#: classes/models/class-emails.php:40
-msgid "Optional notes about this product."
-msgstr ""
-
-#: classes/models/class-emails.php:48
+#: classes/models/class-emails.php:45
 msgid "These are some sample notes added to a product."
 msgstr ""
 
-#: classes/models/class-emails.php:68
+#: classes/models/class-emails.php:65
 #, php-format
 msgid "%1$sView it in your browser.%2$s"
 msgstr ""
 
-#: classes/models/class-emails.php:182
+#: classes/models/class-emails.php:179
 msgid "Dear"
 msgstr ""
 
-#: classes/models/class-emails.php:183
+#: classes/models/class-emails.php:180
 msgid ""
 "Thank you for your purchase. Your order details are shown below for your "
 "reference:"
 msgstr ""
 
-#: classes/models/class-emails.php:218
+#: classes/models/class-emails.php:215
 msgid "You do not have permission to edit this payment record"
 msgstr ""
 
-#: classes/models/class-emails.php:218 classes/models/class-errors.php:36
+#: classes/models/class-emails.php:215 classes/models/class-errors.php:36
 #: classes/models/shop/class-payments.php:439
 #: classes/models/shop/gateways/class-shop-gateways.php:230
 #: classes/models/shop/gateways/manual-payment-class.php:27
@@ -1855,150 +1847,162 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: classes/models/class-emails.php:252 classes/models/class-emails.php:256
+#: classes/models/class-emails.php:249 classes/models/class-emails.php:253
 msgid "Purchase Receipt1"
 msgstr ""
 
-#: classes/models/class-emails.php:303
+#: classes/models/class-emails.php:300
 #, php-format
 msgid "New purchase - Order #%1$s"
 msgstr ""
 
-#: classes/models/class-emails.php:317
+#: classes/models/class-emails.php:314
 msgid "New Sale!"
 msgstr ""
 
-#: classes/models/class-emails.php:366
-#: templates-functions/email-restaurant-menu-functions.php:420
+#: classes/models/class-emails.php:365
+#: templates-functions/email-restaurant-menu-functions.php:435
 msgid "A new purchase has been made!"
 msgstr ""
 
-#: classes/models/class-emails.php:367
-#: templates-functions/email-restaurant-menu-functions.php:421
+#: classes/models/class-emails.php:366
+#: templates-functions/email-restaurant-menu-functions.php:436
 msgid "Purchased products:"
 msgstr ""
 
-#: classes/models/class-emails.php:369
-#: templates-functions/email-restaurant-menu-functions.php:423
+#: classes/models/class-emails.php:368
+#: templates-functions/email-restaurant-menu-functions.php:438
 msgid "Purchased by: "
 msgstr ""
 
-#: classes/models/class-emails.php:370
-#: templates-functions/email-restaurant-menu-functions.php:424
+#: classes/models/class-emails.php:369
+#: templates-functions/email-restaurant-menu-functions.php:439
 msgid "Amount: "
 msgstr ""
 
-#: classes/models/class-emails.php:371
-#: templates-functions/email-restaurant-menu-functions.php:425
+#: classes/models/class-emails.php:370
+#: templates-functions/email-restaurant-menu-functions.php:440
 msgid "Payment Method: "
 msgstr ""
 
-#: classes/models/class-emails.php:372
-#: templates-functions/email-restaurant-menu-functions.php:426
+#: classes/models/class-emails.php:371
+#: templates-functions/email-restaurant-menu-functions.php:441
 msgid "Thank you"
 msgstr ""
 
-#: classes/models/class-emails.php:398
+#: classes/models/class-emails.php:397
 #, php-format
 msgid "[%s] New User Registration"
 msgstr ""
 
-#: classes/models/class-emails.php:399
+#: classes/models/class-emails.php:398
 msgid "New user registration"
 msgstr ""
 
-#: classes/models/class-emails.php:400 classes/models/class-emails.php:408
+#: classes/models/class-emails.php:399 classes/models/class-emails.php:407
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: classes/models/class-emails.php:401
+#: classes/models/class-emails.php:400
 #, php-format
 msgid "E-mail: %s"
 msgstr ""
 
-#: classes/models/class-emails.php:406
+#: classes/models/class-emails.php:405
 #, php-format
 msgid "[%s] Your username and password"
 msgstr ""
 
-#: classes/models/class-emails.php:407
+#: classes/models/class-emails.php:406
 msgid "Your account info"
 msgstr ""
 
-#: classes/models/class-emails.php:409
+#: classes/models/class-emails.php:408
 #, php-format
 msgid "Password: %s"
 msgstr ""
 
-#: classes/models/class-emails.php:409
+#: classes/models/class-emails.php:408
 msgid "[Password entered at checkout]"
 msgstr ""
 
-#: classes/models/class-emails.php:410
+#: classes/models/class-emails.php:409
 msgid "Click Here to Log In"
 msgstr ""
 
-#: classes/models/class-emails.php:508
+#: classes/models/class-emails.php:507
 msgid "A list of purchased products"
 msgstr ""
 
-#: classes/models/class-emails.php:513
+#: classes/models/class-emails.php:512
 msgid "The buyer's first name"
 msgstr ""
 
-#: classes/models/class-emails.php:518
+#: classes/models/class-emails.php:517
 msgid "The buyer's full name, first and last"
 msgstr ""
 
-#: classes/models/class-emails.php:523
+#: classes/models/class-emails.php:522
 msgid "The buyer's user name on the site, if they registered an account"
 msgstr ""
 
-#: classes/models/class-emails.php:528
+#: classes/models/class-emails.php:527
 msgid "The buyer's email address"
 msgstr ""
 
-#: classes/models/class-emails.php:533
+#: classes/models/class-emails.php:532
 msgid "The buyer's billing address"
 msgstr ""
 
-#: classes/models/class-emails.php:538
+#: classes/models/class-emails.php:537
 msgid "The date of the purchase"
 msgstr ""
 
-#: classes/models/class-emails.php:543
+#: classes/models/class-emails.php:542
 msgid "The price of the purchase before taxes"
 msgstr ""
 
-#: classes/models/class-emails.php:548
+#: classes/models/class-emails.php:547
 msgid "The taxed amount of the purchase"
 msgstr ""
 
-#: classes/models/class-emails.php:553
+#: classes/models/class-emails.php:552
 msgid "The total price of the purchase"
 msgstr ""
 
-#: classes/models/class-emails.php:558
+#: classes/models/class-emails.php:557
 msgid "The unique ID number for this purchase"
 msgstr ""
 
-#: classes/models/class-emails.php:563
+#: classes/models/class-emails.php:562
 msgid "The unique ID number for this purchase receipt"
 msgstr ""
 
-#: classes/models/class-emails.php:568
+#: classes/models/class-emails.php:567
 msgid "The method of payment used for this purchase"
 msgstr ""
 
-#: classes/models/class-emails.php:573
+#: classes/models/class-emails.php:572
 msgid "Your site name"
 msgstr ""
 
-#: classes/models/class-emails.php:578
+#: classes/models/class-emails.php:577
 msgid ""
 "Adds a link so users can view their receipt directly on your website if they "
 "are unable to view it in the browser correctly."
+msgstr ""
+
+#: classes/models/class-emails.php:582
+msgid "Order notes."
+msgstr ""
+
+#: classes/models/class-emails.php:587
+msgid "The buyer's phone."
+msgstr ""
+
+#: classes/models/class-emails.php:592
+msgid "Shipping address."
 msgstr ""
 
 #: classes/models/class-extensions.php:92
@@ -2547,7 +2551,7 @@ msgid "Shipped"
 msgstr ""
 
 #: classes/models/shop/class-payments.php:1548
-msgid "Guest Bot"
+msgid "System"
 msgstr ""
 
 #: classes/models/shop/class-payments.php:1790
@@ -3026,78 +3030,62 @@ msgid "Are you sure you wish to delete this note?"
 msgstr ""
 
 #: configs/language-admin-js.php:18
-msgid "Are you sure you wish to delete this tax rate?"
-msgstr ""
-
-#: configs/language-admin-js.php:19
-msgid "Are you sure you wish to revoke this API key?"
-msgstr ""
-
-#: configs/language-admin-js.php:20
-msgid "Are you sure you wish to regenerate this API key?"
-msgstr ""
-
-#: configs/language-admin-js.php:21
 msgid "Are you sure you wish to resend the purchase receipt?"
 msgstr ""
 
-#: configs/language-admin-js.php:22
-msgid "Copy these links to your clipboard and give them to your customer"
-msgstr ""
-
-#: configs/language-admin-js.php:23
+#: configs/language-admin-js.php:19
 #, php-format
 msgid "Are you sure you wish to delete this %s?"
 msgstr ""
 
-#: configs/language-admin-js.php:24
+#: configs/language-admin-js.php:20
 msgid "You must have at least one price"
 msgstr ""
 
-#: configs/language-admin-js.php:25
+#: configs/language-admin-js.php:21
 msgid "You must have at least one field"
 msgstr ""
 
-#: configs/language-admin-js.php:26
+#: configs/language-admin-js.php:22
 msgid "Orders must contain at least one item"
 msgstr ""
 
-#: configs/language-admin-js.php:27
+#: configs/language-admin-js.php:23
 #, php-format
 msgid "Choose a %s"
 msgstr ""
 
-#: configs/language-admin-js.php:28
+#: configs/language-admin-js.php:24
 #, php-format
 msgid "Choose one or more %s"
 msgstr ""
 
-#: configs/language-admin-js.php:29
+#: configs/language-admin-js.php:25
 msgid "Item price must be numeric"
 msgstr ""
 
-#: configs/language-admin-js.php:30
+#: configs/language-admin-js.php:26
 msgid "Quantity must be numeric"
 msgstr ""
 
-#: configs/language-admin-js.php:31
+#: configs/language-admin-js.php:27
 msgid "Tax must be numeric"
 msgstr ""
 
-#: configs/language-admin-js.php:40
+#: configs/language-admin-js.php:36
 #, php-format
 msgid "Type to search %s"
 msgstr ""
 
-#: configs/language-admin-js.php:42
+#: configs/language-admin-js.php:38
 msgid "You must choose a method."
 msgstr ""
 
-#: configs/language-admin-js.php:43
+#: configs/language-admin-js.php:39
 msgid "Required fields not completed."
 msgstr ""
 
-#: configs/language-admin-js.php:44
+#: configs/language-admin-js.php:40
 msgid ""
 "Are you sure you want to reset your store? This process is <strong><em>not "
 "reversible</em></strong>. Please be sure you have a recent backup."

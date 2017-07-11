@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: http://www.getmotopress.com/
 Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
-Tested up to: 4.7
+Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,9 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.2.4 =
+* Bug fix: fixed an issue with undefined method 'is_ajax_enabled'.
 
 = 2.2.3 =
 * Adjusted the plugin to send automatic emails with Order details to customers when Cash on delivery option is chosen.
