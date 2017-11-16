@@ -122,7 +122,7 @@ class Extension {
 	 */
 	protected function get_add_ons_feed_data() {
 		if (false === ($cache = get_transient('mp_restaurant_add_ons_feed'))) {
-			$url = 'http://www.getmotopress.com/edd-api/' . $this->api_version . '/products/';
+			$url = 'https://motopress.com/edd-api/' . $this->api_version . '/products/';
 			$url = add_query_arg(array('number' => $this->limit), $url);
 			$feed = wp_remote_get(esc_url_raw($url), array('sslverify' => false));
 

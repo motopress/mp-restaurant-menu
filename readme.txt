@@ -1,6 +1,6 @@
 === Restaurant Menu by MotoPress ===
 Contributors: MotoPress
-Donate link: http://www.getmotopress.com/
+Donate link: https://motopress.com/
 Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
 Tested up to: 4.8
@@ -13,8 +13,8 @@ Create and maintain modern online menus for almost any kind of restaurant. Sell 
 == Description ==
 MotoPress Restaurant Menu plugin is an easy-to-manage modern solution for building online menus of restaurants, cafes and other typical food establishments on any WordPress website. One great advantage of the plugin is a powerful eCommerce tool to help you sell food and drinks online without any technical help. Menus can be displayed in pages, posts, and sidebars using shortcodes which are a perfect tool for creating complex content with minimum efforts. Non-tech WordPress users will value the intuitive system of both shortcode settings and the entire menu instruments. Applying a simple set of operations you will be able to customize menu design, add and categorize unlimited menu items, create and feature/hide all needed tags and ingredients, choose whether to display particular items, switch on/off all needed settings for individual items and categories any time and much more.
 
-* Check [Restaurant Menu Plugin Demo](http://mprmdemo.getmotopress.com)
-* Please find the step-by-step instructions of working with the plugin [here](http://www.getmotopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
+* Check [Restaurant Menu Plugin Demo](https://mprmdemo.getmotopress.com)
+* Please find the step-by-step instructions of working with the plugin [here](https://motopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
 
 Premium **addons** to extend possibilities and increase sales through your online menu
 
@@ -22,7 +22,7 @@ Premium **addons** to extend possibilities and increase sales through your onlin
 * Toppings - this extension will help you set a list of the needed toppings available for purchase along with the menu item.
 * Menu cart - helps you add a shopping cart icon to a needed menu bar.
 
-Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaurant-menu-plugin-addons/).
+Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-menu-plugin-addons/).
 
 = Major Features =
 * Clean responsive design for proper mobile viewing
@@ -62,6 +62,9 @@ Find all [addons for Restaurant Menu plugin](http://www.getmotopress.com/restaur
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.2.5 =
+* Bug fix: fixed PHP warning of empty string.
 
 = 2.2.4 =
 * Bug fix: fixed an issue with undefined method 'is_ajax_enabled'.
