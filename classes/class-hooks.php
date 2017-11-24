@@ -1014,7 +1014,7 @@ class Hooks extends Core {
 		global $post, $title, $action, $current_screen;
 		
 		if (isset($current_screen->post_type) && $current_screen->post_type == $this->post_types[ 'order' ] && $action == 'edit') {
-			$title = 'Edit Order' . ' #' . $post->ID;
+			$title = sprintf( __('Edit Order #%s', 'mp-restaurant-menu'), $post->ID) ;
 		}
 	}
 	

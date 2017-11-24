@@ -93,7 +93,7 @@ function mprm_checkout_additional_information() {
 function mprm_checkout_final_total() {
 	?>
 	<p id="mprm_final_total_wrap">
-		<strong><?php _e('Purchase Total:', 'mp-restaurant-menu'); ?></strong>
+		<strong><?php _e('Total:', 'mp-restaurant-menu'); ?></strong>
 		<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_get_cart_subtotal(); ?>" data-total="<?php echo mprm_get_cart_subtotal(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?></span>
 	</p>
 	<?php

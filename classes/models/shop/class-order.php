@@ -584,7 +584,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-purchased',
-			__('Purchased Menu items', 'mp-restaurant-menu'),
+			__('Purchased products:', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',

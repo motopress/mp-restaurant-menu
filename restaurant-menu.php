@@ -3,7 +3,7 @@
  * Plugin Name: Restaurant Menu
  * Plugin URI: https://motopress.com
  * Description: This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
- * Version: 2.2.5
+ * Version: 2.2.6
  * Author: MotoPress
  * Author URI: https://motopress.com
  * License: GPLv2 or later

@@ -1841,22 +1841,22 @@ class Media extends Core {
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();
 		$tabs = array();
-		$tabs[ 'general' ] = __('General', 'mp-restaurant-menu');
-		$tabs[ 'display' ] = __('Display', 'mp-restaurant-menu');
-		$tabs[ 'gateways' ] = __('Payment', 'mp-restaurant-menu');
-		$tabs[ 'checkout' ] = __('Checkout', 'mp-restaurant-menu');
-		$tabs[ 'emails' ] = __('Emails', 'mp-restaurant-menu');
-		$tabs[ 'styles' ] = __('Styles', 'mp-restaurant-menu');
-		$tabs[ 'taxes' ] = __('Taxes', 'mp-restaurant-menu');
+		$tabs[ 'general' ] = _x('General', 'General settings tab', 'mp-restaurant-menu');
+		$tabs[ 'display' ] = _x('Display', 'Disapley settings tab', 'mp-restaurant-menu');
+		$tabs[ 'gateways' ] = _x('Payment', 'Payment settings tab', 'mp-restaurant-menu');
+		$tabs[ 'checkout' ] = _x('Checkout', 'Checkout settings tab', 'mp-restaurant-menu');
+		$tabs[ 'emails' ] = _x('Emails', 'Email settings tab', 'mp-restaurant-menu');
+		$tabs[ 'styles' ] = _x('Styles', 'Styles settings tab', 'mp-restaurant-menu');
+		$tabs[ 'taxes' ] = _x('Taxes', 'Taxes settings tab', 'mp-restaurant-menu');
 		
 		if (!empty($settings[ 'extensions' ])) {
-			$tabs[ 'extensions' ] = __('Extensions', 'mp-restaurant-menu');
+			$tabs[ 'extensions' ] = _x('Extensions', 'Extensions settings tab', 'mp-restaurant-menu');
 		}
 		
 		if (!empty($settings[ 'licenses' ])) {
-			$tabs[ 'licenses' ] = __('Licenses', 'mp-restaurant-menu');
+			$tabs[ 'licenses' ] = _x('Licenses', 'Licenses settings tab', 'mp-restaurant-menu');
 		}
-		$tabs[ 'misc' ] = __('Misc', 'mp-restaurant-menu');
+		$tabs[ 'misc' ] = _x('Misc', 'Misc settings tab', 'mp-restaurant-menu');
 		
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}

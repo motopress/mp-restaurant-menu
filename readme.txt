@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: https://motopress.com/
 Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
 Requires at least: 3.6
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,9 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.2.6 =
+* Localization - Russian translation.
 
 = 2.2.5 =
 * Bug fix: fixed PHP warning of empty string.
