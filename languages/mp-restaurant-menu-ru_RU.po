@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Restaurant Menu v2.2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-24 11:53+0200\n"
-"PO-Revision-Date: 2017-11-24 11:57+0200\n"
+"PO-Revision-Date: 2017-11-24 17:33+0200\n"
 "Last-Translator: oldspenser <info@cmhelp.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -1060,7 +1060,7 @@ msgstr "Читать дальше"
 #. Plugin Name of the plugin/theme
 #: classes/class-media.php:177
 msgid "Restaurant Menu"
-msgstr "Меню ресторана"
+msgstr "Restaurant Menu"
 
 # @ mp-restaurant-menu
 #: classes/class-media.php:186 classes/class-media.php:1544
@@ -3741,7 +3741,7 @@ msgstr "Извините, проблема с получением квитан�
 # @ mp-restaurant-menu
 #: classes/widgets/class-cart-widget.php:17
 msgid "Restaurant Menu Cart"
-msgstr "Меню ресторана"
+msgstr "Корзина Меню Ресторана"
 
 # @ mp-restaurant-menu
 #: classes/widgets/class-cart-widget.php:17
