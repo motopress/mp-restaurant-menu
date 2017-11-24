@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Restaurant Menu v2.2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-24 11:53+0200\n"
-"PO-Revision-Date: 2017-11-24 17:33+0200\n"
+"POT-Creation-Date: 2017-11-24 17:49+0200\n"
+"PO-Revision-Date: 2017-11-24 17:50+0200\n"
 "Last-Translator: oldspenser <info@cmhelp.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1056,11 +1056,10 @@ msgstr "Редактировать заказ #%s"
 msgid "Read more"
 msgstr "Читать дальше"
 
-# @ mp-restaurant-menu
-#. Plugin Name of the plugin/theme
 #: classes/class-media.php:177
+msgctxt "Menu label"
 msgid "Restaurant Menu"
-msgstr "Restaurant Menu"
+msgstr "Меню ресторана"
 
 # @ mp-restaurant-menu
 #: classes/class-media.php:186 classes/class-media.php:1544
@@ -4545,6 +4544,11 @@ msgstr "Промежуточный итог:"
 #: templates/widgets/cart/plugin-mode.php:24
 msgid "Estimated Tax:"
 msgstr "Приблизительный налог:"
+
+# @ mp-restaurant-menu
+#. Plugin Name of the plugin/theme
+msgid "Restaurant Menu"
+msgstr "Restaurant Menu"
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme

@@ -174,7 +174,7 @@ class Media extends Core {
 		
 		// Restaurant menu
 		Menu::add_menu_page(array(
-			'title' => __('Restaurant Menu', 'mp-restaurant-menu'),
+			'title' => _x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
 			'menu_slug' => $menu_slug,
 			'icon_url' => MP_RM_MEDIA_URL . '/img/icon.png',
 			'capability' => 'manage_restaurant_menu',

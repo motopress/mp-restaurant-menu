@@ -63,6 +63,9 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 
 == Changelog ==
 
+= 2.2.8 =
+* Bug fix: localization.
+
 = 2.2.7 =
 * Bug fix: Fixed plugin name.
 
