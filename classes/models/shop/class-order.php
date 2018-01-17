@@ -750,7 +750,7 @@ final class Order extends Model {
 				break;
 			case 'order_total' :
 				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
-				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_checkout_label( $this->gateway ) . '</span>';
+				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) . '</span>';
 				echo $total;
 				break;
 			default:

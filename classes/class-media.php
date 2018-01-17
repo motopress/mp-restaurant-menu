@@ -778,6 +778,20 @@ class Media extends Core {
 						),
 					),
 					'cod' => array(
+						'cod_title' => array(
+							'id' => 'cod_title',
+							'name' => __('Title', 'mp-restaurant-menu'),
+							'desc' => __('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'regular',
+							'std' => __('Cash on delivery', 'mp-restaurant-menu'),
+						),
+						'cod_description' => array(
+							'id' => 'cod_description',
+							'name' => __('Description', 'mp-restaurant-menu'),
+							'desc' => __('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
+							'type' => 'textarea',
+						),
 						'cod_process_payments_manually' => array(
 							'id' => 'cod_process_payments_manually',
 							'name' => __('Process Payments Manually', 'mp-restaurant-menu'),
@@ -786,6 +800,20 @@ class Media extends Core {
 						),
 					),
 					'paypal' => array(
+						'paypal_title' => array(
+							'id' => 'paypal_title',
+							'name' => __('Title', 'mp-restaurant-menu'),
+							'desc' => __('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'regular',
+							'std' => __('Pay via PayPal', 'mp-restaurant-menu'),
+						),
+						'paypal_description' => array(
+							'id' => 'paypal_description',
+							'name' => __('Description', 'mp-restaurant-menu'),
+							'desc' => __('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
+							'type' => 'textarea',
+						),
 						'paypal_email' => array(
 							'id' => 'paypal_email',
 							'name' => __('PayPal Email', 'mp-restaurant-menu'),

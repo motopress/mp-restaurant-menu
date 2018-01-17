@@ -71,6 +71,9 @@ function mprm_payment_mode_select() {
 				echo '<label for="mprm-gateway-' . esc_attr($gateway_id) . '" class="mprm-gateway-option' . $checked_class . '" id="mprm-gateway-option-' . esc_attr($gateway_id) . '">';
 				echo '<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-' . esc_attr($gateway_id) . '" value="' . esc_attr($gateway_id) . '"' . $checked . '>' . esc_html($gateway[ 'checkout_label' ]);
 				echo '</label>';
+				if ( $gateway[ 'checkout_description' ] && strlen($gateway[ 'checkout_description' ]) ) {
+					echo '<p class="mprm-gateway-description">' . $gateway[ 'checkout_description' ] . '</p>';
+				}
 			endforeach;
 			do_action('mprm_payment_mode_after_gateways');
 			?>

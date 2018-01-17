@@ -63,6 +63,10 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 
 == Changelog ==
 
+= 2.3.0 =
+* Added the ability to add custom titles and descriptions for each payment gateway (PayPal and COD) visible on the checkout page.
+* Renamed "Complete" status to "Payment complete" and "Cooking" to "Processing" to give them more clear and general meaning.
+
 = 2.2.8 =
 * Bug fix: localization.
 

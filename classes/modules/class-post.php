@@ -38,12 +38,12 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-completed', array(
-			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
+			'label' => _x('Payment Complete', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('Payment Complete <span class="count">(%s)</span>', 'Payment Complete <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 
 		register_post_status('mprm-refunded', array(
@@ -65,12 +65,12 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-cooking', array(
-			'label' => _x('Cooking', 'Order status', 'mp-restaurant-menu'),
+			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Cooking <span class="count">(%s)</span>', 'Cooking <span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 
 		register_post_status('mprm-shipping', array(

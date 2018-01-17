@@ -70,20 +70,23 @@ class Gateways extends Model {
 	 * @return mixed
 	 */
 	public function get_payment_gateways() {
+		
 		// Default, built-in gateways
 		$gateways = array(
 			'paypal' => array(
 				'admin_label' => __('PayPal Standard', 'mp-restaurant-menu'),
-				'checkout_label' => __('PayPal', 'mp-restaurant-menu'),
+				'checkout_label' => $this->get('settings')->get_option('paypal_title', __('Pay via PayPal', 'mp-restaurant-menu')),
+				'checkout_description' => $this->get('settings')->get_option('paypal_description', false),
 				'supports' => array('buy_now')
 			),
 			'test_manual' => array(
-				'admin_label' => __('Test Payment (auto-complete orders)', 'mp-restaurant-menu'),
-				'checkout_label' => __('Test Payment', 'mp-restaurant-menu')
+				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
+				'checkout_label' => __('Test Payment', 'mp-restaurant-menu'),
 			),
 			'manual' => array(
-				'admin_label' => __('Cash on delivery (process orders manually)', 'mp-restaurant-menu'),
-				'checkout_label' => __('Cash on delivery', 'mp-restaurant-menu')
+				'admin_label' => __('Cash on delivery', 'mp-restaurant-menu'),
+				'checkout_label' => $this->get('settings')->get_option('cod_title', __('Cash on delivery', 'mp-restaurant-menu')),
+				'checkout_description' => $this->get('settings')->get_option('cod_description', false),
 			)
 		);
 		

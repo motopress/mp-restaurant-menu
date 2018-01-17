@@ -1001,7 +1001,7 @@ class Hooks extends Core {
 		unset($views[ 'mine' ]);
 		unset($views[ 'draft' ]);
 		if (!empty($views[ 'publish' ])) {
-			$views[ 'publish' ] = preg_replace('/Published/', 'Complete', $views[ 'publish' ]);
+			$views[ 'publish' ] = preg_replace('/Published/', 'Payment Complete', $views[ 'publish' ]);
 		}
 		
 		return $views;
