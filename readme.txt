@@ -22,7 +22,7 @@ Premium **addons** to extend possibilities and increase sales through your onlin
 * Toppings - this extension will help you set a list of the needed toppings available for purchase along with the menu item.
 * Menu cart - helps you add a shopping cart icon to a needed menu bar.
 
-Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-menu-plugin-addons/).
+Find all [addons for Restaurant Menu plugin](https://motopress.com/products/category/restaurant-menu-addons/).
 
 = Major Features =
 * Clean responsive design for proper mobile viewing
@@ -63,6 +63,9 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 
 == Changelog ==
 
+= 2.3.1 =
+* Bug fix: fixed extensions links.
+
 = 2.3.0 =
 * Added the ability to add custom titles and descriptions for each payment gateway (PayPal and COD) visible on the checkout page.
 * Renamed "Complete" status to "Payment complete" and "Cooking" to "Processing" to give them more clear and general meaning.
@@ -97,7 +100,7 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 * Added the ability to display categories and tags in grid, list or simple list view instead of default post view.
 
 = 2.1.6 =
-* Improved compatibility with external payment gateways
+* Improved compatibility with external payment gateways.
 
 = 2.1.5 =
 * Output menu sub-categories as links in a list view mode.
@@ -109,10 +112,10 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/restaurant-me
 * Bug fix: fixed login form error on the checkout page.
 
 = 2.1.2 =
-* Improvement: filters for image sizes added
+* Improvement: filters for image sizes added.
 
 = 2.1.1 =
-* Bug fix: fixed the issue with User roles
+* Bug fix: fixed the issue with User roles.
 
 = 2.1.0 =
 * Performance improvements.

@@ -9,7 +9,6 @@ if (!empty($extensions)) {
 				<?php endif; ?>
 			</a>
 			<p><b><?php echo $extension->title ?></b></p>
-			<p><?php echo $extension->content ?></p>
 			<a href="<?php echo $extension->link ?>" title="<?php echo $extension->title ?>" class="button-secondary"><?php _e('Get this Extension', 'mp-restaurant-menu') ?></a>
 		</div>
 
