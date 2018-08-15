@@ -308,23 +308,26 @@
 
 // ---------------- Extensions ------------------- //
 #mprm_extensions_container {
+  display: flex;
+  flex: 1 1 auto;
+  margin: 25px 0;
+  
   .mprm-extension {
 	.wp-post-image {
 	  width: 100%;
 	  height: auto;
 	}
-	.button-secondary {
-	  position: absolute;
-	  bottom: 14px;
+	.button {
+	  margin-top: auto;
 	}
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 	background: #fff;
 	border: 1px solid #ccc;
-	float: left;
 	padding: 14px;
-	position: relative;
 	margin: 0 15px 15px 0;
-	width: 320px;
-	height: 315px;
+	max-width: 320px;
   }
 }
 // ---------------- Extensions ------------------- //

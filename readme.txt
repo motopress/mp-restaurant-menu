@@ -1,8 +1,8 @@
 === Restaurant Menu by MotoPress ===
 Contributors: MotoPress
 Donate link: https://motopress.com/
-Tags: restaurant menu, restaurant, cafe, food, pizza, toppings
-Requires at least: 3.6
+Tags: restaurant menu, restaurant, cafe, food, pizza
+Requires at least: 4.0
 Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
@@ -62,6 +62,9 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/products/cate
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.3.2 =
+* Version bump.
 
 = 2.3.1 =
 * Bug fix: fixed extensions links.
