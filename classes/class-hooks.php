@@ -597,30 +597,33 @@ class Hooks extends Core {
 		//Add PayPal listener
 		Paypal_standart::get_instance()->listen_for_paypal_ipn();
 		Paypal::get_instance()->listen_for_paypal_ipn();
-		
+
 		//Check if Theme Supports Post Thumbnails
 		if (!current_theme_supports('post-thumbnails')) {
-			add_theme_support('post-thumbnails');
+			add_theme_support('post-thumbnails', array( 'mp_menu_item', 'mprm_toppings' ));
 		}
-		
+
 		// Register attachment sizes
 		$this->get('image')->add_image_sizes();
+
 		// Image downsize
 		add_action('image_downsize', array($this->get('image'), 'image_downsize'), 10, 3);
+
 		// Register custom post type and taxonomies
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
+
 		// Include template
-		
 		if (Media::get_instance()->get_template_mode() == 'plugin') {
 			add_filter('template_include', array(Media::get_instance(), 'template_include'));
 		} else {
 			add_filter('single_template', array(Media::get_instance(), 'modify_single_template'), 99);
 			add_filter('template_include', array(View::get_instance(), 'template_loader'));
 		}
+
 		// Route url
 		Core::get_instance()->wp_ajax_route_url();
-		
+
 		// Shortcodes
 		add_shortcode('mprm_categories', array(Shortcode_Category::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_items', array(Shortcode_Item::get_instance(), 'render_shortcode'));
@@ -628,11 +631,14 @@ class Hooks extends Core {
 		add_shortcode('mprm_checkout', array(Shortcode_Checkout::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_success', array(Shortcode_success::get_instance(), 'render_shortcode'));
 		add_shortcode('mprm_purchase_history', array(Shortcode_history::get_instance(), 'render_shortcode'));
+
 		// Integrate in motopress
 		add_action('mp_library', array(Shortcode_Category::get_instance(), 'integration_motopress'), 10, 1);
 		add_action('mp_library', array(Shortcode_Item::get_instance(), 'integration_motopress'), 10, 1);
+
 		// post_class filter
 		add_filter('post_class', 'mprm_post_class', 20, 3);
+
 		//Adding shop class body
 		add_filter('body_class', 'mprm_add_body_classes');
 		add_filter('the_tags', array(self::get_instance()->get('menu_tag'), 'create_custom_tags_list'), 10, 5);

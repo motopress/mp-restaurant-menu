@@ -356,7 +356,7 @@ class Emails extends Model {
 						$title .= ' ' . $menu_item['quantity'] . ' x ' . mprm_currency_filter(mprm_format_amount($price));
 					}
 				}
-				$menu_item_list .= '<li>' . html_entity_decode($title, ENT_COMPAT, 'UTF-8') . '</li>';
+				$menu_item_list .= '<li style="margin-top: 0.5em;margin-bottom: 0.5em;">' . html_entity_decode($title, ENT_COMPAT, 'UTF-8') . '</li>';
 			}
 			$menu_item_list .= '</ul>';
 		}

@@ -51,15 +51,35 @@ function mprm_checkout_button_purchase() {
 	$style = mprm_get_option('button_style', 'button');
 	$label = mprm_get_option('checkout_label', '');
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
-	if (mprm_get_cart_total()) {
+	$minimum_order_amount = models\Settings::get_instance()->get_option('minimum_order_amount', 0);
+	$cart_total = mprm_get_cart_total();
+	
+	if ( $cart_total ) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
-		$complete_purchase = !empty($label) ? $label : __('Free Menu item', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : __('Free', 'mp-restaurant-menu');
 	}
 	ob_start();
+	
+	//minimum_order_amount
+	if ($minimum_order_amount && $cart_total < $minimum_order_amount) {
 	?>
+	<div class="mprm-notice mprm-notice-error">
+		<div class="mprm-error">
+			<span class="mprm-notice-text">
+				<?php
+				printf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+					mprm_currency_filter( mprm_format_amount( $cart_total ) ),
+					mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
+				);
+				?>
+			</span>
+		</div>
+	</div>
+	<?php } else { ?>
 	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
 	<?php
+	}
 	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
 }
 

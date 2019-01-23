@@ -675,8 +675,9 @@ final class Order extends Model {
 		$columns['order_ship_to'] = __('Delivery', 'mp-restaurant-menu');
 		$columns['order_customer_note'] = __('Order notes', 'mp-restaurant-menu');
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
-		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
+		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
+
 		return $columns;
 	}
 
@@ -714,9 +715,9 @@ final class Order extends Model {
 					} else {
 						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $this->user_info['email']));
 						if (!empty($customer)) {
-							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . ' </a><br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . ' </a><br/><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
 						} else {
-							$username = $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . '<br> <a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . '<br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
 						}
 					}
 				} else {
@@ -739,13 +740,12 @@ final class Order extends Model {
 				echo empty( $this->customer_note ) ? '—' : '<span title="' . $this->customer_note . '">' . mprm_cut_str( 90, $this->customer_note ) . '</span>';
 				break;
 			case 'order_items' :
-				echo '<a href="#" class="show_order_items">' . apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this) . '</a>';
-				if (sizeof($this->menu_items) > 0) {
-				}
+				echo apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this);
 				break;
 			case 'order_date' :
 				$date = strtotime($this->date);
-				$value = date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date);
+				$value = esc_html( human_time_diff( strtotime($this->date), current_time('timestamp') ) ) . ' ago';
+				$value .= '<br/><span style="color:#999">' . date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date) . '</span>';
 				echo $value;
 				break;
 			case 'order_total' :

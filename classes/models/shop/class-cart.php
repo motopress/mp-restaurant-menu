@@ -161,11 +161,13 @@ class Cart extends Model {
 	public function get_item_position_in_cart($item_id = 0, $options = array()) {
 		$position = false;
 		$cart_items = $this->get_cart_contents();
+
 		if (!is_array($cart_items)) {
 			return false;
 		} else {
 
 			foreach ($cart_items as $cart_position => $item) {
+				
 				if (($item['id'] == $item_id) && apply_filters('mprm_in_cart_position', $item_id, $item)) {
 					if (isset($options['price_id']) && isset($item['options']['price_id'])) {
 						if ((int)$options['price_id'] == (int)$item['options']['price_id']) {
@@ -176,6 +178,7 @@ class Cart extends Model {
 					}
 				}
 			}
+			
 		}
 
 		return $position;

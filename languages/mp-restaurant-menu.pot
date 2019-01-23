@@ -4,14 +4,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Project-Id-Version: Restaurant Menu\n"
-"POT-Creation-Date: 2018-01-17 11:53+0200\n"
+"POT-Creation-Date: 2019-01-22 15:46+0200\n"
 "PO-Revision-Date: 2016-11-24 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: restaurant-menu.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -91,11 +91,10 @@ msgid "Extensions for Restaurant Menu"
 msgstr ""
 
 #: admin/extensions/extensions-page.php:3
-#: admin/extensions/extensions-page.php:10
 msgid "Browse All Extensions"
 msgstr ""
 
-#: admin/extensions/extensions-view.php:13
+#: admin/extensions/extensions-view.php:19
 msgid "Get this Extension"
 msgstr ""
 
@@ -150,7 +149,7 @@ msgid "Delete image"
 msgstr ""
 
 #: admin/metaboxes/mp_menu_gallery.php:11 admin/metaboxes/order/notes.php:5
-#: classes/models/shop/reports/customer-report-class.php:138
+#: classes/models/shop/reports/customer-report-class.php:141
 #: configs/language-admin-js.php:4
 msgid "Delete"
 msgstr ""
@@ -289,7 +288,7 @@ msgid "Add Note"
 msgstr ""
 
 #: admin/metaboxes/order/order-purchased.php:62
-#: templates-functions/checkout-restaurant-menu-functions.php:96
+#: templates-functions/checkout-restaurant-menu-functions.php:116
 #: templates/widgets/cart/plugin-mode.php:16
 #: templates/widgets/cart/plugin-mode.php:26
 msgid "Total:"
@@ -306,7 +305,7 @@ msgstr ""
 
 #: admin/metaboxes/order/order-purchased.php:86
 #: admin/metaboxes/order/order-purchased.php:87
-#: templates-functions/restaurant-menu-shop-functions.php:959
+#: templates-functions/restaurant-menu-shop-functions.php:960
 msgid "Select a Menu item"
 msgstr ""
 
@@ -358,7 +357,7 @@ msgid "Price of Delivery"
 msgstr ""
 
 #: admin/metaboxes/order/update-order.php:82
-#: templates-functions/checkout-restaurant-menu-functions.php:158
+#: templates-functions/checkout-restaurant-menu-functions.php:178
 #: templates/shop/success.php:110
 msgid "Tax"
 msgstr ""
@@ -459,8 +458,8 @@ msgstr ""
 
 #: admin/popups/shortcode-mprm_categories.php:5
 #: admin/popups/shortcode-mprm_items.php:5 admin/widgets/category/form.php:9
-#: admin/widgets/menu/form.php:9 classes/class-media.php:339
-#: classes/class-media.php:462 classes/class-media.php:1325
+#: admin/widgets/menu/form.php:9 classes/class-media.php:400
+#: classes/class-media.php:462 classes/class-media.php:1332
 #: classes/shortcodes/class-shortcode-category.php:54
 #: classes/shortcodes/class-shortcode-item.php:54 configs/settings.php:12
 msgid "Grid"
@@ -468,8 +467,8 @@ msgstr ""
 
 #: admin/popups/shortcode-mprm_categories.php:6
 #: admin/popups/shortcode-mprm_items.php:6 admin/widgets/category/form.php:10
-#: admin/widgets/menu/form.php:10 classes/class-media.php:340
-#: classes/class-media.php:463 classes/class-media.php:1326
+#: admin/widgets/menu/form.php:10 classes/class-media.php:401
+#: classes/class-media.php:463 classes/class-media.php:1333
 #: classes/shortcodes/class-shortcode-category.php:54
 #: classes/shortcodes/class-shortcode-item.php:54 configs/settings.php:16
 msgid "List"
@@ -478,7 +477,7 @@ msgstr ""
 #: admin/popups/shortcode-mprm_categories.php:11
 #: admin/popups/shortcode-mprm_items.php:12 admin/widgets/category/form.php:14
 #: admin/widgets/menu/form.php:15 classes/class-media.php:200
-#: classes/class-media.php:1655 classes/modules/class-post.php:236
+#: classes/class-media.php:1662 classes/modules/class-post.php:236
 #: classes/shortcodes/class-shortcode-category.php:59
 #: classes/shortcodes/class-shortcode-item.php:59
 msgid "Categories"
@@ -550,13 +549,13 @@ msgid "Description length"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:7 admin/widgets/menu/form.php:11
-#: classes/class-media.php:464 classes/class-media.php:1327
+#: classes/class-media.php:464 classes/class-media.php:1334
 #: classes/shortcodes/class-shortcode-item.php:54
 msgid "Simple list"
 msgstr ""
 
 #: admin/popups/shortcode-mprm_items.php:24 admin/widgets/menu/form.php:27
-#: classes/class-media.php:207 classes/class-media.php:1662
+#: classes/class-media.php:207 classes/class-media.php:1669
 #: classes/modules/class-post.php:235
 #: classes/shortcodes/class-shortcode-item.php:63
 msgid "Tags"
@@ -655,7 +654,7 @@ msgstr ""
 #: admin/quick-edit/menu-item.php:15 configs/metaboxes.php:41
 #: configs/metaboxes.php:44
 #: templates-functions/email-restaurant-menu-functions.php:156
-#: templates/emails/menu-item-list.php:29 templates/shop/success.php:149
+#: templates/emails/menu-item-list.php:28 templates/shop/success.php:149
 msgid "SKU"
 msgstr ""
 
@@ -745,54 +744,54 @@ msgstr ""
 msgid "Plugin"
 msgstr ""
 
-#: classes/class-hooks.php:715
+#: classes/class-hooks.php:721
 msgid "Import menu items, categories, images and other data."
 msgstr ""
 
-#: classes/class-hooks.php:951 classes/class-hooks.php:954
-#: classes/class-hooks.php:956
+#: classes/class-hooks.php:957 classes/class-hooks.php:960
+#: classes/class-hooks.php:962
 msgid "Order updated."
 msgstr ""
 
-#: classes/class-hooks.php:952
+#: classes/class-hooks.php:958
 msgid "Custom field updated."
 msgstr ""
 
-#: classes/class-hooks.php:953
+#: classes/class-hooks.php:959
 msgid "Custom field deleted."
 msgstr ""
 
-#: classes/class-hooks.php:955
+#: classes/class-hooks.php:961
 #, php-format
 msgid "Order restored to revision from %s"
 msgstr ""
 
-#: classes/class-hooks.php:957
+#: classes/class-hooks.php:963
 msgid "Order saved."
 msgstr ""
 
-#: classes/class-hooks.php:958
+#: classes/class-hooks.php:964
 msgid "Order submitted."
 msgstr ""
 
-#: classes/class-hooks.php:959
+#: classes/class-hooks.php:965
 #, php-format
 msgid "Order scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: classes/class-hooks.php:960
+#: classes/class-hooks.php:966
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: classes/class-hooks.php:961
+#: classes/class-hooks.php:967
 msgid "Order draft updated."
 msgstr ""
 
-#: classes/class-hooks.php:962
+#: classes/class-hooks.php:968
 msgid "Order updated and email sent."
 msgstr ""
 
-#: classes/class-hooks.php:977
+#: classes/class-hooks.php:983
 #, php-format
 msgid "%s menu item updated."
 msgid_plural "%s menu items updated."
@@ -800,7 +799,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:978
+#: classes/class-hooks.php:984
 #, php-format
 msgid "%s menu item not updated, somebody is editing it."
 msgid_plural "%s menu items not updated, somebody is editing them."
@@ -808,7 +807,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:979
+#: classes/class-hooks.php:985
 #, php-format
 msgid "%s menu item permanently deleted."
 msgid_plural "%s menu items permanently deleted."
@@ -816,7 +815,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:980
+#: classes/class-hooks.php:986
 #, php-format
 msgid "%s menu item moved to the Trash."
 msgid_plural "%s menu items moved to the Trash."
@@ -824,7 +823,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:981
+#: classes/class-hooks.php:987
 #, php-format
 msgid "%s menu item restored from the Trash."
 msgid_plural "%s menu items restored from the Trash."
@@ -832,7 +831,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:985
+#: classes/class-hooks.php:991
 #, php-format
 msgid "%s order updated."
 msgid_plural "%s orders updated."
@@ -840,7 +839,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:986
+#: classes/class-hooks.php:992
 #, php-format
 msgid "%s order not updated, somebody is editing it."
 msgid_plural "%s orders not updated, somebody is editing them."
@@ -848,7 +847,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:987
+#: classes/class-hooks.php:993
 #, php-format
 msgid "%s order permanently deleted."
 msgid_plural "%s orders permanently deleted."
@@ -856,7 +855,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:988
+#: classes/class-hooks.php:994
 #, php-format
 msgid "%s order moved to the Trash."
 msgid_plural "%s orders moved to the Trash."
@@ -864,7 +863,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:989
+#: classes/class-hooks.php:995
 #, php-format
 msgid "%s order restored from the Trash."
 msgid_plural "%s orders restored from the Trash."
@@ -872,7 +871,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: classes/class-hooks.php:1017
+#: classes/class-hooks.php:1023
 #, php-format
 msgid "Edit Order #%s"
 msgstr ""
@@ -886,22 +885,22 @@ msgctxt "Menu label"
 msgid "Restaurant Menu"
 msgstr ""
 
-#: classes/class-media.php:186 classes/class-media.php:1572
-#: classes/class-media.php:1584 classes/shortcodes/class-shortcode-item.php:157
+#: classes/class-media.php:186 classes/class-media.php:1579
+#: classes/class-media.php:1591 classes/shortcodes/class-shortcode-item.php:157
 msgid "Menu Items"
 msgstr ""
 
-#: classes/class-media.php:193 classes/class-media.php:1574
+#: classes/class-media.php:193 classes/class-media.php:1581
 msgid "Add New"
 msgstr ""
 
-#: classes/class-media.php:214 classes/class-media.php:1669
+#: classes/class-media.php:214 classes/class-media.php:1676
 #: templates-functions/theme-support-functions.php:26
 #: templates/common/ingredients.php:11
 msgid "Ingredients"
 msgstr ""
 
-#: classes/class-media.php:221 classes/class-media.php:1607
+#: classes/class-media.php:221 classes/class-media.php:1614
 msgid "Orders"
 msgstr ""
 
@@ -914,89 +913,89 @@ msgid "Import / Export"
 msgstr ""
 
 #: classes/class-media.php:336
-msgid "Category Layout"
+msgid "Enable eCommerce"
+msgstr ""
+
+#: classes/class-media.php:338
+msgid "Sell food and beverages online"
+msgstr ""
+
+#: classes/class-media.php:342
+msgid "Checkout Page"
 msgstr ""
 
 #: classes/class-media.php:343
-msgid "Choose the way to display your menu items within category."
+msgid ""
+"The page where buyers will complete their purchases. Use <i>[mprm_checkout]</"
+"i> shortcode on this page."
 msgstr ""
 
-#: classes/class-media.php:347
+#: classes/class-media.php:347 classes/class-media.php:356
+#: classes/class-media.php:365 classes/class-media.php:374
+msgid "Select a page"
+msgstr ""
+
+#: classes/class-media.php:351
+msgid "Success Transaction Page"
+msgstr ""
+
+#: classes/class-media.php:352
+msgid ""
+"The page buyers are sent to after completing their purchases. Use "
+"<i>[mprm_success]</i> shortcode on this page."
+msgstr ""
+
+#: classes/class-media.php:360
+msgid "Failed Transaction Page"
+msgstr ""
+
+#: classes/class-media.php:361
+msgid "The page buyers are sent to if their transaction is cancelled or fails."
+msgstr ""
+
+#: classes/class-media.php:369
+msgid "Purchase History Page"
+msgstr ""
+
+#: classes/class-media.php:370
+msgid ""
+"This page shows a complete purchase history for the current user. Use "
+"<i>[mprm_purchase_history]</i> shortcode on this page."
+msgstr ""
+
+#: classes/class-media.php:378
+msgid "Display"
+msgstr ""
+
+#: classes/class-media.php:384
 msgid "Template Mode"
 msgstr ""
 
-#: classes/class-media.php:349
+#: classes/class-media.php:386
 msgid "Theme Mode"
 msgstr ""
 
-#: classes/class-media.php:350
+#: classes/class-media.php:387
 msgid "Developer Mode"
 msgstr ""
 
-#: classes/class-media.php:353
+#: classes/class-media.php:390
 msgid "Choose Theme Mode to display the content with the styles of your theme."
 msgstr ""
 
-#: classes/class-media.php:353
+#: classes/class-media.php:390
 msgid ""
 "Choose Developer Mode to control appearance of the content with custom page "
 "templates, actions and filters. This option can't be changed if your theme "
 "is initially integrated with the plugin."
 msgstr ""
 
-#: classes/class-media.php:360
-msgid "eCommerce"
+#: classes/class-media.php:397
+msgid "Category Layout"
 msgstr ""
 
-#: classes/class-media.php:366
-msgid "Enable eCommerce"
-msgstr ""
-
-#: classes/class-media.php:368
-msgid "Sell food and beverages online"
-msgstr ""
-
-#: classes/class-media.php:372
-msgid "Checkout Page"
-msgstr ""
-
-#: classes/class-media.php:373
-msgid ""
-"The page where buyers will complete their purchases. Use <i>[mprm_checkout]</"
-"i> shortcode on this page."
-msgstr ""
-
-#: classes/class-media.php:377 classes/class-media.php:386
-#: classes/class-media.php:395 classes/class-media.php:404
-msgid "Select a page"
-msgstr ""
-
-#: classes/class-media.php:381
-msgid "Success Transaction Page"
-msgstr ""
-
-#: classes/class-media.php:382
-msgid ""
-"The page buyers are sent to after completing their purchases. Use "
-"<i>[mprm_success]</i> shortcode on this page."
-msgstr ""
-
-#: classes/class-media.php:390
-msgid "Failed Transaction Page"
-msgstr ""
-
-#: classes/class-media.php:391
-msgid "The page buyers are sent to if their transaction is cancelled or fails."
-msgstr ""
-
-#: classes/class-media.php:399
-msgid "Purchase History Page"
-msgstr ""
-
-#: classes/class-media.php:400
-msgid ""
-"This page shows a complete purchase history for the current user. Use "
-"<i>[mprm_purchase_history]</i> shortcode on this page."
+#: classes/class-media.php:404
+msgid "Choose the way to display your menu items within category."
 msgstr ""
 
 #: classes/class-media.php:410
@@ -1053,8 +1052,8 @@ msgstr ""
 msgid "Display categories and tags"
 msgstr ""
 
-#: classes/class-media.php:461 classes/class-media.php:1205
-#: classes/class-media.php:1252
+#: classes/class-media.php:461 classes/class-media.php:1212
+#: classes/class-media.php:1259
 msgid "Default"
 msgstr ""
 
@@ -1171,6 +1170,7 @@ msgid "Review an order and set Complete status manually."
 msgstr ""
 
 #: classes/class-media.php:809
+#: classes/models/shop/gateways/class-shop-gateways.php:78
 msgid "Pay via PayPal"
 msgstr ""
 
@@ -1281,77 +1281,87 @@ msgstr ""
 msgid "Allow items amount to be changed on the checkout page."
 msgstr ""
 
-#: classes/class-media.php:909 classes/class-media.php:1336
+#: classes/class-media.php:901
+msgid "Minimum Order Amount"
+msgstr ""
+
+#: classes/class-media.php:902 configs/metaboxes.php:18
+msgid ""
+"Price in monetary decimal (.) format without thousand separators and "
+"currency symbols"
+msgstr ""
+
+#: classes/class-media.php:916 classes/class-media.php:1343
 msgid "Email Template"
 msgstr ""
 
-#: classes/class-media.php:910
+#: classes/class-media.php:917
 msgid ""
 "Choose a template. Click \"Save Changes\", then \"Preview Purchase Receipt\" "
 "to see the new template."
 msgstr ""
 
-#: classes/class-media.php:916
+#: classes/class-media.php:923
 msgid "Logo"
 msgstr ""
 
-#: classes/class-media.php:917
+#: classes/class-media.php:924
 msgid ""
 "Upload or choose a logo to be displayed at the top of the purchase receipt "
 "emails. Displayed in HTML emails only."
 msgstr ""
 
-#: classes/class-media.php:930 classes/class-media.php:952
-#: classes/class-media.php:959 classes/class-media.php:963
-#: classes/class-media.php:1337 classes/models/class-emails.php:147
+#: classes/class-media.php:937 classes/class-media.php:959
+#: classes/class-media.php:966 classes/class-media.php:970
+#: classes/class-media.php:1344 classes/models/class-emails.php:147
 #: classes/models/class-emails.php:150
 #: classes/models/settings/class-settings-emails.php:142
 msgid "Purchase Receipt"
 msgstr ""
 
-#: classes/class-media.php:935
+#: classes/class-media.php:942
 msgid "From Name"
 msgstr ""
 
-#: classes/class-media.php:936
+#: classes/class-media.php:943
 msgid ""
 "The name purchase receipts are said to come from. Use your site or shop name."
 msgstr ""
 
-#: classes/class-media.php:942
+#: classes/class-media.php:949
 msgid "From Email"
 msgstr ""
 
-#: classes/class-media.php:943
+#: classes/class-media.php:950
 msgid ""
 "Email to send purchase receipts from. This will act as the \"from\" and "
 "\"reply-to\" address."
 msgstr ""
 
-#: classes/class-media.php:949
+#: classes/class-media.php:956
 msgid "Purchase Email Subject"
 msgstr ""
 
-#: classes/class-media.php:950
+#: classes/class-media.php:957
 msgid "Enter the subject line for the purchase receipt email."
 msgstr ""
 
-#: classes/class-media.php:956
+#: classes/class-media.php:963
 msgid "Purchase Email Heading"
 msgstr ""
 
-#: classes/class-media.php:957
+#: classes/class-media.php:964
 msgid "Enter the heading for the purchase receipt email."
 msgstr ""
 
-#: classes/class-media.php:964
+#: classes/class-media.php:971
 msgid ""
 "Enter the text that is sent as purchase receipt email to users after "
 "completion of a successful purchase. HTML is accepted. Available template "
 "tags:"
 msgstr ""
 
-#: classes/class-media.php:966
+#: classes/class-media.php:973
 msgid ""
 "Dear {name},\n"
 "\n"
@@ -1363,432 +1373,432 @@ msgid ""
 "{receipt_link}"
 msgstr ""
 
-#: classes/class-media.php:972
+#: classes/class-media.php:979
 msgid "Sale Notifications for shop owner"
 msgstr ""
 
-#: classes/class-media.php:977
+#: classes/class-media.php:984
 msgid "Sale Notification Subject"
 msgstr ""
 
-#: classes/class-media.php:978
+#: classes/class-media.php:985
 msgid "Enter the subject line for the sale notification email."
 msgstr ""
 
-#: classes/class-media.php:984
+#: classes/class-media.php:991
 msgid "Sale Notification"
 msgstr ""
 
-#: classes/class-media.php:985
+#: classes/class-media.php:992
 msgid ""
 "Enter the text that is sent as sale notification email after completion of a "
 "purchase. HTML is accepted. Available template tags:"
 msgstr ""
 
-#: classes/class-media.php:991
+#: classes/class-media.php:998
 msgid "Sale Notification Emails"
 msgstr ""
 
-#: classes/class-media.php:992
+#: classes/class-media.php:999
 msgid ""
 "Enter the email address(es) that should receive a notification anytime a "
 "sale is made, one per line"
 msgstr ""
 
-#: classes/class-media.php:998
+#: classes/class-media.php:1005
 msgid "Disable Sale Notifications"
 msgstr ""
 
-#: classes/class-media.php:999
+#: classes/class-media.php:1006
 msgid "Check this box if you do not want to receive sales notification emails."
 msgstr ""
 
-#: classes/class-media.php:1011 classes/class-media.php:1341
+#: classes/class-media.php:1018 classes/class-media.php:1348
 msgid "Style Settings"
 msgstr ""
 
-#: classes/class-media.php:1016
+#: classes/class-media.php:1023
 msgid "Disable Styles"
 msgstr ""
 
-#: classes/class-media.php:1017
+#: classes/class-media.php:1024
 msgid ""
 "Check this box to disable all included styling of buttons, checkout fields, "
 "and all other elements."
 msgstr ""
 
-#: classes/class-media.php:1022
+#: classes/class-media.php:1029
 msgid "Add to cart button style:"
 msgstr ""
 
-#: classes/class-media.php:1023
+#: classes/class-media.php:1030
 msgid "Options for add to cart and purchase buttons"
 msgstr ""
 
-#: classes/class-media.php:1028
+#: classes/class-media.php:1035
 msgid "Button Style"
 msgstr ""
 
-#: classes/class-media.php:1029
+#: classes/class-media.php:1036
 msgid "Choose the style you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:1035
+#: classes/class-media.php:1042
 msgid "Button Color"
 msgstr ""
 
-#: classes/class-media.php:1036
+#: classes/class-media.php:1043
 msgid "Choose the color you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:1042
+#: classes/class-media.php:1049
 msgid "Button Size"
 msgstr ""
 
-#: classes/class-media.php:1043
+#: classes/class-media.php:1050
 msgid "Choose the size you want to use for the buttons."
 msgstr ""
 
-#: classes/class-media.php:1056 classes/class-media.php:1347
+#: classes/class-media.php:1063 classes/class-media.php:1354
 msgid "Tax Settings"
 msgstr ""
 
-#: classes/class-media.php:1061
+#: classes/class-media.php:1068
 msgid "Enable Taxes"
 msgstr ""
 
-#: classes/class-media.php:1062
+#: classes/class-media.php:1069
 msgid "Check this box to enable taxes on purchases."
 msgstr ""
 
-#: classes/class-media.php:1067
+#: classes/class-media.php:1074
 msgid "Tax Rate"
 msgstr ""
 
-#: classes/class-media.php:1068
+#: classes/class-media.php:1075
 msgid ""
 "Specify a tax rate percentage (e.g. 10%). All customers will be charged this "
 "rate."
 msgstr ""
 
-#: classes/class-media.php:1089 classes/class-media.php:1354
+#: classes/class-media.php:1096 classes/class-media.php:1361
 msgid "Button Text"
 msgstr ""
 
-#: classes/class-media.php:1094
+#: classes/class-media.php:1101
 msgid "Complete Purchase Text"
 msgstr ""
 
-#: classes/class-media.php:1095
+#: classes/class-media.php:1102
 msgid "The button label for completing a purchase."
 msgstr ""
 
-#: classes/class-media.php:1097 classes/models/settings/class-settings.php:120
-#: classes/models/shop/class-cart.php:366
-#: templates-functions/checkout-restaurant-menu-functions.php:55
+#: classes/class-media.php:1104 classes/models/settings/class-settings.php:120
+#: classes/models/shop/class-cart.php:369
+#: templates-functions/checkout-restaurant-menu-functions.php:58
 msgid "Purchase"
 msgstr ""
 
-#: classes/class-media.php:1101
+#: classes/class-media.php:1108
 msgid "Add to Cart Text"
 msgstr ""
 
-#: classes/class-media.php:1102
+#: classes/class-media.php:1109
 msgid "Text shown on the Add to Cart Buttons."
 msgstr ""
 
-#: classes/class-media.php:1104 classes/models/class-menu-item.php:448
+#: classes/class-media.php:1111 classes/models/class-menu-item.php:448
 #: classes/models/settings/class-settings.php:121
 msgid "Add to Cart"
 msgstr ""
 
-#: classes/class-media.php:1111
+#: classes/class-media.php:1118
 msgid "Agreement Settings"
 msgstr ""
 
-#: classes/class-media.php:1116
+#: classes/class-media.php:1123
 msgid "Agree to Terms"
 msgstr ""
 
-#: classes/class-media.php:1117
+#: classes/class-media.php:1124
 msgid ""
 "Check this box to show an Agree To Terms checkbox on the checkout page that "
 "users must agree to before purchasing."
 msgstr ""
 
-#: classes/class-media.php:1122
+#: classes/class-media.php:1129
 msgid "Agree to Terms Label"
 msgstr ""
 
-#: classes/class-media.php:1123
+#: classes/class-media.php:1130
 msgid "Label shown next to the agree to terms check box."
 msgstr ""
 
-#: classes/class-media.php:1129
+#: classes/class-media.php:1136
 msgid "Agreement Text"
 msgstr ""
 
-#: classes/class-media.php:1130
+#: classes/class-media.php:1137
 msgid "If Agree to Terms is checked, enter the agreement terms here."
 msgstr ""
 
-#: classes/class-media.php:1169
+#: classes/class-media.php:1176
 #: classes/models/settings/class-settings-emails.php:108
 #: classes/models/settings/class-settings-emails.php:235
 msgid "Default Template"
 msgstr ""
 
-#: classes/class-media.php:1190
+#: classes/class-media.php:1197
 msgid "Button"
 msgstr ""
 
-#: classes/class-media.php:1191
+#: classes/class-media.php:1198
 msgid "Plain Text"
 msgstr ""
 
-#: classes/class-media.php:1209
+#: classes/class-media.php:1216
 msgid "White"
 msgstr ""
 
-#: classes/class-media.php:1213
+#: classes/class-media.php:1220
 msgid "Gray"
 msgstr ""
 
-#: classes/class-media.php:1217
+#: classes/class-media.php:1224
 msgid "Blue"
 msgstr ""
 
-#: classes/class-media.php:1221
+#: classes/class-media.php:1228
 msgid "Red"
 msgstr ""
 
-#: classes/class-media.php:1225
+#: classes/class-media.php:1232
 msgid "Green"
 msgstr ""
 
-#: classes/class-media.php:1229
+#: classes/class-media.php:1236
 msgid "Yellow"
 msgstr ""
 
-#: classes/class-media.php:1233
+#: classes/class-media.php:1240
 msgid "Orange"
 msgstr ""
 
-#: classes/class-media.php:1237
+#: classes/class-media.php:1244
 msgid "Dark Gray"
 msgstr ""
 
-#: classes/class-media.php:1253
+#: classes/class-media.php:1260
 msgid "Small"
 msgstr ""
 
-#: classes/class-media.php:1254
+#: classes/class-media.php:1261
 msgid "Middle"
 msgstr ""
 
-#: classes/class-media.php:1255
+#: classes/class-media.php:1262
 msgid "Large"
 msgstr ""
 
-#: classes/class-media.php:1281 classes/models/class-menu-item.php:785
+#: classes/class-media.php:1288 classes/models/class-menu-item.php:785
 msgid "Menu item"
 msgstr ""
 
-#: classes/class-media.php:1282 classes/models/class-menu-item.php:786
+#: classes/class-media.php:1289 classes/models/class-menu-item.php:786
 msgid "Menu items"
 msgstr ""
 
-#: classes/class-media.php:1319 classes/class-media.php:1324
+#: classes/class-media.php:1326 classes/class-media.php:1331
 #: configs/settings.php:5
 msgid "General"
 msgstr ""
 
-#: classes/class-media.php:1320 configs/settings.php:8
+#: classes/class-media.php:1327 configs/settings.php:8
 msgid "Currency Settings"
 msgstr ""
 
-#: classes/class-media.php:1331
+#: classes/class-media.php:1338
 msgid "Gateways"
 msgstr ""
 
-#: classes/class-media.php:1332
+#: classes/class-media.php:1339
 #: classes/models/shop/gateways/class-shop-gateways.php:77
 msgid "PayPal Standard"
 msgstr ""
 
-#: classes/class-media.php:1333
+#: classes/class-media.php:1340
 msgid "Cash On Delivery"
 msgstr ""
 
-#: classes/class-media.php:1338
+#: classes/class-media.php:1345
 msgid "New Sale Notifications"
 msgstr ""
 
-#: classes/class-media.php:1344
+#: classes/class-media.php:1351
 msgid "Checkout Settings"
 msgstr ""
 
-#: classes/class-media.php:1350
+#: classes/class-media.php:1357
 msgid "Main"
 msgstr ""
 
-#: classes/class-media.php:1355
+#: classes/class-media.php:1362
 msgid "Terms of Agreement"
 msgstr ""
 
-#: classes/class-media.php:1573
+#: classes/class-media.php:1580
 msgid "Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1575
+#: classes/class-media.php:1582
 msgid "Add New Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1576
+#: classes/class-media.php:1583
 msgid "Edit Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1577
+#: classes/class-media.php:1584
 msgid "New Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1578
+#: classes/class-media.php:1585
 msgid "All Menu Items"
 msgstr ""
 
-#: classes/class-media.php:1579
+#: classes/class-media.php:1586
 msgid "View Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1580
+#: classes/class-media.php:1587
 msgid "Search Menu Item"
 msgstr ""
 
-#: classes/class-media.php:1581
+#: classes/class-media.php:1588
 msgid "No menu items found"
 msgstr ""
 
-#: classes/class-media.php:1582
+#: classes/class-media.php:1589
 msgid "No menu items found in Trash"
 msgstr ""
 
-#: classes/class-media.php:1583
+#: classes/class-media.php:1590
 msgid "media"
 msgstr ""
 
-#: classes/class-media.php:1608
+#: classes/class-media.php:1615
 msgctxt "shop_order post type singular name"
 msgid "Order"
 msgstr ""
 
-#: classes/class-media.php:1609
+#: classes/class-media.php:1616
 msgid "Add Order"
 msgstr ""
 
-#: classes/class-media.php:1610
+#: classes/class-media.php:1617
 msgid "Add New Order"
 msgstr ""
 
-#: classes/class-media.php:1611
-#: classes/models/shop/reports/customer-report-class.php:136
+#: classes/class-media.php:1618
+#: classes/models/shop/reports/customer-report-class.php:139
 msgid "Edit"
 msgstr ""
 
-#: classes/class-media.php:1612
+#: classes/class-media.php:1619
 msgid "Edit Order"
 msgstr ""
 
-#: classes/class-media.php:1613
+#: classes/class-media.php:1620
 msgid "New Order"
 msgstr ""
 
-#: classes/class-media.php:1614 classes/class-media.php:1615
+#: classes/class-media.php:1621 classes/class-media.php:1622
 msgid "View Order"
 msgstr ""
 
-#: classes/class-media.php:1616
+#: classes/class-media.php:1623
 msgid "Search Orders"
 msgstr ""
 
-#: classes/class-media.php:1617
+#: classes/class-media.php:1624
 msgid "No Orders found"
 msgstr ""
 
-#: classes/class-media.php:1618
+#: classes/class-media.php:1625
 msgid "No Orders found in trash"
 msgstr ""
 
-#: classes/class-media.php:1619
+#: classes/class-media.php:1626
 msgid "Parent Orders"
 msgstr ""
 
-#: classes/class-media.php:1620
+#: classes/class-media.php:1627
 msgctxt "Admin menu name"
 msgid "Orders"
 msgstr ""
 
-#: classes/class-media.php:1622
+#: classes/class-media.php:1629
 msgid "This is where store orders are stored."
 msgstr ""
 
-#: classes/class-media.php:1655
+#: classes/class-media.php:1662
 msgid "Category"
 msgstr ""
 
-#: classes/class-media.php:1662
+#: classes/class-media.php:1669
 msgid "Tag"
 msgstr ""
 
-#: classes/class-media.php:1669
+#: classes/class-media.php:1676
 msgid "Ingredient"
 msgstr ""
 
-#: classes/class-media.php:1872
+#: classes/class-media.php:1879
 msgctxt "General settings tab"
 msgid "General"
 msgstr ""
 
-#: classes/class-media.php:1873
+#: classes/class-media.php:1880
 msgctxt "Disapley settings tab"
 msgid "Display"
 msgstr ""
 
-#: classes/class-media.php:1874
+#: classes/class-media.php:1881
 msgctxt "Payment settings tab"
 msgid "Payment"
 msgstr ""
 
-#: classes/class-media.php:1875
+#: classes/class-media.php:1882
 msgctxt "Checkout settings tab"
 msgid "Checkout"
 msgstr ""
 
-#: classes/class-media.php:1876
+#: classes/class-media.php:1883
 msgctxt "Email settings tab"
 msgid "Emails"
 msgstr ""
 
-#: classes/class-media.php:1877
+#: classes/class-media.php:1884
 msgctxt "Styles settings tab"
 msgid "Styles"
 msgstr ""
 
-#: classes/class-media.php:1878
+#: classes/class-media.php:1885
 msgctxt "Taxes settings tab"
 msgid "Taxes"
 msgstr ""
 
-#: classes/class-media.php:1881
+#: classes/class-media.php:1888
 msgctxt "Extensions settings tab"
 msgid "Extensions"
 msgstr ""
 
-#: classes/class-media.php:1885
+#: classes/class-media.php:1892
 msgctxt "Licenses settings tab"
 msgid "Licenses"
 msgstr ""
 
-#: classes/class-media.php:1887
+#: classes/class-media.php:1894
 msgctxt "Misc settings tab"
 msgid "Misc"
 msgstr ""
@@ -2257,6 +2267,7 @@ msgid "Buy Now"
 msgstr ""
 
 #: classes/models/class-menu-item.php:490
+#: templates-functions/checkout-restaurant-menu-functions.php:60
 msgid "Free"
 msgstr ""
 
@@ -2354,7 +2365,7 @@ msgid "Country"
 msgstr ""
 
 #: classes/models/settings/class-settings.php:1181
-#: templates-functions/restaurant-menu-shop-functions.php:443
+#: templates-functions/restaurant-menu-shop-functions.php:444
 msgid "State / Province"
 msgstr ""
 
@@ -2401,22 +2412,22 @@ msgstr ""
 msgid "Settings updated."
 msgstr ""
 
-#: classes/models/shop/class-cart.php:254
+#: classes/models/shop/class-cart.php:257
 msgid "Success"
 msgstr ""
 
-#: classes/models/shop/class-cart.php:255
+#: classes/models/shop/class-cart.php:258
 msgid "Cart saved successfully. You can restore your cart using this URL:"
 msgstr ""
 
-#: classes/models/shop/class-cart.php:468
-#: classes/models/shop/class-cart.php:485
+#: classes/models/shop/class-cart.php:471
+#: classes/models/shop/class-cart.php:488
 #, php-format
 msgid "includes %s tax"
 msgstr ""
 
-#: classes/models/shop/class-cart.php:470
-#: classes/models/shop/class-cart.php:487
+#: classes/models/shop/class-cart.php:473
+#: classes/models/shop/class-cart.php:490
 #, php-format
 msgid "excludes %s tax"
 msgstr ""
@@ -2533,34 +2544,34 @@ msgstr ""
 msgid "Purchased"
 msgstr ""
 
-#: classes/models/shop/class-order.php:678 templates/shop/history.php:12
+#: classes/models/shop/class-order.php:678
+#: templates-functions/checkout-restaurant-menu-functions.php:187
+msgid "Total"
+msgstr ""
+
+#: classes/models/shop/class-order.php:679 templates/shop/history.php:12
 #: templates/shop/success.php:65
 msgid "Date"
 msgstr ""
 
-#: classes/models/shop/class-order.php:679
-#: templates-functions/checkout-restaurant-menu-functions.php:167
-msgid "Total"
-msgstr ""
-
-#: classes/models/shop/class-order.php:709
-#: classes/models/shop/class-order.php:724
+#: classes/models/shop/class-order.php:710
+#: classes/models/shop/class-order.php:725
 #, php-format
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:726
+#: classes/models/shop/class-order.php:727
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:730
+#: classes/models/shop/class-order.php:731
 #, php-format
 msgctxt "Order number by X"
 msgid "%s by %s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:742
+#: classes/models/shop/class-order.php:743
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
@@ -2713,10 +2724,6 @@ msgstr ""
 msgid "An internal error has occurred, please try again or contact support."
 msgstr ""
 
-#: classes/models/shop/gateways/class-shop-gateways.php:78
-msgid "PayPal"
-msgstr ""
-
 #: classes/models/shop/gateways/class-shop-gateways.php:83
 #: classes/models/shop/gateways/class-shop-gateways.php:84
 msgid "Test Payment"
@@ -2828,38 +2835,42 @@ msgstr ""
 msgid "Customer"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:132
+#: classes/models/shop/reports/customer-report-class.php:135
 msgid "Unnamed Customer"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:142
+#: classes/models/shop/reports/customer-report-class.php:145
 msgid "(Pending Verification)"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:190
+#: classes/models/shop/reports/customer-report-class.php:193
 #: templates/shop/success.php:146
 msgid "Name"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:191
+#: classes/models/shop/reports/customer-report-class.php:194
 #: configs/settings.php:29
 msgid "Email"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:192
+#: classes/models/shop/reports/customer-report-class.php:195
 msgid "Phone"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:193
+#: classes/models/shop/reports/customer-report-class.php:196
 msgid "Purchases"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:194
+#: classes/models/shop/reports/customer-report-class.php:197
 msgid "Total Spent"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:195
+#: classes/models/shop/reports/customer-report-class.php:198
 msgid "Date Created"
+msgstr ""
+
+#: classes/models/shop/reports/customer-report-class.php:199
+msgid "User ID"
 msgstr ""
 
 #: classes/modules/class-breadcrumbs.php:180
@@ -3145,12 +3156,6 @@ msgid ""
 "reversible</em></strong>. Please be sure you have a recent backup."
 msgstr ""
 
-#: configs/metaboxes.php:18
-msgid ""
-"Price in monetary decimal (.) format without thousand separators and "
-"currency symbols"
-msgstr ""
-
 #: configs/metaboxes.php:50
 msgid "Image Gallery"
 msgstr ""
@@ -3195,27 +3200,30 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:57
-msgid "Free Menu item"
+#: templates-functions/checkout-restaurant-menu-functions.php:71
+#, php-format
+msgid ""
+"Your current order total is %s — you must have an order with a minimum of %s "
+"to place your order."
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:120
+#: templates-functions/checkout-restaurant-menu-functions.php:140
 msgid "Shipping address:"
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:122
+#: templates-functions/checkout-restaurant-menu-functions.php:142
 msgid "Enter your address."
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:134
+#: templates-functions/checkout-restaurant-menu-functions.php:154
 msgid "Order notes:"
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:146
+#: templates-functions/checkout-restaurant-menu-functions.php:166
 msgid "Order totals"
 msgstr ""
 
-#: templates-functions/checkout-restaurant-menu-functions.php:150
+#: templates-functions/checkout-restaurant-menu-functions.php:170
 #: templates/shop/success.php:98
 msgid "Subtotal"
 msgstr ""
@@ -3233,232 +3241,232 @@ msgstr ""
 msgid "Select Payment Method"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:183
+#: templates-functions/restaurant-menu-shop-functions.php:184
 #: templates/shop/get_cc_form.php:4
 msgid "Credit Card Info"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:187
+#: templates-functions/restaurant-menu-shop-functions.php:188
 #: templates/shop/get_cc_form.php:8
 msgid "This is a secure SSL encrypted payment."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:192
+#: templates-functions/restaurant-menu-shop-functions.php:193
 #: templates/shop/get_cc_form.php:13
 msgid "Card Number"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:196
+#: templates-functions/restaurant-menu-shop-functions.php:197
 #: templates/shop/get_cc_form.php:17
 msgid "The (typically) 16 digits on the front of your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:197
+#: templates-functions/restaurant-menu-shop-functions.php:198
 #: templates/shop/get_cc_form.php:18
 msgid "Card number"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:201
+#: templates-functions/restaurant-menu-shop-functions.php:202
 #: templates/shop/get_cc_form.php:22
 msgid "CVC"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:204
+#: templates-functions/restaurant-menu-shop-functions.php:205
 #: templates/shop/get_cc_form.php:25
 msgid "The 3 digit (back) or 4 digit (front) value on your card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:205
+#: templates-functions/restaurant-menu-shop-functions.php:206
 #: templates/shop/get_cc_form.php:26
 msgid "Security code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:209
+#: templates-functions/restaurant-menu-shop-functions.php:210
 #: templates/shop/get_cc_form.php:30
 msgid "Name on the Card"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:212
+#: templates-functions/restaurant-menu-shop-functions.php:213
 #: templates/shop/get_cc_form.php:33
 msgid "The name printed on the front of your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:213
+#: templates-functions/restaurant-menu-shop-functions.php:214
 #: templates/shop/get_cc_form.php:34
 msgid "Card name"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:218
+#: templates-functions/restaurant-menu-shop-functions.php:219
 #: templates/shop/get_cc_form.php:39
 msgid "Expiration (MM/YY)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:221
+#: templates-functions/restaurant-menu-shop-functions.php:222
 #: templates/shop/get_cc_form.php:42
 msgid "The date your credit card expires, typically on the front of the card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:246
+#: templates-functions/restaurant-menu-shop-functions.php:247
 msgid "Already have an account?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:246
-#: templates-functions/restaurant-menu-shop-functions.php:535
+#: templates-functions/restaurant-menu-shop-functions.php:247
+#: templates-functions/restaurant-menu-shop-functions.php:536
 msgid "Login"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:251
+#: templates-functions/restaurant-menu-shop-functions.php:252
 msgid "Create an account"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:253
+#: templates-functions/restaurant-menu-shop-functions.php:254
 msgid "(optional)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:260
-#: templates-functions/restaurant-menu-shop-functions.php:269
-#: templates-functions/restaurant-menu-shop-functions.php:508
+#: templates-functions/restaurant-menu-shop-functions.php:261
+#: templates-functions/restaurant-menu-shop-functions.php:270
+#: templates-functions/restaurant-menu-shop-functions.php:509
 msgid "Username"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:265
+#: templates-functions/restaurant-menu-shop-functions.php:266
 msgid "The username you will use to log into your account."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:273
-#: templates-functions/restaurant-menu-shop-functions.php:282
-#: templates-functions/restaurant-menu-shop-functions.php:519
+#: templates-functions/restaurant-menu-shop-functions.php:274
+#: templates-functions/restaurant-menu-shop-functions.php:283
+#: templates-functions/restaurant-menu-shop-functions.php:520
 #: templates/shop/login.php:16
 msgid "Password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:278
+#: templates-functions/restaurant-menu-shop-functions.php:279
 msgid "The password used to access your account."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:286
+#: templates-functions/restaurant-menu-shop-functions.php:287
 msgid "Password Again"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:291
+#: templates-functions/restaurant-menu-shop-functions.php:292
 msgid "Confirm your password."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:294
+#: templates-functions/restaurant-menu-shop-functions.php:295
 msgid "Confirm password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:334
+#: templates-functions/restaurant-menu-shop-functions.php:335
 #: templates/shop/user-info-fields.php:3
 msgid "Billing Details"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:343
+#: templates-functions/restaurant-menu-shop-functions.php:344
 msgid "The primary billing address for your credit card."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:346
+#: templates-functions/restaurant-menu-shop-functions.php:347
 msgid "Address line 1"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:352
+#: templates-functions/restaurant-menu-shop-functions.php:353
 msgid "Billing Address Line 2 (optional)"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:357
+#: templates-functions/restaurant-menu-shop-functions.php:358
 msgid "The suite, apt no, PO box, etc, associated with your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:360
+#: templates-functions/restaurant-menu-shop-functions.php:361
 msgid "Address line 2"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:366
+#: templates-functions/restaurant-menu-shop-functions.php:367
 msgid "Billing City"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:371
+#: templates-functions/restaurant-menu-shop-functions.php:372
 msgid "The city for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:374
+#: templates-functions/restaurant-menu-shop-functions.php:375
 msgid "City"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:380
+#: templates-functions/restaurant-menu-shop-functions.php:381
 msgid "Billing Zip / Postal Code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:385
+#: templates-functions/restaurant-menu-shop-functions.php:386
 msgid "The zip or postal code for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:388
+#: templates-functions/restaurant-menu-shop-functions.php:389
 msgid "Zip / Postal Code"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:394
+#: templates-functions/restaurant-menu-shop-functions.php:395
 msgid "Billing Country"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:399
+#: templates-functions/restaurant-menu-shop-functions.php:400
 msgid "The country for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:419
+#: templates-functions/restaurant-menu-shop-functions.php:420
 msgid "Billing State / Province"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:424
+#: templates-functions/restaurant-menu-shop-functions.php:425
 msgid "The state or province for your billing address."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:455
+#: templates-functions/restaurant-menu-shop-functions.php:456
 msgid "Agree to Terms?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:466
+#: templates-functions/restaurant-menu-shop-functions.php:467
 msgid "Show Terms"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:467
+#: templates-functions/restaurant-menu-shop-functions.php:468
 msgid "Hide Terms"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:496
+#: templates-functions/restaurant-menu-shop-functions.php:497
 msgid "Need to create an account?"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:498
+#: templates-functions/restaurant-menu-shop-functions.php:499
 msgid "Register"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:500
+#: templates-functions/restaurant-menu-shop-functions.php:501
 msgid "or checkout as a guest."
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:515
+#: templates-functions/restaurant-menu-shop-functions.php:516
 msgid "Your username"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:526
+#: templates-functions/restaurant-menu-shop-functions.php:527
 msgid "Your password"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:949
+#: templates-functions/restaurant-menu-shop-functions.php:950
 #, php-format
 msgid "Select a %s"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:954
+#: templates-functions/restaurant-menu-shop-functions.php:955
 msgid "No products found"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:970
+#: templates-functions/restaurant-menu-shop-functions.php:971
 msgid "No customer attached"
 msgstr ""
 
-#: templates-functions/restaurant-menu-shop-functions.php:984
+#: templates-functions/restaurant-menu-shop-functions.php:985
 msgid "Select a Customer"
 msgstr ""
 

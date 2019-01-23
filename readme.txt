@@ -2,8 +2,8 @@
 Contributors: MotoPress
 Donate link: https://motopress.com/
 Tags: restaurant menu, restaurant, cafe, food, pizza
-Requires at least: 4.0
-Tested up to: 4.9
+Requires at least: 4.6
+Tested up to: 5.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,11 @@ Find all [addons for Restaurant Menu plugin](https://motopress.com/products/cate
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.3.3, Jan 22 2019 =
+* Added the ability to set minimum order amount.
+* Bug fix: fixed the issue with PayPal payments not being set as completed.
+* Minor bugfixes and improvements.
 
 = 2.3.2 =
 * Version bump.

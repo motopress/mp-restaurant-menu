@@ -366,7 +366,7 @@ class Paypal_standart extends Model {
 			$payment_meta['user_info'] = $user_info;
 			$this->get('payments')->update_payment_meta($payment_id, '_mprm_order_meta', $payment_meta);
 		}
-		if ($payment_status == 'mprm-refunded' || $payment_status == 'reversed') {
+		if ($payment_status == 'refunded' || $payment_status == 'reversed') {
 			// Process a refund
 			$this->process_paypal_refund($data, $payment_id);
 		} else {
@@ -389,11 +389,11 @@ class Paypal_standart extends Model {
 				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid purchase key in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
-			if ('mprm-completed' == $payment_status || $this->get('misc')->is_test_mode()) {
+			if ('completed' == $payment_status || $this->get('misc')->is_test_mode()) {
 				$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 				$this->get('payments')->set_payment_transaction_id($payment_id, $data['txn_id']);
 				$this->get('payments')->update_payment_status($payment_id, 'publish');
-			} else if ('mprm-pending' == $payment_status && isset($data['pending_reason'])) {
+			} else if ('pending' == $payment_status && isset($data['pending_reason'])) {
 				// Look for possible pending reasons, such as an echeck
 				$note = '';
 				switch (strtolower($data['pending_reason'])) {

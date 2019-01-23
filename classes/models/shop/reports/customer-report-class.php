@@ -115,6 +115,9 @@ class Customer_Reports extends \WP_List_Table {
 			case 'date_created' :
 				$value = date_i18n(get_option('date_format'), strtotime($item['date_created']));
 				break;
+			case 'user_id' :
+				$value = ((int)$item['user_id'] > 0) ? $item['user_id'] : '&ndash;';
+				break;
 			default:
 				$value = isset($item[$column_name]) ? $item[$column_name] : null;
 				break;
@@ -193,6 +196,7 @@ class Customer_Reports extends \WP_List_Table {
 			'num_purchases' => __('Purchases', 'mp-restaurant-menu'),
 			'amount_spent' => __('Total Spent', 'mp-restaurant-menu'),
 			'date_created' => __('Date Created', 'mp-restaurant-menu'),
+			'user_id' => __('User ID', 'mp-restaurant-menu'),
 		);
 
 		return apply_filters('mprm_report_customer_columns', $columns);

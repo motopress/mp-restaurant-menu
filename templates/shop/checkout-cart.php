@@ -88,6 +88,7 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 			</tr>
 		<?php endforeach; ?>
 	<?php endif; ?>
+
 	<?php do_action('mprm_cart_items_after'); ?>
 	</tbody>
 </table>

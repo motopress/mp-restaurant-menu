@@ -331,36 +331,6 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_general',
 				array(
 					'main' => array(
-						'category_view' => array(
-							'id' => 'category_view',
-							'name' => __('Category Layout', 'mp-restaurant-menu'),
-							'type' => 'select',
-							'options' => array(
-								'grid' => __('Grid', 'mp-restaurant-menu'),
-								'list' => __('List', 'mp-restaurant-menu')
-							),
-							'chosen' => false,
-							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
-						),
-						'template_mode' => array(
-							'id' => 'template_mode',
-							'name' => __('Template Mode', 'mp-restaurant-menu'),
-							'options' => apply_filters('mprm_available_theme_mode',
-								array('theme' => __('Theme Mode', 'mp-restaurant-menu'),
-									'plugin' => __('Developer Mode', 'mp-restaurant-menu')
-								)
-							),
-							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
-							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
-							'type' => 'select',
-						
-						),
-						'ecommerce_settings' => array(
-							'id' => 'ecommerce_settings',
-							'name' => '<h3>' . __('eCommerce', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),
 						'enable_ecommerce' => array(
 							'id' => 'enable_ecommerce',
 							'name' => __('Enable eCommerce', 'mp-restaurant-menu'),
@@ -402,7 +372,37 @@ class Media extends Core {
 							'options' => $this->get_pages(),
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
-						)
+						),
+						'ecommerce_settings' => array(
+							'id' => 'ecommerce_settings',
+							'name' => '<h3>' . __('Display', 'mp-restaurant-menu') . '</h3>',
+							'desc' => '',
+							'type' => 'header',
+						),
+						'template_mode' => array(
+							'id' => 'template_mode',
+							'name' => __('Template Mode', 'mp-restaurant-menu'),
+							'options' => apply_filters('mprm_available_theme_mode',
+								array('theme' => __('Theme Mode', 'mp-restaurant-menu'),
+									'plugin' => __('Developer Mode', 'mp-restaurant-menu')
+								)
+							),
+							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
+							'readonly' => current_theme_supports('mp-restaurant-menu') ? true : false,
+							'type' => 'select',
+						
+						),
+						'category_view' => array(
+							'id' => 'category_view',
+							'name' => __('Category Layout', 'mp-restaurant-menu'),
+							'type' => 'select',
+							'options' => array(
+								'grid' => __('Grid', 'mp-restaurant-menu'),
+								'list' => __('List', 'mp-restaurant-menu')
+							),
+							'chosen' => false,
+							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
+						),
 					),
 					'section_currency' => array(
 						'currency' => array(
@@ -895,6 +895,13 @@ class Media extends Core {
 							'name' => __('Items Amount', 'mp-restaurant-menu'),
 							'desc' => __('Allow items amount to be changed on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
+						),
+						'minimum_order_amount' => array(
+							'id' => 'minimum_order_amount',
+							'name' => __('Minimum Order Amount', 'mp-restaurant-menu'),
+							'desc' => __('Price in monetary decimal (.) format without thousand separators and currency symbols', 'mp-restaurant-menu'),
+							'type' => 'text',
+							'size' => 'regular',
 						),
 					)
 				)
