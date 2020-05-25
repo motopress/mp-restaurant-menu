@@ -46,6 +46,7 @@ function mprm_checkout_button_next() {
  * @return mixed
  */
 function mprm_checkout_button_purchase() {
+
 	$color = mprm_get_option('checkout_color', 'mprm-btn blue');
 	$color = ($color == 'inherit') ? '' : $color;
 	$style = mprm_get_option('button_style', 'button');
@@ -53,34 +54,48 @@ function mprm_checkout_button_purchase() {
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$minimum_order_amount = models\Settings::get_instance()->get_option('minimum_order_amount', 0);
 	$cart_total = mprm_get_cart_total();
-	
+	$checkout_button = '';
+
 	if ( $cart_total ) {
 		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
 	} else {
 		$complete_purchase = !empty($label) ? $label : __('Free', 'mp-restaurant-menu');
 	}
-	ob_start();
-	
+
+	if ( $cart_total >= $minimum_order_amount ) {
+		ob_start();
+		?>
+		<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
+	<?php
+		$checkout_button = ob_get_clean();
+	}
+
+	return apply_filters('mprm_checkout_button_purchase', $checkout_button);
+}
+
+function mprm_checkout_minimum_order_amount() {
+	$minimum_order_amount = models\Settings::get_instance()->get_option('minimum_order_amount', 0);
+	$cart_total = mprm_get_cart_total();
 	//minimum_order_amount
 	if ($minimum_order_amount && $cart_total < $minimum_order_amount) {
-	?>
-	<div class="mprm-notice mprm-notice-error">
-		<div class="mprm-error">
-			<span class="mprm-notice-text">
-				<?php
-				printf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
-					mprm_currency_filter( mprm_format_amount( $cart_total ) ),
-					mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
-				);
-				?>
-			</span>
+
+		add_filter('mprm_can_checkout', '__return_false');
+
+		?>
+		<div class="mprm-notice mprm-notice-error">
+			<div class="mprm-error">
+				<span class="mprm-notice-text">
+					<?php
+					printf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+						mprm_currency_filter( mprm_format_amount( $cart_total ) ),
+						mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
+					);
+					?>
+				</span>
+			</div>
 		</div>
-	</div>
-	<?php } else { ?>
-	<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
-	<?php
+		<?php
 	}
-	return apply_filters('mprm_checkout_button_purchase', ob_get_clean());
 }
 
 /**

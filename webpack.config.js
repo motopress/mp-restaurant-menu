@@ -2,9 +2,8 @@ const path = require('path');
 
 const config = {
 	entry: {
-		'./media/js/blocks/dist/index': './media/js/blocks/src/index.js',
-		'./media/js/mptt-functions': './media/js/mptt-functions.js',
-		'./media/js/events/event': './media/js/events/event.js',
+		'./media/js/mce-mp-restaurant-menu-plugin': './media/js/mce-mp-restaurant-menu-plugin.js',
+		'./media/js/mp-restaurant-menu': './media/js/mp-restaurant-menu.js',
 	},
 	output: {
 		path: path.resolve(__dirname),

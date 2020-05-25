@@ -1338,15 +1338,17 @@ function mprm_get_open_hours_offline_message() {
 
 	return $message;
 }
+*/
 
 function mprm_get_add_to_cart_notice() {
 
-	$prevent_offline_checkout = boolval( mprm_get_option('prevent_offline_checkout', false) );
+	/*$prevent_offline_checkout = boolval( mprm_get_option('prevent_offline_checkout', false) );
 
 	if ( mprm_store_is_open() == false && $prevent_offline_checkout == true ) {
 		mprm_get_view()->get_template('common/notice-offline', array('menu_item_id' => get_the_ID()));
 	} else {
 		mprm_get_view()->get_template('common/notice', array('menu_item_id' => get_the_ID()));
-	}	
+	}*/
+	
+	mprm_get_view()->get_template('common/notice', array('menu_item_id' => get_the_ID()));
 }
-*/

@@ -1403,8 +1403,11 @@ class Media extends Core {
 	 * @param \WP_Screen $current_screen
 	 */
 	public function current_screen(\WP_Screen $current_screen) {
-		$this->enqueue_style('admin-styles', 'admin-styles.css');
+
 		$prefix = $this->get_prefix();
+
+		$this->enqueue_style('admin-styles', "admin-styles{$prefix}.css");
+
 		if (!empty($current_screen)) {
 			switch ($current_screen->base) {
 				case"post":
@@ -1519,8 +1522,10 @@ class Media extends Core {
 	 */
 	private function add_theme_css() {
 		global $post_type;
+		$prefix = $this->get_prefix();
+
 		$this->enqueue_style('mp-restaurant-menu-font', 'lib/mp-restaurant-menu-font.min.css');
-		$this->enqueue_style('mprm-style', 'style.css');
+		$this->enqueue_style('mprm-style', "style{$prefix}.css");
 		wp_enqueue_script('wp-util');
 		
 		switch ($post_type) {

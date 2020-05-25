@@ -71,7 +71,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 		<div class="mprm-order-deliveries mprm-admin-box-inside">
 			<p>
 				<span class="label"><?php _e('Price of Delivery', 'mp-restaurant-menu'); ?>:</span>&nbsp;
-				<input name="mprm-order-delivery-cost" class="med-text" type="text" value="<?php echo esc_attr(apply_filters('mprm_order_delivery_cost', 0)); ?>"/>
+				<input name="mprm-order-delivery-cost" class="input-text" type="text" value="<?php echo esc_attr(apply_filters('mprm_order_delivery_cost', 0)); ?>"/>
 			</p>
 		</div>
 	<?php endif; ?>
@@ -79,8 +79,8 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 	<?php if (mprm_use_taxes()) : ?>
 		<div class="mprm-order-taxes mprm-admin-box-inside">
 			<p>
-				<span class="label"><?php _e('Tax', 'mp-restaurant-menu'); ?>:</span>&nbsp;
-				<input name="mprm-order-tax" class="med-text" type="text" value="<?php echo esc_attr(mprm_format_amount($order->tax)); ?>"/>
+				<span class="label"><?php _e('Taxes', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+				<input name="mprm-order-tax" class="input-text" type="text" value="<?php echo esc_attr(mprm_format_amount($order->tax)); ?>"/>
 			</p>
 		</div>
 	<?php endif; ?>
@@ -88,7 +88,8 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 
 	<div class="mprm-order mprm-admin-box-inside">
 		<p>
-			<span class="label"><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</span>&nbsp; <?php echo mprm_currency_symbol($order->currency); ?>&nbsp;<input name="mprm-order-total" type="text" class="small-text" value="<?php echo esc_attr(mprm_format_amount($order->total)); ?>"/>
+			<span class="label"><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</span>&nbsp;
+			<input name="mprm-order-total" type="text" class="input-text" value="<?php echo esc_attr(mprm_format_amount($order->total)); ?>"/>
 		</p>
 	</div>
 

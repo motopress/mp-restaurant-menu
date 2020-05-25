@@ -38,12 +38,12 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-completed', array(
-			'label' => _x('Payment Complete', 'Order status', 'mp-restaurant-menu'),
+			'label' => _x('New Order', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Payment Complete <span class="count">(%s)</span>', 'Payment Complete <span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('New Order <span class="count">(%s)</span>', 'New Order <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 
 		register_post_status('mprm-refunded', array(

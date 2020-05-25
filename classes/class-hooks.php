@@ -572,6 +572,7 @@ class Hooks extends Core {
 		add_action('mprm_ajax_checkout_errors', 'mprm_print_errors');
 		add_action('mprm_cc_form', 'mprm_get_cc_form');
 		add_action('mprm_weekly_scheduled_events', array(Cart::get_instance(), 'delete_saved_carts'));
+		add_action('mprm_checkout_before', 'mprm_checkout_minimum_order_amount');
 	}
 	
 	/**
@@ -1011,7 +1012,7 @@ class Hooks extends Core {
 		unset($views[ 'mine' ]);
 		unset($views[ 'draft' ]);
 		if (!empty($views[ 'publish' ])) {
-			$views[ 'publish' ] = preg_replace('/Published/', 'Payment Complete', $views[ 'publish' ]);
+			$views[ 'publish' ] = preg_replace('/Published/', 'New Order', $views[ 'publish' ]);
 		}
 		
 		return $views;

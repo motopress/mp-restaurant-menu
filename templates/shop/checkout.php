@@ -1,10 +1,18 @@
+<?php
+	do_action('mprm_checkout_before');
+?>
+
 <div id="mprm_checkout_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>">
 
 	<?php if ( ($cart_contents || $cart_has_fees) && mprm_can_checkout() ) : ?>
-		<p class="mprm-required"><small><?php _e('Required fields are followed by', 'mp-restaurant-menu'); ?></small></p>
 
 		<?php
 		do_action('mprm_purchase_form_cart_items_before');
+		?>
+
+		<p class="mprm-required"><small><?php _e('Required fields are followed by', 'mp-restaurant-menu'); ?></small></p>
+
+		<?php
 
 		mprm_get_checkout_cart_template();
 
@@ -51,3 +59,7 @@
 		do_action('mprm_cart_empty');
 	endif; ?>
 </div>
+
+<?php
+	do_action('mprm_checkout_after');
+?>

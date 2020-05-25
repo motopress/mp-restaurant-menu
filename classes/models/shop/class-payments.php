@@ -844,7 +844,7 @@ class Payments extends Parent_query {
 				return $statuses[ $payment->status ];
 			} else {
 				// Account that our 'publish' status is labeled 'Complete'
-				$post_status = 'publish' == $payment->status ? 'Payment Complete' : $payment->post_status;
+				$post_status = 'publish' == $payment->status ? 'New Order' : $payment->post_status;
 				
 				// Make sure we're matching cases, since they matter
 				$post_label = array_search(strtolower($post_status), array_map('strtolower', $statuses));
@@ -865,7 +865,7 @@ class Payments extends Parent_query {
 	public function get_payment_statuses() {
 		$payment_statuses = array(
 			'mprm-pending' => __('Pending Payment', 'mp-restaurant-menu'),
-			'publish' => __('Payment Complete', 'mp-restaurant-menu'),
+			'publish' => __('New Order', 'mp-restaurant-menu'),
 			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
 			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
 			'mprm-cooking' => __('Processing', 'mp-restaurant-menu'),
