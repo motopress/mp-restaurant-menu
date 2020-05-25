@@ -149,8 +149,8 @@
 					},
 					{
 						title: mprmTitle,
-						width: 500,
-						height: 600
+						width: 460,
+						height: 400
 					}
 				);
 			}

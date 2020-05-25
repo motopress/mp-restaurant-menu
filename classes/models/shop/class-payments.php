@@ -864,13 +864,13 @@ class Payments extends Parent_query {
 	 */
 	public function get_payment_statuses() {
 		$payment_statuses = array(
-			'mprm-pending' => __('Pending', 'mp-restaurant-menu'),
+			'mprm-pending' => __('Pending Payment', 'mp-restaurant-menu'),
 			'publish' => __('Payment Complete', 'mp-restaurant-menu'),
 			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
 			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
 			'mprm-cooking' => __('Processing', 'mp-restaurant-menu'),
 			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
-			'mprm-shipped' => __('Shipped', 'mp-restaurant-menu'),
+			'mprm-shipped' => __('Completed', 'mp-restaurant-menu'),
 		);
 		
 		return apply_filters('mprm_payment_statuses', $payment_statuses);
@@ -1787,7 +1787,11 @@ class Payments extends Parent_query {
 		$status = $this->get_payment_statuses();
 		$old_status = isset($status[ $old_status ]) ? $status[ $old_status ] : $old_status;
 		$new_status = isset($status[ $new_status ]) ? $status[ $new_status ] : $new_status;
-		$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
+		if ( $old_status ) {
+			$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
+		} else {
+			$status_change = sprintf(__('Status changed to %s', 'mp-restaurant-menu'), $new_status);
+		}
 		$this->get('payments')->insert_payment_note($payment_id, $status_change);
 	}
 	

@@ -46,10 +46,10 @@ class Capabilities extends Core {
 			'read' => true,
 			'edit_posts' => true,
 			'delete_posts' => true,
-			'unfiltered_html' => true,
+			//'unfiltered_html' => true,
 			'upload_files' => true,
-			'export' => true,
-			'import' => true,
+			//'export' => true,
+			//'import' => true,
 			'delete_others_pages' => true,
 			'delete_others_posts' => true,
 			'delete_pages' => true,
@@ -70,7 +70,7 @@ class Capabilities extends Core {
 			'publish_pages' => true,
 			'publish_posts' => true,
 			'read_private_pages' => true,
-			'read_private_posts' => true
+			'read_private_posts' => true,
 		));
 
 		add_role('mprm_customer', __('Restaurant Customer', 'mp-restaurant-menu'), array(
@@ -93,17 +93,16 @@ class Capabilities extends Core {
 			}
 		}
 		if (is_object($wp_roles)) {
-			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_settings');
-			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_terms');
 			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_menu');
-			$wp_roles->add_cap('mprm_manager', 'manage_options');
+			$wp_roles->add_cap('mprm_manager', 'manage_restaurant_terms');
 
+			$wp_roles->add_cap('administrator', 'manage_restaurant_menu');
 			$wp_roles->add_cap('administrator', 'manage_restaurant_settings');
 			$wp_roles->add_cap('administrator', 'manage_restaurant_terms');
 
-
 			// Add the main post type capabilities
 			$capabilities = $this->get_core_caps();
+
 			foreach ($capabilities as $cap_group) {
 				foreach ($cap_group as $cap) {
 					$wp_roles->add_cap('mprm_manager', $cap);
@@ -192,6 +191,7 @@ class Capabilities extends Core {
 	 * @return void
 	 */
 	public function remove_caps() {
+
 		global $wp_roles;
 
 		if (class_exists('WP_Roles')) {
@@ -203,45 +203,19 @@ class Capabilities extends Core {
 		if (is_object($wp_roles)) {
 
 			/** Shop Manager Capabilities */
-			$wp_roles->remove_cap('mprm_manager', 'view_shop_reports');
-			$wp_roles->remove_cap('mprm_manager', 'manage_restaurant_settings');
-			$wp_roles->remove_cap('mprm_manager', 'view_shop_sensitive_data');
-			$wp_roles->remove_cap('mprm_manager', 'export_shop_reports');
-			$wp_roles->remove_cap('mprm_manager', 'manage_shop_discounts');
-			$wp_roles->remove_cap('mprm_manager', 'manage_shop_settings');
 			$wp_roles->remove_cap('mprm_manager', 'manage_restaurant_menu');
-
-			/** Site Administrator Capabilities */
-			$wp_roles->remove_cap('administrator', 'view_shop_reports');
-			$wp_roles->remove_cap('administrator', 'view_shop_sensitive_data');
-			$wp_roles->remove_cap('administrator', 'export_shop_reports');
-			$wp_roles->remove_cap('administrator', 'manage_shop_discounts');
-			$wp_roles->remove_cap('administrator', 'manage_shop_settings');
-			$wp_roles->remove_cap('administrator', 'manage_restaurant_settings');
-			$wp_roles->remove_cap('administrator', 'manage_restaurant_menu');
-
-			/** Site Editor Capabilities */
-			$wp_roles->remove_cap('editor', 'view_shop_reports');
-			$wp_roles->remove_cap('editor', 'view_shop_sensitive_data');
-			$wp_roles->remove_cap('editor', 'export_shop_reports');
-			$wp_roles->remove_cap('editor', 'manage_shop_discounts');
-			$wp_roles->remove_cap('editor', 'manage_shop_settings');
-			$wp_roles->remove_cap('editor', 'manage_restaurant_settings');
-			$wp_roles->remove_cap('editor', 'manage_restaurant_menu');
+			$wp_roles->remove_cap('mprm_manager', 'manage_restaurant_terms');
 
 			/** Remove the Main Post Type Capabilities */
-
 			$capabilities = $this->get_core_caps();
 
 			foreach ($capabilities as $cap_group) {
 				foreach ($cap_group as $cap) {
 					$wp_roles->remove_cap('mprm_manager', $cap);
-					$wp_roles->remove_cap('administrator', $cap);
-					$wp_roles->remove_cap('editor', $cap);
 				}
 			}
-			$this->remove_roles(array('mprm_manager', 'mprm_customer', 'mprm_shop_manager', 'mprm_shop_accountant', 'mprm_shop_vendor', 'mprm_shop_worker'));
 
+			$this->remove_roles(array('mprm_manager', 'mprm_customer'));
 			delete_option('mprm_capabilities_version');
 		}
 	}

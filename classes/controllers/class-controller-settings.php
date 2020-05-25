@@ -29,22 +29,31 @@ class Controller_Settings extends Controller {
 	 * Action content
 	 */
 	public function action_content() {
-		$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
-		$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
-		$key = 'main';
-		$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
-		$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
-		$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
 
-		echo View::get_instance()->get_template_html('settings', $data);
+		if ( current_user_can('manage_restaurant_menu') ) {
+
+			$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
+			$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
+			$key = 'main';
+			$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
+			$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
+			$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
+
+			//echo View::get_instance()->get_template_html('settings', $data);
+			echo View::get_instance()->get_template_html( '../admin/settings/settings', $data );
+		}
 	}
 
 	/**
 	 * Action save
 	 */
 	public function action_save() {
-		$data = $this->get('settings')->save_settings($_REQUEST);
-		$this->send_json($data);
+
+		if ( current_user_can('manage_restaurant_menu') ) {
+
+			$data = $this->get('settings')->save_settings($_REQUEST);
+			$this->send_json($data);
+		}
 	}
 
 	/**

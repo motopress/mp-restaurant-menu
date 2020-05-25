@@ -39,7 +39,7 @@
 	</div>
 
 
-	<div class="mprm-line stick" data-selector="data-line">
+	<div class="mprm-line" data-selector="data-line">
 		<input class="button button-primary button-large" type="button" data-selector="insert_shortcode" value="<?php _e('Insert shortcode', 'mp-restaurant-menu'); ?>"/>
 	</div>
 </form>

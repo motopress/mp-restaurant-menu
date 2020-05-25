@@ -1,6 +1,6 @@
 <div id="mprm_checkout_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>">
 
-	<?php if ($cart_contents || $cart_has_fees) : ?>
+	<?php if ( ($cart_contents || $cart_has_fees) && mprm_can_checkout() ) : ?>
 		<p class="mprm-required"><small><?php _e('Required fields are followed by', 'mp-restaurant-menu'); ?></small></p>
 
 		<?php

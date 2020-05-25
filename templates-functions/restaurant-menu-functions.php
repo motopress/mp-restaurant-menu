@@ -1,5 +1,10 @@
 <?php
-use mp_restaurant_menu\classes;use mp_restaurant_menu\classes\Core;use mp_restaurant_menu\classes\models;use mp_restaurant_menu\classes\modules\Breadcrumbs;use mp_restaurant_menu\classes\View;
+
+use mp_restaurant_menu\classes;
+use mp_restaurant_menu\classes\Core;
+use mp_restaurant_menu\classes\models;
+use mp_restaurant_menu\classes\modules\Breadcrumbs;
+use mp_restaurant_menu\classes\View;
 
 /**
  * @return array|bool
@@ -275,7 +280,9 @@ function mprm_get_term_menu_items() {
  * @return array
  */
 function mprm_get_menu_items_by_term() {
+
 	global $taxonomy;
+
 	$params = array();
 	if ($taxonomy === 'mp_menu_category') {
 		$params['categ'] = mprm_get_taxonomy()->term_id;
@@ -283,6 +290,30 @@ function mprm_get_menu_items_by_term() {
 	if ($taxonomy === 'mp_menu_tag') {
 		$params['tags_list'] = mprm_get_taxonomy()->term_id;
 	}
+	if ($taxonomy === 'mp_ingredient') {
+
+		$term_params = array(
+			'post_type' => 'mp_menu_item',
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'orderby' => 'menu_order',
+			'fields' => 'ids',
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'mp_ingredient',
+					'field' => 'id',
+					'terms' => mprm_get_taxonomy()->term_id,
+					'include_children' => false
+				)
+			)
+		);
+		
+		$post_ids = get_posts($term_params);
+		if ( !empty( $post_ids ) ) {
+			$params['item_ids'] = implode(",", $post_ids);
+		}
+	}
+
 	$mprm_items = models\Menu_item::get_instance()->get_menu_items($params);
 	return $mprm_items;
 }

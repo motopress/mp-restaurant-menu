@@ -16,12 +16,12 @@
 			?>
 		</h2>
 		<?php if (!empty($sections)): ?>
-			<div>
+			<div class="mprm-clear">
 				<?php
 				$number_of_sections = count($sections);
 				$number = 0;
 				if ($number_of_sections > 1) {
-					echo '<div><ul class="subsubsub">';
+					echo '<ul class="subsubsub">';
 					foreach ($sections as $section_id => $section_name) {
 						echo '<li>';
 						$number++;
@@ -40,10 +40,9 @@
 						}
 						echo '</li>';
 					}
-					echo '</ul></div>';
+					echo '</ul>';
 				} ?>
 			</div>
-			<br class="mprm-clear">
 		<?php endif;
 		// Let's verify we have a 'main' section to show
 		ob_start();

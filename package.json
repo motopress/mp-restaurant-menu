@@ -1,0 +1,50 @@
+{
+  "name": "mp-restaurant-menu",
+  "version": "0.0.0",
+  "license": "GPLv2+",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.4.9",
+    "babel-loader": "^8.0.5",
+    "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "extract-loader": "^3.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^2.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.0",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-less": "^4.0.1",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
+    "lodash-move": "^1.1.1",
+    "memize": "^1.0.5",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "prop-types": "^15.7.2",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "po2json": "^1.0.0-alpha"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "browserslist": [
+    "last 3 versions",
+    "IE 11"
+  ]
+}

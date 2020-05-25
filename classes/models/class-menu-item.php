@@ -299,7 +299,7 @@ class Menu_item extends Store_item {
 								'taxonomy' => $this->get_tax_name('menu_category'),
 								'field' => 'id',
 								'terms' => $id,
-								'include_children' => true
+								'include_children' => false
 							)
 						)
 					)
@@ -427,7 +427,7 @@ class Menu_item extends Store_item {
 		if (!$this->is_menu_item($post)) {
 			return false;
 		}
-		if ('publish' !== $post->post_status && !current_user_can('edit_product', $post->ID)) {
+		if ('publish' !== $post->post_status && !current_user_can('manage_restaurant_menu', $post->ID)) {
 			return false; // Product not published or user doesn't have permission to view drafts
 		}
 		$purchase_page = $this->get('settings')->get_option('purchase_page', false);

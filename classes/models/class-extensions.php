@@ -23,8 +23,7 @@ class Extension {
 	// taxonomy slug
 	protected $taxonomy_slug = 'restaurant-menu-addons';
 	// api version v1/v2
-	// http://docs.easydigitaldownloads.com/category/1130-api-reference
-	private $api_version = 'v1';
+	private $api_version = 'v2';
 	// Default settings menu
 	private $menu_args = array('parent_slug' => '', 'title' => '', 'capability' => 'manage_options', 'menu_slug' => '', 'function' => '');
 
@@ -121,8 +120,9 @@ class Extension {
 	 * @return mixed|string
 	 */
 	protected function get_add_ons_feed_data() {
+
 		if (false === ($cache = get_transient('mp_restaurant_add_ons_feed'))) {
-			$url = 'https://motopress.com/edd-api/' . $this->api_version . '/products/';
+			$url = 'https://motopress.com/edd-api/' . $this->api_version . '/products/?category=' . $this->taxonomy_slug;
 			$url = add_query_arg(array('number' => $this->limit), $url);
 			$feed = wp_remote_get(esc_url_raw($url), array('sslverify' => false));
 
@@ -150,6 +150,9 @@ class Extension {
 
 		if (!empty($feeds)) {
 			foreach ($feeds as $key_product => $product) {
+
+				if ( $product->info->id == 642619 ) continue;
+
 				$categories = $product->info->category;
 				if ($categories && is_array($categories)) {
 					foreach ($categories as $category) {

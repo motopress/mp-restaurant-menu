@@ -677,6 +677,7 @@ final class Order extends Model {
 		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
 		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
 		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
+		$columns['order_actions'] = __('Actions', 'mp-restaurant-menu');
 
 		return $columns;
 	}
@@ -695,7 +696,10 @@ final class Order extends Model {
 
 		switch ($column) {
 			case 'order_status':
-				echo ucfirst($this->get('payments')->get_payment_status($post));
+				?><mark class="order-status status-<?php echo $post->post_status; ?>"><span><?php
+					echo $this->get('payments')->get_payment_status($post);
+				?></span></mark><?php
+
 				break;
 			case  'order_title':
 				$order_user = $this->get_user($post);
@@ -752,6 +756,9 @@ final class Order extends Model {
 				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
 				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) . '</span>';
 				echo $total;
+				break;
+			case 'order_actions' :
+				$this->render_order_actions($post);
 				break;
 			default:
 				break;
@@ -1971,5 +1978,46 @@ final class Order extends Model {
 	 */
 	private function get_unlimited() {
 		return apply_filters('mprm_payment_unlimited_menu_items', $this->unlimited, $this->ID, $this);
+	}
+
+	private function render_order_actions($post) {
+
+		$actions = array();
+
+		if ( $this->status == 'publish' ) {
+
+			$actions['mprm-cooking'] = array(
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-cooking&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
+				'name'   => __( 'Processing', 'mp-restaurant-menu' ),
+				'action' => 'mprm-cooking',
+				'icon'   => '<svg width="12" height="12" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><g><circle cx="5.5" cy="24" r="5.5"/><circle cx="42.499" cy="24" r="5.5"/><circle cx="24" cy="24" r="5.5"/></g></svg>'
+			);
+		}
+
+		if ( $this->status == 'publish' || $this->status == 'mprm-cooking' ) {
+
+			$actions['mprm-shipped'] = array(
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-shipped&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
+				'name'   => __( 'Complete', 'mp-restaurant-menu' ),
+				'action' => 'mprm-shipped',
+				'icon'   => '<svg width="12" height="12" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>'
+			);
+		}
+
+		echo '<p>';
+		echo $this->render_action_buttons( $actions );
+		echo '</p>';
+	}
+	
+	function render_action_buttons( $actions ) {
+		$actions_html = '';
+
+		foreach ( $actions as $action ) {
+			if ( isset( $action['action'], $action['url'], $action['name'] ) ) {
+				$actions_html .= sprintf( '<a class="button mprm-action-button mprm-action-button-%1$s" href="%2$s" aria-label="%3$s" title="%3$s">%4$s</a>', esc_attr( $action['action'] ), esc_url( $action['url'] ), esc_attr( isset( $action['title'] ) ? $action['title'] : $action['name'] ), $action['icon'] );
+			}
+		}
+
+		return $actions_html;
 	}
 }

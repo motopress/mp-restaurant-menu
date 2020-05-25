@@ -504,12 +504,9 @@
 .jBox-closeButton-box::before {
   display: none;
 }
-.mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-content {
-  overflow: auto;
-  padding: 12px 15px 0;
-}
 .mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-content form#mprm-shortcode-form {
   overflow: auto;
+  max-height: 100%;
 }
 .mprm-modal.mprm-restaurant[id^="jBoxID"] .jBox-container .jBox-closeButton {
   right: 5px;
@@ -602,8 +599,8 @@
   margin: 0;
   width: auto;
   height: auto;
-  max-width: 40px;
-  max-height: 40px;
+  max-width: 50px;
+  max-height: 50px;
   vertical-align: middle;
 }
 @media only screen and (max-width: 782px) {
@@ -630,6 +627,56 @@
 }
 .mprm-clear:after {
   clear: both;
+}
+.wp-admin .mprm-settings .mprm-nav-tab-wrapper {
+  margin-bottom: 1rem;
+}
+.wp-admin .mprm-settings table th h3 {
+  margin: 0;
+}
+.wp-admin .button.mprm-action-button {
+  margin: 3px;
+  padding: 0 5px;
+}
+.wp-admin .button.mprm-action-button svg {
+  vertical-align: middle;
+  fill: currentColor;
+}
+.wp-admin.post-type-mprm_order .wp-list-table th,
+.wp-admin.post-type-mprm_order .wp-list-table td {
+  vertical-align: middle;
+}
+.wp-admin.post-type-mprm_order .wp-list-table th.check-column {
+  vertical-align: top !important;
+}
+.wp-admin .order-status {
+  display: -webkit-inline-box;
+  display: inline-flex;
+  line-height: 2.25em;
+  color: #777;
+  background: #e5e5e5;
+  border-radius: 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin: -0.25em 0;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.wp-admin .order-status > span {
+  margin: 0 0.75em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wp-admin .order-status.status-mprm-cooking {
+  background: #f8dda7;
+  color: #94660c;
+}
+.wp-admin .order-status.status-publish {
+  background: #c6e1c6;
+  color: #5b841b;
+}
+.wp-admin .order-status.status-mprm-shipped {
+  background: #c8d7e1;
+  color: #2e4453;
 }
 #mprm_extensions_container {
   display: flex;

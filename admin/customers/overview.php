@@ -1,6 +1,5 @@
 <?php
 $customer = mprm_get_customer($id);
-$customer_edit_role = apply_filters('mprm_edit_customers_role', 'edit_shop_payments');
 $users = apply_filters('mprm_edit_users', get_users());;
 
 if (isset($customer->user_id) && $customer->user_id > 0) :

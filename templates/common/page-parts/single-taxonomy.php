@@ -38,15 +38,15 @@ $col = (int)$mprm_view_args[ 'col' ];
 				<?php if ($view == 'simple-list'){ ?>
 				<div class="mprm-columns-count-<?php echo $col ?> mprm-all-items">
 					<?php }
-					
+
 					foreach (mprm_get_menu_items_by_term() as $term => $data) {
-						
+
 						if (in_array($view, array('list', 'grid'))) {
 							create_grid_by_posts($data, $col);
 						} elseif ($view == 'simple-list') {
-							
+
 							list($last_key, $first_key) = mprm_get_first_and_last_key($data);
-							
+
 							foreach ($data[ 'posts' ] as $post_key => $post) {
 								
 								if ($post_key === $first_key) {

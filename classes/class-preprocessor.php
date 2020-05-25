@@ -65,29 +65,31 @@ class Preprocessor extends GUMP {
 	 * Call controller
 	 *
 	 * @param string $action
-	 * @param bool $page
+	 * @param bool $controller
 	 *
 	 * @return mixed
 	 */
-	public function call_controller($action = 'content', $page = false) {
-		if (empty($page)) {
+	public function call_controller($action = 'content', $controller = false) {
+
+		if (empty($controller)) {
 			trigger_error("Wrong controller ");
 		}
+
 		$path = MP_RM_CONTROLLERS_PATH;
 		// if controller exists
-		if ('controller' != $page && !file_exists("{$path}class-controller-{$page}.php")) {
-			$ControllerName = 'Controller_' . ucfirst($page);
+		if ('controller' != $controller && !file_exists("{$path}class-controller-{$controller}.php")) {
+			$ControllerName = 'Controller_' . ucfirst($controller);
 			if (class_exists($ControllerName)) {
-				trigger_error("Wrong controller {$path}class-controller-{$page}.php");
+				trigger_error("Wrong controller {$path}class-controller-{$controller}.php");
 			}
 		}
 		$action = "action_$action";
-		$controller = Core::get_instance()->get_state()->get_controller($page);
+		$controller = Core::get_instance()->get_state()->get_controller($controller);
 		// if metod exists
 		if (method_exists($controller, $action)) {
 			return $controller->$action();
 		} else {
-			trigger_error("Wrong {$action} in {$path}class-controller-{$page}.php");
+			trigger_error("Wrong {$action} in {$path}class-controller-{$controller}.php");
 		}
 	}
 

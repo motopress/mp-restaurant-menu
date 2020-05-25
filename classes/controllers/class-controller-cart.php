@@ -10,6 +10,7 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\controllers
  */
 class Controller_cart extends Controller {
+
 	protected static $instance;
 
 	private $date = array('data' => array());
@@ -28,8 +29,10 @@ class Controller_cart extends Controller {
 	 * Add item to cart
 	 */
 	public function action_add_to_cart() {
+
 		$request = $_REQUEST;
 		$cartCount = $this->get('cart')->add_to_cart($request['menu_item_id']);
+
 		if (isset($request['is_ajax']) && (bool)$request['is_ajax']) {
 			$this->date['success'] = (is_numeric($cartCount)) ? true : false;
 			$this->date['data']['cart'] = View::get_instance()->get_template_html('widgets/cart/index');

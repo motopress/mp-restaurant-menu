@@ -5,7 +5,8 @@ return array(
 			'label' => __('General', 'mp-restaurant-menu'),
 			'section' => array(
 				'main' => array('label' => __('General Settings', 'mp-restaurant-menu')),
-				'currency' => array('label' => __('Currency Settings', 'mp-restaurant-menu'))
+				'currency' => array('label' => __('Currency Settings', 'mp-restaurant-menu')),
+				//'open_hours_section' => array('label' => __('Open Hours', 'mp-restaurant-menu'))
 			),
 			'category_view' => array(
 				'grid' => array(

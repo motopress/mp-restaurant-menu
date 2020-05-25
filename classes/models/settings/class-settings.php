@@ -67,11 +67,13 @@ class Settings extends Model {
 	 * @return mixed
 	 */
 	public function get_option($key = '', $default = false) {
+
 		global $mprm_options;
 		
 		if (empty($mprm_options)) {
 			$mprm_options = Settings::get_instance()->get_settings();
 		}
+
 		$value = ! empty( $mprm_options[ $key ] ) ? $mprm_options[ $key ] : $default;
 		$value = apply_filters('mprm_get_option', $value, $key, $default);
 
@@ -86,7 +88,9 @@ class Settings extends Model {
 	 * @return mixed
 	 */
 	public function get_settings($key = false) {
+
 		$settings = get_option('mprm_settings');
+
 		if (empty($settings)) {
 			$default_settings =
 				array(
@@ -552,6 +556,116 @@ class Settings extends Model {
 		echo '';
 	}
 	
+	/**
+	 * Render html checkbox by params settings
+	 *
+	 * @param $args
+	 */
+	/*
+	public function open_hours_callback($args) {
+
+		$default_settings = mprm_get_default_open_hours();
+		$settings = $this->get_option( 'open_hours', $default_settings );
+
+		$week_schedule = [
+			[
+				'id' => 'mon',
+				'label' => __('Monday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'tue',
+				'label' => __('Tuesday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'wed',
+				'label' => __('Wednesday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'thu',
+				'label' => __('Thursday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'fri',
+				'label' => __('Friday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'sat',
+				'label' => __('Saturday', 'mp-restaurant-menu'),
+			],
+			[
+				'id' => 'sun',
+				'label' => __('Sunday', 'mp-restaurant-menu'),
+			],
+		];
+
+		$timezone_format = _x( 'Y-m-d H:i, l', 'timezone date format' );
+		$name = 'mprm_settings[' . esc_attr( $args[ 'id' ] ) . ']';
+
+		ob_start(); ?>
+		<p><?php
+		printf(
+			//translators: %s: Local time.
+			__( 'Local time is %s.' ),
+			'<code>' . date_i18n( $timezone_format ) . '</code>'
+		);
+		?>
+		</p>
+		<table>
+			<thead></thead>
+			<tbody>
+			<?php foreach ($week_schedule as $day) :
+
+			$open = isset( $settings[ $day['id'] ]['open'] ) && $settings[ $day['id'] ]['open'] == true;
+			?>
+			<tr>
+				<td>
+					<input type="checkbox" value="1" name="<?php
+						echo $name . '[' . $day['id']; ?>][open]" <?php checked( $open, 1 ); ?>/>
+					<?php echo $day['label']; ?>
+				</td>
+				<td>
+					<?php _e( 'Open:', 'mp-restaurant-menu'); ?>
+					<select name="<?php echo $name . '[' . $day['id']; ?>][from]"><?php
+						$this->get_open_hours_list( $settings[ $day['id'] ]['from'] ); ?></select>
+				</td>
+				<td>
+					<?php _e( 'Close:', 'mp-restaurant-menu'); ?>
+					<select name="<?php echo $name . '[' . $day['id']; ?>][until]"><?php
+						$this->get_open_hours_list( $settings[ $day['id'] ]['until'] ); ?></select>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+			<tbody>
+			<tfoot></tfoot>
+		</table>
+		<?php
+		echo ob_get_clean();
+	}
+	*/
+
+	/*
+	private function get_open_hours_list( $selected = '00:00' ) {
+		$a = '00:00';
+		$b = '24:00';
+
+		// convert the strings to unix timestamps
+		$a = strtotime($a);
+		$b = strtotime($b);
+
+		for($i = 0; $i < $b - $a; $i += 900) {
+			// add the current iteration and echo it
+			$time = date('H:i', $a + $i);
+			echo '<option ' . selected( $selected, $time, false ) . 'value="' .  $time . '">' .
+				date_i18n( get_option('time_format'), strtotime( $time ) ) . '</option>';
+		}
+
+		//https://stackoverflow.com/questions/31106357/simpledateformat-that-allow-240000-and-000000-as-inputs
+		$time = '24:00';
+		echo '<option ' . selected( $selected, $time, false ) . 'value="' .  $time . '">' .
+			date_i18n( get_option('time_format'), strtotime( $time ) ) . '</option>';
+	}
+	*/
+
 	/**
 	 * Render html checkbox by params settings
 	 *

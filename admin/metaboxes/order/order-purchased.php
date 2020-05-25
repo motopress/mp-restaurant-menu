@@ -102,7 +102,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					echo mprm_text(array(
 							'name' => 'mprm-order-menu-item-amount',
 							'id' => 'mprm-order-menu-item-amount',
-							'label' => __('Item Price: ', 'mp-restaurant-menu'),
+							'label' => __('Price: ', 'mp-restaurant-menu'),
 							'class' => 'mprm-order-menu-item-price'
 						)
 					);
@@ -110,7 +110,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				</div>
 
 				<div class="actions mprm-columns <?php echo $column ?>">
-					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php printf(__('Add %s to Payment', 'mp-restaurant-menu'), mprm_get_label_singular()); ?></a>
+					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php _e('Add Item', 'mp-restaurant-menu'); ?></a>
 				</div>
 			</div>
 			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-menu-items-changed" value=""/>

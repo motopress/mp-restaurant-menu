@@ -207,17 +207,18 @@ class Emails extends Model {
 	 * @param $data
 	 */
 	public function resend_purchase_receipt($data) {
+
 		$purchase_id = absint($data['purchase_id']);
 		if (empty($purchase_id)) {
 			return;
 		}
-		if (!current_user_can('edit_shop_payments')) {
-			wp_die(__('You do not have permission to edit this payment record', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
-		}
-		$this->email_purchase_receipt($purchase_id, false);
+		if ( current_user_can('manage_restaurant_menu') ) {
 
-		wp_redirect(add_query_arg(array('mprm-message' => 'email_sent', 'mprm-action' => false, 'purchase_id' => false)));
-		exit;
+			$this->email_purchase_receipt($purchase_id, false);
+
+			wp_redirect(add_query_arg(array('mprm-message' => 'email_sent', 'mprm-action' => false, 'purchase_id' => false)));
+			exit;
+		}
 	}
 
 	/**

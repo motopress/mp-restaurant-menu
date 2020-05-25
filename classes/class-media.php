@@ -162,11 +162,14 @@ class Media extends Core {
 	 * Registered page in admin wp
 	 */
 	public function admin_menu() {
+
 		global $submenu;
+
 		// get taxonomy names
 		$category_name = $this->get_tax_name('menu_category');
 		$tag_name = $this->get_tax_name('menu_tag');
 		$ingredient_name = $this->get_tax_name('ingredient');
+
 		// get post types
 		$menu_item = $this->get_post_type('menu_item');
 		$order = $this->get_post_type('order');
@@ -222,6 +225,7 @@ class Media extends Core {
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'manage_restaurant_menu',
 		));
+
 		// Customers
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
@@ -246,18 +250,15 @@ class Media extends Core {
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
 		));
-		
-		
+
 		$this->register_settings();
-		
-		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'mprm-pending', 'post_type' => 'mprm_order', 'fields' => 'ids')));
-		
+
+		$pend_count = count(get_posts(array('posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'mprm_order', 'fields' => 'ids')));
 		foreach ($submenu as $key => $value) {
 			if (isset($submenu[ $key ][ 5 ])) {
 				if ($submenu[ $key ][ 5 ][ 2 ] == 'edit.php?post_type=mprm_order') {
 					$submenu[ $key ][ 5 ][ 0 ] .= " <span class='update-plugins count-$pend_count'><span class='plugin-count'>" . $pend_count . '</span></span>';
-					
-					return;
+					break;
 				}
 			}
 		}
@@ -373,12 +374,6 @@ class Media extends Core {
 							'chosen' => true,
 							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
 						),
-						'ecommerce_settings' => array(
-							'id' => 'ecommerce_settings',
-							'name' => '<h3>' . __('Display', 'mp-restaurant-menu') . '</h3>',
-							'desc' => '',
-							'type' => 'header',
-						),
 						'template_mode' => array(
 							'id' => 'template_mode',
 							'name' => __('Template Mode', 'mp-restaurant-menu'),
@@ -448,7 +443,33 @@ class Media extends Core {
 							'size' => 'small',
 							'std' => '2',
 						)
-					)
+					),
+					/*'open_hours_section' => array(
+						'has_open_hours' => array(
+							'id' => 'has_open_hours',
+							'name' => __('Open Hours', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+							'desc' => __('Enable Open Hours', 'mp-restaurant-menu'),
+						),
+						'open_hours' => array(
+							'id' => 'open_hours',
+							'name' => __('Time Table', 'mp-restaurant-menu'),
+							'type' => 'open_hours',
+						),
+						'prevent_offline_checkout' => array(
+							'id' => 'prevent_offline_checkout',
+							'name' => __('Prevent checkout', 'mp-restaurant-menu'),
+							'desc' => __('Prevent offline checkout', 'mp-restaurant-menu'),
+							'type' => 'checkbox',
+						),
+						'open_hours_offline_message' => array(
+							'id' => 'open_hours_offline_message',
+							'name' => __('Offline Message', 'mp-restaurant-menu'),
+							'std' => __('We are offline and will start taking orders soon.', 'mp-restaurant-menu'),
+							'type' => 'textarea',
+							'desc' => __('Accepted HTML tags: a, br, em, strong.', 'mp-restaurant-menu'),
+						),
+					)*/
 				)
 			),
 			'display' => apply_filters('mprm_settings_display',
@@ -1325,6 +1346,7 @@ class Media extends Core {
 			'general' => apply_filters('mprm_settings_sections_general', array(
 					'main' => __('General', 'mp-restaurant-menu'),
 					'section_currency' => __('Currency Settings', 'mp-restaurant-menu'),
+					//'open_hours_section' => __('Open Hours', 'mp-restaurant-menu'),
 				)
 			),
 			'display' => apply_filters('mprm_settings_sections_display', array(
@@ -1598,7 +1620,7 @@ class Media extends Core {
 			'menu_position' => 21,
 			'hierarchical' => false,
 			'map_meta_cap' => true,
-			'show_in_nav_menus' => false,
+			'show_in_nav_menus' => true,
 			'rewrite' =>
 				array(
 					'slug' => 'menu',
@@ -1650,31 +1672,95 @@ class Media extends Core {
 	 * Register all taxonomies
 	 */
 	public function register_all_taxonomies() {
-		if (taxonomy_exists($this->get_tax_name('menu_category'))) {
+
+		if ( taxonomy_exists($this->get_tax_name('menu_category')) ) {
 			return;
 		}
 		
 		$menu_item = $this->get_post_type('menu_item');
 		
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('menu_category'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Categories', 'mp-restaurant-menu'), 'single' => __('Category', 'mp-restaurant-menu')),
-			'slug' => 'menu-category',
-			'show_in_nav_menus' => true
-		));
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('menu_tag'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Tags', 'mp-restaurant-menu'), 'single' => __('Tag', 'mp-restaurant-menu')),
-			'slug' => 'menu-tag',
-			'show_in_nav_menus' => true
-		));
-		Taxonomy::get_instance()->register(array(
-			'taxonomy' => $this->get_tax_name('ingredient'),
-			'object_type' => array($menu_item),
-			'titles' => array('many' => __('Ingredients', 'mp-restaurant-menu'), 'single' => __('Ingredient', 'mp-restaurant-menu')),
-		));
+		//Categories
+		$args = array(
+			'labels' => array(
+				'name'              => _x( 'Menu Categories', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => _x( 'Category', 'taxonomy singular name', 'mp-restaurant-menu' ),
+			),
+
+			'public' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'show_in_menu' => false,
+			'show_tagcloud' => false,
+			'show_in_quick_edit' => true,
+			'hierarchical' => true,
+			'rewrite' => array(
+				'slug' => 'menu-category',
+				'with_front' => true,
+			),
+			'capabilities' => array(
+				'manage_terms' => 'manage_restaurant_terms'
+			),
+			'show_admin_column' => false,
+		);
+		register_taxonomy( $this->get_tax_name('menu_category'), array($menu_item), $args);
+		
+
+		//Tags
+		$args = array(
+			'labels' => array(
+				'name'              => _x( 'Menu Tags', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => _x( 'Tag', 'taxonomy singular name', 'mp-restaurant-menu' ),
+			),
+
+			'public' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'show_in_menu' => false,
+			'show_tagcloud' => true,
+			'show_in_quick_edit' => true,
+			'hierarchical' => false,
+			'rewrite' => array(
+				'slug' => 'menu-tag',
+				'with_front' => true,
+			),
+			'capabilities' => array(
+				'manage_terms' => 'manage_restaurant_terms'
+			),
+			'show_admin_column' => false,
+		);
+		register_taxonomy( $this->get_tax_name('menu_tag'), array($menu_item), $args);
+		
+		//Ingredients
+		$args = array(
+			'labels' => array(
+				'name'              => _x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => _x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'search_items'      => __( 'Search Ingredients', 'textdomain' ),
+				'all_items'         => __( 'All Ingredients', 'textdomain' ),
+				'edit_item'         => __( 'Edit Ingredient', 'textdomain' ),
+				'update_item'       => __( 'Update Ingredient', 'textdomain' ),
+				'add_new_item'      => __( 'Add New Ingredient', 'textdomain' ),
+				'new_item_name'     => __( 'New Ingredient Name', 'textdomain' ),
+				'menu_name'         => __( 'Ingredient', 'textdomain' ),
+			),
+
+			'public' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'show_in_menu' => false,
+			'show_tagcloud' => true,
+			'show_in_quick_edit' => true,
+			'hierarchical' => false,
+			'rewrite' => array(
+				'slug' => 'menu-ingredient',
+				'with_front' => true,
+			),
+			'capabilities' => array(
+				'manage_terms' => 'manage_restaurant_terms'
+			),
+			'show_admin_column' => false,
+		);
+		register_taxonomy( $this->get_tax_name('ingredient'), array($menu_item), $args);
 	}
 	
 	/**

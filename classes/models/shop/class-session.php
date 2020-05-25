@@ -63,6 +63,11 @@ class Session extends Core {
 				$this->prefix = '_' . get_current_blog_id();
 			}
 		} else {
+			
+			if( ! $this->should_start_session() ) {
+				return;
+			}
+			
 			// Use WP_Session (default)
 			if (!defined('WP_SESSION_COOKIE')) {
 				define('WP_SESSION_COOKIE', 'mprm_wp_session');
@@ -297,8 +302,49 @@ class Session extends Core {
 	 * Starts a new session if one hasn't started yet.
 	 */
 	public function maybe_start_session() {
+		
+		if( ! $this->should_start_session() ) {
+			return;
+		}
+		
 		if (!session_id() && !headers_sent()) {
 			session_start();
 		}
 	}
+
+	/**
+	 * Determines if we should start sessions
+	 *
+	 * @return bool
+	 */
+	public function should_start_session() {
+
+		$start_session = true;
+
+		if( ! empty( $_SERVER[ 'REQUEST_URI' ] ) ) {
+
+			$uri       = ltrim( $_SERVER[ 'REQUEST_URI' ], '/' );
+			$uri       = untrailingslashit( $uri );
+
+			if( false !== strpos( $uri, 'feed=' ) ) {
+				$start_session = false;
+			}
+
+			if( is_admin() && false === strpos( $uri, 'wp-admin/admin-ajax.php' ) ) {
+				// We do not want to start sessions in the admin unless we're processing an ajax request
+				$start_session = false;
+			}
+
+			if( false !== strpos( $uri, 'wp_scrape_key' ) ) {
+				// Starting sessions while saving the file editor can break the save process, so don't start
+				$start_session = false;
+			}
+
+		}
+
+		return apply_filters( 'edd_start_session', $start_session );
+
+	}
+
+
 }

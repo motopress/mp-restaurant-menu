@@ -25,11 +25,19 @@ class Controller_Import extends Controller {
 	 * Action template
 	 */
 	public function action_content() {
-		$data = array();
-		View::get_instance()->render_html('../admin/import/index', $data);
+
+		if ( current_user_can('manage_restaurant_menu') ) {
+
+			$data = array();
+			View::get_instance()->render_html('../admin/import/index', $data);
+		}
 	}
 
 	public function action_export() {
-		Export::get_instance()->export();
+
+		if ( current_user_can('manage_restaurant_menu') ) {
+
+			Export::get_instance()->export();
+		}
 	}
 }

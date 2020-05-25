@@ -12,6 +12,7 @@ if (!class_exists('WP_List_Table')) {
  * @package mp_restaurant_menu\classes\models
  */
 class Customer_Reports extends \WP_List_Table {
+
 	protected static $instance;
 	/**
 	 * Number of items per page
@@ -60,6 +61,11 @@ class Customer_Reports extends \WP_List_Table {
 		}
 		return self::$instance;
 	}
+
+
+	protected function get_table_classes() {
+        return array( 'widefat', 'striped', $this->_args['plural'] );
+    }
 
 	/**
 	 * Show the search field
@@ -118,6 +124,9 @@ class Customer_Reports extends \WP_List_Table {
 			case 'user_id' :
 				$value = ((int)$item['user_id'] > 0) ? $item['user_id'] : '&ndash;';
 				break;
+			case 'id' :
+				$value = $item['id'];
+				break;
 			default:
 				$value = isset($item[$column_name]) ? $item[$column_name] : null;
 				break;
@@ -131,14 +140,12 @@ class Customer_Reports extends \WP_List_Table {
 	 * @return string
 	 */
 	public function column_name($item) {
-		$name = '#' . $item['id'] . ' ';
-		$name .= !empty($item['name']) ? $item['name'] : '<em>' . __('Unnamed Customer', 'mp-restaurant-menu') . '</em>';
-//		$user = !empty($item['user_id']) ? $item['user_id'] : $item['email'];
+		$name = !empty($item['name']) ? $item['name'] : '&ndash;';
 		$view_url = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $item['id']);
 		$actions = array(
 			'edit' => '<a href="' . $view_url . '">' . __('Edit', 'mp-restaurant-menu') . '</a>',
-//			'logs' => '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-reports&tab=logs&user=' . urlencode($user)) . '">' . __('Menu item log', 'mp-restaurant-menu') . '</a>',
-			'delete' => '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $item['id']) . '">' . __('Delete', 'mp-restaurant-menu') . '</a>'
+			'delete' => '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $item['id']) . '">' .
+				__('Delete', 'mp-restaurant-menu') . '</a>'
 		);
 
 		$customer = new Customer(array('field' => 'id', 'value' => $item['id']));
@@ -190,6 +197,7 @@ class Customer_Reports extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
+			'id' => __('ID', 'mp-restaurant-menu'),
 			'name' => __('Name', 'mp-restaurant-menu'),
 			'email' => __('Email', 'mp-restaurant-menu'),
 			'telephone' => __('Phone', 'mp-restaurant-menu'),
@@ -213,6 +221,7 @@ class Customer_Reports extends \WP_List_Table {
 	public function get_sortable_columns() {
 		return array(
 			'date_created' => array('date_created', true),
+			'email' => array('email', true),
 			'name' => array('name', true),
 			'num_purchases' => array('purchase_count', false),
 			'amount_spent' => array('purchase_value', false),

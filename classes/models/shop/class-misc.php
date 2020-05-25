@@ -165,7 +165,7 @@ class Misc extends Model {
 				$return = true;
 			} elseif (wp_get_current_user()->user_email === $this->get('payments')->get_payment_user_email($mprm_receipt_args[ 'id' ])) {
 				$return = true;
-			} elseif (current_user_can('view_shop_sensitive_data')) {
+			} elseif (current_user_can('manage_restaurant_menu')) {
 				$return = true;
 			}
 		}

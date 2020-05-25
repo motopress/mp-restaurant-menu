@@ -108,7 +108,7 @@
 		<input type="checkbox" name="ingredients" checked value="1" data-selector="form_data"/>
 	</div>
 </div>
-<?php if (mprm_get_option('enable_ecommerce')): ?>
+<?php if ( mprm_ecommerce_enabled() ) : ?>
 	<div class="mprm-line" data-selector="data-line">
 		<div class="mprm-left-side"><?php _e('Show buy button', 'mp-restaurant-menu'); ?></div>
 		<div class="mprm-right-side">

@@ -30,7 +30,7 @@ class Taxonomy extends Module {
 	public function register(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
 			'label' => ucfirst($params['titles']['many']),
-			'labels' => $this->get_labels($params, $plugin_name),
+			'labels' => $params['titles'],
 			'parent_item' => __('Parent ' . $params['titles']['single'], $plugin_name),
 			'parent_item_colon' => __('Parent ' . $params['titles']['single'], $plugin_name),
 			'public' => true,
@@ -39,7 +39,7 @@ class Taxonomy extends Module {
 			'show_in_menu' => false,
 			'show_tagcloud' => true,
 			'show_in_quick_edit' => true,
-			'hierarchical' => true,
+			'hierarchical' => $params['hierarchical'],
 			'update_count_callback' => '',
 			'rewrite' => (!empty($params['slug'])) ? array(
 				'slug' => $params['slug'],

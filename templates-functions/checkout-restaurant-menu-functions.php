@@ -210,3 +210,7 @@ function mprm_send_to_success_page($query_string) {
 function mprm_send_back_to_checkout($args) {
 	return models\Checkout::get_instance()->send_back_to_checkout($args);
 }
+
+function mprm_can_checkout() {
+	return models\Checkout::get_instance()->can_checkout();
+}

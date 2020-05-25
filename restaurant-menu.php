@@ -1,15 +1,20 @@
 <?php
 /**
  * Plugin Name: Restaurant Menu
- * Plugin URI: https://motopress.com
+ * Plugin URI: https://motopress.com/products/restaurant-menu/
  * Description: This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
- * Version: 2.3.3
+ * Version: 2.4.0
  * Author: MotoPress
  * Author URI: https://motopress.com
  * License: GPLv2 or later
  * Text Domain: mp-restaurant-menu
  * Domain Path: /languages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\upgrade\Install;
@@ -31,25 +36,32 @@ define('MP_RM_LIBS_PATH', MP_RM_CLASSES_PATH . 'libs/');
 define('MP_RM_CONFIGS_PATH', MP_RM_PLUGIN_PATH . 'configs/');
 define('MP_RM_TEMPLATES_ACTIONS', MP_RM_PLUGIN_PATH . 'templates-actions/');
 define('MP_RM_TEMPLATES_FUNCTIONS', MP_RM_PLUGIN_PATH . 'templates-functions/');
-define('MP_RM_DEBUG', FALSE);
+
+if ( ! defined( 'MP_RM_DEBUG' ) ) {
+	define('MP_RM_DEBUG', FALSE);
+}
 
 register_activation_hook(__FILE__, array(MP_Restaurant_Menu_Setup_Plugin::init(), 'on_activation'));
 register_deactivation_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_deactivation'));
-register_uninstall_hook(__FILE__, array('MP_Restaurant_Menu_Setup_Plugin', 'on_uninstall'));
-add_action('plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init'));
+
+add_action( 'plugins_loaded', array('MP_Restaurant_Menu_Setup_Plugin', 'init') );
 
 /**
  * Class MP_Restaurant_Menu_Setup_Plugin
  */
 class MP_Restaurant_Menu_Setup_Plugin {
+
 	protected static $instance;
 	
 	/**
 	 * MP_Restaurant_Menu_Setup_Plugin constructor.
 	 */
 	public function __construct() {
+
 		MP_Restaurant_Menu_Setup_Plugin::include_all();
+
 		Core::get_instance()->init_plugin(MP_RM_PLUGIN_NAME);
+
 		if (!defined('MP_RM_TEMPLATE_PATH')) {
 			define('MP_RM_TEMPLATE_PATH', $this->template_path());
 		}
@@ -59,10 +71,6 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * Include files
 	 */
 	static function include_all() {
-		/**
-		 * Install Fire bug
-		 */
-		require_once MP_RM_LIBS_PATH . 'FirePHPCore/fb.php';
 		/**
 		 * Include Gump Validator
 		 */
@@ -147,6 +155,7 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * On activation plugin
 	 */
 	public static function on_activation() {
+
 		//Register all custom post type, taxonomy and rewrite rule
 		Media::get_instance()->register_all_post_type();
 		Media::get_instance()->register_all_taxonomies();
@@ -168,10 +177,4 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		flush_rewrite_rules();
 	}
 	
-	/**
-	 * On uninstall
-	 */
-	public static function on_uninstall() {
-		
-	}
 }

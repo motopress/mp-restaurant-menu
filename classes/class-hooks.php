@@ -650,6 +650,10 @@ class Hooks extends Core {
 		add_filter('mprm_settings_general', array($this, 'filter_options'), 10, 1);
 		
 		add_action('wp_head', array($this, 'wpHeadFinished'), 999);
+		//add_filter( 'mprm_can_checkout', array( $this, 'checkout_check_open_hours' ));
+		
+		// change order status
+		add_action( 'wp_ajax_mprm_mark_order_status', array($this, 'wp_ajax_mprm_mark_order_status') );
 	}
 	
 	/**
@@ -1063,4 +1067,49 @@ class Hooks extends Core {
 		
 		return $args;
 	}
+
+	/*
+	public function checkout_check_open_hours( $can_checkout ) {
+
+		if ( mprm_store_has_open_hours() === true ) {
+
+			$prevent_offline_checkout = boolval( mprm_get_option('prevent_offline_checkout', false) );
+
+			if ( mprm_store_is_open() == false && $prevent_offline_checkout == true ) {
+				$can_checkout = false;
+				add_action('mprm_cart_empty', array( $this, 'mprm_cart_empty_offline_message' ), 11);
+			}
+		}
+
+		return $can_checkout;
+	}
+	*/
+
+	/*
+	public function mprm_cart_empty_offline_message() {
+		echo '<span class="mprm_empty_cart">' . mprm_get_open_hours_offline_message() . '</span>';
+	}
+	*/
+
+	/**
+	 * Mark an order with a status.
+	 */
+	public function wp_ajax_mprm_mark_order_status() {
+		if ( current_user_can( 'manage_restaurant_menu' ) &&
+			check_admin_referer( 'mprm-mark-order-status' ) && isset( $_GET['status'], $_GET['order_id'] ) ) {
+
+			$status = sanitize_text_field( wp_unslash( $_GET['status'] ) );
+			$order  = new models\Order( absint( wp_unslash( $_GET['order_id'] ) ) );
+
+			if ( $order ) {
+
+				$order->update_status( $status );
+			}
+		}
+
+		wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=mprm_order' ) );
+		exit;
+	}
+
+
 }

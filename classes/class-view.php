@@ -57,19 +57,19 @@ class View {
 	 */
 	
 	public function render_html($template, $data = null, $output = true) {
-		$includeFile = $this->templates_path . $template . '.php';
-		ob_start();
-		
-		if (is_array($data)) {
+
+		$this->data = $data;
+
+		if ( is_array($data) ) {
 			extract($data);
 		}
-		
-		$this->data = $data;
-		
+
+		$includeFile = $this->templates_path . $template . '.php';
+
+		ob_start();
 		include($includeFile);
-		
 		$out = ob_get_clean();
-		
+
 		if ($output) {
 			echo $out;
 		} else {
@@ -136,11 +136,11 @@ class View {
 	 */
 	public function get_template($template_name, $args = array(), $template_path = '', $default_path = '') {
 		$template_name = $template_name . '.php';
-		
+
 		if (!empty($args) && is_array($args)) {
 			extract($args);
 		}
-		
+
 		$located = $this->locate_template($template_name, $template_path, $default_path);
 		
 		if (!file_exists($located)) {

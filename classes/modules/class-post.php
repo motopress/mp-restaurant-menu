@@ -34,7 +34,7 @@ class Post extends Module {
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 
 		register_post_status('mprm-completed', array(
@@ -83,12 +83,12 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-shipped', array(
-			'label' => _x('Shipped', 'Order status', 'mp-restaurant-menu'),
+			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop('Shipped <span class="count">(%s)</span>', 'Shipped <span class="count">(%s)</span>', 'mp-restaurant-menu')
+			'label_count' => _n_noop('Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'mp-restaurant-menu')
 		));
 	}
 
@@ -103,10 +103,11 @@ class Post extends Module {
 	public function register_post_type(array $params, $plugin_name = 'mp-restaurant-menu') {
 		$args = array(
 			'label' => $params['post_type'],
-			'labels' => $this->get_labels($params, $plugin_name),
+			'labels' => $params['titles'],
 			"public" => true,
 			"show_ui" => true,
 			'show_in_menu' => false,
+			'show_in_nav_menus' => empty($params['show_in_nav_menus']) ? false : $params['show_in_nav_menus'],
 			"capability_type" => empty($params['capability_type']) ? "post" : $params['capability_type'],
 			"menu_position" => 21,
 			"hierarchical" => false,

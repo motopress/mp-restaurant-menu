@@ -381,7 +381,7 @@ class Cart extends Model {
 		if (empty($post->ID)) {
 			return false;
 		}
-		if ('publish' !== $post->post_status && !current_user_can('edit_product', $post->ID)) {
+		if ('publish' !== $post->post_status && !current_user_can('manage_restaurant_menu', $post->ID)) {
 			return false;
 		}
 		return $data;
