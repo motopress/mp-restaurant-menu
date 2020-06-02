@@ -1,4 +1,5 @@
 <?php
+use mp_restaurant_menu\classes;
 use mp_restaurant_menu\classes\models;
 use mp_restaurant_menu\classes\View;
 
@@ -74,13 +75,12 @@ function mprm_checkout_button_purchase() {
 }
 
 function mprm_checkout_minimum_order_amount() {
+
 	$minimum_order_amount = models\Settings::get_instance()->get_option('minimum_order_amount', 0);
 	$cart_total = mprm_get_cart_total();
+
 	//minimum_order_amount
-	if ($minimum_order_amount && $cart_total < $minimum_order_amount) {
-
-		add_filter('mprm_can_checkout', '__return_false');
-
+	if ( $cart_total && $minimum_order_amount && ($cart_total < $minimum_order_amount) ) {
 		?>
 		<div class="mprm-notice mprm-notice-error">
 			<div class="mprm-error">
@@ -95,6 +95,36 @@ function mprm_checkout_minimum_order_amount() {
 			</div>
 		</div>
 		<?php
+	}
+}
+
+function mprm_pre_process_purchase_validate_minimum_order_amount() {
+
+	$is_ajax = classes\Core::is_ajax();
+	$minimum_order_amount = models\Settings::get_instance()->get_option('minimum_order_amount', 0);
+	$cart_total = mprm_get_cart_total();
+
+	if ( $cart_total && $minimum_order_amount && ($cart_total < $minimum_order_amount) ) {
+
+		$error = sprintf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+			mprm_currency_filter( mprm_format_amount( $cart_total ) ),
+			mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
+		);
+
+		if ($is_ajax) {
+
+			models\Errors::get_instance()->set_error('minimum_order_amount', $error);
+			$errors = models\Errors::get_instance()->get_error_html();
+
+			wp_send_json_error(
+				array(
+					'errors' => $errors,
+					'error' => true,
+				)
+			);
+		} else {
+			wp_die( $error );
+		}
 	}
 }
 

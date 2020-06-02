@@ -160,11 +160,15 @@ class Customer extends Model {
 		$offset = empty($args['offset']) ? '' : ' OFFSET ' . $args['offset'];
 
 		if (!empty($args['search_value']) && !empty($args['search_by'])) {
-			$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'%{$args['search_value']}%'";
+			if ( $args['search_by'] == 'id' ) {
+				$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'{$args['search_value']}'";
+			} else {
+				$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'%{$args['search_value']}%'";
+			}
 		}
 
-
 		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name . $where . ' ORDER BY ' . $args['orderby'] . ' ' . $args['order'] . $limit . $offset;
+
 		$customers_data = $wpdb->get_results($sql_reguest);
 
 		return empty($customers_data) ? false : $customers_data;
@@ -301,15 +305,21 @@ class Customer extends Model {
 	 */
 	public function get_session_customer() {
 		$customer = $this->get('session')->get_session_by_key('customer');
-		$customer = wp_parse_args($customer, array('first_name' => '', 'last_name' => '', 'email' => ''));
+		$customer = wp_parse_args($customer, array('first_name' => '', 'last_name' => '', 'email' => '', 'telephone' => ''));
 		if (is_user_logged_in()) {
 			$user_data = get_userdata(get_current_user_id());
+
 			foreach ($customer as $key => $field) {
 				if ('email' == $key && empty($field)) {
 					$customer[$key] = $user_data->user_email;
 				} elseif (empty($field)) {
 					$customer[$key] = $user_data->$key;
 				}
+			}
+
+			$_customer = self::get_instance()->get_customer( array('field' => 'email', 'value' => $customer['email']) );
+			if ( $_customer && isset( $_customer->telephone ) ) {
+				$customer['telephone'] = $_customer->telephone;
 			}
 		}
 		return $customer = array_map('sanitize_text_field', $customer);

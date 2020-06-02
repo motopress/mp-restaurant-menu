@@ -376,7 +376,7 @@ function mprm_email_tag_receipt_link($order_id) {
 	$receipt_url = esc_url(add_query_arg(array(
 		'payment_key' => mprm_get_payment_key($order_id)
 	), mprm_get_success_page_uri()));
-	$formatted = sprintf(__('%1$sView it in your browser %2$s', 'mprm'), '<a href="' . $receipt_url . '">', '&raquo;</a>');
+	$formatted = sprintf(__('%1$sView it in your browser.%2$s', 'mp-restaurant-menu'), '<a href="' . $receipt_url . '">', '&raquo;</a>');
 
 	if (mprm_get_option('email_template') !== 'none') {
 		return $formatted;

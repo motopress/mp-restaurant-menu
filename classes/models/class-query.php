@@ -146,7 +146,7 @@ class Query extends Model {
 		}
 		
 		$search_order_id = preg_replace('/[a-z# ]/i', '', $_GET[ 's' ]);
-		
+
 		// Search orders
 		if (is_numeric($search_order_id)) {
 			$post_ids = array_unique(array_merge(
@@ -163,7 +163,7 @@ class Query extends Model {
 						FROM {$wpdb->postmeta} p1
 						INNER JOIN {$wpdb->postmeta} p2 ON p1.post_id = p2.post_id
 						WHERE		( p1.meta_key IN ('" . implode("','", array_map('esc_sql', $search_fields)) . "') AND p1.meta_value LIKE '%%%s%%' )	",
-						mprm_clean($_GET[ 's' ]), mprm_clean($_GET[ 's' ]), mprm_clean($_GET[ 's' ])
+						mprm_clean($_GET[ 's' ])
 					)
 				), $wpdb->get_col($wpdb->prepare("SELECT *  FROM {$wpdb->posts} WHERE `post_title` LIKE '%%%s%%'", mprm_clean($_GET[ 's' ])))
 			));

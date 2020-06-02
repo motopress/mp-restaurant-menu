@@ -201,8 +201,10 @@ final class Order extends Model {
 	 * @return mixed
 	 */
 	public function get_meta($meta_key = '_mprm_order_meta', $single = true) {
+
 		$meta = get_post_meta($this->ID, $meta_key, $single);
-		if ($meta_key === '_mprm_order_meta') {
+
+		if ( $meta_key === '_mprm_order_meta' && $meta && is_array($meta) ) {
 			if (empty($meta['key'])) {
 				$meta['key'] = $this->setup_payment_key();
 			}

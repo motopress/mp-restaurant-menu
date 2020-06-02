@@ -36,7 +36,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php if (filter_var($receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<th><strong><?php _e('Order', 'mp-restaurant-menu'); ?>:</strong></th>
+			<th><strong><?php _e('Order', 'mp-restaurant-menu'); ?></strong></th>
 			<th><?php echo Payments::get_instance()->get_payment_number($order->ID); ?></th>
 		</tr>
 	<?php endif; ?>
@@ -44,32 +44,32 @@ if (isset($need_login) && $need_login) {
 	</thead>
 	<tbody>
 	<tr>
-		<td class="mprm_receipt_payment_status"><strong><?php _e('Payment Status', 'mp-restaurant-menu'); ?>:</strong></td>
+		<td class="mprm_receipt_payment_status"><strong><?php _e('Order Status', 'mp-restaurant-menu'); ?></strong></td>
 		<td class="mprm_receipt_payment_status <?php echo strtolower($status); ?>"><?php echo $status; ?></td>
 	</tr>
 	<?php if (filter_var($receipt_args['payment_key'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<td><strong><?php _e('Payment Key', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Payment Key', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo get_post_meta($order->ID, '_mprm_order_purchase_key', true); ?></td>
 		</tr>
 	<?php endif; ?>
 	<?php if (filter_var($receipt_args['payment_method'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<td><strong><?php _e('Payment Method', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Payment Method', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo Gateways::get_instance()->get_gateway_checkout_label(Payments::get_instance()->get_payment_gateway($order->ID)); ?></td>
 		</tr>
 	<?php endif; ?>
 
 	<?php if (filter_var($receipt_args['date'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<td><strong><?php _e('Date', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Date', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo date_i18n(get_option('date_format'), strtotime($meta['date'])); ?></td>
 		</tr>
 	<?php endif; ?>
 
 	<?php if (($fees = Payments::get_instance()->get_payment_fees($order->ID, 'fee'))) : ?>
 		<tr>
-			<td><strong><?php _e('Fees', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Fees', 'mp-restaurant-menu'); ?></strong></td>
 			<td>
 				<ul class="mprm_receipt_fees">
 					<?php foreach ($fees as $fee) : ?>
@@ -86,7 +86,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php if (filter_var($receipt_args['discount'], FILTER_VALIDATE_BOOLEAN) && isset($user['discount']) && $user['discount'] != 'none') : ?>
 		<tr>
-			<td><strong><?php _e('Discount(s)', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Discount(s)', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo $user['discount']; ?></td>
 		</tr>
 	<?php endif; ?>
@@ -114,7 +114,7 @@ if (isset($need_login) && $need_login) {
 
 	<?php if (filter_var($receipt_args['price'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
-			<td><strong><?php _e('Total Price', 'mp-restaurant-menu'); ?>:</strong></td>
+			<td><strong><?php _e('Total Price', 'mp-restaurant-menu'); ?></strong></td>
 			<td><?php echo Payments::get_instance()->payment_amount($order->ID); ?></td>
 		</tr>
 	<?php endif; ?>

@@ -86,8 +86,8 @@ function mprm_post_class($classes, $class = '', $post_id = '') {
  * @return bool|mixed
  */
 function mprm_get_post_meta($post_id, $key, $single = false, $default = false) {
+
 	$post_meta = get_post_meta($post_id, $key, $single);
-	
 	return empty($post_meta) ? $default : $post_meta;
 }
 

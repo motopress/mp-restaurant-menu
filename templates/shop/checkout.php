@@ -1,7 +1,3 @@
-<?php
-	do_action('mprm_checkout_before');
-?>
-
 <div id="mprm_checkout_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>">
 
 	<?php if ( ($cart_contents || $cart_has_fees) && mprm_can_checkout() ) : ?>
@@ -59,7 +55,3 @@
 		do_action('mprm_cart_empty');
 	endif; ?>
 </div>
-
-<?php
-	do_action('mprm_checkout_after');
-?>

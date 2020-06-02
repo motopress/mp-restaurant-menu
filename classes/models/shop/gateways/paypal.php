@@ -212,7 +212,7 @@ class Paypal extends Model {
 				}
 			}
 		} else {
-			wp_mail(get_bloginfo('admin_email'), __('Invalid IPN', 'mprm'), $listener->getTextReport());
+			wp_mail(get_bloginfo('admin_email'), __('Invalid IPN', 'mp-restaurant-menu'), $listener->getTextReport());
 		}
 	}
 

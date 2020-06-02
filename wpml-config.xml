@@ -1,0 +1,36 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1" display-as-translated="1">mp_menu_item</custom-type>
+    <custom-type translate="0">mprm_order</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1" display-as-translated="1">mp_menu_category</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">mp_menu_tag</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">mp_ingredient</taxonomy>
+  </taxonomies>
+  <custom-fields>
+    <custom-field action="copy">nutritional</custom-field>
+    <custom-field action="copy">price</custom-field>
+    <custom-field action="copy">attributes</custom-field>
+    <custom-field action="copy">sku</custom-field>
+    <custom-field action="copy">mp_menu_gallery</custom-field>
+  </custom-fields>
+  <admin-texts>
+    <key name="mprm_settings">
+      <key name="buy_now_text"/>
+      <key name="manual_description"/>
+      <key name="sale_notification_subject"/>
+      <key name="sale_notification"/>
+      <key name="from_name"/>
+      <key name="purchase_subject"/>
+      <key name="purchase_heading"/>
+      <key name="purchase_receipt"/>
+      <key name="checkout_label"/>
+      <key name="add_to_cart_text"/>
+      <key name="paypal_title"/>
+      <key name="paypal_description"/>
+      <key name="cod_description"/>
+      <key name="cod_title"/>
+    </key>
+  </admin-texts>
+</wpml-config>

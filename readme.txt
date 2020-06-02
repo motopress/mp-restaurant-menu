@@ -82,6 +82,13 @@ Go ahead and create a quick restaurant menu with the MP menu plugin without tech
 
 == Changelog ==
 
+= 2.4.0, Jun 2 2020 =
+* Improved compatibility with PHP 7.4.
+* Improved compatibility with WPML plugin.
+* Improved compatibility with Site Health tool.
+* Bug fix: fixed the issue with Minimum Order Amount on the checkout page.
+* Minor bugfixes and improvements.
+
 = 2.3.3, Jan 22 2019 =
 * Added the ability to set minimum order amount.
 * Bug fix: fixed the issue with PayPal payments not being set as completed.

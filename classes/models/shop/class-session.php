@@ -342,7 +342,7 @@ class Session extends Core {
 
 		}
 
-		return apply_filters( 'edd_start_session', $start_session );
+		return apply_filters( 'mprm_start_session', $start_session );
 
 	}
 

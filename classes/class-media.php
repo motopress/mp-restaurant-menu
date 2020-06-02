@@ -883,7 +883,7 @@ class Media extends Core {
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
 							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Users must be logged-in to purchase menu items.', 'mp-restaurant-menu'),
+							'desc' => __('Users must be logged-in to purchase.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'show_register_form' => array(
@@ -1740,13 +1740,13 @@ class Media extends Core {
 			'labels' => array(
 				'name'              => _x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
 				'singular_name'     => _x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
-				'search_items'      => __( 'Search Ingredients', 'textdomain' ),
-				'all_items'         => __( 'All Ingredients', 'textdomain' ),
-				'edit_item'         => __( 'Edit Ingredient', 'textdomain' ),
-				'update_item'       => __( 'Update Ingredient', 'textdomain' ),
-				'add_new_item'      => __( 'Add New Ingredient', 'textdomain' ),
-				'new_item_name'     => __( 'New Ingredient Name', 'textdomain' ),
-				'menu_name'         => __( 'Ingredient', 'textdomain' ),
+				'search_items'      => __( 'Search Ingredients', 'mp-restaurant-menu' ),
+				'all_items'         => __( 'All Ingredients', 'mp-restaurant-menu' ),
+				'edit_item'         => __( 'Edit Ingredient', 'mp-restaurant-menu' ),
+				'update_item'       => __( 'Update Ingredient', 'mp-restaurant-menu' ),
+				'add_new_item'      => __( 'Add New Ingredient', 'mp-restaurant-menu' ),
+				'new_item_name'     => __( 'New Ingredient Name', 'mp-restaurant-menu' ),
+				'menu_name'         => __( 'Ingredient', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,

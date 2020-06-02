@@ -22,7 +22,7 @@
 					<span class="mprm-required-indicator">*</span>
 					<span class="phone-type"></span>
 				</label>
-				<input type="text" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>"/>
+				<input type="text" name="phone_number" id="mprm_phone_number" class="mprm-phone-number mprm-input" required placeholder="<?php _e('Phone number', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr($customer['telephone']); ?>"/>
 			</p>
 		<?php endif; ?>
 

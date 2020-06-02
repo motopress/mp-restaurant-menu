@@ -11,6 +11,7 @@ if (!mprm_user_pending_verification()) { ?>
 					<th class="mprm_purchase_id"><?php _e('ID', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_date"><?php _e('Date', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_amount"><?php _e('Amount', 'mp-restaurant-menu'); ?></th>
+					<th class="mprm_purchase_status"><?php _e('Status', 'mp-restaurant-menu'); ?></th>
 					<th class="mprm_purchase_details"><?php _e('Details', 'mp-restaurant-menu'); ?></th>
 					<?php do_action('mprm_purchase_history_header_after'); ?>
 				</tr>
@@ -21,17 +22,9 @@ if (!mprm_user_pending_verification()) { ?>
 						<?php do_action('mprm_purchase_history_row_start', $post->ID, $purchase_data); ?>
 						<td class="mprm_purchase_id">#<?php echo mprm_get_payment_number($post->ID); ?></td>
 						<td class="mprm_purchase_date"><?php echo date_i18n(get_option('date_format'), strtotime(get_post_field('post_date', $post->ID))); ?></td>
-						<td class="mprm_purchase_amount">
-							<span class="mprm_purchase_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($post->ID))); ?></span>
-						</td>
-						<td class="mprm_purchase_details">
-							<?php if ($post->post_status != 'publish') : ?>
-								<span class="mprm_purchase_status <?php echo $post->post_status; ?>"><?php echo mprm_get_payment_status($post, true); ?></span>
-								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>">&raquo;</a>
-							<?php else: ?>
-								<a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details', 'mp-restaurant-menu'); ?></a>
-							<?php endif; ?>
-						</td>
+						<td class="mprm_purchase_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($post->ID))); ?></td>
+						<td class="mprm_purchase_status"><?php echo mprm_get_payment_status($post, true); ?></td>
+						<td class="mprm_purchase_details"><a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details', 'mp-restaurant-menu'); ?></a></td>
 						<?php do_action('mprm_purchase_history_row_end', $post->ID, $purchase_data); ?>
 					</tr>
 				<?php endforeach; ?>

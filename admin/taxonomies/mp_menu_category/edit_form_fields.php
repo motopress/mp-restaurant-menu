@@ -12,7 +12,7 @@
 </tr>
 
 <tr class="form-field">
-	<th scope="row" valign="top"><label><?php _e('Thumbnail', 'foodpress'); ?></label></th>
+	<th scope="row" valign="top"><label><?php _e('Thumbnail', 'mp-restaurant-menu'); ?></label></th>
 	<td>
 		<div id="menu_category_thumbnail" style="float:left;margin-right:10px;">
 			<img src="<?php echo !empty($thumb_url) ? esc_attr($thumb_url) : esc_attr($placeholder) ?>" data-placeholder="<?php echo esc_attr($placeholder) ?>" width="150px" height="150px"/>

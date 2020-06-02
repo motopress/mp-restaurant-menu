@@ -190,6 +190,7 @@ class Controller_customer extends Controller {
 	public function action_delete() {
 
 		$customer_edit_role = apply_filters('mprm_edit_customers_role', 'manage_restaurant_menu');
+
 		if ( !is_admin() || !current_user_can($customer_edit_role) || !wp_verify_nonce($nonce, 'delete-customer') ) {
 			wp_die(__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));
 		}

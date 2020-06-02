@@ -27,11 +27,13 @@ class Purchase extends Model {
 	 * @return void|boolean
 	 */
 	public function process_purchase_form() {
+
 		do_action('mprm_pre_process_purchase');
+
+		$valid_data = false;
 
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {
-			$valid_data = false;
 			$this->get('errors')->set_error('empty_cart', __('Your cart is empty.', 'mp-restaurant-menu'));
 		} else {
 			// Validate the form $_POST data
@@ -39,6 +41,7 @@ class Purchase extends Model {
 			// Allow themes and plugins to hook to errors
 			do_action('mprm_checkout_error_checks', $valid_data, $_POST);
 		}
+
 		$is_ajax = Core::is_ajax();
 
 		// Process the login form
@@ -48,6 +51,7 @@ class Purchase extends Model {
 
 		// Validate the user
 		$user = $this->get_purchase_form_user($valid_data);
+
 		if (false === $valid_data || $this->get('errors')->get_errors() || !$user) {
 			if ($is_ajax) {
 
@@ -140,8 +144,10 @@ class Purchase extends Model {
 	 * @return array|bool
 	 */
 	public function purchase_form_validate_fields() {
+
 		// Check if there is $_POST
 		if (empty($_POST)) return false;
+
 		// Start an array to collect valid data
 		$valid_data = array(
 			'gateway' => $this->purchase_form_validate_gateway(), // Gateway fallback
@@ -790,9 +796,13 @@ class Purchase extends Model {
 	 * @return bool
 	 */
 	public function get_purchase_form_user($valid_data = array()) {
+
+		if ( $valid_data === false ) return false;
+
 		// Initialize user
 		$user = false;
 		$is_ajax = defined('DOING_AJAX') && DOING_AJAX;
+
 		if (is_user_logged_in()) {
 			// Set the valid user as the logged in collected data
 			$user = $valid_data['logged_in_user'];
