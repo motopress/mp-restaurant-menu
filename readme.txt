@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
-Tested up to: 5.4
+Tested up to: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -28,7 +28,9 @@ With the MotoPress WP Restaurant plugin, you can showcase your menus in posts, p
 * Check out a live WordPress [Restaurant Menu Plugin Demo](https://mprmdemo.getmotopress.com)
 * [WP Restaurant Plugin Documentation](https://motopress.com/files/motopress-restaurantmenu-plugin-documentation.pdf)
 
-= Turn the MotoPress Restaurant Menu plugin into a powerful WP food ordering and delivery software with the following extensions: =
+### WP food ordering and delivery software
+
+Turn the MotoPress Restaurant Menu plugin into a powerful WP food ordering and delivery software with the following extensions:
 
 * [WordPress Food Delivery plugin](https://motopress.com/products/restaurant-menu-delivery/) - this addon turns on delivery and pickup services for the orders made online by customers.
 * [Toppings](https://motopress.com/products/restaurant-menu-toppings/) - this extension will help you create a list of extras available for additional purchase along with the main menu item.
@@ -36,7 +38,7 @@ With the MotoPress WP Restaurant plugin, you can showcase your menus in posts, p
 
 All [addons for Restaurant Menu plugin](https://motopress.com/products/category/restaurant-menu-addons/).
 
-= Discover all free tools of MotoPress Restaurant Menu for WordPress =
+### Discover all free tools of MotoPress Restaurant Menu for WordPress
 
 * Responsive designs that allow customers to view the menu and order easily using mobile devices.
 * Complete menu item presentation: title and description, photos, price, detailed nutrition information, attributes (size, bulk, weight), tags (highlights), and the list of ingredients.
@@ -53,7 +55,7 @@ All [addons for Restaurant Menu plugin](https://motopress.com/products/category/
 * Easy-to-manage shortcodes and custom post types.
 * The ability to import and export menus between different WordPress installations.
 
-= E-commerce settings =
+### E-commerce settings
 
 The plugin will deliver the perfect WordPress restaurant online ordering experience to your customers thanks to these free tools:
 
@@ -64,7 +66,10 @@ The plugin will deliver the perfect WordPress restaurant online ordering experie
 * Order statuses to help customers track the status of their purchase (cooking, shipping, shipped).
 * Customizable email templates (confirmation, payments, notifications) to send to both website restaurant administrators and shoppers.
 
+Grid and List layouts can be added to Gutenberg, Elementor, Divi or any other builder via shortcodes.
 Go ahead and create a quick restaurant menu with the MP menu plugin without tech experts, for free!
+
+Proud developers of Restaurant Menu plugin and the biggest set of [WordPress Gutenberg Blocks](https://wordpress.org/plugins/getwid/).
 
 == Installation ==
 
