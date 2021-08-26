@@ -1,4 +1,4 @@
-# MotoPress Restaurant Menu Plugin for WordPress
+# Restaurant Menu Plugin for WordPress
 
 ![](https://img.shields.io/wordpress/plugin/v/mp-restaurant-menu)
 ![](https://img.shields.io/wordpress/plugin/wp-version/mp-restaurant-menu)
