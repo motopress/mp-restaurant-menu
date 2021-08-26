@@ -33,7 +33,7 @@ To compile styles you need:
 This is a developer's portal for the Restaurant Menu plugin and should not be used for support. Please visit the support page if you need to submit a support request.
 
 ## License
-Restaurant Menu WordPress Plugin, Copyright (C) 2019, MotoPress.
+Restaurant Menu WordPress Plugin, Copyright (C) 2016, MotoPress.
 Restaurant Menu is distributed under the terms of the GNU GPL.
 
 ## Contributions
