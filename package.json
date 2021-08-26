@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "dev:styles": "gulp",
+    "build:styles": "gulp less"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
