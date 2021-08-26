@@ -1,5 +1,12 @@
 # MotoPress Restaurant Menu Plugin for WordPress
 
+![](https://img.shields.io/wordpress/plugin/v/mp-restaurant-menu)
+![](https://img.shields.io/wordpress/plugin/wp-version/mp-restaurant-menu)
+![](https://img.shields.io/wordpress/plugin/dd/mp-restaurant-menu)
+![](https://img.shields.io/wordpress/plugin/installs/mp-restaurant-menu)
+![](https://img.shields.io/wordpress/plugin/rating/mp-restaurant-menu)
+![](https://img.shields.io/badge/license-GPL--2.0%2B-blue.svg?style=flat)
+
 Restaurant Menu is a [free food menu plugin for WordPress](https://motopress.com/products/restaurant-menu/) by MotoPress. It allows you to create a stylish online restaurant menu that features your menu items and offerings.
 
 You can create thematic categories of your menu items and display them in a preferable layout - either list or grid. Add images, tags, ingredients, nutrition info and other data to make your menu more attractive and informative.
@@ -36,10 +43,3 @@ Anyone is welcome to contribute.
     <br/>
     Made with 💙 by <a href="https://motopress.com/">MotoPress</a>.<br/>
 </p>
-
-### Compile JS and blocks
-npm run dev or npm run build
-
-### Compile CSS
-gulp
-gulp less
