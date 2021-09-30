@@ -36,8 +36,9 @@ function mprm_checkout_button_next() {
 	ob_start();
 	?>
 	<input type="hidden" name="mprm_action" value="gateway_select"/>
-	<input type="hidden" name="page_id" value="<?php echo absint($purchase_page); ?>"/>
-	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
+	<input type="hidden" name="page_id" value="<?php echo esc_attr( absint($purchase_page) ); ?>"/>
+	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php
+		echo esc_attr( $color ); ?> <?php echo esc_attr( $padding ); ?> <?php echo esc_attr( $style ); ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_next', ob_get_clean());
 }
@@ -66,7 +67,7 @@ function mprm_checkout_button_purchase() {
 	if ( $cart_total >= $minimum_order_amount ) {
 		ob_start();
 		?>
-		<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $padding; ?> <?php echo $style; ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo $complete_purchase; ?>"/>
+		<input type="submit" class="mprm-submit <?php echo esc_attr( $color ); ?> <?php echo esc_attr( $padding ); ?> <?php echo esc_attr( $style ); ?>" id="mprm-purchase-button" name="mprm-purchase" value="<?php echo esc_attr( $complete_purchase ); ?>"/>
 	<?php
 		$checkout_button = ob_get_clean();
 	}

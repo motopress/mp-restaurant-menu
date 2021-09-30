@@ -271,7 +271,7 @@ class Post extends Module {
 				$this->get_view()->render_html('../admin/quick-edit/hidden-data', $data);
 
 				if (!empty($post->price)) {
-					echo mprm_currency_filter(mprm_format_amount($post->price));
+					echo esc_html( mprm_currency_filter(mprm_format_amount($post->price)) );
 				} else {
 					echo '—';
 				}

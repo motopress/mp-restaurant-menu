@@ -14,7 +14,7 @@ $sub_categories = mprm_get_term_children($mprm_term->term_id, $mprm_term->taxono
 	<div class="mprm-category-content <?php echo ($image_is_available && $category_image_src) ? 'mprm-columns mprm-seven' : '' ?>">
 		<a href="<?php echo get_term_link($mprm_term); ?>" class="mprm-link">
 			<h2 class="mprm-title">
-				<?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo $icon ?>"></i><?php endif;
+				<?php if (!empty($icon) && !empty($mprm_view_args['categ_icon'])): ?><i class="mprm-icon  <?php echo esc_attr( $icon );?>"></i><?php endif;
 				if (!empty($mprm_view_args['categ_name'])) : echo $mprm_term->name; endif; ?>
 			</h2>
 		</a>

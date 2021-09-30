@@ -29,10 +29,10 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 						$price = mprm_get_menu_item_final_price($item_id, $user_info, null);
 					}
 					?>
-					<div class="item mprm-columns <?php echo $column ?>">
-							<span class="mprm-<?php echo get_post_type($item_id) ?>">
+					<div class="item mprm-columns <?php echo esc_attr( $column ); ?>">
+							<span class="mprm-<?php echo esc_attr( get_post_type($item_id) );?>">
 								<a href="<?php echo admin_url('post.php?post=' . $item_id . '&action=edit'); ?>">
-									<?php echo get_the_title($item_id);
+									<?php echo esc_html( get_the_title($item_id) );
 									if (isset($cart_items[$key]['item_number']) && isset($cart_items[$key]['item_number']['options'])) {
 										$price_options = $cart_items[$key]['item_number']['options'];
 										if (mprm_has_variable_prices($item_id) && isset($price_id)) {
@@ -51,20 +51,20 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					</div>
 
 					<?php if (mprm_item_quantities_enabled()) : ?>
-						<div class="quantity mprm-columns <?php echo $column ?>">
+						<div class="quantity mprm-columns <?php echo esc_attr( $column ); ?>">
 							<span class="item-price"><?php echo mprm_currency_filter(mprm_format_amount($item_price)); ?></span>
 							&nbsp;&times;&nbsp;<span class="item-quantity"><?php echo $quantity; ?></span>
 						</div>
 					<?php endif; ?>
 
-					<div class="price mprm-columns <?php echo $column ?>">
+					<div class="price mprm-columns <?php echo esc_attr( $column );?>">
 						<?php if (mprm_item_quantities_enabled()) : ?>
 							<?php echo __('Total:', 'mp-restaurant-menu') . '&nbsp;'; ?>
 						<?php endif; ?>
 						<span class="price-text"><?php echo mprm_currency_filter(mprm_format_amount($price), $currency_code); ?></span>
 					</div>
 
-					<div class="actions mprm-columns <?php echo $column ?>">
+					<div class="actions mprm-columns <?php echo esc_attr( $column ); ?>">
 						<input type="hidden" class="mprm-order-detail-has-log" name="mprm-order-details[<?php echo $key; ?>][has_log]" value="1"/>
 						<a href="" class="mprm-order-remove-menu-item mprm-delete" data-key="<?php echo esc_attr($key); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
 					</div>
@@ -75,7 +75,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 			endforeach; ?>
 
 			<div class="mprm-row">
-				<div class="item mprm-columns <?php echo $column ?>">
+				<div class="item mprm-columns <?php echo esc_attr( $column ); ?>">
 					<?php
 					echo mprm_menu_item_dropdown(array(
 						'name' => 'mprm-order-menu-item-select',
@@ -90,7 +90,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				</div>
 
 				<?php if (mprm_item_quantities_enabled()) : ?>
-					<div class="quantity mprm-columns <?php echo $column ?>">
+					<div class="quantity mprm-columns <?php echo esc_attr( $column ); ?>">
 						<span><?php _e('Quantity', 'mp-restaurant-menu'); ?>:&nbsp;</span>
 						<input type="number" id="mprm-order-menu-item-quantity" class="small-text" min="1" step="1" value="1"/>
 					</div>
@@ -109,7 +109,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					?>
 				</div>
 
-				<div class="actions mprm-columns <?php echo $column ?>">
+				<div class="actions mprm-columns <?php echo esc_attr( $column );?>">
 					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php _e('Add Item', 'mp-restaurant-menu'); ?></a>
 				</div>
 			</div>

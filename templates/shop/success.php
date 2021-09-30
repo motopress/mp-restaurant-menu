@@ -37,7 +37,7 @@ if (isset($need_login) && $need_login) {
 	<?php if (filter_var($receipt_args['payment_id'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<th><strong><?php _e('Order', 'mp-restaurant-menu'); ?></strong></th>
-			<th><?php echo Payments::get_instance()->get_payment_number($order->ID); ?></th>
+			<th><?php echo esc_html( Payments::get_instance()->get_payment_number($order->ID) ); ?></th>
 		</tr>
 	<?php endif; ?>
 
@@ -45,25 +45,25 @@ if (isset($need_login) && $need_login) {
 	<tbody>
 	<tr>
 		<td class="mprm_receipt_payment_status"><strong><?php _e('Order Status', 'mp-restaurant-menu'); ?></strong></td>
-		<td class="mprm_receipt_payment_status <?php echo strtolower($status); ?>"><?php echo $status; ?></td>
+		<td class="mprm_receipt_payment_status <?php echo esc_attr( strtolower($status) ); ?>"><?php echo esc_html( $status ); ?></td>
 	</tr>
 	<?php if (filter_var($receipt_args['payment_key'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Payment Key', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo get_post_meta($order->ID, '_mprm_order_purchase_key', true); ?></td>
+			<td><?php echo esc_html( get_post_meta($order->ID, '_mprm_order_purchase_key', true) ); ?></td>
 		</tr>
 	<?php endif; ?>
 	<?php if (filter_var($receipt_args['payment_method'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Payment Method', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo Gateways::get_instance()->get_gateway_checkout_label(Payments::get_instance()->get_payment_gateway($order->ID)); ?></td>
+			<td><?php echo esc_html( Gateways::get_instance()->get_gateway_checkout_label(Payments::get_instance()->get_payment_gateway($order->ID)) ); ?></td>
 		</tr>
 	<?php endif; ?>
 
 	<?php if (filter_var($receipt_args['date'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Date', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo date_i18n(get_option('date_format'), strtotime($meta['date'])); ?></td>
+			<td><?php echo esc_html( date_i18n(get_option('date_format'), strtotime($meta['date'])) ); ?></td>
 		</tr>
 	<?php endif; ?>
 
@@ -76,7 +76,7 @@ if (isset($need_login) && $need_login) {
 						<li>
 							<span class="mprm_fee_label"><?php echo esc_html($fee['label']); ?></span>
 							<span class="mprm_fee_sep">&nbsp;&ndash;&nbsp;</span>
-							<span class="mprm_fee_amount"><?php echo mprm_currency_filter(mprm_format_amount($fee['amount'])); ?></span>
+							<span class="mprm_fee_amount"><?php echo esc_html( mprm_currency_filter(mprm_format_amount($fee['amount'])) ); ?></span>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -87,7 +87,7 @@ if (isset($need_login) && $need_login) {
 	<?php if (filter_var($receipt_args['discount'], FILTER_VALIDATE_BOOLEAN) && isset($user['discount']) && $user['discount'] != 'none') : ?>
 		<tr>
 			<td><strong><?php _e('Discount(s)', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo $user['discount']; ?></td>
+			<td><?php echo esc_html( $user['discount'] ); ?></td>
 		</tr>
 	<?php endif; ?>
 
@@ -97,7 +97,7 @@ if (isset($need_login) && $need_login) {
 		<tr>
 			<td><strong><?php _e('Subtotal', 'mp-restaurant-menu'); ?> </strong></td>
 			<td>
-				<?php echo Payments::get_instance()->payment_subtotal($order->ID); ?>
+				<?php echo esc_html( Payments::get_instance()->payment_subtotal($order->ID) ); ?>
 			</td>
 		</tr>
 
@@ -108,27 +108,27 @@ if (isset($need_login) && $need_login) {
 	<?php if (mprm_use_taxes()) : ?>
 		<tr>
 			<td><strong><?php _e('Tax', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo Payments::get_instance()->payment_tax($order->ID); ?></td>
+			<td><?php echo esc_html( Payments::get_instance()->payment_tax($order->ID) ); ?></td>
 		</tr>
 	<?php endif; ?>
 
 	<?php if (filter_var($receipt_args['price'], FILTER_VALIDATE_BOOLEAN)) : ?>
 		<tr>
 			<td><strong><?php _e('Total Price', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo Payments::get_instance()->payment_amount($order->ID); ?></td>
+			<td><?php echo esc_html( Payments::get_instance()->payment_amount($order->ID) ); ?></td>
 		</tr>
 	<?php endif; ?>
 	<?php if (!empty($order->customer_note)) : ?>
 		<tr>
 			<td><strong><?php _e('Order Notes', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo $order->customer_note; ?></td>
+			<td><?php echo esc_html( $order->customer_note ); ?></td>
 		</tr>
 	<?php endif; ?>
 
 	<?php if (!empty($order->shipping_address)) : ?>
 		<tr>
 			<td><strong><?php _e('Shipping address', 'mp-restaurant-menu'); ?></strong></td>
-			<td><?php echo $order->shipping_address; ?></td>
+			<td><?php echo esc_html( $order->shipping_address ); ?></td>
 		</tr>
 	<?php endif; ?>
 
@@ -184,7 +184,7 @@ if (isset($need_login) && $need_login) {
 					<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 						<td></td>
 					<?php endif; ?>
-					<td class="mprm_fee_amount"><?php echo mprm_currency_filter(mprm_format_amount($fee['amount'])) ?></td>
+					<td class="mprm_fee_amount"><?php echo esc_html( mprm_currency_filter(mprm_format_amount($fee['amount'])) ); ?></td>
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>

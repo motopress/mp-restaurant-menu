@@ -344,7 +344,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The primary billing address for your credit card.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address" name="card_address" class="card-address mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'line1' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
+			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line1' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -358,7 +358,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The suite, apt no, PO box, etc, associated with your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address_2" name="card_address_2" class="card-address-2 mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'line2' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
+			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line2' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -372,7 +372,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The city for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_city" name="card_city" class="card-city mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'city' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
+			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'city' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -386,7 +386,7 @@ function mprm_default_cc_address_fields() {
 			<span class="mprm-description"><?php _e('The zip or postal code for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" size="4" name="card_zip" class="card-zip mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo $customer[ 'address' ][ 'zip' ]; ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
+			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'zip' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required ';
 			} ?>/>
 		</p>
@@ -533,7 +533,7 @@ function mprm_get_login_fields() {
 
 		</p>
 		<p id="mprm-user-login-submit">
-			<input type="submit" class="mprm-submit <?php echo $color; ?> <?php echo $style; ?> <?php echo $padding; ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
+			<input type="submit" class="mprm-submit <?php echo esc_attr( $color ); ?> <?php echo esc_attr( $style ); ?> <?php echo esc_attr( $padding ); ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_checkout_login_fields_after'); ?>
 	</fieldset>
@@ -617,7 +617,7 @@ function mprm_purchase_form_top() { ?>
 		$class = 'mprm-no-js';
 	} ?>
 
-	<form id="mprm_purchase_form" class="mprm_form <?php echo $class ?>"  method="POST">
+	<form id="mprm_purchase_form" class="mprm_form <?php echo esc_attr( $class ); ?>"  method="POST">
 	<?php
 }
 

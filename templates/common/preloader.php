@@ -1,5 +1,5 @@
 <div class="mprm-container-preloader">
-	<div class="mprm-floating-circles mprm-floating-circle-wrapper <?php echo $class ?>">
+	<div class="mprm-floating-circles mprm-floating-circle-wrapper <?php echo esc_attr( $class );?>">
 		<div class="mprm-floating-circle" id="mprm-floating-circle-rotate-1"></div>
 		<div class="mprm-floating-circle" id="mprm-floating-circle-rotate-2"></div>
 		<div class="mprm-floating-circle" id="mprm-floating-circle-rotate-3"></div>

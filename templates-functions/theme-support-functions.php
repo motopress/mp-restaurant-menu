@@ -9,7 +9,7 @@ function get_price_theme_view() {
 	do_action('mprm_price_theme_view_before', $price);
 	
 	if (!empty($price)) { ?>
-		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo mprm_currency_filter(mprm_format_amount($price)) ?></b></span></p>
+		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo esc_html( mprm_currency_filter(mprm_format_amount($price)) );?></b></span></p>
 	<?php }
 	
 	do_action('mprm_price_theme_view_after', $price);
@@ -29,7 +29,7 @@ function get_ingredients_theme_view() {
 				if (!is_object($ingredient)) {
 					continue;
 				} ?>
-				<li><?php echo $ingredient->name ?></li>
+				<li><?php echo esc_html( $ingredient->name );?></li>
 			<?php endforeach; ?>
 		</ul>
 	<?php }
@@ -49,7 +49,7 @@ function get_attributes_theme_view() {
 		<ul>
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
-					<li><?php echo $info[ 'val' ]; ?></li>
+					<li><?php echo esc_html( $info[ 'val' ] ); ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
@@ -71,7 +71,8 @@ function get_nutritional_theme_view() {
 		<ul>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
-					<li><?php echo mprm_get_nutrition_label(strtolower($info[ 'title' ])) . apply_filters('mprm-nutritional-delimiter', ': ') . $info[ 'val' ]; ?></li>
+					<li><?php echo esc_html( mprm_get_nutrition_label(strtolower($info[ 'title' ])) ) .
+						apply_filters('mprm-nutritional-delimiter', ': ') . esc_html( $info[ 'val' ] ); ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
@@ -91,12 +92,12 @@ function get_related_items_theme_view() {
 		<div class="mprm-related-items">
 			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($related_items as $related_item) { ?>
-				<a href="<?php echo get_permalink($related_item) ?>" title="<?php echo get_the_title($related_item) ?>">
+				<a href="<?php echo esc_url( get_permalink($related_item) );?>" title="<?php echo esc_attr( get_the_title($related_item) );?>">
 					<?php
 					if (has_post_thumbnail($related_item)) {
 						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
 					} else { ?>
-						<span><?php echo get_the_title($related_item) ?></span>
+						<span><?php echo esc_html( get_the_title($related_item) );?></span>
 					<?php } ?>
 				</a>
 			<?php } ?>
