@@ -87,6 +87,9 @@ Proud developers of Restaurant Menu plugin and the biggest set of [WordPress Gut
 
 == Changelog ==
 
+= 2.4.1, Oct 1 2021 =
+* Security - Fixed unescaped data output.
+
 = 2.4.0, Jun 2 2020 =
 * Improved compatibility with PHP 7.4.
 * Improved compatibility with WPML plugin.
