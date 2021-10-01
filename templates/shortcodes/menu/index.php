@@ -36,7 +36,7 @@ $term_data = mprm_get_term_menu_items();
 
 					mprm_set_menu_item($post->ID); ?>
 
-					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . $class; ?> ">
+					<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . esc_attr( $class ); ?> ">
 						<?php render_current_html(); ?>
 					</div>
 					<?php wp_reset_postdata();

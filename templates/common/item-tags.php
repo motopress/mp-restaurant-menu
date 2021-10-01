@@ -7,7 +7,7 @@ $template_mode_class = ($template_mode == "theme") ? 'mprm-content-container' : 
 $tags_array = array();
 
 if (!empty($tags)): ?>
-	<div class="mprm-tags-wrapper mprm-tags <?php echo $template_mode_class ?>">
+	<div class="mprm-tags-wrapper mprm-tags <?php echo esc_attr( $template_mode_class );?>">
 
 		<?php foreach ($tags as $key => $tag) {
 			if (!is_object($tag)) {

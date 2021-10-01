@@ -99,7 +99,7 @@ class Cart_widget extends \WP_Widget {
 		$instance = wp_parse_args((array)$instance, $defaults); ?>
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title:', 'mp-restaurant-menu'); ?></label>
-			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo $instance['title']; ?>"/>
+			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>"/>
 		</p>
 
 		<p>

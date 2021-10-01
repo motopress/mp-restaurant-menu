@@ -666,11 +666,11 @@ function mprm_single_tag_list_content() {
 	?>
 	<div class="mprm-element-description">
 		<h2 class="mprm-element-title"><?php the_title() ?></h2>
-		<span class="mprm-element-price"><?php echo $price; ?></span>
+		<span class="mprm-element-price"><?php echo esc_html( $price ); ?></span>
 		<?php if (!empty($ingredients)): ?>
 			<div class="mprm-breadcrumbs">
 				<?php foreach ($ingredients as $val): ?>
-					<span class="mprm-element-breadcrumbs"><?php echo $val->name ?></span>
+					<span class="mprm-element-breadcrumbs"><?php echo esc_html( $val->name );?></span>
 					<?php if (end($ingredients) !== $val): ?><span class="mprm-element-separator">/</span><?php endif; ?>
 				<?php endforeach; ?>
 			</div>
@@ -699,13 +699,13 @@ function mprm_menu_items_header() {
 			?>
 			<div class="mprm-header with-image" style="background-image: url('<?php echo (mprm_has_category_image()) ? mprm_get_category_image('large') : 'none'; ?>')">
 				<?php if (!empty($icon)): ?>
-					<i class="<?php echo $icon ?> mprm-icon"></i>
+					<i class="<?php echo esc_attr( $icon );?> mprm-icon"></i>
 				<?php endif; ?>
-				<h2 class="mprm-title"><?php echo $title ?></h2>
+				<h2 class="mprm-title"><?php echo esc_html( $title );?></h2>
 			</div>
 		<?php } else { ?>
 			<div class="mprm-header only-text">
-				<h2 class="mprm-title"><?php echo $title ?></h2>
+				<h2 class="mprm-title"><?php echo esc_html( $title );?></h2>
 			</div>
 			<?php
 		}

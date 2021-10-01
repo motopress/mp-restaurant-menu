@@ -25,18 +25,18 @@ endif;
 			<p class="mprm-class-email"><label for="mprm-email">
 					<?php _e('Email:', 'mp-restaurant-menu'); ?>
 				</label>
-				<input class="mprm-input large-text" type="email" required name="mprm-email" value="<?php echo $customer->email; ?>">
+				<input class="mprm-input large-text" type="email" required name="mprm-email" value="<?php echo esc_attr( $customer->email ); ?>">
 			</p>
 			<p class="mprm-class-name">
 				<label for="mprm-name">
 					<?php _e('Full name:', 'mp-restaurant-menu'); ?>
 				</label>
-				<input type="text" class="mprm-input large-text" required name="mprm-name" value="<?php echo $customer->name; ?>">
+				<input type="text" class="mprm-input large-text" required name="mprm-name" value="<?php echo esc_attr( $customer->name ); ?>">
 			</p>
 			<p class="mprm-class-telephone"><label for="mprm-telephone">
 					<?php _e('Phone:', 'mp-restaurant-menu'); ?>
 				</label>
-				<input class="mprm-input large-text" type="text" name="mprm-telephone" value="<?php echo $customer->telephone; ?>">
+				<input class="mprm-input large-text" type="text" name="mprm-telephone" value="<?php echo esc_attr( $customer->telephone ); ?>">
 			</p>
 			<p class="mprm-class-wp-user">
 				<label for="mprm-user">
@@ -49,7 +49,7 @@ endif;
 					<?php } else { ?>
 						<option value="0"><?php _e('No user selected', 'mp-restaurant-menu') ?></option>
 						<?php foreach ($users as $user) { ?>
-							<option value="<?php echo $user->ID ?>" <?php selected($user->ID, $customer->user_id); ?> ><?php echo $user->user_nicename ?></option>
+							<option value="<?php echo $user->ID ?>" <?php selected($user->ID, $customer->user_id); ?> ><?php echo esc_html( $user->user_nicename );?></option>
 						<?php }
 					} ?>
 				</select>

@@ -740,10 +740,10 @@ final class Order extends Model {
 				}
 				break;
 			case 'order_ship_to':
-				echo apply_filters('mprm_orders_list_delivery', $this->shipping_address);
+				echo apply_filters('mprm_orders_list_delivery', esc_html( $this->shipping_address ));
 				break;
 			case 'order_customer_note':
-				echo empty( $this->customer_note ) ? '—' : '<span title="' . $this->customer_note . '">' . mprm_cut_str( 90, $this->customer_note ) . '</span>';
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>';
 				break;
 			case 'order_items' :
 				echo apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this);

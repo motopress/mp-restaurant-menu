@@ -9,11 +9,11 @@ if (empty($price) && !empty($mprm_view_args['price'])) {
 	$price = '';
 }
 ?>
-<ul class="mprm-list <?php echo $price_wrapper_class . ' ' . $price_position_class ?>">
+<ul class="mprm-list <?php echo esc_attr( price_wrapper_class ) . ' ' . esc_attr( $price_position_class );?>">
 	<?php if (!empty($mprm_view_args['link_item'])) { ?>
-		<li class="mprm-flex-item mprm-title"><a href="<?php echo get_permalink($mprm_menu_item) ?>"><?php echo $mprm_menu_item->post_title ?></a></li>
+		<li class="mprm-flex-item mprm-title"><a href="<?php echo get_permalink($mprm_menu_item) ?>"><?php echo esc_html( $mprm_menu_item->post_title ); ?></a></li>
 	<?php } else { ?>
-		<li class="mprm-flex-item mprm-title"><?php echo $mprm_menu_item->post_title ?></li>
+		<li class="mprm-flex-item mprm-title"><?php echo esc_html( $mprm_menu_item->post_title ); ?></li>
 	<?php } ?>
 	<li class="mprm-flex-item mprm-dots"></li>
 	<li class="mprm-flex-item mprm-price"><?php echo $price ?></li>

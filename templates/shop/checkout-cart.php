@@ -5,7 +5,7 @@ use mp_restaurant_menu\classes\models\Cart as Cart;
 $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instance()->item_quantities_enabled() ? 'mprm-table-column-4' : 'mprm-table-column-3');
 
 ?>
-<table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed ' . $table_column_class . '"' : '' ?>>
+<table id="mprm_checkout_cart" <?php echo !$is_ajax_disabled ? 'class="ajaxed ' . esc_attr( $table_column_class ) . '"' : '' ?>>
 	<thead>
 	<tr class="mprm_cart_header_row">
 		<?php do_action('mprm_checkout_table_header_first'); ?>

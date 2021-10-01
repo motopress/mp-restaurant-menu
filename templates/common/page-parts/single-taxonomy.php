@@ -9,7 +9,7 @@ $col = (int)$mprm_view_args[ 'col' ];
 
 ?>
 	<div class="<?php echo apply_filters('mprm-page-template-main-wrapper-class', 'mprm-main-wrapper') ?>">
-		<div class="<?php echo apply_filters('mprm-page-template-wrapper-' . $view . '-taxonomy-class', 'mprm-taxonomy-items-' . $view . ' mprm-container mprm-category') ?> ">
+		<div class="<?php echo apply_filters('mprm-page-template-wrapper-' . esc_attr( $view ) . '-taxonomy-class', 'mprm-taxonomy-items-' . esc_attr( $view ) . ' mprm-container mprm-category') ?> ">
 			<?php
 			
 			/**
@@ -36,7 +36,7 @@ $col = (int)$mprm_view_args[ 'col' ];
 			?>
 			<div class="<?php echo apply_filters('mprm-page-template-items-wrapper-class', 'mprm-container mprm-page-template-items mprm-view-' . $view) ?>">
 				<?php if ($view == 'simple-list'){ ?>
-				<div class="mprm-columns-count-<?php echo $col ?> mprm-all-items">
+				<div class="mprm-columns-count-<?php echo esc_attr( $col ); ?> mprm-all-items">
 					<?php }
 
 					foreach (mprm_get_menu_items_by_term() as $term => $data) {
@@ -61,7 +61,7 @@ $col = (int)$mprm_view_args[ 'col' ];
 								
 								mprm_set_menu_item($post->ID); ?>
 
-								<div class="<?php echo apply_filters('mprm-page-template-simple-view-column', 'mprm-simple-view-column') . $class; ?> ">
+								<div class="<?php echo apply_filters('mprm-page-template-simple-view-column', 'mprm-simple-view-column') . esc_attr( $class ); ?> ">
 									<?php render_current_html(); ?>
 								</div>
 								<?php wp_reset_postdata();

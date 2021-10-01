@@ -23,7 +23,7 @@
 			}
 			?><li><?php
 				do_action('mprm_email_menu_item_before', $item);
-				?><strong><?php echo $item_title ?></strong><span>&nbsp;–&nbsp;<?php echo $price ?></span><?php
+				?><strong><?php echo esc_html( $item_title );?></strong><span>&nbsp;–&nbsp;<?php echo $price ?></span><?php
 					if (!empty($sku)) {
 						?><br><span><?php echo "&nbsp;&ndash;&nbsp;" . __('SKU', 'mp-restaurant-menu') . ': ' . $sku ?></span><?php
 					} ?>

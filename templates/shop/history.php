@@ -20,10 +20,10 @@ if (!mprm_user_pending_verification()) { ?>
 					<?php $purchase_data = mprm_get_payment_meta($post->ID); ?>
 					<tr class="mprm_purchase_row">
 						<?php do_action('mprm_purchase_history_row_start', $post->ID, $purchase_data); ?>
-						<td class="mprm_purchase_id">#<?php echo mprm_get_payment_number($post->ID); ?></td>
-						<td class="mprm_purchase_date"><?php echo date_i18n(get_option('date_format'), strtotime(get_post_field('post_date', $post->ID))); ?></td>
-						<td class="mprm_purchase_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($post->ID))); ?></td>
-						<td class="mprm_purchase_status"><?php echo mprm_get_payment_status($post, true); ?></td>
+						<td class="mprm_purchase_id">#<?php echo esc_html( mprm_get_payment_number($post->ID) ); ?></td>
+						<td class="mprm_purchase_date"><?php echo esc_html( date_i18n(get_option('date_format'), strtotime(get_post_field('post_date', $post->ID))) ); ?></td>
+						<td class="mprm_purchase_amount"><?php echo esc_html( mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($post->ID))) ); ?></td>
+						<td class="mprm_purchase_status"><?php echo esc_html( mprm_get_payment_status($post, true) ); ?></td>
 						<td class="mprm_purchase_details"><a href="<?php echo esc_url(add_query_arg('payment_key', mprm_get_payment_key($post->ID), mprm_get_success_page_uri())); ?>"><?php _e('View Details', 'mp-restaurant-menu'); ?></a></td>
 						<?php do_action('mprm_purchase_history_row_end', $post->ID, $purchase_data); ?>
 					</tr>

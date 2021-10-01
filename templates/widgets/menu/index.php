@@ -5,9 +5,9 @@ the_mprm_widget_title();
 $class = '';
 $term_data = mprm_get_term_menu_items(); ?>
 
-	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . $view . mprm_popular_theme_class()) ?>">
+	<div class="<?php echo apply_filters('mprm-widget-items-wrapper-class', 'mprm-container mprm-widget-items mprm-view-' . esc_attr( $view ) . mprm_popular_theme_class()) ?>">
 		<?php if ($view == 'simple-list'){ ?>
-		<div class="mprm-columns-count-<?php echo $col ?> <?php echo empty($data['term']) ? 'mprm-all-items' : '' ?>">
+		<div class="mprm-columns-count-<?php echo esc_attr( $col ) ?> <?php echo empty($data['term']) ? 'mprm-all-items' : '' ?>">
 			<?php }
 			foreach ($term_data as $term => $data) {
 				if (in_array($view, array('list', 'grid'))) {
@@ -35,7 +35,7 @@ $term_data = mprm_get_term_menu_items(); ?>
 
 						setup_postdata($post);
 						mprm_set_menu_item($post->ID); ?>
-						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . $class; ?> ">
+						<div class="<?php echo apply_filters('mprm-simple-view-column', 'mprm-simple-view-column') . esc_attr( $class ); ?> ">
 							<?php render_current_html(); ?>
 						</div>
 						<?php wp_reset_postdata();

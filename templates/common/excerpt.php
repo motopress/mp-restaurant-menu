@@ -3,5 +3,5 @@
 	$template_mode_class = ($template_mode == "theme") ? 'mprm-content-container' : '';
 
 	?>
-	<div class="mprm-excerpt <?php echo $template_mode_class ?>"><?php echo $excerpt ?></div>
+	<div class="mprm-excerpt <?php echo esc_attr( $template_mode_class );?>"><?php echo $excerpt ?></div>
 <?php } ?>
