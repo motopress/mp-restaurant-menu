@@ -64,7 +64,7 @@
 	</select>
 </p>
 <p>
-	<input id="<?php echo $widget_object->get_field_id('show_attributes') ?>" class="checkbox" type="checkbox" name="<?php echo esc_attr( $widget_object->get_field_name('show_attributes') );?>" <?php echo isset($show_attributes) ? 'checked=""' : '' ?> />
+	<input id="<?php echo esc_attr( $widget_object->get_field_id('show_attributes') );?>" class="checkbox" type="checkbox" name="<?php echo esc_attr( $widget_object->get_field_name('show_attributes') );?>" <?php echo isset($show_attributes) ? 'checked=""' : '' ?> />
 	<label for="<?php echo esc_attr( $widget_object->get_field_id('show_attributes') );?>"><?php esc_html_e('Show attributes', 'mp-restaurant-menu'); ?></label>
 </p>
 <p class="mprm-widget-feat_img <?php echo ($view !== 'simple-list') ? '' : 'hidden' ?>">
@@ -86,7 +86,7 @@
 </p>
 <p>
 	<input id="<?php echo esc_attr( $widget_object->get_field_id('ingredients') );?>" class="checkbox" type="checkbox" name="<?php echo esc_attr( $widget_object->get_field_name('ingredients') );?>" <?php echo isset($ingredients) ? 'checked=""' : '' ?> />
-	<label for="<?php echo $widget_object->get_field_id('ingredients') ?>"><?php esc_html_e('Show ingredients', 'mp-restaurant-menu'); ?></label>
+	<label for="<?php echo esc_attr( $widget_object->get_field_id('ingredients') );?>"><?php esc_html_e('Show ingredients', 'mp-restaurant-menu'); ?></label>
 </p>
 
 <p class="mprm-widget-buy <?php echo ($view !== 'simple-list') ? '' : 'hidden' ?>">

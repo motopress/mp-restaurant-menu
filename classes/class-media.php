@@ -61,7 +61,7 @@ class Media extends Core {
 			$args[ 'text' ] = "<p>" . str_replace("\n", "<br />", trim($args[ 'text' ])) . "</p>";
 		}
 		if ($args[ 'echo' ]) {
-			return print $args[ 'text' ];
+			return print $args[ 'text' ]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		
 		return $args[ 'text' ];
@@ -177,7 +177,7 @@ class Media extends Core {
 		
 		// Restaurant menu
 		Menu::add_menu_page(array(
-			'title' => _x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
+			'title' => esc_html_x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
 			'menu_slug' => $menu_slug,
 			'icon_url' => MP_RM_MEDIA_URL . '/img/icon.png',
 			'capability' => 'manage_restaurant_menu',
@@ -1639,7 +1639,7 @@ class Media extends Core {
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
 				'name' => esc_html__('Orders', 'mp-restaurant-menu'),
-				'singular_name' => _x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
+				'singular_name' => esc_html_x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
 				'add_new' => esc_html__('Add Order', 'mp-restaurant-menu'),
 				'add_new_item' => esc_html__('Add New Order', 'mp-restaurant-menu'),
 				'edit' => esc_html__('Edit', 'mp-restaurant-menu'),
@@ -1651,7 +1651,7 @@ class Media extends Core {
 				'not_found' => esc_html__('No Orders found', 'mp-restaurant-menu'),
 				'not_found_in_trash' => esc_html__('No Orders found in trash', 'mp-restaurant-menu'),
 				'parent' => esc_html__('Parent Orders', 'mp-restaurant-menu'),
-				'menu_name' => _x('Orders', 'Admin menu name', 'mp-restaurant-menu')
+				'menu_name' => esc_html_x('Orders', 'Admin menu name', 'mp-restaurant-menu')
 			),
 			'description' => esc_html__('This is where store orders are stored.', 'mp-restaurant-menu'),
 			'public' => false,
@@ -1687,8 +1687,8 @@ class Media extends Core {
 		//Categories
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Categories', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Category', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Categories', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Category', 'taxonomy singular name', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,
@@ -1713,8 +1713,8 @@ class Media extends Core {
 		//Tags
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Tags', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Tag', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Tags', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Tag', 'taxonomy singular name', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,
@@ -1738,8 +1738,8 @@ class Media extends Core {
 		//Ingredients
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
 				'search_items'      => esc_html__( 'Search Ingredients', 'mp-restaurant-menu' ),
 				'all_items'         => esc_html__( 'All Ingredients', 'mp-restaurant-menu' ),
 				'edit_item'         => esc_html__( 'Edit Ingredient', 'mp-restaurant-menu' ),
@@ -1967,22 +1967,22 @@ class Media extends Core {
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();
 		$tabs = array();
-		$tabs[ 'general' ] = _x('General', 'General settings tab', 'mp-restaurant-menu');
-		$tabs[ 'display' ] = _x('Display', 'Disapley settings tab', 'mp-restaurant-menu');
-		$tabs[ 'gateways' ] = _x('Payment', 'Payment settings tab', 'mp-restaurant-menu');
-		$tabs[ 'checkout' ] = _x('Checkout', 'Checkout settings tab', 'mp-restaurant-menu');
-		$tabs[ 'emails' ] = _x('Emails', 'Email settings tab', 'mp-restaurant-menu');
-		$tabs[ 'styles' ] = _x('Styles', 'Styles settings tab', 'mp-restaurant-menu');
-		$tabs[ 'taxes' ] = _x('Taxes', 'Taxes settings tab', 'mp-restaurant-menu');
+		$tabs[ 'general' ] = esc_html_x('General', 'General settings tab', 'mp-restaurant-menu');
+		$tabs[ 'display' ] = esc_html_x('Display', 'Disapley settings tab', 'mp-restaurant-menu');
+		$tabs[ 'gateways' ] = esc_html_x('Payment', 'Payment settings tab', 'mp-restaurant-menu');
+		$tabs[ 'checkout' ] = esc_html_x('Checkout', 'Checkout settings tab', 'mp-restaurant-menu');
+		$tabs[ 'emails' ] = esc_html_x('Emails', 'Email settings tab', 'mp-restaurant-menu');
+		$tabs[ 'styles' ] = esc_html_x('Styles', 'Styles settings tab', 'mp-restaurant-menu');
+		$tabs[ 'taxes' ] = esc_html_x('Taxes', 'Taxes settings tab', 'mp-restaurant-menu');
 		
 		if (!empty($settings[ 'extensions' ])) {
-			$tabs[ 'extensions' ] = _x('Extensions', 'Extensions settings tab', 'mp-restaurant-menu');
+			$tabs[ 'extensions' ] = esc_html_x('Extensions', 'Extensions settings tab', 'mp-restaurant-menu');
 		}
 		
 		if (!empty($settings[ 'licenses' ])) {
-			$tabs[ 'licenses' ] = _x('Licenses', 'Licenses settings tab', 'mp-restaurant-menu');
+			$tabs[ 'licenses' ] = esc_html_x('Licenses', 'Licenses settings tab', 'mp-restaurant-menu');
 		}
-		$tabs[ 'misc' ] = _x('Misc', 'Misc settings tab', 'mp-restaurant-menu');
+		$tabs[ 'misc' ] = esc_html_x('Misc', 'Misc settings tab', 'mp-restaurant-menu');
 		
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}

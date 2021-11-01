@@ -18,13 +18,13 @@ if (!is_user_logged_in()) : ?>
 				</p>
 				<p>
 					<input type="hidden" name="redirect" value="<?php echo esc_url($mprm_login_redirect); ?>"/>
-					<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); ?>"/>
+					<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
 					<input type="hidden" name="mprm_action" value="user_login"/>
 					<input id="mprm_login_submit" type="submit" class="mprm_submit" value="<?php esc_attr_e('Log In', 'mp-restaurant-menu'); ?>"/>
 				</p>
 			</div>
 			<p class="mprm-lost-password">
-				<a href="<?php echo wp_lostpassword_url(); ?>" title="<?php esc_attr_e('Lost Password', 'mp-restaurant-menu'); ?>">
+				<a href="<?php echo wp_lostpassword_url(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" title="<?php esc_attr_e('Lost Password', 'mp-restaurant-menu'); ?>">
 					<?php esc_html_e('Lost Password?', 'mp-restaurant-menu'); ?>
 				</a>
 			</p>

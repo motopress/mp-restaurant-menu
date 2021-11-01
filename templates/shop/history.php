@@ -32,12 +32,12 @@ if (!mprm_user_pending_verification()) { ?>
 			<div id="mprm_purchase_history_pagination" class="mprm_pagination navigation">
 				<?php
 				$big = 999999;
-				echo paginate_links(array(
+				echo paginate_links(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
 					'format' => '?paged=%#%',
 					'current' => max(1, get_query_var('paged')),
 					'total' => ceil(mprm_count_purchases_of_customer() / 20) // 20 items per page
-				)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				));
 				?>
 			</div>
 			<?php do_action('mprm_after_purchase_history'); ?>
@@ -58,8 +58,8 @@ if (!mprm_user_pending_verification()) { ?>
 		</p>
 	<?php endif; ?>
 	<p class="mprm-account-pending">
-		<?php $url = esc_url(mprm_get_user_verification_request_url()); ?>
-		<?php printf(__('Your account is pending verification. Please click the link in your email to activate your account. No email? <a href="%s">Click here</a> to send a new activation code.', 'mp-restaurant-menu'), $url); ?>
+		<?php $url = mprm_get_user_verification_request_url(); ?>
+		<?php printf( __('Your account is pending verification. Please click the link in your email to activate your account. No email? <a href="%s">Click here</a> to send a new activation code.', 'mp-restaurant-menu'), esc_url( $url ) ); ?>
 	</p>
 	<?php
 }

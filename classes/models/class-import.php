@@ -115,12 +115,15 @@ class Import extends Core {
 	public function handle_upload() {
 		$file = wp_import_handle_upload();
 		if (isset($file['error'])) {
-			echo '<p><strong>' . __('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
+			echo '<p><strong>' . esc_html__('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
 			echo esc_html($file['error']) . '</p>';
 			return false;
 		} else if (!file_exists($file['file'])) {
-			echo '<p><strong>' . __('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
-			printf(__('The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'mp-restaurant-menu'), esc_html($file['file']));
+			echo '<p><strong>' . esc_html__('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
+			printf(
+				__('The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'mp-restaurant-menu'),
+				esc_html( $file['file'] )
+			);
 			echo '</p>';
 			return false;
 		}
@@ -128,14 +131,14 @@ class Import extends Core {
 		$this->id = (int)$file['id'];
 		$this->import_data = $this->parse($file['file']);
 		if (is_wp_error($this->import_data)) {
-			echo '<p><strong>' . __('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
+			echo '<p><strong>' . esc_html__('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
 			echo esc_html($this->import_data->get_error_message()) . '</p>';
 			return false;
 		}
 		$this->version = $this->import_data['version'];
 		if ($this->version > $this->max_wxr_version) {
 			echo '<div class="error"><p><strong>';
-			printf(__('This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'mp-restaurant-menu'), esc_html($this->import_data['version']));
+			printf(esc_html__('This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'mp-restaurant-menu'), esc_html($this->import_data['version']));
 			echo '</strong></p></div>';
 		}
 		$this->get_authors_from_import();
@@ -170,7 +173,7 @@ class Import extends Core {
 			foreach ($this->import_data['posts'] as $post) {
 				$login = sanitize_user($post['post_author'], true);
 				if (empty($login)) {
-					printf(__('Failed to import author %s. Their posts will be attributed to the current user.', 'mp-restaurant-menu'), esc_html($post['post_author']));
+					printf(esc_html__('Failed to import author %s. Their posts will be attributed to the current user.', 'mp-restaurant-menu'), esc_html($post['post_author']));
 					echo '<br />';
 					continue;
 				}
@@ -231,7 +234,7 @@ class Import extends Core {
 	 * @param array $author Author information, e.g. login, display name, email
 	 */
 	function author_select($n, $author) {
-		_e('Import author:', 'mp-restaurant-menu');
+		esc_html_e('Import author:', 'mp-restaurant-menu');
 		echo ' <strong>' . esc_html($author['author_display_name']);
 		if ($this->version != '1.0') echo ' (' . esc_html($author['author_login']) . ')';
 		echo '</strong><br />';
@@ -240,19 +243,19 @@ class Import extends Core {
 		$create_users = $this->allow_create_users();
 		if ($create_users) {
 			if ($this->version != '1.0') {
-				_e('or create new user with login name:', 'mp-restaurant-menu');
+				esc_html_e('or create new user with login name:', 'mp-restaurant-menu');
 				$value = '';
 			} else {
-				_e('as a new user:', 'mp-restaurant-menu');
+				esc_html_e('as a new user:', 'mp-restaurant-menu');
 				$value = esc_attr(sanitize_user($author['author_login'], true));
 			}
 			echo ' <input type="text" name="user_new[' . esc_attr( $n ) . ']" value="' . esc_attr( $value ) . '" /><br />';
 		}
 		if (!$create_users && $this->version == '1.0')
-			_e('assign posts to an existing user:', 'mp-restaurant-menu');
+			esc_html_e('assign posts to an existing user:', 'mp-restaurant-menu');
 		else
-			_e('or assign posts to an existing user:', 'mp-restaurant-menu');
-		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __('- Select -', 'mp-restaurant-menu')));
+			esc_html_e('or assign posts to an existing user:', 'mp-restaurant-menu');
+		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => esc_html__('- Select -', 'mp-restaurant-menu')));
 		echo '<input type="hidden" name="imported_authors[' . esc_attr( $n ) . ']" value="' . esc_attr($author['author_login']) . '" />';
 		if ($this->version != '1.0')
 			echo '</div>';
@@ -338,7 +341,7 @@ class Import extends Core {
 					Menu_category::get_instance()->save_menu_category($id['term_id'], $term['term_meta']);
 				}
 			} else {
-				printf(__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($term['term_taxonomy']), esc_html($term['term_name']));
+				printf(esc_html__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($term['term_taxonomy']), esc_html($term['term_name']));
 				if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
 					echo ': ' . wp_kses_post( $id->get_error_message() );
 				echo '<br />';
@@ -455,7 +458,7 @@ class Import extends Core {
 							$term_id = $t['term_id'];
 							do_action('wp_import_insert_term', $t, $term, $post_id, $post);
 						} else {
-							printf(__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($taxonomy), esc_html($term['name']));
+							printf(esc_html__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($taxonomy), esc_html($term['name']));
 							if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
 								echo ': ' . wp_kses_post( $t->get_error_message() );
 							echo '<br />';
@@ -575,7 +578,7 @@ class Import extends Core {
 	public function process_attachment($post, $url) {
 		if (!$this->fetch_attachments)
 			return new \WP_Error('attachment_processing_error',
-				__('Fetching attachments is not enabled', 'mp-restaurant-menu'));
+				esc_html__('Fetching attachments is not enabled', 'mp-restaurant-menu'));
 		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 		if (preg_match('|^/[\w\W]+$|', $url))
 			$url = rtrim($this->base_url, '/') . $url;
@@ -585,7 +588,7 @@ class Import extends Core {
 		if ($info = wp_check_filetype($upload['file']))
 			$post['post_mime_type'] = $info['type'];
 		else
-			return new \WP_Error('attachment_processing_error', __('Invalid file type', 'mp-restaurant-menu'));
+			return new \WP_Error('attachment_processing_error', esc_html__('Invalid file type', 'mp-restaurant-menu'));
 		$post['guid'] = $upload['url'];
 		// as per wp-admin/includes/upload.php
 		$post_id = wp_insert_attachment($post, $upload['file']);
@@ -622,27 +625,27 @@ class Import extends Core {
 		$headers['response'] = wp_remote_retrieve_response_code($response_data);
 		if (!$headers) {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Remote server did not respond', 'mp-restaurant-menu'));
+			return new \WP_Error('import_file_error', esc_html__('Remote server did not respond', 'mp-restaurant-menu'));
 		}
 		// make sure the fetch was successful
 		if ($headers['response'] != '200') {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', sprintf(__('Remote server returned error response %1$d %2$s', 'mp-restaurant-menu'), esc_html($headers['response']), get_status_header_desc($headers['response'])));
+			return new \WP_Error('import_file_error', sprintf(esc_html__('Remote server returned error response %1$d %2$s', 'mp-restaurant-menu'), esc_html($headers['response']), get_status_header_desc($headers['response'])));
 		}
 		$this->write_file($url, $upload);
 		$filesize = filesize($upload['file']);
 		if (isset($headers['content-length']) && $filesize != $headers['content-length']) {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Remote file is incorrect size', 'mp-restaurant-menu'));
+			return new \WP_Error('import_file_error', esc_html__('Remote file is incorrect size', 'mp-restaurant-menu'));
 		}
 		if (0 == $filesize) {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', __('Zero size file menu_itemed', 'mp-restaurant-menu'));
+			return new \WP_Error('import_file_error', esc_html__('Zero size file menu_itemed', 'mp-restaurant-menu'));
 		}
 		$max_size = (int)$this->max_attachment_size();
 		if (!empty($max_size) && $filesize > $max_size) {
 			@unlink($upload['file']);
-			return new \WP_Error('import_file_error', sprintf(__('Remote file is too large, limit is %s', 'mp-restaurant-menu'), size_format($max_size)));
+			return new \WP_Error('import_file_error', sprintf(esc_html__('Remote file is too large, limit is %s', 'mp-restaurant-menu'), size_format($max_size)));
 		}
 		// keep track of the old and new urls so we can substitute them later
 		$this->url_remap[$url] = $upload['url'];
@@ -765,8 +768,8 @@ class Import extends Core {
 		}
 		wp_defer_term_counting(false);
 		wp_defer_comment_counting(false);
-		echo '<p>' . __('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . __('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
-		echo '<p>' . __('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
+		echo '<p>' . esc_html__('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . esc_html__('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
+		echo '<p>' . esc_html__('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
 		do_action('import_end');
 	}
 

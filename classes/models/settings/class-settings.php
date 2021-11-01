@@ -598,7 +598,7 @@ class Settings extends Model {
 			],
 		];
 
-		$timezone_format = _x( 'Y-m-d H:i, l', 'timezone date format' );
+		$timezone_format = esc_html_x( 'Y-m-d H:i, l', 'timezone date format' );
 		$name = 'mprm_settings[' . esc_attr( $args[ 'id' ] ) . ']';
 
 		ob_start(); ?>
@@ -853,7 +853,7 @@ class Settings extends Model {
 		echo '<select name="mprm_settings[' . sanitize_key($args[ 'id' ]) . ']"" id="mprm_settings[' . sanitize_key($args[ 'id' ]) . ']">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		foreach ($args[ 'options' ] as $key => $option) :
 			$selected = isset($mprm_options[ $args[ 'id' ] ]) ? selected($key, $mprm_options[ $args[ 'id' ] ], false) : '';
-			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option[ 'admin_label' ]) . '</option>';
+			echo '<option value="' . sanitize_key($key) . '"' . $selected . '>' . esc_html($option[ 'admin_label' ]) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		endforeach;
 		echo '</select>';
 		echo '<label for="mprm_settings[' . sanitize_key($args[ 'id' ]) . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
@@ -983,7 +983,7 @@ class Settings extends Model {
 	public function missing_callback($args) {
 		printf(
 			esc_html__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
-			'<strong>' . $args[ 'id' ] . '</strong>'
+			'<strong>' . esc_html( $args[ 'id' ] ) . '</strong>'
 		);
 	}
 	

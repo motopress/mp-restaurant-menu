@@ -39,8 +39,7 @@ class Controller_Settings extends Controller {
 			$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
 			$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists( sanitize_text_field( $_GET['section'] ), $data['sections']) ? sanitize_text_field( $_GET['section'] ) : $key;
 
-			//echo View::get_instance()->get_template_html('settings', $data);
-			echo View::get_instance()->get_template_html( '../admin/settings/settings', $data );
+			echo View::get_instance()->get_template_html( '../admin/settings/settings', $data ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

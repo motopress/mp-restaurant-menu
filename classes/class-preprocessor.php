@@ -47,7 +47,7 @@ class Preprocessor {
 		if ('controller' != $controller && !file_exists("{$path}class-controller-{$controller}.php")) {
 			$ControllerName = 'Controller_' . ucfirst($controller);
 			if (class_exists($ControllerName)) {
-				trigger_error("Wrong controller {$path}class-controller-{$controller}.php");
+				trigger_error("Wrong controller {$path}class-controller-{$controller}.php"); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
@@ -58,7 +58,7 @@ class Preprocessor {
 		if ( method_exists($controller, $action) ) {
 			return $controller->$action();
 		} else {
-			trigger_error("Wrong {$action} in {$path}class-controller-{$controller}.php");
+			trigger_error("Wrong {$action} in {$path}class-controller-{$controller}.php"); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

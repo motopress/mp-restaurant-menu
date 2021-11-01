@@ -46,7 +46,7 @@
 </p>
 <p>
 	<input id="<?php echo esc_attr( $widget_object->get_field_id('categ_descr') );?>" class="checkbox" type="checkbox" name="<?php echo esc_attr( $widget_object->get_field_name('categ_descr') );?>" <?php echo isset($categ_descr) ? 'checked=""' : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
-	<label for="<?php esc_attr( echo $widget_object->get_field_id('categ_descr') );?>"><?php esc_html_e('Show category description', 'mp-restaurant-menu'); ?></label>
+	<label for="<?php echo esc_attr( $widget_object->get_field_id('categ_descr') );?>"><?php esc_html_e('Show category description', 'mp-restaurant-menu'); ?></label>
 </p>
 <p>
 	<label for="<?php echo esc_attr( $widget_object->get_field_id('desc_length') );?>"><?php esc_html_e('Description length', 'mp-restaurant-menu'); ?></label>

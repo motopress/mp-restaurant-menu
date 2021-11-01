@@ -88,8 +88,8 @@ function mprm_checkout_minimum_order_amount() {
 				<span class="mprm-notice-text">
 					<?php
 					printf( esc_html__('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
-						mprm_currency_filter( mprm_format_amount( $cart_total ) ),
-						mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
+						esc_html( mprm_currency_filter( mprm_format_amount( $cart_total ) ) ),
+						esc_html( mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) ) )
 					);
 					?>
 				</span>
@@ -124,7 +124,7 @@ function mprm_pre_process_purchase_validate_minimum_order_amount() {
 				)
 			);
 		} else {
-			wp_die( $error );
+			wp_die( esc_html( $error ) );
 		}
 	}
 }

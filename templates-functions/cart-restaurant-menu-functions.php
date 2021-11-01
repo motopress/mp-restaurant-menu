@@ -279,7 +279,7 @@ function mprm_success_page_cart_item($item, $order) {
 			</div>
 
 			<?php if (!empty($menu_item_notes)) : ?>
-				<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop($menu_item_notes); ?></div>
+				<div class="mprm_purchase_receipt_product_notes"><?php echo wp_kses_post( wpautop($menu_item_notes) ); ?></div>
 			<?php endif; ?>
 
 		</td>

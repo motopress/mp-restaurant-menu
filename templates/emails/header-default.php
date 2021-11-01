@@ -64,7 +64,7 @@ $header_content_h1 = "
 			<td align="center" valign="top">
 				<?php if (!empty($header_img)) : ?>
 					<div id="template_header_image">
-						<?php echo '<p style="margin-top:0;"><img style="max-width: 520px" src="' . esc_url($header_img) . '" alt="' . get_bloginfo('name') . '" /></p>'; ?>
+						<?php echo '<p style="margin-top:0;"><img style="max-width: 520px" src="' . esc_url($header_img) . '" alt="' . esc_attr( get_bloginfo('name') ) . '" /></p>'; ?>
 					</div>
 				<?php endif; ?>
 				<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_container" style="<?php echo $template_container; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">

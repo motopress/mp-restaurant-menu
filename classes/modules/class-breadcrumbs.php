@@ -41,7 +41,7 @@ class Breadcrumbs extends Module {
 			echo '<ul id="' . esc_attr( $breadcrums_id ) . '" class="' . esc_attr( $breadcrums_class ) . '">';
 			// Home page
 			echo '<li class="mprm-item-home"><a class="mprm-breadcrumbs-link mprm-breadcrumbs-home" href="' . esc_url( get_home_url() ) . '" title="' . esc_attr( $home_title ) . '">' . esc_html( $home_title ) . '</a></li>';
-			echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-home"> ' . $separator . ' </li>';
+			echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-home"> ' . esc_html( $separator ) . ' </li>';
 			if (is_archive() && !is_tax() && !is_category() && !is_tag()) {
 				echo '<li class="mprm-item-current mprm-item-archive"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-archive">' . post_type_archive_title($prefix, false) . '</strong></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} else if (is_archive() && is_tax() && !is_category() && !is_tag()) {
@@ -152,17 +152,17 @@ class Breadcrumbs extends Module {
 				// Day archive
 				// Year link
 				echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="mprm-breadcrumbs-year mprm-breadcrumbs-year-' . get_the_time('Y') . '" href="' . get_year_link(get_the_time('Y')) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('Y') . '"> ' . esc_attr( $separator ) . ' </li>';
+				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('Y') . '"> ' . esc_attr( $separator ) . ' </li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				// Month link
 				echo '<li class="item-month item-month-' . get_the_time('m') . '"><a class="mprm-breadcrumbs-month mprm-breadcrumbs-month-' . get_the_time('m') . '" href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('m') . '"> ' . esc_attr( $separator ) . ' </li>';
+				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('m') . '"> ' . esc_attr( $separator ) . ' </li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				// Day display
 				echo '<li class="mprm-item-current mprm-item-' . get_the_time('j') . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs' . get_the_time('j') . '"> ' . get_the_time('jS') . ' ' . get_the_time('M') . ' Archives</strong></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} else if (is_month()) {
 				// Month Archive
 				// Year link
 				echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="mprm-breadcrumbs-year mprm-breadcrumbs-year-' . get_the_time('Y') . '" href="' . get_year_link(get_the_time('Y')) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('Y') . '"> ' . esc_attr( $separator ) . ' </li>';
+				echo '<li class="mprm-breadcrumbs-delimiter mprm-breadcrumbs-delimiter-' . get_the_time('Y') . '"> ' . esc_attr( $separator ) . ' </li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				// Month display
 				echo '<li class="item-month item-month-' . get_the_time('m') . '"><strong class="mprm-breadcrumbs-month mprm-breadcrumbs-month-' . get_the_time('m') . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</strong></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} else if (is_year()) {

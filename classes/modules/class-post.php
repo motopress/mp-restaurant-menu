@@ -29,7 +29,7 @@ class Post extends Module {
 	public static function register_post_status() {
 
 		register_post_status('mprm-pending', array(
-			'label' => _x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -38,7 +38,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-completed', array(
-			'label' => _x('New Order', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('New Order', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -47,7 +47,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-refunded', array(
-			'label' => _x('Refunded', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Refunded', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -56,7 +56,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-failed', array(
-			'label' => _x('Failed', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Failed', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -65,7 +65,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-cooking', array(
-			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Processing', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -74,7 +74,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-shipping', array(
-			'label' => _x('Shipping', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Shipping', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -83,7 +83,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-shipped', array(
-			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Completed', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,

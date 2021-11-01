@@ -734,19 +734,23 @@ final class Order extends Model {
 					}
 				}
 
-				printf(_x('%s by %s', 'Order number by X', 'mp-restaurant-menu'), '<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username);
+				printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					_x( '%s by %s', 'Order number by X', 'mp-restaurant-menu'),
+					'<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username
+				);
+
 				if ($post->billing_email) {
 					echo '<small class="meta email"><a href="mailto:' . esc_url( $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
 				break;
 			case 'order_ship_to':
-				echo apply_filters('mprm_orders_list_delivery', esc_html( $this->shipping_address ));
+				echo esc_html( apply_filters('mprm_orders_list_delivery', $this->shipping_address ) );
 				break;
 			case 'order_customer_note':
-				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>';
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_items' :
-				echo apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this);
+				echo apply_filters('mprm_admin_order_item_count', sprintf( _n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items) ), $this); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_date' :
 				$date = strtotime($this->date);

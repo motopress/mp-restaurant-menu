@@ -463,7 +463,7 @@ function mprm_terms_agreement() {
 			<div id="mprm_terms" style="display:none;">
 				<?php
 				do_action('mprm_before_terms');
-				echo wpautop( stripslashes( wp_kses_post( $agree_text ) ) );
+				echo wpautop( stripslashes( wp_kses_post( $agree_text ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				do_action('mprm_after_terms');
 				?>
 			</div>
@@ -533,7 +533,7 @@ function mprm_get_login_fields() {
 				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
 			<input type="hidden" name="redirect" value="<?php echo esc_url( mprm_get_checkout_uri() ); ?>"/>
-			<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); ?>"/>
+			<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
 
 		</p>
 		<p id="mprm-user-login-submit">
@@ -1249,7 +1249,7 @@ function mprm_store_get_open_time() {
 	if ( mprm_store_has_open_hours() == true ) {
 
 		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
-		$day_format = _x( 'D', 'timezone date format' );
+		$day_format = esc_html_x( 'D', 'timezone date format' );
 		$day_now = strtolower( date_i18n( $day_format ) );
 		if ( isset( $open_hours[$day_now]['open'] ) && $open_hours[$day_now]['open'] == true ) {
 			$open_hour = $open_hours[$day_now]['from'];
@@ -1271,7 +1271,7 @@ function mprm_store_get_close_time() {
 	if ( mprm_store_has_open_hours() == true ) {
 
 		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
-		$day_format = _x( 'D', 'timezone date format' );
+		$day_format = esc_html_x( 'D', 'timezone date format' );
 		$day_now = strtolower( date_i18n( $day_format ) );
 		if ( isset( $open_hours[$day_now]['open'] ) && $open_hours[$day_now]['open'] == true ) {
 			$close_hour = $open_hours[$day_now]['until'];
@@ -1294,10 +1294,10 @@ function mprm_store_is_open() {
 
 		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
 		
-		$time_format = _x( 'H:i', 'timezone date format' );
+		$time_format = esc_html_x( 'H:i', 'timezone date format' );
 		$hours_now = date_i18n( $time_format );
 
-		$day_format = _x( 'D', 'timezone date format' );
+		$day_format = esc_html_x( 'D', 'timezone date format' );
 		$day_now = strtolower( date_i18n( $day_format ) );
 
 		$store_is_open = false;

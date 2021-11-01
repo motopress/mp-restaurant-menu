@@ -16,19 +16,19 @@ $address = $order->address; ?>
 		</div>
 		<div class="mprm-columns mprm-four">
 			<p>
-				<strong class="order-data-address-line"><?php echo _x('City:', 'Address City', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php echo esc_html_x('City:', 'Address City', 'mp-restaurant-menu'); ?></strong><br/>
 				<input type="text" name="mprm-order-address[0][city]" value="<?php echo esc_attr($address['city']); ?>" class="medium-text"/>
 
 			</p>
 			<p>
-				<strong class="order-data-address-line"><?php echo _x('Zip / Postal Code:', 'Zip / Postal code of address', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php echo esc_html_x('Zip / Postal Code:', 'Zip / Postal code of address', 'mp-restaurant-menu'); ?></strong><br/>
 				<input type="text" name="mprm-order-address[0][zip]" value="<?php echo esc_attr($address['zip']); ?>" class="medium-text"/>
 
 			</p>
 		</div>
 		<div class="mprm-columns mprm-four">
 			<p id="mprm-order-address-country-wrap">
-				<strong class="order-data-address-line"><?php echo _x('Country:', 'Address country', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php echo esc_html_x('Country:', 'Address country', 'mp-restaurant-menu'); ?></strong><br/>
 				<?php
 				echo mprn_select( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					array(
@@ -46,7 +46,7 @@ $address = $order->address; ?>
 				?>
 			</p>
 			<p id="mprm-order-address-state-wrap">
-				<strong class="order-data-address-line"><?php echo _x('State / Province:', 'State / province of address', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php echo esc_html_x('State / Province:', 'State / province of address', 'mp-restaurant-menu'); ?></strong><br/>
 				<?php
 				$states = mprm_get_shop_states($address['country']);
 

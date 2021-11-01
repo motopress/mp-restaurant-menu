@@ -71,8 +71,8 @@ function get_nutritional_theme_view() {
 		<ul>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
-					<li><?php echo esc_html( mprm_get_nutrition_label(strtolower($info[ 'title' ])) ) .
-						apply_filters('mprm-nutritional-delimiter', ': ') . esc_html( $info[ 'val' ] ); ?></li>
+					<li><?php echo esc_html( mprm_get_nutrition_label(strtolower($info[ 'title' ])) .
+						apply_filters('mprm-nutritional-delimiter', ': ') . $info[ 'val' ] ); ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

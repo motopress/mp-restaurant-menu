@@ -18,7 +18,7 @@
 
 		<?php else : ?>
 
-			<li class="cart_item empty"><?php echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . esc_html__('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); ?></li>
+			<li class="cart_item empty"><?php echo esc_html( apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . esc_html__('Your cart is empty.', 'mp-restaurant-menu') . '</span>') ); ?></li>
 			<?php if (mprm_use_taxes()) : ?>
 				<li class="cart_item mprm-cart-meta mprm_subtotal" style="display:none;"><?php echo esc_html__('Subtotal:', 'mp-restaurant-menu') . " <span class='subtotal'>" . mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span></li>
 				<li class="cart_item mprm-cart-meta mprm_cart_tax" style="display:none;"><?php esc_html_e('Estimated Tax:', 'mp-restaurant-menu'); ?> <span class="cart-tax"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span></li>

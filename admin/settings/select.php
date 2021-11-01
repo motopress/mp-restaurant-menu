@@ -8,8 +8,8 @@ $defaults = array(
 	'chosen' => false,
 	'placeholder' => null,
 	'multiple' => false,
-	'show_option_all' => _x('All', 'all dropdown items', 'mp-restaurant-menu'),
-	'show_option_none' => _x('None', 'no dropdown items', 'mp-restaurant-menu'),
+	'show_option_all' => esc_html_x('All', 'all dropdown items', 'mp-restaurant-menu'),
+	'show_option_none' => esc_html_x('None', 'no dropdown items', 'mp-restaurant-menu'),
 	'data_attr' => array(),
 );
 $args = wp_parse_args($data, $defaults);
