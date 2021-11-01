@@ -19,6 +19,10 @@ use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\upgrade\Install;
 
+if ( ! defined( 'MP_RM_PLUGIN_FILE' ) ) {
+	define( 'MP_RM_PLUGIN_FILE', __FILE__ );
+}
+
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
 define('MP_RM_JS_URL', MP_RM_MEDIA_URL . 'js/');

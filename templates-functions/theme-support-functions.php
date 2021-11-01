@@ -111,9 +111,20 @@ function get_related_items_theme_view() {
  * Gallery template part
  */
 function get_gallery_theme_view() {
+
 	$gallery = mprm_get_gallery();
-	if (!empty($gallery)) {
-		$args = apply_filters('mprm-gallery-settings', array('ids' => $gallery, 'link' => 'file', 'columns' => '3'));
+
+	if ( ! empty( $gallery ) ) {
+		$args = apply_filters(
+			'mprm-gallery-settings',
+			array(
+				'ids' => $gallery,
+				'link' => 'file',
+				'columns' => '3',
+				'size' => 'medium'
+			)
+		);
+
 		echo gallery_shortcode($args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

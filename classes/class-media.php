@@ -1530,7 +1530,12 @@ class Media extends Core {
 		
 		switch ($post_type) {
 			case"mp_menu_item":
-				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.min.css');
+				wp_enqueue_style(
+					'fancybox',
+					plugins_url( 'vendors/fancybox/jquery.fancybox.min.css', MP_RM_PLUGIN_FILE ),
+					[],
+					'3.5.7'
+				);
 				break;
 			default:
 				break;
@@ -1554,7 +1559,14 @@ class Media extends Core {
 			case "mp_menu_item":
 				wp_enqueue_script('underscore');
 				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
-				$this->enqueue_script('magnific-popup', "libs/jquery.magnific-popup{$prefix}.js", array("jquery"), '1.0.1');
+
+				wp_enqueue_script(
+					'fancybox',
+					plugins_url( 'vendors/fancybox/jquery.fancybox.min.js', MP_RM_PLUGIN_FILE ),
+					[ 'jquery' ],
+					'3.5.7',
+					true
+				);
 				break;
 			
 			default:

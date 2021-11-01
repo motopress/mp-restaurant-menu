@@ -1,4 +1,4 @@
-/* globals jQuery:false, MP_RM_Registry:false, _:false,wp:false,jBox:false,mprm_admin_vars:false,tb_show:false,tb_remove:false,confirm:false,console:false,alert:false,magnificPopup:false*/
+/* globals jQuery:false, MP_RM_Registry:false, _:false,wp:false,jBox:false,mprm_admin_vars:false,tb_show:false,tb_remove:false,confirm:false,console:false,alert:false*/
 window.MP_RM_Registry = (function() {
 	"use strict";
 	var modules = {};
@@ -1708,29 +1708,11 @@ MP_RM_Registry.register("Theme", (function($) {
 		return {
 			init: function() {
 				// Init slider
-				if ((typeof $.magnificPopup) === 'undefined') {
+				if ((typeof $.fancybox) === 'undefined') {
 					return;
 				}
-				$('.type-mp_menu_item .gallery-item,.type-mp_menu_item .mprm-item-gallery').magnificPopup({
-					delegate: 'a',
-					type: 'image',
-					tLoading: 'Loading image #%curr%...',
-					mainClass: 'mfp-img-mobile',
-					gallery: {
-						enabled: true,
-						navigateByImgClick: true,
-						preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
-					},
-					image: {
-						tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-						titleSrc: function(item) {
-							return item.el.attr('title');
-						}
-					},
-					zoom: {
-						enabled: true,
-						duration: 300 // don't foget to change the duration also in CSS
-					}
+				$('.type-mp_menu_item .gallery-item a, .type-mp_menu_item .mprm-item-gallery a').fancybox({
+					buttons: ["close"]
 				});
 			},
 			viewParams: function(parent, view) {
