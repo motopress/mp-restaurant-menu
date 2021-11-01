@@ -7,9 +7,9 @@ while (have_posts()) : the_post(); ?>
 		do_action('mprm_menu_item_header');
 		do_action('mprm_after_menu_item_header');
 		?>
-		<div class="<?php echo apply_filters('mprm-content-wrapper-class', 'mprm-container content-wrapper') ?>">
+		<div class="<?php echo esc_attr( apply_filters('mprm-content-wrapper-class', 'mprm-container content-wrapper') ); ?>">
 			<div class="mprm-row">
-				<div class="<?php echo apply_filters('mprm-menu-content-class', 'mprm-content mprm-eight mprm-columns') ?>">
+				<div class="<?php echo esc_attr( apply_filters('mprm-menu-content-class', 'mprm-content mprm-eight mprm-columns') ); ?>">
 					<?php
 					do_action('mprm_before_menu_item_gallery');
 					do_action('mprm_menu_item_gallery');
@@ -17,7 +17,7 @@ while (have_posts()) : the_post(); ?>
 					do_action('mprm_menu_item_content');
 					?>
 				</div>
-				<div class="<?php echo apply_filters('mprm-menu-sidebar-class', 'mprm-sidebar mprm-four mprm-columns') ?>">
+				<div class="<?php echo esc_attr( apply_filters('mprm-menu-sidebar-class', 'mprm-sidebar mprm-four mprm-columns') ); ?>">
 					<?php do_action('mprm_menu_item_slidebar'); ?>
 				</div>
 				<div class="mprm-clear"></div>

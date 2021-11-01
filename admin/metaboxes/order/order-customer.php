@@ -10,8 +10,8 @@ $phone = esc_attr($order->phone_number); ?>
 <div class="column-container customer-info mprm-row">
 
 	<div class="mprm-columns mprm-six">
-		<?php echo mprm_customers_dropdown(array('selected' => $customer->id, 'name' => 'customer-id')); ?>
-		<input type="hidden" name="mprm-current-customer" value="<?php echo $customer->id; ?>"/>
+		<?php echo mprm_customers_dropdown(array('selected' => $customer->id, 'name' => 'customer-id')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<input type="hidden" name="mprm-current-customer" value="<?php echo esc_attr( $customer->id ); ?>"/>
 		<p class="mprm-customer-information">
 			<?php View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_id)) ?>
 		</p>

@@ -4,8 +4,8 @@
 			<?php foreach (explode(',', $value) as $id): ?>
 				<?php if (get_post($id)): ?>
 					<?php $url = image_downsize($id, 'thumbnail') ?>
-					<li data-attachment_id="<?php echo $id ?>" class="mprm-image">
-						<img src="<?php echo $url[0] ?>">
+					<li data-attachment_id="<?php echo esc_attr( $id ); ?>" class="mprm-image">
+						<img src="<?php echo esc_url( $url[0] );?>">
 						<ul class="mprm-actions">
 							<li>
 								<a title="<?php _e('Delete image', 'mp-restaurant-menu') ?>" class="mprm-delete" href="#"><?php _e('Delete', 'mp-restaurant-menu') ?></a>

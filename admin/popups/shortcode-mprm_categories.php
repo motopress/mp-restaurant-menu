@@ -13,7 +13,7 @@
 		<select name="categ" multiple="6" data-selector="form_data">
 			<?php if ($categories): ?>
 				<?php foreach ($categories as $category): ?>
-					<option value="<?php echo $category->term_id ?>"><?php echo $category->name; ?></option>
+					<option value="<?php echo esc_attr( $category->term_id ); ?>"><?php echo esc_html( $category->name ); ?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</select>

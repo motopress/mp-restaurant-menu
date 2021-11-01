@@ -47,7 +47,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 		<p>
 			<span class="label"><?php _e('Discount Code', 'mp-restaurant-menu'); ?>:</span>&nbsp;
 			<span><?php if ($order->discounts !== 'none') {
-					echo '<code>' . $order->discounts . '</code>';
+					echo '<code>' . esc_html( $order->discounts ) . '</code>';
 				} else {
 					_e('None', 'mp-restaurant-menu');
 				} ?></span>
@@ -61,7 +61,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 				<?php foreach ($fees as $fee) : ?>
 					<li>
 						<span class="fee-label"><?php echo esc_html( $fee['label'] );?> :</span>
-						<span class="fee-amount" data-fee="<?php echo esc_attr($fee['amount']) ?>"><?php echo mprm_currency_filter($fee['amount'], $currency_code); ?></span>
+						<span class="fee-amount" data-fee="<?php echo esc_attr($fee['amount']) ?>"><?php echo mprm_currency_filter($fee['amount'], $currency_code); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					</li>
 				<?php endforeach; ?>
 			</ul>

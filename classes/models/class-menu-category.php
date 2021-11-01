@@ -162,7 +162,7 @@ class Menu_category extends Term {
 	public function save_menu_category($term_id, $term_meta = array()) {
 		global $wp_version;
 		if (!empty($_POST[ 'term_meta' ])) {
-			$term_meta = $_POST[ 'term_meta' ];
+			$term_meta = $_POST[ 'term_meta' ]; //TODO
 		}
 		if (!empty($term_meta) && is_array($term_meta)) {
 			if ($wp_version < 4.4) {

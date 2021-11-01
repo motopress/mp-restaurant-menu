@@ -11,7 +11,7 @@ if ( mprm_ecommerce_enabled() ) :
 
 		echo mprm_get_purchase_link( array(
 			'menu_item_id' => get_the_ID()
-		));
+		)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	?></div>
 <?php endif; ?>

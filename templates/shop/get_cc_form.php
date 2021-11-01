@@ -42,13 +42,13 @@
 			<span class="mprm-description"><?php _e('The date your credit card expires, typically on the front of the card.', 'mp-restaurant-menu'); ?></span>
 			<select id="card_exp_month" name="card_exp_month" class="card-expiry-month mprm-select mprm-select-small required">
 				<?php for ($i = 1; $i <= 12; $i++) {
-					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>';
+					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} ?>
 			</select>
 			<span class="exp-divider"> / </span>
 			<select id="card_exp_year" name="card_exp_year" class="card-expiry-year mprm-select mprm-select-small required">
 				<?php for ($i = date('Y'); $i <= date('Y') + 30; $i++) {
-					echo '<option value="' . $i . '">' . substr($i, 2) . '</option>';
+					echo '<option value="' . $i . '">' . substr($i, 2) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} ?>
 			</select>
 		</p>

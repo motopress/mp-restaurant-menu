@@ -1,1 +1,1 @@
-<a rel="tag" href="<?php echo $data["filter_link"]; ?>"><?php echo $data["wp"]->name ?></a>
+<a rel="tag" href="<?php echo esc_url( $data["filter_link"] ); ?>"><?php echo esc_html( $data["wp"]->name );?></a>

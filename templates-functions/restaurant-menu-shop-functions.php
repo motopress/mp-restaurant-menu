@@ -55,7 +55,7 @@ function mprm_payment_mode_select() {
 	<?php do_action('mprm_payment_mode_top'); ?>
 	
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
-		<form id="mprm_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
+		<form id="mprm_payment_mode" action="<?php echo esc_url( $page_URL ); ?>" method="GET">
 	<?php } ?>
 
 	<fieldset id="mprm_payment_mode_select">
@@ -67,14 +67,17 @@ function mprm_payment_mode_select() {
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
 				$checked = checked($gateway_id, models\Gateways::get_instance()->get_default_gateway(), false);
-				$checked_class = $checked ? ' mprm-gateway-option-selected' : '';
-				echo '<label for="mprm-gateway-' . esc_attr($gateway_id) . '" class="mprm-gateway-option' . $checked_class . '" id="mprm-gateway-option-' . esc_attr($gateway_id) . '">';
-				echo '<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-' . esc_attr($gateway_id) . '" value="' . esc_attr($gateway_id) . '"' . $checked . '>' . esc_html($gateway[ 'checkout_label' ]);
-				echo '</label>';
+				$checked_class = $checked ? 'mprm-gateway-option-selected' : '';?>
 
-				if ( isset( $gateway[ 'checkout_description' ] ) && strlen($gateway[ 'checkout_description' ]) ) {
-					echo '<p class="mprm-gateway-description">' . $gateway[ 'checkout_description' ] . '</p>';
-				}
+				<label for="mprm-gateway-<?php echo esc_attr($gateway_id); ?>" class="mprm-gateway-option <?php echo esc_attr($checked_class) ?>" id="mprm-gateway-option-<?php echo esc_attr($gateway_id); ?>">
+				<input type="radio" name="payment-mode" class="mprm-gateway" id="mprm-gateway-<?php
+					echo esc_attr($gateway_id); ?>" value="<?php echo esc_attr($gateway_id); ?>" <?php
+					echo $checked; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html($gateway[ 'checkout_label' ]); ?>
+				</label>
+				<?php
+				if ( isset( $gateway[ 'checkout_description' ] ) && strlen($gateway[ 'checkout_description' ]) ) { ?>
+					<p class="mprm-gateway-description"><?php echo wp_kses_post( $gateway[ 'checkout_description' ] ); ?></p>
+				<?php }
 			endforeach;
 			do_action('mprm_payment_mode_after_gateways');
 			?>
@@ -86,14 +89,15 @@ function mprm_payment_mode_select() {
 
 	<fieldset id="mprm_payment_mode_submit" class="mprm-no-js">
 		<p id="mprm-next-submit-wrap">
-			<?php echo mprm_checkout_button_next(); ?>
+			<?php echo mprm_checkout_button_next(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</p>
 	</fieldset>
 	
 	<?php if (models\Settings::get_instance()->is_ajax_disabled()) { ?>
 		</form>
 	<?php } ?>
-	<div id="mprm_purchase_form_wrap" class="<?php echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' ?>"></div>
+	<div id="mprm_purchase_form_wrap" class="<?php
+		echo mprm_get_option('disable_styles') ? 'mprm-no-styles' : 'mprm-plugin-styles' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"></div>
 	
 	<?php do_action('mprm_payment_mode_bottom');
 }
@@ -222,13 +226,13 @@ function mprm_get_cc_form() {
 			<span class="mprm-description"><?php _e('The date your credit card expires, typically on the front of the card.', 'mp-restaurant-menu'); ?></span>
 			<select id="card_exp_month" name="card_exp_month" class="card-expiry-month mprm-select mprm-select-small required">
 				<?php for ($i = 1; $i <= 12; $i++) {
-					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>';
+					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} ?>
 			</select>
 			<span class="exp-divider"> / </span>
 			<select id="card_exp_year" name="card_exp_year" class="card-expiry-year mprm-select mprm-select-small required">
 				<?php for ($i = date('Y'); $i <= date('Y') + 30; $i++) {
-					echo '<option value="' . $i . '">' . substr($i, 2) . '</option>';
+					echo '<option value="' . $i . '">' . substr($i, 2) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} ?>
 			</select>
 		</p>
@@ -236,7 +240,7 @@ function mprm_get_cc_form() {
 	</fieldset>
 	<?php
 	do_action('mprm_after_cc_fields');
-	echo ob_get_clean();
+	echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function mprm_get_register_fields() {
@@ -251,7 +255,7 @@ function mprm_get_register_fields() {
 			<span>
 				<legend><?php _e('Create an account', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
-						echo ' ' . __('(optional)', 'mp-restaurant-menu');
+						echo ' ' . __('(optional)', 'mp-restaurant-menu'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					} ?>
 				</legend>
 			</span>
@@ -302,7 +306,7 @@ function mprm_get_register_fields() {
 		<?php do_action('mprm_purchase_form_user_register_fields'); ?>
 	</fieldset>
 	<?php
-	echo ob_get_clean();
+	echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function mprm_purchase_form_before_cc_form() {
@@ -409,9 +413,9 @@ function mprm_default_cc_address_fields() {
 					$selected_country = $customer[ 'address' ][ 'country' ];
 				}
 				$countries = models\Settings::get_instance()->get_country_list();
-				foreach ($countries as $country_code => $country) {
-					echo '<option value="' . esc_attr($country_code) . '"' . selected($country_code, $selected_country, false) . '>' . $country . '</option>';
-				}
+				foreach ($countries as $country_code => $country) { ?>
+					<option value="<?php echo esc_attr($country_code); ?>" <?php selected($country_code, $selected_country); ?>><?php echo esc_html( $country ); ?></option>
+				<?php }
 				?>
 			</select>
 		</p>
@@ -434,9 +438,9 @@ function mprm_default_cc_address_fields() {
 					echo ' required';
 				} ?>">
 					<?php
-					foreach ($states as $state_code => $state) {
-						echo '<option value="' . $state_code . '"' . selected($state_code, $selected_state, false) . '>' . $state . '</option>';
-					}
+					foreach ($states as $state_code => $state) {?>
+						<option value="<?php echo esc_attr( $state_code ) ?>" <?php selected($state_code, $selected_state); ?>><?php esc_html( $state ); ?></option>
+					<?php }
 					?>
 				</select>
 			<?php else : ?>
@@ -447,7 +451,7 @@ function mprm_default_cc_address_fields() {
 		<?php do_action('mprm_cc_billing_bottom'); ?>
 	</fieldset>
 	<?php
-	echo ob_get_clean();
+	echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function mprm_terms_agreement() {
@@ -459,7 +463,7 @@ function mprm_terms_agreement() {
 			<div id="mprm_terms" style="display:none;">
 				<?php
 				do_action('mprm_before_terms');
-				echo wpautop(stripslashes($agree_text));
+				echo wpautop( stripslashes( wp_kses_post( $agree_text ) ) );
 				do_action('mprm_after_terms');
 				?>
 			</div>
@@ -469,7 +473,7 @@ function mprm_terms_agreement() {
 			</div>
 			<div class="mprm-terms-agreement">
 				<input name="mprm_agree_to_terms" class="required" required="required" type="checkbox" id="mprm_agree_to_terms" value="1"/>
-				<label for="mprm_agree_to_terms"><?php echo stripslashes($agree_label); ?></label>
+				<label for="mprm_agree_to_terms"><?php echo esc_html($agree_label); ?></label>
 			</div>
 		</fieldset>
 		<?php
@@ -528,7 +532,7 @@ function mprm_get_login_fields() {
 			<?php if (mprm_is_no_guest_checkout()) : ?>
 				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
-			<input type="hidden" name="redirect" value="<?php echo mprm_get_checkout_uri(); ?>"/>
+			<input type="hidden" name="redirect" value="<?php echo esc_url( mprm_get_checkout_uri() ); ?>"/>
 			<input type="hidden" name="mprm_login_nonce" value="<?php echo wp_create_nonce('mprm-login-nonce'); ?>"/>
 
 		</p>
@@ -538,7 +542,7 @@ function mprm_get_login_fields() {
 		<?php do_action('mprm_checkout_login_fields_after'); ?>
 	</fieldset>
 	<?php
-	echo ob_get_clean();
+	echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function mprm_payment_mode_top() {
@@ -548,11 +552,13 @@ function mprm_payment_mode_top() {
 	$payment_methods = mprm_get_option('accepted_cards', array());
 	if (empty($payment_methods)) {
 		return;
-	}
-	echo '<div class="mprm-payment-icons">';
+	}?>
+	<div class="mprm-payment-icons">
+	<?php
 	foreach ($payment_methods as $key => $card) {
-		if (models\Settings::get_instance()->string_is_image_url($key)) {
-			echo '<img class="payment-icon" src="' . esc_url($key) . '"/>';
+		if (models\Settings::get_instance()->string_is_image_url($key)) { ?>
+			<img class="payment-icon" src="<?php echo esc_url($key); ?>"/>
+		<?php
 		} else {
 			$card = strtolower(str_replace(' ', '', $card));
 			if (has_filter('mprm_accepted_payment_' . $card . '_image')) {
@@ -564,11 +570,13 @@ function mprm_payment_mode_top() {
 			}
 			if (models\Settings::get_instance()->is_ssl_enforced() || is_ssl()) {
 				$image = models\Checkout::get_instance()->enforced_ssl_asset_filter($image);
-			}
-			echo '<img class="payment-icon" src="' . esc_url($image) . '"/>';
+			} ?>
+			<img class="payment-icon" src="<?php echo esc_url($image); ?>"/>
+		<?php
 		}
-	}
-	echo '</div>';
+	} ?>
+	</div>
+<?php
 }
 
 /**
@@ -714,8 +722,8 @@ function mprm_is_success_page() {
  */
 function mprm_filter_success_page_content($content) {
 	if (isset($_GET[ 'payment-confirmation' ]) && mprm_is_success_page()) {
-		if (has_filter('mprm_payment_confirm_' . $_GET[ 'payment-confirmation' ])) {
-			$content = apply_filters('mprm_payment_confirm_' . $_GET[ 'payment-confirmation' ], $content);
+		if (has_filter('mprm_payment_confirm_' . sanitize_text_field( $_GET[ 'payment-confirmation' ] ))) {
+			$content = apply_filters('mprm_payment_confirm_' . sanitize_text_field( $_GET[ 'payment-confirmation' ] ), $content);
 		}
 	}
 	

@@ -541,7 +541,7 @@ class Cart extends Model {
 		$tax = 0;
 		if (!$this->get('taxes')->menu_item_is_tax_exclusive($menu_item_id)) {
 			$country = !empty($_POST['billing_country']) ? $_POST['billing_country'] : false;
-			$state = !empty($_POST['card_state']) ? $_POST['card_state'] : false;
+			$state = !empty($_POST['card_state']) ? sanitize_text_field( $_POST['card_state'] ) : false;
 			$tax = $this->get('taxes')->calculate_tax($subtotal, $country, $state);
 		}
 		return apply_filters('mprm_get_cart_item_tax', $tax, $menu_item_id, $options, $subtotal);
@@ -763,11 +763,22 @@ class Cart extends Model {
 	 * @return mixed
 	 */
 	public function cart_total($echo = true) {
-		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total(), true)));
-		if (!$echo) {
+
+		$total = apply_filters(
+			'mprm_cart_total',
+			$this->get('menu_item')->currency_filter(
+				$this->get('formatting')->format_amount(
+					$this->get_cart_total(),
+					true
+				)
+			)
+		);
+
+		if ( !$echo ) {
 			return $total;
 		}
-		echo $total;
+
+		echo wp_kses_post( $total );
 	}
 
 	/**
@@ -855,10 +866,12 @@ class Cart extends Model {
 			$cart_tax = $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($cart_tax));
 		}
 		$tax = apply_filters('mprm_cart_tax', $cart_tax);
+
 		if (!$echo) {
 			return $tax;
 		}
-		echo $tax;
+
+		echo wp_kses_post( $tax );
 	}
 
 	/**

@@ -54,11 +54,11 @@ $header_content_h1 = "
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<title><?php echo get_bloginfo('name'); ?></title>
+	<title><?php echo get_bloginfo('name'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></title>
 </head>
-<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="<?php echo $body; ?>">
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 
-<div style="<?php echo $wrapper; ?>">
+<div style="<?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
 		<tr>
 			<td align="center" valign="top">
@@ -67,15 +67,15 @@ $header_content_h1 = "
 						<?php echo '<p style="margin-top:0;"><img style="max-width: 520px" src="' . esc_url($header_img) . '" alt="' . get_bloginfo('name') . '" /></p>'; ?>
 					</div>
 				<?php endif; ?>
-				<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_container" style="<?php echo $template_container; ?>">
+				<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_container" style="<?php echo $template_container; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 					<?php if (!empty ($heading)) : ?>
 						<tr>
 							<td align="center" valign="top">
 								<!-- Header -->
-								<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_header" style="<?php echo $template_header; ?>" bgcolor="#ffffff">
+								<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_header" style="<?php echo $template_header; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" bgcolor="#ffffff">
 									<tr>
 										<td>
-											<h1 style="<?php echo $header_content_h1; ?>"><?php echo $heading; ?></h1>
+											<h1 style="<?php echo $header_content_h1; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_html( $heading ); ?></h1>
 										</td>
 									</tr>
 								</table>
@@ -88,9 +88,9 @@ $header_content_h1 = "
 							<!-- Body -->
 							<table border="0" cellpadding="0" cellspacing="0" width="520" id="template_body">
 								<tr>
-									<td valign="top" style="<?php echo $body_content; ?>">
+									<td valign="top" style="<?php echo $body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 										<!-- Content -->
 										<table border="0" cellpadding="20" cellspacing="0" width="100%">
 											<tr>
 												<td valign="top">
-													<div style="<?php echo $body_content_inner; ?>">
+													<div style="<?php echo $body_content_inner; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">

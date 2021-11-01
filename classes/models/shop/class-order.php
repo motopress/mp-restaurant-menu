@@ -698,8 +698,8 @@ final class Order extends Model {
 
 		switch ($column) {
 			case 'order_status':
-				?><mark class="order-status status-<?php echo $post->post_status; ?>"><span><?php
-					echo $this->get('payments')->get_payment_status($post);
+				?><mark class="order-status status-<?php echo esc_attr( $post->post_status ); ?>"><span><?php
+					echo esc_html( $this->get('payments')->get_payment_status($post) );
 				?></span></mark><?php
 
 				break;
@@ -736,7 +736,7 @@ final class Order extends Model {
 
 				printf(_x('%s by %s', 'Order number by X', 'mp-restaurant-menu'), '<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username);
 				if ($post->billing_email) {
-					echo '<small class="meta email"><a href="' . esc_url('mailto:' . $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
+					echo '<small class="meta email"><a href="mailto:' . esc_url( $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
 				break;
 			case 'order_ship_to':
@@ -752,12 +752,12 @@ final class Order extends Model {
 				$date = strtotime($this->date);
 				$value = esc_html( human_time_diff( strtotime($this->date), current_time('timestamp') ) ) . ' ago';
 				$value .= '<br/><span style="color:#999">' . date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date) . '</span>';
-				echo $value;
+				echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_total' :
 				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
-				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) . '</span>';
-				echo $total;
+				$total .= '<br/><span style="color:#999">' . esc_html( $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) ) . '</span>';
+				echo $total; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_actions' :
 				$this->render_order_actions($post);
@@ -2007,7 +2007,7 @@ final class Order extends Model {
 		}
 
 		echo '<p>';
-		echo $this->render_action_buttons( $actions );
+		echo $this->render_action_buttons( $actions ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</p>';
 	}
 	

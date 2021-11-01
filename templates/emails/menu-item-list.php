@@ -23,16 +23,16 @@
 			}
 			?><li><?php
 				do_action('mprm_email_menu_item_before', $item);
-				?><strong><?php echo esc_html( $item_title );?></strong><span>&nbsp;–&nbsp;<?php echo $price ?></span><?php
+				?><strong><?php echo esc_html( $item_title );?></strong><span>&nbsp;–&nbsp;<?php echo esc_html( $price );?></span><?php
 					if (!empty($sku)) {
-						?><br><span><?php echo "&nbsp;&ndash;&nbsp;" . __('SKU', 'mp-restaurant-menu') . ': ' . $sku ?></span><?php
+						?><br><span><?php echo "&nbsp;&ndash;&nbsp;" . __('SKU', 'mp-restaurant-menu') . ': ' . esc_html( $sku ); ?></span><?php
 					} ?>
 				<?php if (('' != mprm_get_menu_item_notes($item['id']))) {
-					?><span><?php echo ' &mdash; <small>' . mprm_get_menu_item_notes($item['id']) . '</small>' ?></span><?php
+					?><span><?php echo ' &mdash; <small>' . wp_kses_post( mprm_get_menu_item_notes($item['id']) ) . '</small>' ?></span><?php
 					} ?>
 				<?php do_action('mprm_email_menu_item_after', $item, $order_id); ?></li><?php
 		} else {
-			?><li><span><?php echo ('' != mprm_get_menu_item_notes($item['id'])) ? ' &mdash; <small>' . mprm_get_menu_item_notes($item['id']) . '</small>' : '' ?></span></li><?php
+			?><li><span><?php echo ('' != mprm_get_menu_item_notes($item['id'])) ? ' &mdash; <small>' . wp_kses_post( mprm_get_menu_item_notes($item['id']) ) . '</small>' : '' ?></span></li><?php
 		}
 	} ?>
 </ul>

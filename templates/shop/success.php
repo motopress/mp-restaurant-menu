@@ -7,13 +7,13 @@ use mp_restaurant_menu\classes\models\Payments as Payments;
 
 // No key found
 if (empty($payment_key)) { ?>
-	<p class="mprm-notice mprm-notice-error"><?php echo $mprm_receipt_args['error'] ?></p>
+	<p class="mprm-notice mprm-notice-error"><?php echo wp_kses_post( $mprm_receipt_args['error'] ); ?></p>
 	<?php
 	return;
 }
 if (isset($can_view) && $can_view && !empty($mprm_receipt_args['error'])) {
 	?>
-	<p class="mprm-notice mprm-notice-error"><?php echo $mprm_receipt_args['error'] ?></p>
+	<p class="mprm-notice mprm-notice-error"><?php echo wp_kses_post( $mprm_receipt_args['error'] );?></p>
 	<?php
 	return;
 }
@@ -26,7 +26,7 @@ if (empty($order)) : ?>
 endif;
 
 if (isset($need_login) && $need_login) {
-	echo empty($login_from) ? '' : $login_from;
+	echo empty($login_from) ? '' : $login_from; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 ?>
 
@@ -139,7 +139,7 @@ if (isset($need_login) && $need_login) {
 <?php do_action('mprm_payment_receipt_after_table', $order, $receipt_args); ?>
 
 <?php if (filter_var($receipt_args['products'], FILTER_VALIDATE_BOOLEAN)) : ?>
-	<h3><?php echo apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')); ?></h3>
+	<h3><?php echo esc_html( apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')) ); ?></h3>
 
 	<table id="mprm_purchase_receipt_products">
 		<thead>

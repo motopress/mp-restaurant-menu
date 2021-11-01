@@ -16,7 +16,7 @@ if ($ingredients) { ?>
 					continue;
 				} ?>
 				<span class="mprm-ingredient"><?php echo esc_html( $ingredient->name );?></span>
-				<span class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></span>
+				<span class="mprm-ingredients-delimiter"><?php echo esc_html( apply_filters('mprm_ingredients_delimiter', '/') ); ?></span>
 			<?php endforeach;
 		} else { ?>
 			<ul class="mprm-list">
@@ -25,7 +25,7 @@ if ($ingredients) { ?>
 						continue;
 					} ?>
 					<li class="mprm-ingredient"><?php echo esc_html( $ingredient->name );?></li>
-					<li class="mprm-ingredients-delimiter"><?php echo apply_filters('mprm_ingredients_delimiter', '/'); ?></li>
+					<li class="mprm-ingredients-delimiter"><?php echo esc_html( apply_filters('mprm_ingredients_delimiter', '/') ); ?></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="mprm-clear"></div>

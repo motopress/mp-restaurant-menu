@@ -47,7 +47,7 @@ class Shortcode_success extends Shortcodes {
 
 		$session = $this->get('session')->get_session_by_key('mprm_purchase');
 		if (isset($_GET['payment_key'])) {
-			$payment_key = urldecode($_GET['payment_key']);
+			$payment_key = urldecode($_GET['payment_key']); //TODO
 		} else if ($session) {
 			$payment_key = $session['purchase_key'];
 		}

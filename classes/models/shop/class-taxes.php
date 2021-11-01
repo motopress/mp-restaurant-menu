@@ -71,7 +71,7 @@ class Taxes extends Model {
 		$user_address = $this->get('customer')->get_customer_address();
 		if (empty($country)) {
 			if (!empty($_POST[ 'billing_country' ])) {
-				$country = $_POST[ 'billing_country' ];
+				$country = sanitize_text_field( $_POST[ 'billing_country' ] );
 			} elseif (is_user_logged_in() && !empty($user_address)) {
 				$country = $user_address[ 'country' ];
 			}
@@ -79,7 +79,7 @@ class Taxes extends Model {
 		}
 		if (empty($state)) {
 			if (!empty($_POST[ 'state' ])) {
-				$state = $_POST[ 'state' ];
+				$state = sanitize_text_field( $_POST[ 'state' ] );
 			} elseif (is_user_logged_in() && !empty($user_address)) {
 				$state = $user_address[ 'state' ];
 			}

@@ -101,7 +101,7 @@ class Purchase extends Model {
 			'user_email' => $user['user_email'],
 			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
 			'user_info' => stripslashes_deep($user_info),
-			'post_data' => $_POST,
+			'post_data' => $_POST, //TODO
 			'cart_details' => $this->get('cart')->get_cart_content_details(),
 			'gateway' => $valid_data['gateway'],
 			'card_info' => $valid_data['cc_info'],
@@ -230,7 +230,7 @@ class Purchase extends Model {
 		// Check for valid discount(s) is present
 		if (!empty($_POST['mprm-discount']) && __('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
 			// Check for a posted discount
-			$posted_discount = isset($_POST['mprm-discount']) ? trim($_POST['mprm-discount']) : false;
+			$posted_discount = isset($_POST['mprm-discount']) ? sanitize_text_field($_POST['mprm-discount']) : false;
 			// Add the posted discount to the discounts
 			if ($posted_discount && (empty($discounts) || $this->get('discount')->multiple_discounts_allowed()) && $this->get('discount')->is_discount_valid($posted_discount, $user)) {
 				$this->get('discount')->set_cart_discount($posted_discount);
@@ -475,13 +475,9 @@ class Purchase extends Model {
 	 * @return bool|string
 	 */
 	public function purchase_form_validate_phone() {
+
 		$number = sanitize_text_field($_POST['phone_number']);
-//		$regex = "/(\+?\d[- .]*){7,13}/i";
-//		$valid = preg_match($regex, $number) ? true : false;
-//		if (!$valid) {
-//			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
-//		}
-//		return $valid ? $number : false;
+
 		return $number;
 	}
 
@@ -584,7 +580,9 @@ class Purchase extends Model {
 	 * @return array
 	 */
 	public function purchase_form_validate_new_user() {
+
 		$registering_new_user = false;
+
 		// Start an empty array to collect valid user data
 		$valid_user_data = array(
 			// Assume there will be errors
@@ -594,11 +592,13 @@ class Purchase extends Model {
 			// Get last name
 			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field($_POST["mprm_last"]) : '',
 		);
+
 		// Check the new user's credentials against existing ones
-		$user_login = isset($_POST["mprm_user_login"]) ? trim($_POST["mprm_user_login"]) : false;
-		$user_email = isset($_POST['mprm_email']) ? trim($_POST['mprm_email']) : false;
-		$user_pass = isset($_POST["mprm_user_pass"]) ? trim($_POST["mprm_user_pass"]) : false;
-		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? trim($_POST["mprm_user_pass_confirm"]) : false;
+		$user_login = isset($_POST["mprm_user_login"]) ? sanitize_text_field($_POST["mprm_user_login"]) : false;
+		$user_email = isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : false;
+		$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field($_POST["mprm_user_pass"]) : false;
+		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? sanitize_text_field($_POST["mprm_user_pass_confirm"]) : false;
+
 		// Loop through required fields and show error messages
 		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
 			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
@@ -688,7 +688,7 @@ class Purchase extends Model {
 		// Check if user exists
 		if ($user_data) {
 			// Get password
-			$user_pass = isset($_POST["mprm_user_pass"]) ? $_POST["mprm_user_pass"] : false;
+			$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field($_POST["mprm_user_pass"]) : false;
 			// Check user_pass
 			if ($user_pass) {
 				// Check if password is valid
@@ -741,7 +741,7 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
 		}
 		// Get the guest email
-		$guest_email = isset($_POST['mprm_email']) ? $_POST['mprm_email'] : false;
+		$guest_email = isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : false;
 		// Check email
 		if ($guest_email && strlen($guest_email) > 0) {
 			// Validate email

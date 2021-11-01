@@ -186,9 +186,9 @@ class Import extends Core {
 	public function import_options() {
 		$j = 0;
 		?>
-		<form action="<?php echo admin_url('admin.php?import=mprm-importer&amp;step=2'); ?>" method="post">
+		<form action="<?php echo esc_url( admin_url('admin.php?import=mprm-importer&amp;step=2') ); ?>" method="post">
 			<?php wp_nonce_field('mprm-importer'); ?>
-			<input type="hidden" name="import_id" value="<?php echo $this->id; ?>"/>
+			<input type="hidden" name="import_id" value="<?php echo esc_attr( $this->id ); ?>"/>
 			<?php if (!empty($this->authors)) : ?>
 				<h3><?php _e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
 				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
@@ -246,14 +246,14 @@ class Import extends Core {
 				_e('as a new user:', 'mp-restaurant-menu');
 				$value = esc_attr(sanitize_user($author['author_login'], true));
 			}
-			echo ' <input type="text" name="user_new[' . $n . ']" value="' . $value . '" /><br />';
+			echo ' <input type="text" name="user_new[' . esc_attr( $n ) . ']" value="' . esc_attr( $value ) . '" /><br />';
 		}
 		if (!$create_users && $this->version == '1.0')
 			_e('assign posts to an existing user:', 'mp-restaurant-menu');
 		else
 			_e('or assign posts to an existing user:', 'mp-restaurant-menu');
 		wp_dropdown_users(array('name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __('- Select -', 'mp-restaurant-menu')));
-		echo '<input type="hidden" name="imported_authors[' . $n . ']" value="' . esc_attr($author['author_login']) . '" />';
+		echo '<input type="hidden" name="imported_authors[' . esc_attr( $n ) . ']" value="' . esc_attr($author['author_login']) . '" />';
 		if ($this->version != '1.0')
 			echo '</div>';
 	}
@@ -340,7 +340,7 @@ class Import extends Core {
 			} else {
 				printf(__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($term['term_taxonomy']), esc_html($term['term_name']));
 				if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
-					echo ': ' . $id->get_error_message();
+					echo ': ' . wp_kses_post( $id->get_error_message() );
 				echo '<br />';
 				continue;
 			}
@@ -429,7 +429,7 @@ class Import extends Core {
 					printf(__('Failed to import %s &#8220;%s&#8221;', 'mp-restaurant-menu'),
 						$post_type_object->labels->singular_name, esc_html($post['post_title']));
 					if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
-						echo ': ' . $post_id->get_error_message();
+						echo ': ' . wp_kses_post( $post_id->get_error_message() );
 					echo '<br />';
 					continue;
 				}
@@ -457,7 +457,7 @@ class Import extends Core {
 						} else {
 							printf(__('Failed to import %s %s', 'mp-restaurant-menu'), esc_html($taxonomy), esc_html($term['name']));
 							if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
-								echo ': ' . $t->get_error_message();
+								echo ': ' . wp_kses_post( $t->get_error_message() );
 							echo '<br />';
 							do_action('wp_import_insert_term_failed', $t, $term, $post_id, $post);
 							continue;

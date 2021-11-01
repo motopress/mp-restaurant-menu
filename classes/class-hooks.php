@@ -776,7 +776,7 @@ class Hooks extends Core {
 			return $query;
 		}
 		
-		return wp_unslash($_GET[ 's' ]);
+		return sanitize_text_field($_GET[ 's' ]);
 	}
 	
 	/**
@@ -790,8 +790,8 @@ class Hooks extends Core {
 			<script type="text/javascript">
 				jQuery(function() {
 					<?php foreach($order_statuses as $key => $value): ?>
-					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('<?php echo 'set-order-' . $key ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
 					<?php endforeach;?>
 				});
 			</script>
@@ -944,9 +944,9 @@ class Hooks extends Core {
 			}
 		}
 		if (isset($_REQUEST[ 'page' ])) {
-			if ($pagenow == 'edit.php' && $_REQUEST[ 'page' ] == 'mprm-customers') {
+			if ($pagenow == 'edit.php' && ($_REQUEST[ 'page' ] == 'mprm-customers') ) {
 				if (!empty($_REQUEST[ 'message' ])) {
-					View::get_instance()->render_html('../admin/notices/' . $_REQUEST[ 'message' ]);
+					View::get_instance()->render_html('../admin/notices/' . wp_kses_post( $_REQUEST[ 'message' ] ));
 				}
 			}
 		}

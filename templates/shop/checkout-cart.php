@@ -33,12 +33,12 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 					<div class="mprm_cart_item_name_wrapper">
 						<?php if (current_theme_supports('post-thumbnails') && has_post_thumbnail($item['id'])) { ?>
 							<div class="mprm_cart_item_image">
-								<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); ?>
+								<?php echo get_the_post_thumbnail($item['id'], apply_filters('mprm_checkout_image_size', 'thumbnail')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
 							</div>
 						<?php }
 						$item_title = Cart::get_instance()->get_cart_item_name($item); ?>
 
-						<a class="mprm-link" href="<?php echo get_permalink($item['id']) ?>">
+						<a class="mprm-link" href="<?php echo esc_url( get_permalink($item['id']) );?>">
 							<span class="mprm_checkout_cart_item_title"><?php echo esc_html($item_title) ?></span>
 						</a>
 						<?php do_action('mprm_checkout_cart_item_title_after', $item); ?>
@@ -46,15 +46,15 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 				</td>
 				<td class="mprm_cart_item_price">
 					<?php
-					echo Cart::get_instance()->cart_item_price($item['id'], $item['options']);
+					echo Cart::get_instance()->cart_item_price($item['id'], $item['options']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					do_action('mprm_checkout_cart_item_price_after', $item);
 					?>
 				</td>
 				<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
 					<td class="mprm_cart_quantities">
-						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo $index; ?>-quantity" data-key="<?php echo $index; ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $index); ?>"/>
-						<input type="hidden" name="mprm-cart-menu-item[]" value="<?php echo $item['id']; ?>"/>
-						<input type="hidden" name="mprm-cart-menu-item-<?php echo $index; ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
+						<input type="number" min="1" step="1" name="mprm-cart-menu_item-<?php echo esc_attr( $index ); ?>-quantity" data-key="<?php echo esc_attr( $index ); ?>" class="mprm-input mprm-item-quantity" value="<?php echo Cart::get_instance()->get_cart_item_quantity($item['id'], $item['options'], $index); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
+						<input type="hidden" name="mprm-cart-menu-item[]" value="<?php echo esc_attr( $item['id'] ); ?>"/>
+						<input type="hidden" name="mprm-cart-menu-item-<?php echo esc_attr( $index ); ?>-options" value="<?php echo esc_attr(json_encode($item['options'])); ?>"/>
 					</td>
 				<?php endif; ?>
 
@@ -75,7 +75,7 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 
 	<?php if (Cart::get_instance()->cart_has_fees()) : ?>
 		<?php foreach (Cart::get_instance()->get_cart_fees() as $fee_id => $fee) : ?>
-			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo $fee_id; ?>">
+			<tr class="mprm_cart_fee" id="mprm_cart_fee_<?php echo esc_attr( $fee_id ); ?>">
 				<?php do_action('mprm_cart_fee_rows_before', $fee_id, $fee); ?>
 				<td class="mprm_cart_fee_label"><?php echo esc_html($fee['label']); ?></td>
 				<td class="mprm_cart_fee_amount"><?php echo esc_html(mprm_currency_filter(mprm_format_amount($fee['amount']))); ?></td>

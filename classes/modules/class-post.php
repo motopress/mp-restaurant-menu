@@ -167,7 +167,7 @@ class Post extends Module {
 		if (!isset($_POST['mp-restaurant-menu' . '_nonce_box'])) {
 			return $post_id;
 		}
-		$nonce = $_POST['mp-restaurant-menu' . '_nonce_box'];
+		$nonce = sanitize_text_field( $_POST['mp-restaurant-menu' . '_nonce_box'] );
 
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
@@ -180,7 +180,7 @@ class Post extends Module {
 		}
 
 		// Cher user rules
-		if ('page' == $_POST['post_type']) {
+		if ( 'page' == $_POST['post_type'] ) {
 			if (!current_user_can('edit_page', $post_id)) {
 				return $post_id;
 			}
@@ -197,24 +197,53 @@ class Post extends Module {
 		}
 
 		foreach ($this->metaboxes as $metabox) {
+
 			// update post if current post type
 			if ($_POST['post_type'] == $metabox['post_type']) {
 
-				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
+				$value = false;
+				
+				if ( ! empty( $_POST[$metabox['name']] ) ) {
+					
+					$value = $_POST[$metabox['name']];
 
-				if ($metabox['name'] == 'price') {
-					$value = floatval(str_replace(',', '.', $value));
+					if ( is_array( $value ) ) {
+						$value = $this->recursive_sanitize_array( $_POST[$metabox['name']] );
+					} else {
+						$value = sanitize_text_field( $value );
+					}
+
+					if ( $metabox['name'] == 'price' ) {
+						$value = floatval( str_replace(',', '.', $value) );
+					}
 				}
 
-				if (is_array($value)) {
-					$mydata = $value;
-				} else {
-					$mydata = sanitize_text_field($value);
-				}
-				update_post_meta($post_id, $metabox['name'], $mydata);
+				update_post_meta($post_id, $metabox['name'], $value);
 			}
 		}
 	}
+
+	/**
+	 * Recursive sanitation for an array
+	 *
+	 * @param $array
+	 *
+	 * @return mixed
+	 */
+	private function recursive_sanitize_array( $array ) {
+
+		foreach ( $array as $key => &$value ) {
+			if ( is_array( $value ) ) {
+				$value = $this->recursive_sanitize_array($value);
+			}
+			else {
+				$value = sanitize_text_field( $value );
+			}
+		}
+
+		return $array;
+	}
+
 
 	/**
 	 * Edit form after title
@@ -253,13 +282,13 @@ class Post extends Module {
 
 		switch ($column) {
 			case $category_name:
-				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $category_name);
+				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $category_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case $tag_name:
-				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
+				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'mprm-thumb':
-				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>';
+				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'mprm-price':
 

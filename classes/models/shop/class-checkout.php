@@ -70,7 +70,7 @@ class Checkout extends Model {
 			$redirect .= $query_string;
 		}
 		
-		$gateway = isset($_REQUEST[ 'mprm-gateway' ]) ? $_REQUEST[ 'mprm-gateway' ] : '';
+		$gateway = isset($_REQUEST[ 'mprm-gateway' ]) ? sanitize_text_field( $_REQUEST[ 'mprm-gateway' ] ) : '';
 		if (!headers_sent()) {
 			wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
 			$this->get('misc')->mprm_die();

@@ -58,7 +58,7 @@ class Extension {
 		$data['extensions'] = $this->get_extensions();
 		$data['extensions_html'] = View::get_instance()->get_template_html('../admin/extensions/extensions-view', $data);
 
-		echo View::get_instance()->get_template_html('../admin/extensions/extensions-page', $data);
+		echo View::get_instance()->get_template_html('../admin/extensions/extensions-page', $data); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

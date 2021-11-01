@@ -148,7 +148,7 @@ class Gateways extends Model {
 	 */
 	public function get_chosen_gateway() {
 		$gateways = $this->get_enabled_payment_gateways();
-		$chosen = isset($_REQUEST[ 'payment-mode' ]) ? $_REQUEST[ 'payment-mode' ] : false;
+		$chosen = isset($_REQUEST[ 'payment-mode' ]) ? sanitize_text_field( $_REQUEST[ 'payment-mode' ] ) : false;
 		if (false !== $chosen) {
 			$chosen = preg_replace('/[^a-zA-Z0-9-_]+/', '', $chosen);
 		}
@@ -176,7 +176,7 @@ class Gateways extends Model {
 	public function show_gateways() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$show_gateways = false;
-		$chosen_gateway = isset($_GET[ 'payment-mode' ]) ? preg_replace('/[^a-zA-Z0-9-_]+/', '', $_GET[ 'payment-mode' ]) : false;
+		$chosen_gateway = isset($_GET[ 'payment-mode' ]) ? preg_replace('/[^a-zA-Z0-9-_]+/', '', sanitize_text_field( $_GET[ 'payment-mode' ] )) : false;
 		if (count($gateways) > 1 && empty($chosen_gateway)) {
 			$show_gateways = true;
 			if ($this->get('cart')->get_cart_total() <= 0) {

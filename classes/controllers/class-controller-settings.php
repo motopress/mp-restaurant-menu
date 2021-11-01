@@ -35,9 +35,9 @@ class Controller_Settings extends Controller {
 			$data['settings_tabs'] = $settings_tabs = Media::get_instance()->get_settings_tabs();
 			$settings_tabs = empty($settings_tabs) ? array() : $settings_tabs;
 			$key = 'main';
-			$data['active_tab'] = isset($_GET['tab']) && array_key_exists($_GET['tab'], $settings_tabs) ? $_GET['tab'] : 'general';
+			$data['active_tab'] = isset($_GET['tab']) && array_key_exists( sanitize_text_field( $_GET['tab'] ), $settings_tabs) ? sanitize_text_field( $_GET['tab'] ) : 'general';
 			$data['sections'] = Media::get_instance()->get_settings_tab_sections($data['active_tab']);
-			$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists($_GET['section'], $data['sections']) ? $_GET['section'] : $key;
+			$data['section'] = isset($_GET['section']) && !empty($data['sections']) && array_key_exists( sanitize_text_field( $_GET['section'] ), $data['sections']) ? sanitize_text_field( $_GET['section'] ) : $key;
 
 			//echo View::get_instance()->get_template_html('settings', $data);
 			echo View::get_instance()->get_template_html( '../admin/settings/settings', $data );
@@ -51,7 +51,7 @@ class Controller_Settings extends Controller {
 
 		if ( current_user_can('manage_restaurant_menu') ) {
 
-			$data = $this->get('settings')->save_settings($_REQUEST);
+			$data = $this->get('settings')->save_settings($_REQUEST); //TODO
 			$this->send_json($data);
 		}
 	}
@@ -61,7 +61,7 @@ class Controller_Settings extends Controller {
 	 */
 	public function action_get_state_list() {
 		$data = array();
-		$country = $_REQUEST['country'];
+		$country = sanitize_text_field( $_REQUEST['country'] );
 		$data['data'] = Settings::get_instance()->get_shop_states($country);
 		$data['success'] = true;
 		$this->send_json($data);
@@ -78,7 +78,7 @@ class Controller_Settings extends Controller {
 	 * Test email
 	 */
 	public function action_send_test_email() {
-		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'mprm-test-email')) {
+		if (!wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'mprm-test-email')) {
 			return;
 		}
 		// Send a test email

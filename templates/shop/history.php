@@ -37,7 +37,7 @@ if (!mprm_user_pending_verification()) { ?>
 					'format' => '?paged=%#%',
 					'current' => max(1, get_query_var('paged')),
 					'total' => ceil(mprm_count_purchases_of_customer() / 20) // 20 items per page
-				));
+				)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</div>
 			<?php do_action('mprm_after_purchase_history'); ?>
@@ -48,7 +48,7 @@ if (!mprm_user_pending_verification()) { ?>
 	} else { ?>
 		<p class="mprm-account-pending mprm_success">
 			<?php _e('You must be logged in to view your purchases.', 'mp-restaurant-menu'); ?>
-			<a href="<?php echo wp_login_url(mprm_get_purchase_history_page()); ?>" title="<?php _e('Login.', 'mp-restaurant-menu'); ?>"><?php _e('Login.', 'mp-restaurant-menu'); ?></a>
+			<a href="<?php echo wp_login_url(mprm_get_purchase_history_page()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>" title="<?php _e('Login.', 'mp-restaurant-menu'); ?>"><?php _e('Login.', 'mp-restaurant-menu'); ?></a>
 		</p>
 	<?php }
 } else {

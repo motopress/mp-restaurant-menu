@@ -71,7 +71,7 @@ class View {
 		$out = ob_get_clean();
 
 		if ($output) {
-			echo $out;
+			echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $out;
 		}

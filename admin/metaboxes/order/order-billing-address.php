@@ -41,7 +41,7 @@ $address = $order->address; ?>
 						'chosen' => true,
 						'placeholder' => __('Select a country', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a country', 'mp-restaurant-menu'))
-					));
+					)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				?>
 			</p>
@@ -61,7 +61,7 @@ $address = $order->address; ?>
 						'chosen' => true,
 						'placeholder' => __('Select a state', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a state', 'mp-restaurant-menu'))
-					));
+					)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} else { ?>
 					<input type="text" name="mprm-order-address[0][state]" value="<?php echo esc_attr($address['state']); ?>" class="medium-text"/>
 					<?php

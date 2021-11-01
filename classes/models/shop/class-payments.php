@@ -171,7 +171,7 @@ class Payments extends Parent_query {
 		
 		$payment->increase_tax($this->get('cart')->get_cart_fee_tax());
 		$gateway = !empty($payment_data[ 'gateway' ]) ? $payment_data[ 'gateway' ] : '';
-		$gateway = empty($gateway) && isset($_POST[ 'mprm-gateway' ]) ? $_POST[ 'mprm-gateway' ] : $gateway;
+		$gateway = empty($gateway) && isset($_POST[ 'mprm-gateway' ]) ? sanitize_text_field( $_POST[ 'mprm-gateway' ] ) : $gateway;
 		$payment->status = !empty($payment_data[ 'status' ]) ? $payment_data[ 'status' ] : 'mprm-pending';
 		$payment->currency = !empty($payment_data[ 'currency' ]) ? $payment_data[ 'currency' ] : $this->get('settings')->get_currency();
 		$payment->user_info = $payment_data[ 'user_info' ];
@@ -364,7 +364,7 @@ class Payments extends Parent_query {
 		$curr_customer_id = sanitize_text_field($data[ 'mprm-current-customer' ]);
 		$new_customer_id = sanitize_text_field($data[ 'customer-id' ]);
 		
-		$updated_menu_items = isset($_POST[ 'mprm-order-details' ]) ? $_POST[ 'mprm-order-details' ] : false;
+		$updated_menu_items = isset($_POST[ 'mprm-order-details' ]) ? $_POST[ 'mprm-order-details' ] : false; //TODO
 		
 		if ($updated_menu_items && !empty($_POST[ 'mprm-order-details' ])) {
 			if (!empty($updated_menu_items) && is_array($updated_menu_items)) {

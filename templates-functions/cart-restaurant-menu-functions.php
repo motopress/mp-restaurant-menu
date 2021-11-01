@@ -175,7 +175,7 @@ function mprm_get_cart_item_price_id($item = array()) {
 function mprm_cart_empty() {
 	$cart_contents = models\Cart::get_instance()->get_cart_contents();
 	if (empty($cart_contents)) {
-		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
+		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -274,7 +274,7 @@ function mprm_success_page_cart_item($item, $order) {
 			<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo esc_attr( $post_type ) ?>">
 				<?php echo esc_html($item['name']); ?>
 				<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
-					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				<?php endif; ?>
 			</div>
 
@@ -285,15 +285,15 @@ function mprm_success_page_cart_item($item, $order) {
 		</td>
 
 		<?php if (models\Misc::get_instance()->use_skus()) : ?>
-			<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
+			<td><?php echo esc_html( mprm_get_menu_item_sku($item['id']) ); ?></td>
 		<?php endif; ?>
 
 		<?php if (models\Cart::get_instance()->item_quantities_enabled()) { ?>
-			<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
+			<td class="mprm-success-page-quantity"><?php echo esc_html( $item['quantity'] ); ?></td>
 		<?php } ?>
 		<td>
 			<?php if (empty($item['in_bundle'])) : ?>
-				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
+				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php endif; ?>
 		</td>
 	</tr>

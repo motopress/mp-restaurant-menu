@@ -14,7 +14,7 @@
 		<select name="categ" multiple="6" data-selector="form_data">
 			<?php if ($categories): ?>
 				<?php foreach ($categories as $category): ?>
-					<option value="<?php echo $category->term_id ?>"><?php echo $category->name; ?></option>
+					<option value="<?php echo esc_attr( $category->term_id ); ?>"><?php echo esc_html( $category->name ); ?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</select>
@@ -26,7 +26,7 @@
 		<select name="tags_list" multiple="6" data-selector="form_data">
 			<?php if ($tags): ?>
 				<?php foreach ($tags as $tag): ?>
-					<option value="<?php echo $tag->term_id ?>"><?php echo $tag->name; ?></option>
+					<option value="<?php echo esc_attr( $tag->term_id ); ?>"><?php echo esc_html( $tag->name ); ?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</select>

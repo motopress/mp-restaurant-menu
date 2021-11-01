@@ -95,7 +95,7 @@ function get_related_items_theme_view() {
 				<a href="<?php echo esc_url( get_permalink($related_item) );?>" title="<?php echo esc_attr( get_the_title($related_item) );?>">
 					<?php
 					if (has_post_thumbnail($related_item)) {
-						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
+						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					} else { ?>
 						<span><?php echo esc_html( get_the_title($related_item) );?></span>
 					<?php } ?>
@@ -114,7 +114,7 @@ function get_gallery_theme_view() {
 	$gallery = mprm_get_gallery();
 	if (!empty($gallery)) {
 		$args = apply_filters('mprm-gallery-settings', array('ids' => $gallery, 'link' => 'file', 'columns' => '3'));
-		echo gallery_shortcode($args);
+		echo gallery_shortcode($args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

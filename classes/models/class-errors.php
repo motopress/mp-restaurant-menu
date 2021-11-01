@@ -30,10 +30,10 @@ class Errors extends Model {
 			$classes = apply_filters('mprm_error_class', array(
 				'mprm-errors', 'mprm-notice', 'mprm-notice-error'
 			));
-			echo '<div class="' . implode(' ', $classes) . '">';
+			echo '<div class="' . esc_attr( implode(' ', $classes) ) . '">';
 			// Loop error codes and display errors
 			foreach ($errors as $error_id => $error) {
-				echo '<p class="mprm_error" id="mprm-error_' . $error_id . '"><strong>' . __('Error', 'mp-restaurant-menu') . '</strong>: ' . $error . '</p>';
+				echo '<p class="mprm_error" id="mprm-error_' . esc_attr( $error_id ) . '"><strong>' . __('Error', 'mp-restaurant-menu') . '</strong>: ' . wp_kses_post( $error ) . '</p>';
 			}
 			echo '</div>';
 

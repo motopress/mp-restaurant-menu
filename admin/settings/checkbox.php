@@ -19,5 +19,5 @@ if (!empty($args['options']['disabled'])) {
 	$options .= ' readonly';
 }
 ?>
-<input type="checkbox" <?php echo $options ?> name="<?php echo esc_attr($args['name']) ?>" id="<?php echo esc_attr($args['name']) ?>" class="<?php echo $class . ' ' . esc_attr($args['name']) ?>" <?php checked(1, $args['current'], false) ?> />
+<input type="checkbox" <?php echo $options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> name="<?php echo esc_attr($args['name']) ?>" id="<?php echo esc_attr($args['name']) ?>" class="<?php echo esc_attr( $class ) . ' ' . esc_attr($args['name']) ?>" <?php checked(1, $args['current'], false) ?> />
 

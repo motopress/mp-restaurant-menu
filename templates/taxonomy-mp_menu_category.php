@@ -5,7 +5,7 @@ do_action('mprm-single-category-before-wrapper');
 
 ?>
 	<div <?php post_class('mprm-remove-hentry ' . apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
-		<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-category-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-category') ?> ">
+		<div class="<?php echo esc_attr( apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-category-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-category') );?> ">
 			<?php
 			/**
 			 * mprm_before_category_header hook

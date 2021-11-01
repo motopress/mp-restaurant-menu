@@ -123,7 +123,7 @@ class Settings_emails extends Model {
 		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php _e('Purchase Receipt Preview', 'mp-restaurant-menu'); ?> "><?php _e('Preview Purchase Receipt', 'mp-restaurant-menu'); ?></a>
 		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email', 'controller' => 'settings')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'mp-restaurant-menu'); ?>" class="button-secondary"><?php _e('Send Test Email', 'mp-restaurant-menu'); ?></a>
 		<?php
-		echo ob_get_clean();
+		echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -143,7 +143,7 @@ class Settings_emails extends Model {
 
 		$content = $this->get('emails')->get_email_body_content(0, array());
 		$preview_template_tags = $this->get('emails')->email_preview_template_tags($content);
-		echo $this->build_email($preview_template_tags);
+		echo $this->build_email($preview_template_tags); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 

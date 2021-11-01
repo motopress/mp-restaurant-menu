@@ -35,8 +35,8 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 
 <select name="<?php echo esc_attr($args['name']) ?>"
         id="<?php esc_attr(mprm_sanitize_key((str_replace('-', '_', $args['id'])))) ?>"
-        class="mprm-select <?php echo $class . $multiple ?>"
-        data-placeholder="<?php echo $placeholder ?>" >
+        class="mprm-select <?php echo esc_attr( $class . $multiple ); ?>"
+        data-placeholder="<?php echo esc_attr( $placeholder ); ?>" >
 	<?php
 	if ($args['show_option_all']) {
 		if ($args['multiple']) {
@@ -44,7 +44,7 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 		} else {
 			$selected = selected($args['selected'], 0, false);
 		} ?>
-		<option value="all" <?php echo $selected ?> > <?php esc_html($args['show_option_all']) ?></option>
+		<option value="all" <?php echo $selected // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> > <?php esc_html($args['show_option_all']) ?></option>
 		<?php
 	}
 	if (!empty($args['options'])) {
@@ -54,7 +54,7 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 			} else {
 				$selected = selected($args['selected'], -1, false);
 			} ?>
-			<option value="-1" <?php echo $selected ?>><?php echo esc_html($args['show_option_none']) ?></option>
+			<option value="-1" <?php echo $selected // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html($args['show_option_none']) ?></option>
 		<?php }
 		foreach ($args['options'] as $key => $option) {
 			if ($args['multiple'] && is_array($args['selected'])) {
@@ -62,7 +62,7 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 			} else {
 				$selected = selected($args['selected'], $key, false);
 			} ?>
-			<option value="<?php echo esc_attr($key) ?>" <?php echo $selected ?>><?php echo esc_html($option) ?></option>
+			<option value="<?php echo esc_attr($key) ?>" <?php echo $selected // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html($option) ?></option>
 		<?php }
 	} ?>
 </select>

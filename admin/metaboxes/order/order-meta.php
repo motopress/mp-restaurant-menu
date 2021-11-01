@@ -16,7 +16,7 @@ $phone = esc_attr($order->phone_number);
 			<div class="mprm-order-gateway mprm-admin-box-inside">
 				<p>
 					<span class="label"><?php _e('Gateway:', 'mp-restaurant-menu'); ?></span>&nbsp;
-					<?php echo mprm_get_gateway_admin_label($gateway); ?>
+					<?php echo mprm_get_gateway_admin_label($gateway); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
 		<?php endif; ?>
@@ -24,7 +24,7 @@ $phone = esc_attr($order->phone_number);
 		<div class="mprm-order-payment-key mprm-admin-box-inside">
 			<p>
 				<span class="label"><?php _e('Key:', 'mp-restaurant-menu'); ?></span>&nbsp;
-				<span><?php echo $order->key; ?></span>
+				<span><?php echo esc_html( $order->key ); ?></span>
 			</p>
 		</div>
 
@@ -39,7 +39,7 @@ $phone = esc_attr($order->phone_number);
 			<div class="mprm-order-tx-id mprm-admin-box-inside">
 				<p>
 					<span class="label"><?php _e('Transaction ID:', 'mp-restaurant-menu'); ?></span>&nbsp;
-					<span><?php echo apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id); ?></span>
+					<span><?php echo esc_html( apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id) ); ?></span>
 				</p>
 			</div>
 		<?php endif; ?>
@@ -48,7 +48,7 @@ $phone = esc_attr($order->phone_number);
 			<div class="mprm-order-tx-phone mprm-admin-box-inside">
 				<p>
 					<span class="label"><?php _e('Contact phone:', 'mp-restaurant-menu'); ?></span>&nbsp;
-					<span><?php echo apply_filters('mprm_order_phone', $phone, $order_id); ?></span>
+					<span><?php echo esc_html( apply_filters('mprm_order_phone', $phone, $order_id) ); ?></span>
 				</p>
 			</div>
 		<?php endif; ?>

@@ -145,7 +145,7 @@ class Query extends Model {
 				break;
 		}
 		
-		$search_order_id = preg_replace('/[a-z# ]/i', '', $_GET[ 's' ]);
+		$search_order_id = preg_replace('/[a-z# ]/i', '', sanitize_text_field( $_GET[ 's' ] ));
 
 		// Search orders
 		if (is_numeric($search_order_id)) {
