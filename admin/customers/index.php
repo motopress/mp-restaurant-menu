@@ -5,7 +5,7 @@ $customers_table->prepare_items();
 
 ?>
 <div class="wrap">
-	<h1><?php _e('Customers', 'mp-restaurant-menu'); ?></h1>
+	<h1><?php esc_html_e('Customers', 'mp-restaurant-menu'); ?></h1>
 	<?php do_action('mprm_customers_table_top'); ?>
 	<form id="mprm-customers-filter" method="post">
 		<?php

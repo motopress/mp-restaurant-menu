@@ -624,12 +624,12 @@ class Settings extends Model {
 					<?php echo $day['label']; ?>
 				</td>
 				<td>
-					<?php _e( 'Open:', 'mp-restaurant-menu'); ?>
+					<?php esc_html_e( 'Open:', 'mp-restaurant-menu'); ?>
 					<select name="<?php echo $name . '[' . $day['id']; ?>][from]"><?php
 						$this->get_open_hours_list( $settings[ $day['id'] ]['from'] ); ?></select>
 				</td>
 				<td>
-					<?php _e( 'Close:', 'mp-restaurant-menu'); ?>
+					<?php esc_html_e( 'Close:', 'mp-restaurant-menu'); ?>
 					<select name="<?php echo $name . '[' . $day['id']; ?>][until]"><?php
 						$this->get_open_hours_list( $settings[ $day['id'] ]['until'] ); ?></select>
 				</td>
@@ -1303,11 +1303,11 @@ class Settings extends Model {
 		<table id="mprm-tax-rates" class="wp-list-table widefat fixed posts">
 			<thead>
 			<tr>
-				<th scope="col" class="tax_country"><?php _e('Country', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_state"><?php _e('State / Province', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_global" title="<?php _e('Apply rate to whole country, regardless of state / province', 'mp-restaurant-menu'); ?>"><?php _e('Country Wide', 'mp-restaurant-menu'); ?></th>
-				<th scope="col" class="tax_rate"><?php _e('Rate', 'mp-restaurant-menu'); ?></th>
-				<th scope="col"><?php _e('Remove', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_country"><?php esc_html_e('Country', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_state"><?php esc_html_e('State / Province', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_global" title="<?php esc_html_e('Apply rate to whole country, regardless of state / province', 'mp-restaurant-menu'); ?>"><?php esc_html_e('Country Wide', 'mp-restaurant-menu'); ?></th>
+				<th scope="col" class="tax_rate"><?php esc_html_e('Rate', 'mp-restaurant-menu'); ?></th>
+				<th scope="col"><?php esc_html_e('Remove', 'mp-restaurant-menu'); ?></th>
 			</tr>
 			</thead>
 			<?php if (!empty($rates)) : ?>
@@ -1355,10 +1355,10 @@ class Settings extends Model {
 						</td>
 						<td class="tax_global">
 							<input type="checkbox" name="tax_rates[<?php echo sanitize_key($key); ?>][global]" id="tax_rates[<?php echo sanitize_key($key); ?>][global]" value="1"<?php checked(true, !empty($rate[ 'global' ])); ?>/>
-							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
+							<label for="tax_rates[<?php echo sanitize_key($key); ?>][global]"><?php esc_html_e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
 						</td>
 						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo sanitize_key($key); ?>][rate]" value="<?php echo esc_html($rate[ 'rate' ]); ?>"/></td>
-						<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
+						<td><span class="remove_tax_rate button-secondary"><?php esc_html_e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php else : ?>
@@ -1386,15 +1386,15 @@ class Settings extends Model {
 					</td>
 					<td class="tax_global">
 						<input type="checkbox" name="tax_rates[0][global]" value="1"/>
-						<label for="tax_rates[0][global]"><?php _e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
+						<label for="tax_rates[0][global]"><?php esc_html_e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
 					</td>
 					<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="tax_rates[0][rate]" value=""/></td>
-					<td><span class="remove_tax_rate button-secondary"><?php _e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
+					<td><span class="remove_tax_rate button-secondary"><?php esc_html_e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
 				</tr>
 			<?php endif; ?>
 		</table>
 		<p>
-			<span class="button-secondary" id="add_tax_rate"><?php _e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
+			<span class="button-secondary" id="add_tax_rate"><?php esc_html_e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
 		</p>
 		<?php
 		echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

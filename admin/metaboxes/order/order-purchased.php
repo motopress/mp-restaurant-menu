@@ -66,7 +66,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 
 					<div class="actions mprm-columns <?php echo esc_attr( $column ); ?>">
 						<input type="hidden" class="mprm-order-detail-has-log" name="mprm-order-details[<?php echo esc_attr( $key ); ?>][has_log]" value="1"/>
-						<a href="" class="mprm-order-remove-menu-item mprm-delete" data-key="<?php echo esc_attr($key); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
+						<a href="" class="mprm-order-remove-menu-item mprm-delete" data-key="<?php echo esc_attr($key); ?>"><?php esc_html_e('Remove', 'mp-restaurant-menu'); ?></a>
 					</div>
 
 				</div>
@@ -91,7 +91,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 
 				<?php if (mprm_item_quantities_enabled()) : ?>
 					<div class="quantity mprm-columns <?php echo esc_attr( $column ); ?>">
-						<span><?php _e('Quantity', 'mp-restaurant-menu'); ?>:&nbsp;</span>
+						<span><?php esc_html_e('Quantity', 'mp-restaurant-menu'); ?>:&nbsp;</span>
 						<input type="number" id="mprm-order-menu-item-quantity" class="small-text" min="1" step="1" value="1"/>
 					</div>
 				<?php endif; ?>
@@ -110,7 +110,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				</div>
 
 				<div class="actions mprm-columns <?php echo esc_attr( $column );?>">
-					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php _e('Add Item', 'mp-restaurant-menu'); ?></a>
+					<a href="" id="mprm-order-add-menu-item" class="button button-secondary"><?php esc_html_e('Add Item', 'mp-restaurant-menu'); ?></a>
 				</div>
 			</div>
 			<input type="hidden" name="mprm-order-menu-items-changed" id="mprm-payment-menu-items-changed" value=""/>

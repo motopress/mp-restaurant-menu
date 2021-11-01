@@ -6,7 +6,7 @@
 		do_action('mprm_purchase_form_cart_items_before');
 		?>
 
-		<p class="mprm-required"><small><?php _e('Required fields are followed by', 'mp-restaurant-menu'); ?></small></p>
+		<p class="mprm-required"><small><?php esc_html_e('Required fields are followed by', 'mp-restaurant-menu'); ?></small></p>
 
 		<?php
 

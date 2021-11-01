@@ -17,7 +17,7 @@
 				<input type="submit" class="mprm-add-to-cart mprm-no-js <?php echo esc_attr($class) ?>" name="mprm_purchase_<?php echo esc_attr( $post->ID );?>" value="<?php echo esc_attr($args['text']) ?>" data-action="mprm_add_to_cart" data-menu-item-id="<?php echo esc_attr($post->ID) ?>" <?php echo $data_variable . ' ' . $type . ' ' . $button_display // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>/>
 			<?php } ?>
 
-			<a href="<?php echo esc_url($checkout_uri) ?>" style="<?php echo (mprm_item_in_cart($post->ID) && $is_ajax_disabled && !$straight_to_checkout) ? '' : 'display: none' ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline"><?php _e('Checkout', 'mp-restaurant-menu') ?></a>
+			<a href="<?php echo esc_url($checkout_uri) ?>" style="<?php echo (mprm_item_in_cart($post->ID) && $is_ajax_disabled && !$straight_to_checkout) ? '' : 'display: none' ?>" class="mprm_go_to_checkout <?php echo esc_attr($class) ?> mprm-display-inline"><?php esc_html_e('Checkout', 'mp-restaurant-menu') ?></a>
 
 			<?php if (!$is_free): ?>
 				<?php if ($display_tax_rate && $prices_include_tax) {

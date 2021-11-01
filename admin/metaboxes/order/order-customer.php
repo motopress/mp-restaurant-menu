@@ -18,32 +18,32 @@ $phone = esc_attr($order->phone_number); ?>
 	</div>
 	<div class="mprm-columns mprm-six">
 		<a href="#new" class="mprm-new-customer"
-		   title="<?php _e('New Customer', 'mp-restaurant-menu'); ?>"><?php _e('New Customer', 'mp-restaurant-menu'); ?></a>
+		   title="<?php esc_html_e('New Customer', 'mp-restaurant-menu'); ?>"><?php esc_html_e('New Customer', 'mp-restaurant-menu'); ?></a>
 	</div>
 </div>
 
 <div class="column-container new-customer mprm-row" style="display: none">
 	<div class="mprm-columns mprm-three">
-		<strong><?php _e('Name:', 'mp-restaurant-menu'); ?></strong>&nbsp;
+		<strong><?php esc_html_e('Name:', 'mp-restaurant-menu'); ?></strong>&nbsp;
 		<input type="text" name="mprm-new-customer-name" value="" class="medium-text"/>
 	</div>
 
 	<div class="mprm-columns mprm-three">
-		<strong><?php _e('Email:', 'mp-restaurant-menu'); ?></strong>&nbsp;
+		<strong><?php esc_html_e('Email:', 'mp-restaurant-menu'); ?></strong>&nbsp;
 		<input type="email" name="mprm-new-customer-email" value="" class="medium-text"/>
 	</div>
 
 	<div class="mprm-columns mprm-three">
-		<strong><?php _e('Phone number:', 'mp-restaurant-menu'); ?></strong>&nbsp;
+		<strong><?php esc_html_e('Phone number:', 'mp-restaurant-menu'); ?></strong>&nbsp;
 		<input type="text" name="mprm-new-phone-number" value="" class="medium-text"/>
 	</div>
 
 	<div class="mprm-columns mprm-three">
 		<input type="hidden" id="mprm-new-customer" name="mprm-new-customer" value="0"/>
-		<a href="#save" class="mprm-new-customer-save"><?php _e('Save a customer', 'mp-restaurant-menu'); ?></a>&nbsp;|&nbsp;
-		<a href="#cancel" class="mprm-new-customer-cancel mprm-delete"><?php _e('Cancel', 'mp-restaurant-menu'); ?></a>
+		<a href="#save" class="mprm-new-customer-save"><?php esc_html_e('Save a customer', 'mp-restaurant-menu'); ?></a>&nbsp;|&nbsp;
+		<a href="#cancel" class="mprm-new-customer-cancel mprm-delete"><?php esc_html_e('Cancel', 'mp-restaurant-menu'); ?></a>
 		<p>
-			<small><em>*<?php _e('Click "Save Order" to create new customer', 'mp-restaurant-menu'); ?></em></small>
+			<small><em>*<?php esc_html_e('Click "Save Order" to create new customer', 'mp-restaurant-menu'); ?></em></small>
 		</p>
 	</div>
 </div>

@@ -15,7 +15,7 @@ $phone = esc_attr($order->phone_number);
 		if ($gateway) : ?>
 			<div class="mprm-order-gateway mprm-admin-box-inside">
 				<p>
-					<span class="label"><?php _e('Gateway:', 'mp-restaurant-menu'); ?></span>&nbsp;
+					<span class="label"><?php esc_html_e('Gateway:', 'mp-restaurant-menu'); ?></span>&nbsp;
 					<?php echo mprm_get_gateway_admin_label($gateway); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
@@ -23,14 +23,14 @@ $phone = esc_attr($order->phone_number);
 
 		<div class="mprm-order-payment-key mprm-admin-box-inside">
 			<p>
-				<span class="label"><?php _e('Key:', 'mp-restaurant-menu'); ?></span>&nbsp;
+				<span class="label"><?php esc_html_e('Key:', 'mp-restaurant-menu'); ?></span>&nbsp;
 				<span><?php echo esc_html( $order->key ); ?></span>
 			</p>
 		</div>
 
 		<div class="mprm-order-ip mprm-admin-box-inside">
 			<p>
-				<span class="label"><?php _e('IP:', 'mp-restaurant-menu'); ?></span>&nbsp;
+				<span class="label"><?php esc_html_e('IP:', 'mp-restaurant-menu'); ?></span>&nbsp;
 				<span><?php echo esc_attr($order->ip); ?></span>
 			</p>
 		</div>
@@ -38,7 +38,7 @@ $phone = esc_attr($order->phone_number);
 		<?php if ($transaction_id) : ?>
 			<div class="mprm-order-tx-id mprm-admin-box-inside">
 				<p>
-					<span class="label"><?php _e('Transaction ID:', 'mp-restaurant-menu'); ?></span>&nbsp;
+					<span class="label"><?php esc_html_e('Transaction ID:', 'mp-restaurant-menu'); ?></span>&nbsp;
 					<span><?php echo esc_html( apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id) ); ?></span>
 				</p>
 			</div>
@@ -47,7 +47,7 @@ $phone = esc_attr($order->phone_number);
 		<?php if ($phone) : ?>
 			<div class="mprm-order-tx-phone mprm-admin-box-inside">
 				<p>
-					<span class="label"><?php _e('Contact phone:', 'mp-restaurant-menu'); ?></span>&nbsp;
+					<span class="label"><?php esc_html_e('Contact phone:', 'mp-restaurant-menu'); ?></span>&nbsp;
 					<span><?php echo esc_html( apply_filters('mprm_order_phone', $phone, $order_id) ); ?></span>
 				</p>
 			</div>

@@ -9,12 +9,12 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 	<thead>
 	<tr class="mprm_cart_header_row">
 		<?php do_action('mprm_checkout_table_header_first'); ?>
-		<th class="mprm_cart_item_name"><?php _e('Product', 'mp-restaurant-menu'); ?></th>
-		<th class="mprm_cart_item_price"><?php _e('Price', 'mp-restaurant-menu'); ?></th>
+		<th class="mprm_cart_item_name"><?php esc_html_e('Product', 'mp-restaurant-menu'); ?></th>
+		<th class="mprm_cart_item_price"><?php esc_html_e('Price', 'mp-restaurant-menu'); ?></th>
 		<?php if (Cart::get_instance()->item_quantities_enabled()) : ?>
-			<th class="mprm_cart_quantities"><?php _e('Quantity', 'mp-restaurant-menu'); ?></th>
+			<th class="mprm_cart_quantities"><?php esc_html_e('Quantity', 'mp-restaurant-menu'); ?></th>
 		<?php endif; ?>
-		<th class="mprm_cart_actions"><?php _e('Actions', 'mp-restaurant-menu'); ?></th>
+		<th class="mprm_cart_actions"><?php esc_html_e('Actions', 'mp-restaurant-menu'); ?></th>
 		<?php do_action('mprm_checkout_table_header_last'); ?>
 	</tr>
 	</thead>
@@ -60,7 +60,7 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 
 				<td class="mprm_cart_actions">
 					<?php do_action('mprm_cart_actions', $item, $index); ?>
-					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($index)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
+					<a class="mprm_cart_remove_item_btn" href="<?php echo esc_url(Cart::get_instance()->remove_item_url($index)); ?>"><?php esc_html_e('Remove', 'mp-restaurant-menu'); ?></a>
 				</td>
 
 				<?php do_action('mprm_checkout_table_body_last', $item); ?>
@@ -81,7 +81,7 @@ $table_column_class = apply_filters('mprm_table_column_class', Cart::get_instanc
 				<td class="mprm_cart_fee_amount"><?php echo esc_html(mprm_currency_filter(mprm_format_amount($fee['amount']))); ?></td>
 				<td>
 					<?php if (!empty($fee['type']) && 'item' == $fee['type']) : ?>
-						<a href="<?php echo esc_url(Cart::get_instance()->remove_cart_fee_url($fee_id)); ?>"><?php _e('Remove', 'mp-restaurant-menu'); ?></a>
+						<a href="<?php echo esc_url(Cart::get_instance()->remove_cart_fee_url($fee_id)); ?>"><?php esc_html_e('Remove', 'mp-restaurant-menu'); ?></a>
 					<?php endif; ?>
 				</td>
 				<?php do_action('mprm_cart_fee_rows_after', $fee_id, $fee); ?>

@@ -16,6 +16,6 @@ if (!empty($extensions)) {
 			</a>
 			<h3><?php echo esc_html($extension->title) ?></h3>
 			<p><?php echo esc_html($extension->excerpt); ?></p>
-			<a href="<?php echo esc_url($extension_link) ?>" title="<?php echo esc_attr( $extension->title );?>" class="button button-secondary" target="_blank"><?php _e('Get this Extension', 'mp-restaurant-menu') ?></a>
+			<a href="<?php echo esc_url($extension_link) ?>" title="<?php echo esc_attr( $extension->title );?>" class="button button-secondary" target="_blank"><?php esc_html_e('Get this Extension', 'mp-restaurant-menu') ?></a>
 		</div><?php }
 } ?>

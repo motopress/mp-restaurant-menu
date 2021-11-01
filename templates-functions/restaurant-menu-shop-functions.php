@@ -62,7 +62,7 @@ function mprm_payment_mode_select() {
 		<?php do_action('mprm_payment_mode_before_gateways_wrap'); ?>
 
 		<div id="mprm-payment-mode-wrap">
-			<span class="mprm-payment-mode-label"><legend><?php _e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
+			<span class="mprm-payment-mode-label"><legend><?php esc_html_e('Select Payment Method', 'mp-restaurant-menu'); ?></legend></span>
 			<?php
 			do_action('mprm_payment_mode_before_gateways');
 			foreach ($gateways as $gateway_id => $gateway) :
@@ -185,45 +185,45 @@ function mprm_get_cc_form() {
 	ob_start(); ?>
 	<?php do_action('mprm_before_cc_fields'); ?>
 	<fieldset id="mprm_cc_fields" class="mprm-do-validate">
-		<span><legend><?php _e('Credit Card Info', 'mp-restaurant-menu'); ?></legend></span>
+		<span><legend><?php esc_html_e('Credit Card Info', 'mp-restaurant-menu'); ?></legend></span>
 		<?php if (is_ssl()) : ?>
 			<div id="mprm_secure_site_wrapper">
 				<span class="padlock"></span>
-				<span><?php _e('This is a secure SSL encrypted payment.', 'mp-restaurant-menu'); ?></span>
+				<span><?php esc_html_e('This is a secure SSL encrypted payment.', 'mp-restaurant-menu'); ?></span>
 			</div>
 		<?php endif; ?>
 		<p id="mprm-card-number-wrap">
 			<label for="card_number" class="mprm-label">
-				<?php _e('Card Number', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Card Number', 'mp-restaurant-menu'); ?>
 				<span class="mprm-required-indicator">*</span>
 				<span class="card-type"></span>
 			</label>
-			<span class="mprm-description"><?php _e('The (typically) 16 digits on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
-			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number mprm-input required" placeholder="<?php _e('Card number', 'mp-restaurant-menu'); ?>"/>
+			<span class="mprm-description"><?php esc_html_e('The (typically) 16 digits on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" autocomplete="off" name="card_number" id="card_number" class="card-number mprm-input required" placeholder="<?php esc_attr_e('Card number', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<p id="mprm-card-cvc-wrap">
 			<label for="card_cvc" class="mprm-label">
-				<?php _e('CVC', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('CVC', 'mp-restaurant-menu'); ?>
 				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="mprm-description"><?php _e('The 3 digit (back) or 4 digit (front) value on your card.', 'mp-restaurant-menu'); ?></span>
-			<input type="text" size="4" maxlength="4" autocomplete="off" name="card_cvc" id="card_cvc" class="card-cvc mprm-input required" placeholder="<?php _e('Security code', 'mp-restaurant-menu'); ?>"/>
+			<span class="mprm-description"><?php esc_html_e('The 3 digit (back) or 4 digit (front) value on your card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" size="4" maxlength="4" autocomplete="off" name="card_cvc" id="card_cvc" class="card-cvc mprm-input required" placeholder="<?php esc_attr_e('Security code', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<p id="mprm-card-name-wrap">
 			<label for="card_name" class="mprm-label">
-				<?php _e('Name on the Card', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Name on the Card', 'mp-restaurant-menu'); ?>
 				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="mprm-description"><?php _e('The name printed on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
-			<input type="text" autocomplete="off" name="card_name" id="card_name" class="card-name mprm-input required" placeholder="<?php _e('Card name', 'mp-restaurant-menu'); ?>"/>
+			<span class="mprm-description"><?php esc_html_e('The name printed on the front of your credit card.', 'mp-restaurant-menu'); ?></span>
+			<input type="text" autocomplete="off" name="card_name" id="card_name" class="card-name mprm-input required" placeholder="<?php esc_attr_e('Card name', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_before_cc_expiration'); ?>
 		<p class="card-expiration">
 			<label for="card_exp_month" class="mprm-label">
-				<?php _e('Expiration (MM/YY)', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Expiration (MM/YY)', 'mp-restaurant-menu'); ?>
 				<span class="mprm-required-indicator">*</span>
 			</label>
-			<span class="mprm-description"><?php _e('The date your credit card expires, typically on the front of the card.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The date your credit card expires, typically on the front of the card.', 'mp-restaurant-menu'); ?></span>
 			<select id="card_exp_month" name="card_exp_month" class="card-expiry-month mprm-select mprm-select-small required">
 				<?php for ($i = 1; $i <= 12; $i++) {
 					echo '<option value="' . $i . '">' . sprintf('%02d', $i) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -248,12 +248,12 @@ function mprm_get_register_fields() {
 	ob_start(); ?>
 	<fieldset id="mprm_register_fields">
 		<?php if ($show_register_form == 'both') { ?>
-			<p id="mprm-login-account-wrap"><?php _e('Already have an account?', 'mp-restaurant-menu'); ?> <a href="<?php echo esc_url(add_query_arg('login', 1)); ?>" class="mprm_checkout_register_login" data-action="checkout_login"><?php _e('Login', 'mp-restaurant-menu'); ?></a></p>
+			<p id="mprm-login-account-wrap"><?php esc_html_e('Already have an account?', 'mp-restaurant-menu'); ?> <a href="<?php echo esc_url(add_query_arg('login', 1)); ?>" class="mprm_checkout_register_login" data-action="checkout_login"><?php esc_html_e('Login', 'mp-restaurant-menu'); ?></a></p>
 		<?php } ?>
 		<?php do_action('mprm_register_fields_before'); ?>
 		<fieldset id="mprm_register_account_fields">
 			<span>
-				<legend><?php _e('Create an account', 'mp-restaurant-menu');
+				<legend><?php esc_html_e('Create an account', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
 						echo ' ' . __('(optional)', 'mp-restaurant-menu'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					} ?>
@@ -262,41 +262,41 @@ function mprm_get_register_fields() {
 			<?php do_action('mprm_register_account_fields_before'); ?>
 			<p id="mprm-user-login-wrap">
 				<label for="mprm_user_login">
-					<?php _e('Username', 'mp-restaurant-menu'); ?>
+					<?php esc_html_e('Username', 'mp-restaurant-menu'); ?>
 					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="mprm-description"><?php _e('The username you will use to log into your account.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php esc_html_e('The username you will use to log into your account.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_login" id="mprm_user_login" class="mprm-input"
 					<?php if (mprm_is_no_guest_checkout()) {
 						echo 'required ';
-					} ?> type="text" placeholder="<?php _e('Username', 'mp-restaurant-menu'); ?>" title="<?php _e('Username', 'mp-restaurant-menu'); ?>"/>
+					} ?> type="text" placeholder="<?php esc_attr_e('Username', 'mp-restaurant-menu'); ?>" title="<?php esc_attr_e('Username', 'mp-restaurant-menu'); ?>"/>
 			</p>
 			<p id="mprm-user-pass-wrap">
 				<label for="mprm_user_pass">
-					<?php _e('Password', 'mp-restaurant-menu'); ?>
+					<?php esc_html_e('Password', 'mp-restaurant-menu'); ?>
 					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="mprm-description"><?php _e('The password used to access your account.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php esc_html_e('The password used to access your account.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_pass" id="mprm_user_pass" class="mprm-input"
 					<?php if (mprm_is_no_guest_checkout()) {
 						echo 'required ';
-					} ?> placeholder="<?php _e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
+					} ?> placeholder="<?php esc_attr_e('Password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
 			<p id="mprm-user-pass-confirm-wrap" class="mprm_register_password">
 				<label for="mprm_user_pass_confirm">
-					<?php _e('Password Again', 'mp-restaurant-menu'); ?>
+					<?php esc_html_e('Password Again', 'mp-restaurant-menu'); ?>
 					<?php if (mprm_is_no_guest_checkout()) { ?>
 						<span class="mprm-required-indicator">*</span>
 					<?php } ?>
 				</label>
-				<span class="mprm-description"><?php _e('Confirm your password.', 'mp-restaurant-menu'); ?></span>
+				<span class="mprm-description"><?php esc_html_e('Confirm your password.', 'mp-restaurant-menu'); ?></span>
 				<input name="mprm_user_pass_confirm" id="mprm_user_pass_confirm" class="mprm-input" <?php if (mprm_is_no_guest_checkout()) {
 					echo 'required ';
-				} ?> placeholder="<?php _e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
+				} ?> placeholder="<?php esc_attr_e('Confirm password', 'mp-restaurant-menu'); ?>" type="password"/>
 			</p>
 			<?php do_action('mprm_register_account_fields_after'); ?>
 		</fieldset>
@@ -336,7 +336,7 @@ function mprm_default_cc_address_fields() {
 	}
 	ob_start(); ?>
 	<fieldset id="mprm_cc_address" class="cc-address">
-		<span><legend><?php _e('Billing Details', 'mp-restaurant-menu'); ?></legend></span>
+		<span><legend><?php esc_html_e('Billing Details', 'mp-restaurant-menu'); ?></legend></span>
 		<?php do_action('mprm_cc_billing_top'); ?>
 		<p id="mprm-card-address-wrap">
 			<label for="card_address" class="mprm-label">
@@ -345,63 +345,63 @@ function mprm_default_cc_address_fields() {
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The primary billing address for your credit card.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The primary billing address for your credit card.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address" name="card_address" class="card-address mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line1' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
+			} ?>" placeholder="<?php esc_attr_e('Address line 1', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line1' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address')) {
 				echo ' required ';
 			} ?>/>
 		</p>
 		<p id="mprm-card-address-2-wrap">
 			<label for="card_address_2" class="mprm-label">
-				<?php _e('Billing Address Line 2 (optional)', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Billing Address Line 2 (optional)', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The suite, apt no, PO box, etc, associated with your billing address.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The suite, apt no, PO box, etc, associated with your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_address_2" name="card_address_2" class="card-address-2 mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line2' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
+			} ?>" placeholder="<?php esc_attr_e('Address line 2', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'line2' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_address_2')) {
 				echo ' required ';
 			} ?>/>
 		</p>
 		<p id="mprm-card-city-wrap">
 			<label for="card_city" class="mprm-label">
-				<?php _e('Billing City', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Billing City', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_city')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The city for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The city for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" id="card_city" name="card_city" class="card-city mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('City', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'city' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
+			} ?>" placeholder="<?php esc_attr_e('City', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'city' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_city')) {
 				echo ' required ';
 			} ?>/>
 		</p>
 		<p id="mprm-card-zip-wrap">
 			<label for="card_zip" class="mprm-label">
-				<?php _e('Billing Zip / Postal Code', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Billing Zip / Postal Code', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The zip or postal code for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The zip or postal code for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<input type="text" size="4" name="card_zip" class="card-zip mprm-input<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required';
-			} ?>" placeholder="<?php _e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'zip' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
+			} ?>" placeholder="<?php esc_attr_e('Zip / Postal Code', 'mp-restaurant-menu'); ?>" value="<?php echo esc_attr( $customer[ 'address' ][ 'zip' ] ); ?>"<?php if (models\Checkout::get_instance()->field_is_required('card_zip')) {
 				echo ' required ';
 			} ?>/>
 		</p>
 		<p id="mprm-card-country-wrap">
 			<label for="billing_country" class="mprm-label">
-				<?php _e('Billing Country', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Billing Country', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The country for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The country for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<select name="billing_country" id="billing_country" class="billing_country mprm-select<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) {
 				echo ' required';
 			} ?>"<?php if (models\Checkout::get_instance()->field_is_required('billing_country')) {
@@ -421,12 +421,12 @@ function mprm_default_cc_address_fields() {
 		</p>
 		<p id="mprm-card-state-wrap">
 			<label for="card_state" class="mprm-label">
-				<?php _e('Billing State / Province', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Billing State / Province', 'mp-restaurant-menu'); ?>
 				<?php if (models\Checkout::get_instance()->field_is_required('card_state')) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
-			<span class="mprm-description"><?php _e('The state or province for your billing address.', 'mp-restaurant-menu'); ?></span>
+			<span class="mprm-description"><?php esc_html_e('The state or province for your billing address.', 'mp-restaurant-menu'); ?></span>
 			<?php
 			$selected_state = models\Settings::get_instance()->get_shop_state();
 			$states = models\Settings::get_instance()->get_shop_states($selected_country);
@@ -445,7 +445,7 @@ function mprm_default_cc_address_fields() {
 				</select>
 			<?php else : ?>
 				<?php $customer_state = !empty($customer[ 'address' ][ 'state' ]) ? $customer[ 'address' ][ 'state' ] : ''; ?>
-				<input type="text" size="6" name="card_state" id="card_state" class="card_state mprm-input" value="<?php echo esc_attr($customer_state); ?>" placeholder="<?php _e('State / Province', 'mp-restaurant-menu'); ?>"/>
+				<input type="text" size="6" name="card_state" id="card_state" class="card_state mprm-input" value="<?php echo esc_attr($customer_state); ?>" placeholder="<?php esc_attr_e('State / Province', 'mp-restaurant-menu'); ?>"/>
 			<?php endif; ?>
 		</p>
 		<?php do_action('mprm_cc_billing_bottom'); ?>
@@ -468,8 +468,8 @@ function mprm_terms_agreement() {
 				?>
 			</div>
 			<div id="mprm_show_terms">
-				<a href="#" class="mprm_terms_links"><?php _e('Show Terms', 'mp-restaurant-menu'); ?></a>
-				<a href="#" class="mprm_terms_links" style="display:none;"><?php _e('Hide Terms', 'mp-restaurant-menu'); ?></a>
+				<a href="#" class="mprm_terms_links"><?php esc_html_e('Show Terms', 'mp-restaurant-menu'); ?></a>
+				<a href="#" class="mprm_terms_links" style="display:none;"><?php esc_html_e('Hide Terms', 'mp-restaurant-menu'); ?></a>
 			</div>
 			<div class="mprm-terms-agreement">
 				<input name="mprm_agree_to_terms" class="required" required="required" type="checkbox" id="mprm_agree_to_terms" value="1"/>
@@ -498,9 +498,9 @@ function mprm_get_login_fields() {
 	<fieldset id="mprm_login_fields">
 		<?php if ($show_register_form == 'both') { ?>
 			<p id="mprm-new-account-wrap">
-				<?php _e('Need to create an account?', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Need to create an account?', 'mp-restaurant-menu'); ?>
 				<a href="<?php echo esc_url(remove_query_arg('login')); ?>" class="mprm_checkout_register_login" data-action="checkout_register">
-					<?php _e('Register', 'mp-restaurant-menu');
+					<?php esc_html_e('Register', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
 						echo ' ' . __('or checkout as a guest.', 'mp-restaurant-menu');
 					} ?>
@@ -510,25 +510,25 @@ function mprm_get_login_fields() {
 		<?php do_action('mprm_checkout_login_fields_before'); ?>
 		<p id="mprm-user-login-wrap">
 			<label class="mprm-label" for="mprm-username">
-				<?php _e('Username', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Username', 'mp-restaurant-menu'); ?>
 				<?php if (mprm_is_no_guest_checkout()) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
 			<input class="<?php if (mprm_is_no_guest_checkout()) {
 				echo 'required ';
-			} ?>mprm-input" type="text" name="mprm_user_login" id="mprm_user_login" value="" placeholder="<?php _e('Your username', 'mp-restaurant-menu'); ?>"/>
+			} ?>mprm-input" type="text" name="mprm_user_login" id="mprm_user_login" value="" placeholder="<?php esc_attr_e('Your username', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<p id="mprm-user-pass-wrap" class="mprm_login_password">
 			<label class="mprm-label" for="mprm-password">
-				<?php _e('Password', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Password', 'mp-restaurant-menu'); ?>
 				<?php if (mprm_is_no_guest_checkout()) { ?>
 					<span class="mprm-required-indicator">*</span>
 				<?php } ?>
 			</label>
 			<input class="<?php if (mprm_is_no_guest_checkout()) {
 				echo 'required ';
-			} ?>mprm-input" type="password" name="mprm_user_pass" id="mprm_user_pass" placeholder="<?php _e('Your password', 'mp-restaurant-menu'); ?>"/>
+			} ?>mprm-input" type="password" name="mprm_user_pass" id="mprm_user_pass" placeholder="<?php esc_attr_e('Your password', 'mp-restaurant-menu'); ?>"/>
 			<?php if (mprm_is_no_guest_checkout()) : ?>
 				<input type="hidden" name="mprm-purchase-var" value="needs-to-login"/>
 			<?php endif; ?>
@@ -537,7 +537,7 @@ function mprm_get_login_fields() {
 
 		</p>
 		<p id="mprm-user-login-submit">
-			<input type="submit" class="mprm-submit <?php echo esc_attr( $color ); ?> <?php echo esc_attr( $style ); ?> <?php echo esc_attr( $padding ); ?>" name="mprm_login_submit" value="<?php _e('Login', 'mp-restaurant-menu'); ?>"/>
+			<input type="submit" class="mprm-submit <?php echo esc_attr( $color ); ?> <?php echo esc_attr( $style ); ?> <?php echo esc_attr( $padding ); ?>" name="mprm_login_submit" value="<?php esc_attr_e('Login', 'mp-restaurant-menu'); ?>"/>
 		</p>
 		<?php do_action('mprm_checkout_login_fields_after'); ?>
 	</fieldset>

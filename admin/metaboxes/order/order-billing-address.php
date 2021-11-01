@@ -5,11 +5,11 @@ $address = $order->address; ?>
 	<div class="mprm-row">
 		<div class="mprm-columns mprm-four">
 			<p>
-				<strong class="order-data-address-line"><?php _e('Street Address Line 1:', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php esc_html_e('Street Address Line 1:', 'mp-restaurant-menu'); ?></strong><br/>
 				<input type="text" name="mprm-order-address[0][line1]" value="<?php echo esc_attr($address['line1']); ?>" class="medium-text"/>
 			</p>
 			<p>
-				<strong class="order-data-address-line"><?php _e('Street Address Line 2:', 'mp-restaurant-menu'); ?></strong><br/>
+				<strong class="order-data-address-line"><?php esc_html_e('Street Address Line 2:', 'mp-restaurant-menu'); ?></strong><br/>
 				<input type="text" name="mprm-order-address[0][line2]" value="<?php echo esc_attr($address['line2']); ?>" class="medium-text"/>
 			</p>
 

@@ -8,7 +8,7 @@
 						<img src="<?php echo esc_url( $url[0] );?>">
 						<ul class="mprm-actions">
 							<li>
-								<a title="<?php _e('Delete image', 'mp-restaurant-menu') ?>" class="mprm-delete" href="#"><?php _e('Delete', 'mp-restaurant-menu') ?></a>
+								<a title="<?php esc_html_e('Delete image', 'mp-restaurant-menu') ?>" class="mprm-delete" href="#"><?php esc_html_e('Delete', 'mp-restaurant-menu') ?></a>
 							</li>
 						</ul>
 					</li>
@@ -19,8 +19,8 @@
 	<input type="hidden" value="<?php echo esc_attr($value) ?>" name="<?php echo esc_attr($name) ?>">
 </div>
 <p class="description">
-	<?php _e('Use CTRL/Command key to select multiple images', 'mp-restaurant-menu'); ?>
+	<?php esc_html_e('Use CTRL/Command key to select multiple images', 'mp-restaurant-menu'); ?>
 </p>
 <p class="hide-if-no-js">
-	<a class="mp_menu_gallery" href="#"><?php _e('Add images', 'mp-restaurant-menu'); ?></a>
+	<a class="mp_menu_gallery" href="#"><?php esc_html_e('Add images', 'mp-restaurant-menu'); ?></a>
 </p>

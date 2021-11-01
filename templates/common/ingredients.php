@@ -8,7 +8,7 @@ $template_mode_class = ($template_mode == "theme") ? 'mprm-content-container' : 
 if ($ingredients) { ?>
 	<div class="mprm-ingredients <?php echo esc_attr( $template_mode_class ); ?>">
 		<?php if (is_single() && apply_filters('mprm-show-title-ingredients', (empty($mprm_title_ingredients) ? true : false))) : ?>
-			<h3 class="mprm-title"><?php _e('Ingredients', 'mp-restaurant-menu') ?></h3>
+			<h3 class="mprm-title"><?php esc_html_e('Ingredients', 'mp-restaurant-menu') ?></h3>
 		<?php endif; ?>
 		<?php if ($template_mode == "theme") {
 			foreach ($ingredients as $ingredient):

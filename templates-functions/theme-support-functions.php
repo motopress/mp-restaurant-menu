@@ -9,7 +9,7 @@ function get_price_theme_view() {
 	do_action('mprm_price_theme_view_before', $price);
 	
 	if (!empty($price)) { ?>
-		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo esc_html( mprm_currency_filter(mprm_format_amount($price)) );?></b></span></p>
+		<p><?php esc_html_e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo esc_html( mprm_currency_filter(mprm_format_amount($price)) );?></b></span></p>
 	<?php }
 	
 	do_action('mprm_price_theme_view_after', $price);
@@ -23,7 +23,7 @@ function get_ingredients_theme_view() {
 	do_action('mprm_ingredients_theme_view_before', $ingredients);
 	
 	if (!empty($ingredients)) { ?>
-		<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Ingredients', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($ingredients as $ingredient):
 				if (!is_object($ingredient)) {
@@ -45,7 +45,7 @@ function get_attributes_theme_view() {
 	do_action('mprm_attributes_theme_view_before', $attributes);
 	
 	if ($attributes) { ?>
-		<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Portion Size', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
@@ -67,7 +67,7 @@ function get_nutritional_theme_view() {
 	do_action('mprm_nutritional_theme_view_before', $nutritional);
 	
 	if (!empty($nutritional)) { ?>
-		<h3><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Nutritional', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
@@ -90,7 +90,7 @@ function get_related_items_theme_view() {
 	
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
-			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
+			<h3><?php esc_html_e('You might also like', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($related_items as $related_item) { ?>
 				<a href="<?php echo esc_url( get_permalink($related_item) );?>" title="<?php echo esc_attr( get_the_title($related_item) );?>">
 					<?php

@@ -190,7 +190,7 @@ class Import extends Core {
 			<?php wp_nonce_field('mprm-importer'); ?>
 			<input type="hidden" name="import_id" value="<?php echo esc_attr( $this->id ); ?>"/>
 			<?php if (!empty($this->authors)) : ?>
-				<h3><?php _e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
+				<h3><?php esc_html_e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
 				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
 				<?php if ($this->allow_create_users()) : ?>
 					<p><?php printf(__('If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'mp-restaurant-menu'), esc_html(get_option('default_role'))); ?></p>
@@ -202,10 +202,10 @@ class Import extends Core {
 				</ol>
 			<?php endif; ?>
 			<?php if ($this->allow_fetch_attachments()) : ?>
-				<h3><?php _e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
+				<h3><?php esc_html_e('Import Attachments', 'mp-restaurant-menu'); ?></h3>
 				<p>
 					<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments"/>
-					<label for="import-attachments"><?php _e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
+					<label for="import-attachments"><?php esc_html_e('Download and import file attachments', 'mp-restaurant-menu'); ?></label>
 				</p>
 			<?php endif; ?>
 			<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e('Submit', 'mp-restaurant-menu'); ?>"/></p>

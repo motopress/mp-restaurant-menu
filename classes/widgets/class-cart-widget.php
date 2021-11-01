@@ -98,13 +98,13 @@ class Cart_widget extends \WP_Widget {
 
 		$instance = wp_parse_args((array)$instance, $defaults); ?>
 		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title:', 'mp-restaurant-menu'); ?></label>
+			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'mp-restaurant-menu'); ?></label>
 			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>"/>
 		</p>
 
 		<p>
 			<input <?php checked($instance['hide_on_checkout'], true); ?> id="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>" name="<?php echo esc_attr($this->get_field_name('hide_on_checkout')); ?>" type="checkbox"/>
-			<label for="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>"><?php _e('Hide on Checkout Page', 'mp-restaurant-menu'); ?></label>
+			<label for="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>"><?php esc_html_e('Hide on Checkout Page', 'mp-restaurant-menu'); ?></label>
 		</p>
 
 		<?php
