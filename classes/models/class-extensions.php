@@ -32,7 +32,7 @@ class Extension {
 	 */
 	public function __construct() {
 		$this->menu_args['parent_slug'] = 'edit.php?post_type=' . Core::get_instance()->get_post_type('menu_item');
-		$this->menu_args['title'] = __('Extensions', 'mp-restaurant-menu');
+		$this->menu_args['title'] = esc_html__('Extensions', 'mp-restaurant-menu');
 		$this->menu_args['capability'] = 'manage_restaurant_menu';
 		$this->menu_args['menu_slug'] = 'mprm-extensions';
 		$this->menu_args['function'] = array($this, 'action_content');
@@ -88,25 +88,25 @@ class Extension {
 
 		switch (json_last_error()) {
 			case JSON_ERROR_NONE:
-				$message = __('Error none', 'mp-restaurant-menu');
+				$message = esc_html__('Error none', 'mp-restaurant-menu');
 				break;
 			case JSON_ERROR_DEPTH:
-				$message = __('Reached the maximum stack depth', 'mp-restaurant-menu');
+				$message = esc_html__('Reached the maximum stack depth', 'mp-restaurant-menu');
 				break;
 			case JSON_ERROR_STATE_MISMATCH:
-				$message = __('Incorrect level or match modes', 'mp-restaurant-menu');
+				$message = esc_html__('Incorrect level or match modes', 'mp-restaurant-menu');
 				break;
 			case JSON_ERROR_CTRL_CHAR:
-				$message = __('Invalid escape character', 'mp-restaurant-menu');
+				$message = esc_html__('Invalid escape character', 'mp-restaurant-menu');
 				break;
 			case JSON_ERROR_SYNTAX:
-				$message = __('Syntax error, not a valid JSON', 'mp-restaurant-menu');
+				$message = esc_html__('Syntax error, not a valid JSON', 'mp-restaurant-menu');
 				break;
 			case JSON_ERROR_UTF8:
-				$message = __('Invalid UTF-8 characters, possibly incorrect coding', 'mp-restaurant-menu');
+				$message = esc_html__('Invalid UTF-8 characters, possibly incorrect coding', 'mp-restaurant-menu');
 				break;
 			default:
-				$message = __('Unknown error', 'mp-restaurant-menu');
+				$message = esc_html__('Unknown error', 'mp-restaurant-menu');
 				break;
 		}
 		return array($products, $message);
@@ -132,7 +132,7 @@ class Extension {
 					set_transient('mp_restaurant_add_ons_feed', $cache, $this->cache_expire_time);
 				}
 			} else {
-				$cache = '<div class="error"><p>' . __('There was an error retrieving the extensions list from the server. Please try again later.', 'mp-restaurant-menu') . '</div>';
+				$cache = '<div class="error"><p>' . esc_html__('There was an error retrieving the extensions list from the server. Please try again later.', 'mp-restaurant-menu') . '</div>';
 			}
 		}
 		return $cache;

@@ -121,9 +121,9 @@ class Settings extends Model {
 						'paypal' => 'PayPal',
 					),
 					'checkout_include_tax' => 'no',
-					'checkout_label' => __('Purchase', 'mp-restaurant-menu'),
-					'add_to_cart_text' => __('Add to Cart', 'mp-restaurant-menu'),
-					'buy_now_text' => __('Buy Now', 'mp-restaurant-menu'),
+					'checkout_label' => esc_html__('Purchase', 'mp-restaurant-menu'),
+					'add_to_cart_text' => esc_html__('Add to Cart', 'mp-restaurant-menu'),
+					'buy_now_text' => esc_html__('Buy Now', 'mp-restaurant-menu'),
 					'display_taxonomy' => 'default',
 					'taxonomy_grid' => array(
 						'col' => '3',
@@ -570,31 +570,31 @@ class Settings extends Model {
 		$week_schedule = [
 			[
 				'id' => 'mon',
-				'label' => __('Monday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Monday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'tue',
-				'label' => __('Tuesday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Tuesday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'wed',
-				'label' => __('Wednesday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Wednesday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'thu',
-				'label' => __('Thursday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Thursday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'fri',
-				'label' => __('Friday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Friday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'sat',
-				'label' => __('Saturday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Saturday', 'mp-restaurant-menu'),
 			],
 			[
 				'id' => 'sun',
-				'label' => __('Sunday', 'mp-restaurant-menu'),
+				'label' => esc_html__('Sunday', 'mp-restaurant-menu'),
 			],
 		];
 
@@ -605,7 +605,7 @@ class Settings extends Model {
 		<p><?php
 		printf(
 			//translators: %s: Local time.
-			__( 'Local time is %s.' ),
+			esc_html__( 'Local time is %s.' ),
 			'<code>' . date_i18n( $timezone_format ) . '</code>'
 		);
 		?>
@@ -982,7 +982,7 @@ class Settings extends Model {
 	 */
 	public function missing_callback($args) {
 		printf(
-			__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
+			esc_html__('The callback function used for the %s setting is missing.', 'mp-restaurant-menu'),
 			'<strong>' . $args[ 'id' ] . '</strong>'
 		);
 	}
@@ -1823,7 +1823,7 @@ class Settings extends Model {
 		// Merge our new settings with the existing
 		$output = array_merge($mprm_options, $input);
 		
-		add_settings_error('mprm-notices', '', __('Settings updated.', 'mp-restaurant-menu'), 'updated');
+		add_settings_error('mprm-notices', '', esc_html__('Settings updated.', 'mp-restaurant-menu'), 'updated');
 		
 		return $output;
 	}

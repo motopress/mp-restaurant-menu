@@ -59,7 +59,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 
 					<div class="price mprm-columns <?php echo esc_attr( $column );?>">
 						<?php if (mprm_item_quantities_enabled()) : ?>
-							<?php echo __('Total:', 'mp-restaurant-menu') . '&nbsp;'; ?>
+							<?php echo esc_html__('Total:', 'mp-restaurant-menu') . '&nbsp;'; ?>
 						<?php endif; ?>
 						<span class="price-text"><?php echo mprm_currency_filter(mprm_format_amount($price), $currency_code); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					</div>
@@ -83,8 +83,8 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 						'chosen' => true,
 						'show_option_all' => false,
 						'show_option_none' => false,
-						'placeholder' => __('Select a Menu item', 'mp-restaurant-menu'),
-						'data_attr' => array('text_single' => __('Select a Menu item', 'mp-restaurant-menu'))
+						'placeholder' => esc_html__('Select a Menu item', 'mp-restaurant-menu'),
+						'data_attr' => array('text_single' => esc_html__('Select a Menu item', 'mp-restaurant-menu'))
 					));
 					?>
 				</div>
@@ -102,7 +102,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 					echo mprm_text(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							'name' => 'mprm-order-menu-item-amount',
 							'id' => 'mprm-order-menu-item-amount',
-							'label' => __('Price: ', 'mp-restaurant-menu'),
+							'label' => esc_html__('Price: ', 'mp-restaurant-menu'),
 							'class' => 'mprm-order-menu-item-price'
 						)
 					);
@@ -118,7 +118,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 
 		<?php else : $key = 0; ?>
 			<div class="mprm-row">
-				<p><?php printf(__('No %s included with this purchase', 'mp-restaurant-menu'), mprm_get_label_plural()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+				<p><?php printf( esc_html__('No %s included with this purchase', 'mp-restaurant-menu'), mprm_get_label_plural() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 			</div>
 		<?php endif; ?>
 	</div>

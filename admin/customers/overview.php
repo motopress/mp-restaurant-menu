@@ -56,7 +56,7 @@ endif;
 			</p>
 
 			<p><?php echo mprm_get_error_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			<?php submit_button(__('Update customer', 'mp-restaurant-menu'), 'primary', 'mprm-submit') ?>
+			<?php submit_button(esc_html__('Update customer', 'mp-restaurant-menu'), 'primary', 'mprm-submit') ?>
 
 			<input type="hidden" name="controller" value="customer">
 			<input type="hidden" name="mprm_action" value="update_customer">

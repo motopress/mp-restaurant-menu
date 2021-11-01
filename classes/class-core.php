@@ -376,7 +376,7 @@ class Core {
 	 */
 	public function available_theme_mode($params) {
 		if (current_theme_supports('mp-restaurant-menu')) {
-			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
+			return array('plugin' => esc_html__('Plugin', 'mp-restaurant-menu'));
 		}
 		
 		return $params;

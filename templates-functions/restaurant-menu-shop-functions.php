@@ -255,7 +255,7 @@ function mprm_get_register_fields() {
 			<span>
 				<legend><?php esc_html_e('Create an account', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
-						echo ' ' . __('(optional)', 'mp-restaurant-menu'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo ' ' . esc_html__('(optional)', 'mp-restaurant-menu'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					} ?>
 				</legend>
 			</span>
@@ -457,7 +457,7 @@ function mprm_default_cc_address_fields() {
 function mprm_terms_agreement() {
 	if (mprm_get_option('show_agree_to_terms', false)) {
 		$agree_text = mprm_get_option('agree_text', '');
-		$agree_label = mprm_get_option('agree_label', __('Agree to Terms?', 'mp-restaurant-menu'));
+		$agree_label = mprm_get_option('agree_label', esc_html__('Agree to Terms?', 'mp-restaurant-menu'));
 		?>
 		<fieldset id="mprm_terms_agreement">
 			<div id="mprm_terms" style="display:none;">
@@ -502,7 +502,7 @@ function mprm_get_login_fields() {
 				<a href="<?php echo esc_url(remove_query_arg('login')); ?>" class="mprm_checkout_register_login" data-action="checkout_register">
 					<?php esc_html_e('Register', 'mp-restaurant-menu');
 					if (!mprm_is_no_guest_checkout()) {
-						echo ' ' . __('or checkout as a guest.', 'mp-restaurant-menu');
+						echo ' ' . esc_html__('or checkout as a guest.', 'mp-restaurant-menu');
 					} ?>
 				</a>
 			</p>
@@ -955,17 +955,17 @@ function mprm_menu_item_dropdown($data) {
 	$menu_items = mprm_get_menu_items(array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'mp_menu_item'));
 	
 	if ($menu_items) {
-		$options[ 0 ] = __('Choose an item', 'mp-restaurant-menu');
+		$options[ 0 ] = esc_html__('Choose an item', 'mp-restaurant-menu');
 		foreach ($menu_items as $product) {
 			$options[ absint($product->ID) ] = esc_html($product->post_title);
 		}
 	} else {
-		$options[ 0 ] = __('No products found', 'mp-restaurant-menu');
+		$options[ 0 ] = esc_html__('No products found', 'mp-restaurant-menu');
 	}
 	$data[ 'options' ] = $options;
 	$data[ 'show_option_all' ] = false;
 	$data[ 'show_option_none' ] = false;
-	$data[ 'placeholder' ] = __('Choose an item', 'mp-restaurant-menu');
+	$data[ 'placeholder' ] = esc_html__('Choose an item', 'mp-restaurant-menu');
 	
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
@@ -976,7 +976,7 @@ function mprm_menu_item_dropdown($data) {
  * @return mixed
  */
 function mprm_customers_dropdown($data) {
-	$options = array(__('No customer attached', 'mp-restaurant-menu'));
+	$options = array(esc_html__('No customer attached', 'mp-restaurant-menu'));
 	$argc = array(
 		'name' => 'customer-id',
 		'show_option_all' => false,
@@ -990,7 +990,7 @@ function mprm_customers_dropdown($data) {
 		}
 	}
 	$data[ 'options' ] = $options;
-	$data[ 'placeholder' ] = __('Select a Customer', 'mp-restaurant-menu');
+	$data[ 'placeholder' ] = esc_html__('Select a Customer', 'mp-restaurant-menu');
 	
 	return View::get_instance()->render_html('../admin/settings/select', $data, false);
 }
@@ -1331,7 +1331,7 @@ function mprm_ecommerce_enabled() {
 function mprm_get_open_hours_offline_message() {
 
 	$message = mprm_get_option( 'open_hours_offline_message',
-		__('We are offline and will start taking orders soon.', 'mp-restaurant-menu') );
+		esc_html__('We are offline and will start taking orders soon.', 'mp-restaurant-menu') );
 
 	$allowed_html = array(
 		'a' => array(

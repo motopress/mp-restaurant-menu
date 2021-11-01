@@ -34,7 +34,7 @@ class Purchase extends Model {
 
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {
-			$this->get('errors')->set_error('empty_cart', __('Your cart is empty.', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('empty_cart', esc_html__('Your cart is empty.', 'mp-restaurant-menu'));
 		} else {
 			// Validate the form $_POST data
 			$valid_data = $this->purchase_form_validate_fields();
@@ -204,7 +204,7 @@ class Purchase extends Model {
 			if ('0.00' == $this->get('cart')->get_cart_total()) {
 				$gateway = 'test_manual';
 			} elseif (!$this->get('gateways')->is_gateway_active($gateway)) {
-				$this->get('errors')->set_error('invalid_gateway', __('The selected payment gateway is not enabled', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_gateway', esc_html__('The selected payment gateway is not enabled', 'mp-restaurant-menu'));
 			}
 		}
 		return $gateway;
@@ -228,7 +228,7 @@ class Purchase extends Model {
 		}
 		$error = false;
 		// Check for valid discount(s) is present
-		if (!empty($_POST['mprm-discount']) && __('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
+		if (!empty($_POST['mprm-discount']) && esc_html__('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
 			// Check for a posted discount
 			$posted_discount = isset($_POST['mprm-discount']) ? sanitize_text_field($_POST['mprm-discount']) : false;
 			// Add the posted discount to the discounts
@@ -250,7 +250,7 @@ class Purchase extends Model {
 			return 'none';
 		}
 		if ($error) {
-			$this->get('errors')->set_error('invalid_discount', __('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('invalid_discount', esc_html__('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
 		}
 		return implode(', ', $discounts);
 	}
@@ -265,7 +265,7 @@ class Purchase extends Model {
 		// Validate the card zip
 		if (!empty($card_data['card_zip'])) {
 			if (!$this->purchase_form_validate_cc_zip($card_data['card_zip'], $card_data['card_country'])) {
-				$this->get('errors')->set_error('invalid_cc_zip', __('The zip / postal code you entered for your billing address is invalid', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_cc_zip', esc_html__('The zip / postal code you entered for your billing address is invalid', 'mp-restaurant-menu'));
 			}
 		}
 		// This should validate card numbers at some point too
@@ -488,7 +488,7 @@ class Purchase extends Model {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
 			// User did not agree
-			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
+			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', esc_html__('You must agree to the terms of use', 'mp-restaurant-menu')));
 		}
 	}
 
@@ -524,11 +524,11 @@ class Purchase extends Model {
 					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field($_POST['mprm_last']) : $user_data->last_name,
 				);
 				if (!is_email($valid_user_data['user_email'])) {
-					$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 				}
 			} else {
 				// Set invalid user error
-				$this->get('errors')->set_error('invalid_user', __('The user information is invalid', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_user', esc_html__('The user information is invalid', 'mp-restaurant-menu'));
 			}
 		}
 		// Return user data
@@ -544,11 +544,11 @@ class Purchase extends Model {
 		$required_fields = array(
 			'mprm_email' => array(
 				'error_id' => 'invalid_email',
-				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter a valid email address', 'mp-restaurant-menu')
 			),
 			'mprm_first' => array(
 				'error_id' => 'invalid_first_name',
-				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your first name', 'mp-restaurant-menu')
 			)
 		);
 		// Let payment gateways and other extensions determine if address fields should be required
@@ -556,19 +556,19 @@ class Purchase extends Model {
 		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
 			$required_fields['card_zip'] = array(
 				'error_id' => 'invalid_zip_code',
-				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your zip / postal code', 'mp-restaurant-menu')
 			);
 			$required_fields['card_city'] = array(
 				'error_id' => 'invalid_city',
-				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your billing city', 'mp-restaurant-menu')
 			);
 			$required_fields['billing_country'] = array(
 				'error_id' => 'invalid_country',
-				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please select your billing country', 'mp-restaurant-menu')
 			);
 			$required_fields['card_state'] = array(
 				'error_id' => 'invalid_state',
-				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter billing state / province', 'mp-restaurant-menu')
 			);
 		}
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
@@ -611,45 +611,45 @@ class Purchase extends Model {
 			// We have an user name, check if it already exists
 			if (username_exists($user_login)) {
 				// Username already registered
-				$this->get('errors')->set_error('username_unavailable', __('Username already taken', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('username_unavailable', esc_html__('Username already taken', 'mp-restaurant-menu'));
 				// Check if it's valid
 			} else if (!$this->get('customer')->validate_username($user_login)) {
 				// Invalid username
 				if (is_multisite())
-					$this->get('errors')->set_error('username_invalid', __('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('username_invalid', esc_html__('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
 				else
-					$this->get('errors')->set_error('username_invalid', __('Invalid username', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('username_invalid', esc_html__('Invalid username', 'mp-restaurant-menu'));
 			} else {
 				// All the checks have run and it's good to go
 				$valid_user_data['user_login'] = $user_login;
 			}
 		} else {
 			if ($this->get('misc')->no_guest_checkout()) {
-				$this->get('errors')->set_error('registration_required', __('You must register or login to complete your purchase', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('registration_required', esc_html__('You must register or login to complete your purchase', 'mp-restaurant-menu'));
 			}
 		}
 		// Check if we have an email to verify
 		if ($user_email && strlen($user_email) > 0) {
 			// Validate email
 			if (!is_email($user_email)) {
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 				// Check if email exists
 			} else if (email_exists($user_email) && $registering_new_user) {
-				$this->get('errors')->set_error('email_used', __('Email already used', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_used', esc_html__('Email already used', 'mp-restaurant-menu'));
 			} else {
 				// All the checks have run and it's good to go
 				$valid_user_data['user_email'] = $user_email;
 			}
 		} else {
 			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_empty', esc_html__('Enter an email', 'mp-restaurant-menu'));
 		}
 		// Check password
 		if ($user_pass && $pass_confirm) {
 			// Verify confirmation matches
 			if ($user_pass != $pass_confirm) {
 				// Passwords do not match
-				$this->get('errors')->set_error('password_mismatch', __('Passwords don\'t match', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_mismatch', esc_html__('Passwords don\'t match', 'mp-restaurant-menu'));
 			} else {
 				// All is good to go
 				$valid_user_data['user_pass'] = $user_pass;
@@ -658,10 +658,10 @@ class Purchase extends Model {
 			// Password or confirmation missing
 			if (!$user_pass && $registering_new_user) {
 				// The password is invalid
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_empty', esc_html__('Enter a password', 'mp-restaurant-menu'));
 			} else if (!$pass_confirm && $registering_new_user) {
 				// Confirmation password is invalid
-				$this->get('errors')->set_error('confirmation_empty', __('Enter the password confirmation', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('confirmation_empty', esc_html__('Enter the password confirmation', 'mp-restaurant-menu'));
 			}
 		}
 		return $valid_user_data;
@@ -680,7 +680,7 @@ class Purchase extends Model {
 		);
 		// Username
 		if (empty($_POST['mprm_user_login']) && $this->get('misc')->no_guest_checkout()) {
-			$this->get('errors')->set_error('must_log_in', __('You must login or register to complete your purchase', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('must_log_in', esc_html__('You must login or register to complete your purchase', 'mp-restaurant-menu'));
 			return $valid_user_data;
 		}
 		// Get the user by login
@@ -716,11 +716,11 @@ class Purchase extends Model {
 				}
 			} else {
 				// Empty password
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_empty', esc_html__('Enter a password', 'mp-restaurant-menu'));
 			}
 		} else {
 			// no username
-			$this->get('errors')->set_error('username_incorrect', __('The username you entered does not exist', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('username_incorrect', esc_html__('The username you entered does not exist', 'mp-restaurant-menu'));
 		}
 		return $valid_user_data;
 	}
@@ -738,7 +738,7 @@ class Purchase extends Model {
 		);
 		// Show error message if user must be logged in
 		if ($this->get('settings')->logged_in_only()) {
-			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('logged_in_only', esc_html__('You must be logged into an account to purchase', 'mp-restaurant-menu'));
 		}
 		// Get the guest email
 		$guest_email = isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : false;
@@ -747,14 +747,14 @@ class Purchase extends Model {
 			// Validate email
 			if (!is_email($guest_email)) {
 				// Invalid email
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 			} else {
 				// All is good to go
 				$valid_user_data['user_email'] = $guest_email;
 			}
 		} else {
 			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_empty', esc_html__('Enter an email', 'mp-restaurant-menu'));
 		}
 		// Loop through required fields and show error messages
 		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
@@ -930,7 +930,7 @@ class Purchase extends Model {
 		}
 		if ($is_banned) {
 			// Set an error and give the customer a general error (don't alert them that they were banned)
-			$this->get('errors')->set_error('email_banned', __('An internal error has occurred, please try again or contact support.', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_banned', esc_html__('An internal error has occurred, please try again or contact support.', 'mp-restaurant-menu'));
 		}
 	}
 

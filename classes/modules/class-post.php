@@ -261,10 +261,10 @@ class Post extends Module {
 	 * @return array
 	 */
 	public function init_menu_columns($columns) {
-		$columns = array_slice($columns, 0, 1, true) + array('mprm-thumb' => __("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_tag') => __("Tags", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_category') => __("Categories", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array('mprm-price' => __("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 1, true) + array('mprm-thumb' => esc_html__("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_tag') => esc_html__("Tags", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_category') => esc_html__("Categories", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array('mprm-price' => esc_html__("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
 		return $columns;
 	}
 

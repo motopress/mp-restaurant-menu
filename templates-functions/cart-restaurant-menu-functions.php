@@ -175,7 +175,7 @@ function mprm_get_cart_item_price_id($item = array()) {
 function mprm_cart_empty() {
 	$cart_contents = models\Cart::get_instance()->get_cart_contents();
 	if (empty($cart_contents)) {
-		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . esc_html__('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

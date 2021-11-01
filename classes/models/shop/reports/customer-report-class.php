@@ -45,8 +45,8 @@ class Customer_Reports extends \WP_List_Table {
 	public function __construct() {
 		// Set parent defaults
 		parent::__construct(array(
-			'singular' => __('Customer', 'mp-restaurant-menu'),
-			'plural' => __('Customers', 'mp-restaurant-menu'),
+			'singular' => esc_html__('Customer', 'mp-restaurant-menu'),
+			'plural' => esc_html__('Customers', 'mp-restaurant-menu'),
 			'ajax' => false,
 		));
 
@@ -143,13 +143,13 @@ class Customer_Reports extends \WP_List_Table {
 		$name = !empty($item['name']) ? $item['name'] : '&ndash;';
 		$view_url = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $item['id']);
 		$actions = array(
-			'edit' => '<a href="' . $view_url . '">' . __('Edit', 'mp-restaurant-menu') . '</a>',
+			'edit' => '<a href="' . $view_url . '">' . esc_html__('Edit', 'mp-restaurant-menu') . '</a>',
 			'delete' => '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $item['id']) . '">' .
-				__('Delete', 'mp-restaurant-menu') . '</a>'
+				esc_html__('Delete', 'mp-restaurant-menu') . '</a>'
 		);
 
 		$customer = new Customer(array('field' => 'id', 'value' => $item['id']));
-		$pending = mprm_user_pending_verification($customer->user_id) ? ' <em>' . __('(Pending Verification)', 'mp-restaurant-menu') . '</em>' : '';
+		$pending = mprm_user_pending_verification($customer->user_id) ? ' <em>' . esc_html__('(Pending Verification)', 'mp-restaurant-menu') . '</em>' : '';
 
 		return '<a href="' . esc_url($view_url) . '">' . $name . '</a>' . $pending . $this->row_actions($actions);
 	}
@@ -197,14 +197,14 @@ class Customer_Reports extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'id' => __('ID', 'mp-restaurant-menu'),
-			'name' => __('Name', 'mp-restaurant-menu'),
-			'email' => __('Email', 'mp-restaurant-menu'),
-			'telephone' => __('Phone', 'mp-restaurant-menu'),
-			'num_purchases' => __('Purchases', 'mp-restaurant-menu'),
-			'amount_spent' => __('Total Spent', 'mp-restaurant-menu'),
-			'date_created' => __('Date Created', 'mp-restaurant-menu'),
-			'user_id' => __('User ID', 'mp-restaurant-menu'),
+			'id' => esc_html__('ID', 'mp-restaurant-menu'),
+			'name' => esc_html__('Name', 'mp-restaurant-menu'),
+			'email' => esc_html__('Email', 'mp-restaurant-menu'),
+			'telephone' => esc_html__('Phone', 'mp-restaurant-menu'),
+			'num_purchases' => esc_html__('Purchases', 'mp-restaurant-menu'),
+			'amount_spent' => esc_html__('Total Spent', 'mp-restaurant-menu'),
+			'date_created' => esc_html__('Date Created', 'mp-restaurant-menu'),
+			'user_id' => esc_html__('User ID', 'mp-restaurant-menu'),
 		);
 
 		return apply_filters('mprm_report_customer_columns', $columns);

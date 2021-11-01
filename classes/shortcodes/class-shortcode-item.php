@@ -50,50 +50,50 @@ class Shortcode_Item extends Shortcodes {
 		$attributes = array(
 			'view' => array(
 				'type' => 'select',
-				'label' => __('View mode', 'mp-restaurant-menu'),
-				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu'), 'simple-list' => __('Simple list', 'mp-restaurant-menu')),
+				'label' => esc_html__('View mode', 'mp-restaurant-menu'),
+				'list' => array('grid' => esc_html__('Grid', 'mp-restaurant-menu'), 'list' => esc_html__('List', 'mp-restaurant-menu'), 'simple-list' => esc_html__('Simple list', 'mp-restaurant-menu')),
 				'default' => 'grid'
 			),
 			'categ' => array(
 				'type' => 'select-multiple',
-				'label' => __('Categories', 'mp-restaurant-menu'),
+				'label' => esc_html__('Categories', 'mp-restaurant-menu'),
 				'list' => $categories),
 			'tags_list' => array(
 				'type' => 'select-multiple',
-				'label' => __('Tags', 'mp-restaurant-menu'),
+				'label' => esc_html__('Tags', 'mp-restaurant-menu'),
 				'list' => $tags),
 			'item_ids' => array(
 				'type' => 'text',
-				'label' => __('Menu item IDs', 'mp-restaurant-menu'),
+				'label' => esc_html__('Menu item IDs', 'mp-restaurant-menu'),
 			),
 			'col' => array(
 				'type' => 'select',
-				'label' => __('Columns', 'mp-restaurant-menu'),
+				'label' => esc_html__('Columns', 'mp-restaurant-menu'),
 				'list' => array(
-					'1' => __('1 column', 'mp-restaurant-menu'),
-					'2' => __('2 columns', 'mp-restaurant-menu'),
-					'3' => __('3 columns', 'mp-restaurant-menu'),
-					'4' => __('4 columns', 'mp-restaurant-menu'),
-					'6' => __('6 columns', 'mp-restaurant-menu')),
+					'1' => esc_html__('1 column', 'mp-restaurant-menu'),
+					'2' => esc_html__('2 columns', 'mp-restaurant-menu'),
+					'3' => esc_html__('3 columns', 'mp-restaurant-menu'),
+					'4' => esc_html__('4 columns', 'mp-restaurant-menu'),
+					'6' => esc_html__('6 columns', 'mp-restaurant-menu')),
 				'default' => 1
 			),
 			'categ_name' => array(
 				'type' => 'select',
-				'label' => __('Show category name', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show category name', 'mp-restaurant-menu'),
 				'list' => array(
-					'only_text' => __('Only text', 'mp-restaurant-menu'),
-					'with_img' => __('Title with image', 'mp-restaurant-menu'),
-					'none' => __('Don`t show', 'mp-restaurant-menu'),
+					'only_text' => esc_html__('Only text', 'mp-restaurant-menu'),
+					'with_img' => esc_html__('Title with image', 'mp-restaurant-menu'),
+					'none' => esc_html__('Don`t show', 'mp-restaurant-menu'),
 				),
 				'default' => 'only_text'
 			),
 			'price_pos' => array(
 				'type' => 'select',
-				'label' => __('Price position', 'mp-restaurant-menu'),
+				'label' => esc_html__('Price position', 'mp-restaurant-menu'),
 				'list' => array(
-					'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
-					'right' => __('Price on the right', 'mp-restaurant-menu'),
-					'after_title' => __('Price next to the title', 'mp-restaurant-menu'),
+					'points' => esc_html__('Dotted line and price on the right', 'mp-restaurant-menu'),
+					'right' => esc_html__('Price on the right', 'mp-restaurant-menu'),
+					'after_title' => esc_html__('Price next to the title', 'mp-restaurant-menu'),
 				),
 				'dependency' => array(
 					'parameter' => 'view',
@@ -103,58 +103,58 @@ class Shortcode_Item extends Shortcodes {
 			),
 			'show_attributes' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show attributes', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show attributes', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'feat_img' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show featured image', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show featured image', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'excerpt' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show excerpt', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show excerpt', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'price' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show price', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show price', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'tags' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show tags', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show tags', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'ingredients' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show ingredients', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show ingredients', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'buy' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show buy button', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show buy button', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'link_item' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Link item', 'mp-restaurant-menu'),
+				'label' => esc_html__('Link item', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'desc_length' => array(
 				'type' => 'text',
-				'label' => __('Excerpt length', 'mp-restaurant-menu'),
+				'label' => esc_html__('Excerpt length', 'mp-restaurant-menu'),
 			)
 		);
-		$mprm_items = new \MPCEObject('mprm_items', __('Menu Items', 'mp-restaurant-menu'), '', $attributes);
+		$mprm_items = new \MPCEObject('mprm_items', esc_html__('Menu Items', 'mp-restaurant-menu'), '', $attributes);
 		$motopressCELibrary->addObject($mprm_items, 'other');
 	}
 }

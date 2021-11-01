@@ -139,7 +139,7 @@ if (isset($need_login) && $need_login) {
 <?php do_action('mprm_payment_receipt_after_table', $order, $receipt_args); ?>
 
 <?php if (filter_var($receipt_args['products'], FILTER_VALIDATE_BOOLEAN)) : ?>
-	<h3><?php echo esc_html( apply_filters('mprm_payment_receipt_products_title', __('Products', 'mp-restaurant-menu')) ); ?></h3>
+	<h3><?php echo esc_html( apply_filters('mprm_payment_receipt_products_title', esc_html__('Products', 'mp-restaurant-menu')) ); ?></h3>
 
 	<table id="mprm_purchase_receipt_products">
 		<thead>

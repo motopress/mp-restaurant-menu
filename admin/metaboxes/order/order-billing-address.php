@@ -39,8 +39,8 @@ $address = $order->address; ?>
 						'show_option_all' => false,
 						'show_option_none' => false,
 						'chosen' => true,
-						'placeholder' => __('Select a country', 'mp-restaurant-menu'),
-						'data_attr' => array('text_single' => __('Select a country', 'mp-restaurant-menu'))
+						'placeholder' => esc_html__('Select a country', 'mp-restaurant-menu'),
+						'data_attr' => array('text_single' => esc_html__('Select a country', 'mp-restaurant-menu'))
 					));
 
 				?>
@@ -59,8 +59,8 @@ $address = $order->address; ?>
 						'show_option_all' => false,
 						'show_option_none' => false,
 						'chosen' => true,
-						'placeholder' => __('Select a state', 'mp-restaurant-menu'),
-						'data_attr' => array('text_single' => __('Select a state', 'mp-restaurant-menu'))
+						'placeholder' => esc_html__('Select a state', 'mp-restaurant-menu'),
+						'data_attr' => array('text_single' => esc_html__('Select a state', 'mp-restaurant-menu'))
 					));
 				} else { ?>
 					<input type="text" name="mprm-order-address[0][state]" value="<?php echo esc_attr($address['state']); ?>" class="medium-text"/>

@@ -449,7 +449,7 @@ class Parent_query extends Model {
 			
 		} else {
 			
-			return new \WP_Error('invalid_date', __('Improper date provided.', 'mp-restaurant-menu'));
+			return new \WP_Error('invalid_date', esc_html__('Improper date provided.', 'mp-restaurant-menu'));
 			
 		}
 		
@@ -468,16 +468,16 @@ class Parent_query extends Model {
 	 */
 	public function get_predefined_dates() {
 		$predefined = array(
-			'today' => __('Today', 'mp-restaurant-menu'),
-			'yesterday' => __('Yesterday', 'mp-restaurant-menu'),
-			'this_week' => __('This Week', 'mp-restaurant-menu'),
-			'last_week' => __('Last Week', 'mp-restaurant-menu'),
-			'this_month' => __('This Month', 'mp-restaurant-menu'),
-			'last_month' => __('Last Month', 'mp-restaurant-menu'),
-			'this_quarter' => __('This Quarter', 'mp-restaurant-menu'),
-			'last_quarter' => __('Last Quarter', 'mp-restaurant-menu'),
-			'this_year' => __('This Year', 'mp-restaurant-menu'),
-			'last_year' => __('Last Year', 'mp-restaurant-menu')
+			'today' => esc_html__('Today', 'mp-restaurant-menu'),
+			'yesterday' => esc_html__('Yesterday', 'mp-restaurant-menu'),
+			'this_week' => esc_html__('This Week', 'mp-restaurant-menu'),
+			'last_week' => esc_html__('Last Week', 'mp-restaurant-menu'),
+			'this_month' => esc_html__('This Month', 'mp-restaurant-menu'),
+			'last_month' => esc_html__('Last Month', 'mp-restaurant-menu'),
+			'this_quarter' => esc_html__('This Quarter', 'mp-restaurant-menu'),
+			'last_quarter' => esc_html__('Last Quarter', 'mp-restaurant-menu'),
+			'this_year' => esc_html__('This Year', 'mp-restaurant-menu'),
+			'last_year' => esc_html__('Last Year', 'mp-restaurant-menu')
 		);
 		
 		return apply_filters('mprm_stats_predefined_dates', $predefined);

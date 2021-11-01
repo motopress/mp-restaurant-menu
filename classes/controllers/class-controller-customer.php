@@ -79,13 +79,13 @@ class Controller_customer extends Controller {
 				$code = $user->get_error_code();
 				switch ($code) {
 					case'incorrect_password':
-						mprm_set_error('password_incorrect', __('The password you entered is incorrect', 'mp-restaurant-menu'));
+						mprm_set_error('password_incorrect', esc_html__('The password you entered is incorrect', 'mp-restaurant-menu'));
 						break;
 					case'invalid_username':
-						mprm_set_error('username_incorrect', __('The username you entered does not exist', 'mp-restaurant-menu'));
+						mprm_set_error('username_incorrect', esc_html__('The username you entered does not exist', 'mp-restaurant-menu'));
 						break;
 					default:
-						mprm_set_error('user_or_pass_incorrect', __('The user name or password is incorrect', 'mp-restaurant-menu'));
+						mprm_set_error('user_or_pass_incorrect', esc_html__('The user name or password is incorrect', 'mp-restaurant-menu'));
 						break;
 				}
 				$this->date['data']['html'] = $this->get('errors')->get_error_html();
@@ -168,7 +168,7 @@ class Controller_customer extends Controller {
 		$customer_edit_role = apply_filters('mprm_edit_customers_role', 'manage_restaurant_menu');
 
 		if ( !is_admin() || !current_user_can($customer_edit_role) || !wp_verify_nonce($nonce, 'delete-customer') ) {
-			wp_die(__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));
+			wp_die(esc_html__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));
 		}
 
 		$customer_id = (int) sanitize_text_field( $_REQUEST['customer_id'] );
@@ -177,7 +177,7 @@ class Controller_customer extends Controller {
 		$remove_data = !empty( $_REQUEST['mprm-customer-delete-records'] ) ? true : false;
 
 		if (!$confirm) {
-			mprm_set_error('customer-delete-no-confirm', __('Please confirm you want to delete this customer', 'mp-restaurant-menu'));
+			mprm_set_error('customer-delete-no-confirm', esc_html__('Please confirm you want to delete this customer', 'mp-restaurant-menu'));
 		}
 
 		if ($this->get('errors')->get_errors()) {
@@ -209,11 +209,11 @@ class Controller_customer extends Controller {
 				$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&message=customer-deleted');
 
 			} else {
-				mprm_set_error('mprm-customer-delete-failed', __('Error deleting customer', 'mp-restaurant-menu'));
+				mprm_set_error('mprm-customer-delete-failed', esc_html__('Error deleting customer', 'mp-restaurant-menu'));
 				$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=delete&id=' . $customer_id);
 			}
 		} else {
-			mprm_set_error('mprm-customer-delete-invalid-id', __('Invalid Customer ID', 'mp-restaurant-menu'));
+			mprm_set_error('mprm-customer-delete-invalid-id', esc_html__('Invalid Customer ID', 'mp-restaurant-menu'));
 			$redirect = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers');
 		}
 		wp_redirect($redirect);

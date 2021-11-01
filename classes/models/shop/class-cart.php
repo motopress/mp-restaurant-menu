@@ -254,8 +254,8 @@ class Cart extends Model {
 			$messages = array();
 		$messages['mprm_cart_save_successful'] = sprintf(
 			'<strong>%1$s</strong>: %2$s',
-			__('Success', 'mp-restaurant-menu'),
-			__('Cart saved successfully. You can restore your cart using this URL:', 'mp-restaurant-menu') . ' ' . '<a href="' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '">' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '</a>'
+			esc_html__('Success', 'mp-restaurant-menu'),
+			esc_html__('Cart saved successfully. You can restore your cart using this URL:', 'mp-restaurant-menu') . ' ' . '<a href="' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '">' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '</a>'
 		);
 		$this->get('session')->set('mprm_cart_messages', $messages);
 		if ($cart) {
@@ -366,7 +366,7 @@ class Cart extends Model {
 			'error' => false,
 			'price' => Menu_item::get_instance()->get_price($post->ID),
 			'direct' => false,
-			'text' => __('Purchase', 'mp-restaurant-menu'),
+			'text' => esc_html__('Purchase', 'mp-restaurant-menu'),
 			'style' => $this->get('settings')->get_option('mprm_button_style', 'button'),
 			'color' => $this->get('settings')->get_option('mprm_checkout_color', 'inherit'),
 			'padding' => $this->get('settings')->get_option('checkout_padding', 'mprm-inherit'),

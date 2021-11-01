@@ -59,9 +59,9 @@ function mprm_checkout_button_purchase() {
 	$checkout_button = '';
 
 	if ( $cart_total ) {
-		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : esc_html__('Purchase', 'mp-restaurant-menu');
 	} else {
-		$complete_purchase = !empty($label) ? $label : __('Free', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : esc_html__('Free', 'mp-restaurant-menu');
 	}
 
 	if ( $cart_total >= $minimum_order_amount ) {
@@ -87,7 +87,7 @@ function mprm_checkout_minimum_order_amount() {
 			<div class="mprm-error">
 				<span class="mprm-notice-text">
 					<?php
-					printf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+					printf( esc_html__('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
 						mprm_currency_filter( mprm_format_amount( $cart_total ) ),
 						mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
 					);
@@ -107,7 +107,7 @@ function mprm_pre_process_purchase_validate_minimum_order_amount() {
 
 	if ( $cart_total && $minimum_order_amount && ($cart_total < $minimum_order_amount) ) {
 
-		$error = sprintf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+		$error = sprintf( esc_html__('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
 			mprm_currency_filter( mprm_format_amount( $cart_total ) ),
 			mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
 		);

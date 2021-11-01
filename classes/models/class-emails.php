@@ -35,14 +35,14 @@ class Emails extends Model {
 	 */
 	public function email_preview_template_tags($message) {
 		$menu_item_list = '<ul>';
-		$menu_item_list .= '<li>' . __('Sample Product Title', 'mp-restaurant-menu');
+		$menu_item_list .= '<li>' . esc_html__('Sample Product Title', 'mp-restaurant-menu');
 		$menu_item_list .= '</li>';
 		$menu_item_list .= '</ul>';
 		$file_urls = esc_html(trailingslashit(get_site_url()) . 'test.zip?test=key&key=123');
 		$price = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(10.50, true));
 		$gateway = 'PayPal';
 		$receipt_id = strtolower(md5(uniqid()));
-		$notes = __('These are some sample notes added to a product.', 'mp-restaurant-menu');
+		$notes = esc_html__('These are some sample notes added to a product.', 'mp-restaurant-menu');
 		$tax = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(1.00, true));
 		$sub_total = $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price(9.50, true));
 		$payment_id = rand(1, 100);
@@ -144,10 +144,10 @@ class Emails extends Model {
 			$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
 			$from_email = apply_filters('mprm_purchase_from_address', $from_email, $payment_id, $payment_data);
 			$to_email = $this->get('payments')->get_payment_user_email($payment_id);
-			$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt', 'mp-restaurant-menu'));
+			$subject = $this->get('settings')->get_option('purchase_subject', esc_html__('Purchase Receipt', 'mp-restaurant-menu'));
 			$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), $payment_id);
 			$subject = mprm_do_email_tags($subject, $payment_id);
-			$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt', 'mp-restaurant-menu'));
+			$heading = $this->get('settings')->get_option('purchase_heading', esc_html__('Purchase Receipt', 'mp-restaurant-menu'));
 			$heading = apply_filters('mprm_purchase_heading', $heading, $payment_id, $payment_data);
 			$attachments = apply_filters('mprm_receipt_attachments', array(), $payment_id, $payment_data);
 			$message = mprm_do_email_tags($this->get_email_body_content($payment_id, $payment_data), $payment_id);
@@ -176,8 +176,8 @@ class Emails extends Model {
 	 * @return mixed
 	 */
 	public function get_email_body_content($payment_id = 0, $payment_data = array()) {
-		$default_email_body = __("Dear", "mp-restaurant-menu") . " {name},\n\n";
-		$default_email_body .= __("Thank you for your purchase. Your order details are shown below for your reference:", "mp-restaurant-menu") . "\n";
+		$default_email_body = esc_html__("Dear", "mp-restaurant-menu") . " {name},\n\n";
+		$default_email_body .= esc_html__("Thank you for your purchase. Your order details are shown below for your reference:", "mp-restaurant-menu") . "\n";
 		$default_email_body .= "{menu_item_list}\n";
 		$default_email_body .= "Total: {price}\n\n";
 		$default_email_body .= "{receipt_link}";
@@ -247,11 +247,11 @@ class Emails extends Model {
 		$from_email = $this->get('settings')->get_option('from_name', get_bloginfo('admin_email'));
 		$from_email = apply_filters('mprm_test_purchase_from_address', $from_email, 0, array());
 
-		$subject = $this->get('settings')->get_option('purchase_subject', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$subject = $this->get('settings')->get_option('purchase_subject', esc_html__('Purchase Receipt1', 'mp-restaurant-menu'));
 		$subject = apply_filters('mprm_purchase_subject', wp_strip_all_tags($subject), 0);
 		$subject = mprm_do_email_tags($subject, 0);
 
-		$heading = $this->get('settings')->get_option('purchase_heading', __('Purchase Receipt1', 'mp-restaurant-menu'));
+		$heading = $this->get('settings')->get_option('purchase_heading', esc_html__('Purchase Receipt1', 'mp-restaurant-menu'));
 		$heading = apply_filters('mprm_purchase_heading', $heading, 0, array());
 
 		$attachments = apply_filters('mprm_receipt_attachments', array(), 0, array());
@@ -298,7 +298,7 @@ class Emails extends Model {
 		$from_name = apply_filters('mprm_purchase_from_name', $from_name, $payment_id, $payment_data);
 		$from_email = $this->get('settings')->get_option('from_email', get_bloginfo('admin_email'));
 		$from_email = apply_filters('mprm_admin_sale_from_address', $from_email, $payment_id, $payment_data);
-		$subject = $this->get('settings')->get_option('sale_notification_subject', sprintf(__('New purchase - Order #%1$s', 'mp-restaurant-menu'), $payment_id));
+		$subject = $this->get('settings')->get_option('sale_notification_subject', sprintf(esc_html__('New purchase - Order #%1$s', 'mp-restaurant-menu'), $payment_id));
 		$subject = apply_filters('mprm_admin_sale_notification_subject', wp_strip_all_tags($subject), $payment_id);
 		$subject = mprm_do_email_tags($subject, $payment_id);
 		$headers = "From: " . stripslashes_deep(html_entity_decode($from_name, ENT_COMPAT, 'UTF-8')) . " <$from_email>\r\n";
@@ -312,7 +312,7 @@ class Emails extends Model {
 		$emails->__set('from_name', $from_name);
 		$emails->__set('from_email', $from_email);
 		$emails->__set('headers', $headers);
-		$emails->__set('heading', __('New Sale!', 'mp-restaurant-menu'));
+		$emails->__set('heading', esc_html__('New Sale!', 'mp-restaurant-menu'));
 		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
 
 	}
@@ -363,13 +363,13 @@ class Emails extends Model {
 		}
 		$gateway = $this->get('gateways')->get_gateway_admin_label(get_post_meta($payment_id, '_mprm_order_gateway', true));
 
-		$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
-		$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
+		$default_email_body = esc_html__('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
+		$default_email_body .= esc_html__('Purchased products:', 'mp-restaurant-menu') . "\n";
 		$default_email_body .= $menu_item_list . "\n\n";
-		$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";
-		$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . html_entity_decode(mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($payment_id))), ENT_COMPAT, 'UTF-8') . "\n";
-		$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . " " . $gateway . "\n\n";
-		$default_email_body .= __('Thank you', 'mp-restaurant-menu');
+		$default_email_body .= esc_html__('Purchased by: ', 'mp-restaurant-menu') . " " . html_entity_decode($name, ENT_COMPAT, 'UTF-8') . "\n";
+		$default_email_body .= esc_html__('Amount: ', 'mp-restaurant-menu') . " " . html_entity_decode(mprm_currency_filter(mprm_format_amount(mprm_get_payment_amount($payment_id))), ENT_COMPAT, 'UTF-8') . "\n";
+		$default_email_body .= esc_html__('Payment Method: ', 'mp-restaurant-menu') . " " . $gateway . "\n\n";
+		$default_email_body .= esc_html__('Thank you', 'mp-restaurant-menu');
 		$email = $this->get('settings')->get_option('sale_notification', false);
 		$email = $email ? stripslashes($email) : $default_email_body;
 		$email_body = mprm_do_email_tags($email, $payment_id);
@@ -395,19 +395,19 @@ class Emails extends Model {
 
 		$emails->__set('from_name', $from_name);
 		$emails->__set('from_email', $from_email);
-		$admin_subject = sprintf(__('[%s] New User Registration', 'mp-restaurant-menu'), $from_name);
-		$admin_heading = __('New user registration', 'mp-restaurant-menu');
-		$admin_message = sprintf(__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n\r\n";
-		$admin_message .= sprintf(__('E-mail: %s', 'mp-restaurant-menu'), $user_data['user_email']) . "\r\n";
+		$admin_subject = sprintf(esc_html__('[%s] New User Registration', 'mp-restaurant-menu'), $from_name);
+		$admin_heading = esc_html__('New user registration', 'mp-restaurant-menu');
+		$admin_message = sprintf(esc_html__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n\r\n";
+		$admin_message .= sprintf(esc_html__('E-mail: %s', 'mp-restaurant-menu'), $user_data['user_email']) . "\r\n";
 		$emails->__set('heading', $admin_heading);
 
 		$emails->send(get_option('admin_email'), $admin_subject, $admin_message);
 
-		$user_subject = sprintf(__('[%s] Your username and password', 'mp-restaurant-menu'), $from_name);
-		$user_heading = __('Your account info', 'mp-restaurant-menu');
-		$user_message = sprintf(__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n";
-		$user_message .= sprintf(__('Password: %s'), __('[Password entered at checkout]', 'mp-restaurant-menu')) . "\r\n";
-		$user_message .= '<a href="' . wp_login_url() . '"> ' . esc_attr__('Click Here to Log In', 'mp-restaurant-menu') . ' &raquo;</a>' . "\r\n";
+		$user_subject = sprintf(esc_html__('[%s] Your username and password', 'mp-restaurant-menu'), $from_name);
+		$user_heading = esc_html__('Your account info', 'mp-restaurant-menu');
+		$user_message = sprintf(esc_html__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n";
+		$user_message .= sprintf(esc_html__('Password: %s'), esc_html__('[Password entered at checkout]', 'mp-restaurant-menu')) . "\r\n";
+		$user_message .= '<a href="' . wp_login_url() . '"> ' . esc_attresc_html__('Click Here to Log In', 'mp-restaurant-menu') . ' &raquo;</a>' . "\r\n";
 		$emails->__set('heading', $user_heading);
 		$emails->send($user_data['user_email'], $user_subject, $user_message);
 	}
@@ -505,92 +505,92 @@ class Emails extends Model {
 		$email_tags = array(
 			array(
 				'tag' => 'menu_item_list',
-				'description' => __('A list of purchased products', 'mp-restaurant-menu'),
+				'description' => esc_html__('A list of purchased products', 'mp-restaurant-menu'),
 				'function' => 'text/html' == $this->get('settings_emails')->get_content_type() ? 'mprm_email_tag_menu_item_list' : 'mprm_email_tag_menu_item_list_plain'
 			),
 			array(
 				'tag' => 'name',
-				'description' => __("The buyer's first name", 'mp-restaurant-menu'),
+				'description' => esc_html__("The buyer's first name", 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_first_name'
 			),
 			array(
 				'tag' => 'fullname',
-				'description' => __("The buyer's full name, first and last", 'mp-restaurant-menu'),
+				'description' => esc_html__("The buyer's full name, first and last", 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_full_name'
 			),
 			array(
 				'tag' => 'username',
-				'description' => __("The buyer's user name on the site, if they registered an account", 'mp-restaurant-menu'),
+				'description' => esc_html__("The buyer's user name on the site, if they registered an account", 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_username'
 			),
 			array(
 				'tag' => 'user_email',
-				'description' => __("The buyer's email address", 'mp-restaurant-menu'),
+				'description' => esc_html__("The buyer's email address", 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_user_email'
 			),
 			array(
 				'tag' => 'billing_address',
-				'description' => __('The buyer\'s billing address', 'mp-restaurant-menu'),
+				'description' => esc_html__('The buyer\'s billing address', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_billing_address'
 			),
 			array(
 				'tag' => 'date',
-				'description' => __('The date of the purchase', 'mp-restaurant-menu'),
+				'description' => esc_html__('The date of the purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_date'
 			),
 			array(
 				'tag' => 'subtotal',
-				'description' => __('The price of the purchase before taxes', 'mp-restaurant-menu'),
+				'description' => esc_html__('The price of the purchase before taxes', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_subtotal'
 			),
 			array(
 				'tag' => 'tax',
-				'description' => __('The taxed amount of the purchase', 'mp-restaurant-menu'),
+				'description' => esc_html__('The taxed amount of the purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_tax'
 			),
 			array(
 				'tag' => 'price',
-				'description' => __('The total price of the purchase', 'mp-restaurant-menu'),
+				'description' => esc_html__('The total price of the purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_price'
 			),
 			array(
 				'tag' => 'payment_id',
-				'description' => __('The unique ID number for this purchase', 'mp-restaurant-menu'),
+				'description' => esc_html__('The unique ID number for this purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_payment_id'
 			),
 			array(
 				'tag' => 'receipt_id',
-				'description' => __('The unique ID number for this purchase receipt', 'mp-restaurant-menu'),
+				'description' => esc_html__('The unique ID number for this purchase receipt', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_id'
 			),
 			array(
 				'tag' => 'payment_method',
-				'description' => __('The method of payment used for this purchase', 'mp-restaurant-menu'),
+				'description' => esc_html__('The method of payment used for this purchase', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_payment_method'
 			),
 			array(
 				'tag' => 'sitename',
-				'description' => __('Your site name', 'mp-restaurant-menu'),
+				'description' => esc_html__('Your site name', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_site_name'
 			),
 			array(
 				'tag' => 'receipt_link',
-				'description' => __('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
+				'description' => esc_html__('Adds a link so users can view their receipt directly on your website if they are unable to view it in the browser correctly.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_receipt_link'
 			),
 			array(
 				'tag' => 'order_notes',
-				'description' => __('Order notes.', 'mp-restaurant-menu'),
+				'description' => esc_html__('Order notes.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_order_notes'
 			),
 			array(
 				'tag' => 'phone',
-				'description' => __('The buyer\'s phone.', 'mp-restaurant-menu'),
+				'description' => esc_html__('The buyer\'s phone.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_phone'
 			),
 			array(
 				'tag' => 'shipping_address',
-				'description' => __('Shipping address.', 'mp-restaurant-menu'),
+				'description' => esc_html__('Shipping address.', 'mp-restaurant-menu'),
 				'function' => 'mprm_email_tag_shipping_address'
 			),
 

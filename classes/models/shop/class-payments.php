@@ -436,7 +436,7 @@ class Payments extends Parent_query {
 		$updated = $payment->save();
 		
 		if (0 === $updated) {
-			wp_die(__('Error Updating Payment', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 400));
+			wp_die(esc_html__('Error Updating Payment', 'mp-restaurant-menu'), esc_html__('Error', 'mp-restaurant-menu'), array('response' => 400));
 		}
 		
 		$customer_changed = false;
@@ -448,7 +448,7 @@ class Payments extends Parent_query {
 			$phone = isset($data[ 'mprm-new-phone-number' ]) ? sanitize_text_field($data[ 'mprm-new-phone-number' ]) : '';
 			
 			if (empty($email) || empty($names)) {
-				wp_die(__('New Customers require a name and email address', 'mp-restaurant-menu'));
+				wp_die(esc_html__('New Customers require a name and email address', 'mp-restaurant-menu'));
 			}
 			
 			$customer = new Customer(array('field' => 'email', 'value' => $email));
@@ -463,7 +463,7 @@ class Payments extends Parent_query {
 					// Failed to crete the new customer, assume the previous customer
 					$customer_changed = false;
 					$customer = new Customer(array('field' => 'id', 'value' => $curr_customer_id));
-					$this->get('errors')->set_error('mprm-order-new-customer-fail', __('Error creating new customer', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('mprm-order-new-customer-fail', esc_html__('Error creating new customer', 'mp-restaurant-menu'));
 				}
 			}
 			
@@ -864,13 +864,13 @@ class Payments extends Parent_query {
 	 */
 	public function get_payment_statuses() {
 		$payment_statuses = array(
-			'mprm-pending' => __('Pending Payment', 'mp-restaurant-menu'),
-			'publish' => __('New Order', 'mp-restaurant-menu'),
-			'mprm-refunded' => __('Refunded', 'mp-restaurant-menu'),
-			'mprm-failed' => __('Failed', 'mp-restaurant-menu'),
-			'mprm-cooking' => __('Processing', 'mp-restaurant-menu'),
-			'mprm-shipping' => __('Shipping', 'mp-restaurant-menu'),
-			'mprm-shipped' => __('Completed', 'mp-restaurant-menu'),
+			'mprm-pending' => esc_html__('Pending Payment', 'mp-restaurant-menu'),
+			'publish' => esc_html__('New Order', 'mp-restaurant-menu'),
+			'mprm-refunded' => esc_html__('Refunded', 'mp-restaurant-menu'),
+			'mprm-failed' => esc_html__('Failed', 'mp-restaurant-menu'),
+			'mprm-cooking' => esc_html__('Processing', 'mp-restaurant-menu'),
+			'mprm-shipping' => esc_html__('Shipping', 'mp-restaurant-menu'),
+			'mprm-shipped' => esc_html__('Completed', 'mp-restaurant-menu'),
 		);
 		
 		return apply_filters('mprm_payment_statuses', $payment_statuses);
@@ -1545,7 +1545,7 @@ class Payments extends Parent_query {
 			$user = get_userdata($note->user_id);
 			$user = $user->display_name;
 		} else {
-			$user = __('System', 'mp-restaurant-menu');
+			$user = esc_html__('System', 'mp-restaurant-menu');
 		}
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
 
@@ -1788,9 +1788,9 @@ class Payments extends Parent_query {
 		$old_status = isset($status[ $old_status ]) ? $status[ $old_status ] : $old_status;
 		$new_status = isset($status[ $new_status ]) ? $status[ $new_status ] : $new_status;
 		if ( $old_status ) {
-			$status_change = sprintf(__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
+			$status_change = sprintf(esc_html__('Status changed from %s to %s', 'mp-restaurant-menu'), $old_status, $new_status);
 		} else {
-			$status_change = sprintf(__('Status changed to %s', 'mp-restaurant-menu'), $new_status);
+			$status_change = sprintf(esc_html__('Status changed to %s', 'mp-restaurant-menu'), $new_status);
 		}
 		$this->get('payments')->insert_payment_note($payment_id, $status_change);
 	}

@@ -1,6 +1,6 @@
 <?php use mp_restaurant_menu\classes\models; ?>
 	<fieldset id="mprm_checkout_user_info">
-		<span class="mprm-payment-details-label"><legend><?php echo esc_html( apply_filters('mprm_checkout_personal_info_text', __('Billing Details', 'mp-restaurant-menu')) ); ?></legend></span>
+		<span class="mprm-payment-details-label"><legend><?php echo esc_html( apply_filters('mprm_checkout_personal_info_text', esc_html__('Billing Details', 'mp-restaurant-menu')) ); ?></legend></span>
 		<?php do_action('mprm_purchase_form_before_email'); ?>
 		<p id="mprm-email-wrap">
 			<label class="mprm-label" for="mprm-email">

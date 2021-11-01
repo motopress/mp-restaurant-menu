@@ -445,7 +445,7 @@ class Menu_item extends Store_item {
 			'price' => (bool)true,
 			'price_id' => isset($args[ 'price_id' ]) ? $args[ 'price_id' ] : false,
 			'direct' => $button_behavior == 'direct' ? true : false,
-			'text' => ($button_behavior == 'direct') ? $this->get('settings')->get_option('buy_now_text', __('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', __('Add to Cart', 'mp-restaurant-menu')),
+			'text' => ($button_behavior == 'direct') ? $this->get('settings')->get_option('buy_now_text', esc_html__('Buy Now', 'mp-restaurant-menu')) : $this->get('settings')->get_option('add_to_cart_text', esc_html__('Add to Cart', 'mp-restaurant-menu')),
 			'style' => $this->get('settings')->get_option('button_style', 'button'),
 			'color' => $this->get('settings')->get_option('checkout_color', 'inherit'),
 			'padding' => $this->get('settings')->get_option('checkout_padding', 'mprm-inherit'),
@@ -487,7 +487,7 @@ class Menu_item extends Store_item {
 		
 		if (false !== $price) {
 			if (0 == $price) {
-				$args[ 'text' ] = __('Free', 'mp-restaurant-menu') . $button_text;
+				$args[ 'text' ] = esc_html__('Free', 'mp-restaurant-menu') . $button_text;
 			} else {
 				$args[ 'text' ] = apply_filters('mprm_show_price', false) ? $this->get('menu_item')->currency_filter($this->get('menu_item')->get_formatting_price($price)) . $button_text : $args[ 'text' ];
 			}
@@ -782,8 +782,8 @@ class Menu_item extends Store_item {
 	 */
 	public function get_label($lowercase = false, $type = 'singular') {
 		$labels = array(
-			'singular' => __('Menu item', 'mp-restaurant-menu'),
-			'plural' => __('Menu items', 'mp-restaurant-menu')
+			'singular' => esc_html__('Menu item', 'mp-restaurant-menu'),
+			'plural' => esc_html__('Menu items', 'mp-restaurant-menu')
 		);
 		
 		return ($lowercase) ? strtolower($labels[ $type ]) : $labels[ $type ];

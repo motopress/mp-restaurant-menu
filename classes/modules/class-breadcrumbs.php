@@ -177,7 +177,7 @@ class Breadcrumbs extends Module {
 				echo '<li class="mprm-item-current mprm-item-current-' . esc_attr( $userdata->user_nicename ) . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . esc_attr( $userdata->user_nicename ) . '" title="' . esc_attr( $userdata->display_name ) . '">' . 'Author: ' . esc_html( $userdata->display_name ) . '</strong></li>';
 			} else if (get_query_var('paged')) {
 				// Paginated archives
-				echo '<li class="mprm-item-current mprm-item-current-' . esc_attr( get_query_var('paged') ) . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . esc_attr( get_query_var('paged') ) . '" title="Page ' . esc_attr( get_query_var('paged') ) . '">' . __('Page', 'mp-restaurant-menu') . ' ' . esc_html( get_query_var('paged') ) . '</strong></li>';
+				echo '<li class="mprm-item-current mprm-item-current-' . esc_attr( get_query_var('paged') ) . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . esc_attr( get_query_var('paged') ) . '" title="Page ' . esc_attr( get_query_var('paged') ) . '">' . esc_html__('Page', 'mp-restaurant-menu') . ' ' . esc_html( get_query_var('paged') ) . '</strong></li>';
 			} else if (is_search()) {
 				// Search results page
 				echo '<li class="mprm-item-current mprm-item-current-' . esc_attr( get_search_query() ) . '"><strong class="mprm-breadcrumbs-current mprm-breadcrumbs-current-' . esc_attr( get_search_query() ) . '" title="Search results for: ' . esc_attr( get_search_query() ) . '">Search results for: ' . esc_html( get_search_query() ) . '</strong></li>';

@@ -725,7 +725,7 @@ class Hooks extends Core {
 		//add media in admin WP
 		add_action('admin_enqueue_scripts', array(Media::get_instance(), "admin_enqueue_scripts"));
 		
-		register_importer('mprm-importer', 'Restaurant Menu', __('Import menu items, categories, images and other data.', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
+		register_importer('mprm-importer', 'Restaurant Menu', esc_html__('Import menu items, categories, images and other data.', 'mp-restaurant-menu'), array(Import::get_instance(), 'import'));
 		//Emails
 		add_action('mprm_email_settings', array(Settings_emails::get_instance(), 'email_template_preview'));
 		
@@ -961,18 +961,18 @@ class Hooks extends Core {
 		global $post;
 		$messages[ 'mprm_order' ] = array(
 			0 => '', // Unused. Messages start at index 1.
-			1 => __('Order updated.', 'mp-restaurant-menu'),
-			2 => __('Custom field updated.', 'mp-restaurant-menu'),
-			3 => __('Custom field deleted.', 'mp-restaurant-menu'),
-			4 => __('Order updated.', 'mp-restaurant-menu'),
-			5 => isset($_GET[ 'revision' ]) ? sprintf(__('Order restored to revision from %s', 'mp-restaurant-menu'), wp_post_revision_title((int)$_GET[ 'revision' ], false)) : false,
-			6 => __('Order updated.', 'mp-restaurant-menu'),
-			7 => __('Order saved.', 'mp-restaurant-menu'),
-			8 => __('Order submitted.', 'mp-restaurant-menu'),
+			1 => esc_html__('Order updated.', 'mp-restaurant-menu'),
+			2 => esc_html__('Custom field updated.', 'mp-restaurant-menu'),
+			3 => esc_html__('Custom field deleted.', 'mp-restaurant-menu'),
+			4 => esc_html__('Order updated.', 'mp-restaurant-menu'),
+			5 => isset($_GET[ 'revision' ]) ? sprintf(esc_html__('Order restored to revision from %s', 'mp-restaurant-menu'), wp_post_revision_title((int)$_GET[ 'revision' ], false)) : false,
+			6 => esc_html__('Order updated.', 'mp-restaurant-menu'),
+			7 => esc_html__('Order saved.', 'mp-restaurant-menu'),
+			8 => esc_html__('Order submitted.', 'mp-restaurant-menu'),
 			9 => sprintf(__('Order scheduled for: <strong>%1$s</strong>.', 'mp-restaurant-menu'),
-				date_i18n(__('M j, Y @ G:i', 'mp-restaurant-menu'), strtotime($post->post_date))),
-			10 => __('Order draft updated.', 'mp-restaurant-menu'),
-			11 => __('Order updated and email sent.', 'mp-restaurant-menu')
+				date_i18n(esc_html__('M j, Y @ G:i', 'mp-restaurant-menu'), strtotime($post->post_date))),
+			10 => esc_html__('Order draft updated.', 'mp-restaurant-menu'),
+			11 => esc_html__('Order updated and email sent.', 'mp-restaurant-menu')
 		);
 		
 		return $messages;
@@ -1027,7 +1027,7 @@ class Hooks extends Core {
 		global $post, $title, $action, $current_screen;
 		
 		if (isset($current_screen->post_type) && $current_screen->post_type == $this->post_types[ 'order' ] && $action == 'edit') {
-			$title = sprintf( __('Edit Order #%s', 'mp-restaurant-menu'), $post->ID) ;
+			$title = sprintf( esc_html__('Edit Order #%s', 'mp-restaurant-menu'), $post->ID) ;
 		}
 	}
 	

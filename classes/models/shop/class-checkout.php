@@ -404,11 +404,11 @@ class Checkout extends Model {
 		$required_fields = array(
 			'mprm_email' => array(
 				'error_id' => 'invalid_email',
-				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter a valid email address', 'mp-restaurant-menu')
 			),
 			'mprm_first' => array(
 				'error_id' => 'invalid_first_name',
-				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your first name', 'mp-restaurant-menu')
 			)
 		);
 		// Let payment gateways and other extensions determine if address fields should be required
@@ -417,19 +417,19 @@ class Checkout extends Model {
 		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
 			$required_fields[ 'card_zip' ] = array(
 				'error_id' => 'invalid_zip_code',
-				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your zip / postal code', 'mp-restaurant-menu')
 			);
 			$required_fields[ 'card_city' ] = array(
 				'error_id' => 'invalid_city',
-				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your billing city', 'mp-restaurant-menu')
 			);
 			$required_fields[ 'billing_country' ] = array(
 				'error_id' => 'invalid_country',
-				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please select your billing country', 'mp-restaurant-menu')
 			);
 			$required_fields[ 'card_state' ] = array(
 				'error_id' => 'invalid_state',
-				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter billing state / province', 'mp-restaurant-menu')
 			);
 		}
 		

@@ -24,7 +24,7 @@ class Manual_payment extends Model {
 	 */
 	public function manual_payment($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
-			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
+			wp_die(esc_html__('Nonce verification has failed', 'mp-restaurant-menu'), esc_html__('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
 		/*
 		* Purchase data comes in like this
@@ -59,7 +59,7 @@ class Manual_payment extends Model {
 			$this->get('cart')->empty_cart();
 			$this->get('checkout')->send_to_success_page('?payment_key=' . $this->get('payments')->get_payment_key($payment));
 		} else {
-			// mprm_record_gateway_error(__('Payment Error', 'mp-restaurant-menu'), sprintf(__('Payment creation failed while processing a manual (free or test) purchase. Payment data: %s', 'mp-restaurant-menu'), json_encode($payment_data)), $payment);
+
 			// If errors are present, send the user back to the purchase page so they can be corrected
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		}

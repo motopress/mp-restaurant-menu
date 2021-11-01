@@ -1054,7 +1054,7 @@ function mprm_menu_item_header() { ?>
 	<h1 class="mprm-header-title"><?php the_title() ?></h1>
 	<?php
 	if (apply_filters('mprm-item-breadcrumbs', true)) {
-		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => __('Home', 'mp-restaurant-menu')));
+		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => esc_html__('Home', 'mp-restaurant-menu')));
 	}
 }
 
@@ -1180,13 +1180,13 @@ function mprm_after_menu_item_sidebar() {	?>
  */
 function mprm_get_nutrition_label($name) {
 	$labels = array(
-		'calories' => __('Calories', 'mp-restaurant-menu'),
-		'cholesterol' => __('Cholesterol', 'mp-restaurant-menu'),
-		'fiber' => __('Fiber', 'mp-restaurant-menu'),
-		'sodium' => __('Sodium', 'mp-restaurant-menu'),
-		'carbohydrates' => __('Carbohydrates', 'mp-restaurant-menu'),
-		'fat' => __('Fat', 'mp-restaurant-menu'),
-		'protein' => __('Protein', 'mp-restaurant-menu'),
+		'calories' => esc_html__('Calories', 'mp-restaurant-menu'),
+		'cholesterol' => esc_html__('Cholesterol', 'mp-restaurant-menu'),
+		'fiber' => esc_html__('Fiber', 'mp-restaurant-menu'),
+		'sodium' => esc_html__('Sodium', 'mp-restaurant-menu'),
+		'carbohydrates' => esc_html__('Carbohydrates', 'mp-restaurant-menu'),
+		'fat' => esc_html__('Fat', 'mp-restaurant-menu'),
+		'protein' => esc_html__('Protein', 'mp-restaurant-menu'),
 	);
 	if (array_key_exists($name, $labels)){
 		return $labels[$name];
@@ -1201,9 +1201,9 @@ function mprm_get_nutrition_label($name) {
  */
 function mprm_get_proportion_label($name) {
 	$labels = array(
-		'size' => __('Size', 'mp-restaurant-menu'),
-		'bulk' => __('Volume', 'mp-restaurant-menu'),
-		'weight' => __('Weight', 'mp-restaurant-menu'),
+		'size' => esc_html__('Size', 'mp-restaurant-menu'),
+		'bulk' => esc_html__('Volume', 'mp-restaurant-menu'),
+		'weight' => esc_html__('Weight', 'mp-restaurant-menu'),
 	);
 	if (array_key_exists($name, $labels)){
 		return $labels[$name];

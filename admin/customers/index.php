@@ -9,7 +9,7 @@ $customers_table->prepare_items();
 	<?php do_action('mprm_customers_table_top'); ?>
 	<form id="mprm-customers-filter" method="post">
 		<?php
-		$customers_table->search_box(__('Search Customers', 'mp-restaurant-menu'), 'mprm-customers');
+		$customers_table->search_box( esc_html__('Search Customers', 'mp-restaurant-menu'), 'mprm-customers' );
 		$customers_table->display();
 		?>
 		<input type="hidden" name="post_type" value="mp_menu_item"/>
