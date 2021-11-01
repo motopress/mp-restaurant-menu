@@ -1548,8 +1548,8 @@ class Payments extends Parent_query {
 			$user = __('System', 'mp-restaurant-menu');
 		}
 		$date_format = get_option('date_format') . ', ' . get_option('time_format');
-		
-		$delete_note_url = wp_nonce_url(add_query_arg(array(
+
+		$delete_note_url = wp_nonce_url(add_query_arg(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'mprm-action' => 'delete_payment_note',
 			'note_id' => $note->comment_ID,
 			'payment_id' => $payment_id

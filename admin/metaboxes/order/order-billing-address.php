@@ -30,7 +30,7 @@ $address = $order->address; ?>
 			<p id="mprm-order-address-country-wrap">
 				<strong class="order-data-address-line"><?php echo _x('Country:', 'Address country', 'mp-restaurant-menu'); ?></strong><br/>
 				<?php
-				echo mprn_select(
+				echo mprn_select( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					array(
 						'class' => 'mprm-country-list',
 						'options' => mprm_get_country_list(),
@@ -41,7 +41,7 @@ $address = $order->address; ?>
 						'chosen' => true,
 						'placeholder' => __('Select a country', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a country', 'mp-restaurant-menu'))
-					)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					));
 
 				?>
 			</p>
@@ -51,7 +51,7 @@ $address = $order->address; ?>
 				$states = mprm_get_shop_states($address['country']);
 
 				if (!empty($states)) {
-					echo mprn_select(array(
+					echo mprn_select(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						'class' => 'mprm-country-state',
 						'options' => $states,
 						'name' => 'mprm-order-address[0][state]',
@@ -61,7 +61,7 @@ $address = $order->address; ?>
 						'chosen' => true,
 						'placeholder' => __('Select a state', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a state', 'mp-restaurant-menu'))
-					)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					));
 				} else { ?>
 					<input type="text" name="mprm-order-address[0][state]" value="<?php echo esc_attr($address['state']); ?>" class="medium-text"/>
 					<?php

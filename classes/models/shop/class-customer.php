@@ -450,7 +450,7 @@ class Customer extends Model {
 		if (empty($user_id)) {
 			$user_id = get_current_user_id();
 		}
-		$url = wp_nonce_url(add_query_arg(array(
+		$url = wp_nonce_url(add_query_arg(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'mprm_action' => 'send_verification_email'
 		)), 'mprm-request-verification');
 		return apply_filters('mprm_get_user_verification_request_url', $url, $user_id);

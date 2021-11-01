@@ -1989,7 +1989,7 @@ final class Order extends Model {
 		if ( $this->status == 'publish' ) {
 
 			$actions['mprm-cooking'] = array(
-				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-cooking&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-cooking&order_id=' . $post->ID ), 'mprm-mark-order-status' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'name'   => __( 'Processing', 'mp-restaurant-menu' ),
 				'action' => 'mprm-cooking',
 				'icon'   => '<svg width="12" height="12" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><g><circle cx="5.5" cy="24" r="5.5"/><circle cx="42.499" cy="24" r="5.5"/><circle cx="24" cy="24" r="5.5"/></g></svg>'
@@ -1999,7 +1999,7 @@ final class Order extends Model {
 		if ( $this->status == 'publish' || $this->status == 'mprm-cooking' ) {
 
 			$actions['mprm-shipped'] = array(
-				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-shipped&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-shipped&order_id=' . $post->ID ), 'mprm-mark-order-status' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'name'   => __( 'Complete', 'mp-restaurant-menu' ),
 				'action' => 'mprm-shipped',
 				'icon'   => '<svg width="12" height="12" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>'

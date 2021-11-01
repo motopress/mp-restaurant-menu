@@ -77,7 +77,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 			<div class="mprm-row">
 				<div class="item mprm-columns <?php echo esc_attr( $column ); ?>">
 					<?php
-					echo mprm_menu_item_dropdown(array(
+					echo mprm_menu_item_dropdown(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						'name' => 'mprm-order-menu-item-select',
 						'id' => 'mprm-order-menu-item-select',
 						'chosen' => true,
@@ -85,7 +85,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 						'show_option_none' => false,
 						'placeholder' => __('Select a Menu item', 'mp-restaurant-menu'),
 						'data_attr' => array('text_single' => __('Select a Menu item', 'mp-restaurant-menu'))
-					)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					));
 					?>
 				</div>
 
@@ -99,13 +99,13 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 				<div class="price mprm-columns <?php echo esc_attr( $column );?>">
 					<?php
 
-					echo mprm_text(array(
+					echo mprm_text(array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							'name' => 'mprm-order-menu-item-amount',
 							'id' => 'mprm-order-menu-item-amount',
 							'label' => __('Price: ', 'mp-restaurant-menu'),
 							'class' => 'mprm-order-menu-item-price'
 						)
-					); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
 					?>
 				</div>
 
@@ -118,7 +118,7 @@ $column = mprm_item_quantities_enabled() ? 'mprm-three' : 'mprm-four';
 
 		<?php else : $key = 0; ?>
 			<div class="mprm-row">
-				<p><?php printf(__('No %s included with this purchase', 'mp-restaurant-menu'), mprm_get_label_plural()); ?></p>
+				<p><?php printf(__('No %s included with this purchase', 'mp-restaurant-menu'), mprm_get_label_plural()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 			</div>
 		<?php endif; ?>
 	</div>
