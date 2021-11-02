@@ -125,13 +125,15 @@ class Paypal extends Model {
 			// alternate purchase verification
 		} else {
 			if (isset($_GET['tx']) && isset($_GET['st']) && isset($_GET['amt']) && isset($_GET['cc']) && isset($_GET['cm']) && isset($_GET['item_number'])) {
+
 				// we are using the alternate method of verifying PayPal purchases
 				// setup each of the variables from PayPal
-				$payment_status = sanitize_text_field( $_GET['st'] );
-				$paypal_amount = sanitize_text_field( $_GET['amt'] );
-				$payment_id = sanitize_text_field( $_GET['cm'] );
-				$purchase_key = sanitize_text_field( $_GET['item_number'] );
-				$currency = sanitize_text_field( $_GET['cc'] );
+				$payment_status = 	sanitize_text_field( wp_unslash( $_GET['st'] ) );
+				$paypal_amount = 	sanitize_text_field( wp_unslash( $_GET['amt'] ) );
+				$payment_id = 		sanitize_text_field( wp_unslash( $_GET['cm'] ) );
+				$purchase_key = 	sanitize_text_field( wp_unslash( $_GET['item_number'] ) );
+				$currency = 		sanitize_text_field( wp_unslash( $_GET['cc'] ) );
+
 				// retrieve the meta info for this payment
 				$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 				$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);
@@ -180,11 +182,13 @@ class Paypal extends Model {
 			exit(0);
 		}
 		if ($verified) {
-			$payment_id = sanitize_text_field( $_POST['custom'] );
-			$purchase_key = sanitize_text_field( $_POST['item_number'] );
-			$paypal_amount = sanitize_text_field( $_POST['mc_gross'] );
-			$payment_status = sanitize_text_field( $_POST['payment_status'] );
-			$currency_code = strtolower( sanitize_text_field( $_POST['mc_currency'] ) );
+
+			$payment_id = isset( $_POST['custom'] ) ? sanitize_text_field( wp_unslash( $_POST['custom'] ) ) : 0;
+			$purchase_key = isset( $_POST['item_number'] ) ? sanitize_text_field( wp_unslash( $_POST['item_number'] ) ) : '';
+			$paypal_amount = isset( $_POST['mc_gross'] ) ? sanitize_text_field( wp_unslash( $_POST['mc_gross'] ) ) : 0;
+			$payment_status = isset( $_POST['payment_status'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_status'] ) ) : '';
+			$currency_code = isset( $_POST['mc_currency'] ) ? strtolower( sanitize_text_field( wp_unslash( $_POST['mc_currency'] ) ) ) : '';
+
 			// retrieve the meta info for this payment
 			$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 			$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);

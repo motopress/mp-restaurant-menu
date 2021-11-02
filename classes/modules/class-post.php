@@ -167,7 +167,7 @@ class Post extends Module {
 		if (!isset($_POST['mp-restaurant-menu' . '_nonce_box'])) {
 			return $post_id;
 		}
-		$nonce = sanitize_text_field( $_POST['mp-restaurant-menu' . '_nonce_box'] );
+		$nonce = sanitize_text_field( wp_unslash( $_POST['mp-restaurant-menu' . '_nonce_box'] ) );
 
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
@@ -180,7 +180,7 @@ class Post extends Module {
 		}
 
 		// Cher user rules
-		if ( 'page' == $_POST['post_type'] ) {
+		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 			if (!current_user_can('edit_page', $post_id)) {
 				return $post_id;
 			}
@@ -191,7 +191,7 @@ class Post extends Module {
 		}
 
 		if (isset($_POST['mprm_update'])) {
-			if (($_POST['post_type'] == $this->post_types['order']) && (bool)$_POST['mprm_update']) {
+			if ( isset( $_POST['post_type'] ) && ($_POST['post_type'] == $this->post_types['order']) && (bool)$_POST['mprm_update']) {
 				$this->get('payments')->update_payment_details($_POST);
 			}
 		}
@@ -199,18 +199,22 @@ class Post extends Module {
 		foreach ($this->metaboxes as $metabox) {
 
 			// update post if current post type
-			if ($_POST['post_type'] == $metabox['post_type']) {
+			if ( isset( $_POST['post_type'] ) && $_POST['post_type'] == $metabox['post_type']) {
 
 				$value = false;
 				
 				if ( ! empty( $_POST[$metabox['name']] ) ) {
 					
-					$value = $_POST[$metabox['name']];
+					$value = $_POST[$metabox['name']]; // phpcs:ignore
 
 					if ( is_array( $value ) ) {
-						$value = $this->recursive_sanitize_array( $_POST[$metabox['name']] );
+						$value = mprm_recursive_sanitize_array(
+							wp_unslash(
+								(array) $_POST[$metabox['name']] // phpcs:ignore
+							)
+						);
 					} else {
-						$value = sanitize_text_field( $value );
+						$value = sanitize_text_field( wp_unslash( $value ) );
 					}
 
 					if ( $metabox['name'] == 'price' ) {
@@ -222,28 +226,6 @@ class Post extends Module {
 			}
 		}
 	}
-
-	/**
-	 * Recursive sanitation for an array
-	 *
-	 * @param $array
-	 *
-	 * @return mixed
-	 */
-	private function recursive_sanitize_array( $array ) {
-
-		foreach ( $array as $key => &$value ) {
-			if ( is_array( $value ) ) {
-				$value = $this->recursive_sanitize_array($value);
-			}
-			else {
-				$value = sanitize_text_field( $value );
-			}
-		}
-
-		return $array;
-	}
-
 
 	/**
 	 * Edit form after title

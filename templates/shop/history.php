@@ -59,7 +59,7 @@ if (!mprm_user_pending_verification()) { ?>
 	<?php endif; ?>
 	<p class="mprm-account-pending">
 		<?php $url = mprm_get_user_verification_request_url(); ?>
-		<?php printf( __('Your account is pending verification. Please click the link in your email to activate your account. No email? <a href="%s">Click here</a> to send a new activation code.', 'mp-restaurant-menu'), esc_url( $url ) ); ?>
+		<?php printf( wp_kses_post( __('Your account is pending verification. Please click the link in your email to activate your account. No email? <a href="%s">Click here</a> to send a new activation code.', 'mp-restaurant-menu') ), esc_url( $url ) ); ?>
 	</p>
 	<?php
 }

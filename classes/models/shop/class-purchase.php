@@ -87,7 +87,14 @@ class Purchase extends Model {
 			'discount' => $valid_data['discount'],
 			'address' => $user['address']
 		);
+
 		$auth_key = defined('AUTH_KEY') ? AUTH_KEY : '';
+
+		$post_data = mprm_recursive_sanitize_array(
+			wp_unslash(
+				(array) $_POST // phpcs:ignore
+			)
+		);
 
 		// Setup purchase information
 		$purchase_data = array(
@@ -101,7 +108,7 @@ class Purchase extends Model {
 			'user_email' => $user['user_email'],
 			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
 			'user_info' => stripslashes_deep($user_info),
-			'post_data' => $_POST, //TODO
+			'post_data' => $post_data,
 			'cart_details' => $this->get('cart')->get_cart_content_details(),
 			'gateway' => $valid_data['gateway'],
 			'card_info' => $valid_data['cc_info'],
@@ -159,8 +166,8 @@ class Purchase extends Model {
 			'login_user_data' => array(),   // Login user collected data
 			'guest_user_data' => array(),   // Guest user collected data
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
-			'customer_note' => !empty($_POST['customer_note']) ? sanitize_text_field($_POST['customer_note']) : '',
-			'shipping_address' => !empty($_POST['shipping_address']) ? sanitize_text_field($_POST['shipping_address']) : '',
+			'customer_note' => !empty($_POST['customer_note']) ? sanitize_text_field( wp_unslash( $_POST['customer_note'] ) ) : '',
+			'shipping_address' => !empty($_POST['shipping_address']) ? sanitize_text_field( wp_unslash( $_POST['shipping_address'] ) ) : '',
 			'phone_number' => !empty($_POST['phone_number']) ? $this->purchase_form_validate_phone() : ''
 		);
 
@@ -200,7 +207,7 @@ class Purchase extends Model {
 		$gateway = $this->get('gateways')->get_default_gateway();
 		// Check if a gateway value is present
 		if (!empty($_REQUEST['mprm-gateway'])) {
-			$gateway = sanitize_text_field($_REQUEST['mprm-gateway']);
+			$gateway = sanitize_text_field( wp_unslash( $_REQUEST['mprm-gateway'] ) );
 			if ('0.00' == $this->get('cart')->get_cart_total()) {
 				$gateway = 'test_manual';
 			} elseif (!$this->get('gateways')->is_gateway_active($gateway)) {
@@ -219,18 +226,26 @@ class Purchase extends Model {
 		// Retrieve the discount stored in cookies
 		$discounts = $this->get('cart')->get_cart_discounts();
 		$user = '';
+
 		if (isset($_POST['mprm_user_login']) && !empty($_POST['mprm_user_login'])) {
-			$user = sanitize_text_field($_POST['mprm_user_login']);
+
+			$user = sanitize_text_field( wp_unslash( $_POST['mprm_user_login'] ) );
+
 		} else if (isset($_POST['mprm_email']) && !empty($_POST['mprm_email'])) {
-			$user = sanitize_text_field($_POST['mprm_email']);
+
+			$user = sanitize_text_field( wp_unslash( $_POST['mprm_email'] ) );
+
 		} else if (is_user_logged_in()) {
+
 			$user = wp_get_current_user()->user_email;
 		}
+
 		$error = false;
+
 		// Check for valid discount(s) is present
 		if (!empty($_POST['mprm-discount']) && esc_html__('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
 			// Check for a posted discount
-			$posted_discount = isset($_POST['mprm-discount']) ? sanitize_text_field($_POST['mprm-discount']) : false;
+			$posted_discount = isset($_POST['mprm-discount']) ? sanitize_text_field( wp_unslash( $_POST['mprm-discount'] ) ) : false;
 			// Add the posted discount to the discounts
 			if ($posted_discount && (empty($discounts) || $this->get('discount')->multiple_discounts_allowed()) && $this->get('discount')->is_discount_valid($posted_discount, $user)) {
 				$this->get('discount')->set_cart_discount($posted_discount);
@@ -279,17 +294,17 @@ class Purchase extends Model {
 	 */
 	public function get_purchase_cc_info() {
 		$cc_info = array();
-		$cc_info['card_name'] = isset($_POST['card_name']) ? sanitize_text_field($_POST['card_name']) : '';
-		$cc_info['card_number'] = isset($_POST['card_number']) ? sanitize_text_field($_POST['card_number']) : '';
-		$cc_info['card_cvc'] = isset($_POST['card_cvc']) ? sanitize_text_field($_POST['card_cvc']) : '';
-		$cc_info['card_exp_month'] = isset($_POST['card_exp_month']) ? sanitize_text_field($_POST['card_exp_month']) : '';
-		$cc_info['card_exp_year'] = isset($_POST['card_exp_year']) ? sanitize_text_field($_POST['card_exp_year']) : '';
-		$cc_info['card_address'] = isset($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : '';
-		$cc_info['card_address_2'] = isset($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : '';
-		$cc_info['card_city'] = isset($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : '';
-		$cc_info['card_state'] = isset($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : '';
-		$cc_info['card_country'] = isset($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : '';
-		$cc_info['card_zip'] = isset($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : '';
+		$cc_info['card_name'] = 		isset($_POST['card_name']) ? 		sanitize_text_field( wp_unslash( $_POST['card_name'] ) ) : '';
+		$cc_info['card_number'] = 		isset($_POST['card_number']) ? 		sanitize_text_field( wp_unslash( $_POST['card_number'] ) ) : '';
+		$cc_info['card_cvc'] = 			isset($_POST['card_cvc']) ? 		sanitize_text_field( wp_unslash( $_POST['card_cvc'] ) ) : '';
+		$cc_info['card_exp_month'] = 	isset($_POST['card_exp_month']) ? 	sanitize_text_field( wp_unslash( $_POST['card_exp_month'] ) ) : '';
+		$cc_info['card_exp_year'] = 	isset($_POST['card_exp_year']) ? 	sanitize_text_field( wp_unslash( $_POST['card_exp_year'] ) ) : '';
+		$cc_info['card_address'] = 		isset($_POST['card_address']) ? 	sanitize_text_field( wp_unslash( $_POST['card_address'] ) ) : '';
+		$cc_info['card_address_2'] = 	isset($_POST['card_address_2']) ? 	sanitize_text_field( wp_unslash( $_POST['card_address_2'] ) ) : '';
+		$cc_info['card_city'] = 		isset($_POST['card_city']) ? 		sanitize_text_field( wp_unslash( $_POST['card_city'] ) ) : '';
+		$cc_info['card_state'] = 		isset($_POST['card_state']) ? 		sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : '';
+		$cc_info['card_country'] = 		isset($_POST['billing_country']) ? 	sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : '';
+		$cc_info['card_zip'] = 			isset($_POST['card_zip']) ? 		sanitize_text_field( wp_unslash( $_POST['card_zip'] ) ) : '';
 		// Return cc info
 		return $cc_info;
 	}
@@ -476,7 +491,7 @@ class Purchase extends Model {
 	 */
 	public function purchase_form_validate_phone() {
 
-		$number = sanitize_text_field($_POST['phone_number']);
+		$number = isset( $_POST['phone_number'] ) ? sanitize_text_field( wp_unslash( $_POST['phone_number'] ) ) : 0;
 
 		return $number;
 	}
@@ -519,9 +534,9 @@ class Purchase extends Model {
 				// Collected logged in user data
 				$valid_user_data = array(
 					'user_id' => $user_ID,
-					'user_email' => isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : $user_data->user_email,
-					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field($_POST['mprm_first']) : $user_data->first_name,
-					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field($_POST['mprm_last']) : $user_data->last_name,
+					'user_email' => isset($_POST['mprm_email']) ? sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : $user_data->user_email,
+					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field( wp_unslash( $_POST['mprm_first'] ) ) : $user_data->first_name,
+					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field( wp_unslash( $_POST['mprm_last'] ) ) : $user_data->last_name,
 				);
 				if (!is_email($valid_user_data['user_email'])) {
 					$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
@@ -588,16 +603,16 @@ class Purchase extends Model {
 			// Assume there will be errors
 			'user_id' => -1,
 			// Get first name
-			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field($_POST["mprm_first"]) : '',
+			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_first"] ) ) : '',
 			// Get last name
-			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field($_POST["mprm_last"]) : '',
+			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_last"] ) ) : '',
 		);
 
 		// Check the new user's credentials against existing ones
-		$user_login = isset($_POST["mprm_user_login"]) ? sanitize_text_field($_POST["mprm_user_login"]) : false;
-		$user_email = isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : false;
-		$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field($_POST["mprm_user_pass"]) : false;
-		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? sanitize_text_field($_POST["mprm_user_pass_confirm"]) : false;
+		$user_login = isset($_POST["mprm_user_login"]) ? 			sanitize_text_field( wp_unslash( $_POST["mprm_user_login"] ) ) : false;
+		$user_email = isset($_POST['mprm_email']) ? 				sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : false;
+		$user_pass = isset($_POST["mprm_user_pass"]) ? 				sanitize_text_field( wp_unslash( $_POST["mprm_user_pass"] ) ) : false;
+		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? 	sanitize_text_field( wp_unslash( $_POST["mprm_user_pass_confirm"] ) ) : false;
 
 		// Loop through required fields and show error messages
 		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
@@ -684,11 +699,11 @@ class Purchase extends Model {
 			return $valid_user_data;
 		}
 		// Get the user by login
-		$user_data = get_user_by('login', strip_tags($_POST['mprm_user_login']));
+		$user_data = get_user_by('login', sanitize_text_field( wp_unslash( $_POST['mprm_user_login'] ) ));
 		// Check if user exists
 		if ($user_data) {
 			// Get password
-			$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field($_POST["mprm_user_pass"]) : false;
+			$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_user_pass"] ) ) : false;
 			// Check user_pass
 			if ($user_pass) {
 				// Check if password is valid
@@ -741,7 +756,7 @@ class Purchase extends Model {
 			$this->get('errors')->set_error('logged_in_only', esc_html__('You must be logged into an account to purchase', 'mp-restaurant-menu'));
 		}
 		// Get the guest email
-		$guest_email = isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : false;
+		$guest_email = isset($_POST['mprm_email']) ? sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : false;
 		// Check email
 		if ($guest_email && strlen($guest_email) > 0) {
 			// Validate email
@@ -776,7 +791,7 @@ class Purchase extends Model {
 				do_action('mprm_ajax_checkout_errors');
 				wp_die();
 			} else {
-				wp_redirect($_SERVER['HTTP_REFERER']);
+				wp_redirect($_SERVER['HTTP_REFERER']); // phpcs:ignore
 				exit;
 			}
 		}
@@ -784,7 +799,7 @@ class Purchase extends Model {
 		if ($is_ajax) {
 			//wp_die();
 		} else {
-			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
+			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING'])); // phpcs:ignore
 		}
 	}
 
@@ -833,20 +848,20 @@ class Purchase extends Model {
 		}
 		// Get user first name
 		if (!isset($user['user_first']) || strlen(trim($user['user_first'])) < 1) {
-			$user['user_first'] = isset($_POST["mprm_first"]) ? strip_tags(trim($_POST["mprm_first"])) : '';
+			$user['user_first'] = isset($_POST["mprm_first"]) ? 			sanitize_text_field( wp_unslash( $_POST["mprm_first"] ) ) : '';
 		}
 		// Get user last name
 		if (!isset($user['user_last']) || strlen(trim($user['user_last'])) < 1) {
-			$user['user_last'] = isset($_POST["mprm_last"]) ? strip_tags(trim($_POST["mprm_last"])) : '';
+			$user['user_last'] = isset($_POST["mprm_last"]) ? 				sanitize_text_field( wp_unslash( $_POST["mprm_last"] ) ) : '';
 		}
 		// Get the user's billing address details
 		$user['address'] = array();
-		$user['address']['line1'] = !empty($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : false;
-		$user['address']['line2'] = !empty($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : false;
-		$user['address']['city'] = !empty($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : false;
-		$user['address']['state'] = !empty($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : false;
-		$user['address']['country'] = !empty($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : false;
-		$user['address']['zip'] = !empty($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : false;
+		$user['address']['line1'] = !empty($_POST['card_address']) ? 		sanitize_text_field( wp_unslash( $_POST['card_address'] ) ) : false;
+		$user['address']['line2'] = !empty($_POST['card_address_2']) ? 		sanitize_text_field( wp_unslash( $_POST['card_address_2'] ) ) : false;
+		$user['address']['city'] = !empty($_POST['card_city']) ? 			sanitize_text_field( wp_unslash( $_POST['card_city'] ) ) : false;
+		$user['address']['state'] = !empty($_POST['card_state']) ? 			sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : false;
+		$user['address']['country'] = !empty($_POST['billing_country']) ? 	sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : false;
+		$user['address']['zip'] = !empty($_POST['card_zip']) ? 				sanitize_text_field( wp_unslash( $_POST['card_zip'] ) ) : false;
 		if (empty($user['address']['country']))
 			$user['address'] = false; // Country will always be set if address fields are present
 		if (!empty($user['user_id']) && $user['user_id'] > 0 && !empty($user['address'])) {

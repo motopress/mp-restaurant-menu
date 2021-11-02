@@ -64,15 +64,19 @@ class Checkout extends Model {
 	 * @param null $query_string
 	 */
 	public function send_to_success_page($query_string = null) {
+
 		$redirect = $this->get_success_page_uri();
-		
+
 		if ($query_string) {
 			$redirect .= $query_string;
 		}
-		
-		$gateway = isset($_REQUEST[ 'mprm-gateway' ]) ? sanitize_text_field( $_REQUEST[ 'mprm-gateway' ] ) : '';
-		if (!headers_sent()) {
+
+		$gateway = isset($_REQUEST[ 'mprm-gateway' ]) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'mprm-gateway' ] ) ) : '';
+
+		if ( ! headers_sent() ) {
+
 			wp_redirect(apply_filters('mprm_success_page_redirect', $redirect, $gateway, $query_string));
+
 			$this->get('misc')->mprm_die();
 		}
 	}

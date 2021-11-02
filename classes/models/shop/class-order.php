@@ -734,9 +734,9 @@ final class Order extends Model {
 					}
 				}
 
-				printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					_x( '%s by %s', 'Order number by X', 'mp-restaurant-menu'),
-					'<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username
+				printf(
+					_x( '%s by %s', 'Order number by X', 'mp-restaurant-menu'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 
 				if ($post->billing_email) {
@@ -744,7 +744,7 @@ final class Order extends Model {
 				}
 				break;
 			case 'order_ship_to':
-				echo esc_html( apply_filters('mprm_orders_list_delivery', $this->shipping_address ) );
+				echo wp_kses_post( apply_filters('mprm_orders_list_delivery', $this->shipping_address ) );
 				break;
 			case 'order_customer_note':
 				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

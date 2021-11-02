@@ -1768,7 +1768,7 @@ class Settings extends Model {
 			return $input;
 		}
 		
-		parse_str($_POST[ '_wp_http_referer' ], $referrer);
+		parse_str( esc_url_raw( wp_unslash( $_POST[ '_wp_http_referer' ] ) ), $referrer);
 		
 		$settings = Media::get_instance()->get_registered_settings();
 		$tab = isset($referrer[ 'tab' ]) ? $referrer[ 'tab' ] : 'general';

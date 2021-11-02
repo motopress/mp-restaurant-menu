@@ -82,9 +82,9 @@ class Customer_Reports extends \WP_List_Table {
 		$input_id = $input_id . '-search-input';
 
 		if (!empty($_REQUEST['orderby']))
-			echo '<input type="hidden" name="orderby" value="' . esc_attr($_REQUEST['orderby']) . '" />';
+			echo '<input type="hidden" name="orderby" value="' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) ) . '" />';
 		if (!empty($_REQUEST['order']))
-			echo '<input type="hidden" name="order" value="' . esc_attr($_REQUEST['order']) . '" />';
+			echo '<input type="hidden" name="order" value="' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) ) . '" />';
 		?>
 		<p class="search-box">
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?>:</label>
@@ -242,8 +242,8 @@ class Customer_Reports extends \WP_List_Table {
 		$paged = $this->get_paged();
 		$offset = $this->per_page * ($paged - 1);
 		$search = $this->get_search();
-		$order = isset($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : 'DESC';
-		$orderby = isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : 'id';
+		$order = isset($_REQUEST['order']) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'DESC';
+		$orderby = isset($_REQUEST['orderby']) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
 
 		$args = array(
 			'number' => $this->per_page,
@@ -311,7 +311,7 @@ class Customer_Reports extends \WP_List_Table {
 	 * @return mixed string If search is present, false otherwise
 	 */
 	public function get_search() {
-		return !empty($_REQUEST['s']) ? urldecode(trim( sanitize_text_field( $_REQUEST['s'] ))) : false;
+		return !empty($_REQUEST['s']) ? urldecode ( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) : false;
 	}
 
 	/**

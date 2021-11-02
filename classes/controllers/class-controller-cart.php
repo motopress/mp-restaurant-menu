@@ -30,7 +30,11 @@ class Controller_cart extends Controller {
 	 */
 	public function action_add_to_cart() {
 
-		$cartCount = $this->get('cart')->add_to_cart( sanitize_text_field($_REQUEST['menu_item_id'] ));
+		$cartCount = false;
+
+		if ( isset( $_REQUEST['menu_item_id'] ) ) {
+			$cartCount = $this->get('cart')->add_to_cart( sanitize_text_field( wp_unslash( $_REQUEST['menu_item_id'] ) ) );
+		}
 
 		if (isset($_REQUEST['is_ajax']) && (bool)$_REQUEST['is_ajax']) {
 			$this->date['success'] = (is_numeric($cartCount)) ? true : false;
@@ -44,10 +48,14 @@ class Controller_cart extends Controller {
 				wp_safe_redirect(wp_get_referer());
 
 			} else {
-				if (empty($_REQUEST['mprm_redirect_to_checkout'])) {
-					wp_safe_redirect( sanitize_url( $_REQUEST['_wp_http_referer'] ) );
+				if ( empty($_REQUEST['mprm_redirect_to_checkout']) && isset( $_REQUEST['_wp_http_referer'] ) ) {
+
+					wp_safe_redirect( esc_url_raw( wp_unslash( $_REQUEST['_wp_http_referer'] ) ) );
+
 				} elseif (!empty($_REQUEST['mprm_redirect_to_checkout']) && (bool)$_REQUEST['mprm_redirect_to_checkout']) {
+
 					wp_safe_redirect($this->get('checkout')->get_checkout_uri());
+
 				}
 
 			}
@@ -60,7 +68,10 @@ class Controller_cart extends Controller {
 	 */
 	public function action_remove() {
 
-		$this->get('cart')->remove_from_cart( sanitize_text_field( $_REQUEST['cart_item'] ) );
+		if ( isset( $_REQUEST['cart_item'] ) ) {
+			$this->get('cart')->remove_from_cart( sanitize_text_field( wp_unslash( $_REQUEST['cart_item'] ) ) );
+		}
+
 		if (wp_get_referer()) {
 			wp_safe_redirect(wp_get_referer());
 		} else {
@@ -98,13 +109,31 @@ class Controller_cart extends Controller {
 	 * Update cart item quantity
 	 */
 	public function action_update_cart_item_quantity() {
-		if (!empty($_POST['quantity']) && !empty($_POST['menu_item_id'])) {
+
+		if ( !empty($_POST['quantity']) && !empty($_POST['menu_item_id']) ) {
 
 			$menu_item_id = absint($_POST['menu_item_id']);
 			$quantity = absint($_POST['quantity']);
-			$options = json_decode(stripslashes($_POST['options']), true); //TODO
-			$position = sanitize_text_field( $_POST['position'] );
-			$this->get('cart')->set_cart_item_quantity($menu_item_id, absint($_POST['quantity']), $options, $position);
+
+			$options = array();
+
+			if ( isset( $_POST['options'] ) ) {
+				$options = json_decode(
+					mprm_recursive_sanitize_array(
+						wp_unslash(
+							$_POST['options'] // phpcs:ignore
+						)
+					), true
+				);
+			}
+
+			$position = 0;
+
+			if ( isset( $_POST['position'] ) ) {
+				$position = sanitize_text_field( wp_unslash( $_POST['position'] ) );
+			}
+
+			$this->get('cart')->set_cart_item_quantity($menu_item_id, $quantity, $options, $position);
 			$total = $this->get('cart')->get_cart_total();
 
 			$this->date['data'] = array(

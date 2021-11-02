@@ -21,9 +21,9 @@
 
 			<?php if (!$is_free): ?>
 				<?php if ($display_tax_rate && $prices_include_tax) {
-					echo '<span class="mprm_purchase_tax_rate">' . sprintf( __('Includes %1$s&#37; tax', 'mp-restaurant-menu'), floatval( $tax_rate ) * 100 ) . '</span>';
+					echo '<span class="mprm_purchase_tax_rate">' . sprintf( esc_html__('Includes %1$s&#37; tax', 'mp-restaurant-menu'), esc_html( floatval( $tax_rate ) * 100 ) ) . '</span>';
 				} elseif ($display_tax_rate && !$prices_include_tax) {
-					echo '<span class="mprm_purchase_tax_rate">' . sprintf( __('Excluding %1$s&#37; tax', 'mp-restaurant-menu'), floatval( $tax_rate ) * 100 ) . '</span>';
+					echo '<span class="mprm_purchase_tax_rate">' . sprintf( esc_html__('Excluding %1$s&#37; tax', 'mp-restaurant-menu'), esc_html( floatval( $tax_rate ) * 100 ) ) . '</span>';
 				} ?>
 			<?php endif; ?>
 

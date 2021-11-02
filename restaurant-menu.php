@@ -79,6 +79,11 @@ class MP_Restaurant_Menu_Setup_Plugin {
 		/**
 		 * Include WP Parser
 		 */
+		require_once 'functions.php';
+
+		/**
+		 * Include WP Parser
+		 */
 		require_once MP_RM_LIBS_PATH . 'parsers.php';
 		/**
 		 * Include WP Parser

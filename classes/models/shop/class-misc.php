@@ -96,18 +96,36 @@ class Misc extends Model {
 	 * @return mixed
 	 */
 	public function get_ip() {
-		$ip = '127.0.0.1';
+
+		$ip = false;
+
 		if (!empty($_SERVER[ 'HTTP_CLIENT_IP' ])) {
+
 			//check ip from share internet
-			$ip = $_SERVER[ 'HTTP_CLIENT_IP' ];
+			$ip = filter_var( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ), FILTER_VALIDATE_IP );
 		} elseif (!empty($_SERVER[ 'HTTP_X_FORWARDED_FOR' ])) {
+
 			//to check ip is pass from proxy
-			$ip = $_SERVER[ 'HTTP_X_FORWARDED_FOR' ];
+
+			// WPCS: sanitization ok.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$ips = explode( ',', wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
+			if ( is_array( $ips ) ) {
+				$ip = filter_var( $ips[0], FILTER_VALIDATE_IP );
+			}
+
 		} elseif (!empty($_SERVER[ 'REMOTE_ADDR' ])) {
-			$ip = $_SERVER[ 'REMOTE_ADDR' ];
+
+			$ip = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
-		
-		return apply_filters('mprm_get_ip', $ip);
+
+		$ip = false !== $ip ? $ip : '127.0.0.1';
+
+		// Fix potential CSV returned from $_SERVER variables.
+		$ip_array = explode( ',', $ip );
+		$ip_array = array_map( 'trim', $ip_array );
+
+		return apply_filters( 'mprm_get_ip', $ip_array[0] );
 	}
 	
 	/**

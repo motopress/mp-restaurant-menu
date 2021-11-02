@@ -160,10 +160,18 @@ class Menu_category extends Term {
 	 * @param array $term_meta
 	 */
 	public function save_menu_category($term_id, $term_meta = array()) {
+
 		global $wp_version;
+
 		if (!empty($_POST[ 'term_meta' ])) {
-			$term_meta = $_POST[ 'term_meta' ]; //TODO
+
+			$term_meta = mprm_recursive_sanitize_array(
+				wp_unslash(
+					(array) $_POST[ 'term_meta' ] // phpcs:ignore
+				)
+			);
 		}
+
 		if (!empty($term_meta) && is_array($term_meta)) {
 			if ($wp_version < 4.4) {
 				update_option("mprm_taxonomy_$term_id", $term_meta);

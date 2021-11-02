@@ -241,7 +241,13 @@ class IpnListener {
 		if ($post_data === null) {
 			// use raw POST data
 			if (!empty($_POST)) {
-				$this->post_data = $_POST; //TODO
+
+				$this->post_data = mprm_recursive_sanitize_array(
+					wp_unslash(
+						(array) $_POST // phpcs:ignore
+					)
+				);
+
 				$encoded_data .= '&' . file_get_contents('php://input');
 			} else {
 				throw new \Exception("No POST data found.");
@@ -275,7 +281,7 @@ class IpnListener {
 	 */
 	public function requirePostMethod() {
 		// require POST requests
-		if ($_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_METHOD'] != 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_METHOD'] != 'POST') { // phpcs:ignore
 			header('Allow: POST', true, 405);
 			throw new \Exception("Invalid HTTP request method.");
 		}

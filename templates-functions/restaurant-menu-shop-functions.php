@@ -722,8 +722,8 @@ function mprm_is_success_page() {
  */
 function mprm_filter_success_page_content($content) {
 	if (isset($_GET[ 'payment-confirmation' ]) && mprm_is_success_page()) {
-		if (has_filter('mprm_payment_confirm_' . sanitize_text_field( $_GET[ 'payment-confirmation' ] ))) {
-			$content = apply_filters('mprm_payment_confirm_' . sanitize_text_field( $_GET[ 'payment-confirmation' ] ), $content);
+		if (has_filter('mprm_payment_confirm_' . sanitize_text_field( wp_unslash( $_GET[ 'payment-confirmation' ] ) ))) {
+			$content = apply_filters('mprm_payment_confirm_' . sanitize_text_field( wp_unslash( $_GET[ 'payment-confirmation' ] ) ), $content);
 		}
 	}
 	

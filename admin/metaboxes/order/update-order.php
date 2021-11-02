@@ -49,7 +49,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 			<span><?php if ($order->discounts !== 'none') {
 					echo '<code>' . esc_html( $order->discounts ) . '</code>';
 				} else {
-					_e('None', 'mp-restaurant-menu');
+					esc_html_e('None', 'mp-restaurant-menu');
 				} ?></span>
 		</p>
 	</div>
@@ -96,7 +96,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 	<div class="mprm-order-recalc-totals mprm-admin-box-inside" style="display:none">
 		<p>
 			<span class="label"><?php esc_html_e('Recalculate Totals', 'mp-restaurant-menu'); ?>:</span>&nbsp;
-			<a href="" id="mprm-order-recalc-total" class="button button-secondary right"><?php esc_html_e('Recalculate', 'mp-restaurant-menu'); ?></a>
+			<a href="" id="mprm-order-recalc-total" class="button button-primary right"><?php esc_html_e('Recalculate', 'mp-restaurant-menu'); ?></a>
 		</p>
 	</div>
 	<?php do_action('mprm_view_order_details_totals_after', $order_id); ?>

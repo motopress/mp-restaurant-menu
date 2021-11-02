@@ -121,7 +121,7 @@ class Import extends Core {
 		} else if (!file_exists($file['file'])) {
 			echo '<p><strong>' . esc_html__('Sorry, there has been an error.', 'mp-restaurant-menu') . '</strong><br />';
 			printf(
-				__('The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'mp-restaurant-menu'),
+				wp_kses_post( __('The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'mp-restaurant-menu') ),
 				esc_html( $file['file'] )
 			);
 			echo '</p>';
@@ -194,9 +194,9 @@ class Import extends Core {
 			<input type="hidden" name="import_id" value="<?php echo esc_attr( $this->id ); ?>"/>
 			<?php if (!empty($this->authors)) : ?>
 				<h3><?php esc_html_e('Assign Authors', 'mp-restaurant-menu'); ?></h3>
-				<p><?php _e('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu'); ?></p>
+				<p><?php echo wp_kses_post( __('To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'mp-restaurant-menu') ); ?></p>
 				<?php if ($this->allow_create_users()) : ?>
-					<p><?php printf(__('If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'mp-restaurant-menu'), esc_html(get_option('default_role'))); ?></p>
+					<p><?php printf(esc_html__('If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'mp-restaurant-menu'), esc_html(get_option('default_role'))); ?></p>
 				<?php endif; ?>
 				<ol id="authors">
 					<?php foreach ($this->authors as $author) : ?>
@@ -364,7 +364,7 @@ class Import extends Core {
 		foreach ($this->posts as $post) {
 			$post = apply_filters('wp_import_post_data_raw', $post);
 			if (!post_type_exists($post['post_type'])) {
-				printf(__('Failed to import &#8220;%s&#8221;: Invalid post type %s', 'mp-restaurant-menu'),
+				printf(esc_html__('Failed to import &#8220;%s&#8221;: Invalid post type %s', 'mp-restaurant-menu'),
 					esc_html($post['post_title']), esc_html($post['post_type']));
 				echo '<br />';
 				do_action('wp_import_post_exists', $post);
@@ -377,7 +377,11 @@ class Import extends Core {
 			$post_type_object = get_post_type_object($post['post_type']);
 			$post_exists = post_exists($post['post_title'], '', $post['post_date']);
 			if ($post_exists && get_post_type($post_exists) == $post['post_type']) {
-				printf(__('%s &#8220;%s&#8221; already exists.', 'mp-restaurant-menu'), $post_type_object->labels->singular_name, esc_html($post['post_title']));
+				printf(
+					esc_html__('%s &#8220;%s&#8221; already exists.', 'mp-restaurant-menu'),
+					esc_html( $post_type_object->labels->singular_name ),
+					esc_html( $post['post_title'] )
+				);
 				echo '<br />';
 				$comment_post_ID = $post_id = $post_exists;
 			} else {
@@ -429,8 +433,11 @@ class Import extends Core {
 					do_action('wp_import_insert_post', $post_id, $original_post_ID, $postdata, $post);
 				}
 				if (is_wp_error($post_id)) {
-					printf(__('Failed to import %s &#8220;%s&#8221;', 'mp-restaurant-menu'),
-						$post_type_object->labels->singular_name, esc_html($post['post_title']));
+					printf(
+						esc_html__('Failed to import %s &#8220;%s&#8221;', 'mp-restaurant-menu'),
+						esc_html( $post_type_object->labels->singular_name ),
+						esc_html( $post['post_title'] )
+					);
 					if (defined('IMPORT_DEBUG') && IMPORT_DEBUG)
 						echo ': ' . wp_kses_post( $post_id->get_error_message() );
 					echo '<br />';
@@ -768,7 +775,7 @@ class Import extends Core {
 		}
 		wp_defer_term_counting(false);
 		wp_defer_comment_counting(false);
-		echo '<p>' . esc_html__('All done.', 'mp-restaurant-menu') . ' <a href="' . admin_url() . '">' . esc_html__('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
+		echo '<p>' . esc_html__('All done.', 'mp-restaurant-menu') . ' <a href="' . esc_url( admin_url() ) . '">' . esc_html__('Have fun!', 'mp-restaurant-menu') . '</a>' . '</p>';
 		echo '<p>' . esc_html__('Remember to update the passwords and roles of imported users.', 'mp-restaurant-menu') . '</p>';
 		do_action('import_end');
 	}

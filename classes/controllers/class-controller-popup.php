@@ -42,9 +42,12 @@ class Controller_Popup extends Controller {
 	public function action_get_shortcode_by_type() {
 
 		$data = array();
-		
-		$type = sanitize_text_field( $_REQUEST['type'] );
-		
+		$type = '';
+
+		if ( isset( $_REQUEST['type'] ) ) {
+			$type = sanitize_text_field( wp_unslash( $_REQUEST['type'] ) );
+		}
+
 		if ( ! in_array( $type, ['mprm_items', 'mprm_categories'] ) ) {
 			wp_send_json_error();
 		}

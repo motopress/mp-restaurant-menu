@@ -171,7 +171,7 @@ class Payments extends Parent_query {
 		
 		$payment->increase_tax($this->get('cart')->get_cart_fee_tax());
 		$gateway = !empty($payment_data[ 'gateway' ]) ? $payment_data[ 'gateway' ] : '';
-		$gateway = empty($gateway) && isset($_POST[ 'mprm-gateway' ]) ? sanitize_text_field( $_POST[ 'mprm-gateway' ] ) : $gateway;
+		$gateway = empty($gateway) && isset($_POST[ 'mprm-gateway' ]) ? sanitize_text_field( wp_unslash( $_POST[ 'mprm-gateway' ] ) ) : $gateway;
 		$payment->status = !empty($payment_data[ 'status' ]) ? $payment_data[ 'status' ] : 'mprm-pending';
 		$payment->currency = !empty($payment_data[ 'currency' ]) ? $payment_data[ 'currency' ] : $this->get('settings')->get_currency();
 		$payment->user_info = $payment_data[ 'user_info' ];
@@ -357,17 +357,27 @@ class Payments extends Parent_query {
 		$shipping_address = empty($data[ 'mprm-order-delivery' ]) ? '' : trim($data[ 'mprm-order-delivery' ]);
 		
 		$curr_total = $this->get('formatting')->sanitize_amount($payment->total);
-		$new_total = $this->get('formatting')->sanitize_amount($_POST[ 'mprm-order-total' ]);
-		$tax = isset($_POST[ 'mprm-order-tax' ]) ? $this->get('formatting')->sanitize_amount($_POST[ 'mprm-order-tax' ]) : 0;
+		$new_total = $this->get('formatting')->sanitize_amount($_POST[ 'mprm-order-total' ]); // phpcs:ignore
+		$tax = isset($_POST[ 'mprm-order-tax' ]) ? $this->get('formatting')->sanitize_amount($_POST[ 'mprm-order-tax' ]) : 0; // phpcs:ignore
 		$date = date('Y-m-d', strtotime($date)) . ' ' . $hour . ':' . $minute . ':00';
-		
+
 		$curr_customer_id = sanitize_text_field($data[ 'mprm-current-customer' ]);
 		$new_customer_id = sanitize_text_field($data[ 'customer-id' ]);
-		
-		$updated_menu_items = isset($_POST[ 'mprm-order-details' ]) ? $_POST[ 'mprm-order-details' ] : false; //TODO
-		
-		if ($updated_menu_items && !empty($_POST[ 'mprm-order-details' ])) {
-			if (!empty($updated_menu_items) && is_array($updated_menu_items)) {
+
+		$updated_menu_items = false;
+
+		if ( isset( $_POST['mprm-order-details'] ) ) {
+
+			$updated_menu_items = mprm_recursive_sanitize_array(
+				wp_unslash(
+					(array) $_POST['mprm-order-details'] // phpcs:ignore
+				)
+			) ;
+		}
+
+		if ( $updated_menu_items ) {
+			if ( ! empty( $updated_menu_items ) && is_array( $updated_menu_items ) ) {
+
 				foreach ($updated_menu_items as $menu_item) {
 					
 					// If this item doesn't have a log yet, add one for each quantity count

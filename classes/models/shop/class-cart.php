@@ -317,7 +317,7 @@ class Cart extends Model {
 		if (is_user_logged_in()) {
 			$token = get_user_meta($user_id, 'mprm_cart_token', true);
 		} else {
-			$token = isset($_COOKIE['mprm_cart_token']) ? $_COOKIE['mprm_cart_token'] : false;
+			$token = isset($_COOKIE['mprm_cart_token']) ? sanitize_text_field( wp_unslash( $_COOKIE['mprm_cart_token'] ) ) : false;
 		}
 		return apply_filters('mprm_get_cart_token', $token, $user_id);
 	}
@@ -540,8 +540,8 @@ class Cart extends Model {
 	public function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
 		$tax = 0;
 		if (!$this->get('taxes')->menu_item_is_tax_exclusive($menu_item_id)) {
-			$country = !empty($_POST['billing_country']) ? $_POST['billing_country'] : false;
-			$state = !empty($_POST['card_state']) ? sanitize_text_field( $_POST['card_state'] ) : false;
+			$country = !empty($_POST['billing_country']) ? sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : false;
+			$state = !empty($_POST['card_state']) ? sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : false;
 			$tax = $this->get('taxes')->calculate_tax($subtotal, $country, $state);
 		}
 		return apply_filters('mprm_get_cart_item_tax', $tax, $menu_item_id, $options, $subtotal);
@@ -895,7 +895,7 @@ class Cart extends Model {
 			if (!isset($_COOKIE['mprm_saved_cart']))
 				return false;
 			// Check that the saved cart is not the same as the current cart
-			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart'))
+			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart')) // phpcs:ignore
 				return false;
 			return true;
 		}

@@ -31,19 +31,31 @@ class Controller_customer extends Controller {
 
 		if ( current_user_can('manage_restaurant_menu') ) {
 
-			$customer = $this->get('customer')->create(array(
-					'email' => sanitize_email($_REQUEST['email']),
-					'name' => sanitize_text_field($_REQUEST['name']),
-					'phone' => sanitize_text_field($_REQUEST['phone'])
-				)
-			);
+			$customer = false;
+
+			if (
+				isset( $_REQUEST['email'] ) &&
+				isset( $_REQUEST['name'] ) &&
+				isset( $_REQUEST['phone'] )
+			) {
+
+				$customer = $this->get('customer')->create(array(
+						'email' => sanitize_email( wp_unslash( $_REQUEST['email'] ) ),
+						'name' => sanitize_text_field( wp_unslash( $_REQUEST['name'] ) ),
+						'phone' => sanitize_text_field( wp_unslash( $_REQUEST['phone'] ) )
+					)
+				);
+			}
+
 			$this->date['success'] = $customer;
+
 			if ($customer) {
-				$customer_object = $this->get('customer')->get_customer(array('field' => 'email', 'value' => sanitize_email( $_REQUEST['email'] )));
+				$customer_object = $this->get('customer')->get_customer(array('field' => 'email', 'value' => sanitize_email( wp_unslash( $_REQUEST['email'] ) )));
 				$this->date['data']['html'] = mprm_customers_dropdown(array('selected' => $customer_object->id));
 				$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
 				$this->date['data']['customer_id'] = $customer_object->id;
 			}
+
 			$this->send_json($this->date);
 		}
 	}
@@ -64,11 +76,12 @@ class Controller_customer extends Controller {
 	 */
 	public function action_login_ajax() {
 
-		if (wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'mprm-login-nonce')) {
+		if ( isset( $_POST['login'] ) && isset( $_POST['pass'] ) && isset( $_POST['nonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'mprm-login-nonce') ) {
 
 			$credentials = array(
-				'user_login' => sanitize_text_field( $_POST['login'] ),
-				'user_password' => sanitize_text_field( $_POST['pass'] ),
+				'user_login' => sanitize_text_field( wp_unslash( $_POST['login'] ) ),
+				'user_password' => sanitize_text_field( wp_unslash( $_POST['pass'] ) ),
 				'rememember' => true
 			);
 
@@ -93,7 +106,11 @@ class Controller_customer extends Controller {
 			} else {
 				$this->date['success'] = true;
 				$this->date['data']['redirect'] = true;
-				$this->date['data']['redirect_url'] = esc_url_raw($_POST['redirect']);
+
+				if ( isset( $_POST['redirect'] ) ) {
+					$this->date['data']['redirect_url'] = esc_url_raw( wp_unslash( $_POST['redirect'] ) );
+				}
+
 				$this->send_json($this->date);
 			}
 		} else {
@@ -106,13 +123,22 @@ class Controller_customer extends Controller {
 	 * Get customer information
 	 */
 	public function action_get_customer_information() {
-		$customer_object = $this->get('customer')->get_customer(array('field' => 'id', 'value' => sanitize_text_field( $_REQUEST['customer_id'] )));
+
+		$customer_object = NULL;
+
+		if ( isset( $_REQUEST['customer_id'] ) ) {
+			$customer_object = $this->get('customer')->get_customer(
+				array('field' => 'id', 'value' => sanitize_text_field( wp_unslash( $_REQUEST['customer_id'] ) ))
+			);
+		}
+
 		if (!empty($customer_object)) {
 			$this->date['success'] = true;
 			$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
 		} else {
 			$this->date['success'] = false;
 		}
+
 		$this->send_json($this->date);
 	}
 
@@ -121,8 +147,8 @@ class Controller_customer extends Controller {
 	 */
 	public function action_content() {
 		if (!empty($_REQUEST['view']) && !empty($_REQUEST['id'])) {
-			$view = sanitize_text_field($_REQUEST['view']);
-			View::get_instance()->render_html('../admin/customers/' . $view, array('id' => sanitize_text_field($_REQUEST['id'])));
+			$view = sanitize_text_field( wp_unslash( $_REQUEST['view'] ) );
+			View::get_instance()->render_html('../admin/customers/' . $view, array('id' => sanitize_text_field( wp_unslash( $_REQUEST['id'] ) )));
 		} else {
 			View::get_instance()->render_html('../admin/customers/index');
 		}
@@ -133,17 +159,17 @@ class Controller_customer extends Controller {
 	 */
 	public function action_update_customer() {
 
-		if ( current_user_can('manage_restaurant_menu') ) {
+		if ( current_user_can('manage_restaurant_menu') && isset( $_REQUEST['id'] ) ) {
 
 			$result = false;
 
-			$id = (int) sanitize_text_field( $_REQUEST['id'] );
+			$id = (int) sanitize_text_field( wp_unslash( $_REQUEST['id'] ) );
 
 			$data = array(
-				'email' => sanitize_email( $_REQUEST['mprm-email'] ),
-				'telephone' => sanitize_text_field( $_REQUEST['mprm-telephone'] ),
-				'name' => sanitize_text_field( $_REQUEST['mprm-name'] ),
-				'user_id' => (int) sanitize_text_field( $_REQUEST['mprm-user'] )
+				'email' => isset( $_REQUEST['mprm-email'] ) ? sanitize_email( wp_unslash( $_REQUEST['mprm-email'] ) ) : '',
+				'telephone' => isset( $_REQUEST['mprm-telephone'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['mprm-telephone'] ) ) : '',
+				'name' => isset( $_REQUEST['mprm-name'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['mprm-name'] ) ) : '',
+				'user_id' => isset( $_REQUEST['mprm-user'] ) ? (int) sanitize_text_field( wp_unslash( $_REQUEST['mprm-user'] ) ) : false
 			);
 
 			$result = $this->get('customer')->update($data, $id);
@@ -171,7 +197,7 @@ class Controller_customer extends Controller {
 			wp_die(esc_html__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));
 		}
 
-		$customer_id = (int) sanitize_text_field( $_REQUEST['customer_id'] );
+		$customer_id = isset( $_REQUEST['customer_id'] ) ? (int) sanitize_text_field( wp_unslash( $_REQUEST['customer_id'] ) ) : 0;
 
 		$confirm = !empty( $_REQUEST['mprm-customer-delete-confirm'] ) ? true : false;
 		$remove_data = !empty( $_REQUEST['mprm-customer-delete-records'] ) ? true : false;

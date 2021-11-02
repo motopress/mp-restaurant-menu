@@ -323,7 +323,7 @@ class Session extends Core {
 
 		if( ! empty( $_SERVER[ 'REQUEST_URI' ] ) ) {
 
-			$uri       = ltrim( $_SERVER[ 'REQUEST_URI' ], '/' );
+			$uri       = ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ); // phpcs:ignore
 			$uri       = untrailingslashit( $uri );
 
 			if( false !== strpos( $uri, 'feed=' ) ) {

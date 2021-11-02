@@ -4,7 +4,7 @@ Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 2.4.2
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

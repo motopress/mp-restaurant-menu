@@ -1532,7 +1532,7 @@ class Media extends Core {
 			case"mp_menu_item":
 				wp_enqueue_style(
 					'fancybox',
-					plugins_url( 'vendors/fancybox/jquery.fancybox.min.css', MP_RM_PLUGIN_FILE ),
+					mprm_get_plugin_url( 'vendors/fancybox/jquery.fancybox.min.css' ),
 					[],
 					'3.5.7'
 				);
@@ -1562,7 +1562,7 @@ class Media extends Core {
 
 				wp_enqueue_script(
 					'fancybox',
-					plugins_url( 'vendors/fancybox/jquery.fancybox.min.js', MP_RM_PLUGIN_FILE ),
+					mprm_get_plugin_url( 'vendors/fancybox/jquery.fancybox.min.js' ),
 					[ 'jquery' ],
 					'3.5.7',
 					true

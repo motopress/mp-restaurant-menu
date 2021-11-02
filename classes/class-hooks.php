@@ -775,8 +775,12 @@ class Hooks extends Core {
 		if (!get_query_var('mprm_order_search')) {
 			return $query;
 		}
-		
-		return sanitize_text_field($_GET[ 's' ]);
+
+		if ( isset( $_GET[ 's' ] ) ) {
+			return sanitize_text_field( wp_unslash( $_GET[ 's' ] ) );
+		}
+
+		return $query;
 	}
 	
 	/**
@@ -790,8 +794,8 @@ class Hooks extends Core {
 			<script type="text/javascript">
 				jQuery(function() {
 					<?php foreach($order_statuses as $key => $value): ?>
-					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
-					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php _e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php esc_html_e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action"]');
+					jQuery('<option>').val('<?php echo 'set-order-' . esc_attr( $key ) ?>').text('<?php esc_html_e("Set to {$value}", 'mp-restaurant-menu')?>').appendTo('select[name="action2"]');
 					<?php endforeach;?>
 				});
 			</script>
@@ -845,8 +849,11 @@ class Hooks extends Core {
 		}
 		
 		$changed = 0;
-		
-		$post_ids = array_map('absint', (array)$_REQUEST[ 'post' ]);
+		$post_ids = array();
+
+		if ( isset( $_REQUEST[ 'post' ] ) ) {
+			$post_ids = array_map( 'absint', (array)$_REQUEST[ 'post' ] );
+		}
 		
 		foreach ($post_ids as $post_id) {
 			$order = new Order($post_id);
@@ -857,7 +864,7 @@ class Hooks extends Core {
 		$sendback = add_query_arg(array('post_type' => 'mprm_order', 'changed' => $changed, 'ids' => join(',', $post_ids)), '');
 		
 		if (isset($_GET[ 'post_status' ])) {
-			$sendback = add_query_arg('post_status', sanitize_text_field($_GET[ 'post_status' ]), $sendback);
+			$sendback = add_query_arg('post_status', sanitize_text_field( wp_unslash( $_GET[ 'post_status' ] ) ), $sendback);
 		}
 		
 		wp_redirect(esc_url_raw($sendback));
@@ -946,7 +953,7 @@ class Hooks extends Core {
 		if (isset($_REQUEST[ 'page' ])) {
 			if ($pagenow == 'edit.php' && ($_REQUEST[ 'page' ] == 'mprm-customers') ) {
 				if (!empty($_REQUEST[ 'message' ])) {
-					View::get_instance()->render_html('../admin/notices/' . wp_kses_post( $_REQUEST[ 'message' ] ));
+					View::get_instance()->render_html('../admin/notices/' . wp_kses_post( wp_unslash( $_REQUEST[ 'message' ] ) ));
 				}
 			}
 		}
