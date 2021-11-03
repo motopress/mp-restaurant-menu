@@ -1183,180 +1183,18 @@ function get_buy_style_view_args() {
 	}
 }
 
-/*
-function mprm_get_default_open_hours() {
-	$default_settings = [
-		'mon' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'tue' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'wed' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'thu' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'fri' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'sat' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-		'sun' => [
-			'open' => true,
-			'from' => '00:00',
-			'until' => '24:00'
-		],
-	];
-	
-	return apply_filters('mprm_get_default_open_hours', $default_settings);
-}
-*/
-
-/**
- * @return bool
- */
-/*
-function mprm_store_has_open_hours() {
-
-	$has_open_hours = models\Settings::get_instance()->get_option( 'has_open_hours', false );
-	return (bool)apply_filters('mprm_store_has_open_hours', $has_open_hours);
-}
-*/
-
-/**
- * @return bool|string
- */
-/*
-function mprm_store_get_open_time() {
-
-	$open_hour = false;
-
-	if ( mprm_store_has_open_hours() == true ) {
-
-		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
-		$day_format = esc_html_x( 'D', 'timezone date format' );
-		$day_now = strtolower( date_i18n( $day_format ) );
-		if ( isset( $open_hours[$day_now]['open'] ) && $open_hours[$day_now]['open'] == true ) {
-			$open_hour = $open_hours[$day_now]['from'];
-		}
-	}
-
-	return apply_filters('mprm_store_get_open_time', $open_hour);
-}
-*/
-
-/**
- * @return bool|string
- */
-/*
-function mprm_store_get_close_time() {
-
-	$close_hour = false;
-
-	if ( mprm_store_has_open_hours() == true ) {
-
-		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
-		$day_format = esc_html_x( 'D', 'timezone date format' );
-		$day_now = strtolower( date_i18n( $day_format ) );
-		if ( isset( $open_hours[$day_now]['open'] ) && $open_hours[$day_now]['open'] == true ) {
-			$close_hour = $open_hours[$day_now]['until'];
-		}
-	}
-
-	return apply_filters('mprm_store_get_close_time', $close_hour);
-}
-*/
-
-/**
- * @return bool
- */
-/*
-function mprm_store_is_open() {
-
-	$store_is_open = true;
-
-	if ( mprm_store_has_open_hours() == true ) {
-
-		$open_hours = models\Settings::get_instance()->get_option( 'open_hours', [] );
-		
-		$time_format = esc_html_x( 'H:i', 'timezone date format' );
-		$hours_now = date_i18n( $time_format );
-
-		$day_format = esc_html_x( 'D', 'timezone date format' );
-		$day_now = strtolower( date_i18n( $day_format ) );
-
-		$store_is_open = false;
-
-		if ( isset( $open_hours[$day_now]['open'] ) && $open_hours[$day_now]['open'] == true ) {
-			if (
-				$hours_now >= $open_hours[$day_now]['from'] &&
-				$hours_now <= $open_hours[$day_now]['until']
-			) {
-				$store_is_open = true;
-			}
-		}
-	}
-
-	return (bool)apply_filters('mprm_store_is_open', $store_is_open);
-}
-*/
-
 /**
  * @return bool
  */
 function mprm_ecommerce_enabled() {
+
 	$enable_ecommerce = mprm_get_option('enable_ecommerce');
+
 	return (bool)apply_filters('mprm_ecommerce_enabled', $enable_ecommerce);
 }
 
-/**
- * @return string
- */
-/*
-function mprm_get_open_hours_offline_message() {
-
-	$message = mprm_get_option( 'open_hours_offline_message',
-		esc_html__('We are offline and will start taking orders soon.', 'mp-restaurant-menu') );
-
-	$allowed_html = array(
-		'a' => array(
-			'href' => array(),
-			'target' => array()
-		),
-		'br' => array(),
-		'em' => array(),
-		'strong' => array(),
-	);
-	$message = wp_kses( $message, $allowed_html );
-
-	return $message;
-}
-*/
-
 function mprm_get_add_to_cart_notice() {
 
-	/*$prevent_offline_checkout = boolval( mprm_get_option('prevent_offline_checkout', false) );
-
-	if ( mprm_store_is_open() == false && $prevent_offline_checkout == true ) {
-		mprm_get_view()->get_template('common/notice-offline', array('menu_item_id' => get_the_ID()));
-	} else {
-		mprm_get_view()->get_template('common/notice', array('menu_item_id' => get_the_ID()));
-	}*/
-	
 	mprm_get_view()->get_template('common/notice', array('menu_item_id' => get_the_ID()));
+
 }

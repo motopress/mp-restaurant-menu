@@ -20,13 +20,13 @@ if ($args['disabled']) {
 $data = '';
 if (!empty($args['data'])) {
 	foreach ($args['data'] as $key => $value) {
-		$data .= 'data-' . sanitize_key($key) . '="' . esc_attr($value) . '" ';
+		$data .= 'data-' . esc_attr($key) . '="' . esc_attr($value) . '" ';
 	}
 }
 ?>
-<span id="mprm-<?php echo sanitize_key($args['name']) ?>-wrap">
+<span id="mprm-<?php echo esc_attr($args['name']) ?>-wrap">
 
-	<label class="mprm-label" style="<?php echo empty($args['label']) ? 'display:none' : '' ?>" for="<?php echo sanitize_key($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
+	<label class="mprm-label" style="<?php echo empty($args['label']) ? 'display:none' : '' ?>" for="<?php echo esc_attr($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
 
 	<?php
 	if (!empty($args['desc'])) { ?>
