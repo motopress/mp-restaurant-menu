@@ -565,18 +565,17 @@ class Settings extends Model {
 
 		global $mprm_options;
 
-		if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . $args[ 'id' ] . ']"';
-		}
+		?>
+		<input type="checkbox" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
+				echo '';
+			} else { ?>
+				name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"
+			<?php }
+		?> value="1" <?php if ( isset( $mprm_options[ $args[ 'id' ] ] ) ) { checked( $mprm_options[ $args[ 'id' ] ], 1 ); } ?>/>
 
-		$checked = isset($mprm_options[ $args[ 'id' ] ]) ? checked(1, $mprm_options[ $args[ 'id' ] ], false) : '';
-
-		$html = '<input type="checkbox" id="mprm_settings[' . $args[ 'id' ] . ']"' . $name . ' value="1" ' . $checked . '/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post( $args[ 'desc' ] ) . '</label>';
-		
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -588,22 +587,22 @@ class Settings extends Model {
 
 		global $mprm_options;
 		
-		if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . trim( $args[ 'section' ] ) . '][' . $args[ 'id' ] . ']"';
-		}
-
-		if (!isset($mprm_options[ $args[ 'section' ] ])) {
-			$checked = checked(1, $args[ 'std' ], false);
-		} else {
-			$checked = isset($mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ]) ? checked(1, $mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ], false) : '';
-		}
-
-		$html = '<input type="checkbox" id="mprm_settings[' . trim( $args[ 'section' ] ) . '][' . $args[ 'id' ] . ']"' . $name . ' value="1" ' . $checked . '/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post( $args[ 'desc' ] ) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<input type="checkbox" id="mprm_settings[<?php echo esc_attr( trim( $args[ 'section' ] ) ); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
+				echo '';
+			} else { ?>
+			name="mprm_settings[<?php echo esc_attr( trim( $args[ 'section' ] ) ); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]
+			<?php }
+		?> value="1" <?php
+			if (!isset($mprm_options[ $args[ 'section' ] ])) {
+				checked( $args[ 'std' ], 1 );
+			} elseif ( isset($mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ]) ) {
+				checked( $mprm_options[ $args[ 'section' ] ][ $args[ 'id' ] ], 1 );
+			}
+		?>/>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -622,16 +621,17 @@ class Settings extends Model {
 				} else {
 					$enabled = NULL;
 				}
-
-				echo '<input name="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" id="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" type="checkbox" value="' . esc_attr( $option ) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
-				echo '<label for="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']">' . wp_kses_post( $option ) . '</label><br/>';
-
+				?>
+				<input name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" type="checkbox" value="<?php echo esc_attr( $option ); ?>" <?php checked( $option, $enabled ); ?>/>&nbsp;
+				<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]"><?php echo wp_kses_post( $option ); ?></label><br/>
+				<?php
 			endforeach;
-
-			echo '<p class="description">' . wp_kses_post( $args[ 'desc' ] ) . '</p>';
+			?>
+			<p class="description"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></p>
+			<?php
 		}
 	}
-	
+
 	/**
 	 * @param $args
 	 */
@@ -648,14 +648,14 @@ class Settings extends Model {
 				} else {
 					$enabled = NULL;
 				}
-
-				echo '<label for="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">';
-				echo '<input name="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" id="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" type="checkbox" value="' . esc_attr($option) . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
-				
+				?>
+				<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" style="margin-right:10px;line-height:16px;height:16px;display:inline-block;">
+				<input name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" type="checkbox" value="<?php echo esc_attr($option); ?>" <?php checked($option, $enabled); ?>/>&nbsp;
+				<?php
 				if ($this->string_is_image_url($key)) {
-
-					echo '<img class="payment-icon" src="' . esc_url( $key ) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
-
+				?>
+					<img class="payment-icon" src="<?php echo esc_url( $key ); ?>" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>
+				<?php
 				} else {
 
 					$card = strtolower(str_replace(' ', '', $option));
@@ -676,14 +676,19 @@ class Settings extends Model {
 
 						$image = str_replace($content_dir, content_url(), $image);
 					}
-
-					echo '<img class="payment-icon" src="' . esc_url( $image ) . '" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>';
+					?>
+					<img class="payment-icon" src="<?php echo esc_url( $image ); ?>" style="width:32px;height:24px;position:relative;top:6px;margin-right:5px;"/>
+					<?php
 				}
 
-				echo $option . '</label>';
+				echo esc_html( $option );
+				?>
+				</label>
+				<?php
 			}
-
-			echo '<p class="description" style="margin-top:16px;">' . wp_kses_post($args[ 'desc' ]) . '</p>';
+			?>
+			<p class="description" style="margin-top:16px;"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></p>
+			<?php
 		}
 	}
 	
@@ -738,13 +743,14 @@ class Settings extends Model {
 				$checked = true;
 			elseif (isset($args[ 'std' ]) && $args[ 'std' ] == $key && !isset($mprm_options[ $args[ 'id' ] ]))
 				$checked = true;
-
-			echo '<input name="mprm_settings[' . $args[ 'id' ] . ']" id="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked(true, $checked, false) . '/>&nbsp;';
-			echo '<label for="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']">' . $option . '</label><br/>';
-
+			?>
+			<input name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" type="radio" value="<?php echo esc_attr( $key ); ?>" <?php checked( $checked, true ); ?>/>&nbsp;
+			<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]"><?php echo wp_kses_post( $option ); ?></label><br/>
+			<?php
 		endforeach;
-
-		echo '<p class="description">' . wp_kses_post($args[ 'desc' ]) . '</p>';
+		?>
+		<p class="description"><?php echo wp_kses_post( $args[ 'desc' ] ) ?></p>
+		<?php
 	}
 
 	/**
@@ -761,34 +767,35 @@ class Settings extends Model {
 			} else {
 				$enabled = null;
 			}
-			
-			echo '<input name="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']"" id="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']" type="checkbox" value="1" ' . checked('1', $enabled, false) . '/>&nbsp;';
-			echo '<label for="mprm_settings[' . $args[ 'id' ] . '][' . $key . ']">' . esc_html( $option[ 'admin_label' ] ) . '</label><br/>';
-
+			?>
+			<input name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]" type="checkbox" value="1" <?php checked( $enabled, '1' ) ?>/>&nbsp;
+			<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>][<?php echo esc_attr( $key ); ?>]"><?php echo esc_html( $option[ 'admin_label' ] ); ?></label><br/>
+		<?php
 		endforeach;
 	}
-	
+
 	/**
 	 * @param $args
 	 */
 	public function gateway_select_callback($args) {
 
 		global $mprm_options;
-
-		echo '<select name="mprm_settings[' . $args[ 'id' ] . ']"" id="mprm_settings[' . $args[ 'id' ] . ']">';
-
+		?>
+		<select name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]">
+		<?php
 		foreach ($args[ 'options' ] as $key => $option) :
-
-			$selected = isset($mprm_options[ $args[ 'id' ] ]) ? selected( $key, $mprm_options[ $args[ 'id' ] ], false ) : '';
-
-			echo '<option value="' . $key . '"' . $selected . '>' . esc_html( $option[ 'admin_label' ] ) . '</option>';
-
+			?>
+			<option value="<?php echo esc_attr( $key ); ?>"<?php
+				if ( isset($mprm_options[ $args[ 'id' ] ]) ) { selected( $key, $mprm_options[ $args[ 'id' ] ] ); }
+			?>><?php echo esc_html( $option[ 'admin_label' ] ); ?></option>
+		<?php
 		endforeach;
-
-		echo '</select>';
-		echo '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
+		?>
+		</select>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
-	
+
 	/**
 	 * Generate text settings  field
 	 *
@@ -804,23 +811,25 @@ class Settings extends Model {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
 
-		if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
-			$args[ 'readonly' ] = true;
-			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . $args[ 'id' ] . ']"';
-		}
-
 		$placeholder = !isset($args[ 'placeholder' ]) ? '' : $args[ 'placeholder' ];
-
-		$readonly = $args[ 'readonly' ] === true ? ' readonly="readonly"' : '';
 		$size = (isset($args[ 'size' ]) && !is_null($args[ 'size' ])) ? $args[ 'size' ] : 'regular';
 
-		$html = '<input type="text" class="' . $size . '-text" id="mprm_settings[' . $args[ 'id' ] . ']" ' . $name . ' placeholder="' . esc_attr( stripslashes( $placeholder ) ) . '"' . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post( $args[ 'desc' ] ) . '</label>';
+		?>
+		<input type="text" class="<?php echo esc_attr( $size ); ?>-text" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
 
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
+				$args[ 'readonly' ] = true;
+				$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
+				echo '';
+			} else { ?>
+				name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"
+			<?php }
+
+		?> placeholder="<?php echo esc_attr( stripslashes( $placeholder ) ); ?>" value="<?php echo esc_attr( stripslashes( $value ) ); ?>" <?php
+			if ( $args[ 'readonly' ] === true ) {?> readonly="readonly" <?php }
+		?>/>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 
 	/**
@@ -836,26 +845,26 @@ class Settings extends Model {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
 		
-		if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
-			$args[ 'readonly' ] = true;
-			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . esc_attr($args[ 'section' ]) . '][' . $args[ 'id' ] . ']"';
-		}
-
 		$id = 'mprm_settings[' . $args[ 'section' ] . '][' . $args[ 'id' ] . ']';
 		$placeholder = !isset($args[ 'placeholder' ]) ? '' : $args[ 'placeholder' ];
-		
-		$readonly = $args[ 'readonly' ] === true ? ' readonly="readonly"' : '';
 		$size = (isset($args[ 'size' ]) && !is_null($args[ 'size' ])) ? $args[ 'size' ] : 'regular';
 
-		$html = '<input type="text" class="' . $size . '-text" id="' . $id . '" ' . $name . ' placeholder="' . esc_attr(stripslashes($placeholder)) . '"' . ' value="' . esc_attr(stripslashes($value)) . '"' . $readonly . '/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<input type="text" class="<?php echo esc_attr( $size ); ?>-text" id="<?php echo esc_attr( $id ); ?>" <?php
+			if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
+				$args[ 'readonly' ] = true;
+				$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
+				echo '';
+			} else { ?>
+				name="mprm_settings[<?php echo esc_attr($args[ 'section' ]); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]"
+			<?php }
+		?> placeholder="<?php echo esc_attr( stripslashes($placeholder) ) ?>" value="<?php echo esc_attr( stripslashes($value) ); ?>" <?php
+			if ( $args[ 'readonly' ] === true ) {?> readonly="readonly" <?php }
+		?>/>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
-	
+
 	/**
 	 * @param $args
 	 */
@@ -869,25 +878,25 @@ class Settings extends Model {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
 
-		if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
-			$args[ 'readonly' ] = true;
-			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
-			$name = '';
-		} else {
-			$name = 'name="mprm_settings[' . $args[ 'id' ] . ']"';
-		}
-
 		$max = isset($args[ 'max' ]) ? $args[ 'max' ] : 999999;
 		$min = isset($args[ 'min' ]) ? $args[ 'min' ] : 0;
 		$step = isset($args[ 'step' ]) ? $args[ 'step' ] : 1;
 		$size = (isset($args[ 'size' ]) && !is_null($args[ 'size' ])) ? $args[ 'size' ] : 'regular';
 
-		$html = '<input type="number" step="' . $step . '" max="' . $max . '" min="' . $min . '" class="' . $size . '-text" id="mprm_settings[' . $args[ 'id' ] . ']" ' . $name . ' value="' . esc_attr(stripslashes($value)) . '"/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<input type="number" step="<?php echo esc_attr( $step ); ?>" max="<?php echo esc_attr( $max ); ?>" min="<?php echo esc_attr( $min ); ?>" class="<?php echo esc_attr( $size ); ?>-text" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if (isset($args[ 'faux' ]) && true === $args[ 'faux' ]) {
+				$args[ 'readonly' ] = true;
+				$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
+				echo '';
+			} else { ?>
+				name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"
+			<?php }
+		?> value="<?php echo esc_attr( stripslashes( $value ) ); ?>"/>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
-	
+
 	/**
 	 * @param $args
 	 */
@@ -900,11 +909,10 @@ class Settings extends Model {
 		} else {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
-
-		$html = '<textarea class="large-text" cols="50" rows="5" id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']">' . esc_textarea(stripslashes($value)) . '</textarea>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<textarea class="large-text" cols="50" rows="5" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo  esc_textarea( stripslashes( $value ) ); ?></textarea>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -921,11 +929,10 @@ class Settings extends Model {
 		}
 
 		$size = (isset($args[ 'size' ]) && !is_null($args[ 'size' ])) ? $args[ 'size' ] : 'regular';
-
-		$html = '<input type="password" class="' . $size . '-text" id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']" value="' . esc_attr($value) . '"/>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<input type="password" class="<?php echo esc_attr( $size ); ?>-text" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" value="<?php echo esc_attr($value); ?>"/>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -950,42 +957,42 @@ class Settings extends Model {
 		} else {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
-		
-		if (isset($args[ 'multiple' ])) {
-			$multiple = 'multiple size="' . $args[ 'multiple' ] . '"';
-		} else {
-			$multiple = '';
-		}
-		
+
 		if (isset($args[ 'placeholder' ])) {
 			$placeholder = $args[ 'placeholder' ];
 		} else {
 			$placeholder = '';
 		}
-		if (isset($args[ 'readonly' ]) && ($args[ 'readonly' ] == true)) {
-			$disabled = 'disabled="disabled"';
-		} else {
-			$disabled = '';
-		}
-		
-		if (isset($args[ 'chosen' ]) && $args[ 'chosen' ]) {
-			$chosen = 'class="mprm-chosen mprm-select-chosen"';
-		} else {
-			$chosen = '';
-		}
-		$html = '<select id="mprm_settings[' . $args[ 'id' ] . ']" ' . $disabled . ' name="mprm_settings[' . $args[ 'id' ] . ']" ' . $chosen . 'data-placeholder="' . esc_attr( $placeholder ) . '"' . $multiple . ' />';
 
+		?>
+		<select id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if ( isset($args[ 'readonly' ]) && ($args[ 'readonly' ] == true) ) { ?>
+				disabled="disabled"
+			<?php } else {
+				echo '';
+			}
+		?> name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if ( isset($args[ 'chosen' ]) && $args[ 'chosen' ] ) { ?>
+				class="mprm-chosen mprm-select-chosen"
+			<?php } else {
+				echo '';
+			}
+		?> data-placeholder="<?php echo esc_attr( $placeholder ); ?>" <?php
+			if ( isset($args[ 'multiple' ]) ) { ?>
+				multiple size="<?php echo esc_attr( $args[ 'multiple' ] ); ?>"
+			<?php } else {
+				echo '';
+			}
+		?> />
+		<?php
 		foreach ($args[ 'options' ] as $option => $name) {
-
-			$selected = selected($option, $value, false);
-
-			$html .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( $name ) . '</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
+			<option value="<?php echo esc_attr( $option ); ?>" <?php selected($option, $value); ?>><?php echo esc_html( $name ); ?></option>
+		<?php }
+		?>
+		</select>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -1002,41 +1009,42 @@ class Settings extends Model {
 		} else {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
-		
-		if (isset($args[ 'multiple' ])) {
-			$multiple = 'multiple size="' . $args[ 'multiple' ] . '"';
-		} else {
-			$multiple = '';
-		}
-		
+
 		if (isset($args[ 'placeholder' ])) {
 			$placeholder = $args[ 'placeholder' ];
 		} else {
 			$placeholder = '';
 		}
-		if (isset($args[ 'readonly' ]) && ($args[ 'readonly' ] == true)) {
-			$disabled = 'disabled="disabled"';
-		} else {
-			$disabled = '';
-		}
-		
-		if (isset($args[ 'chosen' ]) && $args[ 'chosen' ]) {
-			$chosen = 'class="mprm-chosen mprm-select-chosen"';
-		} else {
-			$chosen = '';
-		}
 
-		$html = '<select id="mprm_settings[' . $args[ 'section' ] . '][' . $args[ 'id' ] . ']" ' . $disabled . ' name="mprm_settings[' . esc_attr($args[ 'section' ]) . '][' . $args[ 'id' ] . ']" ' . $chosen . 'data-placeholder="' . esc_attr( $placeholder ) . '"' . $multiple . ' />';
-		
+		?>
+		<select id="mprm_settings[<?php echo esc_attr( $args[ 'section' ] ); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if (isset($args[ 'readonly' ]) && ($args[ 'readonly' ] == true)) { ?>
+				disabled="disabled"
+			<?php } else {
+				echo '';
+			}
+		?> name="mprm_settings[<?php echo esc_attr( $args[ 'section' ] ); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if ( isset($args[ 'chosen' ]) && $args[ 'chosen' ] ) { ?>
+				class="mprm-chosen mprm-select-chosen"
+			<?php } else {
+				echo '';
+			}
+		?> data-placeholder="<?php echo esc_attr( $placeholder ); ?>" <?php
+			if ( isset($args[ 'multiple' ]) ) { ?>
+				multiple size="<?php echo esc_attr( $args[ 'multiple' ] ); ?>"
+			<?php } else {
+				echo '';
+			}
+		?> />
+		<?php
 		foreach ($args[ 'options' ] as $option => $name) {
-			$selected = selected($option, $value, false);
-			$html .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( $name ) . '</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . $args[ 'section' ] . '][' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
+			<option value="<?php echo esc_attr( $option ); ?>" <?php selected( $option, $value ); ?>><?php echo esc_html( $name ); ?></option>
+		<?php }
+		?>
+		</select>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'section' ] ); ?>][<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ) ?></label>
+		<?php
 	}
 	
 	/**
@@ -1051,20 +1059,18 @@ class Settings extends Model {
 		} else {
 			$value = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
 		}
-
-		$html = '<select id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']"/>';
-
+		?>
+		<select id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"/>
+		<?php
 		foreach ($args[ 'options' ] as $option => $color) {
-
-			$selected = selected($option, $value, false);
-
-			$html .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( $color[ 'label' ] ) . '</option>';
+			?>
+			<option value="<?php echo esc_attr( $option ); ?>" <?php selected( $option, $value ); ?> ><?php echo esc_html( $color[ 'label' ] ); ?></option>
+			<?php
 		}
-
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		</select>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -1085,29 +1091,25 @@ class Settings extends Model {
 
 		$rows = isset($args[ 'size' ]) ? $args[ 'size' ] : 20;
 
-		if ($wp_version >= 3.3 && function_exists('wp_editor')) {
-
-			ob_start();
+		if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
 
 			wp_editor(
-				stripslashes($value),
+				stripslashes( $value ),
 				'settings_' . $args[ 'id' ],
 				array(
 					'textarea_name' => 'mprm_settings[' . $args[ 'id' ] . ']',
-					'textarea_rows' => absint($rows)
+					'textarea_rows' => absint( $rows )
 				)
 			);
 
-			$html = ob_get_clean();
-
 		} else {
-
-			$html = '<textarea class="large-text" rows="10" id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
+			?>
+			<textarea class="large-text" rows="10" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo esc_textarea( stripslashes( $value ) ); ?></textarea>
+			<?php
 		}
-
-		$html .= '<br/><label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<br/><label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -1124,12 +1126,11 @@ class Settings extends Model {
 		}
 
 		$size = (isset($args[ 'size' ]) && !is_null($args[ 'size' ])) ? $args[ 'size' ] : 'regular';
-
-		$html = '<input type="text" class="' . $size . '-text" id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']" value="' . esc_attr( stripslashes($value) ) . '"/>';
-		$html .= '<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="' . esc_html__( 'Upload File', 'mp-restaurant-menu' ) . '"/></span>';
-		$html .= '<br><label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<input type="text" class="<?php echo esc_attr( $size ); ?>-text" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" value="<?php echo esc_attr( stripslashes($value) ); ?>"/>
+		<span>&nbsp;<input type="button" class="mprm_settings_upload_button button-secondary" value="<?php echo esc_html__( 'Upload File', 'mp-restaurant-menu' ); ?>"/></span>
+		<br><label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -1146,11 +1147,11 @@ class Settings extends Model {
 		}
 
 		$default = isset($args[ 'std' ]) ? $args[ 'std' ] : '';
+		?>
+		<input type="text" class="mprm-color-picker" id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" value="<?php echo esc_attr ($value ); ?>" data-default-color="<?php echo esc_attr( $default ); ?>" />
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 
-		$html = '<input type="text" class="mprm-color-picker" id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']" value="' . esc_attr ($value ) . '" data-default-color="' . esc_attr( $default ) . '" />';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	
 	/**
@@ -1167,22 +1168,28 @@ class Settings extends Model {
 		}
 
 		$states = $this->get_shop_states();
-		$chosen = ($args[ 'chosen' ] ? ' mprm-chosen' : '');
-		$class = empty($states) ? ' class="mprm-no-states' . $chosen . '"' : 'class="' . $chosen . '"';
+		$chosen = $args[ 'chosen' ] ? ' mprm-chosen' : '';
 
-		$html = '<select id="mprm_settings[' . $args[ 'id' ] . ']" name="mprm_settings[' . $args[ 'id' ] . ']"' . $class . 'data-placeholder="' . esc_attr($placeholder) . '"/>';
-
+		?>
+		<select id="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" name="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]" <?php
+			if ( empty( $states ) ) { ?>
+					class="mprm-no-states<?php echo esc_attr( $chosen ); ?>"
+			<?php } else { ?>
+				class="<?php echo esc_attr( $chosen ); ?>"
+			<?php }
+		?> data-placeholder="<?php echo esc_attr( $placeholder ) ?>"/>
+		<?php
 		foreach ($states as $option => $name) {
-
-			$selected = isset($mprm_options[ $args[ 'id' ] ]) ? selected($option, $mprm_options[ $args[ 'id' ] ], false) : '';
-
-			$html .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( $name ) . '</option>';
+			?>
+			<option value="<?php echo esc_attr( $option ); ?>" <?php
+				if ( isset($mprm_options[ $args[ 'id' ] ]) ) { selected( $option, $mprm_options[ $args[ 'id' ] ] ); }
+			?>><?php echo esc_html( $name ); ?></option>
+		<?php
 		}
-
-		$html .= '</select>';
-		$html .= '<label for="mprm_settings[' . $args[ 'id' ] . ']"> ' . wp_kses_post($args[ 'desc' ]) . '</label>';
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		</select>
+		<label for="mprm_settings[<?php echo esc_attr( $args[ 'id' ] ); ?>]"><?php echo wp_kses_post( $args[ 'desc' ] ); ?></label>
+		<?php
 	}
 	
 	/**
@@ -1298,8 +1305,8 @@ class Settings extends Model {
 	public function tax_rates_callback($args) {
 
 		$rates = $this->get_tax_rates();
-		ob_start(); ?>
 
+		?>
 		<p><?php echo wp_kses_post( $args[ 'desc' ] ); ?></p>
 		<table id="mprm-tax-rates" class="wp-list-table widefat fixed posts">
 			<thead>
@@ -1355,10 +1362,10 @@ class Settings extends Model {
 							?>
 						</td>
 						<td class="tax_global">
-							<input type="checkbox" name="tax_rates[<?php echo $key; ?>][global]" id="tax_rates[<?php echo $key; ?>][global]" value="1"<?php checked(true, !empty($rate[ 'global' ])); ?>/>
-							<label for="tax_rates[<?php echo $key; ?>][global]"><?php esc_html_e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
+							<input type="checkbox" name="tax_rates[<?php echo esc_attr( $key ); ?>][global]" id="tax_rates[<?php echo esc_attr( $key ); ?>][global]" value="1"<?php checked(true, !empty($rate[ 'global' ])); ?>/>
+							<label for="tax_rates[<?php echo esc_attr( $key ); ?>][global]"><?php esc_html_e('Apply to whole country', 'mp-restaurant-menu'); ?></label>
 						</td>
-						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo $key; ?>][rate]" value="<?php echo esc_attr( $rate[ 'rate' ] ); ?>"/></td>
+						<td class="tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="tax_rates[<?php echo esc_attr( $key ); ?>][rate]" value="<?php echo esc_attr( $rate[ 'rate' ] ); ?>"/></td>
 						<td><span class="remove_tax_rate button-secondary"><?php esc_html_e('Remove Rate', 'mp-restaurant-menu'); ?></span></td>
 					</tr>
 				<?php endforeach; ?>
@@ -1398,8 +1405,6 @@ class Settings extends Model {
 			<span class="button-secondary" id="add_tax_rate"><?php esc_html_e('Add Tax Rate', 'mp-restaurant-menu'); ?></span>
 		</p>
 		<?php
-
-		echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	
 	/**
