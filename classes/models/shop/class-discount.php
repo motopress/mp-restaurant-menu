@@ -385,7 +385,7 @@ class Discount extends Model {
 					$return = true;
 				}
 			} elseif ($set_error) {
-				$this->get('errors')->set_error('mprm-discount-error', __('This discount is invalid.', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount is invalid.', 'mp-restaurant-menu'));
 			}
 		}
 		return apply_filters('mprm_is_discount_valid', $return, $discount_id, $code, $user);
@@ -402,13 +402,13 @@ class Discount extends Model {
 		if ($discount) {
 			if ($this->is_discount_expired($code_id)) {
 				if (defined('DOING_AJAX')) {
-					$this->get('errors')->set_error('mprm-discount-error', __('This discount is expired.', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount is expired.', 'mp-restaurant-menu'));
 				}
 			} elseif ($discount->post_status == 'active') {
 				$return = true;
 			} else {
 				if (defined('DOING_AJAX')) {
-					$this->get('errors')->set_error('mprm-discount-error', __('This discount is not active.', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount is not active.', 'mp-restaurant-menu'));
 				}
 			}
 		}
@@ -480,7 +480,7 @@ class Discount extends Model {
 					// Discount has pased the start date
 					$return = true;
 				} else {
-					$this->get('errors')->set_error('mprm-discount-error', __('This discount is not active yet.', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount is not active yet.', 'mp-restaurant-menu'));
 				}
 			} else {
 				// No start date for this discount, so has to be true
@@ -515,7 +515,7 @@ class Discount extends Model {
 			// Should never be greater than, but just in case
 			if ($uses >= $max_uses && !empty($max_uses)) {
 				// Discount is maxed out
-				$this->get('errors')->set_error('mprm-discount-error', __('This discount has reached its maximum usage.', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount has reached its maximum usage.', 'mp-restaurant-menu'));
 				$return = true;
 			}
 		}
@@ -589,7 +589,7 @@ class Discount extends Model {
 					$discounts = explode(',', $payment->discounts);
 					if (is_array($discounts)) {
 						if (in_array(strtolower($code), $discounts)) {
-							$this->get('errors')->set_error('mprm-discount-error', __('This discount has already been redeemed.', 'mp-restaurant-menu'));
+							$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount has already been redeemed.', 'mp-restaurant-menu'));
 							$return = true;
 							break;
 						}
@@ -695,7 +695,7 @@ class Discount extends Model {
 					$ret = true;
 					foreach ($product_reqs as $menu_item_id) {
 						if (!$this->get('cart')->item_in_cart($menu_item_id)) {
-							$this->get('errors')->set_error('mprm-discount-error', __('The product requirements for this discount are not met.', 'mp-restaurant-menu'));
+							$this->get('errors')->set_error('mprm-discount-error', esc_html__('The product requirements for this discount are not met.', 'mp-restaurant-menu'));
 							$ret = false;
 							break;
 						}
@@ -709,7 +709,7 @@ class Discount extends Model {
 						}
 					}
 					if (!$ret) {
-						$this->get('errors')->set_error('mprm-discount-error', __('The product requirements for this discount are not met.', 'mp-restaurant-menu'));
+						$this->get('errors')->set_error('mprm-discount-error', esc_html__('The product requirements for this discount are not met.', 'mp-restaurant-menu'));
 					}
 					break;
 			}
@@ -719,7 +719,7 @@ class Discount extends Model {
 		if (!empty($excluded_ps)) {
 			// Check that there are products other than excluded ones in the cart
 			if ($cart_ids == $excluded_ps) {
-				$this->get('errors')->set_error('mprm-discount-error', __('This discount is not valid for the cart contents.', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('mprm-discount-error', esc_html__('This discount is not valid for the cart contents.', 'mp-restaurant-menu'));
 				$ret = false;
 			}
 		}

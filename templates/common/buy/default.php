@@ -9,7 +9,7 @@ if ( mprm_ecommerce_enabled() ) :
 
 		mprm_get_add_to_cart_notice();
 
-		echo mprm_get_purchase_link( array(
+		echo mprm_get_purchase_link( array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'menu_item_id' => get_the_ID()
 		));
 

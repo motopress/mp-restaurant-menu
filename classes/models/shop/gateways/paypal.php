@@ -33,7 +33,9 @@ class Paypal extends Model {
 	 * @param $purchase_data
 	 */
 	public function process_paypal_purchase($purchase_data) {
+
 		global $mprm_options;
+
 		/*
 		* purchase data comes in like this
 		*
@@ -49,6 +51,7 @@ class Paypal extends Model {
 			'cart_details' => array of cart details,
 		);
 		*/
+
 		$payment_data = array(
 			'price' => $purchase_data['price'],
 			'date' => $purchase_data['date'],
@@ -122,13 +125,15 @@ class Paypal extends Model {
 			// alternate purchase verification
 		} else {
 			if (isset($_GET['tx']) && isset($_GET['st']) && isset($_GET['amt']) && isset($_GET['cc']) && isset($_GET['cm']) && isset($_GET['item_number'])) {
+
 				// we are using the alternate method of verifying PayPal purchases
 				// setup each of the variables from PayPal
-				$payment_status = $_GET['st'];
-				$paypal_amount = $_GET['amt'];
-				$payment_id = $_GET['cm'];
-				$purchase_key = $_GET['item_number'];
-				$currency = $_GET['cc'];
+				$payment_status = 	sanitize_text_field( wp_unslash( $_GET['st'] ) );
+				$paypal_amount = 	sanitize_text_field( wp_unslash( $_GET['amt'] ) );
+				$payment_id = 		sanitize_text_field( wp_unslash( $_GET['cm'] ) );
+				$purchase_key = 	sanitize_text_field( wp_unslash( $_GET['item_number'] ) );
+				$currency = 		sanitize_text_field( wp_unslash( $_GET['cc'] ) );
+
 				// retrieve the meta info for this payment
 				$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 				$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);
@@ -177,11 +182,13 @@ class Paypal extends Model {
 			exit(0);
 		}
 		if ($verified) {
-			$payment_id = $_POST['custom'];
-			$purchase_key = $_POST['item_number'];
-			$paypal_amount = $_POST['mc_gross'];
-			$payment_status = $_POST['payment_status'];
-			$currency_code = strtolower($_POST['mc_currency']);
+
+			$payment_id = isset( $_POST['custom'] ) ? sanitize_text_field( wp_unslash( $_POST['custom'] ) ) : 0;
+			$purchase_key = isset( $_POST['item_number'] ) ? sanitize_text_field( wp_unslash( $_POST['item_number'] ) ) : '';
+			$paypal_amount = isset( $_POST['mc_gross'] ) ? sanitize_text_field( wp_unslash( $_POST['mc_gross'] ) ) : 0;
+			$payment_status = isset( $_POST['payment_status'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_status'] ) ) : '';
+			$currency_code = isset( $_POST['mc_currency'] ) ? strtolower( sanitize_text_field( wp_unslash( $_POST['mc_currency'] ) ) ) : '';
+
 			// retrieve the meta info for this payment
 			$payment_meta = get_post_meta($payment_id, '_mprm_order_meta', true);
 			$payment_amount = $this->get('formatting')->format_amount($payment_meta['amount']);
@@ -212,7 +219,7 @@ class Paypal extends Model {
 				}
 			}
 		} else {
-			wp_mail(get_bloginfo('admin_email'), __('Invalid IPN', 'mp-restaurant-menu'), $listener->getTextReport());
+			wp_mail(get_bloginfo('admin_email'), esc_html__('Invalid IPN', 'mp-restaurant-menu'), $listener->getTextReport());
 		}
 	}
 

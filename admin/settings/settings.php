@@ -9,7 +9,7 @@
 				// Remove the section from the tabs so we always end up at the main section
 				$tab_url = remove_query_arg('section', $tab_url);
 				$active = $active_tab == $tab_id ? ' nav-tab-active' : '';
-				echo '<a href="' . esc_url($tab_url) . '" title="' . esc_attr($tab_name) . '" class="nav-tab' . $active . '">';
+				echo '<a href="' . esc_url($tab_url) . '" title="' . esc_attr($tab_name) . '" class="nav-tab' . esc_attr( $active ) . '">';
 				echo esc_html($tab_name);
 				echo '</a>';
 			}
@@ -34,7 +34,7 @@
 						if ($section == $section_id) {
 							$class = 'current';
 						}
-						echo '<a class="' . $class . '" href="' . esc_url($tab_url) . '">' . $section_name . '</a>';
+						echo '<a class="' . esc_attr( $class ) . '" href="' . esc_url($tab_url) . '">' . esc_html( $section_name ) . '</a>';
 						if ($number != $number_of_sections) {
 							echo ' | ';
 						}

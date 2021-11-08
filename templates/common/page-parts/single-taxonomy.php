@@ -8,8 +8,8 @@ $mprm_view_args = taxonomy_settings();
 $col = (int)$mprm_view_args[ 'col' ];
 
 ?>
-	<div class="<?php echo apply_filters('mprm-page-template-main-wrapper-class', 'mprm-main-wrapper') ?>">
-		<div class="<?php echo apply_filters('mprm-page-template-wrapper-' . esc_attr( $view ) . '-taxonomy-class', 'mprm-taxonomy-items-' . esc_attr( $view ) . ' mprm-container mprm-category') ?> ">
+	<div class="<?php echo esc_attr( apply_filters('mprm-page-template-main-wrapper-class', 'mprm-main-wrapper') ); ?>">
+		<div class="<?php echo esc_attr( apply_filters('mprm-page-template-wrapper-' . $view . '-taxonomy-class', 'mprm-taxonomy-items-' . $view . ' mprm-container mprm-category') ); ?> ">
 			<?php
 			
 			/**
@@ -34,7 +34,7 @@ $col = (int)$mprm_view_args[ 'col' ];
 			do_action('mprm_page_template_taxonomy_header_after');
 			
 			?>
-			<div class="<?php echo apply_filters('mprm-page-template-items-wrapper-class', 'mprm-container mprm-page-template-items mprm-view-' . $view) ?>">
+			<div class="<?php echo esc_attr( apply_filters('mprm-page-template-items-wrapper-class', 'mprm-container mprm-page-template-items mprm-view-' . $view) ); ?>">
 				<?php if ($view == 'simple-list'){ ?>
 				<div class="mprm-columns-count-<?php echo esc_attr( $col ); ?> mprm-all-items">
 					<?php }
@@ -61,7 +61,7 @@ $col = (int)$mprm_view_args[ 'col' ];
 								
 								mprm_set_menu_item($post->ID); ?>
 
-								<div class="<?php echo apply_filters('mprm-page-template-simple-view-column', 'mprm-simple-view-column') . esc_attr( $class ); ?> ">
+								<div class="<?php echo esc_attr( apply_filters('mprm-page-template-simple-view-column', 'mprm-simple-view-column') . $class ); ?> ">
 									<?php render_current_html(); ?>
 								</div>
 								<?php wp_reset_postdata();

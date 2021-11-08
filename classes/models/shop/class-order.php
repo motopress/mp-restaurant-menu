@@ -557,7 +557,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'update-order',
-			__('Update Order', 'mp-restaurant-menu'),
+			esc_html__('Update Order', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'side',
@@ -567,7 +567,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-meta',
-			__('Order Meta', 'mp-restaurant-menu'),
+			esc_html__('Order Meta', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'side',
@@ -576,7 +576,7 @@ final class Order extends Model {
 		);
 		add_meta_box(
 			'order-log',
-			__('Order logs', 'mp-restaurant-menu'),
+			esc_html__('Order logs', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'side',
@@ -586,7 +586,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-purchased',
-			__('Purchased products', 'mp-restaurant-menu'),
+			esc_html__('Purchased products', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -596,7 +596,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'customer-notes',
-			__('Order Notes', 'mp-restaurant-menu'),
+			esc_html__('Order Notes', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -606,7 +606,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-customer',
-			__('Customer Details', 'mp-restaurant-menu'),
+			esc_html__('Customer Details', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -616,7 +616,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-delivery',
-			__('Delivery details', 'mp-restaurant-menu'),
+			esc_html__('Delivery details', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -626,7 +626,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-billing-address',
-			__('Billing Address', 'mp-restaurant-menu'),
+			esc_html__('Billing Address', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -636,7 +636,7 @@ final class Order extends Model {
 
 		add_meta_box(
 			'order-notes',
-			__('Payment Notes', 'mp-restaurant-menu'),
+			esc_html__('Payment Notes', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
 			$this->get_post_type('order'),
 			'advanced',
@@ -672,14 +672,14 @@ final class Order extends Model {
 	public function order_columns(array $existing_columns) {
 		$columns = array();
 		$columns['cb'] = $existing_columns['cb'];
-		$columns['order_title'] = __('Order', 'mp-restaurant-menu');
-		$columns['order_status'] = __('Status', 'mp-restaurant-menu');
-		$columns['order_ship_to'] = __('Delivery', 'mp-restaurant-menu');
-		$columns['order_customer_note'] = __('Order notes', 'mp-restaurant-menu');
-		$columns['order_items'] = __('Purchased', 'mp-restaurant-menu');
-		$columns['order_total'] = __('Total', 'mp-restaurant-menu');
-		$columns['order_date'] = __('Date', 'mp-restaurant-menu');
-		$columns['order_actions'] = __('Actions', 'mp-restaurant-menu');
+		$columns['order_title'] = esc_html__('Order', 'mp-restaurant-menu');
+		$columns['order_status'] = esc_html__('Status', 'mp-restaurant-menu');
+		$columns['order_ship_to'] = esc_html__('Delivery', 'mp-restaurant-menu');
+		$columns['order_customer_note'] = esc_html__('Order notes', 'mp-restaurant-menu');
+		$columns['order_items'] = esc_html__('Purchased', 'mp-restaurant-menu');
+		$columns['order_total'] = esc_html__('Total', 'mp-restaurant-menu');
+		$columns['order_date'] = esc_html__('Date', 'mp-restaurant-menu');
+		$columns['order_actions'] = esc_html__('Actions', 'mp-restaurant-menu');
 
 		return $columns;
 	}
@@ -698,8 +698,8 @@ final class Order extends Model {
 
 		switch ($column) {
 			case 'order_status':
-				?><mark class="order-status status-<?php echo $post->post_status; ?>"><span><?php
-					echo $this->get('payments')->get_payment_status($post);
+				?><mark class="order-status status-<?php echo esc_attr( $post->post_status ); ?>"><span><?php
+					echo esc_html( $this->get('payments')->get_payment_status($post) );
 				?></span></mark><?php
 
 				break;
@@ -730,34 +730,38 @@ final class Order extends Model {
 					if ($post->billing_first_name || $post->billing_last_name) {
 						$username = trim(sprintf(_x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), $post->billing_first_name, $post->billing_last_name));
 					} else {
-						$username = __('Guest', 'mp-restaurant-menu');
+						$username = esc_html__('Guest', 'mp-restaurant-menu');
 					}
 				}
 
-				printf(_x('%s by %s', 'Order number by X', 'mp-restaurant-menu'), '<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username);
+				printf(
+					_x( '%s by %s', 'Order number by X', 'mp-restaurant-menu'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<a href="' . admin_url('post.php?post=' . absint($post->ID) . '&action=edit') . '" class="row-title"><strong>#' . esc_attr($this->get_order_number($post)) . '</strong></a>', $username // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				);
+
 				if ($post->billing_email) {
-					echo '<small class="meta email"><a href="' . esc_url('mailto:' . $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
+					echo '<small class="meta email"><a href="mailto:' . esc_url( $post->billing_email) . '">' . esc_html($post->billing_email) . '</a></small>';
 				}
 				break;
 			case 'order_ship_to':
-				echo apply_filters('mprm_orders_list_delivery', esc_html( $this->shipping_address ));
+				echo wp_kses_post( apply_filters('mprm_orders_list_delivery', $this->shipping_address ) );
 				break;
 			case 'order_customer_note':
-				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>';
+				echo empty( $this->customer_note ) ? '—' : '<span title="' . esc_html( $this->customer_note ) . '">' . mprm_cut_str( 90, esc_html( $this->customer_note ) ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_items' :
-				echo apply_filters('mprm_admin_order_item_count', sprintf(_n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items)), $this);
+				echo apply_filters('mprm_admin_order_item_count', sprintf( _n('%d item', '%d items', count($this->menu_items), 'mp-restaurant-menu'), count($this->menu_items) ), $this); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_date' :
 				$date = strtotime($this->date);
 				$value = esc_html( human_time_diff( strtotime($this->date), current_time('timestamp') ) ) . ' ago';
 				$value .= '<br/><span style="color:#999">' . date_i18n(get_option('date_format') . '  ' . get_option('time_format'), $date) . '</span>';
-				echo $value;
+				echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_total' :
 				$total = mprm_currency_filter( mprm_format_amount( $this->total ) );
-				$total .= '<br/><span style="color:#999">' . $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) . '</span>';
-				echo $total;
+				$total .= '<br/><span style="color:#999">' . esc_html( $this->get( 'gateways' )->get_gateway_admin_label( $this->gateway ) ) . '</span>';
+				echo $total; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'order_actions' :
 				$this->render_order_actions($post);
@@ -1989,8 +1993,8 @@ final class Order extends Model {
 		if ( $this->status == 'publish' ) {
 
 			$actions['mprm-cooking'] = array(
-				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-cooking&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
-				'name'   => __( 'Processing', 'mp-restaurant-menu' ),
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-cooking&order_id=' . $post->ID ), 'mprm-mark-order-status' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'name'   => esc_html__( 'Processing', 'mp-restaurant-menu' ),
 				'action' => 'mprm-cooking',
 				'icon'   => '<svg width="12" height="12" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><g><circle cx="5.5" cy="24" r="5.5"/><circle cx="42.499" cy="24" r="5.5"/><circle cx="24" cy="24" r="5.5"/></g></svg>'
 			);
@@ -1999,15 +2003,15 @@ final class Order extends Model {
 		if ( $this->status == 'publish' || $this->status == 'mprm-cooking' ) {
 
 			$actions['mprm-shipped'] = array(
-				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-shipped&order_id=' . $post->ID ), 'mprm-mark-order-status' ),
-				'name'   => __( 'Complete', 'mp-restaurant-menu' ),
+				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=mprm_mark_order_status&status=mprm-shipped&order_id=' . $post->ID ), 'mprm-mark-order-status' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'name'   => esc_html__( 'Complete', 'mp-restaurant-menu' ),
 				'action' => 'mprm-shipped',
 				'icon'   => '<svg width="12" height="12" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>'
 			);
 		}
 
 		echo '<p>';
-		echo $this->render_action_buttons( $actions );
+		echo $this->render_action_buttons( $actions ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</p>';
 	}
 	

@@ -105,8 +105,8 @@ class Settings_emails extends Model {
 	 */
 	public function get_email_templates() {
 		$templates = array(
-			'default' => __('Default Template', 'mp-restaurant-menu'),
-			'none' => __('No template, plain text only', 'mp-restaurant-menu')
+			'default' => esc_html__('Default Template', 'mp-restaurant-menu'),
+			'none' => esc_html__('No template, plain text only', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_email_templates', $templates);
 	}
@@ -120,10 +120,16 @@ class Settings_emails extends Model {
 		}
 		ob_start();
 		?>
-		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php _e('Purchase Receipt Preview', 'mp-restaurant-menu'); ?> "><?php _e('Preview Purchase Receipt', 'mp-restaurant-menu'); ?></a>
-		<a href="<?php echo wp_nonce_url(add_query_arg(array('mprm_action' => 'send_test_email', 'controller' => 'settings')), 'mprm-test-email'); ?>" title="<?php _e('This will send a demo purchase receipt to the emails listed below.', 'mp-restaurant-menu'); ?>" class="button-secondary"><?php _e('Send Test Email', 'mp-restaurant-menu'); ?></a>
+		<a href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'preview_email', 'controller' => 'settings'), home_url())); ?>" class="button-secondary" target="_blank" title="<?php esc_attr_e('Purchase Receipt Preview', 'mp-restaurant-menu'); ?> "><?php esc_html_e('Preview Purchase Receipt', 'mp-restaurant-menu'); ?></a>
+		<a href="<?php
+			echo wp_nonce_url( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				add_query_arg(
+					array('mprm_action' => 'send_test_email', 'controller' => 'settings')
+				),
+				'mprm-test-email'
+			); ?>" title="<?php esc_attr_e('This will send a demo purchase receipt to the emails listed below.', 'mp-restaurant-menu'); ?>" class="button-secondary"><?php esc_html_e('Send Test Email', 'mp-restaurant-menu'); ?></a>
 		<?php
-		echo ob_get_clean();
+		echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -139,11 +145,11 @@ class Settings_emails extends Model {
 		if (!current_user_can('manage_restaurant_settings')) {
 			return;
 		}
-		$this->heading = __('Purchase Receipt', 'mp-restaurant-menu');
+		$this->heading = esc_html__('Purchase Receipt', 'mp-restaurant-menu');
 
 		$content = $this->get('emails')->get_email_body_content(0, array());
 		$preview_template_tags = $this->get('emails')->email_preview_template_tags($content);
-		echo $this->build_email($preview_template_tags);
+		echo $this->build_email($preview_template_tags); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 
@@ -232,8 +238,8 @@ class Settings_emails extends Model {
 	 */
 	public function get_templates() {
 		$templates = array(
-			'default' => __('Default Template', 'mp-restaurant-menu'),
-			'none' => __('No template, plain text only', 'mp-restaurant-menu')
+			'default' => esc_html__('Default Template', 'mp-restaurant-menu'),
+			'none' => esc_html__('No template, plain text only', 'mp-restaurant-menu')
 		);
 		return apply_filters('mprm_email_templates', $templates);
 	}
@@ -250,7 +256,7 @@ class Settings_emails extends Model {
 	 */
 	public function send($to, $subject, $message, $attachments = '') {
 		if (!did_action('init') && !did_action('admin_init')) {
-			_doing_it_wrong(__FUNCTION__, __('You cannot send email with Restaurant menu Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
+			_doing_it_wrong(__FUNCTION__, esc_html__('You cannot send email with Restaurant menu Emails until init/admin_init has been reached', 'mp-restaurant-menu'), null);
 			return false;
 		}
 		/**

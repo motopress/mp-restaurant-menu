@@ -42,7 +42,7 @@ class Capabilities extends Core {
 	 */
 	public function add_roles() {
 
-		add_role('mprm_manager', __('Restaurant Manager', 'mp-restaurant-menu'), array(
+		add_role('mprm_manager', esc_html__('Restaurant Manager', 'mp-restaurant-menu'), array(
 			'read' => true,
 			'edit_posts' => true,
 			'delete_posts' => true,
@@ -73,7 +73,7 @@ class Capabilities extends Core {
 			'read_private_posts' => true,
 		));
 
-		add_role('mprm_customer', __('Restaurant Customer', 'mp-restaurant-menu'), array(
+		add_role('mprm_customer', esc_html__('Restaurant Customer', 'mp-restaurant-menu'), array(
 			'read' => true
 		));
 	}

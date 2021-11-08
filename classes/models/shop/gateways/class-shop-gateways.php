@@ -74,18 +74,18 @@ class Gateways extends Model {
 		// Default, built-in gateways
 		$gateways = array(
 			'paypal' => array(
-				'admin_label' => __('PayPal Standard', 'mp-restaurant-menu'),
-				'checkout_label' => $this->get('settings')->get_option('paypal_title', __('Pay via PayPal', 'mp-restaurant-menu')),
+				'admin_label' => esc_html__('PayPal Standard', 'mp-restaurant-menu'),
+				'checkout_label' => $this->get('settings')->get_option('paypal_title', esc_html__('Pay via PayPal', 'mp-restaurant-menu')),
 				'checkout_description' => $this->get('settings')->get_option('paypal_description', false),
 				'supports' => array('buy_now')
 			),
 			'test_manual' => array(
-				'admin_label' => __('Test Payment', 'mp-restaurant-menu'),
-				'checkout_label' => __('Test Payment', 'mp-restaurant-menu'),
+				'admin_label' => esc_html__('Test Payment', 'mp-restaurant-menu'),
+				'checkout_label' => esc_html__('Test Payment', 'mp-restaurant-menu'),
 			),
 			'manual' => array(
-				'admin_label' => __('Cash on delivery', 'mp-restaurant-menu'),
-				'checkout_label' => $this->get('settings')->get_option('cod_title', __('Cash on delivery', 'mp-restaurant-menu')),
+				'admin_label' => esc_html__('Cash on delivery', 'mp-restaurant-menu'),
+				'checkout_label' => $this->get('settings')->get_option('cod_title', esc_html__('Cash on delivery', 'mp-restaurant-menu')),
 				'checkout_description' => $this->get('settings')->get_option('cod_description', false),
 			)
 		);
@@ -148,7 +148,7 @@ class Gateways extends Model {
 	 */
 	public function get_chosen_gateway() {
 		$gateways = $this->get_enabled_payment_gateways();
-		$chosen = isset($_REQUEST[ 'payment-mode' ]) ? $_REQUEST[ 'payment-mode' ] : false;
+		$chosen = isset($_REQUEST[ 'payment-mode' ]) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'payment-mode' ] ) ) : false;
 		if (false !== $chosen) {
 			$chosen = preg_replace('/[^a-zA-Z0-9-_]+/', '', $chosen);
 		}
@@ -176,7 +176,7 @@ class Gateways extends Model {
 	public function show_gateways() {
 		$gateways = $this->get_enabled_payment_gateways();
 		$show_gateways = false;
-		$chosen_gateway = isset($_GET[ 'payment-mode' ]) ? preg_replace('/[^a-zA-Z0-9-_]+/', '', $_GET[ 'payment-mode' ]) : false;
+		$chosen_gateway = isset($_GET[ 'payment-mode' ]) ? preg_replace('/[^a-zA-Z0-9-_]+/', '', sanitize_text_field( wp_unslash( $_GET[ 'payment-mode' ] ) )) : false;
 		if (count($gateways) > 1 && empty($chosen_gateway)) {
 			$show_gateways = true;
 			if ($this->get('cart')->get_cart_total() <= 0) {
@@ -230,7 +230,7 @@ class Gateways extends Model {
 			$prices = $this->get('menu_item')->get_variable_prices($menu_item_id);
 			// Make sure a valid price ID was supplied
 			if (!isset($prices[ $price_id ])) {
-				wp_die(__('The requested price ID does not exist.', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 404));
+				wp_die(esc_html__('The requested price ID does not exist.', 'mp-restaurant-menu'), esc_html__('Error', 'mp-restaurant-menu'), array('response' => 404));
 			}
 			$price_options = array(
 				'price_id' => $price_id,
@@ -306,7 +306,7 @@ class Gateways extends Model {
 		$gateways = $this->get_payment_gateways();
 		$label = isset($gateways[ $gateway ]) ? $gateways[ $gateway ][ 'checkout_label' ] : $gateway;
 		if ($gateway == 'test_manual') {
-			$label = __('Free Purchase', 'mp-restaurant-menu');
+			$label = esc_html__('Free Purchase', 'mp-restaurant-menu');
 		}
 		
 		return apply_filters('mprm_gateway_checkout_label', $label, $gateway);
@@ -323,7 +323,7 @@ class Gateways extends Model {
 		$payment = isset($_GET[ 'id' ]) ? absint($_GET[ 'id' ]) : false;
 		if ($gateway == 'test_manual' && $payment) {
 			if ($this->get('payments')->get_payment_amount($payment) == 0) {
-				$label = __('Free Purchase', 'mp-restaurant-menu');
+				$label = esc_html__('Free Purchase', 'mp-restaurant-menu');
 			}
 		}
 		

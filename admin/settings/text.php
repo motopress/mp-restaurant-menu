@@ -20,17 +20,17 @@ if ($args['disabled']) {
 $data = '';
 if (!empty($args['data'])) {
 	foreach ($args['data'] as $key => $value) {
-		$data .= 'data-' . sanitize_key($key) . '="' . esc_attr($value) . '" ';
+		$data .= 'data-' . esc_attr($key) . '="' . esc_attr($value) . '" ';
 	}
 }
 ?>
-<span id="mprm-<?php echo sanitize_key($args['name']) ?>-wrap">
+<span id="mprm-<?php echo esc_attr($args['name']) ?>-wrap">
 
-	<label class="mprm-label" style="<?php echo empty($args['label']) ? 'display:none' : '' ?>" for="<?php echo sanitize_key($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
+	<label class="mprm-label" style="<?php echo empty($args['label']) ? 'display:none' : '' ?>" for="<?php echo esc_attr($args['id']) ?>"> <?php echo esc_html($args['label']) ?></label>
 
 	<?php
 	if (!empty($args['desc'])) { ?>
 		<span class="mprm-description"><?php echo esc_html($args['desc']) ?></span>
 	<?php } ?>
-	<input type="text" name="<?php echo esc_attr($args['name']) ?>" id="<?php echo esc_attr($args['id']) ?>" value="<?php echo esc_attr($args['value']) ?>" placeholder="<?php echo esc_attr($args['placeholder']) ?>" class="<?php echo $class ?>"<?php echo ' ' . $data . ' ' . $disabled ?> autocomplete="<?php echo esc_attr($args['autocomplete']) ?>"/>
+	<input type="text" name="<?php echo esc_attr($args['name']) ?>" id="<?php echo esc_attr($args['id']) ?>" value="<?php echo esc_attr($args['value']) ?>" placeholder="<?php echo esc_attr($args['placeholder']) ?>" class="<?php echo esc_attr( $class );?>"<?php echo ' ' . $data  . ' ' . $disabled // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> autocomplete="<?php echo esc_attr($args['autocomplete']) ?>"/>
 </span>

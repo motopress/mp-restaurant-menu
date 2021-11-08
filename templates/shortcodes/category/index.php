@@ -1,4 +1,4 @@
-<div class="<?php echo apply_filters('mprm-shortcode-category-wrapper-class', 'mprm-container mprm-shortcode-categories mprm-view-' . $view . mprm_popular_theme_class()) ?>">
+<div class="<?php echo esc_attr( apply_filters('mprm-shortcode-category-wrapper-class', 'mprm-container mprm-shortcode-categories mprm-view-' . $view . mprm_popular_theme_class()) );?>">
 	<?php
 	$categories = mprm_get_categories();
 
@@ -11,7 +11,7 @@
 			}
 			if (($key % $col) === 0) {
 				$i = 1; ?>
-				<div class="<?php echo mprm_grid_row_class() ?>">
+				<div class="<?php echo esc_attr( mprm_grid_row_class() );?>">
 			<?php }
 			mprm_set_current_term($term);
 			render_current_html();

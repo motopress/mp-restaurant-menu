@@ -327,7 +327,7 @@ function mprm_get_menu_items_by_term() {
  */
 function mprm_get_template($template, $data = null, $output = true) {
 	if ($output) {
-		echo classes\View::get_instance()->get_template_html($template, $data);
+		echo classes\View::get_instance()->get_template_html($template, $data); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	} else {
 		classes\View::get_instance()->get_template($template, $data);
 	}
@@ -351,7 +351,7 @@ function mprm_get_template_part($slug, $name = '') {
 function before_mprm_widget() {
 	global $mprm_widget_args;
 	if (!empty($mprm_widget_args)) {
-		echo $mprm_widget_args['before_widget'];
+		echo $mprm_widget_args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -364,7 +364,7 @@ function before_mprm_widget() {
 function the_mprm_widget_title() {
 	global $mprm_widget_args, $mprm_view_args;
 	if (!empty($mprm_widget_args) && !empty($mprm_view_args['title'])) {
-		echo $mprm_widget_args['before_title'] . $mprm_view_args['title'] . $mprm_widget_args['after_title'];
+		echo $mprm_widget_args['before_title'] . $mprm_view_args['title'] . $mprm_widget_args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -376,7 +376,7 @@ function the_mprm_widget_title() {
 function after_mprm_widget() {
 	global $mprm_widget_args;
 	if (!empty($mprm_widget_args)) {
-		echo $mprm_widget_args['after_widget'];
+		echo $mprm_widget_args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -697,7 +697,7 @@ function mprm_menu_items_header() {
 		$icon = mprm_get_category_icon();
 		if (mprm_has_category_image() && ('with_img' == $mprm_view_args['categ_name'])) {
 			?>
-			<div class="mprm-header with-image" style="background-image: url('<?php echo (mprm_has_category_image()) ? mprm_get_category_image('large') : 'none'; ?>')">
+			<div class="mprm-header with-image" style="background-image: url('<?php echo (mprm_has_category_image()) ? mprm_get_category_image('large') : 'none'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>')">
 				<?php if (!empty($icon)): ?>
 					<i class="<?php echo esc_attr( $icon );?> mprm-icon"></i>
 				<?php endif; ?>
@@ -947,7 +947,7 @@ function mprm_menu_item_grid_image() {
 				<a href="<?php the_permalink() ?>">
 			<?php }
 
-		 	echo $post_options['image'];
+		 	echo $post_options['image']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		 	 if (!empty($mprm_view_args['link_item'])) { ?>
 				</a>
@@ -1042,8 +1042,8 @@ function mprm_menu_item_grid_footer() {	?>
 function mprm_before_menu_item_header() {
 	$featured_url = mprm_get_attachment_url('large');
 	$header_class = 'mprm-header' . (!empty($featured_url) ? ' with-image' : ''); ?>
-	<div class="<?php echo apply_filters('mprm-single-item-header-class', $header_class); ?>" <?php if (!empty($featured_url)) : ?>style="background-image: url(<?php echo $featured_url ?>);"<?php endif; ?>>
-	<div class="<?php echo apply_filters('mprm-header-content-class', 'mprm-header-content') ?> ">
+	<div class="<?php echo esc_attr( apply_filters('mprm-single-item-header-class', $header_class) ); ?>" <?php if (!empty($featured_url)) : ?>style="background-image: url(<?php echo esc_url( $featured_url ); ?>);"<?php endif; ?>>
+	<div class="<?php echo esc_attr( apply_filters('mprm-header-content-class', 'mprm-header-content') );?> ">
 	<?php
 }
 
@@ -1054,7 +1054,7 @@ function mprm_menu_item_header() { ?>
 	<h1 class="mprm-header-title"><?php the_title() ?></h1>
 	<?php
 	if (apply_filters('mprm-item-breadcrumbs', true)) {
-		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => __('Home', 'mp-restaurant-menu')));
+		Breadcrumbs::get_instance()->show_breadcrumbs(array('separator' => '&nbsp;/&nbsp;', 'custom_taxonomy' => 'mp_menu_category', 'home_title' => esc_html__('Home', 'mp-restaurant-menu')));
 	}
 }
 
@@ -1077,8 +1077,8 @@ function mprm_menu_item_gallery() {
 			<?php foreach ($gallery as $img_id):
 				$thunbnail_src = wp_get_attachment_image_src($img_id, apply_filters('mprm-item-gallery-size', 'large'));
 				?>
-				<a href="<?php echo $thunbnail_src[0] ?>" title="<?php echo get_the_title($img_id) ?>">
-					<?php echo wp_get_attachment_image($img_id, 'thumbnail', false, array('class' => "mprm-gallery-image")); ?>
+				<a href="<?php echo esc_url( $thunbnail_src[0] );?>" title="<?php echo esc_attr( get_the_title($img_id) );?>">
+					<?php echo wp_get_attachment_image($img_id, 'thumbnail', false, array('class' => "mprm-gallery-image")); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
 				</a>
 			<?php endforeach; ?>
 			<div class="mprm-clear"></div>
@@ -1180,13 +1180,13 @@ function mprm_after_menu_item_sidebar() {	?>
  */
 function mprm_get_nutrition_label($name) {
 	$labels = array(
-		'calories' => __('Calories', 'mp-restaurant-menu'),
-		'cholesterol' => __('Cholesterol', 'mp-restaurant-menu'),
-		'fiber' => __('Fiber', 'mp-restaurant-menu'),
-		'sodium' => __('Sodium', 'mp-restaurant-menu'),
-		'carbohydrates' => __('Carbohydrates', 'mp-restaurant-menu'),
-		'fat' => __('Fat', 'mp-restaurant-menu'),
-		'protein' => __('Protein', 'mp-restaurant-menu'),
+		'calories' => esc_html__('Calories', 'mp-restaurant-menu'),
+		'cholesterol' => esc_html__('Cholesterol', 'mp-restaurant-menu'),
+		'fiber' => esc_html__('Fiber', 'mp-restaurant-menu'),
+		'sodium' => esc_html__('Sodium', 'mp-restaurant-menu'),
+		'carbohydrates' => esc_html__('Carbohydrates', 'mp-restaurant-menu'),
+		'fat' => esc_html__('Fat', 'mp-restaurant-menu'),
+		'protein' => esc_html__('Protein', 'mp-restaurant-menu'),
 	);
 	if (array_key_exists($name, $labels)){
 		return $labels[$name];
@@ -1201,9 +1201,9 @@ function mprm_get_nutrition_label($name) {
  */
 function mprm_get_proportion_label($name) {
 	$labels = array(
-		'size' => __('Size', 'mp-restaurant-menu'),
-		'bulk' => __('Volume', 'mp-restaurant-menu'),
-		'weight' => __('Weight', 'mp-restaurant-menu'),
+		'size' => esc_html__('Size', 'mp-restaurant-menu'),
+		'bulk' => esc_html__('Volume', 'mp-restaurant-menu'),
+		'weight' => esc_html__('Weight', 'mp-restaurant-menu'),
 	);
 	if (array_key_exists($name, $labels)){
 		return $labels[$name];
@@ -1283,7 +1283,7 @@ function create_grid_by_posts($data, $col) {
 	
 		if (($key % $col) === 0) {
 			$i = 1; ?>
-			<div class="<?php echo mprm_grid_row_class() ?>">
+			<div class="<?php echo esc_attr( mprm_grid_row_class() ); ?>">
 		<?php }
 		
 		mprm_set_menu_item($post->ID);

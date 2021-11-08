@@ -13,10 +13,10 @@ if (!empty($tags)): ?>
 			if (!is_object($tag)) {
 				continue;
 			}
-			$tags_array[$key] = '<a href="' . get_term_link($tag) . '" class="' . 'mprm-tag-' . $tag->slug . '">' . $tag->name . '</a>';
+			$tags_array[$key] = '<a href="' . esc_url( get_term_link($tag) ) . '" class="' . 'mprm-tag-' . esc_attr( $tag->slug ) . '">' . esc_html( $tag->name ) . '</a>';
 		}
 
-		echo implode(", ", $tags_array); ?>
+		echo implode(", ", $tags_array); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 	</div>
 <?php endif; ?>

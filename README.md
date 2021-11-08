@@ -29,6 +29,11 @@ To compile styles you need:
 * Run `npm run dev:styles` to compile your styles automatically whenever you've made changes to the associated files.
 * Run `npm run build:styles` to compile styles once.
 
+# Create a POT file
+1. Install WP-CLI and add to PATH https://wp-cli.org/#installing
+1. Navigate to ./languages
+1. Run `wp i18n make-pot ./..`
+
 ## Support
 This is a developer's portal for the Restaurant Menu plugin and should not be used for support. Please visit the support page if you need to submit a support request.
 

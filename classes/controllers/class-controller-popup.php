@@ -40,12 +40,25 @@ class Controller_Popup extends Controller {
 	}
 
 	public function action_get_shortcode_by_type() {
+
 		$data = array();
-		$request = $_REQUEST;
+		$type = '';
+
+		if ( isset( $_REQUEST['type'] ) ) {
+			$type = sanitize_text_field( wp_unslash( $_REQUEST['type'] ) );
+		}
+
+		if ( ! in_array( $type, ['mprm_items', 'mprm_categories'] ) ) {
+			wp_send_json_error();
+		}
 
 		$this->data['categories'] = Taxonomy::get_instance()->get_terms($this->get_tax_name('menu_category'));
 		$this->data['tags'] = Taxonomy::get_instance()->get_terms($this->get_tax_name('menu_tag'));
-		$data['data']['html'] = View::get_instance()->render_html("../admin/popups/shortcode-{$request['type']}", $this->data, false);
+		$data['data']['html'] = View::get_instance()->render_html(
+			"../admin/popups/shortcode-" . $type,
+			$this->data,
+			false
+		);
 		$data['success'] = true;
 		$this->send_json($data);
 	}

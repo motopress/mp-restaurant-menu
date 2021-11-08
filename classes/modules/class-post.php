@@ -29,7 +29,7 @@ class Post extends Module {
 	public static function register_post_status() {
 
 		register_post_status('mprm-pending', array(
-			'label' => _x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Pending Payment', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -38,7 +38,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-completed', array(
-			'label' => _x('New Order', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('New Order', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -47,7 +47,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-refunded', array(
-			'label' => _x('Refunded', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Refunded', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -56,7 +56,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-failed', array(
-			'label' => _x('Failed', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Failed', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -65,7 +65,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-cooking', array(
-			'label' => _x('Processing', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Processing', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -74,7 +74,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-shipping', array(
-			'label' => _x('Shipping', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Shipping', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -83,7 +83,7 @@ class Post extends Module {
 		));
 
 		register_post_status('mprm-shipped', array(
-			'label' => _x('Completed', 'Order status', 'mp-restaurant-menu'),
+			'label' => esc_html_x('Completed', 'Order status', 'mp-restaurant-menu'),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
@@ -167,7 +167,7 @@ class Post extends Module {
 		if (!isset($_POST['mp-restaurant-menu' . '_nonce_box'])) {
 			return $post_id;
 		}
-		$nonce = $_POST['mp-restaurant-menu' . '_nonce_box'];
+		$nonce = sanitize_text_field( wp_unslash( $_POST['mp-restaurant-menu' . '_nonce_box'] ) );
 
 		// Check correct nonce.
 		if (!wp_verify_nonce($nonce, 'mp-restaurant-menu' . '_nonce')) {
@@ -180,7 +180,7 @@ class Post extends Module {
 		}
 
 		// Cher user rules
-		if ('page' == $_POST['post_type']) {
+		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 			if (!current_user_can('edit_page', $post_id)) {
 				return $post_id;
 			}
@@ -191,27 +191,38 @@ class Post extends Module {
 		}
 
 		if (isset($_POST['mprm_update'])) {
-			if (($_POST['post_type'] == $this->post_types['order']) && (bool)$_POST['mprm_update']) {
+			if ( isset( $_POST['post_type'] ) && ($_POST['post_type'] == $this->post_types['order']) && (bool)$_POST['mprm_update']) {
 				$this->get('payments')->update_payment_details($_POST);
 			}
 		}
 
 		foreach ($this->metaboxes as $metabox) {
+
 			// update post if current post type
-			if ($_POST['post_type'] == $metabox['post_type']) {
+			if ( isset( $_POST['post_type'] ) && $_POST['post_type'] == $metabox['post_type']) {
 
-				$value = empty($_POST[$metabox['name']]) ? false : $_POST[$metabox['name']];
+				$value = false;
+				
+				if ( ! empty( $_POST[$metabox['name']] ) ) {
+					
+					$value = $_POST[$metabox['name']]; // phpcs:ignore
 
-				if ($metabox['name'] == 'price') {
-					$value = floatval(str_replace(',', '.', $value));
+					if ( is_array( $value ) ) {
+						$value = mprm_recursive_sanitize_array(
+							wp_unslash(
+								(array) $_POST[$metabox['name']] // phpcs:ignore
+							)
+						);
+					} else {
+						$value = sanitize_text_field( wp_unslash( $value ) );
+					}
+
+					if ( $metabox['name'] == 'price' ) {
+						$value = floatval( str_replace(',', '.', $value) );
+					}
 				}
 
-				if (is_array($value)) {
-					$mydata = $value;
-				} else {
-					$mydata = sanitize_text_field($value);
-				}
-				update_post_meta($post_id, $metabox['name'], $mydata);
+				update_post_meta($post_id, $metabox['name'], $value);
 			}
 		}
 	}
@@ -232,10 +243,10 @@ class Post extends Module {
 	 * @return array
 	 */
 	public function init_menu_columns($columns) {
-		$columns = array_slice($columns, 0, 1, true) + array('mprm-thumb' => __("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_tag') => __("Tags", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_category') => __("Categories", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
-		$columns = array_slice($columns, 0, 3, true) + array('mprm-price' => __("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 1, true) + array('mprm-thumb' => esc_html__("Image", 'mp-restaurant-menu')) + array_slice($columns, 1, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_tag') => esc_html__("Tags", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array($this->get_tax_name('menu_category') => esc_html__("Categories", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
+		$columns = array_slice($columns, 0, 3, true) + array('mprm-price' => esc_html__("Price", 'mp-restaurant-menu')) + array_slice($columns, 3, count($columns) - 1, true);
 		return $columns;
 	}
 
@@ -253,13 +264,13 @@ class Post extends Module {
 
 		switch ($column) {
 			case $category_name:
-				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $category_name);
+				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $category_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case $tag_name:
-				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name);
+				echo Taxonomy::get_instance()->get_the_term_filter_list($post, $tag_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'mprm-thumb':
-				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>';
+				echo '<a href="' . get_edit_post_link($post->ID) . '">' . get_the_post_thumbnail($post_ID, 'thumbnail', array('width' => 50, 'height' => 50)) . '</a>' . '<div class=mprm-clear></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'mprm-price':
 

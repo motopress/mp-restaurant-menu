@@ -2,7 +2,7 @@
 <?php mprm_get_taxonomy(); ?>
 <?php do_action('mprm_tag_before_wrapper'); ?>
 <div <?php post_class('mprm-remove-hentry ' . apply_filters('mprm-main-wrapper-class', 'mprm-main-wrapper')) ?>>
-	<div class="<?php echo apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-tag-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-tag') ?> ">
+	<div class="<?php echo esc_attr( apply_filters('mprm-wrapper-' . get_mprm_taxonomy_view() . '-tag-class', 'mprm-taxonomy-items-' . get_mprm_taxonomy_view() . ' mprm-container mprm-tag') );?> ">
 		<?php
 		/**
 		 * mprm_before_tag_header hook

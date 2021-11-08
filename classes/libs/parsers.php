@@ -35,14 +35,14 @@ class WXR_Parser {
 			echo '<pre>';
 			if ('SimpleXML_parse_error' == $result->get_error_code()) {
 				foreach ($result->get_error_data() as $error)
-					echo $error->line . ':' . $error->column . ' ' . esc_html($error->message) . "\n";
+					echo esc_html( $error->line ) . ':' . esc_html( $error->column ) . ' ' . esc_html($error->message) . "\n";
 			} else if ('XML_parse_error' == $result->get_error_code()) {
 				$error = $result->get_error_data();
-				echo $error[0] . ':' . $error[1] . ' ' . esc_html($error[2]);
+				echo esc_html( $error[0] ) . ':' . esc_html( $error[1] ) . ' ' . esc_html($error[2]);
 			}
 			echo '</pre>';
-			echo '<p><strong>' . __('There was an error when reading this WXR file', 'mp-restaurant-menu') . '</strong><br />';
-			echo __('Details are shown above. The importer will now try again with a different parser...', 'mp-restaurant-menu') . '</p>';
+			echo '<p><strong>' . esc_html__('There was an error when reading this WXR file', 'mp-restaurant-menu') . '</strong><br />';
+			echo esc_html__('Details are shown above. The importer will now try again with a different parser...', 'mp-restaurant-menu') . '</p>';
 		}
 		// use regular expressions if nothing else available or this is bad XML
 		$parser = new WXR_Parser_Regex;
@@ -72,20 +72,20 @@ class WXR_Parser_SimpleXML {
 			libxml_disable_entity_loader($old_value);
 		}
 		if (!$success || isset($dom->doctype)) {
-			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
+			return new \WP_Error('SimpleXML_parse_error', esc_html__('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
 		}
 		$xml = simplexml_import_dom($dom);
 		unset($dom);
 		// halt if loading produces an error
 		if (!$xml)
-			return new \WP_Error('SimpleXML_parse_error', __('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
+			return new \WP_Error('SimpleXML_parse_error', esc_html__('There was an error when reading this WXR file', 'mp-restaurant-menu'), libxml_get_errors());
 		$wxr_version = $xml->xpath('/rss/channel/wp:wxr_version');
 		if (!$wxr_version)
-			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
+			return new \WP_Error('WXR_parse_error', esc_html__('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 		$wxr_version = (string)trim($wxr_version[0]);
 		// confirm that we are dealing with the correct file format
 		if (!preg_match('/^\d+\.\d+$/', $wxr_version))
-			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
+			return new \WP_Error('WXR_parse_error', esc_html__('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 		$base_url = $xml->xpath('/rss/channel/wp:base_site_url');
 		$base_url = (string)trim($base_url[0]);
 		$namespaces = $xml->getDocNamespaces();
@@ -261,7 +261,7 @@ class WXR_Parser_XML {
 		}
 		xml_parser_free($xml);
 		if (!preg_match('/^\d+\.\d+$/', $this->wxr_version))
-			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
+			return new \WP_Error('WXR_parse_error', esc_html__('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 		return array(
 			'authors' => $this->authors,
 			'posts' => $this->posts,
@@ -474,7 +474,7 @@ class WXR_Parser_Regex {
 			$this->fclose($fp);
 		}
 		if (!$wxr_version)
-			return new \WP_Error('WXR_parse_error', __('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
+			return new \WP_Error('WXR_parse_error', esc_html__('This does not appear to be a WXR file, missing/invalid WXR version number', 'mp-restaurant-menu'));
 		return array(
 			'authors' => $this->authors,
 			'posts' => $this->posts,

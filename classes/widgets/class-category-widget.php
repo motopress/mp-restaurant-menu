@@ -21,9 +21,9 @@ class Category_widget extends \WP_Widget {
 	 */
 	public function __construct() {
 		$this->widget_css_class = 'mprm_widget';
-		$this->widget_description = __('Display categories.', 'mp-restaurant-menu');
+		$this->widget_description = esc_html__('Display categories.', 'mp-restaurant-menu');
 		$this->widget_id = 'mprm_category';
-		$this->widget_name = __('Restaurant Menu Categories', 'mp-restaurant-menu');
+		$this->widget_name = esc_html__('Restaurant Menu Categories', 'mp-restaurant-menu');
 		$widget_ops = array(
 			'classname' => $this->widget_css_class,
 			'description' => $this->widget_description

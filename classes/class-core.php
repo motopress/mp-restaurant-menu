@@ -275,8 +275,8 @@ class Core {
 	 */
 	public function wp_ajax_route_url() {
 
-		$controller = isset($_REQUEST[ "controller" ]) ? $_REQUEST[ "controller" ] : null;
-		$action = isset($_REQUEST[ "mprm_action" ]) ? $_REQUEST[ "mprm_action" ] : null;
+		$controller = isset($_REQUEST[ "controller" ]) ? sanitize_text_field( wp_unslash( $_REQUEST[ "controller" ] ) ) : null;
+		$action = isset($_REQUEST[ "mprm_action" ]) ? sanitize_text_field( wp_unslash( $_REQUEST[ "mprm_action" ] ) ) : null;
 
 		if ( !empty($action) && !empty($controller) ) {
 			// call controller
@@ -376,7 +376,7 @@ class Core {
 	 */
 	public function available_theme_mode($params) {
 		if (current_theme_supports('mp-restaurant-menu')) {
-			return array('plugin' => __('Plugin', 'mp-restaurant-menu'));
+			return array('plugin' => esc_html__('Plugin', 'mp-restaurant-menu'));
 		}
 		
 		return $params;

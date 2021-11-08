@@ -3,7 +3,7 @@
  * Plugin Name: Restaurant Menu
  * Plugin URI: https://motopress.com/products/restaurant-menu/
  * Description: This plugin gives you the power to effectively create, maintain and display online menus for almost any kind of restaurant, cafes and other typical food establishments.
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: MotoPress
  * Author URI: https://motopress.com
  * License: GPLv2 or later
@@ -18,6 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 use mp_restaurant_menu\classes\Core;
 use mp_restaurant_menu\classes\Media;
 use mp_restaurant_menu\classes\upgrade\Install;
+
+if ( ! defined( 'MP_RM_PLUGIN_FILE' ) ) {
+	define( 'MP_RM_PLUGIN_FILE', __FILE__ );
+}
 
 define('MP_RM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('MP_RM_MEDIA_URL', plugins_url(plugin_basename(__DIR__) . '/media/'));
@@ -71,10 +75,12 @@ class MP_Restaurant_Menu_Setup_Plugin {
 	 * Include files
 	 */
 	static function include_all() {
+
 		/**
-		 * Include Gump Validator
+		 * Include WP Parser
 		 */
-		require_once MP_RM_LIBS_PATH . 'gump.class.php';
+		require_once 'functions.php';
+
 		/**
 		 * Include WP Parser
 		 */

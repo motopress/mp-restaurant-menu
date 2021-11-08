@@ -34,7 +34,7 @@ class Purchase extends Model {
 
 		// Make sure the cart isn't empty
 		if (!$this->get('cart')->get_cart_contents() && !$this->get('cart')->cart_has_fees()) {
-			$this->get('errors')->set_error('empty_cart', __('Your cart is empty.', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('empty_cart', esc_html__('Your cart is empty.', 'mp-restaurant-menu'));
 		} else {
 			// Validate the form $_POST data
 			$valid_data = $this->purchase_form_validate_fields();
@@ -87,7 +87,14 @@ class Purchase extends Model {
 			'discount' => $valid_data['discount'],
 			'address' => $user['address']
 		);
+
 		$auth_key = defined('AUTH_KEY') ? AUTH_KEY : '';
+
+		$post_data = mprm_recursive_sanitize_array(
+			wp_unslash(
+				(array) $_POST // phpcs:ignore
+			)
+		);
 
 		// Setup purchase information
 		$purchase_data = array(
@@ -101,7 +108,7 @@ class Purchase extends Model {
 			'user_email' => $user['user_email'],
 			'date' => date('Y-m-d H:i:s', current_time('timestamp')),
 			'user_info' => stripslashes_deep($user_info),
-			'post_data' => $_POST,
+			'post_data' => $post_data,
 			'cart_details' => $this->get('cart')->get_cart_content_details(),
 			'gateway' => $valid_data['gateway'],
 			'card_info' => $valid_data['cc_info'],
@@ -159,8 +166,8 @@ class Purchase extends Model {
 			'login_user_data' => array(),   // Login user collected data
 			'guest_user_data' => array(),   // Guest user collected data
 			'cc_info' => $this->purchase_form_validate_cc(),// Credit card info
-			'customer_note' => !empty($_POST['customer_note']) ? sanitize_text_field($_POST['customer_note']) : '',
-			'shipping_address' => !empty($_POST['shipping_address']) ? sanitize_text_field($_POST['shipping_address']) : '',
+			'customer_note' => !empty($_POST['customer_note']) ? sanitize_text_field( wp_unslash( $_POST['customer_note'] ) ) : '',
+			'shipping_address' => !empty($_POST['shipping_address']) ? sanitize_text_field( wp_unslash( $_POST['shipping_address'] ) ) : '',
 			'phone_number' => !empty($_POST['phone_number']) ? $this->purchase_form_validate_phone() : ''
 		);
 
@@ -200,11 +207,11 @@ class Purchase extends Model {
 		$gateway = $this->get('gateways')->get_default_gateway();
 		// Check if a gateway value is present
 		if (!empty($_REQUEST['mprm-gateway'])) {
-			$gateway = sanitize_text_field($_REQUEST['mprm-gateway']);
+			$gateway = sanitize_text_field( wp_unslash( $_REQUEST['mprm-gateway'] ) );
 			if ('0.00' == $this->get('cart')->get_cart_total()) {
 				$gateway = 'test_manual';
 			} elseif (!$this->get('gateways')->is_gateway_active($gateway)) {
-				$this->get('errors')->set_error('invalid_gateway', __('The selected payment gateway is not enabled', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_gateway', esc_html__('The selected payment gateway is not enabled', 'mp-restaurant-menu'));
 			}
 		}
 		return $gateway;
@@ -219,18 +226,26 @@ class Purchase extends Model {
 		// Retrieve the discount stored in cookies
 		$discounts = $this->get('cart')->get_cart_discounts();
 		$user = '';
+
 		if (isset($_POST['mprm_user_login']) && !empty($_POST['mprm_user_login'])) {
-			$user = sanitize_text_field($_POST['mprm_user_login']);
+
+			$user = sanitize_text_field( wp_unslash( $_POST['mprm_user_login'] ) );
+
 		} else if (isset($_POST['mprm_email']) && !empty($_POST['mprm_email'])) {
-			$user = sanitize_text_field($_POST['mprm_email']);
+
+			$user = sanitize_text_field( wp_unslash( $_POST['mprm_email'] ) );
+
 		} else if (is_user_logged_in()) {
+
 			$user = wp_get_current_user()->user_email;
 		}
+
 		$error = false;
+
 		// Check for valid discount(s) is present
-		if (!empty($_POST['mprm-discount']) && __('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
+		if (!empty($_POST['mprm-discount']) && esc_html__('Enter discount', 'mp-restaurant-menu') != $_POST['mprm-discount']) {
 			// Check for a posted discount
-			$posted_discount = isset($_POST['mprm-discount']) ? trim($_POST['mprm-discount']) : false;
+			$posted_discount = isset($_POST['mprm-discount']) ? sanitize_text_field( wp_unslash( $_POST['mprm-discount'] ) ) : false;
 			// Add the posted discount to the discounts
 			if ($posted_discount && (empty($discounts) || $this->get('discount')->multiple_discounts_allowed()) && $this->get('discount')->is_discount_valid($posted_discount, $user)) {
 				$this->get('discount')->set_cart_discount($posted_discount);
@@ -250,7 +265,7 @@ class Purchase extends Model {
 			return 'none';
 		}
 		if ($error) {
-			$this->get('errors')->set_error('invalid_discount', __('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('invalid_discount', esc_html__('One or more of the discounts you entered is invalid', 'mp-restaurant-menu'));
 		}
 		return implode(', ', $discounts);
 	}
@@ -265,7 +280,7 @@ class Purchase extends Model {
 		// Validate the card zip
 		if (!empty($card_data['card_zip'])) {
 			if (!$this->purchase_form_validate_cc_zip($card_data['card_zip'], $card_data['card_country'])) {
-				$this->get('errors')->set_error('invalid_cc_zip', __('The zip / postal code you entered for your billing address is invalid', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_cc_zip', esc_html__('The zip / postal code you entered for your billing address is invalid', 'mp-restaurant-menu'));
 			}
 		}
 		// This should validate card numbers at some point too
@@ -279,17 +294,17 @@ class Purchase extends Model {
 	 */
 	public function get_purchase_cc_info() {
 		$cc_info = array();
-		$cc_info['card_name'] = isset($_POST['card_name']) ? sanitize_text_field($_POST['card_name']) : '';
-		$cc_info['card_number'] = isset($_POST['card_number']) ? sanitize_text_field($_POST['card_number']) : '';
-		$cc_info['card_cvc'] = isset($_POST['card_cvc']) ? sanitize_text_field($_POST['card_cvc']) : '';
-		$cc_info['card_exp_month'] = isset($_POST['card_exp_month']) ? sanitize_text_field($_POST['card_exp_month']) : '';
-		$cc_info['card_exp_year'] = isset($_POST['card_exp_year']) ? sanitize_text_field($_POST['card_exp_year']) : '';
-		$cc_info['card_address'] = isset($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : '';
-		$cc_info['card_address_2'] = isset($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : '';
-		$cc_info['card_city'] = isset($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : '';
-		$cc_info['card_state'] = isset($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : '';
-		$cc_info['card_country'] = isset($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : '';
-		$cc_info['card_zip'] = isset($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : '';
+		$cc_info['card_name'] = 		isset($_POST['card_name']) ? 		sanitize_text_field( wp_unslash( $_POST['card_name'] ) ) : '';
+		$cc_info['card_number'] = 		isset($_POST['card_number']) ? 		sanitize_text_field( wp_unslash( $_POST['card_number'] ) ) : '';
+		$cc_info['card_cvc'] = 			isset($_POST['card_cvc']) ? 		sanitize_text_field( wp_unslash( $_POST['card_cvc'] ) ) : '';
+		$cc_info['card_exp_month'] = 	isset($_POST['card_exp_month']) ? 	sanitize_text_field( wp_unslash( $_POST['card_exp_month'] ) ) : '';
+		$cc_info['card_exp_year'] = 	isset($_POST['card_exp_year']) ? 	sanitize_text_field( wp_unslash( $_POST['card_exp_year'] ) ) : '';
+		$cc_info['card_address'] = 		isset($_POST['card_address']) ? 	sanitize_text_field( wp_unslash( $_POST['card_address'] ) ) : '';
+		$cc_info['card_address_2'] = 	isset($_POST['card_address_2']) ? 	sanitize_text_field( wp_unslash( $_POST['card_address_2'] ) ) : '';
+		$cc_info['card_city'] = 		isset($_POST['card_city']) ? 		sanitize_text_field( wp_unslash( $_POST['card_city'] ) ) : '';
+		$cc_info['card_state'] = 		isset($_POST['card_state']) ? 		sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : '';
+		$cc_info['card_country'] = 		isset($_POST['billing_country']) ? 	sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : '';
+		$cc_info['card_zip'] = 			isset($_POST['card_zip']) ? 		sanitize_text_field( wp_unslash( $_POST['card_zip'] ) ) : '';
 		// Return cc info
 		return $cc_info;
 	}
@@ -475,13 +490,9 @@ class Purchase extends Model {
 	 * @return bool|string
 	 */
 	public function purchase_form_validate_phone() {
-		$number = sanitize_text_field($_POST['phone_number']);
-//		$regex = "/(\+?\d[- .]*){7,13}/i";
-//		$valid = preg_match($regex, $number) ? true : false;
-//		if (!$valid) {
-//			$this->get('errors')->set_error('invalid_discount', __('Invalid phone number format. error even when I enter the correct number format', 'mp-restaurant-menu'));
-//		}
-//		return $valid ? $number : false;
+
+		$number = isset( $_POST['phone_number'] ) ? sanitize_text_field( wp_unslash( $_POST['phone_number'] ) ) : 0;
+
 		return $number;
 	}
 
@@ -492,7 +503,7 @@ class Purchase extends Model {
 		// Validate agree to terms
 		if (!isset($_POST['mprm_agree_to_terms']) || $_POST['mprm_agree_to_terms'] != 1) {
 			// User did not agree
-			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', __('You must agree to the terms of use', 'mp-restaurant-menu')));
+			$this->get('errors')->set_error('agree_to_terms', apply_filters('mprm_agree_to_terms_text', esc_html__('You must agree to the terms of use', 'mp-restaurant-menu')));
 		}
 	}
 
@@ -523,16 +534,16 @@ class Purchase extends Model {
 				// Collected logged in user data
 				$valid_user_data = array(
 					'user_id' => $user_ID,
-					'user_email' => isset($_POST['mprm_email']) ? sanitize_email($_POST['mprm_email']) : $user_data->user_email,
-					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field($_POST['mprm_first']) : $user_data->first_name,
-					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field($_POST['mprm_last']) : $user_data->last_name,
+					'user_email' => isset($_POST['mprm_email']) ? sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : $user_data->user_email,
+					'user_first' => isset($_POST['mprm_first']) && !empty($_POST['mprm_first']) ? sanitize_text_field( wp_unslash( $_POST['mprm_first'] ) ) : $user_data->first_name,
+					'user_last' => isset($_POST['mprm_last']) && !empty($_POST['mprm_last']) ? sanitize_text_field( wp_unslash( $_POST['mprm_last'] ) ) : $user_data->last_name,
 				);
 				if (!is_email($valid_user_data['user_email'])) {
-					$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 				}
 			} else {
 				// Set invalid user error
-				$this->get('errors')->set_error('invalid_user', __('The user information is invalid', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('invalid_user', esc_html__('The user information is invalid', 'mp-restaurant-menu'));
 			}
 		}
 		// Return user data
@@ -548,11 +559,11 @@ class Purchase extends Model {
 		$required_fields = array(
 			'mprm_email' => array(
 				'error_id' => 'invalid_email',
-				'error_message' => __('Please enter a valid email address', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter a valid email address', 'mp-restaurant-menu')
 			),
 			'mprm_first' => array(
 				'error_id' => 'invalid_first_name',
-				'error_message' => __('Please enter your first name', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your first name', 'mp-restaurant-menu')
 			)
 		);
 		// Let payment gateways and other extensions determine if address fields should be required
@@ -560,19 +571,19 @@ class Purchase extends Model {
 		if ($require_address && $this->get('settings')->get_option('taxes_cc_form', false)) {
 			$required_fields['card_zip'] = array(
 				'error_id' => 'invalid_zip_code',
-				'error_message' => __('Please enter your zip / postal code', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your zip / postal code', 'mp-restaurant-menu')
 			);
 			$required_fields['card_city'] = array(
 				'error_id' => 'invalid_city',
-				'error_message' => __('Please enter your billing city', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter your billing city', 'mp-restaurant-menu')
 			);
 			$required_fields['billing_country'] = array(
 				'error_id' => 'invalid_country',
-				'error_message' => __('Please select your billing country', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please select your billing country', 'mp-restaurant-menu')
 			);
 			$required_fields['card_state'] = array(
 				'error_id' => 'invalid_state',
-				'error_message' => __('Please enter billing state / province', 'mp-restaurant-menu')
+				'error_message' => esc_html__('Please enter billing state / province', 'mp-restaurant-menu')
 			);
 		}
 		return apply_filters('mprm_purchase_form_required_fields', $required_fields);
@@ -584,21 +595,25 @@ class Purchase extends Model {
 	 * @return array
 	 */
 	public function purchase_form_validate_new_user() {
+
 		$registering_new_user = false;
+
 		// Start an empty array to collect valid user data
 		$valid_user_data = array(
 			// Assume there will be errors
 			'user_id' => -1,
 			// Get first name
-			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field($_POST["mprm_first"]) : '',
+			'user_first' => isset($_POST["mprm_first"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_first"] ) ) : '',
 			// Get last name
-			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field($_POST["mprm_last"]) : '',
+			'user_last' => isset($_POST["mprm_last"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_last"] ) ) : '',
 		);
+
 		// Check the new user's credentials against existing ones
-		$user_login = isset($_POST["mprm_user_login"]) ? trim($_POST["mprm_user_login"]) : false;
-		$user_email = isset($_POST['mprm_email']) ? trim($_POST['mprm_email']) : false;
-		$user_pass = isset($_POST["mprm_user_pass"]) ? trim($_POST["mprm_user_pass"]) : false;
-		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? trim($_POST["mprm_user_pass_confirm"]) : false;
+		$user_login = isset($_POST["mprm_user_login"]) ? 			sanitize_text_field( wp_unslash( $_POST["mprm_user_login"] ) ) : false;
+		$user_email = isset($_POST['mprm_email']) ? 				sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : false;
+		$user_pass = isset($_POST["mprm_user_pass"]) ? 				sanitize_text_field( wp_unslash( $_POST["mprm_user_pass"] ) ) : false;
+		$pass_confirm = isset($_POST["mprm_user_pass_confirm"]) ? 	sanitize_text_field( wp_unslash( $_POST["mprm_user_pass_confirm"] ) ) : false;
+
 		// Loop through required fields and show error messages
 		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
 			if (in_array($value, $this->purchase_form_required_fields()) && empty($_POST[$field_name])) {
@@ -611,45 +626,45 @@ class Purchase extends Model {
 			// We have an user name, check if it already exists
 			if (username_exists($user_login)) {
 				// Username already registered
-				$this->get('errors')->set_error('username_unavailable', __('Username already taken', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('username_unavailable', esc_html__('Username already taken', 'mp-restaurant-menu'));
 				// Check if it's valid
 			} else if (!$this->get('customer')->validate_username($user_login)) {
 				// Invalid username
 				if (is_multisite())
-					$this->get('errors')->set_error('username_invalid', __('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('username_invalid', esc_html__('Invalid username. Only lowercase letters (a-z) and numbers are allowed', 'mp-restaurant-menu'));
 				else
-					$this->get('errors')->set_error('username_invalid', __('Invalid username', 'mp-restaurant-menu'));
+					$this->get('errors')->set_error('username_invalid', esc_html__('Invalid username', 'mp-restaurant-menu'));
 			} else {
 				// All the checks have run and it's good to go
 				$valid_user_data['user_login'] = $user_login;
 			}
 		} else {
 			if ($this->get('misc')->no_guest_checkout()) {
-				$this->get('errors')->set_error('registration_required', __('You must register or login to complete your purchase', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('registration_required', esc_html__('You must register or login to complete your purchase', 'mp-restaurant-menu'));
 			}
 		}
 		// Check if we have an email to verify
 		if ($user_email && strlen($user_email) > 0) {
 			// Validate email
 			if (!is_email($user_email)) {
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 				// Check if email exists
 			} else if (email_exists($user_email) && $registering_new_user) {
-				$this->get('errors')->set_error('email_used', __('Email already used', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_used', esc_html__('Email already used', 'mp-restaurant-menu'));
 			} else {
 				// All the checks have run and it's good to go
 				$valid_user_data['user_email'] = $user_email;
 			}
 		} else {
 			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_empty', esc_html__('Enter an email', 'mp-restaurant-menu'));
 		}
 		// Check password
 		if ($user_pass && $pass_confirm) {
 			// Verify confirmation matches
 			if ($user_pass != $pass_confirm) {
 				// Passwords do not match
-				$this->get('errors')->set_error('password_mismatch', __('Passwords don\'t match', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_mismatch', esc_html__('Passwords don\'t match', 'mp-restaurant-menu'));
 			} else {
 				// All is good to go
 				$valid_user_data['user_pass'] = $user_pass;
@@ -658,10 +673,10 @@ class Purchase extends Model {
 			// Password or confirmation missing
 			if (!$user_pass && $registering_new_user) {
 				// The password is invalid
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_empty', esc_html__('Enter a password', 'mp-restaurant-menu'));
 			} else if (!$pass_confirm && $registering_new_user) {
 				// Confirmation password is invalid
-				$this->get('errors')->set_error('confirmation_empty', __('Enter the password confirmation', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('confirmation_empty', esc_html__('Enter the password confirmation', 'mp-restaurant-menu'));
 			}
 		}
 		return $valid_user_data;
@@ -680,15 +695,15 @@ class Purchase extends Model {
 		);
 		// Username
 		if (empty($_POST['mprm_user_login']) && $this->get('misc')->no_guest_checkout()) {
-			$this->get('errors')->set_error('must_log_in', __('You must login or register to complete your purchase', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('must_log_in', esc_html__('You must login or register to complete your purchase', 'mp-restaurant-menu'));
 			return $valid_user_data;
 		}
 		// Get the user by login
-		$user_data = get_user_by('login', strip_tags($_POST['mprm_user_login']));
+		$user_data = get_user_by('login', sanitize_text_field( wp_unslash( $_POST['mprm_user_login'] ) ));
 		// Check if user exists
 		if ($user_data) {
 			// Get password
-			$user_pass = isset($_POST["mprm_user_pass"]) ? $_POST["mprm_user_pass"] : false;
+			$user_pass = isset($_POST["mprm_user_pass"]) ? sanitize_text_field( wp_unslash( $_POST["mprm_user_pass"] ) ) : false;
 			// Check user_pass
 			if ($user_pass) {
 				// Check if password is valid
@@ -716,11 +731,11 @@ class Purchase extends Model {
 				}
 			} else {
 				// Empty password
-				$this->get('errors')->set_error('password_empty', __('Enter a password', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('password_empty', esc_html__('Enter a password', 'mp-restaurant-menu'));
 			}
 		} else {
 			// no username
-			$this->get('errors')->set_error('username_incorrect', __('The username you entered does not exist', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('username_incorrect', esc_html__('The username you entered does not exist', 'mp-restaurant-menu'));
 		}
 		return $valid_user_data;
 	}
@@ -738,23 +753,23 @@ class Purchase extends Model {
 		);
 		// Show error message if user must be logged in
 		if ($this->get('settings')->logged_in_only()) {
-			$this->get('errors')->set_error('logged_in_only', __('You must be logged into an account to purchase', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('logged_in_only', esc_html__('You must be logged into an account to purchase', 'mp-restaurant-menu'));
 		}
 		// Get the guest email
-		$guest_email = isset($_POST['mprm_email']) ? $_POST['mprm_email'] : false;
+		$guest_email = isset($_POST['mprm_email']) ? sanitize_email( wp_unslash( $_POST['mprm_email'] ) ) : false;
 		// Check email
 		if ($guest_email && strlen($guest_email) > 0) {
 			// Validate email
 			if (!is_email($guest_email)) {
 				// Invalid email
-				$this->get('errors')->set_error('email_invalid', __('Invalid email', 'mp-restaurant-menu'));
+				$this->get('errors')->set_error('email_invalid', esc_html__('Invalid email', 'mp-restaurant-menu'));
 			} else {
 				// All is good to go
 				$valid_user_data['user_email'] = $guest_email;
 			}
 		} else {
 			// No email
-			$this->get('errors')->set_error('email_empty', __('Enter an email', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_empty', esc_html__('Enter an email', 'mp-restaurant-menu'));
 		}
 		// Loop through required fields and show error messages
 		foreach ($this->purchase_form_required_fields() as $field_name => $value) {
@@ -776,7 +791,7 @@ class Purchase extends Model {
 				do_action('mprm_ajax_checkout_errors');
 				wp_die();
 			} else {
-				wp_redirect($_SERVER['HTTP_REFERER']);
+				wp_redirect($_SERVER['HTTP_REFERER']); // phpcs:ignore
 				exit;
 			}
 		}
@@ -784,7 +799,7 @@ class Purchase extends Model {
 		if ($is_ajax) {
 			//wp_die();
 		} else {
-			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING']));
+			wp_redirect($this->get('checkout')->get_checkout_uri($_SERVER['QUERY_STRING'])); // phpcs:ignore
 		}
 	}
 
@@ -833,20 +848,20 @@ class Purchase extends Model {
 		}
 		// Get user first name
 		if (!isset($user['user_first']) || strlen(trim($user['user_first'])) < 1) {
-			$user['user_first'] = isset($_POST["mprm_first"]) ? strip_tags(trim($_POST["mprm_first"])) : '';
+			$user['user_first'] = isset($_POST["mprm_first"]) ? 			sanitize_text_field( wp_unslash( $_POST["mprm_first"] ) ) : '';
 		}
 		// Get user last name
 		if (!isset($user['user_last']) || strlen(trim($user['user_last'])) < 1) {
-			$user['user_last'] = isset($_POST["mprm_last"]) ? strip_tags(trim($_POST["mprm_last"])) : '';
+			$user['user_last'] = isset($_POST["mprm_last"]) ? 				sanitize_text_field( wp_unslash( $_POST["mprm_last"] ) ) : '';
 		}
 		// Get the user's billing address details
 		$user['address'] = array();
-		$user['address']['line1'] = !empty($_POST['card_address']) ? sanitize_text_field($_POST['card_address']) : false;
-		$user['address']['line2'] = !empty($_POST['card_address_2']) ? sanitize_text_field($_POST['card_address_2']) : false;
-		$user['address']['city'] = !empty($_POST['card_city']) ? sanitize_text_field($_POST['card_city']) : false;
-		$user['address']['state'] = !empty($_POST['card_state']) ? sanitize_text_field($_POST['card_state']) : false;
-		$user['address']['country'] = !empty($_POST['billing_country']) ? sanitize_text_field($_POST['billing_country']) : false;
-		$user['address']['zip'] = !empty($_POST['card_zip']) ? sanitize_text_field($_POST['card_zip']) : false;
+		$user['address']['line1'] = !empty($_POST['card_address']) ? 		sanitize_text_field( wp_unslash( $_POST['card_address'] ) ) : false;
+		$user['address']['line2'] = !empty($_POST['card_address_2']) ? 		sanitize_text_field( wp_unslash( $_POST['card_address_2'] ) ) : false;
+		$user['address']['city'] = !empty($_POST['card_city']) ? 			sanitize_text_field( wp_unslash( $_POST['card_city'] ) ) : false;
+		$user['address']['state'] = !empty($_POST['card_state']) ? 			sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : false;
+		$user['address']['country'] = !empty($_POST['billing_country']) ? 	sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : false;
+		$user['address']['zip'] = !empty($_POST['card_zip']) ? 				sanitize_text_field( wp_unslash( $_POST['card_zip'] ) ) : false;
 		if (empty($user['address']['country']))
 			$user['address'] = false; // Country will always be set if address fields are present
 		if (!empty($user['user_id']) && $user['user_id'] > 0 && !empty($user['address'])) {
@@ -930,7 +945,7 @@ class Purchase extends Model {
 		}
 		if ($is_banned) {
 			// Set an error and give the customer a general error (don't alert them that they were banned)
-			$this->get('errors')->set_error('email_banned', __('An internal error has occurred, please try again or contact support.', 'mp-restaurant-menu'));
+			$this->get('errors')->set_error('email_banned', esc_html__('An internal error has occurred, please try again or contact support.', 'mp-restaurant-menu'));
 		}
 	}
 

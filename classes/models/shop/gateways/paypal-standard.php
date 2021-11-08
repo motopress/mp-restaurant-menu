@@ -25,7 +25,7 @@ class Paypal_standart extends Model {
 	 */
 	public function process_paypal_purchase($purchase_data) {
 		if (!wp_verify_nonce($purchase_data['gateway_nonce'], 'mprm-gateway')) {
-			wp_die(__('Nonce verification has failed', 'mp-restaurant-menu'), __('Error', 'mp-restaurant-menu'), array('response' => 403));
+			wp_die(esc_html__('Nonce verification has failed', 'mp-restaurant-menu'), esc_html__('Error', 'mp-restaurant-menu'), array('response' => 403));
 		}
 		// Collect payment data
 		$payment_data = array(
@@ -44,8 +44,7 @@ class Paypal_standart extends Model {
 		$payment = $this->get('payments')->insert_payment($payment_data);
 		// Check payment
 		if (!$payment) {
-			// Record the error
-			//mprm_record_gateway_error(__('Payment Error', 'mp-restaurant-menu'), sprintf(__('Payment creation failed before sending buyer to PayPal. Payment data: %s', 'mp-restaurant-menu'), json_encode($payment_data)), $payment);
+
 			// Problems? send back
 			$this->get('checkout')->send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['mprm-gateway']);
 		} else {
@@ -275,11 +274,11 @@ class Paypal_standart extends Model {
 			// Get response
 			$api_response = wp_remote_post($this->get_paypal_redirect(), $remote_post_vars);
 			if (is_wp_error($api_response)) {
-				//	mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
+
 				return; // Something went wrong
 			}
 			if ($api_response['body'] !== 'VERIFIED' && $this->get('settings')->get_option('disable_paypal_verification', false)) {
-				//	mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid IPN verification response. IPN data: %s', 'mp-restaurant-menu'), json_encode($api_response)));
+
 				return; // Response not okay
 			}
 		}
@@ -332,16 +331,16 @@ class Paypal_standart extends Model {
 		}
 		// Verify payment recipient
 		if (strcasecmp($business_email, trim($this->get('settings')->get_option('paypal_email', false))) != 0) {
-			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid business email in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+
 			$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
-			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid PayPal business email.', 'mp-restaurant-menu'));
+			$this->get('payments')->insert_payment_note($payment_id, esc_html__('Payment failed due to invalid PayPal business email.', 'mp-restaurant-menu'));
 			return;
 		}
 		// Verify payment currency
 		if ($currency_code != strtolower($payment_meta['currency'])) {
-			//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid currency in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+
 			$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
-			$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid currency in PayPal IPN.', 'mp-restaurant-menu'));
+			$this->get('payments')->insert_payment_note($payment_id, esc_html__('Payment failed due to invalid currency in PayPal IPN.', 'mp-restaurant-menu'));
 			return;
 		}
 		if (!$this->get('payments')->get_payment_user_email($payment_id)) {
@@ -377,20 +376,20 @@ class Paypal_standart extends Model {
 			$payment_amount = $this->get('payments')->get_payment_amount($payment_id);
 			if (number_format((float)$paypal_amount, 2) < number_format((float)$payment_amount, 2)) {
 				// The prices don't match
-				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid payment amount in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+
 				$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
-				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid amount in PayPal IPN.', 'mp-restaurant-menu'));
+				$this->get('payments')->insert_payment_note($payment_id, esc_html__('Payment failed due to invalid amount in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
 			if ($purchase_key != $this->get('payments')->get_payment_key($payment_id)) {
 				// Purchase keys don't match
-				//mprm_record_gateway_error(__('IPN Error', 'mp-restaurant-menu'), sprintf(__('Invalid purchase key in IPN response. IPN data: %s', 'mp-restaurant-menu'), json_encode($data)), $payment_id);
+
 				$this->get('payments')->update_payment_status($payment_id, 'mprm-failed');
-				$this->get('payments')->insert_payment_note($payment_id, __('Payment failed due to invalid purchase key in PayPal IPN.', 'mp-restaurant-menu'));
+				$this->get('payments')->insert_payment_note($payment_id, esc_html__('Payment failed due to invalid purchase key in PayPal IPN.', 'mp-restaurant-menu'));
 				return;
 			}
 			if ('completed' == $payment_status || $this->get('misc')->is_test_mode()) {
-				$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
+				$this->get('payments')->insert_payment_note($payment_id, sprintf(esc_html__('PayPal Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 				$this->get('payments')->set_payment_transaction_id($payment_id, $data['txn_id']);
 				$this->get('payments')->update_payment_status($payment_id, 'publish');
 			} else if ('pending' == $payment_status && isset($data['pending_reason'])) {
@@ -398,32 +397,32 @@ class Paypal_standart extends Model {
 				$note = '';
 				switch (strtolower($data['pending_reason'])) {
 					case 'echeck' :
-						$note = __('Payment made via eCheck and will clear automatically in 5-8 days', 'mp-restaurant-menu');
+						$note = esc_html__('Payment made via eCheck and will clear automatically in 5-8 days', 'mp-restaurant-menu');
 						break;
 					case 'address' :
-						$note = __('Payment requires a confirmed customer address and must be accepted manually through PayPal', 'mp-restaurant-menu');
+						$note = esc_html__('Payment requires a confirmed customer address and must be accepted manually through PayPal', 'mp-restaurant-menu');
 						break;
 					case 'intl' :
-						$note = __('Payment must be accepted manually through PayPal due to international account regulations', 'mp-restaurant-menu');
+						$note = esc_html__('Payment must be accepted manually through PayPal due to international account regulations', 'mp-restaurant-menu');
 						break;
 					case 'multi-currency' :
-						$note = __('Payment received in non-shop currency and must be accepted manually through PayPal', 'mp-restaurant-menu');
+						$note = esc_html__('Payment received in non-shop currency and must be accepted manually through PayPal', 'mp-restaurant-menu');
 						break;
 					case 'paymentreview' :
 					case 'regulatory_review' :
-						$note = __('Payment is being reviewed by PayPal staff as high-risk or in possible violation of government regulations', 'mp-restaurant-menu');
+						$note = esc_html__('Payment is being reviewed by PayPal staff as high-risk or in possible violation of government regulations', 'mp-restaurant-menu');
 						break;
 					case 'unilateral' :
-						$note = __('Payment was sent to non-confirmed or non-registered email address.', 'mp-restaurant-menu');
+						$note = esc_html__('Payment was sent to non-confirmed or non-registered email address.', 'mp-restaurant-menu');
 						break;
 					case 'upgrade' :
-						$note = __('PayPal account must be upgraded before this payment can be accepted', 'mp-restaurant-menu');
+						$note = esc_html__('PayPal account must be upgraded before this payment can be accepted', 'mp-restaurant-menu');
 						break;
 					case 'verify' :
-						$note = __('PayPal account is not verified. Verify account in order to accept this payment', 'mp-restaurant-menu');
+						$note = esc_html__('PayPal account is not verified. Verify account in order to accept this payment', 'mp-restaurant-menu');
 						break;
 					case 'other' :
-						$note = __('Payment is pending for unknown reasons. Contact PayPal support for assistance', 'mp-restaurant-menu');
+						$note = esc_html__('Payment is pending for unknown reasons. Contact PayPal support for assistance', 'mp-restaurant-menu');
 						break;
 				}
 				if (!empty($note)) {
@@ -454,11 +453,11 @@ class Paypal_standart extends Model {
 		$payment_amount = $this->get('payments')->get_payment_amount($payment_id);
 		$refund_amount = $data['mc_gross'] * -1;
 		if (number_format((float)$refund_amount, 2) < number_format((float)$payment_amount, 2)) {
-			$this->get('payments')->insert_payment_note($payment_id, sprintf(__('Partial PayPal refund processed: %s', 'mp-restaurant-menu'), $data['parent_txn_id']));
+			$this->get('payments')->insert_payment_note($payment_id, sprintf(esc_html__('Partial PayPal refund processed: %s', 'mp-restaurant-menu'), $data['parent_txn_id']));
 			return; // This is a partial refund
 		}
 		$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Payment #%s Refunded for reason: %s', 'mp-restaurant-menu'), $data['parent_txn_id'], $data['reason_code']));
-		$this->get('payments')->insert_payment_note($payment_id, sprintf(__('PayPal Refund Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
+		$this->get('payments')->insert_payment_note($payment_id, sprintf(esc_html__('PayPal Refund Transaction ID: %s', 'mp-restaurant-menu'), $data['txn_id']));
 		$this->get('payments')->update_payment_status($payment_id, 'mprm-refunded');
 	}
 

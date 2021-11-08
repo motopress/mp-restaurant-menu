@@ -254,8 +254,8 @@ class Cart extends Model {
 			$messages = array();
 		$messages['mprm_cart_save_successful'] = sprintf(
 			'<strong>%1$s</strong>: %2$s',
-			__('Success', 'mp-restaurant-menu'),
-			__('Cart saved successfully. You can restore your cart using this URL:', 'mp-restaurant-menu') . ' ' . '<a href="' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '">' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '</a>'
+			esc_html__('Success', 'mp-restaurant-menu'),
+			esc_html__('Cart saved successfully. You can restore your cart using this URL:', 'mp-restaurant-menu') . ' ' . '<a href="' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '">' . $this->get('checkout')->get_checkout_uri() . '?mprm_action=restore_cart&mprm_cart_token=' . $token . '</a>'
 		);
 		$this->get('session')->set('mprm_cart_messages', $messages);
 		if ($cart) {
@@ -317,7 +317,7 @@ class Cart extends Model {
 		if (is_user_logged_in()) {
 			$token = get_user_meta($user_id, 'mprm_cart_token', true);
 		} else {
-			$token = isset($_COOKIE['mprm_cart_token']) ? $_COOKIE['mprm_cart_token'] : false;
+			$token = isset($_COOKIE['mprm_cart_token']) ? sanitize_text_field( wp_unslash( $_COOKIE['mprm_cart_token'] ) ) : false;
 		}
 		return apply_filters('mprm_get_cart_token', $token, $user_id);
 	}
@@ -366,7 +366,7 @@ class Cart extends Model {
 			'error' => false,
 			'price' => Menu_item::get_instance()->get_price($post->ID),
 			'direct' => false,
-			'text' => __('Purchase', 'mp-restaurant-menu'),
+			'text' => esc_html__('Purchase', 'mp-restaurant-menu'),
 			'style' => $this->get('settings')->get_option('mprm_button_style', 'button'),
 			'color' => $this->get('settings')->get_option('mprm_checkout_color', 'inherit'),
 			'padding' => $this->get('settings')->get_option('checkout_padding', 'mprm-inherit'),
@@ -540,8 +540,8 @@ class Cart extends Model {
 	public function get_cart_item_tax($menu_item_id = 0, $options = array(), $subtotal = '') {
 		$tax = 0;
 		if (!$this->get('taxes')->menu_item_is_tax_exclusive($menu_item_id)) {
-			$country = !empty($_POST['billing_country']) ? $_POST['billing_country'] : false;
-			$state = !empty($_POST['card_state']) ? $_POST['card_state'] : false;
+			$country = !empty($_POST['billing_country']) ? sanitize_text_field( wp_unslash( $_POST['billing_country'] ) ) : false;
+			$state = !empty($_POST['card_state']) ? sanitize_text_field( wp_unslash( $_POST['card_state'] ) ) : false;
 			$tax = $this->get('taxes')->calculate_tax($subtotal, $country, $state);
 		}
 		return apply_filters('mprm_get_cart_item_tax', $tax, $menu_item_id, $options, $subtotal);
@@ -763,11 +763,22 @@ class Cart extends Model {
 	 * @return mixed
 	 */
 	public function cart_total($echo = true) {
-		$total = apply_filters('mprm_cart_total', $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($this->get_cart_total(), true)));
-		if (!$echo) {
+
+		$total = apply_filters(
+			'mprm_cart_total',
+			$this->get('menu_item')->currency_filter(
+				$this->get('formatting')->format_amount(
+					$this->get_cart_total(),
+					true
+				)
+			)
+		);
+
+		if ( !$echo ) {
 			return $total;
 		}
-		echo $total;
+
+		echo wp_kses_post( $total );
 	}
 
 	/**
@@ -855,10 +866,12 @@ class Cart extends Model {
 			$cart_tax = $this->get('menu_item')->currency_filter($this->get('formatting')->format_amount($cart_tax));
 		}
 		$tax = apply_filters('mprm_cart_tax', $cart_tax);
+
 		if (!$echo) {
 			return $tax;
 		}
-		echo $tax;
+
+		echo wp_kses_post( $tax );
 	}
 
 	/**
@@ -882,7 +895,7 @@ class Cart extends Model {
 			if (!isset($_COOKIE['mprm_saved_cart']))
 				return false;
 			// Check that the saved cart is not the same as the current cart
-			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart'))
+			if (json_decode(stripslashes($_COOKIE['mprm_saved_cart']), true) === $this->get('session')->get_session_by_key('mprm_cart')) // phpcs:ignore
 				return false;
 			return true;
 		}

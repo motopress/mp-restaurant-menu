@@ -175,7 +175,7 @@ function mprm_get_cart_item_price_id($item = array()) {
 function mprm_cart_empty() {
 	$cart_contents = models\Cart::get_instance()->get_cart_contents();
 	if (empty($cart_contents)) {
-		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . __('Your cart is empty.', 'mp-restaurant-menu') . '</span>');
+		echo apply_filters('mprm_empty_cart_message', '<span class="mprm_empty_cart">' . esc_html__('Your cart is empty.', 'mp-restaurant-menu') . '</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -190,7 +190,7 @@ function mprm_update_cart_button() {
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	?>
-	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit <?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?> button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" style="display: none" value="<?php _e('Update Cart', 'mp-restaurant-menu'); ?>"/>
+	<input type="submit" name="mprm_update_cart_submit" class="mprm-submit <?php echo mprm_is_cart_saving_disabled() ? ' mprm-no-js' : ''; ?> button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" style="display: none" value="<?php esc_html_e('Update Cart', 'mp-restaurant-menu'); ?>"/>
 	<input type="hidden" name="mprm_action" value="update_cart"/>
 	<?php
 }
@@ -206,9 +206,9 @@ function mprm_save_cart_button() {
 	$padding = mprm_get_option('checkout_padding', 'mprm-inherit');
 	$color = ($color == 'inherit') ? '' : $color;
 	if (models\Cart::get_instance()->is_cart_saved()) : ?>
-		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php _e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
+		<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" id="mprm-restore-cart-button" href="<?php echo esc_url(add_query_arg(array('mprm_action' => 'restore_cart', 'mprm_cart_token' => models\Cart::get_instance()->get_cart_token()))); ?>"><?php esc_html_e('Restore Previous Cart', 'mp-restaurant-menu'); ?></a>
 	<?php endif; ?>
-	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php _e('Save Cart', 'mp-restaurant-menu'); ?></a>
+	<a class="mprm-cart-saving-button mprm-submit button<?php echo ' ' . esc_attr( $color ) . ' ' . esc_attr( $padding ); ?>" id="mprm-save-cart-button" href="<?php echo esc_url(add_query_arg('mprm_action', 'save_cart')); ?>"><?php esc_html_e('Save Cart', 'mp-restaurant-menu'); ?></a>
 	<?php
 }
 
@@ -274,26 +274,26 @@ function mprm_success_page_cart_item($item, $order) {
 			<div class="mprm_purchase_receipt_product_name mprm-post-<?php echo esc_attr( $post_type ) ?>">
 				<?php echo esc_html($item['name']); ?>
 				<?php if (mprm_has_variable_prices($item['id']) && !is_null($price_id)) : ?>
-					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); ?></span>
+					<span class="mprm_purchase_receipt_price_name">&nbsp;&ndash;&nbsp;<?php echo mprm_get_price_option_name($item['id'], $price_id, $order->ID); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				<?php endif; ?>
 			</div>
 
 			<?php if (!empty($menu_item_notes)) : ?>
-				<div class="mprm_purchase_receipt_product_notes"><?php echo wpautop($menu_item_notes); ?></div>
+				<div class="mprm_purchase_receipt_product_notes"><?php echo wp_kses_post( wpautop($menu_item_notes) ); ?></div>
 			<?php endif; ?>
 
 		</td>
 
 		<?php if (models\Misc::get_instance()->use_skus()) : ?>
-			<td><?php echo mprm_get_menu_item_sku($item['id']); ?></td>
+			<td><?php echo esc_html( mprm_get_menu_item_sku($item['id']) ); ?></td>
 		<?php endif; ?>
 
 		<?php if (models\Cart::get_instance()->item_quantities_enabled()) { ?>
-			<td class="mprm-success-page-quantity"><?php echo $item['quantity']; ?></td>
+			<td class="mprm-success-page-quantity"><?php echo esc_html( $item['quantity'] ); ?></td>
 		<?php } ?>
 		<td>
 			<?php if (empty($item['in_bundle'])) : ?>
-				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); ?>
+				<?php echo mprm_currency_filter(mprm_format_amount($item['item_price'])); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php endif; ?>
 		</td>
 	</tr>

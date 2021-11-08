@@ -71,8 +71,10 @@ final class WP_Session extends Recursive_ArrayAccess {
 	 * @uses apply_filters Calls `wp_session_expiration` to determine how long until sessions expire.
 	 */
 	protected function __construct() {
+
 		if ( isset( $_COOKIE[WP_SESSION_COOKIE] ) ) {
-			$cookie = stripslashes( $_COOKIE[WP_SESSION_COOKIE] );
+
+			$cookie = stripslashes( $_COOKIE[WP_SESSION_COOKIE] ); // phpcs:ignore
 			$cookie_crumbs = explode( '||', $cookie );
 
             $this->session_id = preg_replace("/[^A-Za-z0-9_]/", '', $cookie_crumbs[0] );

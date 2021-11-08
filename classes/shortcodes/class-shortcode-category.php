@@ -50,55 +50,55 @@ class Shortcode_Category extends Shortcodes {
 		$attributes = array(
 			'view' => array(
 				'type' => 'select',
-				'label' => __('View mode', 'mp-restaurant-menu'),
-				'list' => array('grid' => __('Grid', 'mp-restaurant-menu'), 'list' => __('List', 'mp-restaurant-menu')),
+				'label' => esc_html__('View mode', 'mp-restaurant-menu'),
+				'list' => array('grid' => esc_html__('Grid', 'mp-restaurant-menu'), 'list' => esc_html__('List', 'mp-restaurant-menu')),
 				'default' => 'grid'
 			),
 			'categ' => array(
 				'type' => 'select-multiple',
-				'label' => __('Categories', 'mp-restaurant-menu'),
+				'label' => esc_html__('Categories', 'mp-restaurant-menu'),
 				'list' => $categories),
 			'col' => array(
 				'type' => 'select',
-				'label' => __('Columns', 'mp-restaurant-menu'),
+				'label' => esc_html__('Columns', 'mp-restaurant-menu'),
 				'list' => array(
-					'1' => __('1 column', 'mp-restaurant-menu'),
-					'2' => __('2 columns', 'mp-restaurant-menu'),
-					'3' => __('3 columns', 'mp-restaurant-menu'),
-					'4' => __('4 columns', 'mp-restaurant-menu'),
-					'6' => __('6 columns', 'mp-restaurant-menu')),
+					'1' => esc_html__('1 column', 'mp-restaurant-menu'),
+					'2' => esc_html__('2 columns', 'mp-restaurant-menu'),
+					'3' => esc_html__('3 columns', 'mp-restaurant-menu'),
+					'4' => esc_html__('4 columns', 'mp-restaurant-menu'),
+					'6' => esc_html__('6 columns', 'mp-restaurant-menu')),
 				'default' => 1
 			),
 			'categ_name' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show category name', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show category name', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'feat_img' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show category featured image', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show category featured image', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'categ_icon' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show category icon', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show category icon', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'categ_descr' => array(
 				'type' => 'radio-buttons',
-				'label' => __('Show category description', 'mp-restaurant-menu'),
+				'label' => esc_html__('Show category description', 'mp-restaurant-menu'),
 				'default' => 1,
-				'list' => array('1' => __('Yes', 'mp-restaurant-menu'), '0' => __('No', 'mp-restaurant-menu')),
+				'list' => array('1' => esc_html__('Yes', 'mp-restaurant-menu'), '0' => esc_html__('No', 'mp-restaurant-menu')),
 			),
 			'desc_length' => array(
 				'type' => 'text',
-				'label' => __('Description length', 'mp-restaurant-menu'),
+				'label' => esc_html__('Description length', 'mp-restaurant-menu'),
 			)
 		);
-		$mprm_categories = new \MPCEObject('mprm_categories', __('Menu Categories', 'mp-restaurant-menu'), '', $attributes);
+		$mprm_categories = new \MPCEObject('mprm_categories', esc_html__('Menu Categories', 'mp-restaurant-menu'), '', $attributes);
 
 		$motopressCELibrary->addObject($mprm_categories, 'other');
 	}

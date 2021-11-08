@@ -153,7 +153,7 @@ function mprm_email_tag_menu_item_list_plain($order_id) {
 				}
 
 				if (!empty($sku)) {
-					$title .= __('SKU', 'mp-restaurant-menu') . ': ' . $sku;
+					$title .= esc_html__('SKU', 'mp-restaurant-menu') . ': ' . $sku;
 				}
 
 				if ($price_id !== null) {
@@ -432,13 +432,13 @@ function mprm_email_tag_shipping_address($order_id) {
  */
 function mprm_get_default_sale_notification_email() {
 
-	$default_email_body = __('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
-	$default_email_body .= __('Purchased products:', 'mp-restaurant-menu') . "\n";
+	$default_email_body = esc_html__('A new purchase has been made!', 'mp-restaurant-menu') . "\n\n";
+	$default_email_body .= esc_html__('Purchased products:', 'mp-restaurant-menu') . "\n";
 	$default_email_body .= '{menu_item_list}' . "\n\n";
-	$default_email_body .= __('Purchased by: ', 'mp-restaurant-menu') . " " . "{fullname}" . "\n";
-	$default_email_body .= __('Amount: ', 'mp-restaurant-menu') . " " . "{price}" . "\n";
-	$default_email_body .= __('Payment Method: ', 'mp-restaurant-menu') . " " . "{payment_method}" . "\n\n";
-	$default_email_body .= __('Thank you', 'mp-restaurant-menu');
+	$default_email_body .= esc_html__('Purchased by: ', 'mp-restaurant-menu') . " " . "{fullname}" . "\n";
+	$default_email_body .= esc_html__('Amount: ', 'mp-restaurant-menu') . " " . "{price}" . "\n";
+	$default_email_body .= esc_html__('Payment Method: ', 'mp-restaurant-menu') . " " . "{payment_method}" . "\n\n";
+	$default_email_body .= esc_html__('Thank you', 'mp-restaurant-menu');
 
 	$message = mprm_get_option('sale_notification', false);
 	$message = !empty($message) ? $message : $default_email_body;

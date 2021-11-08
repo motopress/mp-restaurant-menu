@@ -14,7 +14,7 @@ class Cart_widget extends \WP_Widget {
 	 * Cart_widget constructor.
 	 */
 	public function __construct() {
-		parent::__construct('mprm_cart_widget', __('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => __('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
+		parent::__construct('mprm_cart_widget', esc_html__('Restaurant Menu Cart', 'mp-restaurant-menu'), array('description' => esc_html__('Display the user\'s Cart in the sidebar.', 'mp-restaurant-menu')));
 	}
 
 	/**
@@ -46,10 +46,10 @@ class Cart_widget extends \WP_Widget {
 
 		$title = apply_filters('widget_title', $instance['title'], $instance, $args['id']);
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ($title) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo $args['before_title'] . esc_html( $title ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		do_action('mprm_before_cart_widget');
@@ -58,7 +58,7 @@ class Cart_widget extends \WP_Widget {
 
 		do_action('mprm_after_cart_widget');
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -98,13 +98,13 @@ class Cart_widget extends \WP_Widget {
 
 		$instance = wp_parse_args((array)$instance, $defaults); ?>
 		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title:', 'mp-restaurant-menu'); ?></label>
+			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'mp-restaurant-menu'); ?></label>
 			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>"/>
 		</p>
 
 		<p>
 			<input <?php checked($instance['hide_on_checkout'], true); ?> id="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>" name="<?php echo esc_attr($this->get_field_name('hide_on_checkout')); ?>" type="checkbox"/>
-			<label for="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>"><?php _e('Hide on Checkout Page', 'mp-restaurant-menu'); ?></label>
+			<label for="<?php echo esc_attr($this->get_field_id('hide_on_checkout')); ?>"><?php esc_html_e('Hide on Checkout Page', 'mp-restaurant-menu'); ?></label>
 		</p>
 
 		<?php

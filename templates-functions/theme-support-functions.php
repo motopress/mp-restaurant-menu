@@ -9,7 +9,7 @@ function get_price_theme_view() {
 	do_action('mprm_price_theme_view_before', $price);
 	
 	if (!empty($price)) { ?>
-		<p><?php _e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo esc_html( mprm_currency_filter(mprm_format_amount($price)) );?></b></span></p>
+		<p><?php esc_html_e('Price', 'mp-restaurant-menu'); ?>: <span><b><?php echo esc_html( mprm_currency_filter(mprm_format_amount($price)) );?></b></span></p>
 	<?php }
 	
 	do_action('mprm_price_theme_view_after', $price);
@@ -23,7 +23,7 @@ function get_ingredients_theme_view() {
 	do_action('mprm_ingredients_theme_view_before', $ingredients);
 	
 	if (!empty($ingredients)) { ?>
-		<h3><?php _e('Ingredients', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Ingredients', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($ingredients as $ingredient):
 				if (!is_object($ingredient)) {
@@ -45,7 +45,7 @@ function get_attributes_theme_view() {
 	do_action('mprm_attributes_theme_view_before', $attributes);
 	
 	if ($attributes) { ?>
-		<h3><?php _e('Portion Size', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Portion Size', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($attributes as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
@@ -67,12 +67,12 @@ function get_nutritional_theme_view() {
 	do_action('mprm_nutritional_theme_view_before', $nutritional);
 	
 	if (!empty($nutritional)) { ?>
-		<h3><?php _e('Nutritional', 'mp-restaurant-menu'); ?></h3>
+		<h3><?php esc_html_e('Nutritional', 'mp-restaurant-menu'); ?></h3>
 		<ul>
 			<?php foreach ($nutritional as $info): ?>
 				<?php if (!empty($info[ 'val' ])): ?>
-					<li><?php echo esc_html( mprm_get_nutrition_label(strtolower($info[ 'title' ])) ) .
-						apply_filters('mprm-nutritional-delimiter', ': ') . esc_html( $info[ 'val' ] ); ?></li>
+					<li><?php echo esc_html( mprm_get_nutrition_label(strtolower($info[ 'title' ])) .
+						apply_filters('mprm-nutritional-delimiter', ': ') . $info[ 'val' ] ); ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
@@ -90,12 +90,12 @@ function get_related_items_theme_view() {
 	
 	if (!empty($related_items)) { ?>
 		<div class="mprm-related-items">
-			<h3><?php _e('You might also like', 'mp-restaurant-menu'); ?></h3>
+			<h3><?php esc_html_e('You might also like', 'mp-restaurant-menu'); ?></h3>
 			<?php foreach ($related_items as $related_item) { ?>
 				<a href="<?php echo esc_url( get_permalink($related_item) );?>" title="<?php echo esc_attr( get_the_title($related_item) );?>">
 					<?php
 					if (has_post_thumbnail($related_item)) {
-						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail'));
+						echo wp_get_attachment_image(get_post_thumbnail_id($related_item), apply_filters('mprm-related-item-image-size', 'thumbnail')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					} else { ?>
 						<span><?php echo esc_html( get_the_title($related_item) );?></span>
 					<?php } ?>
@@ -111,10 +111,21 @@ function get_related_items_theme_view() {
  * Gallery template part
  */
 function get_gallery_theme_view() {
+
 	$gallery = mprm_get_gallery();
-	if (!empty($gallery)) {
-		$args = apply_filters('mprm-gallery-settings', array('ids' => $gallery, 'link' => 'file', 'columns' => '3'));
-		echo gallery_shortcode($args);
+
+	if ( ! empty( $gallery ) ) {
+		$args = apply_filters(
+			'mprm-gallery-settings',
+			array(
+				'ids' => $gallery,
+				'link' => 'file',
+				'columns' => '3',
+				'size' => 'medium'
+			)
+		);
+
+		echo gallery_shortcode($args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

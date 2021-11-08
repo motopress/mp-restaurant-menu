@@ -7,10 +7,10 @@ if (!empty($price)) :
 	if (mprm_get_template_mode() == "theme") { ?>
 		<div class="mprm-content-container">
 			<div class="mprm-price-container">
-				<span class="mprm-price"><?php echo $price ?></span>
+				<span class="mprm-price"><?php echo esc_html( $price ); ?></span>
 			</div>
 		</div>
 	<?php } else { ?>
-		<span class="mprm-price"><?php echo $price ?></span>
+		<span class="mprm-price"><?php echo esc_html( $price ); ?></span>
 	<?php }
 endif;

@@ -39,7 +39,7 @@ class Media extends Core {
 			'maxchar' => 350,
 			'text' => '',
 			'save_format' => false,
-			'more_text' => __('Read more', 'mp-restaurant-menu') . '...',
+			'more_text' => esc_html__('Read more', 'mp-restaurant-menu') . '...',
 			'echo' => false,
 		);
 		if (is_array($args)) {
@@ -61,7 +61,7 @@ class Media extends Core {
 			$args[ 'text' ] = "<p>" . str_replace("\n", "<br />", trim($args[ 'text' ])) . "</p>";
 		}
 		if ($args[ 'echo' ]) {
-			return print $args[ 'text' ];
+			return print $args[ 'text' ]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		
 		return $args[ 'text' ];
@@ -177,7 +177,7 @@ class Media extends Core {
 		
 		// Restaurant menu
 		Menu::add_menu_page(array(
-			'title' => _x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
+			'title' => esc_html_x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
 			'menu_slug' => $menu_slug,
 			'icon_url' => MP_RM_MEDIA_URL . '/img/icon.png',
 			'capability' => 'manage_restaurant_menu',
@@ -186,42 +186,42 @@ class Media extends Core {
 		// Menu items
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Menu Items', 'mp-restaurant-menu'),
+			'title' => esc_html__('Menu Items', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
 		// Add new
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Add New', 'mp-restaurant-menu'),
+			'title' => esc_html__('Add New', 'mp-restaurant-menu'),
 			'menu_slug' => "post-new.php?post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
 		// Categories
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Categories', 'mp-restaurant-menu'),
+			'title' => esc_html__('Categories', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$category_name}&amp;post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
 		// Tags
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Tags', 'mp-restaurant-menu'),
+			'title' => esc_html__('Tags', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$tag_name}&amp;post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
 		// Ingredients
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Ingredients', 'mp-restaurant-menu'),
+			'title' => esc_html__('Ingredients', 'mp-restaurant-menu'),
 			'menu_slug' => "edit-tags.php?taxonomy={$ingredient_name}&amp;post_type={$menu_item}",
 			'capability' => 'manage_restaurant_menu',
 		));
 		// Orders
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Orders', 'mp-restaurant-menu'),
+			'title' => esc_html__('Orders', 'mp-restaurant-menu'),
 			'menu_slug' => "edit.php?post_type=$order",
 			'capability' => 'manage_restaurant_menu',
 		));
@@ -229,7 +229,7 @@ class Media extends Core {
 		// Customers
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Customers', 'mp-restaurant-menu'),
+			'title' => esc_html__('Customers', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-customers",
 			'function' => array($this->get_controller('customer'), 'action_content'),
 			'capability' => 'manage_restaurant_menu',
@@ -237,7 +237,7 @@ class Media extends Core {
 		// Settings
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Settings', 'mp-restaurant-menu'),
+			'title' => esc_html__('Settings', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-settings",
 			'function' => array($this->get_controller('settings'), 'action_content'),
 			'capability' => 'manage_restaurant_settings',
@@ -245,7 +245,7 @@ class Media extends Core {
 		// Import/Export
 		Menu::add_submenu_page(array(
 			'parent_slug' => $menu_slug,
-			'title' => __('Import / Export', 'mp-restaurant-menu'),
+			'title' => esc_html__('Import / Export', 'mp-restaurant-menu'),
 			'menu_slug' => "mprm-import",
 			'function' => array($this->get_controller('import'), 'action_content'),
 			'capability' => 'import',
@@ -334,52 +334,52 @@ class Media extends Core {
 					'main' => array(
 						'enable_ecommerce' => array(
 							'id' => 'enable_ecommerce',
-							'name' => __('Enable eCommerce', 'mp-restaurant-menu'),
+							'name' => esc_html__('Enable eCommerce', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
-							'desc' => __('Sell food and beverages online', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Sell food and beverages online', 'mp-restaurant-menu'),
 						),
 						'purchase_page' => array(
 							'id' => 'purchase_page',
-							'name' => __('Checkout Page', 'mp-restaurant-menu'),
+							'name' => esc_html__('Checkout Page', 'mp-restaurant-menu'),
 							'desc' => __('The page where buyers will complete their purchases. Use <i>[mprm_checkout]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+							'placeholder' => esc_html__('Select a page', 'mp-restaurant-menu'),
 						),
 						'success_page' => array(
 							'id' => 'success_page',
-							'name' => __('Success Transaction Page', 'mp-restaurant-menu'),
+							'name' => esc_html__('Success Transaction Page', 'mp-restaurant-menu'),
 							'desc' => __('The page buyers are sent to after completing their purchases. Use <i>[mprm_success]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+							'placeholder' => esc_html__('Select a page', 'mp-restaurant-menu'),
 						),
 						'failure_page' => array(
 							'id' => 'failure_page',
-							'name' => __('Failed Transaction Page', 'mp-restaurant-menu'),
-							'desc' => __('The page buyers are sent to if their transaction is cancelled or fails.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Failed Transaction Page', 'mp-restaurant-menu'),
+							'desc' => esc_html__('The page buyers are sent to if their transaction is cancelled or fails.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+							'placeholder' => esc_html__('Select a page', 'mp-restaurant-menu'),
 						),
 						'purchase_history_page' => array(
 							'id' => 'purchase_history_page',
-							'name' => __('Purchase History Page', 'mp-restaurant-menu'),
+							'name' => esc_html__('Purchase History Page', 'mp-restaurant-menu'),
 							'desc' => __('This page shows a complete purchase history for the current user. Use <i>[mprm_purchase_history]</i> shortcode on this page.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_pages(),
 							'chosen' => true,
-							'placeholder' => __('Select a page', 'mp-restaurant-menu'),
+							'placeholder' => esc_html__('Select a page', 'mp-restaurant-menu'),
 						),
 						'template_mode' => array(
 							'id' => 'template_mode',
-							'name' => __('Template Mode', 'mp-restaurant-menu'),
+							'name' => esc_html__('Template Mode', 'mp-restaurant-menu'),
 							'options' => apply_filters('mprm_available_theme_mode',
-								array('theme' => __('Theme Mode', 'mp-restaurant-menu'),
-									'plugin' => __('Developer Mode', 'mp-restaurant-menu')
+								array('theme' => esc_html__('Theme Mode', 'mp-restaurant-menu'),
+									'plugin' => esc_html__('Developer Mode', 'mp-restaurant-menu')
 								)
 							),
 							'desc' => '<br>' . __('Choose Theme Mode to display the content with the styles of your theme.', 'mp-restaurant-menu') . "<br>" . __('Choose Developer Mode to control appearance of the content with custom page templates, actions and filters. This option can\'t be changed if your theme is initially integrated with the plugin.', 'mp-restaurant-menu'),
@@ -389,20 +389,20 @@ class Media extends Core {
 						),
 						'category_view' => array(
 							'id' => 'category_view',
-							'name' => __('Category Layout', 'mp-restaurant-menu'),
+							'name' => esc_html__('Category Layout', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
-								'grid' => __('Grid', 'mp-restaurant-menu'),
-								'list' => __('List', 'mp-restaurant-menu')
+								'grid' => esc_html__('Grid', 'mp-restaurant-menu'),
+								'list' => esc_html__('List', 'mp-restaurant-menu')
 							),
 							'chosen' => false,
-							'desc' => __('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the way to display your menu items within category.', 'mp-restaurant-menu'),
 						),
 					),
 					'section_currency' => array(
 						'currency' => array(
 							'id' => 'currency',
-							'name' => __('Currency', 'mp-restaurant-menu'),
+							'name' => esc_html__('Currency', 'mp-restaurant-menu'),
 							'desc' => __('Choose your currency. <i>Note that some payment gateways have currency restrictions.</i>', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings::get_instance()->get_currencies_with_symbols(),
@@ -411,34 +411,34 @@ class Media extends Core {
 						),
 						'currency_position' => array(
 							'id' => 'currency_position',
-							'name' => __('Currency Position', 'mp-restaurant-menu'),
-							'desc' => __('Choose the location of the currency sign.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Currency Position', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the location of the currency sign.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => array(
-								'before' => __('Before - $10', 'mp-restaurant-menu'),
-								'after' => __('After - 10$', 'mp-restaurant-menu'),
+								'before' => esc_html__('Before - $10', 'mp-restaurant-menu'),
+								'after' => esc_html__('After - 10$', 'mp-restaurant-menu'),
 							),
 						),
 						'thousands_separator' => array(
 							'id' => 'thousands_separator',
-							'name' => __('Thousand Separator', 'mp-restaurant-menu'),
-							'desc' => __('Thousand separator of displayed prices', 'mp-restaurant-menu'),
+							'name' => esc_html__('Thousand Separator', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Thousand separator of displayed prices', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => ',',
 						),
 						'decimal_separator' => array(
 							'id' => 'decimal_separator',
-							'name' => __('Decimal Separator', 'mp-restaurant-menu'),
-							'desc' => __('Decimal separator of displayed prices', 'mp-restaurant-menu'),
+							'name' => esc_html__('Decimal Separator', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Decimal separator of displayed prices', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => '.',
 						),
 						'number_decimals' => array(
 							'id' => 'number_decimals',
-							'name' => __('Number of Decimals', 'mp-restaurant-menu'),
-							'desc' => __('Number of decimal points shown in displayed prices', 'mp-restaurant-menu'),
+							'name' => esc_html__('Number of Decimals', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Number of decimal points shown in displayed prices', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 							'std' => '2',
@@ -447,27 +447,27 @@ class Media extends Core {
 					/*'open_hours_section' => array(
 						'has_open_hours' => array(
 							'id' => 'has_open_hours',
-							'name' => __('Open Hours', 'mp-restaurant-menu'),
+							'name' => esc_html__('Open Hours', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
-							'desc' => __('Enable Open Hours', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enable Open Hours', 'mp-restaurant-menu'),
 						),
 						'open_hours' => array(
 							'id' => 'open_hours',
-							'name' => __('Time Table', 'mp-restaurant-menu'),
+							'name' => esc_html__('Time Table', 'mp-restaurant-menu'),
 							'type' => 'open_hours',
 						),
 						'prevent_offline_checkout' => array(
 							'id' => 'prevent_offline_checkout',
-							'name' => __('Prevent checkout', 'mp-restaurant-menu'),
-							'desc' => __('Prevent offline checkout', 'mp-restaurant-menu'),
+							'name' => esc_html__('Prevent checkout', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Prevent offline checkout', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'open_hours_offline_message' => array(
 							'id' => 'open_hours_offline_message',
-							'name' => __('Offline Message', 'mp-restaurant-menu'),
-							'std' => __('We are offline and will start taking orders soon.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Offline Message', 'mp-restaurant-menu'),
+							'std' => esc_html__('We are offline and will start taking orders soon.', 'mp-restaurant-menu'),
 							'type' => 'textarea',
-							'desc' => __('Accepted HTML tags: a, br, em, strong.', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Accepted HTML tags: a, br, em, strong.', 'mp-restaurant-menu'),
 						),
 					)*/
 				)
@@ -477,23 +477,23 @@ class Media extends Core {
 					'main' => array(
 						'display_taxonomy' => array(
 							'id' => 'display_taxonomy',
-							'name' => __('Display categories and tags', 'mp-restaurant-menu'),
+							'name' => esc_html__('Display categories and tags', 'mp-restaurant-menu'),
 							'options' => array(
-								'default' => __('Default', 'mp-restaurant-menu'),
-								'grid' => __('Grid', 'mp-restaurant-menu'),
-								'list' => __('List', 'mp-restaurant-menu'),
-								'simple-list' => __('Simple list', 'mp-restaurant-menu')
+								'default' => esc_html__('Default', 'mp-restaurant-menu'),
+								'grid' => esc_html__('Grid', 'mp-restaurant-menu'),
+								'list' => esc_html__('List', 'mp-restaurant-menu'),
+								'simple-list' => esc_html__('Simple list', 'mp-restaurant-menu')
 							),
-							'desc' => '<br>' . __('Choose a view template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
+							'desc' => '<br>' . esc_html__('Choose a view template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
 							'readonly' => false,
 							'type' => 'select',
 							'std' => 'default'
 						),
 						'theme_templates' => array(
 							'id' => 'theme_templates',
-							'name' => __('Page template', 'mp-restaurant-menu'),
+							'name' => esc_html__('Page template', 'mp-restaurant-menu'),
 							'options' => $this->get_theme_template(),
-							'desc' => '<br>' . __('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
+							'desc' => '<br>' . esc_html__('Choose a page template to control the appearance of your restaurant menu content.', 'mp-restaurant-menu'),
 							'readonly' => false,
 							'type' => 'select',
 						)
@@ -501,13 +501,13 @@ class Media extends Core {
 					'taxonomy_grid' => array(
 						'col' => array(
 							'id' => 'col',
-							'name' => __('Columns', 'mp-restaurant-menu'),
+							'name' => esc_html__('Columns', 'mp-restaurant-menu'),
 							'options' => array(
-								'1' => __('1 column', 'mp-restaurant-menu'),
-								'2' => __('2 columns', 'mp-restaurant-menu'),
-								'3' => __('3 columns', 'mp-restaurant-menu'),
-								'4' => __('4 columns', 'mp-restaurant-menu'),
-								'6' => __('6 columns', 'mp-restaurant-menu')
+								'1' => esc_html__('1 column', 'mp-restaurant-menu'),
+								'2' => esc_html__('2 columns', 'mp-restaurant-menu'),
+								'3' => esc_html__('3 columns', 'mp-restaurant-menu'),
+								'4' => esc_html__('4 columns', 'mp-restaurant-menu'),
+								'6' => esc_html__('6 columns', 'mp-restaurant-menu')
 							),
 							'std' => 3,
 							'desc' => '',
@@ -516,11 +516,11 @@ class Media extends Core {
 						),
 						'categ_name' => array(
 							'id' => 'categ_name',
-							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
-								'only_text' => __('Only text', 'mp-restaurant-menu'),
-								'with_img' => __('Title with image', 'mp-restaurant-menu'),
-								'none' => __('Don`t show', 'mp-restaurant-menu')
+								'only_text' => esc_html__('Only text', 'mp-restaurant-menu'),
+								'with_img' => esc_html__('Title with image', 'mp-restaurant-menu'),
+								'none' => esc_html__('Don`t show', 'mp-restaurant-menu')
 							),
 							'std' => 'only_text',
 							'desc' => '',
@@ -529,58 +529,58 @@ class Media extends Core {
 						),
 						'show_attributes' => array(
 							'id' => 'show_attributes',
-							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'feat_img' => array(
 							'id' => 'feat_img',
-							'name' => __('Show featured image', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
 							'id' => 'excerpt',
-							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show excerpt', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'price' => array(
 							'id' => 'price',
-							'name' => __('Show price', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show price', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'tags' => array(
 							'id' => 'tags',
-							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show tags', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'ingredients' => array(
 							'id' => 'ingredients',
-							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show ingredients', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'buy' => array(
 							'id' => 'buy',
-							'name' => __('Show buy button', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show buy button', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'link_item' => array(
 							'id' => 'link_item',
-							'name' => __('Link item', 'mp-restaurant-menu'),
+							'name' => esc_html__('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'grid_desc_length' => array(
 							'id' => 'grid_desc_length',
-							'name' => __('Description length', 'mp-restaurant-menu'),
+							'name' => esc_html__('Description length', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_text'
 						)
@@ -588,13 +588,13 @@ class Media extends Core {
 					'taxonomy_list' => array(
 						'col' => array(
 							'id' => 'col',
-							'name' => __('Columns', 'mp-restaurant-menu'),
+							'name' => esc_html__('Columns', 'mp-restaurant-menu'),
 							'options' => array(
-								'1' => __('1 column', 'mp-restaurant-menu'),
-								'2' => __('2 columns', 'mp-restaurant-menu'),
-								'3' => __('3 columns', 'mp-restaurant-menu'),
-								'4' => __('4 columns', 'mp-restaurant-menu'),
-								'6' => __('6 columns', 'mp-restaurant-menu')
+								'1' => esc_html__('1 column', 'mp-restaurant-menu'),
+								'2' => esc_html__('2 columns', 'mp-restaurant-menu'),
+								'3' => esc_html__('3 columns', 'mp-restaurant-menu'),
+								'4' => esc_html__('4 columns', 'mp-restaurant-menu'),
+								'6' => esc_html__('6 columns', 'mp-restaurant-menu')
 							),
 							'std' => 2,
 							'desc' => '',
@@ -603,11 +603,11 @@ class Media extends Core {
 						),
 						'categ_name' => array(
 							'id' => 'categ_name',
-							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
-								'only_text' => __('Only text', 'mp-restaurant-menu'),
-								'with_img' => __('Title with image', 'mp-restaurant-menu'),
-								'none' => __('Don`t show', 'mp-restaurant-menu')
+								'only_text' => esc_html__('Only text', 'mp-restaurant-menu'),
+								'with_img' => esc_html__('Title with image', 'mp-restaurant-menu'),
+								'none' => esc_html__('Don`t show', 'mp-restaurant-menu')
 							),
 							'std' => 'only_text',
 							'desc' => '',
@@ -616,58 +616,58 @@ class Media extends Core {
 						),
 						'show_attributes' => array(
 							'id' => 'show_attributes',
-							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'feat_img' => array(
 							'id' => 'feat_img',
-							'name' => __('Show featured image', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show featured image', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
 							'id' => 'excerpt',
-							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show excerpt', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'price' => array(
 							'id' => 'price',
-							'name' => __('Show price', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show price', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'tags' => array(
 							'id' => 'tags',
-							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show tags', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'ingredients' => array(
 							'id' => 'ingredients',
-							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show ingredients', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'buy' => array(
 							'id' => 'buy',
-							'name' => __('Show buy button', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show buy button', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'link_item' => array(
 							'id' => 'link_item',
-							'name' => __('Link item', 'mp-restaurant-menu'),
+							'name' => esc_html__('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'desc_length' => array(
 							'id' => 'desc_length',
-							'name' => __('Description length', 'mp-restaurant-menu'),
+							'name' => esc_html__('Description length', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_text'
 						)
@@ -675,13 +675,13 @@ class Media extends Core {
 					'taxonomy_simple_list' => array(
 						'col' => array(
 							'id' => 'col',
-							'name' => __('Columns', 'mp-restaurant-menu'),
+							'name' => esc_html__('Columns', 'mp-restaurant-menu'),
 							'options' => array(
-								'1' => __('1 column', 'mp-restaurant-menu'),
-								'2' => __('2 columns', 'mp-restaurant-menu'),
-								'3' => __('3 columns', 'mp-restaurant-menu'),
-								'4' => __('4 columns', 'mp-restaurant-menu'),
-								'6' => __('6 columns', 'mp-restaurant-menu')
+								'1' => esc_html__('1 column', 'mp-restaurant-menu'),
+								'2' => esc_html__('2 columns', 'mp-restaurant-menu'),
+								'3' => esc_html__('3 columns', 'mp-restaurant-menu'),
+								'4' => esc_html__('4 columns', 'mp-restaurant-menu'),
+								'6' => esc_html__('6 columns', 'mp-restaurant-menu')
 							),
 							'desc' => '',
 							'readonly' => false,
@@ -689,11 +689,11 @@ class Media extends Core {
 						),
 						'price_pos' => array(
 							'id' => 'price_pos',
-							'name' => __('Price position', 'mp-restaurant-menu'),
+							'name' => esc_html__('Price position', 'mp-restaurant-menu'),
 							'options' => array(
-								'points' => __('Dotted line and price on the right', 'mp-restaurant-menu'),
-								'right' => __('Price on the right', 'mp-restaurant-menu'),
-								'after_title' => __('Price next to the title', 'mp-restaurant-menu')
+								'points' => esc_html__('Dotted line and price on the right', 'mp-restaurant-menu'),
+								'right' => esc_html__('Price on the right', 'mp-restaurant-menu'),
+								'after_title' => esc_html__('Price next to the title', 'mp-restaurant-menu')
 							),
 							'std' => 'points',
 							'desc' => '',
@@ -702,11 +702,11 @@ class Media extends Core {
 						),
 						'categ_name' => array(
 							'id' => 'categ_name',
-							'name' => __('Show category name', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show category name', 'mp-restaurant-menu'),
 							'options' => array(
-								'only_text' => __('Only text', 'mp-restaurant-menu'),
-								'with_img' => __('Title with image', 'mp-restaurant-menu'),
-								'none' => __('Don`t show', 'mp-restaurant-menu')
+								'only_text' => esc_html__('Only text', 'mp-restaurant-menu'),
+								'with_img' => esc_html__('Title with image', 'mp-restaurant-menu'),
+								'none' => esc_html__('Don`t show', 'mp-restaurant-menu')
 							),
 							'desc' => '',
 							'readonly' => false,
@@ -714,45 +714,45 @@ class Media extends Core {
 						),
 						'show_attributes' => array(
 							'id' => 'show_attributes',
-							'name' => __('Show attributes', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show attributes', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'excerpt' => array(
 							'id' => 'excerpt',
-							'name' => __('Show excerpt', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show excerpt', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'price' => array(
 							'id' => 'price',
-							'name' => __('Show price', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show price', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'tags' => array(
 							'id' => 'tags',
-							'name' => __('Show tags', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show tags', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'ingredients' => array(
 							'id' => 'ingredients',
-							'name' => __('Show ingredients', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show ingredients', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_checkbox'
 						),
 						'link_item' => array(
 							'id' => 'link_item',
-							'name' => __('Link item', 'mp-restaurant-menu'),
+							'name' => esc_html__('Link item', 'mp-restaurant-menu'),
 							'desc' => '',
 							'std' => true,
 							'type' => 'section_checkbox'
 						),
 						'desc_length' => array(
 							'id' => 'desc_length',
-							'name' => __('Description length', 'mp-restaurant-menu'),
+							'name' => esc_html__('Description length', 'mp-restaurant-menu'),
 							'desc' => '',
 							'type' => 'section_text'
 						)
@@ -765,28 +765,28 @@ class Media extends Core {
 					'main' => array(
 						'gateways' => array(
 							'id' => 'gateways',
-							'name' => __('Active Payment Gateways', 'mp-restaurant-menu'),
-							'desc' => __('Choose the payment gateways you want to enable.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Active Payment Gateways', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the payment gateways you want to enable.', 'mp-restaurant-menu'),
 							'type' => 'gateways',
 							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
 						'default_gateway' => array(
 							'id' => 'default_gateway',
-							'name' => __('Default Gateway', 'mp-restaurant-menu'),
-							'desc' => __('This gateway will be loaded automatically on the checkout page.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Default Gateway', 'mp-restaurant-menu'),
+							'desc' => esc_html__('This gateway will be loaded automatically on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'gateway_select',
 							'options' => $this->get('gateways')->get_payment_gateways(),
 						),
 						'test_mode' => array(
 							'id' => 'test_mode',
-							'name' => __('Test Mode', 'mp-restaurant-menu'),
-							'desc' => __('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Test Mode', 'mp-restaurant-menu'),
+							'desc' => esc_html__('While in test mode no live transactions are processed. To fully use test mode, you must have a sandbox (test) account for the payment gateway you are testing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'accepted_cards' => array(
 							'id' => 'accepted_cards',
-							'name' => __('Payment Method Icons', 'mp-restaurant-menu'),
-							'desc' => __('Display these icons on the checkout page', 'mp-restaurant-menu'),
+							'name' => esc_html__('Payment Method Icons', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Display these icons on the checkout page', 'mp-restaurant-menu'),
 							'type' => 'payment_icons',
 							'options' => apply_filters('mprm_accepted_payment_icons', array(
 									'mastercard' => 'Mastercard',
@@ -801,57 +801,57 @@ class Media extends Core {
 					'cod' => array(
 						'cod_title' => array(
 							'id' => 'cod_title',
-							'name' => __('Title', 'mp-restaurant-menu'),
-							'desc' => __('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Title', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
-							'std' => __('Cash on delivery', 'mp-restaurant-menu'),
+							'std' => esc_html__('Cash on delivery', 'mp-restaurant-menu'),
 						),
 						'cod_description' => array(
 							'id' => 'cod_description',
-							'name' => __('Description', 'mp-restaurant-menu'),
-							'desc' => __('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Description', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
 							'type' => 'textarea',
 						),
 						'cod_process_payments_manually' => array(
 							'id' => 'cod_process_payments_manually',
-							'name' => __('Process Payments Manually', 'mp-restaurant-menu'),
-							'desc' => __('Review an order and set Complete status manually.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Process Payments Manually', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Review an order and set Complete status manually.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
 					'paypal' => array(
 						'paypal_title' => array(
 							'id' => 'paypal_title',
-							'name' => __('Title', 'mp-restaurant-menu'),
-							'desc' => __('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Title', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Payment method title that the customer will see on your website.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
-							'std' => __('Pay via PayPal', 'mp-restaurant-menu'),
+							'std' => esc_html__('Pay via PayPal', 'mp-restaurant-menu'),
 						),
 						'paypal_description' => array(
 							'id' => 'paypal_description',
-							'name' => __('Description', 'mp-restaurant-menu'),
-							'desc' => __('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Description', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Payment method description that the customer will see on your website.', 'mp-restaurant-menu'),
 							'type' => 'textarea',
 						),
 						'paypal_email' => array(
 							'id' => 'paypal_email',
-							'name' => __('PayPal Email', 'mp-restaurant-menu'),
-							'desc' => __('Enter your PayPal account\'s email', 'mp-restaurant-menu'),
+							'name' => esc_html__('PayPal Email', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter your PayPal account\'s email', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'paypal_page_style' => array(
 							'id' => 'paypal_page_style',
-							'name' => __('PayPal Page Style', 'mp-restaurant-menu'),
-							'desc' => __('Enter the name of the page style to use, or leave blank for default', 'mp-restaurant-menu'),
+							'name' => esc_html__('PayPal Page Style', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the name of the page style to use, or leave blank for default', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'disable_paypal_verification' => array(
 							'id' => 'disable_paypal_verification',
-							'name' => __('Disable PayPal IPN Verification', 'mp-restaurant-menu'),
+							'name' => esc_html__('Disable PayPal IPN Verification', 'mp-restaurant-menu'),
 							'desc' => __('If payments via PayPal are not getting marked as complete, then check this box. <a href="https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/" target="_blank">More about IPN</a>', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
@@ -864,63 +864,63 @@ class Media extends Core {
 					'main' => array(
 						'customer_phone' => array(
 							'id' => 'customer_phone',
-							'name' => __('Phone is Required', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to display telephone field on the checkout page.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Phone is Required', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to display telephone field on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'shipping_address' => array(
 							'id' => 'shipping_address',
-							'name' => __('Enable Shipping', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to display shipping address field on the checkout page.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Enable Shipping', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to display shipping address field on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'enforce_ssl' => array(
 							'id' => 'enforce_ssl',
-							'name' => __('Enforce SSL on Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Enforce SSL on Checkout', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this to force users to be redirected to the secure checkout page. You must have an SSL certificate installed to use this option.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'logged_in_only' => array(
 							'id' => 'logged_in_only',
-							'name' => __('Disable Guest Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Users must be logged-in to purchase.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Disable Guest Checkout', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Users must be logged-in to purchase.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'show_register_form' => array(
 							'id' => 'show_register_form',
-							'name' => __('Show Register / Login Form?', 'mp-restaurant-menu'),
-							'desc' => __('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Show Register / Login Form?', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Display the registration and login forms on the checkout page for non-logged-in users.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'std' => 'none',
 							'options' => array(
-								'both' => __('Registration and Login Forms', 'mp-restaurant-menu'),
-								'registration' => __('Registration Form Only', 'mp-restaurant-menu'),
-								'login' => __('Login Form Only', 'mp-restaurant-menu'),
-								'none' => __('None', 'mp-restaurant-menu'),
+								'both' => esc_html__('Registration and Login Forms', 'mp-restaurant-menu'),
+								'registration' => esc_html__('Registration Form Only', 'mp-restaurant-menu'),
+								'login' => esc_html__('Login Form Only', 'mp-restaurant-menu'),
+								'none' => esc_html__('None', 'mp-restaurant-menu'),
 							)
 						),
 						'enable_ajax_cart' => array(
 							'id' => 'enable_ajax_cart',
-							'name' => __('Enable Ajax', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Enable Ajax', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to enable AJAX for the shopping cart.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'redirect_on_add' => array(
 							'id' => 'redirect_on_add',
-							'name' => __('Redirect to Checkout', 'mp-restaurant-menu'),
-							'desc' => __('Immediately redirect to checkout after adding an item to the cart.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Redirect to Checkout', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Immediately redirect to checkout after adding an item to the cart.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'item_quantities' => array(
 							'id' => 'item_quantities',
-							'name' => __('Items Amount', 'mp-restaurant-menu'),
-							'desc' => __('Allow items amount to be changed on the checkout page.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Items Amount', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Allow items amount to be changed on the checkout page.', 'mp-restaurant-menu'),
 							'type' => 'checkbox'
 						),
 						'minimum_order_amount' => array(
 							'id' => 'minimum_order_amount',
-							'name' => __('Minimum Order Amount', 'mp-restaurant-menu'),
-							'desc' => __('Price in monetary decimal (.) format without thousand separators and currency symbols', 'mp-restaurant-menu'),
+							'name' => esc_html__('Minimum Order Amount', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Price in monetary decimal (.) format without thousand separators and currency symbols', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
@@ -934,15 +934,15 @@ class Media extends Core {
 						
 						'email_template' => array(
 							'id' => 'email_template',
-							'name' => __('Email Template', 'mp-restaurant-menu'),
-							'desc' => __('Choose a template. Click "Save Changes", then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Email Template', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose a template. Click "Save Changes", then "Preview Purchase Receipt" to see the new template.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => Settings_emails::get_instance()->get_email_templates()
 						),
 						'email_logo' => array(
 							'id' => 'email_logo',
-							'name' => __('Logo', 'mp-restaurant-menu'),
-							'desc' => __('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed in HTML emails only.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Logo', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Upload or choose a logo to be displayed at the top of the purchase receipt emails. Displayed in HTML emails only.', 'mp-restaurant-menu'),
 							'type' => 'upload',
 						),
 						'email_settings' => array(
@@ -955,41 +955,41 @@ class Media extends Core {
 					'purchase_receipts' => array(
 						'purchase_receipt_settings' => array(
 							'id' => 'purchase_receipt_settings',
-							'name' => '<h3>' . __('Purchase Receipt', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Purchase Receipt', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'from_name' => array(
 							'id' => 'from_name',
-							'name' => __('From Name', 'mp-restaurant-menu'),
-							'desc' => __('The name purchase receipts are said to come from. Use your site or shop name.', 'mp-restaurant-menu'),
+							'name' => esc_html__('From Name', 'mp-restaurant-menu'),
+							'desc' => esc_html__('The name purchase receipts are said to come from. Use your site or shop name.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => get_bloginfo('name'),
 						),
 						'from_email' => array(
 							'id' => 'from_email',
-							'name' => __('From Email', 'mp-restaurant-menu'),
-							'desc' => __('Email to send purchase receipts from. This will act as the "from" and "reply-to" address.', 'mp-restaurant-menu'),
+							'name' => esc_html__('From Email', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Email to send purchase receipts from. This will act as the "from" and "reply-to" address.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => get_bloginfo('admin_email'),
 						),
 						'purchase_subject' => array(
 							'id' => 'purchase_subject',
-							'name' => __('Purchase Email Subject', 'mp-restaurant-menu'),
-							'desc' => __('Enter the subject line for the purchase receipt email.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Purchase Email Subject', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the subject line for the purchase receipt email.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
+							'std' => esc_html__('Purchase Receipt', 'mp-restaurant-menu'),
 						),
 						'purchase_heading' => array(
 							'id' => 'purchase_heading',
-							'name' => __('Purchase Email Heading', 'mp-restaurant-menu'),
-							'desc' => __('Enter the heading for the purchase receipt email.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Purchase Email Heading', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the heading for the purchase receipt email.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase Receipt', 'mp-restaurant-menu'),
+							'std' => esc_html__('Purchase Receipt', 'mp-restaurant-menu'),
 						),
 						'purchase_receipt' => array(
 							'id' => 'purchase_receipt',
-							'name' => __('Purchase Receipt', 'mp-restaurant-menu'),
-							'desc' => __('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
+							'name' => esc_html__('Purchase Receipt', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the text that is sent as purchase receipt email to users after completion of a successful purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
 							'type' => 'rich_editor',
 							'std' => __("Dear {name},\n\nThank you for your purchase. Your order details are shown below for your reference:\n{menu_item_list}\nTotal: {price}\n\n{receipt_link}", 'mp-restaurant-menu'),
 						),
@@ -997,34 +997,34 @@ class Media extends Core {
 					'sale_notifications' => array(
 						'sale_notification_settings' => array(
 							'id' => 'sale_notification_settings',
-							'name' => '<h3>' . __('Sale Notifications for shop owner', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Sale Notifications for shop owner', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'sale_notification_subject' => array(
 							'id' => 'sale_notification_subject',
-							'name' => __('Sale Notification Subject', 'mp-restaurant-menu'),
-							'desc' => __('Enter the subject line for the sale notification email.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Sale Notification Subject', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the subject line for the sale notification email.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'std' => 'New purchase - Order #{payment_id}',
 						),
 						'sale_notification' => array(
 							'id' => 'sale_notification',
-							'name' => __('Sale Notification', 'mp-restaurant-menu'),
-							'desc' => __('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
+							'name' => esc_html__('Sale Notification', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the text that is sent as sale notification email after completion of a purchase. HTML is accepted. Available template tags:', 'mp-restaurant-menu') . '<br/>' . mprm_get_emails_tags_list(),
 							'type' => 'rich_editor',
 							'std' => mprm_get_default_sale_notification_email(),
 						),
 						'admin_notice_emails' => array(
 							'id' => 'admin_notice_emails',
-							'name' => __('Sale Notification Emails', 'mp-restaurant-menu'),
-							'desc' => __('Enter the email address(es) that should receive a notification anytime a sale is made, one per line', 'mp-restaurant-menu'),
+							'name' => esc_html__('Sale Notification Emails', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Enter the email address(es) that should receive a notification anytime a sale is made, one per line', 'mp-restaurant-menu'),
 							'type' => 'textarea',
 							'std' => get_bloginfo('admin_email'),
 						),
 						'disable_admin_notices' => array(
 							'id' => 'disable_admin_notices',
-							'name' => __('Disable Sale Notifications', 'mp-restaurant-menu'),
-							'desc' => __('Check this box if you do not want to receive sales notification emails.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Disable Sale Notifications', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box if you do not want to receive sales notification emails.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 					),
@@ -1036,39 +1036,39 @@ class Media extends Core {
 					'main' => array(
 						'style_settings' => array(
 							'id' => 'style_settings',
-							'name' => '<h3>' . __('Style Settings', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Style Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'disable_styles' => array(
 							'id' => 'disable_styles',
-							'name' => __('Disable Styles', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to disable all included styling of buttons, checkout fields, and all other elements.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Disable Styles', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to disable all included styling of buttons, checkout fields, and all other elements.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'button_header' => array(
 							'id' => 'button_header',
-							'name' => '<strong>' . __('Add to cart button style:', 'mp-restaurant-menu') . '</strong>',
-							'desc' => __('Options for add to cart and purchase buttons', 'mp-restaurant-menu'),
+							'name' => '<strong>' . esc_html__('Add to cart button style:', 'mp-restaurant-menu') . '</strong>',
+							'desc' => esc_html__('Options for add to cart and purchase buttons', 'mp-restaurant-menu'),
 							'type' => 'header',
 						),
 						'button_style' => array(
 							'id' => 'button_style',
-							'name' => __('Button Style', 'mp-restaurant-menu'),
-							'desc' => __('Choose the style you want to use for the buttons.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Button Style', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the style you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_button_styles(),
 						),
 						'checkout_color' => array(
 							'id' => 'checkout_color',
-							'name' => __('Button Color', 'mp-restaurant-menu'),
-							'desc' => __('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Button Color', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the color you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'color_select',
 							'options' => $this->get_button_colors(),
 						),
 						'checkout_padding' => array(
 							'id' => 'checkout_padding',
-							'name' => __('Button Size', 'mp-restaurant-menu'),
-							'desc' => __('Choose the size you want to use for the buttons.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Button Size', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Choose the size you want to use for the buttons.', 'mp-restaurant-menu'),
 							'type' => 'select',
 							'options' => $this->get_padding_styles(),
 						),
@@ -1081,19 +1081,19 @@ class Media extends Core {
 					'main' => array(
 						'tax_settings' => array(
 							'id' => 'tax_settings',
-							'name' => '<h3>' . __('Tax Settings', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Tax Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'enable_taxes' => array(
 							'id' => 'enable_taxes',
-							'name' => __('Enable Taxes', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to enable taxes on purchases.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Enable Taxes', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to enable taxes on purchases.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'tax_rate' => array(
 							'id' => 'tax_rate',
-							'name' => __('Tax Rate', 'mp-restaurant-menu'),
-							'desc' => __('Specify a tax rate percentage (e.g. 10%). All customers will be charged this rate.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Tax Rate', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Specify a tax rate percentage (e.g. 10%). All customers will be charged this rate.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'small',
 						),
@@ -1114,48 +1114,48 @@ class Media extends Core {
 					'main' => array(
 						'button_settings' => array(
 							'id' => 'button_settings',
-							'name' => '<h3>' . __('Button Text', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Button Text', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'checkout_label' => array(
 							'id' => 'checkout_label',
-							'name' => __('Complete Purchase Text', 'mp-restaurant-menu'),
-							'desc' => __('The button label for completing a purchase.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Complete Purchase Text', 'mp-restaurant-menu'),
+							'desc' => esc_html__('The button label for completing a purchase.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Purchase', 'mp-restaurant-menu'),
+							'std' => esc_html__('Purchase', 'mp-restaurant-menu'),
 						),
 						'add_to_cart_text' => array(
 							'id' => 'add_to_cart_text',
-							'name' => __('Add to Cart Text', 'mp-restaurant-menu'),
-							'desc' => __('Text shown on the Add to Cart Buttons.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Add to Cart Text', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Text shown on the Add to Cart Buttons.', 'mp-restaurant-menu'),
 							'type' => 'text',
-							'std' => __('Add to Cart', 'mp-restaurant-menu'),
+							'std' => esc_html__('Add to Cart', 'mp-restaurant-menu'),
 						)
 					
 					),
 					'site_terms' => array(
 						'terms_settings' => array(
 							'id' => 'terms_settings',
-							'name' => '<h3>' . __('Agreement Settings', 'mp-restaurant-menu') . '</h3>',
+							'name' => '<h3>' . esc_html__('Agreement Settings', 'mp-restaurant-menu') . '</h3>',
 							'type' => 'header',
 						),
 						'show_agree_to_terms' => array(
 							'id' => 'show_agree_to_terms',
-							'name' => __('Agree to Terms', 'mp-restaurant-menu'),
-							'desc' => __('Check this box to show an Agree To Terms checkbox on the checkout page that users must agree to before purchasing.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Agree to Terms', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Check this box to show an Agree To Terms checkbox on the checkout page that users must agree to before purchasing.', 'mp-restaurant-menu'),
 							'type' => 'checkbox',
 						),
 						'agree_label' => array(
 							'id' => 'agree_label',
-							'name' => __('Agree to Terms Label', 'mp-restaurant-menu'),
-							'desc' => __('Label shown next to the agree to terms check box.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Agree to Terms Label', 'mp-restaurant-menu'),
+							'desc' => esc_html__('Label shown next to the agree to terms check box.', 'mp-restaurant-menu'),
 							'type' => 'text',
 							'size' => 'regular',
 						),
 						'agree_text' => array(
 							'id' => 'agree_text',
-							'name' => __('Agreement Text', 'mp-restaurant-menu'),
-							'desc' => __('If Agree to Terms is checked, enter the agreement terms here.', 'mp-restaurant-menu'),
+							'name' => esc_html__('Agreement Text', 'mp-restaurant-menu'),
+							'desc' => esc_html__('If Agree to Terms is checked, enter the agreement terms here.', 'mp-restaurant-menu'),
 							'type' => 'rich_editor',
 						),
 					),
@@ -1215,8 +1215,8 @@ class Media extends Core {
 	 */
 	public function get_button_styles() {
 		$styles = array(
-			'button' => __('Button', 'mp-restaurant-menu'),
-			'plain' => __('Plain Text', 'mp-restaurant-menu')
+			'button' => esc_html__('Button', 'mp-restaurant-menu'),
+			'plain' => esc_html__('Plain Text', 'mp-restaurant-menu')
 		);
 		
 		return apply_filters('mprm_button_styles', $styles);
@@ -1230,39 +1230,39 @@ class Media extends Core {
 	public function get_button_colors() {
 		$colors = array(
 			'inherit' => array(
-				'label' => __('Default', 'mp-restaurant-menu'),
+				'label' => esc_html__('Default', 'mp-restaurant-menu'),
 				'hex' => ''
 			),
 			'white' => array(
-				'label' => __('White', 'mp-restaurant-menu'),
+				'label' => esc_html__('White', 'mp-restaurant-menu'),
 				'hex' => '#ffffff'
 			),
 			'gray' => array(
-				'label' => __('Gray', 'mp-restaurant-menu'),
+				'label' => esc_html__('Gray', 'mp-restaurant-menu'),
 				'hex' => '#f0f0f0'
 			),
 			'blue' => array(
-				'label' => __('Blue', 'mp-restaurant-menu'),
+				'label' => esc_html__('Blue', 'mp-restaurant-menu'),
 				'hex' => '#428bca'
 			),
 			'red' => array(
-				'label' => __('Red', 'mp-restaurant-menu'),
+				'label' => esc_html__('Red', 'mp-restaurant-menu'),
 				'hex' => '#d9534f'
 			),
 			'green' => array(
-				'label' => __('Green', 'mp-restaurant-menu'),
+				'label' => esc_html__('Green', 'mp-restaurant-menu'),
 				'hex' => '#5cb85c'
 			),
 			'yellow' => array(
-				'label' => __('Yellow', 'mp-restaurant-menu'),
+				'label' => esc_html__('Yellow', 'mp-restaurant-menu'),
 				'hex' => '#f0ad4e'
 			),
 			'orange' => array(
-				'label' => __('Orange', 'mp-restaurant-menu'),
+				'label' => esc_html__('Orange', 'mp-restaurant-menu'),
 				'hex' => '#ed9c28'
 			),
 			'dark-gray' => array(
-				'label' => __('Dark Gray', 'mp-restaurant-menu'),
+				'label' => esc_html__('Dark Gray', 'mp-restaurant-menu'),
 				'hex' => '#363636'
 			)
 		);
@@ -1277,10 +1277,10 @@ class Media extends Core {
 	 */
 	public function get_padding_styles() {
 		$styles = array(
-			'mprm-inherit' => __('Default', 'mp-restaurant-menu'),
-			'mprm-small' => __('Small', 'mp-restaurant-menu'),
-			'mprm-middle' => __('Middle', 'mp-restaurant-menu'),
-			'mprm-big' => __('Large', 'mp-restaurant-menu')
+			'mprm-inherit' => esc_html__('Default', 'mp-restaurant-menu'),
+			'mprm-small' => esc_html__('Small', 'mp-restaurant-menu'),
+			'mprm-middle' => esc_html__('Middle', 'mp-restaurant-menu'),
+			'mprm-big' => esc_html__('Large', 'mp-restaurant-menu')
 		);
 		
 		return apply_filters('mprm_padding_styles', $styles);
@@ -1306,8 +1306,8 @@ class Media extends Core {
 	 */
 	public function get_default_labels() {
 		$defaults = array(
-			'singular' => __('Menu item', 'mp-restaurant-menu'),
-			'plural' => __('Menu items', 'mp-restaurant-menu')
+			'singular' => esc_html__('Menu item', 'mp-restaurant-menu'),
+			'plural' => esc_html__('Menu items', 'mp-restaurant-menu')
 		);
 		
 		return apply_filters('mprm_default_menu_items_name', $defaults);
@@ -1344,44 +1344,44 @@ class Media extends Core {
 		}
 		$sections = array(
 			'general' => apply_filters('mprm_settings_sections_general', array(
-					'main' => __('General', 'mp-restaurant-menu'),
-					'section_currency' => __('Currency Settings', 'mp-restaurant-menu'),
-					//'open_hours_section' => __('Open Hours', 'mp-restaurant-menu'),
+					'main' => esc_html__('General', 'mp-restaurant-menu'),
+					'section_currency' => esc_html__('Currency Settings', 'mp-restaurant-menu'),
+					//'open_hours_section' => esc_html__('Open Hours', 'mp-restaurant-menu'),
 				)
 			),
 			'display' => apply_filters('mprm_settings_sections_display', array(
-					'main' => __('General', 'mp-restaurant-menu'),
-					'taxonomy_grid' => __('Grid', 'mp-restaurant-menu'),
-					'taxonomy_list' => __('List', 'mp-restaurant-menu'),
-					'taxonomy_simple_list' => __('Simple list', 'mp-restaurant-menu')
+					'main' => esc_html__('General', 'mp-restaurant-menu'),
+					'taxonomy_grid' => esc_html__('Grid', 'mp-restaurant-menu'),
+					'taxonomy_list' => esc_html__('List', 'mp-restaurant-menu'),
+					'taxonomy_simple_list' => esc_html__('Simple list', 'mp-restaurant-menu')
 				)
 			),
 			'gateways' => apply_filters('mprm_settings_sections_gateways', array(
-				'main' => __('Gateways', 'mp-restaurant-menu'),
-				'paypal' => __('PayPal Standard', 'mp-restaurant-menu'),
-				'cod' => __('Cash On Delivery', 'mp-restaurant-menu'),
+				'main' => esc_html__('Gateways', 'mp-restaurant-menu'),
+				'paypal' => esc_html__('PayPal Standard', 'mp-restaurant-menu'),
+				'cod' => esc_html__('Cash On Delivery', 'mp-restaurant-menu'),
 			)),
 			'emails' => apply_filters('mprm_settings_sections_emails', array(
-				'main' => __('Email Template', 'mp-restaurant-menu'),
-				'purchase_receipts' => __('Purchase Receipt', 'mp-restaurant-menu'),
-				'sale_notifications' => __('New Sale Notifications', 'mp-restaurant-menu'),
+				'main' => esc_html__('Email Template', 'mp-restaurant-menu'),
+				'purchase_receipts' => esc_html__('Purchase Receipt', 'mp-restaurant-menu'),
+				'sale_notifications' => esc_html__('New Sale Notifications', 'mp-restaurant-menu'),
 			)),
 			'styles' => apply_filters('mprm_settings_sections_styles', array(
-				'main' => __('Style Settings', 'mp-restaurant-menu'),
+				'main' => esc_html__('Style Settings', 'mp-restaurant-menu'),
 			)),
 			'checkout' => apply_filters('mprm_settings_sections_styles', array(
-				'main' => __('Checkout Settings', 'mp-restaurant-menu'),
+				'main' => esc_html__('Checkout Settings', 'mp-restaurant-menu'),
 			)),
 			'taxes' => apply_filters('mprm_settings_sections_taxes', array(
-				'main' => __('Tax Settings', 'mp-restaurant-menu'),
+				'main' => esc_html__('Tax Settings', 'mp-restaurant-menu'),
 			)),
 			'extensions' => apply_filters('mprm_settings_sections_extensions', array(
-				'main' => __('Main', 'mp-restaurant-menu')
+				'main' => esc_html__('Main', 'mp-restaurant-menu')
 			)),
 			'licenses' => apply_filters('mprm_settings_sections_licenses', array()),
 			'misc' => apply_filters('mprm_settings_sections_misc', array(
-				'main' => __('Button Text', 'mp-restaurant-menu'),
-				'site_terms' => __('Terms of Agreement', 'mp-restaurant-menu')
+				'main' => esc_html__('Button Text', 'mp-restaurant-menu'),
+				'site_terms' => esc_html__('Terms of Agreement', 'mp-restaurant-menu')
 			)),
 		);
 		$sections = apply_filters('mprm_settings_sections', $sections);
@@ -1530,7 +1530,12 @@ class Media extends Core {
 		
 		switch ($post_type) {
 			case"mp_menu_item":
-				$this->enqueue_style('magnific-popup', 'lib/magnific-popup.min.css');
+				wp_enqueue_style(
+					'fancybox',
+					mprm_get_plugin_url( 'vendors/fancybox/jquery.fancybox.min.css' ),
+					[],
+					'3.5.7'
+				);
 				break;
 			default:
 				break;
@@ -1554,7 +1559,14 @@ class Media extends Core {
 			case "mp_menu_item":
 				wp_enqueue_script('underscore');
 				$this->enqueue_script('mp-restaurant-menu', "mp-restaurant-menu{$prefix}.js");
-				$this->enqueue_script('magnific-popup', "libs/jquery.magnific-popup{$prefix}.js", array("jquery"), '1.0.1');
+
+				wp_enqueue_script(
+					'fancybox',
+					mprm_get_plugin_url( 'vendors/fancybox/jquery.fancybox.min.js' ),
+					[ 'jquery' ],
+					'3.5.7',
+					true
+				);
 				break;
 			
 			default:
@@ -1603,19 +1615,19 @@ class Media extends Core {
 			//'label' => 'mp_menu_item',
 			'labels' =>
 				array(
-					'name' => __('Menu Items', 'mp-restaurant-menu'),
-					'singular_name' => __('Menu Item', 'mp-restaurant-menu'),
-					'add_new' => __('Add New', 'mp-restaurant-menu'),
-					'add_new_item' => __('Add New Menu Item', 'mp-restaurant-menu'),
-					'edit_item' => __('Edit Menu Item', 'mp-restaurant-menu'),
-					'new_item' => __('New Menu Item', 'mp-restaurant-menu'),
-					'all_items' => __('All Menu Items', 'mp-restaurant-menu'),
-					'view_item' => __('View Menu Item', 'mp-restaurant-menu'),
-					'search_items' => __('Search Menu Item', 'mp-restaurant-menu'),
-					'not_found' => __('No menu items found', 'mp-restaurant-menu'),
-					'not_found_in_trash' => __('No menu items found in Trash', 'mp-restaurant-menu'),
-					'parent_item_colon' => __('media', 'mp-restaurant-menu'),
-					'menu_name' => __('Menu Items', 'mp-restaurant-menu'),
+					'name' => esc_html__('Menu Items', 'mp-restaurant-menu'),
+					'singular_name' => esc_html__('Menu Item', 'mp-restaurant-menu'),
+					'add_new' => esc_html__('Add New', 'mp-restaurant-menu'),
+					'add_new_item' => esc_html__('Add New Menu Item', 'mp-restaurant-menu'),
+					'edit_item' => esc_html__('Edit Menu Item', 'mp-restaurant-menu'),
+					'new_item' => esc_html__('New Menu Item', 'mp-restaurant-menu'),
+					'all_items' => esc_html__('All Menu Items', 'mp-restaurant-menu'),
+					'view_item' => esc_html__('View Menu Item', 'mp-restaurant-menu'),
+					'search_items' => esc_html__('Search Menu Item', 'mp-restaurant-menu'),
+					'not_found' => esc_html__('No menu items found', 'mp-restaurant-menu'),
+					'not_found_in_trash' => esc_html__('No menu items found in Trash', 'mp-restaurant-menu'),
+					'parent_item_colon' => esc_html__('media', 'mp-restaurant-menu'),
+					'menu_name' => esc_html__('Menu Items', 'mp-restaurant-menu'),
 				),
 			'public' => true,
 			'has_archive' => true,
@@ -1638,22 +1650,22 @@ class Media extends Core {
 		
 		register_post_type($this->get_post_type('order'), array(
 			'labels' => array(
-				'name' => __('Orders', 'mp-restaurant-menu'),
-				'singular_name' => _x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
-				'add_new' => __('Add Order', 'mp-restaurant-menu'),
-				'add_new_item' => __('Add New Order', 'mp-restaurant-menu'),
-				'edit' => __('Edit', 'mp-restaurant-menu'),
-				'edit_item' => __('Edit Order', 'mp-restaurant-menu'),
-				'new_item' => __('New Order', 'mp-restaurant-menu'),
-				'view' => __('View Order', 'mp-restaurant-menu'),
-				'view_item' => __('View Order', 'mp-restaurant-menu'),
-				'search_items' => __('Search Orders', 'mp-restaurant-menu'),
-				'not_found' => __('No Orders found', 'mp-restaurant-menu'),
-				'not_found_in_trash' => __('No Orders found in trash', 'mp-restaurant-menu'),
-				'parent' => __('Parent Orders', 'mp-restaurant-menu'),
-				'menu_name' => _x('Orders', 'Admin menu name', 'mp-restaurant-menu')
+				'name' => esc_html__('Orders', 'mp-restaurant-menu'),
+				'singular_name' => esc_html_x('Order', 'shop_order post type singular name', 'mp-restaurant-menu'),
+				'add_new' => esc_html__('Add Order', 'mp-restaurant-menu'),
+				'add_new_item' => esc_html__('Add New Order', 'mp-restaurant-menu'),
+				'edit' => esc_html__('Edit', 'mp-restaurant-menu'),
+				'edit_item' => esc_html__('Edit Order', 'mp-restaurant-menu'),
+				'new_item' => esc_html__('New Order', 'mp-restaurant-menu'),
+				'view' => esc_html__('View Order', 'mp-restaurant-menu'),
+				'view_item' => esc_html__('View Order', 'mp-restaurant-menu'),
+				'search_items' => esc_html__('Search Orders', 'mp-restaurant-menu'),
+				'not_found' => esc_html__('No Orders found', 'mp-restaurant-menu'),
+				'not_found_in_trash' => esc_html__('No Orders found in trash', 'mp-restaurant-menu'),
+				'parent' => esc_html__('Parent Orders', 'mp-restaurant-menu'),
+				'menu_name' => esc_html_x('Orders', 'Admin menu name', 'mp-restaurant-menu')
 			),
-			'description' => __('This is where store orders are stored.', 'mp-restaurant-menu'),
+			'description' => esc_html__('This is where store orders are stored.', 'mp-restaurant-menu'),
 			'public' => false,
 			'show_ui' => true,
 			'capability_type' => $this->get_post_type('order'),
@@ -1687,8 +1699,8 @@ class Media extends Core {
 		//Categories
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Categories', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Category', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Categories', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Category', 'taxonomy singular name', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,
@@ -1713,8 +1725,8 @@ class Media extends Core {
 		//Tags
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Tags', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Tag', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Tags', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Tag', 'taxonomy singular name', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,
@@ -1738,15 +1750,15 @@ class Media extends Core {
 		//Ingredients
 		$args = array(
 			'labels' => array(
-				'name'              => _x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
-				'singular_name'     => _x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
-				'search_items'      => __( 'Search Ingredients', 'mp-restaurant-menu' ),
-				'all_items'         => __( 'All Ingredients', 'mp-restaurant-menu' ),
-				'edit_item'         => __( 'Edit Ingredient', 'mp-restaurant-menu' ),
-				'update_item'       => __( 'Update Ingredient', 'mp-restaurant-menu' ),
-				'add_new_item'      => __( 'Add New Ingredient', 'mp-restaurant-menu' ),
-				'new_item_name'     => __( 'New Ingredient Name', 'mp-restaurant-menu' ),
-				'menu_name'         => __( 'Ingredient', 'mp-restaurant-menu' ),
+				'name'              => esc_html_x( 'Menu Ingredients', 'taxonomy general name', 'mp-restaurant-menu' ),
+				'singular_name'     => esc_html_x( 'Ingredient', 'taxonomy singular name', 'mp-restaurant-menu' ),
+				'search_items'      => esc_html__( 'Search Ingredients', 'mp-restaurant-menu' ),
+				'all_items'         => esc_html__( 'All Ingredients', 'mp-restaurant-menu' ),
+				'edit_item'         => esc_html__( 'Edit Ingredient', 'mp-restaurant-menu' ),
+				'update_item'       => esc_html__( 'Update Ingredient', 'mp-restaurant-menu' ),
+				'add_new_item'      => esc_html__( 'Add New Ingredient', 'mp-restaurant-menu' ),
+				'new_item_name'     => esc_html__( 'New Ingredient Name', 'mp-restaurant-menu' ),
+				'menu_name'         => esc_html__( 'Ingredient', 'mp-restaurant-menu' ),
 			),
 
 			'public' => true,
@@ -1967,22 +1979,22 @@ class Media extends Core {
 	public function get_settings_tabs() {
 		$settings = $this->get_registered_settings();
 		$tabs = array();
-		$tabs[ 'general' ] = _x('General', 'General settings tab', 'mp-restaurant-menu');
-		$tabs[ 'display' ] = _x('Display', 'Disapley settings tab', 'mp-restaurant-menu');
-		$tabs[ 'gateways' ] = _x('Payment', 'Payment settings tab', 'mp-restaurant-menu');
-		$tabs[ 'checkout' ] = _x('Checkout', 'Checkout settings tab', 'mp-restaurant-menu');
-		$tabs[ 'emails' ] = _x('Emails', 'Email settings tab', 'mp-restaurant-menu');
-		$tabs[ 'styles' ] = _x('Styles', 'Styles settings tab', 'mp-restaurant-menu');
-		$tabs[ 'taxes' ] = _x('Taxes', 'Taxes settings tab', 'mp-restaurant-menu');
+		$tabs[ 'general' ] = esc_html_x('General', 'General settings tab', 'mp-restaurant-menu');
+		$tabs[ 'display' ] = esc_html_x('Display', 'Disapley settings tab', 'mp-restaurant-menu');
+		$tabs[ 'gateways' ] = esc_html_x('Payment', 'Payment settings tab', 'mp-restaurant-menu');
+		$tabs[ 'checkout' ] = esc_html_x('Checkout', 'Checkout settings tab', 'mp-restaurant-menu');
+		$tabs[ 'emails' ] = esc_html_x('Emails', 'Email settings tab', 'mp-restaurant-menu');
+		$tabs[ 'styles' ] = esc_html_x('Styles', 'Styles settings tab', 'mp-restaurant-menu');
+		$tabs[ 'taxes' ] = esc_html_x('Taxes', 'Taxes settings tab', 'mp-restaurant-menu');
 		
 		if (!empty($settings[ 'extensions' ])) {
-			$tabs[ 'extensions' ] = _x('Extensions', 'Extensions settings tab', 'mp-restaurant-menu');
+			$tabs[ 'extensions' ] = esc_html_x('Extensions', 'Extensions settings tab', 'mp-restaurant-menu');
 		}
 		
 		if (!empty($settings[ 'licenses' ])) {
-			$tabs[ 'licenses' ] = _x('Licenses', 'Licenses settings tab', 'mp-restaurant-menu');
+			$tabs[ 'licenses' ] = esc_html_x('Licenses', 'Licenses settings tab', 'mp-restaurant-menu');
 		}
-		$tabs[ 'misc' ] = _x('Misc', 'Misc settings tab', 'mp-restaurant-menu');
+		$tabs[ 'misc' ] = esc_html_x('Misc', 'Misc settings tab', 'mp-restaurant-menu');
 		
 		return apply_filters('mprm_settings_tabs', $tabs);
 	}

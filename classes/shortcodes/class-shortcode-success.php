@@ -34,7 +34,7 @@ class Shortcode_success extends Shortcodes {
 		$data = empty($data) ? array() : $data;
 		$payment_key = false;
 		$mprm_receipt_args = shortcode_atts(array(
-			'error' => __('Sorry, trouble retrieving payment receipt.', 'mp-restaurant-menu'),
+			'error' => esc_html__('Sorry, trouble retrieving payment receipt.', 'mp-restaurant-menu'),
 			'price' => true,
 			'discount' => true,
 			'products' => true,
@@ -46,11 +46,13 @@ class Shortcode_success extends Shortcodes {
 		), $data, 'mprm_success');
 
 		$session = $this->get('session')->get_session_by_key('mprm_purchase');
+
 		if (isset($_GET['payment_key'])) {
-			$payment_key = urldecode($_GET['payment_key']);
+			$payment_key = urldecode( sanitize_text_field( wp_unslash( $_GET['payment_key'] ) ) );
 		} else if ($session) {
 			$payment_key = $session['purchase_key'];
 		}
+
 		$data['payment_key'] = $payment_key;
 		$user_can_view = $this->get('misc')->can_view_receipt($payment_key);
 		$payment_id = $this->get('payments')->get_payment_id(array('search_key' => 'payment_key', 'value' => $payment_key));

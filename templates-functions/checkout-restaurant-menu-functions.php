@@ -38,7 +38,7 @@ function mprm_checkout_button_next() {
 	<input type="hidden" name="mprm_action" value="gateway_select"/>
 	<input type="hidden" name="page_id" value="<?php echo esc_attr( absint($purchase_page) ); ?>"/>
 	<input type="submit" name="gateway_submit" id="mprm_next_button" class="mprm-submit <?php
-		echo esc_attr( $color ); ?> <?php echo esc_attr( $padding ); ?> <?php echo esc_attr( $style ); ?>" value="<?php _e('Next', 'mp-restaurant-menu'); ?>"/>
+		echo esc_attr( $color ); ?> <?php echo esc_attr( $padding ); ?> <?php echo esc_attr( $style ); ?>" value="<?php esc_html_e('Next', 'mp-restaurant-menu'); ?>"/>
 	<?php
 	return apply_filters('mprm_checkout_button_next', ob_get_clean());
 }
@@ -59,9 +59,9 @@ function mprm_checkout_button_purchase() {
 	$checkout_button = '';
 
 	if ( $cart_total ) {
-		$complete_purchase = !empty($label) ? $label : __('Purchase', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : esc_html__('Purchase', 'mp-restaurant-menu');
 	} else {
-		$complete_purchase = !empty($label) ? $label : __('Free', 'mp-restaurant-menu');
+		$complete_purchase = !empty($label) ? $label : esc_html__('Free', 'mp-restaurant-menu');
 	}
 
 	if ( $cart_total >= $minimum_order_amount ) {
@@ -87,9 +87,9 @@ function mprm_checkout_minimum_order_amount() {
 			<div class="mprm-error">
 				<span class="mprm-notice-text">
 					<?php
-					printf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
-						mprm_currency_filter( mprm_format_amount( $cart_total ) ),
-						mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
+					printf( esc_html__('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+						esc_html( mprm_currency_filter( mprm_format_amount( $cart_total ) ) ),
+						esc_html( mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) ) )
 					);
 					?>
 				</span>
@@ -107,7 +107,7 @@ function mprm_pre_process_purchase_validate_minimum_order_amount() {
 
 	if ( $cart_total && $minimum_order_amount && ($cart_total < $minimum_order_amount) ) {
 
-		$error = sprintf( __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
+		$error = sprintf( esc_html__('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'mp-restaurant-menu'), 
 			mprm_currency_filter( mprm_format_amount( $cart_total ) ),
 			mprm_currency_filter( mprm_format_amount( $minimum_order_amount ) )
 		);
@@ -124,7 +124,7 @@ function mprm_pre_process_purchase_validate_minimum_order_amount() {
 				)
 			);
 		} else {
-			wp_die( $error );
+			wp_die( esc_html( $error ) );
 		}
 	}
 }
@@ -146,7 +146,7 @@ function mprm_checkout_submit() { ?>
 	<fieldset id="mprm_purchase_submit">
 		<?php do_action('mprm_purchase_form_before_submit'); ?>
 		<?php mprm_checkout_hidden_fields(); ?>
-		<?php echo mprm_checkout_button_purchase(); ?>
+		<?php echo mprm_checkout_button_purchase(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<?php do_action('mprm_purchase_form_after_submit'); ?>
 	</fieldset>
 	<?php
@@ -159,8 +159,8 @@ function mprm_checkout_additional_information() {
 function mprm_checkout_final_total() {
 	?>
 	<p id="mprm_final_total_wrap">
-		<strong><?php _e('Total:', 'mp-restaurant-menu'); ?></strong>
-		<span class="mprm_cart_amount" data-subtotal="<?php echo mprm_get_cart_subtotal(); ?>" data-total="<?php echo mprm_get_cart_subtotal(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); ?></span>
+		<strong><?php esc_html_e('Total:', 'mp-restaurant-menu'); ?></strong>
+		<span class="mprm_cart_amount" data-subtotal="<?php echo esc_attr( mprm_get_cart_subtotal() ); ?>" data-total="<?php echo esc_attr( mprm_get_cart_subtotal() ); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 	</p>
 	<?php
 }
@@ -168,11 +168,11 @@ function mprm_checkout_final_total() {
 function mprm_checkout_hidden_fields() {
 	?>
 	<?php if (is_user_logged_in()) { ?>
-		<input type="hidden" name="mprm-user-id" value="<?php echo get_current_user_id(); ?>"/>
+		<input type="hidden" name="mprm-user-id" value="<?php echo esc_attr( get_current_user_id() ); ?>"/>
 	<?php } ?>
 	<input type="hidden" name="mprm_action" value="purchase"/>
 	<input type="hidden" name="controller" value="cart"/>
-	<input type="hidden" name="mprm-gateway" value="<?php echo models\Gateways::get_instance()->get_chosen_gateway(); ?>"/>
+	<input type="hidden" name="mprm-gateway" value="<?php echo esc_attr( models\Gateways::get_instance()->get_chosen_gateway() ); ?>"/>
 	<?php
 }
 
@@ -183,9 +183,9 @@ function mprm_checkout_delivery_address() {
 	if (mprm_get_option('shipping_address')): ?>
 		<p id="mprm-address-wrap">
 			<label for="shipping_address" class="mprm-label">
-				<?php _e('Shipping address:', 'mp-restaurant-menu'); ?>
+				<?php esc_html_e('Shipping address:', 'mp-restaurant-menu'); ?>
 			</label>
-			<input type="text" name="shipping_address" value="" class="medium-text" placeholder="<?php _e('Enter your address.', 'mp-restaurant-menu'); ?>"/>
+			<input type="text" name="shipping_address" value="" class="medium-text" placeholder="<?php esc_html_e('Enter your address.', 'mp-restaurant-menu'); ?>"/>
 		</p>
 	<?php endif;
 }
@@ -197,7 +197,7 @@ function mprm_checkout_order_note() {
 	?>
 	<p id="mprm-phone-number-wrap">
 		<label for="customer_note" class="mprm-label">
-			<?php _e('Order notes:', 'mp-restaurant-menu'); ?>
+			<?php esc_html_e('Order notes:', 'mp-restaurant-menu'); ?>
 		</label>
 		<textarea type="text" name="customer_note" id="customer_note" class="phone-number mprm-input"></textarea>
 	</p>
@@ -209,20 +209,20 @@ function mprm_checkout_order_note() {
 
 function mprm_checkout_summary_table() { ?>
 
-	<span class="mprm-payment-details-label"><legend><?php _e('Order totals', 'mp-restaurant-menu'); ?></legend></span>
+	<span class="mprm-payment-details-label"><legend><?php esc_html_e('Order totals', 'mp-restaurant-menu'); ?></legend></span>
 	<table class="mprm-table">
 		<?php do_action('mprm_checkout_table_subtotal_before'); ?>
 		<tr>
-			<td class=""><span><?php _e('Subtotal', 'mp-restaurant-menu'); ?> </span></td>
-			<td><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) ?></span></td>
+			<td class=""><span><?php esc_html_e('Subtotal', 'mp-restaurant-menu'); ?> </span></td>
+			<td><span class="mprm_cart_subtotal_amount"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_subtotal())) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_subtotal_after'); ?>
 		
 		<?php do_action('mprm_checkout_table_tax_before'); ?>
 		<?php if (mprm_use_taxes()) : ?>
 			<tr <?php if (!mprm_is_cart_taxed()) echo ' style="display:none;"'; ?>>
-				<td><span><?php _e('Tax', 'mp-restaurant-menu'); ?></span></td>
-				<td><span class="mprm_cart_tax_amount" data-tax="<?php echo mprm_get_cart_tax(); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) ?></span></td>
+				<td><span><?php esc_html_e('Tax', 'mp-restaurant-menu'); ?></span></td>
+				<td><span class="mprm_cart_tax_amount" data-tax="<?php echo esc_attr( mprm_get_cart_tax() ); ?>"><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_tax())) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span></td>
 			</tr>
 		<?php endif; ?>
 		<?php do_action('mprm_checkout_table_tax_after'); ?>
@@ -230,9 +230,9 @@ function mprm_checkout_summary_table() { ?>
 		<?php do_action('mprm_checkout_table_total_before'); ?>
 		<tr class="mprm-checkout-total">
 			<td>
-				<span><b><?php _e('Total', 'mp-restaurant-menu'); ?></b></span>
+				<span><b><?php esc_html_e('Total', 'mp-restaurant-menu'); ?></b></span>
 			</td>
-			<td><span class="mprm_cart_amount"><b><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) ?></b></span></td>
+			<td><span class="mprm_cart_amount"><b><?php echo mprm_currency_filter(mprm_format_amount(mprm_get_cart_total())) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></b></span></td>
 		</tr>
 		<?php do_action('mprm_checkout_table_total_after'); ?>
 	</table>

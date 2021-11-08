@@ -10,16 +10,16 @@ $order_id = $order->ID;
 		if (!empty($notes)) :
 			$no_notes_display = ' style="display:none;"';
 			foreach ($notes as $note) :
-				echo mprm_get_payment_note_html($note, $order_id);
+				echo mprm_get_payment_note_html($note, $order_id); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			endforeach;
 		else :
 			$no_notes_display = '';
 		endif; ?>
-		<p class="mprm-no-order-notes"<?php echo $no_notes_display ?>><?php _e('No order notes', 'mp-restaurant-menu') ?></p>
+		<p class="mprm-no-order-notes"<?php echo $no_notes_display // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e('No order notes', 'mp-restaurant-menu') ?></p>
 	</div>
 	<textarea name="mprm-order-note" id="mprm-order-note" class="large-text"></textarea>
 	<p>
-		<button id="mprm-add-order-note" class="button button-secondary right" data-order-id="<?php echo absint($order_id); ?>"><?php _e('Add Note', 'mp-restaurant-menu'); ?></button>
+		<button id="mprm-add-order-note" class="button button-secondary right" data-order-id="<?php echo absint($order_id); ?>"><?php esc_html_e('Add Note', 'mp-restaurant-menu'); ?></button>
 	</p>
 	<div class="mprm-clear"></div>
 </div>
