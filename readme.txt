@@ -3,7 +3,7 @@ Contributors: MotoPress
 Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
-Tested up to: 5.9
+Tested up to: 6.0
 Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,14 +14,14 @@ Create and maintain modern online menus for almost any kind of restaurant. Sell 
 
 MotoPress Restaurant Menu is a full-fledged WordPress food ordering system that can be smoothly integrated with your restaurant or cafe website.
 
-It's an easy-to-manage WordPress food menu plugin that allows you to create a categorized database of the menu offerings with different prices and offer your customers a simple and quick ordering process. For example, it's a perfect match for:
+It's an easy-to-manage WordPress food menu plugin that allows you to create a categorized database of the menu offerings with different prices and offer your customers a simple and quick ordering process. For example, it's a perfect restaurant menu ordering system match for:
 
-* Pizza ordering system.
+* Pizza ordering system and foodstore.
 * Fast food ordering system.
 * Multipurpose restaurant menu.
 * Any typical food and drinks establishment.
 
-Thanks to the built-in e-commerce capabilities, you'll be able to sell food and drinks online on WordPress (PayPal and Cash on delivery methods are integrated for free).
+Thanks to the built-in e-commerce capabilities of this WordPress restaurant online ordering plugin, you'll be able to sell food and drinks online on WordPress (PayPal and Cash on delivery methods are integrated for free).
 
 With the MotoPress WP Restaurant plugin, you can showcase your menus in posts, pages, and sidebars (or widget zones), which makes it easy to make the plugin look perfect in any WordPress theme.
 
@@ -40,7 +40,7 @@ All [addons for Restaurant Menu plugin](https://motopress.com/products/category/
 
 ### Discover all free tools of MotoPress Restaurant Menu for WordPress
 
-* Responsive designs that allow customers to view the menu and order easily using mobile devices.
+* Responsive online order WordPress designs that allow customers to view the menu and order easily using mobile devices.
 * Complete menu item presentation: title and description, photos, price, detailed nutrition information, attributes (size, bulk, weight), tags (highlights), and the list of ingredients.
 * Simplified or detailed view of menu items.
 * Categorically-organized lists of meals, food, and drinks; plus child categories with descriptions.
@@ -57,12 +57,12 @@ All [addons for Restaurant Menu plugin](https://motopress.com/products/category/
 
 ### E-commerce settings
 
-The plugin will deliver the perfect WordPress restaurant online ordering experience to your customers thanks to these free tools:
+The MotoPress WordPress food ordering plugin will deliver the perfect WordPress restaurant online ordering experience to your customers thanks to these free tools:
 
 * PayPal and Cash on Delivery payment methods integrated for free.
-* Test payments to check how the system works before running it on the live website.
+* Test payments to check how this food and drink menu system works before running it on the live website.
 * Guest shopping and by registered customers.
-* Quick and smooth checkout process.
+* WP restaurant with quick and smooth checkout process.
 * Order statuses to help customers track the status of their purchase (cooking, shipping, shipped).
 * Customizable email templates (confirmation, payments, notifications) to send to both website restaurant administrators and shoppers.
 
