@@ -159,7 +159,7 @@ class Store_item extends Model {
 	 *
 	 * @return bool
 	 */
-	public function is_free($price_id = false, $post_id) {
+	public function is_free($price_id = false, $post_id = 0) {
 		global $post;
 		if (empty($post)) {
 			$post = get_post($post_id);
