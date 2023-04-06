@@ -212,7 +212,7 @@ class Paypal extends Model {
 					$menu_items = maybe_unserialize($payment_data['menu_items']);
 					if (is_array($menu_items)) {
 						foreach ($menu_items as $menu_item) {
-							$this->get('payments')->undo_purchase($menu_item['id'], $payment_id);
+							$this->get('payments')->undo_purchase($payment_id);
 						}
 					}
 					wp_update_post(array('ID' => $payment_id, 'post_status' => 'mprm-refunded'));

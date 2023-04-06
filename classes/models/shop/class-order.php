@@ -1767,7 +1767,7 @@ final class Order extends Model {
 	 * @param $alter_customer_purchase_count
 	 */
 	private function maybe_alter_stats($alter_store_earnings, $alter_customer_value, $alter_customer_purchase_count) {
-		$this->get('payments')->undo_purchase(false, $this->ID);
+		$this->get('payments')->undo_purchase($this->ID);
 		// Decrease store earnings
 		if (true === $alter_store_earnings) {
 			$this->get('payments')->decrease_total_earnings($this->total);

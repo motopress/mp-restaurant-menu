@@ -703,7 +703,7 @@ class Payments extends Parent_query {
 		global $mprm_logs;
 		$payment = new Order($payment_id);
 		// Update sale counts and earnings for all purchased products
-		$this->undo_purchase(false, $payment_id);
+		$this->undo_purchase($payment_id);
 		$amount = $this->get_payment_amount($payment_id);
 		$status = $payment->post_status;
 		$customer_id = $this->get_payment_customer_id($payment_id);
@@ -726,39 +726,16 @@ class Payments extends Parent_query {
 		}
 		// Remove the payment
 		wp_delete_post($payment_id, true);
-		// Remove related sale log entries
-//		$mprm_logs->delete_logs(
-//			null,
-//			'sale',
-//			array(
-//				array(
-//					'key' => '_mprm_log_payment_id',
-//					'value' => $payment_id
-//				)
-//			)
-//		);
-//		if ($delete_menu_item_logs) {
-//			$mprm_logs->delete_logs(
-//				null,
-//				'file_menu_item',
-//				array(
-//					array(
-//						'key' => '_mprm_log_payment_id',
-//						'value' => $payment_id
-//					)
-//				)
-//			);
-//		}
+
 		do_action('mprm_order_deleted', $payment_id);
 	}
 	
 	/**
 	 * Undo purchase
 	 *
-	 * @param bool $menu_item_id
 	 * @param $payment_id
 	 */
-	public function undo_purchase($menu_item_id = false, $payment_id) {
+	public function undo_purchase($payment_id) {
 		$payment = $this->get('order');
 		
 		$payment->setup_payment($payment_id);
@@ -898,14 +875,14 @@ class Payments extends Parent_query {
 	
 	/**
 	 * @param null $day
-	 * @param $month_num
+	 * @param null $month_num
 	 * @param null $year
 	 * @param null $hour
 	 * @param bool $include_taxes
 	 *
 	 * @return float
 	 */
-	public function get_earnings_by_date($day = null, $month_num, $year = null, $hour = null, $include_taxes = true) {
+	public function get_earnings_by_date($day = null, $month_num = null, $year = null, $hour = null, $include_taxes = true) {
 		global $wpdb;
 		$args = array(
 			'post_type' => 'mprm_order',

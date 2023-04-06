@@ -231,12 +231,12 @@ class Menu_item extends Store_item {
 	
 	/**
 	 * @param int $menu_item_id
-	 * @param $user_purchase_info
+	 * @param array $user_purchase_info
 	 * @param null $amount_override
 	 *
 	 * @return mixed
 	 */
-	public function get_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
+	public function get_final_price($menu_item_id = 0, $user_purchase_info = array(), $amount_override = null) {
 		if (is_null($amount_override)) {
 			$original_price = get_post_meta($menu_item_id, 'mprm_price', true);
 		} else {
@@ -582,6 +582,8 @@ class Menu_item extends Store_item {
 	 */
 	public function increase_sales($quantity = 1) {
 		$sales = $this->get_menu_item_sales_stats($this->ID);
+
+		$sales = absint($sales);
 		$quantity = absint($quantity);
 		$total_sales = $sales + $quantity;
 		if ($this->update_meta('_mprm_menu_item_sales', $total_sales)) {
@@ -634,11 +636,11 @@ class Menu_item extends Store_item {
 	 * Get increase earnings
 	 *
 	 * @param int $menu_item_id
-	 * @param $amount
+	 * @param float $amount
 	 *
 	 * @return bool
 	 */
-	public function get_increase_earnings($menu_item_id = 0, $amount) {
+	public function get_increase_earnings($menu_item_id = 0, $amount = 0) {
 		$this->setup_menu_item($menu_item_id);
 		
 		return $this->increase_earnings($amount);
@@ -647,7 +649,7 @@ class Menu_item extends Store_item {
 	/**
 	 * Increase earnings
 	 *
-	 * @param int $amount
+	 * @param float $amount
 	 *
 	 * @return bool
 	 */
@@ -665,11 +667,11 @@ class Menu_item extends Store_item {
 	
 	/**
 	 * @param int $menu_item_id
-	 * @param $amount
+	 * @param float $amount
 	 *
 	 * @return bool
 	 */
-	public function get_decrease_earnings($menu_item_id = 0, $amount) {
+	public function get_decrease_earnings($menu_item_id = 0, $amount = 0) {
 		$this->setup_menu_item($menu_item_id);
 		
 		return $this->decrease_earnings($amount);
@@ -678,7 +680,7 @@ class Menu_item extends Store_item {
 	/**
 	 * Decrease earnings
 	 *
-	 * @param $amount
+	 * @param float $amount
 	 *
 	 * @return bool
 	 */

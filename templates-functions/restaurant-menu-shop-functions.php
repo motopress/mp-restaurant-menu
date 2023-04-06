@@ -899,12 +899,12 @@ function mprm_get_gateway_admin_label($gateway) {
 
 /**
  * @param int $menu_item_id
- * @param $user_purchase_info
+ * @param array $user_purchase_info
  * @param null $amount_override
  *
  * @return mixed
  */
-function mprm_get_menu_item_final_price($menu_item_id = 0, $user_purchase_info, $amount_override = null) {
+function mprm_get_menu_item_final_price($menu_item_id = 0, $user_purchase_info = array(), $amount_override = null) {
 	return models\Menu_item::get_instance()->get_final_price($menu_item_id, $user_purchase_info, $amount_override);
 }
 
