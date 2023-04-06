@@ -179,7 +179,11 @@ class Customer_Reports extends \WP_List_Table {
 
 		$this->items = $this->reports_data();
 
-		$this->total = count(Customer::get_instance()->get_customers(array('fields' => array('id'), 'number' => NULL)));
+		$customers = Customer::get_instance()->get_customers(
+			array('fields' => array('id'), 'number' => NULL)
+		);
+
+		$this->total = is_array( $customers ) ? count( $customers ) : 0;
 
 		$this->set_pagination_args(array(
 			'total_items' => $this->total,
