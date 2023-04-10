@@ -12,13 +12,36 @@ use mp_restaurant_menu\classes\View;
  * @package mp_restaurant_menu\classes\models
  */
 class Menu_item extends Store_item {
+
 	protected static $instance;
+
+	//WP_Post
+	public $ID;
+	public $post_author = 0;
+	public $post_date = '0000-00-00 00:00:00';
+	public $post_date_gmt = '0000-00-00 00:00:00';
+	public $post_content = '';
+	public $post_title = '';
+	public $post_excerpt = '';
+	public $post_status = 'publish';
+	public $comment_status = 'open';
+	public $post_password = '';
+	public $post_name = '';
+	public $post_modified = '0000-00-00 00:00:00';
+	public $post_modified_gmt = '0000-00-00 00:00:00';
+	public $post_content_filtered = '';
+	public $post_parent = 0;
+	public $guid = '';
+	public $menu_order = 0;
+	public $post_type = 'post';
+	public $comment_count = 0;
+	public $filter;
+
 	private $bundled_menu_items;
 	private $sales;
 	private $earnings;
 	private $type;
 	private $notes;
-	private $ID;
 	private $sku;
 	
 	/**
@@ -46,7 +69,9 @@ class Menu_item extends Store_item {
 			foreach ($menu_item as $key => $value) {
 				switch ($key) {
 					default:
-						$this->$key = $value;
+						if ( property_exists($this, $key) ) {
+							$this->$key = $value;
+						}
 						break;
 				}
 			}

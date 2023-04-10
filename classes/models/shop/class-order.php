@@ -574,7 +574,7 @@ final class Order extends Model {
 			'high',
 			array('post_type' => $this->get_post_type('order'))
 		);
-		add_meta_box(
+		/*add_meta_box(
 			'order-log',
 			esc_html__('Order logs', 'mp-restaurant-menu'),
 			array($this, 'render_meta_box'),
@@ -582,7 +582,7 @@ final class Order extends Model {
 			'side',
 			'low',
 			array('post_type' => $this->get_post_type('order'))
-		);
+		);*/
 
 		add_meta_box(
 			'order-purchased',
@@ -705,6 +705,7 @@ final class Order extends Model {
 				break;
 			case  'order_title':
 				$order_user = $this->get_user($post);
+				$username = '';
 				if (!empty($order_user)) {
 					$user_info = get_userdata($order_user);
 				}
@@ -718,7 +719,7 @@ final class Order extends Model {
 							$username .= esc_html(ucfirst($user_info->display_name));
 						}
 						$username .= '</a>';
-					} else {
+					} elseif ( isset( $this->user_info['email'] ) ) {
 						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $this->user_info['email']));
 						if (!empty($customer)) {
 							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . ' </a><br/><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';

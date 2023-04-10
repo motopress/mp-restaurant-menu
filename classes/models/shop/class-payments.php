@@ -1616,6 +1616,8 @@ class Payments extends Parent_query {
 		if (false !== $stats) {
 			return $stats;
 		}
+
+		$stats = array();
 		$where = 'WHERE comment_type != "mprm_order_note"';
 		if ($post_id > 0) {
 			$where .= $wpdb->prepare(" AND comment_post_ID = %d", $post_id);
