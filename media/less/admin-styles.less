@@ -242,6 +242,12 @@
 	.input-text {
 	  width: 100%;
 	}
+	&.mprm-order-update-box {
+	  padding: 12px;
+	}
+	&:last-of-type {
+	  border-bottom: none;
+	}
   }
 }
 
@@ -375,6 +381,25 @@
 		}
 
 	}
+}
+
+#mprm-mprm-order-menu-item-amount-wrap {
+	display: table;
+	.mprm-label, .mprm-order-menu-item-price {
+		display: table-cell;
+	}
+	.mprm-order-menu-item-price {
+		width: 100%;
+	}
+	.mprm-label {
+		padding-right: 5px;
+	}
+}
+
+.new-customer input[name="mprm-new-customer-name"],
+.new-customer input[name="mprm-new-customer-email"],
+.new-customer input[name="mprm-new-phone-number"] {
+	width: 100%;
 }
 
 // ---------------- Extensions ------------------- //

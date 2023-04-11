@@ -603,6 +603,12 @@
 .mprm-admin-box .mprm-admin-box-inside .input-text {
   width: 100%;
 }
+.mprm-admin-box .mprm-admin-box-inside.mprm-order-update-box {
+  padding: 12px;
+}
+.mprm-admin-box .mprm-admin-box-inside:last-of-type {
+  border-bottom: none;
+}
 .admin-bar.post-type-mprm_order .mprm-row {
   padding: 12px 0;
   border-bottom: 1px solid #eee;
@@ -702,6 +708,24 @@
 .wp-admin .order-status.status-mprm-shipped {
   background: #c8d7e1;
   color: #2e4453;
+}
+#mprm-mprm-order-menu-item-amount-wrap {
+  display: table;
+}
+#mprm-mprm-order-menu-item-amount-wrap .mprm-label,
+#mprm-mprm-order-menu-item-amount-wrap .mprm-order-menu-item-price {
+  display: table-cell;
+}
+#mprm-mprm-order-menu-item-amount-wrap .mprm-order-menu-item-price {
+  width: 100%;
+}
+#mprm-mprm-order-menu-item-amount-wrap .mprm-label {
+  padding-right: 5px;
+}
+.new-customer input[name="mprm-new-customer-name"],
+.new-customer input[name="mprm-new-customer-email"],
+.new-customer input[name="mprm-new-phone-number"] {
+  width: 100%;
 }
 #mprm_extensions_container {
   display: -webkit-box;

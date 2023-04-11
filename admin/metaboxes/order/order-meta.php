@@ -3,8 +3,8 @@ global $post;
 $order = mprm_get_order_object($post);
 $order_id = $order->ID;
 $gateway = $order->gateway;
-$transaction_id = esc_attr($order->transaction_id);
-$phone = esc_attr($order->phone_number);
+$transaction_id = $order->transaction_id;
+$phone = $order->phone_number;
 ?>
 <div id="mprm-order-details" class="mprm-order-data">
 	<div class="mprm-admin-box">
@@ -39,7 +39,7 @@ $phone = esc_attr($order->phone_number);
 			<div class="mprm-order-tx-id mprm-admin-box-inside">
 				<p>
 					<span class="label"><?php esc_html_e('Transaction ID:', 'mp-restaurant-menu'); ?></span>&nbsp;
-					<span><?php echo esc_html( apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id) ); ?></span>
+					<span><?php echo wp_kses_post( apply_filters('mprm_payment_details_transaction_id-' . $gateway, $transaction_id, $order_id) ); ?></span>
 				</p>
 			</div>
 		<?php endif; ?>

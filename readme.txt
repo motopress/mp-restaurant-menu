@@ -4,7 +4,7 @@ Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,9 @@ Proud developers of Restaurant Menu plugin and the biggest set of [WordPress Gut
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.4.4, Apr 11 2023 =
+* Minor bugfixes and improvements.
 
 = 2.4.3, Apr 6 2023 =
 * Improved compatibility with PHP 8.

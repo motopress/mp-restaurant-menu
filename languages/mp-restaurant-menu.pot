@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restaurant Menu 2.4.3\n"
+"Project-Id-Version: Restaurant Menu 2.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mp-restaurant-menu\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-06T20:11:54+00:00\n"
+"POT-Creation-Date: 2023-04-11T13:51:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: mp-restaurant-menu\n"
@@ -52,7 +52,7 @@ msgid "Delete Customer"
 msgstr ""
 
 #: admin/customers/delete.php:39
-#: admin/metaboxes/order/order-customer.php:44
+#: admin/metaboxes/order/order-customer.php:42
 #: configs/language-admin-js.php:10
 msgid "Cancel"
 msgstr ""
@@ -73,7 +73,7 @@ msgid "Customer Details"
 msgstr ""
 
 #: admin/customers/overview.php:26
-#: classes/models/shop/reports/customer-report-class.php:202
+#: classes/models/shop/reports/customer-report-class.php:206
 #: configs/settings.php:30
 msgid "Email"
 msgstr ""
@@ -83,7 +83,7 @@ msgid "Full name"
 msgstr ""
 
 #: admin/customers/overview.php:37
-#: classes/models/shop/reports/customer-report-class.php:203
+#: classes/models/shop/reports/customer-report-class.php:207
 msgid "Phone"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgid "Phone:"
 msgstr ""
 
 #: admin/metaboxes/order/customer-information.php:7
-#: admin/metaboxes/order/order-customer.php:32
+#: admin/metaboxes/order/order-customer.php:30
 msgid "Email:"
 msgstr ""
 
@@ -270,23 +270,23 @@ msgstr ""
 msgid "Select a state"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:21
+#: admin/metaboxes/order/order-customer.php:19
 msgid "New Customer"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:27
+#: admin/metaboxes/order/order-customer.php:25
 msgid "Name:"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:37
+#: admin/metaboxes/order/order-customer.php:35
 msgid "Phone number:"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:43
+#: admin/metaboxes/order/order-customer.php:41
 msgid "Save a customer"
 msgstr ""
 
-#: admin/metaboxes/order/order-customer.php:46
+#: admin/metaboxes/order/order-customer.php:44
 msgid "Click \"Save Order\" to create new customer"
 msgstr ""
 
@@ -405,11 +405,11 @@ msgstr ""
 msgid "Recalculate"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:114
+#: admin/metaboxes/order/update-order.php:116
 msgid "Delete Order"
 msgstr ""
 
-#: admin/metaboxes/order/update-order.php:118
+#: admin/metaboxes/order/update-order.php:124
 msgid "Save Order"
 msgstr ""
 
@@ -1568,7 +1568,7 @@ msgid "Text shown on the Add to Cart Buttons."
 msgstr ""
 
 #: classes/class-media.php:1132
-#: classes/models/class-menu-item.php:448
+#: classes/models/class-menu-item.php:473
 #: classes/models/settings/class-settings.php:125
 msgid "Add to Cart"
 msgstr ""
@@ -1660,12 +1660,12 @@ msgid "Large"
 msgstr ""
 
 #: classes/class-media.php:1309
-#: classes/models/class-menu-item.php:787
+#: classes/models/class-menu-item.php:812
 msgid "Menu item"
 msgstr ""
 
 #: classes/class-media.php:1310
-#: classes/models/class-menu-item.php:788
+#: classes/models/class-menu-item.php:813
 msgid "Menu items"
 msgstr ""
 
@@ -2294,16 +2294,16 @@ msgstr ""
 msgid "Remember to update the passwords and roles of imported users."
 msgstr ""
 
-#: classes/models/class-menu-item.php:435
+#: classes/models/class-menu-item.php:460
 msgid "No checkout page has been configured. Visit <a href=\"%s\">Settings</a> to set one."
 msgstr ""
 
-#: classes/models/class-menu-item.php:448
+#: classes/models/class-menu-item.php:473
 #: classes/models/settings/class-settings.php:126
 msgid "Buy Now"
 msgstr ""
 
-#: classes/models/class-menu-item.php:490
+#: classes/models/class-menu-item.php:515
 #: templates-functions/checkout-restaurant-menu-functions.php:64
 msgid "Free"
 msgstr ""
@@ -2539,10 +2539,6 @@ msgstr ""
 msgid "Order Meta"
 msgstr ""
 
-#: classes/models/shop/class-order.php:579
-msgid "Order logs"
-msgstr ""
-
 #: classes/models/shop/class-order.php:589
 msgid "Purchased products"
 msgstr ""
@@ -2597,33 +2593,33 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: classes/models/shop/class-order.php:716
-#: classes/models/shop/class-order.php:731
+#: classes/models/shop/class-order.php:717
+#: classes/models/shop/class-order.php:732
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:733
+#: classes/models/shop/class-order.php:734
 msgid "Guest"
 msgstr ""
 
-#: classes/models/shop/class-order.php:738
+#: classes/models/shop/class-order.php:739
 msgctxt "Order number by X"
 msgid "%s by %s"
 msgstr ""
 
-#: classes/models/shop/class-order.php:753
+#: classes/models/shop/class-order.php:754
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/models/shop/class-order.php:1997
+#: classes/models/shop/class-order.php:1998
 #: classes/models/shop/class-payments.php:858
 msgid "Processing"
 msgstr ""
 
-#: classes/models/shop/class-order.php:2007
+#: classes/models/shop/class-order.php:2008
 msgid "Complete"
 msgstr ""
 
@@ -2663,11 +2659,11 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1778
+#: classes/models/shop/class-payments.php:1780
 msgid "Status changed from %s to %s"
 msgstr ""
 
-#: classes/models/shop/class-payments.php:1780
+#: classes/models/shop/class-payments.php:1782
 msgid "Status changed to %s"
 msgstr ""
 
@@ -2867,29 +2863,29 @@ msgstr ""
 msgid "(Pending Verification)"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:200
+#: classes/models/shop/reports/customer-report-class.php:204
 #: templates/shop/history.php:11
 msgid "ID"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:201
+#: classes/models/shop/reports/customer-report-class.php:205
 #: templates/shop/success.php:146
 msgid "Name"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:204
+#: classes/models/shop/reports/customer-report-class.php:208
 msgid "Purchases"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:205
+#: classes/models/shop/reports/customer-report-class.php:209
 msgid "Total Spent"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:206
+#: classes/models/shop/reports/customer-report-class.php:210
 msgid "Date Created"
 msgstr ""
 
-#: classes/models/shop/reports/customer-report-class.php:207
+#: classes/models/shop/reports/customer-report-class.php:211
 msgid "User ID"
 msgstr ""
 

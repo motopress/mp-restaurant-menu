@@ -29,7 +29,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 	<div class="mprm-admin-box-inside">
 		<p>
 			<span class="label"><?php esc_html_e('Date:', 'mp-restaurant-menu'); ?></span>&nbsp;
-			<input type="text" name="mprm-order-date" value="<?php echo esc_attr(date('m/d/Y', $order_date)); ?>" class="mprm_datepicker hasDatepicker "/>
+			<input type="text" name="mprm-order-date" value="<?php echo esc_attr(date('m/d/Y', $order_date)); ?>" class="mprm_datepicker hasDatepicker input-text"/>
 		</p>
 	</div>
 
@@ -67,7 +67,7 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 			</ul>
 		</div>
 	<?php endif; ?>
-	<?php if (apply_filters('mprm_delivery_enable', true)) : ?>
+	<?php if (apply_filters('mprm_delivery_enable', false)) : ?>
 		<div class="mprm-order-deliveries mprm-admin-box-inside">
 			<p>
 				<span class="label"><?php esc_html_e('Price of Delivery', 'mp-restaurant-menu'); ?>:</span>&nbsp;
@@ -101,21 +101,28 @@ $user_info = mprm_get_payment_meta_user_info($order_id);
 	</div>
 	<?php do_action('mprm_view_order_details_totals_after', $order_id); ?>
 
-	<div class="mprm-order-update-box mprm-admin-box-inside">
-		<?php do_action('mprm_view_order_details_update_before', $order_id); ?>
+	<div class="submitbox mprm-order-update-box mprm-admin-box-inside">
+		<?php
 
-		<div id="delete-action">
-			<a style="display: none;" href="<?php
-				echo wp_nonce_url( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					add_query_arg(
-						array('mprm-action' => 'delete_order', 'purchase_id' => $order_id),
-						admin_url('edit.php?post_type=menu_item&page=mprm-order-history')
-					),
-				'mprm_order_nonce');?>" class="mprm-delete-order mprm-delete"><?php esc_html_e('Delete Order', 'mp-restaurant-menu'); ?>
-			</a>
+		do_action('mprm_view_order_details_update_before', $order_id);
+
+		if ( current_user_can( 'delete_post', $order_id ) ) {
+
+			$delete_post_link = get_delete_post_link();
+
+			if ( $delete_post_link ) {
+				?>
+				<div id="delete-action">
+					<a href="<?php echo esc_url( $delete_post_link ); ?>" class="submitdelete deletion mprm-delete-order mprm-delete"><?php esc_html_e('Delete Order', 'mp-restaurant-menu'); ?>
+					</a>
+				</div>
+			<?php
+			}
+		}
+		?>
+		<div id="publishing-action">
+			<input type="submit" class="button button-primary " value="<?php esc_attr_e('Save Order', 'mp-restaurant-menu'); ?>"/>
 		</div>
-
-		<p><input type="submit" class="button button-primary " value="<?php esc_attr_e('Save Order', 'mp-restaurant-menu'); ?>"/></p>
 
 		<?php do_action('mprm_view_order_details_update_after', $order_id); ?>
 		<div class="mprm-clear"></div>
