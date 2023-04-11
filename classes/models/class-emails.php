@@ -154,7 +154,7 @@ class Emails extends Model {
 			$emails = $this->get('settings_emails');
 
 			$emails->__set('from_name', $from_name);
-			$emails->__set('from_email', $from_email);
+			$emails->__set('from_address', $from_email);
 			$emails->__set('heading', $heading);
 
 			$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), $payment_id, $payment_data);
@@ -259,7 +259,7 @@ class Emails extends Model {
 
 		$emails = $this->get('settings_emails');
 		$emails->__set('from_name', $from_name);
-		$emails->__set('from_email', $from_email);
+		$emails->__set('from_address', $from_email);
 		$emails->__set('heading', $heading);
 		$headers = apply_filters('mprm_receipt_headers', $emails->get_headers(), 0, array());
 		$emails->__set('headers', $headers);
@@ -310,7 +310,7 @@ class Emails extends Model {
 		$message = $this->get_sale_notification_body_content($payment_id, $payment_data);
 		$emails = $this->get('settings_emails');
 		$emails->__set('from_name', $from_name);
-		$emails->__set('from_email', $from_email);
+		$emails->__set('from_address', $from_email);
 		$emails->__set('headers', $headers);
 		$emails->__set('heading', esc_html__('New Sale!', 'mp-restaurant-menu'));
 		$emails->send($this->get_admin_notice_emails(), $subject, $message, $attachments);
@@ -394,7 +394,7 @@ class Emails extends Model {
 		$emails = $this->get('settings_emails');
 
 		$emails->__set('from_name', $from_name);
-		$emails->__set('from_email', $from_email);
+		$emails->__set('from_address', $from_email);
 		$admin_subject = sprintf(esc_html__('[%s] New User Registration', 'mp-restaurant-menu'), $from_name);
 		$admin_heading = esc_html__('New user registration', 'mp-restaurant-menu');
 		$admin_message = sprintf(esc_html__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n\r\n";
