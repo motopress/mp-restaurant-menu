@@ -1670,7 +1670,7 @@ class Media extends Core {
 			'show_ui' => true,
 			'capability_type' => $this->get_post_type('order'),
 			'capabilities' => array(
-				'create_posts' => false,
+				'create_posts' => 'do_not_allow',
 			),
 			'map_meta_cap' => true,
 			'publicly_queryable' => false,

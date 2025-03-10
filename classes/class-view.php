@@ -40,7 +40,7 @@ class View {
 	function render_template($template = null, $data = null) {
 		$this->template = $template;
 		if (is_array($data)) {
-			extract($data);
+			extract($data, EXTR_SKIP);
 		}
 		$this->data = $data;
 		include_once($this->templates_path . 'index.php');
@@ -61,7 +61,7 @@ class View {
 		$this->data = $data;
 
 		if ( is_array($data) ) {
-			extract($data);
+			extract($data, EXTR_SKIP);
 		}
 
 		$includeFile = $this->templates_path . $template . '.php';
@@ -138,7 +138,7 @@ class View {
 		$template_name = $template_name . '.php';
 
 		if (!empty($args) && is_array($args)) {
-			extract($args);
+			extract($args, EXTR_SKIP);
 		}
 
 		$located = $this->locate_template($template_name, $template_path, $default_path);

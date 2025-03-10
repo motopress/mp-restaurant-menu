@@ -33,6 +33,19 @@ class Shortcode_Category extends Shortcodes {
 	public function render_shortcode($args) {
 		global $mprm_view_args;
 		Media::get_instance()->add_plugin_js('shortcode');
+
+		$args = shortcode_atts(
+			array(
+				'view' => 'grid',
+				'categ' => '',
+				'col' => '1',
+				'categ_name' => '',
+				'feat_img' => '',
+				'categ_icon' => '',
+				'categ_descr' => '',
+				'desc_length' => '',
+		), $args );
+
 		$mprm_view_args = $args;
 		$mprm_view_args['categories_terms'] = array();
 		$mprm_view_args['action_path'] = "shortcodes/category/{$args['view']}/item";

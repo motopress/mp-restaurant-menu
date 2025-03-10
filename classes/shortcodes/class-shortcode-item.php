@@ -34,6 +34,26 @@ class Shortcode_Item extends Shortcodes {
 	public function render_shortcode(array $args) {
 		global $mprm_view_args;
 		Media::get_instance()->add_plugin_js('shortcode');
+
+		$args = shortcode_atts(
+			array(
+				'view' => 'grid',
+				'categ' => '',
+				'tags_list' => '',
+				'item_ids' => '',
+				'col' => '1',
+				'categ_name' => 'only_text',
+				'show_attributes' => '',
+				'feat_img' => '',
+				'excerpt' => '',
+				'price' => '',
+				'tags' => '',
+				'ingredients' => '',
+				'buy' => '',
+				'link_item' => '',
+				'desc_length' => '',
+		), $args );
+
 		$mprm_view_args = $args;
 		$mprm_view_args['action_path'] = "shortcodes/menu/{$args['view']}/item";
 		return View::get_instance()->get_template_html('shortcodes/menu/index', $args);

@@ -29,7 +29,7 @@ class Shortcode_Checkout extends Shortcodes {
 	 *
 	 * @return mixed
 	 */
-	public function render_shortcode($args) {
+	public function render_shortcode() {
 		$args = array();
 		Media::get_instance()->add_plugin_js('shortcode');
 

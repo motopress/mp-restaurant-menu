@@ -28,7 +28,7 @@ class Shortcode_history extends Shortcodes {
 	 *
 	 * @return mixed
 	 */
-	public function render_shortcode($data) {
-		return View::get_instance()->get_template_html('shop/history', $data);
+	public function render_shortcode() {
+		return View::get_instance()->get_template_html('shop/history');
 	}
 }
