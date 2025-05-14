@@ -130,33 +130,36 @@ class View {
 	 * Get template
 	 *
 	 * @param $template_name
-	 * @param array $args
+	 * @param array $arguments
 	 * @param string $template_path
 	 * @param string $default_path
 	 */
-	public function get_template($template_name, $args = array(), $template_path = '', $default_path = '') {
+	public function get_template($template_name, $arguments = array(), $template_path = '', $default_path = '') {
+
 		$template_name = $template_name . '.php';
 
-		if (!empty($args) && is_array($args)) {
-			extract($args, EXTR_SKIP);
+		if ( ! empty( $arguments ) && is_array( $arguments ) ) {
+
+			extract( $arguments, EXTR_SKIP );
 		}
 
-		$located = $this->locate_template($template_name, $template_path, $default_path);
-		
-		if (!file_exists($located)) {
+		$located = $this->locate_template( $template_name, $template_path, $default_path );
+
+		// Allow 3rd party plugin filter template file from their plugin.
+		$located = apply_filters( $this->prefix . '_get_template', $located, $template_name, $arguments, $template_path, $default_path );
+
+		if ( ! file_exists( $located ) ) {
+
 			_doing_it_wrong(__FUNCTION__, sprintf('<code>%s</code> does not exist.', $located), '2.1'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			
+
 			return;
 		}
-		
-		// Allow 3rd party plugin filter template file from their plugin.
-		$located = apply_filters($this->prefix . '_get_template', $located, $template_name, $args, $template_path, $default_path);
-		
-		do_action($this->prefix . '_before_template_part', $template_name, $template_path, $located, $args);
-		
+
+		do_action($this->prefix . '_before_template_part', $template_name, $template_path, $located, $arguments);
+
 		include($located);
-		
-		do_action($this->prefix . '_after_template_part', $template_name, $template_path, $located, $args);
+
+		do_action($this->prefix . '_after_template_part', $template_name, $template_path, $located, $arguments);
 	}
 	
 	/**

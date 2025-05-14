@@ -35,8 +35,7 @@ class Core {
 	 * Core constructor.
 	 */
 	public function __construct() {
-		
-		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
 		$this->init_plugin_version();
 	}
 	
@@ -44,9 +43,17 @@ class Core {
 	 *  Get plugin version
 	 */
 	public function init_plugin_version() {
+
 		$filePath = MP_RM_PLUGIN_PATH . 'restaurant-menu.php';
-		if (!$this->version) {
-			$pluginObject = get_plugin_data($filePath);
+
+		if ( ! $this->version ) {
+
+			if ( ! function_exists( 'get_plugin_data' ) ) {
+
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			}
+
+			$pluginObject = get_plugin_data( $filePath, false, false );
 			$this->version = $pluginObject[ 'Version' ];
 		}
 	}
@@ -140,7 +147,7 @@ class Core {
 	 */
 	public function init_plugin($name) {
 		
-		load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
+		//load_plugin_textdomain('mp-restaurant-menu', FALSE, MP_RM_LANG_PATH);
 		
 		// User capability
 		Upgrade::get_instance()->check_upgrade_cap_roles();
