@@ -4,7 +4,7 @@ Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
 Tested up to: 6.7
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,10 +66,9 @@ The MotoPress WordPress food ordering plugin will deliver the perfect WordPress 
 * Order statuses to help customers track the status of their purchase (cooking, shipping, shipped).
 * Customizable email templates (confirmation, payments, notifications) to send to both website restaurant administrators and shoppers.
 
-Grid and List layouts can be added to Gutenberg, Elementor, Divi or any other builder via shortcodes.
-Go ahead and create a quick restaurant menu with the MP menu plugin without tech experts, for free!
+Grid and List layouts can be added to Gutenberg, Elementor, Divi or any other builder via shortcodes. Go ahead and create a quick restaurant menu with the MP menu plugin without tech experts, for free!
 
-Proud developers of Restaurant Menu plugin and the biggest set of [WordPress Gutenberg Blocks](https://wordpress.org/plugins/getwid/).
+Developed by MotoPress – a trusted WordPress company with over a decade of expertise in crafting booking solutions, including our renowned [WordPress Booking Plugins](https://motopress.com/products/category/wordpress-booking-plugins/) and the extensive Gutenberg block collection – [Getwid WordPress Blocks](https://wordpress.org/plugins/getwid/).
 
 == Installation ==
 
@@ -86,6 +85,9 @@ Proud developers of Restaurant Menu plugin and the biggest set of [WordPress Gut
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.4.7, Jun 24 2025 =
+* Security – improved export process validation.
 
 = 2.4.6, May 14 2025 =
 * Minor bugfixes and improvements.

@@ -41,14 +41,26 @@ class Export extends Core {
 	 * @param $args
 	 */
 	public function export($args = array()) {
+
 		global $wpdb, $post;
-		if (!defined('ABSPATH')) exit;
+
+		if (! defined( 'ABSPATH' ) ||
+			! isset( $_POST['_wpnonce'] ) ||
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'mprm_export_xml' ) ||
+			! current_user_can( 'export' )
+		) {
+
+			wp_die( __( 'Sorry, you are not allowed to export the content of this site.' ) );
+		}
+
 		if (!function_exists('export_wp')) {
 			include_once(ABSPATH . 'wp-admin/includes/export.php');
 		}
+
 		$defaults = array('content' => $this->post_types, 'author' => false, 'category' => false,
 			'start_date' => false, 'end_date' => false, 'status' => false,
 		);
+
 		$args = wp_parse_args($args, $defaults);
 		/**
 		 * Fires at the beginning of an export, before any headers are sent.

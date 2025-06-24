@@ -3,5 +3,8 @@
 <form novalidate="novalidate" method="post" id="mprm_export">
 	<input type="hidden" name="controller" value="import">
 	<input type="hidden" name="mprm_action" value="export">
+	<?php
+		wp_nonce_field( 'mprm_export_xml' );
+	?>
 	<p class="submit"><input type="submit" value="<?php esc_attr_e('Export', 'mp-restaurant-menu') ?>" class="button button-primary" id="submit" name="submit"></p>
 </form>
