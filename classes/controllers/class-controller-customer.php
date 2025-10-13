@@ -124,19 +124,19 @@ class Controller_customer extends Controller {
 	 */
 	public function action_get_customer_information() {
 
-		$customer_object = NULL;
+		$this->date['success'] = false;
 
-		if ( isset( $_REQUEST['customer_id'] ) ) {
+		if ( is_admin() && current_user_can('manage_restaurant_menu') && isset( $_REQUEST['customer_id'] ) ) {
+
 			$customer_object = $this->get('customer')->get_customer(
-				array('field' => 'id', 'value' => sanitize_text_field( wp_unslash( $_REQUEST['customer_id'] ) ))
+				array('field' => 'id', 'value' => sanitize_text_field( wp_unslash( $_REQUEST['customer_id'] ) ) )
 			);
-		}
 
-		if (!empty($customer_object)) {
-			$this->date['success'] = true;
-			$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
-		} else {
-			$this->date['success'] = false;
+			if ( ! empty( $customer_object ) ) {
+
+				$this->date['success'] = true;
+				$this->date['data']['customer_information'] = View::get_instance()->render_html('../admin/metaboxes/order/customer-information', array('customer_id' => $customer_object->id), false);
+			}
 		}
 
 		$this->send_json($this->date);
