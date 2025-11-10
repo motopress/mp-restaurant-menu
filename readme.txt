@@ -86,6 +86,9 @@ Developed by MotoPress – a trusted WordPress company with over a decade of exp
 
 == Changelog ==
 
+= 2.4.9, Nov 10 2025 =
+* Security – improved permission checks for running the setup wizard.
+
 = 2.4.8, Jun 24 2025 =
 * Security – improved permission checks for viewing customer data.
 
