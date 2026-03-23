@@ -439,7 +439,7 @@ function mprm_default_cc_address_fields() {
 				} ?>">
 					<?php
 					foreach ($states as $state_code => $state) {?>
-						<option value="<?php echo esc_attr( $state_code ) ?>" <?php selected($state_code, $selected_state); ?>><?php esc_html( $state ); ?></option>
+						<option value="<?php echo esc_attr( $state_code ) ?>" <?php selected($state_code, $selected_state); ?>><?php echo esc_html( $state ); ?></option>
 					<?php }
 					?>
 				</select>

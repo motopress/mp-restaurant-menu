@@ -44,7 +44,7 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 		} else {
 			$selected = selected($args['selected'], 0, false);
 		} ?>
-		<option value="all" <?php echo $selected // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> > <?php esc_html($args['show_option_all']) ?></option>
+		<option value="all" <?php echo $selected // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> > <?php echo esc_html($args['show_option_all']) ?></option>
 		<?php
 	}
 	if (!empty($args['options'])) {
@@ -66,3 +66,4 @@ $class = implode(' ', array_map('sanitize_html_class', explode(' ', $args['class
 		<?php }
 	} ?>
 </select>
+
