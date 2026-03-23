@@ -983,7 +983,13 @@ function mprm_customers_dropdown($data) {
 		'show_option_none' => false);
 	$data = wp_parse_args($data, $argc);
 	
-	$customers = models\Customer::get_instance()->get_customers();
+	$customers = models\Customer::get_instance()->get_customers(
+		array(
+			'number' => null,
+			'fields' => array('id', 'name')
+		)
+	);
+
 	if (!empty($customers)) {
 		foreach ($customers as $customer) {
 			$options[ $customer->id ] = $customer->name;

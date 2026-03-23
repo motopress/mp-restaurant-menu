@@ -90,17 +90,29 @@ class Controller_Settings extends Controller {
 	 *  Create pages
 	 */
 	public function action_create_pages() {
-		$this->get('settings')->create_settings_pages();
-		$this->get('settings')->set_option('enable_ecommerce', true);
-		update_option('mprm_install_page', true);
-		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
+
+		if ( isset( $_REQUEST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-create-pages') &&
+			current_user_can( 'manage_restaurant_menu' ) ) {
+
+			$this->get('settings')->create_settings_pages();
+			$this->get('settings')->set_option('enable_ecommerce', true);
+			update_option('mprm_install_page', true);
+			wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
+		}
 	}
 
 	/**
 	 * Skip create pages
 	 */
 	public function action_skip_create_pages() {
-		update_option('mprm_install_page', true);
-		wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
+
+		if ( isset( $_REQUEST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-skip-create-pages') &&
+			current_user_can( 'manage_restaurant_menu' ) ) {
+
+			update_option('mprm_install_page', true);
+			wp_redirect(admin_url('edit.php?post_type=mp_menu_item&page=mprm-settings'));
+		}
 	}
 }
