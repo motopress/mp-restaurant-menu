@@ -407,7 +407,7 @@ class Emails extends Model {
 		$user_heading = esc_html__('Your account info', 'mp-restaurant-menu');
 		$user_message = sprintf(esc_html__('Username: %s', 'mp-restaurant-menu'), $user_data['user_login']) . "\r\n";
 		$user_message .= sprintf(esc_html__('Password: %s'), esc_html__('[Password entered at checkout]', 'mp-restaurant-menu')) . "\r\n";
-		$user_message .= '<a href="' . wp_login_url() . '"> ' . esc_attresc_html__('Click Here to Log In', 'mp-restaurant-menu') . ' &raquo;</a>' . "\r\n";
+		$user_message .= '<a href="' . wp_login_url() . '"> ' . esc_html__('Click Here to Log In', 'mp-restaurant-menu') . ' &raquo;</a>' . "\r\n";
 		$emails->__set('heading', $user_heading);
 		$emails->send($user_data['user_email'], $user_subject, $user_message);
 	}
