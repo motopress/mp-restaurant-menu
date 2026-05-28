@@ -51,7 +51,13 @@ class Customer extends Model {
 			return false;
 		}
 
-		$customer = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $this->table_name . ' WHERE ' . $params["field"] . ' = %s LIMIT 1', $params['value']));
+		$field = isset($params['field']) ? $this->sanitize_column($params['field']) : '';
+
+		if (empty($field) || !isset($params['value'])) {
+			return false;
+		}
+
+		$customer = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $this->table_name . " WHERE {$field} = %s LIMIT 1", $params['value']));
 
 		return empty($customer) ? false : $customer;
 	}
@@ -120,6 +126,12 @@ class Customer extends Model {
 	 */
 	public function get_column($column, $customer_id) {
 		global $wpdb;
+		$column = $this->sanitize_column($column);
+
+		if (empty($column)) {
+			return null;
+		}
+
 		$column_value = $wpdb->get_var($wpdb->prepare("SELECT {$column} FROM  $this->table_name  WHERE id  = %d LIMIT 1", $customer_id));
 		return $column_value;
 	}
@@ -153,21 +165,35 @@ class Customer extends Model {
 		$args = wp_parse_args($args, $default_args);
 
 		if (is_array($args['fields']) && !empty($args['fields'])) {
-			$fields = implode(',', $args['fields']);
+			$fields = $this->sanitize_sql_columns($args['fields']);
 		}
 		$where = '';
-		$limit = empty($args['number']) ? '' : ' LIMIT ' . $args['number'];
-		$offset = empty($args['offset']) ? '' : ' OFFSET ' . $args['offset'];
+		$limit = empty($args['number']) ? '' : ' LIMIT ' . absint($args['number']);
+		$offset = empty($args['offset']) ? '' : ' OFFSET ' . absint($args['offset']);
 
 		if (!empty($args['search_value']) && !empty($args['search_by'])) {
-			if ( $args['search_by'] == 'id' ) {
-				$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'{$args['search_value']}'";
+			$search_by = $this->sanitize_column($args['search_by']);
+
+			if (empty($search_by)) {
+				return false;
+			}
+
+			if ('id' === $search_by || 'user_id' === $search_by) {
+				$where = $wpdb->prepare(" WHERE {$search_by} = %d", absint($args['search_value']));
 			} else {
-				$where = ' WHERE ' . $args['search_by'] . ' LIKE ' . "'%{$args['search_value']}%'";
+				$where = $wpdb->prepare(" WHERE {$search_by} LIKE %s", '%' . $wpdb->esc_like((string) $args['search_value']) . '%');
 			}
 		}
 
-		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name . $where . ' ORDER BY ' . $args['orderby'] . ' ' . $args['order'] . $limit . $offset;
+		$orderby = $this->sanitize_column($args['orderby']);
+		$order = strtoupper((string) $args['order']);
+		$order = in_array($order, array('ASC', 'DESC'), true) ? $order : 'DESC';
+
+		if (empty($orderby)) {
+			$orderby = 'id';
+		}
+
+		$sql_reguest = "SELECT {$fields} FROM " . $this->table_name . $where . " ORDER BY {$orderby} {$order}" . $limit . $offset;
 
 		$customers_data = $wpdb->get_results($sql_reguest);
 
@@ -254,7 +280,7 @@ class Customer extends Model {
 		if (empty($customer_email)) {
 			return false;
 		}
-		$data = $wpdb->get_results('SELECT email FROM  ' . $this->table_name . '   WHERE email = "' . $customer_email . '"');
+		$data = $wpdb->get_results($wpdb->prepare('SELECT email FROM  ' . $this->table_name . '   WHERE email = %s', $customer_email));
 		return empty($data) ? false : true;
 	}
 
@@ -771,6 +797,51 @@ class Customer extends Model {
 		}
 		do_action('mprm_customer_post_decrease_purchase_count', $this->purchase_count, $count, $this->id);
 		return $this->purchase_count;
+	}
+
+	/**
+	 * @param string $column
+	 *
+	 * @return string
+	 */
+	private function sanitize_column($column) {
+		if (!is_string($column)) {
+			return '';
+		}
+
+		$allowed_columns = array(
+			'id',
+			'user_id',
+			'email',
+			'name',
+			'telephone',
+			'purchase_value',
+			'purchase_count',
+			'payment_ids',
+			'notes',
+			'date_created',
+		);
+
+		return in_array($column, $allowed_columns, true) ? $column : '';
+	}
+
+	/**
+	 * @param array $columns
+	 *
+	 * @return string
+	 */
+	private function sanitize_sql_columns($columns) {
+		if (!is_array($columns)) {
+			return '*';
+		}
+
+		if (in_array('*', $columns, true)) {
+			return '*';
+		}
+
+		$columns = array_filter(array_map(array($this, 'sanitize_column'), $columns));
+
+		return empty($columns) ? '*' : implode(',', $columns);
 	}
 
 	public function init_action() {
