@@ -4,7 +4,7 @@ Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 2.4.11
+Stable tag: 2.4.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Developed by MotoPress – a trusted WordPress company with over a decade of exp
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.4.12, Aug 25 2026 =
+* Security – hardened template loading, PayPal IPN verification, and privileged requests.
+* Fixed template override compatibility.
 
 = 2.4.11, May 28 2026 =
 * Security – improved validation for customer queries.

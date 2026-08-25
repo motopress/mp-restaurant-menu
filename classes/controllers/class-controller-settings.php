@@ -71,10 +71,12 @@ class Controller_Settings extends Controller {
 	 */
 	public function action_send_test_email() {
 
-		if ( isset( $_REQUEST['_wpnonce'] ) &&
-			!wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-test-email')) {
-
-			return;
+		if (
+			! current_user_can('manage_restaurant_settings') ||
+			! isset( $_REQUEST['_wpnonce'] ) ||
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-test-email' )
+		) {
+			wp_die(esc_html__('You do not have permission to send a test email.', 'mp-restaurant-menu'));
 		}
 
 		// Send a test email

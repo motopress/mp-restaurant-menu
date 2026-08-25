@@ -29,7 +29,11 @@ class Controller_customer extends Controller {
 	 */
 	public function action_add_customer() {
 
-		if ( current_user_can('manage_restaurant_menu') ) {
+		if (
+			current_user_can('manage_restaurant_menu') &&
+			isset( $_REQUEST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-customer-actions' )
+		) {
 
 			$customer = false;
 
@@ -146,8 +150,18 @@ class Controller_customer extends Controller {
 	 *  Content
 	 */
 	public function action_content() {
+		if ( ! is_admin() || ! current_user_can('manage_restaurant_menu') ) {
+			wp_die(esc_html__('You do not have permission to access this page.', 'mp-restaurant-menu'));
+		}
+
 		if (!empty($_REQUEST['view']) && !empty($_REQUEST['id'])) {
 			$view = sanitize_text_field( wp_unslash( $_REQUEST['view'] ) );
+			$views = array('overview', 'delete');
+
+			if ( ! in_array($view, $views, true) ) {
+				wp_die(esc_html__('Invalid customer view.', 'mp-restaurant-menu'));
+			}
+
 			View::get_instance()->render_html('../admin/customers/' . $view, array('id' => sanitize_text_field( wp_unslash( $_REQUEST['id'] ) )));
 		} else {
 			View::get_instance()->render_html('../admin/customers/index');
@@ -159,7 +173,11 @@ class Controller_customer extends Controller {
 	 */
 	public function action_update_customer() {
 
-		if ( current_user_can('manage_restaurant_menu') && isset( $_REQUEST['id'] ) ) {
+		if (
+			current_user_can('manage_restaurant_menu') &&
+			isset( $_REQUEST['id'], $_REQUEST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-update-customer' )
+		) {
 
 			$result = false;
 
@@ -192,6 +210,8 @@ class Controller_customer extends Controller {
 	public function action_delete() {
 
 		$customer_edit_role = apply_filters('mprm_edit_customers_role', 'manage_restaurant_menu');
+
+		$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
 
 		if ( !is_admin() || !current_user_can($customer_edit_role) || !wp_verify_nonce($nonce, 'delete-customer') ) {
 			wp_die(esc_html__('You do not have permission to delete this customer.', 'mp-restaurant-menu'));

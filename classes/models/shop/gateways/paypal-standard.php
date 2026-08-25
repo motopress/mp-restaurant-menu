@@ -252,35 +252,31 @@ class Paypal_standart extends Model {
 				$encoded_data_array[$new_key] = $value;
 			}
 		}
-		// Get the PayPal redirect uri
-		$paypal_redirect = $this->get_paypal_redirect(true);
-		if (!$this->get('settings')->get_option('disable_paypal_verification')) {
-			// Validate the IPN
-			$remote_post_vars = array(
-				'method' => 'POST',
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.1',
-				'blocking' => true,
-				'headers' => array(
-					'host' => 'www.paypal.com',
-					'connection' => 'close',
-					'content-type' => 'application/x-www-form-urlencoded',
-					'post' => '/cgi-bin/webscr HTTP/1.1',
-				),
-				'sslverify' => false,
-				'body' => $encoded_data_array
-			);
-			// Get response
-			$api_response = wp_remote_post($this->get_paypal_redirect(), $remote_post_vars);
-			if (is_wp_error($api_response)) {
+		// Get the PayPal IPN verification URI.
+		$paypal_redirect = $this->get_paypal_redirect();
+		// Validate the IPN.
+		$remote_post_vars = array(
+			'method' => 'POST',
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => '1.1',
+			'blocking' => true,
+			'headers' => array(
+				'connection' => 'close',
+				'content-type' => 'application/x-www-form-urlencoded',
+			),
+			'sslverify' => true,
+			'body' => $encoded_data_array
+		);
+		// Let the HTTP API derive the Host header from the live or sandbox URI.
+		$api_response = wp_remote_post($paypal_redirect, $remote_post_vars);
+		if (is_wp_error($api_response)) {
 
-				return; // Something went wrong
-			}
-			if ($api_response['body'] !== 'VERIFIED' && $this->get('settings')->get_option('disable_paypal_verification', false)) {
+			return; // Something went wrong
+		}
+		if (trim(wp_remote_retrieve_body($api_response)) !== 'VERIFIED') {
 
-				return; // Response not okay
-			}
+			return; // Response not okay
 		}
 		// Check if $post_data_array has been populated
 		if (!is_array($encoded_data_array) && !empty($encoded_data_array))

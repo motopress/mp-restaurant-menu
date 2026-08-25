@@ -60,6 +60,7 @@ endif;
 
 			<input type="hidden" name="controller" value="customer">
 			<input type="hidden" name="mprm_action" value="update_customer">
+			<?php wp_nonce_field('mprm-update-customer'); ?>
 		</form>
 	</div>
 

@@ -849,12 +849,6 @@ class Media extends Core {
 							'type' => 'text',
 							'size' => 'regular',
 						),
-						'disable_paypal_verification' => array(
-							'id' => 'disable_paypal_verification',
-							'name' => esc_html__('Disable PayPal IPN Verification', 'mp-restaurant-menu'),
-							'desc' => __('If payments via PayPal are not getting marked as complete, then check this box. <a href="https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/" target="_blank">More about IPN</a>', 'mp-restaurant-menu'),
-							'type' => 'checkbox',
-						),
 					)
 				)
 			),

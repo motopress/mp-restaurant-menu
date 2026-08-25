@@ -25,7 +25,8 @@ class Controller_order extends Controller {
 	public function action_add_comment() {
 
 		if ( current_user_can('manage_restaurant_menu') &&
-				isset( $_REQUEST['order_id'] ) && isset( $_REQUEST['noteText'] ) ) {
+				isset( $_REQUEST['order_id'], $_REQUEST['noteText'], $_REQUEST['_wpnonce'] ) &&
+				wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-order-notes' ) ) {
 
 			$note_id = $this->get('payments')->insert_payment_note(
 				sanitize_text_field( wp_unslash( $_REQUEST['order_id'] ) ),
@@ -43,7 +44,8 @@ class Controller_order extends Controller {
 	public function action_remove_comment() {
 
 		if ( current_user_can('manage_restaurant_menu') &&
-				isset( $_REQUEST['note_id'] ) && isset( $_REQUEST['order_id'] ) ) {
+				isset( $_REQUEST['note_id'], $_REQUEST['order_id'], $_REQUEST['_wpnonce'] ) &&
+				wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mprm-order-notes' ) ) {
 
 			$this->date['success'] = $this->get('payments')->delete_payment_note(
 				sanitize_text_field( wp_unslash( $_REQUEST['note_id'] ) ),

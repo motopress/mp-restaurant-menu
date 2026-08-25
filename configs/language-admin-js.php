@@ -10,6 +10,8 @@ return apply_filters('mprm_admin_vars', array(
 		"cancel" => esc_html__('Cancel', 'mp-restaurant-menu'),
 		"choose" => esc_html__('Choose', 'mp-restaurant-menu'),
 		'mprm_version' => mprm_get_plugin_version(),
+		'customer_nonce' => wp_create_nonce('mprm-customer-actions'),
+		'order_notes_nonce' => wp_create_nonce('mprm-order-notes'),
 		'add_new_menu_item' => esc_html__('Add New Menu item', 'mp-restaurant-menu'),
 		'use_this_file' => esc_html__('Use This File', 'mp-restaurant-menu'),
 		'quick_edit_warning' => esc_html__('Sorry, not available for variable priced products.', 'mp-restaurant-menu'),

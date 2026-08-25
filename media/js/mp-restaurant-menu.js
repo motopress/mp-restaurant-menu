@@ -824,7 +824,8 @@ MP_RM_Registry.register("Order", (function($) {
 						action: 'add_comment',
 						controller: 'order',
 						order_id: $(this).attr('data-order-id'),
-						noteText: $('#mprm-order-note').val()
+						noteText: $('#mprm-order-note').val(),
+						_wpnonce: mprm_admin_vars.order_notes_nonce
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
@@ -1123,7 +1124,8 @@ MP_RM_Registry.register("Order", (function($) {
 						controller: 'customer',
 						name: $('[name="mprm-new-customer-name"]').val(),
 						email: $('[name="mprm-new-customer-email"]').val(),
-						phone: $('[name="mprm-new-phone-number"]').val()
+						phone: $('[name="mprm-new-phone-number"]').val(),
+						_wpnonce: mprm_admin_vars.customer_nonce
 					};
 
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
@@ -1173,7 +1175,8 @@ MP_RM_Registry.register("Order", (function($) {
 						action: 'remove_comment',
 						controller: 'order',
 						order_id: $(this).attr('data-order-id'),
-						note_id: note_id
+						note_id: note_id,
+						_wpnonce: mprm_admin_vars.order_notes_nonce
 					};
 					MP_RM_Registry._get('MP_RM_Functions').wpAjax($params,
 						function() {

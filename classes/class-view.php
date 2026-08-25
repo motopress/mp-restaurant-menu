@@ -64,7 +64,11 @@ class View {
 			extract($data, EXTR_SKIP);
 		}
 
-		$includeFile = $this->templates_path . $template . '.php';
+		$includeFile = $this->resolve_plugin_template($template);
+
+		if (false === $includeFile) {
+			return false;
+		}
 
 		ob_start();
 		include($includeFile);
@@ -75,6 +79,32 @@ class View {
 		} else {
 			return $out;
 		}
+	}
+
+	/**
+	 * Resolve a template path without allowing it to escape this plugin.
+	 *
+	 * Some administrative views intentionally use ../admin/ relative to the
+	 * templates directory. Resolve the final path and validate it against the
+	 * plugin root instead of rejecting all relative paths.
+	 *
+	 * @param string $template Template name without the .php extension.
+	 * @return string|false
+	 */
+	protected function resolve_plugin_template($template) {
+		$plugin_path = realpath(MP_RM_PLUGIN_PATH);
+		$template_path = realpath($this->templates_path . $template . '.php');
+
+		if (
+			false === $plugin_path ||
+			false === $template_path ||
+			0 !== strpos($template_path, trailingslashit($plugin_path)) ||
+			! is_file($template_path)
+		) {
+			return false;
+		}
+
+		return $template_path;
 	}
 	
 	/**
@@ -87,6 +117,10 @@ class View {
 	 */
 	public function get_template_part($slug, $name = '') {
 		$template = '';
+
+		if (validate_file($slug) || (!empty($name) && validate_file($name))) {
+			return;
+		}
 		
 		// Look in your-theme/slug-name.php and your-theme/mp-restaurant-menu/slug-name.php
 		if ($name) {
@@ -180,18 +214,43 @@ class View {
 			$default_path = $this->templates_path;
 		}
 		
-		// Look within passed path within the theme - this is priority.
-		$template_args = array(trailingslashit($template_path) . $template_name, $template_name);
-		
-		$template = locate_template($template_args);
-		
-		// Get default template/
-		if (!$template) {
-			$template = $default_path . $template_name;
+		$template = '';
+
+		// Only use WordPress and plugin fallbacks for a template that is bundled
+		// with this plugin. External templates are supplied by the filters below.
+		if ($this->is_plugin_template($template_name)) {
+			$template_args = array(trailingslashit($template_path) . $template_name, $template_name);
+			$template = locate_template($template_args);
+
+			if (!$template) {
+				$template = $default_path . $template_name;
+			}
 		}
 		
 		// Return what we found.
 		return apply_filters($this->prefix . '_locate_template', $template, $template_name, $template_path);
+	}
+
+	/**
+	 * Determine whether a plugin template name resolves within this plugin.
+	 *
+	 * Bundled admin templates intentionally use ../admin/ relative to the
+	 * templates directory, so validate_file() is too restrictive here. Resolve
+	 * the path and ensure the result remains inside the plugin instead.
+	 *
+	 * @param string $template_name Template name including its extension.
+	 * @return bool
+	 */
+	protected function is_plugin_template($template_name) {
+		$plugin_path = realpath(MP_RM_PLUGIN_PATH);
+		$template_path = realpath($this->templates_path . ltrim($template_name, '/'));
+
+		return (
+			false !== $plugin_path &&
+			false !== $template_path &&
+			0 === strpos($template_path, trailingslashit($plugin_path)) &&
+			is_file($template_path)
+		);
 	}
 	
 	/**
