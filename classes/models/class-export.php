@@ -357,7 +357,7 @@ class Export extends Core {
 	 *
 	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
 	 */
-	public function mptt_authors_list(array $post_ids = null) {
+	public function mptt_authors_list(?array $post_ids = null) {
 		global $wpdb;
 		if (!empty($post_ids)) {
 			$post_ids = array_map('absint', $post_ids);

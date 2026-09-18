@@ -3,6 +3,7 @@ Contributors: MotoPress
 Donate link: https://motopress.com/
 Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ordering system, online ordering, store, cafe, pizza, pizzeria, food, food order, delivery, toppings, sell, e-commerce, recipe, cooking, ingredients, recipes
 Requires at least: 4.6
+Requires PHP: 7.4
 Tested up to: 7.1
 Stable tag: 2.4.13
 License: GPLv2 or later
