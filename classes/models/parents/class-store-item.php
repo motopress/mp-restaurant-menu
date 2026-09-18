@@ -34,9 +34,11 @@ class Store_item extends Model {
 			$currency = $this->get('settings')->get_currency();
 		}
 		$position = $this->get('settings')->get_option('currency_position', 'before');
-		$negative = $price < 0;
+		// Empty strings are used by some callers when they need the currency
+		// symbol only. Do not treat them as negative prices on older PHP.
+		$negative = is_numeric($price) && (float) $price < 0;
 		if ($negative) {
-			$price = substr($price, 1); // Remove proceeding "-" -
+			$price = substr((string) $price, 1); // Remove proceeding "-" -
 		}
 		$symbol = $this->get('settings')->get_currency_symbol($currency);
 		

@@ -174,12 +174,15 @@ class Media extends Core {
 		$menu_item = $this->get_post_type('menu_item');
 		$order = $this->get_post_type('order');
 		$menu_slug = "edit.php?post_type={$menu_item}";
+		$menu_icon = version_compare($GLOBALS['wp_version'], '5.5', '>=')
+			? 'dashicons-food'
+			: MP_RM_MEDIA_URL . '/img/icon.png';
 		
 		// Restaurant menu
 		Menu::add_menu_page(array(
 			'title' => esc_html_x('Restaurant Menu', 'Menu label', 'mp-restaurant-menu'),
 			'menu_slug' => $menu_slug,
-			'icon_url' => MP_RM_MEDIA_URL . '/img/icon.png',
+			'icon_url' => $menu_icon,
 			'capability' => 'manage_restaurant_menu',
 			'position' => '59.52'
 		));

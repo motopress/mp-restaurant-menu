@@ -246,8 +246,10 @@ class Cart extends Model {
 			update_user_meta($user_id, 'mprm_cart_token', $token, false);
 		} else {
 			$cart = json_encode($cart);
-			setcookie('mprm_saved_cart', $cart, time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN);
-			setcookie('mprm_cart_token', $token, time() + 3600 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN);
+			$cookie_path   = defined('COOKIEPATH') ? \COOKIEPATH : '/';
+			$cookie_domain = defined('COOKIE_DOMAIN') ? \COOKIE_DOMAIN : '';
+			setcookie('mprm_saved_cart', $cart, time() + 3600 * 24 * 7, $cookie_path, $cookie_domain);
+			setcookie('mprm_cart_token', $token, time() + 3600 * 24 * 7, $cookie_path, $cookie_domain);
 		}
 		$messages = $this->get('session')->get_session_by_key('mprm_cart_messages');
 		if (!$messages)

@@ -30,7 +30,7 @@ return apply_filters('mprm_admin_vars', array(
 		'currency' => mprm_get_currency(),
 		'rate' => mprm_get_option('tax_rate', 0),
 		'enable_taxes' => mprm_get_option('enable_taxes', 0),
-		'currency_sign' => mprm_currency_filter(''),
+		'currency_sign' => mprm_currency_symbol(),
 		'currency_pos' => mprm_get_option('currency_position', 'before'),
 		'currency_decimals' => mprm_currency_decimal_filter(),
 		'new_media_ui' => apply_filters('mprm_use_35_media_ui', 1),

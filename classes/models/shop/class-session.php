@@ -207,11 +207,14 @@ class Session extends Core {
 	 */
 	public function set_cart_cookie($set = true) {
 		if (!headers_sent()) {
+			$cookie_path   = defined('COOKIEPATH') ? \COOKIEPATH : '/';
+			$cookie_domain = defined('COOKIE_DOMAIN') ? \COOKIE_DOMAIN : '';
+
 			if ($set) {
-				@setcookie('mprm_items_in_cart', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false);
+				@setcookie('mprm_items_in_cart', '1', time() + 30 * 60, $cookie_path, $cookie_domain, false);
 			} else {
 				if (isset($_COOKIE['mprm_items_in_cart'])) {
-					@setcookie('mprm_items_in_cart', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, false);
+					@setcookie('mprm_items_in_cart', '', time() - 3600, $cookie_path, $cookie_domain, false);
 				}
 			}
 		}

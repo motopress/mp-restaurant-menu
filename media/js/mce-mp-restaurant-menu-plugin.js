@@ -86,8 +86,8 @@
 		 * init Checkbox change
 		 */
 		function init_checkbox() {
-			$(document).on('click', '[data-selector="shortcode-form"] input[type="checkbox"]', function() {
-				if ($(this).attr('checked')) {
+			$(document).on('change', '[data-selector="shortcode-form"] input[type="checkbox"]', function() {
+				if ($(this).prop('checked')) {
 					$(this).val('1');
 				} else {
 					$(this).val('0');
@@ -150,7 +150,8 @@
 					{
 						title: mprmTitle,
 						width: 460,
-						height: 400
+						height: 400,
+						zIndex: 999999
 					}
 				);
 			}
