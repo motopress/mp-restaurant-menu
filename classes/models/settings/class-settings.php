@@ -375,7 +375,10 @@ class Settings extends Model {
 	 */
 	public function get_currency_symbol($currency = '') {
 		if (!$currency) {
-			$currency = $this->get_settings('currency_code');
+			$currency = $this->get_currency();
+		}
+		if (!is_string($currency) && !is_numeric($currency)) {
+			$currency = '';
 		}
 		$currency_symbol_array = array(
 			'AED' => '&#x62f;.&#x625;',
