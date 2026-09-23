@@ -116,7 +116,10 @@ class Customer_Reports extends \WP_List_Table {
 				$value = mprm_currency_filter(mprm_format_amount($item[$column_name]));
 				break;
 			case 'telephone' :
-				$value = $item[$column_name];
+				$value = esc_html( $item[$column_name] );
+				break;
+			case 'email' :
+				$value = esc_html( $item[$column_name] );
 				break;
 			case 'date_created' :
 				$value = date_i18n(get_option('date_format'), strtotime($item['date_created']));
@@ -140,7 +143,7 @@ class Customer_Reports extends \WP_List_Table {
 	 * @return string
 	 */
 	public function column_name($item) {
-		$name = !empty($item['name']) ? $item['name'] : '&ndash;';
+		$name = !empty($item['name']) ? esc_html( $item['name'] ) : '&ndash;';
 		$view_url = admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&view=overview&id=' . $item['id']);
 		$actions = array(
 			'edit' => '<a href="' . $view_url . '">' . esc_html__('Edit', 'mp-restaurant-menu') . '</a>',

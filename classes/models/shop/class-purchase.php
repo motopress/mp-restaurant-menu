@@ -491,7 +491,17 @@ class Purchase extends Model {
 	 */
 	public function purchase_form_validate_phone() {
 
-		$number = isset( $_POST['phone_number'] ) ? sanitize_text_field( wp_unslash( $_POST['phone_number'] ) ) : 0;
+		$submitted_number = isset( $_POST['phone_number'] ) ? wp_unslash( $_POST['phone_number'] ) : '';
+		if ( ! is_string( $submitted_number ) ) {
+			$this->get('errors')->set_error('invalid_phone', esc_html__('Please enter a valid phone number.', 'mp-restaurant-menu'));
+			return '';
+		}
+
+		$number = sanitize_text_field( $submitted_number );
+		if ( preg_match( '/[^0-9 +().-]/', $number ) ) {
+			$this->get('errors')->set_error('invalid_phone', esc_html__('Please enter a valid phone number.', 'mp-restaurant-menu'));
+			return '';
+		}
 
 		return $number;
 	}

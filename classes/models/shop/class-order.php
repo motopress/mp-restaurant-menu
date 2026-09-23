@@ -722,14 +722,14 @@ final class Order extends Model {
 					} elseif ( isset( $this->user_info['email'] ) ) {
 						$customer = $this->get('customer')->get_customer(array('field' => 'email', 'value' => $this->user_info['email']));
 						if (!empty($customer)) {
-							$username = '<a href="' . admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . $customer->id) . '">' . $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . ' </a><br/><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = '<a href="' . esc_url( admin_url('edit.php?post_type=mp_menu_item&page=mprm-customers&s=' . absint( $customer->id ) ) ) . '">' . esc_html( $this->user_info['first_name'] ) . ' ' . esc_html( $this->user_info['last_name'] ) . ' </a><br/><a href="tel:' . esc_attr( $this->phone_number ) . '">' . esc_html( $this->phone_number ) . '</a>';
 						} else {
-							$username = $this->user_info['first_name'] . ' ' . $this->user_info['last_name'] . '<br><a href="tel:' . $this->phone_number . '">' . $this->phone_number . '</a>';
+							$username = esc_html( $this->user_info['first_name'] ) . ' ' . esc_html( $this->user_info['last_name'] ) . '<br><a href="tel:' . esc_attr( $this->phone_number ) . '">' . esc_html( $this->phone_number ) . '</a>';
 						}
 					}
 				} else {
 					if ($post->billing_first_name || $post->billing_last_name) {
-						$username = trim(sprintf(_x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), $post->billing_first_name, $post->billing_last_name));
+						$username = esc_html( trim( sprintf( _x('%1$s %2$s', 'full name', 'mp-restaurant-menu'), $post->billing_first_name, $post->billing_last_name ) ) );
 					} else {
 						$username = esc_html__('Guest', 'mp-restaurant-menu');
 					}

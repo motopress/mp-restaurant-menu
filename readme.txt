@@ -5,7 +5,7 @@ Tags: restaurant menu, food menu, restaurant, food delivery, cafe menu, food ord
 Requires at least: 4.6
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 2.4.14
+Stable tag: 2.4.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,9 @@ Developed by MotoPress – a trusted WordPress company with over a decade of exp
 5. Menu Item's page
 
 == Changelog ==
+
+= 2.4.15, Sep 23 2026 =
+* Improved phone number validation and display in the order list.
 
 = 2.4.14, Sep 22 2026 =
 * Fixed a PHP 8.3 compatibility issue when retrieving the currency symbol.

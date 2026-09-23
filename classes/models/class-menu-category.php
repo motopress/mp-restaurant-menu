@@ -290,18 +290,18 @@ class Menu_category extends Term {
 						switch (strtolower($parents)) {
 							case 'multiple':
 								if ($category->parent)
-									$the_list .= get_category_parents($category->parent, true, $separator);
-								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+									$the_list .= wp_kses_post( get_category_parents($category->parent, true, $separator) );
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . esc_html( $category->name ) . '</a></li>';
 								break;
 							case 'single':
 								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '"  ' . $rel . '>';
 								if ($category->parent)
-									$the_list .= get_category_parents($category->parent, false, $separator);
-								$the_list .= $category->name . '</a></li>';
+									$the_list .= esc_html( wp_strip_all_tags( get_category_parents($category->parent, false, $separator) ) );
+								$the_list .= esc_html( $category->name ) . '</a></li>';
 								break;
 							case '':
 							default:
-								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a></li>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . esc_html( $category->name ) . '</a></li>';
 						}
 					}
 					$the_list .= '</ul>';
@@ -313,18 +313,19 @@ class Menu_category extends Term {
 						switch (strtolower($parents)) {
 							case 'multiple':
 								if ($category->parent)
-									$the_list .= get_category_parents($category->parent, true, $separator);
-								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+									$the_list .= wp_kses_post( get_category_parents($category->parent, true, $separator) );
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
 								break;
 							case 'single':
 								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>';
-								if ($category->parent)
-									$the_list .= get_category_parents($category->parent, false, $separator);
-								$the_list .= "$category->name</a>";
+								if ($category->parent) {
+									$the_list .= esc_html( wp_strip_all_tags( get_category_parents($category->parent, false, $separator) ) );
+								}
+								$the_list .= esc_html( $category->name ) . '</a>';
 								break;
 							case '':
 							default:
-								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . $category->name . '</a>';
+								$the_list .= '<a href="' . esc_url(get_category_link($category->term_id)) . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
 						}
 						++$i;
 					}
